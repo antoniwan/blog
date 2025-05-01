@@ -1,4 +1,6 @@
-# Astro Starter Kit: Blog
+# Strong Vault
+
+A secure and professional website template built with Astro.
 
 ```sh
 npm create astro@latest -- --template blog
