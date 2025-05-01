@@ -11,33 +11,67 @@ const sortedTranslations = translations.sort((a, b) => a.data.language[0].locale
 const main = sortedTranslations[0];
 ---
 <article class="post-card">
-  <div class="languages z-10">   
-     {sortedTranslations.map((post) => (
-      <a href={`/blog/${post.id}/`} class="language-badge">
+  <div class="folder-tabs">
+    {sortedTranslations.map((post, idx) => (
+      <a
+        href={`/blog/${post.id}/`}
+        class={`folder-tab${idx === 0 ? ' active' : ''}`}
+      >
         {post.data.language[0] === 'en' ? '🇺🇸 Read in English' : '🇵🇷 Leer en Español'}
       </a>
     ))}
   </div>
-  <div style="z-index: 0;"> <PostCard post={main} />
+  <div style="z-index: 1; position: relative;"> <PostCard post={main} />
 </div>
 </article>
 
 <style>
-  .languages { 
+  .folder-tabs {
+    position: relative;
+    height: 2.5em;
+    margin-left: 2em;
+    margin-bottom: 0;
     display: flex;
-    width: fit-content
+    align-items: flex-end;
+    z-index: 0;
     gap: 0.5em;
-    margin-bottom: -2px;
-    padding-bottom:0;
-    margin-left: 20px
   }
-
-  .languages a {
-    color: white;
-    padding: 0.5em 1em;
-    border-radius: 0.5em;
-    background: black;
+  .folder-tab {
+    position: relative;
+    top: 0;
+    height: 2.5em;
+    min-width: 8em;
+    padding: 0.5em 1.5em 0.5em 1.5em;
+    background: #e0e4ea;
+    color: #222;
+    border-top-left-radius: 0.7em;
+    border-top-right-radius: 0.7em;
+    border: 2px solid #bfc4cc;
+    border-bottom: none;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.07);
+    opacity: 0.7;
+    font-weight: 500;
+    transition: all 0.2s;
+    cursor: pointer;
+    z-index: 1;
+    margin-right: -0.5em;
   }
-  
-  
+  .folder-tab.active {
+    background: #fff;
+    color: #111;
+    opacity: 1;
+    z-index: 10;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+    font-weight: 700;
+    top: 0;
+  }
+  .folder-tab:hover {
+    opacity: 1;
+    background: #f5f7fa;
+  }
+  .post-card {
+    position: relative;
+    z-index: 2;
+    margin-top: 0;
+  }
 </style>
