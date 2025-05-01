@@ -24,119 +24,172 @@ const languageEmojis: Record<string, string> = {
 ---
 
 <article class="post-card">
-	<div class="post-meta">
-		{post.data.category && (
-			<a href={`/categories/${post.data.category.toLowerCase()}/`} class="category-badge">{post.data.category}</a>
-		)}
-		<FormattedDate date={post.data.pubDate} />
-		<span class="language-badge">{post.data.language.map(lang => languageEmojis[lang]).join(' ')}</span>
-		{post.data.readingTime && <span>⏱️ {post.data.readingTime} min read</span>}
-	</div>
-	<a href={`/blog/${post.id}/`} class="post-title-link">
-		<h2 class="post-title">{post.data.title}</h2>
-	</a>
-	<p class="post-excerpt">{post.data.description}</p>
-	{post.data.tags && post.data.tags.length > 0 && (
-		<div class="post-tags">
-			{post.data.tags.map((tag: string) => (
-				<span class="tag">{tag}</span>
-			))}
+	<div class="post-header">
+		<div class="post-meta">
+			<FormattedDate date={post.data.pubDate} />
+			{post.data.readingTime && <span class="reading-time">⏱️ {post.data.readingTime} min read</span>}
+			<span class="language-badge">{post.data.language.map(lang => languageEmojis[lang]).join(' ')}</span>
 		</div>
-	)}
+	</div>
+	
+	<div class="post-content">
+		<a href={`/blog/${post.id}/`} class="post-title-link">
+			<h2 class="post-title">{post.data.title}</h2>
+		</a>
+		<p class="post-excerpt">{post.data.description}</p>
+	</div>
+
+	<div class="post-tags">
+		{post.data.category && (
+			<a href={`/categories/${post.data.category.toLowerCase()}/`} class="tag category-tag">
+				📁 {post.data.category}
+			</a>
+		)}
+		{post.data.tags && post.data.tags.map((tag: string) => (
+			<span class="tag">{tag}</span>
+		))}
+	</div>
 </article>
 
 <style>
 	.post-card {
 		background: rgb(var(--gray-light));
-		border-radius: 12px;
-		padding: 2em;
-		transition: all 0.2s ease;
-		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-		border: 1px solid rgba(0, 0, 0, 0.05);
+		border-radius: 16px;
+		padding: 2.5em;
+		transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+		box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+		border: 1px solid rgba(0, 0, 0, 0.08);
+		display: flex;
+		flex-direction: column;
+		gap: 1.5em;
 	}
+
 	.post-card:hover {
 		transform: translateY(-4px);
-		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-		border-color: rgba(0, 0, 0, 0.1);
+		box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+		border-color: rgba(0, 0, 0, 0.12);
 	}
+
+	.post-header {
+		display: flex;
+		flex-direction: column;
+		gap: 1em;
+	}
+
+	.post-meta {
+		display: flex;
+		align-items: center;
+		gap: 1.25em;
+		font-size: 0.9em;
+		color: rgb(var(--gray));
+		flex-wrap: wrap;
+	}
+
+	.post-meta > * {
+		opacity: 0.85;
+		display: flex;
+		align-items: center;
+		gap: 0.4em;
+	}
+
+	.post-content {
+		flex: 1;
+	}
+
 	.post-title-link {
 		text-decoration: none;
 		color: inherit;
 		display: block;
 		margin-bottom: 0.75em;
 	}
+
 	.post-title-link:hover .post-title {
 		color: rgb(var(--accent));
 	}
-	.post-meta {
-		display: flex;
-		align-items: center;
-		gap: 1.5em;
-		margin-bottom: 1.25em;
-		font-size: 0.9em;
-		color: rgb(var(--gray));
-		flex-wrap: wrap;
-	}
-	.post-meta > *:not(.category-badge) {
-		opacity: 0.8;
-	}
+
 	.post-title {
-		font-size: 1.75em;
+		font-size: 1.8em;
 		margin: 0;
 		color: rgb(var(--black));
 		line-height: 1.3;
-		font-weight: 600;
+		font-weight: 700;
+		letter-spacing: -0.02em;
 	}
+
 	.post-excerpt {
-		margin: 0 0 1.5em 0;
+		margin: 0;
 		color: rgb(var(--gray-dark));
-		line-height: 1.6;
+		line-height: 1.7;
 		font-size: 1.1em;
+		opacity: 0.9;
 	}
+
 	.post-tags {
 		display: flex;
 		gap: 0.75em;
 		flex-wrap: wrap;
-		margin-top: 1.5em;
-		padding-top: 1em;
-		border-top: 1px solid rgba(0, 0, 0, 0.05);
+		margin-top: 0.5em;
+		padding-top: 1.25em;
+		border-top: 1px solid rgba(0, 0, 0, 0.08);
 	}
+
 	.tag {
-		background: rgba(var(--gray-dark), 0.1);
+		background: rgba(var(--gray-dark), 0.08);
 		color: rgb(var(--gray-dark));
-		padding: 0.3em 0.7em;
-		border-radius: 6px;
+		padding: 0.4em 0.8em;
+		border-radius: 8px;
 		font-size: 0.85em;
-		font-weight: 400;
+		font-weight: 500;
 		letter-spacing: 0.01em;
 		text-transform: lowercase;
-	}
-	.category-badge {
-		background: rgb(var(--accent));
-		color: white;
-		padding: 0.5em 1.2em;
-		border-radius: 8px;
-		font-size: 1em;
-		font-weight: 600;
-		text-transform: uppercase;
-		letter-spacing: 0.05em;
-		text-decoration: none;
 		transition: all 0.2s ease;
-		box-shadow: 0 2px 4px rgba(var(--accent), 0.3);
-		display: inline-block;
-		margin-right: 0.5em;
+		display: flex;
+		align-items: center;
+		gap: 0.4em;
 	}
-	.category-badge:hover {
-		transform: translateY(-2px);
-		box-shadow: 0 4px 8px rgba(var(--accent), 0.4);
-		filter: brightness(1.1);
+
+	.tag:hover {
+		background: rgba(var(--gray-dark), 0.12);
 	}
+
+	.category-tag {
+		background: rgba(var(--accent), 0.1);
+		color: rgb(var(--accent));
+		text-decoration: none;
+		font-weight: 600;
+	}
+
+	.category-tag:hover {
+		background: rgba(var(--accent), 0.15);
+		text-decoration: none;
+	}
+
 	.language-badge {
-		background: rgb(var(--gray-light));
+		background: rgba(var(--gray-dark), 0.08);
 		color: rgb(var(--gray-dark));
-		padding: 0.4em 0.9em;
+		padding: 0.4em 0.8em;
 		border-radius: 8px;
 		font-size: 0.9em;
 		font-weight: 500;
+	}
+
+	.reading-time {
+		display: flex;
+		align-items: center;
+		gap: 0.4em;
+	}
+
+	@media (max-width: 720px) {
+		.post-card {
+			padding: 1.5em;
+		}
+
+		.post-title {
+			font-size: 1.5em;
+		}
+
+		.post-meta {
+			gap: 1em;
+		}
 	}
 </style> 
