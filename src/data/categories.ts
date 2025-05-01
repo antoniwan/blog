@@ -7,23 +7,10 @@ export interface Category {
 
 export const categories: Category[] = [
   {
-    id: "systems-strategy",
-    name: "Systems & Strategy",
-    description: "Digital power, code, and strategic design",
-    icon: "💻",
-  },
-  {
-    id: "integration-growth",
-    name: "Integration & Growth",
-    description: "Inner mastery, parenting, masculine leadership",
-    icon: "🧘🏽‍♂️",
-  },
-  {
-    id: "parenting",
-    name: "Parenting",
-    description:
-      "Raising resilient children, family dynamics, and personal growth",
-    icon: "👨‍👩‍👧‍👦",
+    id: "art-expression",
+    name: "Art & Expression",
+    description: "Creative soul, aesthetic power, truth-telling",
+    icon: "🎵",
   },
   {
     id: "diy-creation",
@@ -32,10 +19,10 @@ export const categories: Category[] = [
     icon: "🛠️",
   },
   {
-    id: "art-expression",
-    name: "Art & Expression",
-    description: "Creative soul, aesthetic power, truth-telling",
-    icon: "🎵",
+    id: "integration-growth",
+    name: "Integration & Growth",
+    description: "Inner mastery, parenting, masculine leadership",
+    icon: "🧘🏽‍♂️",
   },
   {
     id: "learning-projects",
@@ -49,5 +36,24 @@ export const categories: Category[] = [
     description:
       "Reflections on the journey itself — the why, the how, the code of life",
     icon: "🌀",
+  },
+  {
+    id: "parenting",
+    name: "Parenting",
+    description:
+      "Raising resilient children, family dynamics, and personal growth",
+    icon: "👨‍👩‍👧‍👦",
+  },
+  {
+    id: "psychology",
+    name: "Psychology",
+    description: "Human behavior, social dynamics, and mental processes",
+    icon: "🧠",
+  },
+  {
+    id: "systems-strategy",
+    name: "Systems & Strategy",
+    description: "Digital power, code, and strategic design",
+    icon: "💻",
   },
 ];

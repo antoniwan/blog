@@ -4,6 +4,7 @@ import Footer from '../components/Footer.astro';
 import BaseHead from '../components/BaseHead.astro';
 import BackToTop from '../components/BackToTop.astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+import Analytics from '@vercel/analytics/astro';
 
 interface Props {
   title: string;
@@ -17,6 +18,7 @@ const { title, description = SITE_DESCRIPTION } = Astro.props;
 <html lang="en">
   <head>
     <BaseHead title={title} description={description} />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
   </head>
   <body>
     <Header />
@@ -25,12 +27,22 @@ const { title, description = SITE_DESCRIPTION } = Astro.props;
     </main>
     <Footer />
     <BackToTop />
+    <Analytics />
   </body>
 </html>
 
 <style>
   main {
     min-height: calc(100vh - 200px);
-    padding: 2rem 1rem;
+    width: 100%;
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 1rem;
+  }
+
+  @media (min-width: 768px) {
+    main {
+      padding: 2rem;
+    }
   }
 </style> 

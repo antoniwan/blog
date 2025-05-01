@@ -1,5 +1,10 @@
 import { glob } from "astro/loaders";
 import { defineCollection, z } from "astro:content";
+import { categories } from "./data/categories";
+import type { Category } from "./data/categories";
+
+// Create a list of valid category IDs
+const validCategoryIds = categories.map((cat: Category) => cat.id);
 
 const blog = defineCollection({
   // Load Markdown and MDX files in the `src/content/blog/` directory.
@@ -15,7 +20,7 @@ const blog = defineCollection({
     // Optional fields
     updatedDate: z.coerce.date().optional(),
     heroImage: z.string().optional(),
-    category: z.string().optional(),
+    category: z.enum(validCategoryIds as [string, ...string[]]).optional(),
     subcategory: z.string().optional(),
     tags: z.array(z.string()).optional(),
     draft: z.boolean().optional().default(false),
