@@ -1,0 +1,71 @@
+<button class="back-to-top" id="back-to-top" aria-label="Back to top">
+	<svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true">
+		<path fill="currentColor" d="M12 2L4 10h3v10h10V10h3L12 2z"/>
+	</svg>
+</button>
+
+<script>
+	// Show/hide button based on scroll position
+	const backToTop = document.getElementById('back-to-top');
+	if (backToTop) {
+		window.addEventListener('scroll', () => {
+			if (window.scrollY > 300) {
+				backToTop.classList.add('visible');
+			} else {
+				backToTop.classList.remove('visible');
+			}
+		});
+
+		// Smooth scroll to top
+		backToTop.addEventListener('click', () => {
+			window.scrollTo({
+				top: 0,
+				behavior: 'smooth'
+			});
+		});
+	}
+</script>
+
+<style>
+	.back-to-top {
+		position: fixed;
+		bottom: 2rem;
+		right: 2rem;
+		background: white;
+		color: rgb(var(--accent));
+		border: 2px solid rgb(var(--accent));
+		border-radius: 50%;
+		width: 3rem;
+		height: 3rem;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		cursor: pointer;
+		opacity: 0;
+		visibility: hidden;
+		transform: translateY(1rem);
+		transition: all 0.3s ease;
+		z-index: 100;
+		box-shadow: 0 2px 8px rgba(var(--black), 0.2);
+	}
+
+	.back-to-top.visible {
+		opacity: 1;
+		visibility: visible;
+		transform: translateY(0);
+	}
+
+	.back-to-top:hover {
+		background: rgb(var(--accent));
+		color: white;
+		box-shadow: 0 4px 12px rgba(var(--black), 0.3);
+		transform: translateY(-2px);
+	}
+
+	@media (max-width: 720px) {
+		.back-to-top {
+			bottom: 1rem;
+			right: 1rem;
+		}
+	}
+</style> 
