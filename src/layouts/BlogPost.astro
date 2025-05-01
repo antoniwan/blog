@@ -13,9 +13,6 @@ const {
 	pubDate, 
 	updatedDate, 
 	heroImage,
-	author,
-	authorImage,
-	authorBio,
 	readingTime,
 	tags,
 	category,
@@ -70,31 +67,6 @@ const languageEmojis = {
 			.last-updated-on {
 				font-style: italic;
 			}
-			.author {
-				display: flex;
-				align-items: center;
-				gap: 1em;
-				margin: 1em 0;
-				padding: 1em;
-				background: rgb(var(--gray-light));
-				border-radius: 8px;
-			}
-			.author img {
-				width: 64px;
-				height: 64px;
-				border-radius: 50%;
-			}
-			.author-info {
-				flex: 1;
-			}
-			.author-name {
-				font-weight: bold;
-				margin: 0;
-			}
-			.author-bio {
-				margin: 0.5em 0 0 0;
-				font-size: 0.9em;
-			}
 			.meta-info {
 				display: flex;
 				justify-content: space-between;
@@ -143,16 +115,6 @@ const languageEmojis = {
 						<h1>{title}</h1>
 						<hr />
 					</div>
-
-					{author && (
-						<div class="author">
-							{authorImage && <img src={authorImage} alt={author} />}
-							<div class="author-info">
-								<p class="author-name">{author}</p>
-								{authorBio && <p class="author-bio">{authorBio}</p>}
-							</div>
-						</div>
-					)}
 
 					<div class="meta-info">
 						<div class="category">

@@ -3,17 +3,43 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 import FormattedDate from '../components/FormattedDate.astro';
 
+const getPagination = (posts: any[], page: number, postsPerPage: number) => {
+    const startIndex = (page - 1) * postsPerPage;
+    const endIndex = startIndex + postsPerPage;
+    return {
+        posts: posts.slice(startIndex, endIndex),
+        totalPages: Math.ceil(posts.length / postsPerPage)
+    };
+};
+
+export async function getStaticPaths() {
+    const posts = await getCollection('blog');
+    const nonDraftPosts = posts.filter((post) => !post.data.draft);
+    const postsPerPage = 5;
+    const totalPages = Math.ceil(nonDraftPosts.length / postsPerPage);
+    
+    return Array.from({ length: totalPages }, (_, i) => ({
+        params: { page: (i + 1).toString() },
+    }));
+}
+
+const { page } = Astro.params;
+const currentPage = parseInt(page || '1');
+
 // Get all blog posts and sort by date
-const posts = (await getCollection('blog'))
+const allPosts = (await getCollection('blog'))
     .filter((post) => !post.data.draft)
     .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+// Calculate pagination
+const { posts, totalPages } = getPagination(allPosts, currentPage, 5);
 ---
 
-<BaseLayout title="Home - StrongVault">
+<BaseLayout title={`Page ${currentPage} - StrongVault`}>
     <main>
         <div class="blog-header">
-            <h1>Latest Posts</h1>
-            <p>Stay updated with our latest articles about security, privacy, and encryption</p>
+            <h1>All Posts</h1>
+            <p>Browse through our articles about security, privacy, and encryption</p>
         </div>
 
         <div class="posts-grid">
@@ -38,6 +64,18 @@ const posts = (await getCollection('blog'))
                 </article>
             ))}
         </div>
+
+        {totalPages > 1 && (
+            <div class="pagination">
+                {currentPage > 1 && (
+                    <a href={`/${currentPage - 1}/`} class="pagination-link">← Previous</a>
+                )}
+                <span class="pagination-info">Page {currentPage} of {totalPages}</span>
+                {currentPage < totalPages && (
+                    <a href={`/${currentPage + 1}/`} class="pagination-link">Next →</a>
+                )}
+            </div>
+        )}
     </main>
 </BaseLayout>
 
@@ -111,9 +149,32 @@ const posts = (await getCollection('blog'))
         font-size: 0.8em;
         font-weight: bold;
     }
+    .pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 1em;
+        margin-top: 2em;
+        padding: 1em;
+    }
+    .pagination-link {
+        color: rgb(var(--accent));
+        text-decoration: none;
+        font-weight: bold;
+    }
+    .pagination-link:hover {
+        text-decoration: underline;
+    }
+    .pagination-info {
+        color: rgb(var(--gray));
+    }
     @media (max-width: 720px) {
         main {
             padding: 1em;
+        }
+        .pagination {
+            flex-direction: column;
+            gap: 0.5em;
         }
     }
 </style> 
