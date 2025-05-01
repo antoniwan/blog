@@ -1,9 +1,10 @@
 import { glob } from "astro/loaders";
 import { defineCollection, z } from "astro:content";
-import { categories } from "../data/categories";
+import { categories } from "./data/categories";
+import type { Category } from "./data/categories";
 
 // Create a list of valid category IDs
-const validCategoryIds = categories.map((cat) => cat.id);
+const validCategoryIds = categories.map((cat: Category) => cat.id);
 
 const blog = defineCollection({
   // Load Markdown and MDX files in the `src/content/blog/` directory.
