@@ -24,9 +24,21 @@ const blog = defineCollection({
     authorImage: z.string().optional(),
     authorBio: z.string().optional(),
     featured: z.boolean().optional().default(false),
+
+    // SEO fields
     canonicalUrl: z.string().url().optional(),
     ogImage: z.string().optional(),
     ogImageAlt: z.string().optional(),
+    robots: z
+      .object({
+        index: z.boolean().optional().default(true),
+        follow: z.boolean().optional().default(true),
+        noarchive: z.boolean().optional().default(false),
+        nosnippet: z.boolean().optional().default(false),
+        noimageindex: z.boolean().optional().default(false),
+      })
+      .optional()
+      .default({}),
   }),
 });
 

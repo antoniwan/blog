@@ -19,7 +19,12 @@ const {
 	tags,
 	category,
 	subcategory,
-	language
+	language,
+	// SEO fields
+	canonicalUrl,
+	ogImage,
+	ogImageAlt,
+	robots
 } = Astro.props;
 
 const languageEmojis = {
@@ -31,7 +36,15 @@ const languageEmojis = {
 <!doctype html>
 <html lang="en">
 	<head>
-		<BaseHead title={title} description={description} image={heroImage} />
+		<BaseHead 
+			title={title} 
+			description={description} 
+			image={heroImage}
+			canonicalUrl={canonicalUrl}
+			ogImage={ogImage}
+			ogImageAlt={ogImageAlt}
+			robots={robots}
+		/>
 	</head>
 	<body>
 		<Header />

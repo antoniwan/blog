@@ -2,7 +2,7 @@
 title: "Guía para Padres y Madres de Puerto Rico: Cómo Configurar un iPad Seguro para Niños"
 description: "Esta guía te acompaña paso a paso en la elección, configuración y supervisión consciente de un iPad para niños, con valores boricuas y responsabilidad adulta al centro."
 pubDate: "2025-05-01"
-heroImage: ""
+heroImage: "/guia-padres.jpg"
 language: ["es"]
 category: "parenting"
 subcategory: "Tecnología y Crianza"
@@ -19,6 +19,16 @@ tags:
 readingTime: 8
 draft: false
 featured: false
+# SEO Metadata
+canonicalUrl: "https://strongvault.dev/blog/guia-ipad-es"
+ogImage: "/guia-padres.jpg"
+ogImageAlt: "iPad con controles parentales para niños"
+robots:
+  index: true
+  follow: true
+  noarchive: false
+  nosnippet: false
+  noimageindex: false
 ---
 
 ## Introducción: Nuestra Responsabilidad, No la de Ellos
@@ -45,13 +55,13 @@ La respuesta no se encuentra en la prohibición total, sino en la preparación c
 
 ## 2. Configuración de Seguridad Inicial
 
-### a. Crear una Apple ID para tu hija/o con “En Familia”
+### a. Crear una Apple ID para tu hija/o con "En Familia"
 
 1. En tu iPhone o iPad: ve a `Configuración > tu nombre > En Familia`.
 2. Añade a tu hija como miembro menor de edad (con su fecha de nacimiento).
 3. Esto permite control total desde tu cuenta principal.
 
-### b. Activar “Tiempo en Pantalla”
+### b. Activar "Tiempo en Pantalla"
 
 1. `Configuración > Tiempo en pantalla > Activar`.
 2. Establece un código de 4 dígitos que solo tú conozcas.
@@ -71,7 +81,7 @@ Desactiva estas opciones desde `Tiempo en pantalla > Restricciones de contenido 
 **Objetivo:** Permitir conexión familiar sin interrumpir rutinas.
 
 1. Asegúrate de que FaceTime esté activo.
-2. Permite FaceTime incluso durante el “tiempo de descanso” si tú haces la llamada.
+2. Permite FaceTime incluso durante el "tiempo de descanso" si tú haces la llamada.
 3. Establece horarios:
    - **Mañana:** 6:45 a.m. – 7:00 a.m.
    - **Noche:** 6:30 p.m. – 7:30 p.m. (cuentos, oración, conexión emocional).
@@ -97,7 +107,7 @@ Dejar un iPad sin control es como dejar a un niño solo en la calle. La exposici
 
 ### Como explica Steiner-Adair (2013):
 
-> “La exposición temprana a contenido inapropiado en Internet puede alterar patrones de apego, autoestima y regulación emocional.”
+> "La exposición temprana a contenido inapropiado en Internet puede alterar patrones de apego, autoestima y regulación emocional."
 
 ### Por eso:
 
@@ -116,10 +126,10 @@ Dejar un iPad sin control es como dejar a un niño solo en la calle. La exposici
 
 ## 7. Diario de un Padre Responsable
 
-> “Hoy configuré el iPad nuevo para Mia. Desactivé Safari, instalé Khan Academy Kids, y limité YouTube Kids a 45 minutos.  
+> "Hoy configuré el iPad nuevo para Mia. Desactivé Safari, instalé Khan Academy Kids, y limité YouTube Kids a 45 minutos.  
 > Me sentí más tranquilo sabiendo que no va a toparse con nada raro.  
-> Le expliqué que esto no es castigo, sino amor. Me miró, sonrió, y dijo ‘ok papi’.  
-> Fue suficiente para saber que estoy haciendo lo correcto.”  
+> Le expliqué que esto no es castigo, sino amor. Me miró, sonrió, y dijo 'ok papi'.  
+> Fue suficiente para saber que estoy haciendo lo correcto."  
 > — _Antonio, padre boricua, abril 2025_
 
 ---
