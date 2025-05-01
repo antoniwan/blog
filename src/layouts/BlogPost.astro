@@ -31,6 +31,8 @@ const languageEmojis = {
 	en: '🇺🇸',
 	es: '🇵🇷'
 };
+
+const capitalize = (str: string) => str ? str.charAt(0).toUpperCase() + str.slice(1) : '';
 ---
 
 <!doctype html>
@@ -54,8 +56,14 @@ const languageEmojis = {
 					{heroImage && <img width={1020} height={510} src={heroImage} alt="" />}
 					<div class="content">
 						<div class="metadata">
-							{category && <a href={`/categories/${category.toLowerCase()}/`} class="category">{category}</a>}
-							{subcategory && <a href={`/categories/${category.toLowerCase()}/${subcategory.toLowerCase()}/`} class="category">/ {subcategory}</a>}
+							<nav class="category-nav" aria-label="Post categories">
+								{category && (
+									<a href={`/categories/${category.toLowerCase()}/`} class="category-link">{capitalize(category)}</a>
+								)}
+								{subcategory && category && (
+									<span class="subcategory"> / {capitalize(subcategory)}</span>
+								)}
+							</nav>
 							<span class="separator">•</span>
 							<FormattedDate date={pubDate} />
 							{updatedDate && (
@@ -101,5 +109,26 @@ const languageEmojis = {
 		min-height: calc(100vh - 200px);
 		max-width: 720px;
 		margin: 0 auto;
+	}
+	.category-nav {
+		display: inline-block;
+		margin-right: 0.5em;
+		font-size: 1rem;
+		vertical-align: middle;
+	}
+	.category-link {
+		color: #1a202c;
+		text-decoration: none;
+		font-weight: 600;
+		transition: color 0.2s;
+	}
+	.category-link:hover {
+		color: #2563eb;
+		text-decoration: underline;
+	}
+	.subcategory {
+		color: #4b5563;
+		font-weight: 500;
+		margin-left: 0.25em;
 	}
 </style>

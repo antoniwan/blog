@@ -30,6 +30,13 @@
 .category {
   color: rgb(var(--accent));
   font-weight: 500;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.category:hover {
+  color: rgb(var(--accent-dark));
+  text-decoration: underline;
 }
 
 .separator {
