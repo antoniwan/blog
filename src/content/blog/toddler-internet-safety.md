@@ -111,7 +111,7 @@ The Internet is NOT made for children. It's a wild field filled with beauty, but
 
 ---
 
-## 🔗 Useful Resources (APA-style references)
+## 🔗 Useful Resources
 
 - American Academy of Pediatrics. (2016). _Media and Young Minds_. Pediatrics, 138(5). https://doi.org/10.1542/peds.2016-2591
 - Siegel, D. J., & Bryson, T. P. (2011). _The Whole-Brain Child_. Bantam.

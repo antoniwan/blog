@@ -111,7 +111,7 @@ El Internet NO es un lugar hecho para niños. Es un campo abierto con belleza, p
 
 ---
 
-## 🔗 Recursos útiles (estilo APA)
+## 🔗 Recursos útiles
 
 - American Academy of Pediatrics. (2016). _Media and Young Minds_. Pediatrics, 138(5). https://doi.org/10.1542/peds.2016-2591
 - Siegel, D. J., & Bryson, T. P. (2011). _The Whole-Brain Child_. Bantam.
