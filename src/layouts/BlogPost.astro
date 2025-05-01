@@ -54,8 +54,8 @@ const languageEmojis = {
 					{heroImage && <img width={1020} height={510} src={heroImage} alt="" />}
 					<div class="content">
 						<div class="metadata">
-							{category && <span class="category">{category}</span>}
-							{subcategory && <span class="category">/ {subcategory}</span>}
+							{category && <a href={`/categories/${category.toLowerCase()}/`} class="category">{category}</a>}
+							{subcategory && <a href={`/categories/${category.toLowerCase()}/${subcategory.toLowerCase()}/`} class="category">/ {subcategory}</a>}
 							<span class="separator">•</span>
 							<FormattedDate date={pubDate} />
 							{updatedDate && (
