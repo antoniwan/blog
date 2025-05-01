@@ -19,6 +19,13 @@ export const categories: Category[] = [
     icon: "🧘🏽‍♂️",
   },
   {
+    id: "parenting",
+    name: "Parenting",
+    description:
+      "Raising resilient children, family dynamics, and personal growth",
+    icon: "👨‍👩‍👧‍👦",
+  },
+  {
     id: "diy-creation",
     name: "DIY & Creation",
     description: "Physical builds, handmade goods, crafting",
