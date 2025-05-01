@@ -19,8 +19,14 @@ const {
 	readingTime,
 	tags,
 	category,
-	subcategory
+	subcategory,
+	language
 } = Astro.props;
+
+const languageEmojis = {
+	en: '🇺🇸',
+	es: '🇵🇷'
+};
 ---
 
 <html lang="en">
@@ -152,6 +158,7 @@ const {
 						<div class="category">
 							{category && <span>{category}</span>}
 							{subcategory && <span> / {subcategory}</span>}
+							<span> • {language.map(lang => languageEmojis[lang]).join(' ')}</span>
 						</div>
 						{readingTime && <div>Reading time: {readingTime} min</div>}
 					</div>

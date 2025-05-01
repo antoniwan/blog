@@ -3,6 +3,7 @@ title: "Building a Sustainable Garden"
 description: "A practical guide to creating and maintaining a sustainable garden in your backyard."
 pubDate: "2024-03-08"
 category: "diy-creation"
+language: ["en", "es"]
 readingTime: 9
 ---
 

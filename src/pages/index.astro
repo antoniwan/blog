@@ -7,6 +7,11 @@ import FormattedDate from '../components/FormattedDate.astro';
 const posts = (await getCollection('blog'))
 	.filter((post) => !post.data.draft)
 	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const languageEmojis = {
+	en: '🇺🇸',
+	es: '🇵🇷'
+};
 ---
 
 <BaseLayout title="Home - StrongVault">
@@ -23,6 +28,7 @@ const posts = (await getCollection('blog'))
 						<div class="post-meta">
 							<span class="category-badge">{post.data.category}</span>
 							<FormattedDate date={post.data.pubDate} />
+							<span class="language-badge">{post.data.language.map(lang => languageEmojis[lang]).join(' ')}</span>
 							{post.data.readingTime && <span>⏱️ {post.data.readingTime} min read</span>}
 						</div>
 						<h2 class="post-title">{post.data.title}</h2>
@@ -110,6 +116,13 @@ const posts = (await getCollection('blog'))
 		border-radius: 4px;
 		font-size: 0.8em;
 		font-weight: bold;
+	}
+	.language-badge {
+		background: rgb(var(--gray-light));
+		color: rgb(var(--gray-dark));
+		padding: 0.25em 0.5em;
+		border-radius: 4px;
+		font-size: 0.8em;
 	}
 	@media (max-width: 720px) {
 		main {
