@@ -1,0 +1,116 @@
+---
+import { categories } from '../../data/categories';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import BackToHome from '../../components/BackToHome.astro';
+---
+
+<BaseLayout title="Categories - StrongVault">
+  <main>
+    <BackToHome />
+    <div class="blog-header">
+      <h1>Categories</h1>
+      <p>Explore our content by category</p>
+    </div>
+
+    <div class="posts-grid">
+      {categories.map((category) => (
+        <article class="post-card">
+          <a href={`/categories/${category.id}`}>
+            <div class="post-meta">
+              <span class="category-badge">{category.icon} {category.name}</span>
+            </div>
+            <p class="post-excerpt">{category.description}</p>
+          </a>
+        </article>
+      ))}
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  main {
+    width: 960px;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 2em;
+  }
+  .back-link {
+    display: inline-block;
+    margin-bottom: 1.5em;
+    color: rgb(var(--gray-dark));
+    text-decoration: none;
+    font-size: 1.1em;
+    transition: color 0.2s ease;
+  }
+  .back-link:hover {
+    color: rgb(var(--accent));
+  }
+  .blog-header {
+    text-align: center;
+    margin-bottom: 2em;
+  }
+  .blog-header h1 {
+    font-size: 2.5em;
+    margin-bottom: 0.5em;
+  }
+  .posts-grid {
+    display: grid;
+    gap: 2em;
+  }
+  .post-card {
+    background: rgb(var(--gray-light));
+    border-radius: 12px;
+    padding: 2em;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+  }
+  .post-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-color: rgba(0, 0, 0, 0.1);
+  }
+  .post-card a {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+  .post-meta {
+    display: flex;
+    align-items: center;
+    gap: 1.5em;
+    margin-bottom: 0.75em;
+    font-size: 0.9em;
+    color: rgb(var(--gray));
+  }
+  .post-excerpt {
+    margin: 0 0 0.5em 0;
+    color: rgb(var(--gray-dark));
+    line-height: 1.6;
+    font-size: 1.1em;
+  }
+  .category-badge {
+    background: rgb(var(--accent));
+    color: rgb(var(--black));
+    padding: 0.5em 1.2em;
+    border-radius: 8px;
+    font-size: 1em;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(var(--accent), 0.3);
+    display: inline-block;
+  }
+  .category-badge:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(var(--accent), 0.4);
+    filter: brightness(1.1);
+  }
+  @media (max-width: 720px) {
+    main {
+      padding: 1em;
+    }
+  }
+</style> 

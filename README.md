@@ -1,4 +1,81 @@
-# Astro Starter Kit: Blog
+# Strong Vault
+
+A modern, secure, and professional website built with Astro. Strong Vault is designed to provide a robust and efficient web presence with a focus on security and performance.
+
+## 🚀 Features
+
+- ✅ Modern and responsive design
+- ✅ Optimized for performance and security
+- ✅ SEO-friendly with canonical URLs and OpenGraph data
+- ✅ Sitemap support
+- ✅ RSS Feed support
+- ✅ Markdown & MDX support
+- ✅ TypeScript support
+
+## 🛠️ Tech Stack
+
+- [Astro](https://astro.build) - Modern static site builder
+- [TypeScript](https://www.typescriptlang.org/) - Type-safe JavaScript
+- [MDX](https://mdxjs.com/) - Markdown with JSX support
+
+## 📦 Installation
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/yourusername/strongvault.git
+cd strongvault
+```
+
+2. Install dependencies:
+
+```bash
+npm install
+```
+
+3. Start the development server:
+
+```bash
+npm run dev
+```
+
+## 🏗️ Project Structure
+
+```text
+├── public/          # Static assets
+├── src/
+│   ├── components/  # Reusable UI components
+│   ├── content/     # Content collections
+│   ├── layouts/     # Page layouts
+│   └── pages/       # Route components
+├── astro.config.mjs # Astro configuration
+├── package.json     # Project dependencies
+└── tsconfig.json    # TypeScript configuration
+```
+
+## 🧞 Available Scripts
+
+| Command             | Action                                           |
+| :------------------ | :----------------------------------------------- |
+| `npm install`       | Installs dependencies                            |
+| `npm run dev`       | Starts local dev server at `localhost:4321`      |
+| `npm run build`     | Build your production site to `./dist/`          |
+| `npm run preview`   | Preview your build locally, before deploying     |
+| `npm run astro ...` | Run CLI commands like `astro add`, `astro check` |
+
+## 📚 Documentation
+
+- [Astro Documentation](https://docs.astro.build)
+- [TypeScript Documentation](https://www.typescriptlang.org/docs/)
+- [MDX Documentation](https://mdxjs.com/docs/)
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## 📄 License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
 
 ```sh
 npm create astro@latest -- --template blog
