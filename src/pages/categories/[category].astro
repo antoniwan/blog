@@ -4,6 +4,7 @@ import { getCollection } from 'astro:content';
 import { categories } from '../../data/categories';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import FormattedDate from '../../components/FormattedDate.astro';
+import BackToHome from '../../components/BackToHome.astro';
 
 export async function getStaticPaths() {
   return categories.map((category) => ({
@@ -25,6 +26,7 @@ const categoryPosts = posts
 
 <BaseLayout title={`${category.name} - StrongVault`}>
   <main>
+    <BackToHome />
     <div class="blog-header">
       <h1>{category.icon} {category.name}</h1>
       <p>{category.description}</p>
@@ -60,6 +62,17 @@ const categoryPosts = posts
     max-width: 100%;
     margin: 0 auto;
     padding: 2em;
+  }
+  .back-link {
+    display: inline-block;
+    margin-bottom: 1.5em;
+    color: rgb(var(--gray-dark));
+    text-decoration: none;
+    font-size: 1.1em;
+    transition: color 0.2s ease;
+  }
+  .back-link:hover {
+    color: rgb(var(--accent));
   }
   .blog-header {
     text-align: center;

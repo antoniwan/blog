@@ -1,10 +1,12 @@
 ---
 import { categories } from '../../data/categories';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import BackToHome from '../../components/BackToHome.astro';
 ---
 
 <BaseLayout title="Categories - StrongVault">
   <main>
+    <BackToHome />
     <div class="blog-header">
       <h1>Categories</h1>
       <p>Explore our content by category</p>
@@ -31,6 +33,17 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     max-width: 100%;
     margin: 0 auto;
     padding: 2em;
+  }
+  .back-link {
+    display: inline-block;
+    margin-bottom: 1.5em;
+    color: rgb(var(--gray-dark));
+    text-decoration: none;
+    font-size: 1.1em;
+    transition: color 0.2s ease;
+  }
+  .back-link:hover {
+    color: rgb(var(--accent));
   }
   .blog-header {
     text-align: center;

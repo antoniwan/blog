@@ -4,6 +4,9 @@ const today = new Date();
 
 <footer>
 	&copy; {today.getFullYear()} Antonio Rodriguez Martinez. All rights reserved.
+	<div class="license">
+		This work is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="license">🔖 Creative Commons Attribution 4.0 International License</a>.
+	</div>
 	<div class="social-links">
 		<a href="https://bsky.app/profile/antoniwan.bsky.social?utm_source=strongvault&utm_medium=blog&utm_campaign=social" target="_blank">
 			🌀 Bluesky
@@ -25,6 +28,17 @@ const today = new Date();
 		background: linear-gradient(var(--gray-gradient)) no-repeat;
 		color: rgb(var(--gray));
 		text-align: center;
+	}
+	.license {
+		margin: 1em 0;
+		font-size: 0.8em;
+	}
+	.license a {
+		color: rgb(var(--gray));
+		text-decoration: none;
+	}
+	.license a:hover {
+		text-decoration: underline;
 	}
 	.social-links {
 		display: flex;
