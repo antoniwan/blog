@@ -40,7 +40,7 @@ body {
   word-wrap: break-word;
   overflow-wrap: break-word;
   color: rgb(var(--gray-dark));
-  font-size: 20px;
+  font-size: 16px;
   line-height: 1.7;
   letter-spacing: -0.011em;
 }
@@ -63,27 +63,31 @@ h6 {
   letter-spacing: -0.02em;
 }
 h1 {
-  font-size: 4rem;
+  font-size: 3rem;
   line-height: 1.1;
   letter-spacing: -0.03em;
   font-weight: 800;
   margin-bottom: 1.5rem;
 }
 h2 {
-  font-size: 2.441em;
+  font-size: 2.25rem;
   margin: 2.5rem 0 1rem 0;
 }
 h3 {
-  font-size: 1.953em;
+  font-size: 1.75rem;
   margin: 2rem 0 0.75rem 0;
 }
 h4 {
-  font-size: 1.563em;
+  font-size: 1.375rem;
   margin: 1.75rem 0 0.75rem 0;
 }
 h5 {
-  font-size: 1.25em;
+  font-size: 1.125rem;
   margin: 1.5rem 0 0.5rem 0;
+}
+h6 {
+  font-size: 1rem;
+  margin: 1.25rem 0 0.5rem 0;
 }
 strong,
 b {
@@ -152,22 +156,28 @@ hr {
 }
 @media (max-width: 720px) {
   body {
-    font-size: 18px;
+    font-size: 15px;
   }
   main {
     padding: 1em;
   }
   h1 {
-    font-size: 3rem;
+    font-size: 2.5rem;
   }
   h2 {
-    font-size: 2em;
+    font-size: 2rem;
   }
   h3 {
-    font-size: 1.75em;
+    font-size: 1.5rem;
   }
   h4 {
-    font-size: 1.5em;
+    font-size: 1.25rem;
+  }
+  h5 {
+    font-size: 1.125rem;
+  }
+  h6 {
+    font-size: 1rem;
   }
 }
 
