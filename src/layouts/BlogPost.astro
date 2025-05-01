@@ -36,40 +36,35 @@ const languageEmojis = {
 		<Header />
 		<main>
 			<article>
-				<div class="article-header">
-					{heroImage && (
-						<div class="hero-image">
-							<img width={1020} height={510} src={heroImage} alt="" />
+				<header class="article-header">
+					{heroImage && <img width={1020} height={510} src={heroImage} alt="" />}
+					<div class="content">
+						<div class="metadata">
+							{category && <span class="category">{category}</span>}
+							{subcategory && <span class="category">/ {subcategory}</span>}
+							<span class="separator">•</span>
+							<FormattedDate date={pubDate} />
+							{updatedDate && (
+								<>
+									<span class="separator">•</span>
+									<span>Updated <FormattedDate date={updatedDate} /></span>
+								</>
+							)}
+							{readingTime && (
+								<>
+									<span class="separator">•</span>
+									<span>{readingTime} min read</span>
+								</>
+							)}
+							{language.map(lang => (
+								<span class="language">{languageEmojis[lang]}</span>
+							))}
 						</div>
-					)}
-					<div class="prose">
-						<div class="title-container">
-							<div class="metadata">
-								<div class="primary-meta">
-									<div class="category-tags">
-										{category && <span class="category-label">{category}</span>}
-										{subcategory && <span class="category-label">{subcategory}</span>}
-									</div>
-									<div class="reading-stats">
-										{language.map(lang => <span class="language-flag">{languageEmojis[lang]}</span>)}
-										{readingTime && <span class="reading-time">• {readingTime} min read</span>}
-									</div>
-								</div>
-							</div>
-							<h1>{title}</h1>
-							<div class="date-info">
-								<FormattedDate date={pubDate} />
-								{updatedDate && (
-									<span class="last-updated-on">
-										• Updated <FormattedDate date={updatedDate} />
-									</span>
-								)}
-							</div>
-						</div>
+						<h1>{title}</h1>
 					</div>
-				</div>
+				</header>
 
-				<div class="prose content">
+				<div class="prose">
 					<slot />
 
 					{tags && tags.length > 0 && (
@@ -90,96 +85,55 @@ const languageEmojis = {
 <style>
 	main {
 		min-height: calc(100vh - 200px);
-		padding: 1rem 0;
+		max-width: 720px;
+		margin: 0 auto;
 	}
 
 	.article-header {
-		margin-bottom: 4rem;
-		background: linear-gradient(to bottom, rgb(var(--gray-light)) 0%, transparent 100%);
-		padding: 2rem 0 4rem 0;
-	}
-
-	.hero-image {
-		width: 100%;
 		margin-bottom: 2rem;
+		width: 100%;
 	}
 
-	.hero-image img {
+	.article-header img {
+		width: 100%;
+		height: auto;
+		margin-bottom: 2rem;
 		display: block;
-		margin: 0 auto;
 		border-radius: 12px;
 		box-shadow: var(--box-shadow);
 	}
 
-	.prose {
-		width: 720px;
-		max-width: calc(100% - 2em);
-		margin: auto;
-		padding: 0 1em;
-	}
-
-	.content {
-		padding-top: 2rem;
-	}
-
-	.title-container {
-		text-align: center;
-	}
-
 	.metadata {
-		margin-bottom: 1.5rem;
-	}
-
-	.primary-meta {
-		display: flex;
-		flex-direction: column;
-		gap: 0.75rem;
-		align-items: center;
 		margin-bottom: 1rem;
-	}
-
-	.category-tags {
+		color: rgb(var(--gray));
+		font-size: 0.9rem;
 		display: flex;
+		align-items: center;
+		flex-wrap: wrap;
 		gap: 0.5rem;
 	}
 
-	.category-label {
-		font-size: 0.9rem;
+	.category {
 		color: rgb(var(--accent));
 		font-weight: 500;
 	}
 
-	.category-label:not(:last-child)::after {
-		content: "/";
-		margin-left: 0.5rem;
+	.separator {
 		color: rgb(var(--gray));
 	}
 
-	.reading-stats {
-		font-size: 0.9rem;
-		color: rgb(var(--gray));
-		display: flex;
-		align-items: center;
-		gap: 0.5rem;
-	}
-
-	.language-flag {
-		font-size: 1.1rem;
+	.language {
+		margin-left: 0.25rem;
 	}
 
 	h1 {
 		font-size: 2.5rem;
 		line-height: 1.2;
-		margin: 0 0 1rem 0;
+		margin: 0;
 	}
 
-	.date-info {
-		font-size: 0.9rem;
-		color: rgb(var(--gray));
-	}
-
-	.last-updated-on {
-		font-style: italic;
+	.prose {
+		width: 100%;
 	}
 
 	.tags {
@@ -198,20 +152,8 @@ const languageEmojis = {
 	}
 
 	@media (max-width: 720px) {
-		.article-header {
-			padding: 1rem 0 2rem 0;
-		}
-
-		.prose {
-			padding: 0 1rem;
-		}
-
 		h1 {
 			font-size: 2rem;
-		}
-
-		.primary-meta {
-			gap: 0.5rem;
 		}
 	}
 </style>
