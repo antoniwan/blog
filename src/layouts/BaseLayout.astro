@@ -4,6 +4,7 @@ import Footer from '../components/Footer.astro';
 import BaseHead from '../components/BaseHead.astro';
 import BackToTop from '../components/BackToTop.astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+import Analytics from '@vercel/analytics/astro';
 
 interface Props {
   title: string;
@@ -26,6 +27,7 @@ const { title, description = SITE_DESCRIPTION } = Astro.props;
     </main>
     <Footer />
     <BackToTop />
+    <Analytics />
   </body>
 </html>
 
