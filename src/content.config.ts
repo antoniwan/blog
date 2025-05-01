@@ -30,6 +30,9 @@ const blog = defineCollection({
     authorBio: z.string().optional(),
     featured: z.boolean().optional().default(false),
 
+    // Translation group for multilingual posts
+    translationGroup: z.string().optional(),
+
     // SEO fields
     canonicalUrl: z.string().url().optional(),
     ogImage: z.string().optional(),

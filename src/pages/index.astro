@@ -1,12 +1,21 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { getCollection } from 'astro:content';
-import PostCard from '../components/PostCard.astro';
+import { getCollection, type CollectionEntry } from 'astro:content';
+import GroupedPostCard from '../components/GroupedPostCard.astro';
 
 // Get all blog posts and sort by date
 const posts = (await getCollection('blog'))
 	.filter((post) => !post.data.draft)
 	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+// Group by translationGroup (or fallback to id)
+const grouped: Record<string, CollectionEntry<'blog'>[]> = {};
+for (const post of posts) {
+	const group = post.data.translationGroup || post.id;
+	if (!grouped[group]) grouped[group] = [];
+	grouped[group].push(post);
+}
+const groupedPosts: CollectionEntry<'blog'>[][] = Object.values(grouped);
 
 const languageEmojis = {
 	en: '🇺🇸',
@@ -22,8 +31,8 @@ const languageEmojis = {
 		</div>
 
 		<div class="posts-grid">
-			{posts.map((post) => (
-				<PostCard post={post} />
+			{groupedPosts.map((translations) => (
+				<GroupedPostCard translations={translations} />
 			))}
 		</div>
 	</main>

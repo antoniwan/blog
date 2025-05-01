@@ -1,0 +1,22 @@
+---
+import PostCard from './PostCard.astro';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  translations: CollectionEntry<'blog'>[];
+}
+
+const { translations }: Props = Astro.props;
+const sortedTranslations = translations.sort((a, b) => a.data.language[0].localeCompare(b.data.language[0]));
+const main = sortedTranslations[0];
+---
+<article class="post-card">
+  <div style="display: flex; gap: 0.5em; margin-bottom: 0.5em;">
+    {sortedTranslations.map((post) => (
+      <a href={`/blog/${post.id}/`} class="language-badge">
+        {post.data.language[0] === 'en' ? '🇺🇸 English' : '🇵🇷 Español'}
+      </a>
+    ))}
+  </div>
+  <PostCard post={main} />
+</article> 

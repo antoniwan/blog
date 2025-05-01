@@ -9,6 +9,7 @@ tags: ["padres", "niños", "seguridad", "internet", "educación"]
 readingTime: 8
 draft: false
 featured: true
+translationGroup: "toddler-internet-safety"
 ---
 
 # Nuestra responsabilidad digital como padres y madres

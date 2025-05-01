@@ -9,6 +9,7 @@ tags: ["parents", "children", "internet", "safety", "education"]
 readingTime: 8
 draft: false
 featured: true
+translationGroup: "toddler-internet-safety"
 ---
 
 # Our Digital Responsibility as Parents
