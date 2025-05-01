@@ -45,6 +45,12 @@ export const categories: Category[] = [
     icon: "👨‍👩‍👧‍👦",
   },
   {
+    id: "politics",
+    name: "Politics",
+    description: "Power dynamics, social structures, and collective healing",
+    icon: "⚖️",
+  },
+  {
     id: "psychology",
     name: "Psychology",
     description: "Human behavior, social dynamics, and mental processes",
