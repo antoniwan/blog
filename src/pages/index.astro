@@ -6,6 +6,7 @@ import FormattedDate from '../components/FormattedDate.astro';
 // Pagination settings
 const POSTS_PER_PAGE = 5;
 const currentPage = Number(Astro.url.searchParams.get('page') || 1);
+const postsPerPage = Number(Astro.url.searchParams.get('size') || POSTS_PER_PAGE);
 
 // Get all blog posts and sort by date
 const allPosts = (await getCollection('blog'))
@@ -13,10 +14,52 @@ const allPosts = (await getCollection('blog'))
 	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
 // Calculate pagination
-const totalPages = Math.ceil(allPosts.length / POSTS_PER_PAGE);
-const startIndex = (currentPage - 1) * POSTS_PER_PAGE;
-const endIndex = startIndex + POSTS_PER_PAGE;
+const totalPosts = allPosts.length;
+const totalPages = Math.ceil(totalPosts / postsPerPage);
+const startIndex = (currentPage - 1) * postsPerPage;
+const endIndex = startIndex + postsPerPage;
 const posts = allPosts.slice(startIndex, endIndex);
+
+// Generate pagination range with ellipsis
+function generatePaginationRange(current: number, total: number, show: number = 2) {
+	const range = [];
+	const start = Math.max(1, current - show);
+	const end = Math.min(total, current + show);
+
+	if (start > 2) {
+		range.push(1);
+		if (start > 3) {
+			range.push('...');
+		}
+	}
+
+	for (let i = start; i <= end; i++) {
+		range.push(i);
+	}
+
+	if (end < total - 1) {
+		if (end < total - 2) {
+			range.push('...');
+		}
+		range.push(total);
+	}
+
+	return range;
+}
+
+const paginationRange = generatePaginationRange(currentPage, totalPages);
+
+// Create URL with updated parameters
+function createPageUrl(page: number, size: number = postsPerPage) {
+	const params = new URLSearchParams();
+	params.set('page', String(page));
+	if (size !== POSTS_PER_PAGE) {
+		params.set('size', String(size));
+	} else {
+		params.delete('size');
+	}
+	return `/?${params.toString()}`;
+}
 ---
 
 <BaseLayout title="Home - StrongVault">
@@ -50,21 +93,76 @@ const posts = allPosts.slice(startIndex, endIndex);
 		</div>
 
 		{totalPages > 1 && (
-			<div class="pagination">
-				{currentPage > 1 && (
-					<a href={`/?page=${currentPage - 1}`}>&larr; Previous</a>
-				)}
-				{Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-					<a
-						href={`/?page=${page}`}
-						class={page === currentPage ? 'current' : ''}
+			<div class="pagination-container">
+				<div class="pagination-info">
+					Showing {startIndex + 1}-{Math.min(endIndex, totalPosts)} of {totalPosts} posts
+				</div>
+				
+				<div class="pagination">
+					<a 
+						href={createPageUrl(currentPage - 1)}
+						class={`nav-button ${currentPage <= 1 ? 'disabled' : ''}`}
+						aria-label="Previous page"
+						{...currentPage <= 1 ? { 'aria-disabled': 'true', tabindex: -1 } : {}}
 					>
-						{page}
+						&larr; Previous
 					</a>
-				))}
-				{currentPage < totalPages && (
-					<a href={`/?page=${currentPage + 1}`}>Next &rarr;</a>
-				)}
+
+					{paginationRange.map((page) => 
+						page === '...' ? (
+							<span class="ellipsis">...</span>
+						) : (
+							<a
+								href={createPageUrl(page as number)}
+								class={page === currentPage ? 'current' : ''}
+								aria-current={page === currentPage ? 'page' : undefined}
+							>
+								{page}
+							</a>
+						)
+					)}
+
+					<a 
+						href={createPageUrl(currentPage + 1)}
+						class={`nav-button ${currentPage >= totalPages ? 'disabled' : ''}`}
+						aria-label="Next page"
+						{...currentPage >= totalPages ? { 'aria-disabled': 'true', tabindex: -1 } : {}}
+					>
+						Next &rarr;
+					</a>
+				</div>
+
+				<div class="pagination-controls">
+					<label>
+						Posts per page:
+						<select 
+							onchange="window.location.href=createPageUrl(1, Number(this.value))"
+							value={postsPerPage}
+						>
+							<option value="5">5</option>
+							<option value="10">10</option>
+							<option value="20">20</option>
+							<option value="50">50</option>
+						</select>
+					</label>
+
+					<form 
+						class="jump-to-page"
+						onsubmit="event.preventDefault(); const page = Number(this.page.value); if(page >= 1 && page <= {totalPages}) window.location.href=createPageUrl(page);"
+					>
+						<label>
+							Go to page:
+							<input 
+								type="number" 
+								name="page"
+								min="1"
+								max={totalPages}
+								value={currentPage}
+							/>
+						</label>
+						<button type="submit">Go</button>
+					</form>
+				</div>
 			</div>
 		)}
 	</main>
@@ -140,65 +238,149 @@ const posts = allPosts.slice(startIndex, endIndex);
 		font-size: 0.8em;
 		font-weight: bold;
 	}
+	.pagination-container {
+		margin-top: 4em;
+		margin-bottom: 2em;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 1.5em;
+	}
+	.pagination-info {
+		color: rgb(var(--gray));
+		font-size: 0.9em;
+	}
 	.pagination {
 		display: flex;
 		justify-content: center;
-		gap: 1em;
-		margin-top: 2em;
+		align-items: center;
+		gap: 0.25em;
 	}
 	.pagination a {
-		padding: 0.5em 1em;
-		border-radius: 4px;
+		padding: 0.75em 1em;
 		text-decoration: none;
-		color: rgb(var(--accent));
+		color: rgb(var(--gray-dark));
+		font-size: 0.95em;
+		font-weight: 500;
+		min-width: 2.5em;
+		height: 2.5em;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-radius: 6px;
+		transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+		border: 1px solid transparent;
 	}
-	.pagination a:hover {
-		background: rgb(var(--accent-light));
+	.pagination a:not(.disabled):hover {
+		background: rgb(var(--gray-light));
+		color: rgb(var(--accent));
+		border-color: rgb(var(--accent), 0.2);
 	}
 	.pagination .current {
 		background: rgb(var(--accent));
 		color: white;
+		font-weight: 600;
+		box-shadow: 0 2px 4px rgba(var(--accent), 0.2);
+	}
+	.pagination .current:hover {
+		background: rgb(var(--accent));
+		color: white;
+		transform: translateY(-1px);
+		box-shadow: 0 4px 8px rgba(var(--accent), 0.2);
+	}
+	.pagination .nav-button {
+		font-size: 0.9em;
+		padding: 0.75em 1.25em;
+		color: rgb(var(--accent));
+		background: rgb(var(--accent-light), 0.1);
+		font-weight: 600;
+	}
+	.pagination .nav-button:not(.disabled):hover {
+		background: rgb(var(--accent-light), 0.2);
+	}
+	.pagination .disabled {
+		opacity: 0.5;
+		cursor: not-allowed;
+		pointer-events: none;
+	}
+	.pagination .ellipsis {
+		color: rgb(var(--gray));
+		padding: 0.75em 0.5em;
+	}
+	.pagination-controls {
+		display: flex;
+		gap: 2em;
+		align-items: center;
+		font-size: 0.9em;
+		color: rgb(var(--gray-dark));
+	}
+	.pagination-controls select,
+	.pagination-controls input {
+		margin-left: 0.5em;
+		padding: 0.3em 0.5em;
+		border: 1px solid rgb(var(--gray-light));
+		border-radius: 4px;
+		color: rgb(var(--gray-dark));
+		font-size: 0.9em;
+	}
+	.pagination-controls input {
+		width: 5em;
+	}
+	.jump-to-page {
+		display: flex;
+		gap: 0.5em;
+		align-items: center;
+	}
+	.jump-to-page button {
+		padding: 0.3em 0.8em;
+		background: rgb(var(--accent));
+		color: white;
+		border: none;
+		border-radius: 4px;
+		font-size: 0.9em;
+		cursor: pointer;
+		transition: background 0.2s ease;
+	}
+	.jump-to-page button:hover {
+		background: rgb(var(--accent-dark, var(--accent)));
 	}
 	@media (max-width: 720px) {
-<!doctype html>
-<html lang="en">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-	</head>
-	<body>
-		<Header />
-		<main>
-			<h1>🔒 Welcome to Strong Vault</h1>
-			<p>
-				Welcome to Strong Vault, your secure digital space. This
-				template is designed to help you create a secure and professional
-				personal website, blog, or portfolio.
-			</p>
-			<p>
-				This template comes with a few integrations already configured in your
-				<code>astro.config.mjs</code> file. You can customize your setup with
-				<a href="https://astro.build/integrations">Astro Integrations</a> to add tools like Tailwind,
-				React, or Vue to your project.
-			</p>
-			<p>Here are a few ideas on how to get started with the template:</p>
-			<ul>
-				<li>Edit this page in <code>src/pages/index.astro</code></li>
-				<li>Edit the site header items in <code>src/components/Header.astro</code></li>
-				<li>Add your name to the footer in <code>src/components/Footer.astro</code></li>
-				<li>Check out the included blog posts in <code>src/content/blog/</code></li>
-				<li>Customize the blog post page layout in <code>src/layouts/BlogPost.astro</code></li>
-			</ul>
-			<p>
-				Have fun! If you get stuck, remember to
-				<a href="https://docs.astro.build/">read the docs</a>
-				or <a href="https://astro.build/chat">join us on Discord</a> to ask questions.
-			</p>
-			<p>
-				Looking for a blog template with a bit more personality? Check out
-				<a href="https://github.com/Charca/astro-blog-template">astro-blog-template</a>
-				by <a href="https://twitter.com/Charca">Maxi Ferreira</a>.
-			</p>
-		</main>
-		<Footer />
-	</body>
-</html>
+		.pagination-controls {
+			flex-direction: column;
+			gap: 1em;
+		}
+		.pagination-container {
+			margin-top: 3em;
+		}
+		.pagination a {
+			padding: 0.6em 0.8em;
+			min-width: 2.2em;
+			height: 2.2em;
+			font-size: 0.9em;
+		}
+		.pagination .nav-button {
+			display: none;
+		}
+	}
+</style>
+
+<script define:vars={{ POSTS_PER_PAGE, postsPerPage }}>
+	function createPageUrl(page, size = postsPerPage) {
+		const params = new URLSearchParams(window.location.search);
+		params.set('page', String(page));
+		if (size !== POSTS_PER_PAGE) {
+			params.set('size', String(size));
+		} else {
+			params.delete('size');
+		}
+		return `/?${params.toString()}`;
+	}
+
+	// Initialize select element with current value
+	document.addEventListener('DOMContentLoaded', () => {
+		const select = document.querySelector('select');
+		if (select) {
+			select.value = String(postsPerPage);
+		}
+	});
+</script>
