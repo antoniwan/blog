@@ -11,12 +11,33 @@ const sortedTranslations = translations.sort((a, b) => a.data.language[0].locale
 const main = sortedTranslations[0];
 ---
 <article class="post-card">
-  <div style="display: flex; gap: 0.5em; margin-bottom: 0.5em;">
-    {sortedTranslations.map((post) => (
+  <div class="languages z-10">   
+     {sortedTranslations.map((post) => (
       <a href={`/blog/${post.id}/`} class="language-badge">
-        {post.data.language[0] === 'en' ? '🇺🇸 English' : '🇵🇷 Español'}
+        {post.data.language[0] === 'en' ? '🇺🇸 Read in English' : '🇵🇷 Leer en Español'}
       </a>
     ))}
   </div>
-  <PostCard post={main} />
-</article> 
+  <div style="z-index: 0;"> <PostCard post={main} />
+</div>
+</article>
+
+<style>
+  .languages { 
+    display: flex;
+    width: fit-content
+    gap: 0.5em;
+    margin-bottom: -2px;
+    padding-bottom:0;
+    margin-left: 20px
+  }
+
+  .languages a {
+    color: white;
+    padding: 0.5em 1em;
+    border-radius: 0.5em;
+    background: black;
+  }
+  
+  
+</style>
