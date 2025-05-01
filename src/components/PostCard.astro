@@ -19,10 +19,6 @@ interface Props {
 }
 
 const { post } = Astro.props;
-const languageEmojis: Record<string, string> = {
-	en: '🇺🇸',
-	es: '🇵🇷'
-};
 
 // Find the category data
 const categoryData = post.data.category ? categories.find(cat => cat.id === post.data.category) : null;
@@ -48,9 +44,6 @@ const categoryData = post.data.category ? categories.find(cat => cat.id === post
 						<span>{post.data.readingTime} min read</span>
 					</>
 				)}
-				{post.data.language.map(lang => (
-					<span class="language">{languageEmojis[lang]}</span>
-				))}
 			</div>
 		</div>
 
@@ -185,9 +178,6 @@ const categoryData = post.data.category ? categories.find(cat => cat.id === post
 	.separator {
 		color: rgb(var(--gray));
 		opacity: 0.6;
-	}
-	.language {
-		margin-left: 0.25rem;
 	}
 	.subcategory {
 		color: #4b5563;
