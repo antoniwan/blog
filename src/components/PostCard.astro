@@ -10,6 +10,7 @@ interface Props {
 			description: string;
 			pubDate: Date;
 			category?: string;
+			subcategory?: string;
 			language: string[];
 			readingTime?: number;
 			tags?: string[];
@@ -31,15 +32,25 @@ const categoryData = post.data.category ? categories.find(cat => cat.id === post
 	<div class="post-content">
 		<div class="post-meta">
 			<div class="meta-details">
+				{categoryData && (
+					<nav class="category-nav" aria-label="Post categories">
+						<a href={`/categories/${post.data.category?.toLowerCase()}/`} class="category-link">
+							{categoryData.icon} {categoryData.name}
+							{post.data.subcategory && <span class="subcategory">/ {post.data.subcategory}</span>}
+						</a>
+					</nav>
+				)}
+				<span class="separator">•</span>
 				<FormattedDate date={post.data.pubDate} />
-				<span class="dot">•</span>
-				<span class="language-badge">{post.data.language.map(lang => languageEmojis[lang]).join(' ')}</span>
 				{post.data.readingTime && (
 					<>
-						<span class="dot">•</span>
-						<span class="reading-time">⏱️ {post.data.readingTime} min read</span>
+						<span class="separator">•</span>
+						<span>{post.data.readingTime} min read</span>
 					</>
 				)}
+				{post.data.language.map(lang => (
+					<span class="language">{languageEmojis[lang]}</span>
+				))}
 			</div>
 		</div>
 
@@ -50,11 +61,6 @@ const categoryData = post.data.category ? categories.find(cat => cat.id === post
 	</div>
 
 	<div class="post-tags">
-		{categoryData && (
-			<a href={`/categories/${post.data.category?.toLowerCase()}/`} class="tag category-tag">
-				{categoryData.icon} {categoryData.name}
-			</a>
-		)}
 		{post.data.tags && post.data.tags.map((tag: string) => (
 			<span class="tag">{tag}</span>
 		))}
@@ -160,26 +166,33 @@ const categoryData = post.data.category ? categories.find(cat => cat.id === post
 		background: rgba(var(--gray-dark), 0.12);
 	}
 
-	.category-tag {
-		background: rgba(var(--accent), 0.1);
-		color: rgb(var(--accent));
+	.category-nav {
+		display: inline-block;
+		margin-right: 0.5em;
+		font-size: 1rem;
+		vertical-align: middle;
+	}
+	.category-link {
+		color: #1a202c;
+		text-decoration: none;
 		font-weight: 600;
+		transition: color 0.2s;
 	}
-
-	.category-tag:hover {
-		background: rgba(var(--accent), 0.15);
+	.category-link:hover {
+		color: #2563eb;
+		text-decoration: underline;
 	}
-
-	.language-badge {
-		display: flex;
-		align-items: center;
-		gap: 0.25rem;
+	.separator {
+		color: rgb(var(--gray));
+		opacity: 0.6;
 	}
-
-	.reading-time {
-		display: flex;
-		align-items: center;
-		gap: 0.25rem;
+	.language {
+		margin-left: 0.25rem;
+	}
+	.subcategory {
+		color: #4b5563;
+		font-weight: 500;
+		margin-left: 0.25em;
 	}
 
 	@media (max-width: 720px) {
