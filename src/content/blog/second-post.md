@@ -1,8 +1,20 @@
 ---
-title: 'Second post'
-description: 'Lorem ipsum dolor sit amet'
-pubDate: 'Jul 15 2022'
-heroImage: '/blog-placeholder-4.jpg'
+title: "Second post"
+description: "Lorem ipsum dolor sit amet"
+pubDate: "Jul 15 2022"
+updatedDate: "Jul 16 2022"
+heroImage: "/blog-placeholder-4.jpg"
+category: "Privacy"
+subcategory: "Data Protection"
+tags: ["privacy", "data-protection", "security"]
+draft: false
+readingTime: 4
+author: "Strong Vault Team"
+authorImage: "/author-placeholder.jpg"
+authorBio: "Security experts dedicated to protecting your digital assets"
+featured: false
+ogImage: "/blog-placeholder-4.jpg"
+ogImageAlt: "Second post hero image"
 ---
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Vitae ultricies leo integer malesuada nunc vel risus commodo viverra. Adipiscing enim eu turpis egestas pretium. Euismod elementum nisi quis eleifend quam adipiscing. In hac habitasse platea dictumst vestibulum. Sagittis purus sit amet volutpat. Netus et malesuada fames ac turpis egestas. Eget magna fermentum iaculis eu non diam phasellus vestibulum lorem. Varius sit amet mattis vulputate enim. Habitasse platea dictumst quisque sagittis. Integer quis auctor elit sed vulputate mi. Dictumst quisque sagittis purus sit amet.
