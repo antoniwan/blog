@@ -192,6 +192,10 @@ const capitalize = (str: string) => str ? str.charAt(0).toUpperCase() + str.slic
     --black: 255, 255, 255;
   }
 
+  html {
+    background-color: var(--background-color);
+  }
+
   body {
     background-color: var(--background-color);
     color: var(--text-color);
@@ -221,6 +225,7 @@ const capitalize = (str: string) => str ? str.charAt(0).toUpperCase() + str.slic
     max-width: 100%;
     margin: 0 auto;
     padding: 1rem;
+    background-color: var(--background-color);
   }
 
   @media (min-width: 768px) {
