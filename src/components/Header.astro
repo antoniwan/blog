@@ -1,7 +1,7 @@
 ---
-import HeaderLink from './HeaderLink.astro';
 import ThemeToggle from './ThemeToggle.astro';
 import MobileNav from './MobileNav.astro';
+import { mainNavigation } from '../data/navigation';
 ---
 
 <header class="sticky top-0 z-50 w-full bg-background/80 dark:bg-gray-dark/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-700">
@@ -20,9 +20,16 @@ import MobileNav from './MobileNav.astro';
 
 				<!-- Desktop Navigation Links -->
 				<div class="hidden md:flex items-center space-x-6">
-					<HeaderLink href="/">Home</HeaderLink>
-					<HeaderLink href="/category">Categories</HeaderLink>
-					<HeaderLink href="/about">About</HeaderLink>
+					{mainNavigation.map((item) => (
+						<a 
+							href={item.href} 
+							class="text-text dark:text-gray-light no-underline font-medium text-base md:text-lg py-2 transition-all duration-300 hover:text-primary dark:hover:text-primary focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 focus:ring-offset-background dark:focus:ring-offset-gray-dark rounded-lg after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-primary after:scale-x-0 after:origin-right after:transition-transform after:duration-300 after:ease-out-cubic hover:after:scale-x-100 hover:after:origin-left aria-[current=page]:text-primary aria-[current=page]:after:scale-x-100 aria-[current=page]:font-semibold aria-[current=page]:after:bg-primary/80"
+						>
+							<span class="relative z-10">
+								{item.label}
+							</span>
+						</a>
+					))}
 				</div>
 			</div>
 
@@ -54,7 +61,7 @@ import MobileNav from './MobileNav.astro';
 	/* Dark mode optimizations */
 	@media (prefers-color-scheme: dark) {
 		header {
-			--tw-bg-opacity: 0.8;
+			background-color: rgba(17, 24, 39, 0.8);
 		}
 	}
 
