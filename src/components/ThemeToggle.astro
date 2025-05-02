@@ -2,11 +2,11 @@
 ---
 
 <button
-	class="theme-toggle flex items-center justify-center w-10 h-10 p-2 bg-transparent border-none rounded-full cursor-pointer transition-colors hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-2 focus:outline-primary focus:outline-offset-2 text-text hover:text-primary"
+	class="theme-toggle flex items-center justify-center w-10 h-10 p-2 bg-transparent border-none rounded-full cursor-pointer transition-all duration-300 hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-2 focus:outline-primary focus:outline-offset-2 text-text hover:text-primary active:scale-95"
 	aria-label="Switch to dark mode"
 	title="Switch to dark mode"
 >
-	<span class="text-lg leading-none" aria-hidden="true">🌙</span>
+	<span class="text-lg leading-none transform transition-transform duration-300" aria-hidden="true">🌙</span>
 </button>
 
 <script>
@@ -28,10 +28,16 @@
 		return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 	};
 
-	// Set theme
+	// Set theme with smooth transition
 	const setTheme = (theme: 'light' | 'dark') => {
+		document.documentElement.classList.add('theme-transition');
 		document.documentElement.classList.toggle('dark', theme === 'dark');
 		localStorage.setItem('theme', theme);
+		
+		// Remove transition class after animation
+		setTimeout(() => {
+			document.documentElement.classList.remove('theme-transition');
+		}, 300);
 	};
 
 	// Initialize theme
@@ -40,13 +46,13 @@
 		setTheme(currentTheme);
 	};
 
-	// Handle theme toggle
+	// Handle theme toggle with animation
 	const handleThemeToggle = () => {
 		const currentTheme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
 		const newTheme = currentTheme === 'light' ? 'dark' : 'light';
 		setTheme(newTheme);
 		
-		// Update button attributes
+		// Update button attributes with animation
 		const button = document.querySelector('.theme-toggle');
 		if (button) {
 			const newThemeData = theme[newTheme];
@@ -54,7 +60,12 @@
 			button.setAttribute('title', newThemeData.label);
 			const icon = button.querySelector('span');
 			if (icon) {
-				icon.textContent = newThemeData.icon;
+				// Add rotation animation
+				icon.style.transform = 'rotate(180deg)';
+				setTimeout(() => {
+					icon.textContent = newThemeData.icon;
+					icon.style.transform = 'rotate(0deg)';
+				}, 150);
 			}
 		}
 	};
@@ -69,4 +80,11 @@
 			themeToggle.addEventListener('click', handleThemeToggle);
 		}
 	});
-</script> 
+</script>
+
+<style>
+	/* Add smooth theme transition */
+	.theme-transition {
+		transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+	}
+</style> 

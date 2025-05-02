@@ -2,59 +2,59 @@
 import { SITE_TITLE } from '../consts';
 ---
 
-<footer class="bg-gray-light dark:bg-gray-dark py-12 mt-16" role="contentinfo">
+<footer class="bg-gray-light/50 dark:bg-gray-dark/50 py-16 mt-24 border-t border-gray-200 dark:border-gray-800" role="contentinfo">
 	<div class="container mx-auto px-4 md:px-8">
-		<div class="grid md:grid-cols-3 gap-8 mb-8">
+		<div class="grid md:grid-cols-3 gap-12 mb-12">
 			<section class="max-w-md">
-				<h2 class="text-xl font-bold mb-2 text-black dark:text-gray-light">{SITE_TITLE}</h2>
-				<p class="text-gray dark:text-gray-light leading-relaxed">
+				<h2 class="text-2xl font-serif font-bold mb-4 text-text dark:text-gray-light">{SITE_TITLE}</h2>
+				<p class="text-gray-600 dark:text-gray-400 leading-relaxed text-lg">
 					Exploring the intersection of food, health, technology, and parenting. Sharing recipes, insights, and experiences.
 				</p>
 			</section>
 
-			<nav class="grid grid-cols-2 gap-8" aria-label="Footer navigation">
+			<nav class="grid grid-cols-2 gap-12" aria-label="Footer navigation">
 				<section>
-					<h3 class="text-base font-semibold mb-2 text-black dark:text-gray-light">Categories</h3>
-					<ul class="space-y-2">
+					<h3 class="text-lg font-serif font-bold mb-4 text-text dark:text-gray-light">Categories</h3>
+					<ul class="space-y-3">
 						<li>
-							<a href="/blog/category/recipes" class="text-gray dark:text-gray-light hover:text-primary dark:hover:text-primary transition-colors">Recipes</a>
+							<a href="/blog/category/recipes" class="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors duration-200 text-lg">Recipes</a>
 						</li>
 						<li>
-							<a href="/blog/category/health" class="text-gray dark:text-gray-light hover:text-primary dark:hover:text-primary transition-colors">Health & Wellness</a>
+							<a href="/blog/category/health" class="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors duration-200 text-lg">Health & Wellness</a>
 						</li>
 						<li>
-							<a href="/blog/category/technology" class="text-gray dark:text-gray-light hover:text-primary dark:hover:text-primary transition-colors">Technology</a>
+							<a href="/blog/category/technology" class="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors duration-200 text-lg">Technology</a>
 						</li>
 					</ul>
 				</section>
 
 				<section>
-					<h3 class="text-base font-semibold mb-2 text-black dark:text-gray-light">Resources</h3>
-					<ul class="space-y-2">
+					<h3 class="text-lg font-serif font-bold mb-4 text-text dark:text-gray-light">Resources</h3>
+					<ul class="space-y-3">
 						<li>
-							<a href="/blog" class="text-gray dark:text-gray-light hover:text-primary dark:hover:text-primary transition-colors">All Posts</a>
+							<a href="/blog" class="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors duration-200 text-lg">All Posts</a>
 						</li>
 						<li>
-							<a href="/about" class="text-gray dark:text-gray-light hover:text-primary dark:hover:text-primary transition-colors">About</a>
+							<a href="/about" class="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors duration-200 text-lg">About</a>
 						</li>
 						<li>
-							<a href="/contact" class="text-gray dark:text-gray-light hover:text-primary dark:hover:text-primary transition-colors">Contact</a>
+							<a href="/contact" class="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors duration-200 text-lg">Contact</a>
 						</li>
 					</ul>
 				</section>
 			</nav>
 		</div>
 
-		<section class="border-t border-border dark:border-border-dark pt-8">
-			<nav class="flex justify-center gap-6 mb-4 flex-wrap" aria-label="Social links">
-				<a href="https://bsky.app/profile/antoniwan.online" class="inline-flex items-center gap-2 text-primary bg-gray-light dark:bg-gray-dark rounded-lg px-4 py-2 text-sm font-medium transition-colors hover:bg-primary hover:text-white" target="_blank" rel="noopener" aria-label="BlueSky">🌀 BlueSky</a>
-				<a href="https://github.com/antoniwan" class="inline-flex items-center gap-2 text-primary bg-gray-light dark:bg-gray-dark rounded-lg px-4 py-2 text-sm font-medium transition-colors hover:bg-primary hover:text-white" target="_blank" rel="noopener" aria-label="GitHub">🐙 GitHub</a>
-				<a href="https://stronghandssoftheart.com" class="inline-flex items-center gap-2 text-primary bg-gray-light dark:bg-gray-dark rounded-lg px-4 py-2 text-sm font-medium transition-colors hover:bg-primary hover:text-white" target="_blank" rel="noopener" aria-label="Strong Hands Soft Heart">💜 Strong Hands Soft Heart</a>
-				<a href="https://builds.software" class="inline-flex items-center gap-2 text-primary bg-gray-light dark:bg-gray-dark rounded-lg px-4 py-2 text-sm font-medium transition-colors hover:bg-primary hover:text-white" target="_blank" rel="noopener" aria-label="Builds.Software">🛠 Builds.Software</a>
+		<section class="border-t border-gray-200 dark:border-gray-800 pt-12">
+			<nav class="flex justify-center gap-6 mb-8 flex-wrap" aria-label="Social links">
+				<a href="https://bsky.app/profile/antoniwan.online" class="inline-flex items-center gap-2 text-primary bg-gray-100 dark:bg-gray-800 rounded-full px-6 py-3 text-base font-medium transition-all duration-200 hover:bg-primary hover:text-white hover:scale-105" target="_blank" rel="noopener" aria-label="BlueSky">🌀 BlueSky</a>
+				<a href="https://github.com/antoniwan" class="inline-flex items-center gap-2 text-primary bg-gray-100 dark:bg-gray-800 rounded-full px-6 py-3 text-base font-medium transition-all duration-200 hover:bg-primary hover:text-white hover:scale-105" target="_blank" rel="noopener" aria-label="GitHub">🐙 GitHub</a>
+				<a href="https://stronghandssoftheart.com" class="inline-flex items-center gap-2 text-primary bg-gray-100 dark:bg-gray-800 rounded-full px-6 py-3 text-base font-medium transition-all duration-200 hover:bg-primary hover:text-white hover:scale-105" target="_blank" rel="noopener" aria-label="Strong Hands Soft Heart">💜 Strong Hands Soft Heart</a>
+				<a href="https://builds.software" class="inline-flex items-center gap-2 text-primary bg-gray-100 dark:bg-gray-800 rounded-full px-6 py-3 text-base font-medium transition-all duration-200 hover:bg-primary hover:text-white hover:scale-105" target="_blank" rel="noopener" aria-label="Builds.Software">🛠 Builds.Software</a>
 			</nav>
-			<p class="text-center text-sm text-gray dark:text-gray-light">
+			<p class="text-center text-base text-gray-600 dark:text-gray-400">
 				© {new Date().getFullYear()} {SITE_TITLE}. All rights reserved.<br />
-				This work is licensed under a <span role="img" aria-label="Creative Commons">🔖</span> <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener" class="text-primary hover:text-primary-dark transition-colors">Creative Commons Attribution 4.0 International License</a>.
+				This work is licensed under a <span role="img" aria-label="Creative Commons">🔖</span> <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener" class="text-primary hover:text-primary-dark transition-colors duration-200">Creative Commons Attribution 4.0 International License</a>.
 			</p>
 		</section>
 	</div>

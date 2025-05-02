@@ -91,20 +91,20 @@ const capitalize = (str: string) => str ? str.charAt(0).toUpperCase() + str.slic
     />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
   </head>
-  <body class="min-h-screen flex flex-col">
-    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:bg-white focus:px-4 focus:py-2 focus:rounded focus:shadow-lg">Skip to main content</a>
+  <body class="min-h-screen flex flex-col bg-background text-text antialiased">
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:bg-white dark:focus:bg-gray-900 focus:px-4 focus:py-2 focus:rounded focus:shadow-lg focus:ring-2 focus:ring-primary">Skip to main content</a>
     <Header />
-    <main id="main-content" role="main" class="flex-grow container mx-auto px-4 md:px-8 py-8">
+    <main id="main-content" role="main" class="flex-grow container mx-auto px-4 md:px-8 py-12">
       {layoutType === 'blog' && (
         <article class="max-w-3xl mx-auto">
-          <header class="mb-8">
-            <div class="flex flex-wrap gap-2 mb-4">
+          <header class="mb-12">
+            <div class="flex flex-wrap gap-3 mb-6">
               {category && category.length > 0 && (
-                <div class="flex flex-wrap gap-2">
+                <div class="flex flex-wrap gap-3">
                   {category.map((cat) => (
                     <a 
                       href={`/category/${cat.toLowerCase()}`} 
-                      class="inline-flex items-center gap-1 text-sm bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 px-3 py-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+                      class="inline-flex items-center gap-1.5 text-sm font-medium bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 px-4 py-1.5 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-200 hover:scale-105"
                     >
                       {categoryEmojis[cat] || '📝'} {capitalize(cat)}
                     </a>
@@ -112,37 +112,42 @@ const capitalize = (str: string) => str ? str.charAt(0).toUpperCase() + str.slic
                 </div>
               )}
               {subcategory && (
-                <span class="text-sm text-gray-600 dark:text-gray-400">{subcategory}</span>
+                <span class="text-sm text-gray-600 dark:text-gray-400 font-medium">{subcategory}</span>
               )}
               {language && language.length > 0 && (
-                <div class="flex flex-wrap gap-2">
+                <div class="flex flex-wrap gap-3">
                   {language.map((lang) => (
-                    <span class="inline-flex items-center gap-1 text-sm text-gray-600 dark:text-gray-400">
+                    <span class="inline-flex items-center gap-1.5 text-sm text-gray-600 dark:text-gray-400 font-medium">
                       {languageEmojis[lang] || '🌐'} {lang.toUpperCase()}
                     </span>
                   ))}
                 </div>
               )}
             </div>
-            <h1 class="text-4xl md:text-5xl font-bold mb-4">{title}</h1>
-            {description && <p class="text-xl text-gray-600 dark:text-gray-400 mb-6">{description}</p>}
-            <div class="flex flex-wrap gap-4 text-sm text-gray-600 dark:text-gray-400">
+            <h1 class="text-4xl md:text-5xl lg:text-6xl font-serif font-bold mb-6 leading-tight tracking-tight">{title}</h1>
+            {description && <p class="text-xl md:text-2xl text-gray-600 dark:text-gray-400 mb-8 leading-relaxed">{description}</p>}
+            <div class="flex flex-wrap gap-6 text-sm text-gray-600 dark:text-gray-400">
               {pubDate && (
-                <time datetime={pubDate.toISOString()}>
+                <time datetime={pubDate.toISOString()} class="flex items-center gap-2">
+                  <span class="text-primary">📅</span>
                   <FormattedDate date={pubDate} />
                 </time>
               )}
               {updatedDate && (
-                <time datetime={updatedDate.toISOString()}>
+                <time datetime={updatedDate.toISOString()} class="flex items-center gap-2">
+                  <span class="text-primary">🔄</span>
                   Updated: <FormattedDate date={updatedDate} />
                 </time>
               )}
               {readingTime && (
-                <span>{readingTime} min read</span>
+                <span class="flex items-center gap-2">
+                  <span class="text-primary">⏱️</span>
+                  {readingTime} min read
+                </span>
               )}
             </div>
           </header>
-          <section class="prose dark:prose-invert max-w-none">
+          <section class="prose dark:prose-invert max-w-none prose-headings:font-serif prose-headings:tracking-tight prose-p:leading-relaxed prose-p:text-lg prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-img:rounded-lg prose-img:shadow-lg prose-blockquote:border-l-4 prose-blockquote:border-primary prose-blockquote:pl-4 prose-blockquote:italic">
             <slot />
           </section>
         </article>

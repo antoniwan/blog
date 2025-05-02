@@ -10,42 +10,51 @@ const navLinks = [
 ];
 ---
 
-<header class="sticky top-0 z-sticky bg-background dark:bg-gray-dark shadow-sm" role="banner">
-	<nav class="py-4" aria-label="Main navigation">
+<header 
+	class="sticky top-0 z-sticky bg-background/80 dark:bg-gray-dark/80 backdrop-blur-sm shadow-sm border-b border-gray-100 dark:border-gray-800"
+	role="banner"
+>
+	<nav class="py-3 md:py-4" aria-label="Main navigation">
 		<div class="container mx-auto px-4 md:px-8">
 			<div class="flex justify-between items-center">
-				<a href="/" class="no-underline text-inherit hover:text-primary transition-colors" aria-label="Home">
-					<h2 class="m-0 text-xl md:text-2xl font-bold">{SITE_TITLE}</h2>
+				<a 
+					href="/" 
+					class="no-underline text-inherit hover:text-primary transition-colors duration-200"
+					aria-label="Home"
+				>
+					<h2 class="m-0 text-2xl md:text-3xl font-serif font-bold tracking-tight">
+						{SITE_TITLE}
+					</h2>
 				</a>
 				
 				<button 
-					class="md:hidden bg-transparent border-none cursor-pointer p-2 text-text hover:text-primary transition-colors"
+					class="md:hidden bg-transparent border-none cursor-pointer p-2 text-text hover:text-primary transition-colors duration-200"
 					aria-label="Toggle menu"
 					aria-expanded="false"
 					aria-controls="header__nav-menu"
 					aria-haspopup="true"
 				>
 					<span class="block w-6 h-6 relative" aria-hidden="true">
-						<span class="block w-full h-0.5 bg-current my-1 transition-transform duration-300"></span>
-						<span class="block w-full h-0.5 bg-current my-1 transition-transform duration-300"></span>
-						<span class="block w-full h-0.5 bg-current my-1 transition-transform duration-300"></span>
+						<span class="block w-full h-0.5 bg-current my-1 transition-transform duration-300 origin-center"></span>
+						<span class="block w-full h-0.5 bg-current my-1 transition-transform duration-300 origin-center"></span>
+						<span class="block w-full h-0.5 bg-current my-1 transition-transform duration-300 origin-center"></span>
 					</span>
 				</button>
 			</div>
 
 			<nav 
 				id="header__nav-menu"
-				class="md:flex md:items-center md:gap-6 fixed md:static top-0 left-0 right-0 bottom-0 bg-background dark:bg-gray-dark flex-col justify-center items-center transform md:transform-none transition-transform duration-300 translate-x-full md:translate-x-0"
+				class="md:flex md:items-center md:gap-8 fixed md:static top-0 left-0 right-0 bottom-0 bg-background/95 dark:bg-gray-dark/95 backdrop-blur-sm flex-col justify-center items-center transform md:transform-none transition-all duration-300 translate-x-full md:translate-x-0"
 				aria-label="Primary navigation"
 			>
-				<ul class="flex md:flex-row flex-col gap-4 md:gap-6 list-none m-0 p-0">
+				<ul class="flex md:flex-row flex-col gap-6 md:gap-8 list-none m-0 p-0">
 					{navLinks.map(({ href, label }) => (
 						<li class="m-0">
 							<HeaderLink href={href}>{label}</HeaderLink>
 						</li>
 					))}
 				</ul>
-				<div class="md:ml-4 mt-6 md:mt-0">
+				<div class="md:ml-6 mt-8 md:mt-0">
 					<ThemeToggle />
 				</div>
 			</nav>
@@ -54,15 +63,28 @@ const navLinks = [
 </header>
 
 <script>
-	// Handle mobile menu toggle
+	// Handle mobile menu toggle with enhanced animation
 	const menuButton = document.querySelector('button[aria-controls="header__nav-menu"]');
 	const navMenu = document.getElementById('header__nav-menu');
+	const menuLines = document.querySelectorAll('button span span') as NodeListOf<HTMLElement>;
 
-	if (menuButton && navMenu) {
+	if (menuButton && navMenu && menuLines) {
 		menuButton.addEventListener('click', () => {
 			const isExpanded = menuButton.getAttribute('aria-expanded') === 'true';
 			menuButton.setAttribute('aria-expanded', String(!isExpanded));
 			navMenu.classList.toggle('translate-x-full');
+			
+			// Animate menu lines
+			menuLines.forEach((line, index) => {
+				if (!isExpanded) {
+					if (index === 0) line.style.transform = 'translateY(8px) rotate(45deg)';
+					if (index === 1) line.style.opacity = '0';
+					if (index === 2) line.style.transform = 'translateY(-8px) rotate(-45deg)';
+				} else {
+					line.style.transform = '';
+					line.style.opacity = '';
+				}
+			});
 		});
 	}
 </script>
