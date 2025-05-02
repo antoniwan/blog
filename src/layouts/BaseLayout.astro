@@ -94,62 +94,59 @@ const capitalize = (str: string) => str ? str.charAt(0).toUpperCase() + str.slic
   <body>
     <a href="#main-content" class="skip-link">Skip to main content</a>
     <Header />
-    <main id="main-content" role="main">
+    <main id="main-content" role="main" class="content-wrapper">
       {layoutType === 'blog' && (
-        <article>
+        <article class="blog-post">
           <header class="article-header">
-            {heroImage && <img width={1020} height={510} src={heroImage} alt="" />}
-            <div class="content">
-              <div class="metadata">
-                <nav class="category-nav" aria-label="Post categories">
-                  {category.length > 0 && category.map((cat) => (
-                    <a href={`/categories/${cat.toLowerCase()}/`} class="category-link">
+            <div class="article-meta">
+              {category && category.length > 0 && (
+                <div class="category-tags">
+                  {category.map((cat) => (
+                    <a href={`/category/${cat.toLowerCase()}`} class="category-tag">
                       {categoryEmojis[cat] || '📝'} {capitalize(cat)}
-                      {subcategory && ` / ${capitalize(subcategory)}`}
                     </a>
                   ))}
-                </nav>
-                <span class="separator">•</span>
-                {pubDate && (
-                  <>
-                    <span class="separator">•</span>
-                    <FormattedDate date={pubDate} />
-                  </>
-                )}
-                {updatedDate && (
-                  <>
-                    <span class="separator">•</span>
-                    <span>Updated <FormattedDate date={updatedDate} /></span>
-                  </>
-                )}
-                {readingTime && (
-                  <>
-                    <span class="separator">•</span>
-                    <span>{readingTime} min read</span>
-                  </>
-                )}
-                {language.map(lang => (
-                  <span class="language">{languageEmojis[lang] || ''}</span>
-                ))}
-              </div>
-              <h1>{title}</h1>
+                </div>
+              )}
+              {subcategory && (
+                <span class="subcategory">{subcategory}</span>
+              )}
+              {language && language.length > 0 && (
+                <div class="language-tags">
+                  {language.map((lang) => (
+                    <span class="language-tag">{languageEmojis[lang] || '🌐'} {lang.toUpperCase()}</span>
+                  ))}
+                </div>
+              )}
+            </div>
+            <h1>{title}</h1>
+            {description && <p class="description">{description}</p>}
+            <div class="article-info">
+              {pubDate && (
+                <time datetime={pubDate.toISOString()} class="pub-date">
+                  <FormattedDate date={pubDate} />
+                </time>
+              )}
+              {updatedDate && (
+                <time datetime={updatedDate.toISOString()} class="updated-date">
+                  Updated: <FormattedDate date={updatedDate} />
+                </time>
+              )}
+              {readingTime && (
+                <span class="reading-time">{readingTime} min read</span>
+              )}
             </div>
           </header>
-
-          <div class="prose">
+          <div class="content">
             <slot />
-
-            {tags && tags.length > 0 && (
-              <div class="tags">
-                {tags.map((tag) => (
-                  <span class="tag">{tag}</span>
-                ))}
-              </div>
-            )}
           </div>
         </article>
       )}
-      {layoutType === 'default' && <slot />}
+      {layoutType === 'default' && (
+        <div class="content">
+          <slot />
+        </div>
+      )}
     </main>
     <Footer />
     <BackToTop />
@@ -219,25 +216,34 @@ const capitalize = (str: string) => str ? str.charAt(0).toUpperCase() + str.slic
     top: 0;
   }
 
-  main {
+  .content-wrapper {
     min-height: calc(100vh - 200px);
-    width: 100%;
-    max-width: 100%;
+    max-width: 1400px;
     margin: 0 auto;
-    padding: 1rem;
+    padding: 2rem 1rem;
     background-color: var(--background-color);
   }
 
+  .content {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
   @media (min-width: 768px) {
-    main {
+    .content-wrapper {
       padding: 2rem;
     }
   }
 
   /* Blog-specific styles */
+  .blog-post {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
   .article-header {
     margin-bottom: 4rem;
-    max-width: 1400px;
+    max-width: 800px;
     margin-left: auto;
     margin-right: auto;
   }
@@ -250,12 +256,6 @@ const capitalize = (str: string) => str ? str.charAt(0).toUpperCase() + str.slic
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
   }
 
-  .article-header .content {
-    padding: 0 1rem;
-    max-width: 800px;
-    margin: 0 auto;
-  }
-
   .article-header h1 {
     font-size: 2.75rem;
     line-height: 1.2;
@@ -264,7 +264,7 @@ const capitalize = (str: string) => str ? str.charAt(0).toUpperCase() + str.slic
     letter-spacing: -0.025em;
   }
 
-  .metadata {
+  .article-meta {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -276,14 +276,13 @@ const capitalize = (str: string) => str ? str.charAt(0).toUpperCase() + str.slic
     border-bottom: 1px solid var(--border-color);
   }
 
-  .category-nav {
-    display: inline-block;
-    margin-right: 0.5em;
-    font-size: 0.9375rem;
-    vertical-align: middle;
+  .category-tags {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
   }
 
-  .category-link {
+  .category-tag {
     color: rgb(var(--black));
     text-decoration: none;
     font-weight: 600;
@@ -293,41 +292,37 @@ const capitalize = (str: string) => str ? str.charAt(0).toUpperCase() + str.slic
     background: rgba(var(--gray-light), 0.2);
   }
 
-  .category-link:hover {
+  .category-tag:hover {
     color: var(--accent-color);
     background: rgba(var(--gray-light), 0.3);
     transform: translateY(-1px);
   }
 
-  .separator {
-    color: rgb(var(--gray-light));
-  }
-
-  .language {
-    margin-left: 0.5rem;
-  }
-
-  .prose {
-    padding: 0 1rem;
-    font-size: 1.125rem;
-    max-width: 800px;
-    margin: 0 auto;
-    line-height: 1.8;
-  }
-
-  .tags {
+  .language-tags {
     display: flex;
-    flex-wrap: wrap;
     gap: 0.5rem;
-    margin-top: 2rem;
   }
 
-  .tag {
+  .language-tag {
     background: rgba(var(--gray-light), 0.2);
     padding: 0.375rem 0.75rem;
     border-radius: 6px;
     font-size: 0.875rem;
+  }
+
+  .article-info {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    font-size: 0.9375rem;
     color: rgb(var(--gray));
+  }
+
+  .pub-date,
+  .updated-date,
+  .reading-time {
+    display: flex;
+    align-items: center;
   }
 
   /* View Transitions */

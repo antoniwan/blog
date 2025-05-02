@@ -24,17 +24,17 @@ const languageEmojis = {
 ---
 
 <BaseLayout title="Home - StrongVault">
-	<main>
-		<div class="hero-section">
+	<main class="content-wrapper">
+		<header class="hero-section">
 			<h1>Welcome to the<br />Strong Vault</h1>
 			<p class="subtitle">Software, power, weakness, science, opinions, emotional alchemy, DIY creation, and the journey of building a life of integrity</p>
-		</div>
+		</header>
 
-		<div class="posts-grid">
+		<section class="posts-grid" aria-label="Latest posts">
 			{groupedPosts.map((translations) => (
 				<GroupedPostCard translations={translations} />
 			))}
-		</div>
+		</section>
 	</main>
 </BaseLayout>
 
@@ -43,12 +43,6 @@ const languageEmojis = {
 		--reading-width: 65ch;
 		--line-height: 1.75;
 		--letter-spacing: -0.011em;
-	}
-
-	main {
-		max-width: 1400px;
-		margin: 0 auto;
-		padding: 2rem 1rem;
 	}
 
 	.hero-section {
@@ -190,18 +184,6 @@ const languageEmojis = {
 
 		.subtitle {
 			font-size: 1.125rem;
-		}
-
-		main {
-			padding: 1.5rem 1rem;
-		}
-
-		.post-card {
-			padding: 1.5rem;
-		}
-
-		.post-title {
-			font-size: 1.5rem;
 		}
 	}
 </style>

@@ -1,0 +1,41 @@
+---
+interface Props {
+  text?: string;
+}
+
+const { text = "🌟 <strong>Sacred Disclaimer:</strong> The wisdom, practices, and digital alchemy shared here flow from personal experience and creative exploration. None of this constitutes medical, legal, psychological, or spiritual advice — though it dances with all of these realms. This is a space for inspiration, experimentation, and conscious growth. Use these tools and insights as starting points for your own journey, not as prescriptions or promises. Your path is yours to walk. If something here calls to you or raises questions in your heart, reach out. Let's explore together, with reverence for the mysteries we're all navigating." } = Astro.props;
+---
+
+<div class="disclaimer">
+  <p set:html={text} />
+</div>
+
+<style>
+  .disclaimer {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background-color: var(--blockquote-bg);
+    border-left: 4px solid var(--accent-color);
+    border-radius: 4px;
+    font-style: italic;
+    transition: all 0.3s ease;
+  }
+
+  .disclaimer p {
+    margin: 0;
+    line-height: 1.6;
+    color: var(--text-color);
+  }
+
+  .disclaimer strong {
+    color: var(--accent-color);
+    font-weight: 600;
+  }
+
+  @media (max-width: 768px) {
+    .disclaimer {
+      padding: 1.25rem;
+      margin-top: 1.5rem;
+    }
+  }
+</style> 

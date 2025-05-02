@@ -58,18 +58,20 @@ const capitalize = (str: string) => str ? str.charAt(0).toUpperCase() + str.slic
 ---
 
 <BaseLayout title={`${categoryData.name} - StrongVault`}>
-	<main>
-		<div class="category-header">
-			<a href="/category" class="back-link">← Back to Categories</a>
+	<main class="content-wrapper">
+		<header class="category-header">
+			<nav aria-label="Breadcrumb">
+				<a href="/category" class="back-link">← Back to Categories</a>
+			</nav>
 			<h1>{categoryData.icon} {categoryData.name}</h1>
 			<p class="category-description">{categoryData.description}</p>
-		</div>
+		</header>
 
-		<div class="posts-grid">
+		<section class="posts-grid" aria-label="Posts in this category">
 			{groupedPosts.map((translations) => (
 				<GroupedPostCard translations={translations} />
 			))}
-		</div>
+		</section>
 	</main>
 </BaseLayout>
 
@@ -78,12 +80,6 @@ const capitalize = (str: string) => str ? str.charAt(0).toUpperCase() + str.slic
 		--reading-width: 65ch;
 		--line-height: 1.75;
 		--letter-spacing: -0.011em;
-	}
-
-	main {
-		max-width: 1400px;
-		margin: 0 auto;
-		padding: 2rem 1rem;
 	}
 
 	.category-header {
@@ -238,18 +234,6 @@ const capitalize = (str: string) => str ? str.charAt(0).toUpperCase() + str.slic
 
 		.category-description {
 			font-size: 1.125rem;
-		}
-
-		main {
-			padding: 1.5rem 1rem;
-		}
-
-		.post-card {
-			padding: 1.5rem;
-		}
-
-		.post-title {
-			font-size: 1.5rem;
 		}
 	}
 </style> 
