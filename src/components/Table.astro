@@ -1,0 +1,90 @@
+---
+interface Props {
+  caption?: string;
+}
+
+const { caption } = Astro.props;
+---
+
+<div class="table-container">
+  <table class="table">
+    {caption && <caption class="table__caption">{caption}</caption>}
+    <thead class="table__head">
+      <tr class="table__row">
+        <slot name="header" />
+      </tr>
+    </thead>
+    <tbody class="table__body">
+      <slot />
+    </tbody>
+  </table>
+</div>
+
+<style>
+  .table-container {
+    width: 100%;
+    overflow-x: auto;
+    margin: var(--spacing-lg) 0;
+  }
+
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--font-size-base);
+    line-height: var(--line-height-normal);
+  }
+
+  .table__caption {
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    text-align: left;
+    margin-bottom: var(--spacing-md);
+    color: rgb(var(--color-black));
+  }
+
+  .table__head {
+    background-color: rgb(var(--color-gray-light));
+  }
+
+  .table__row {
+    border-bottom: 1px solid rgb(var(--color-gray-light));
+  }
+
+  .table__row:last-child {
+    border-bottom: none;
+  }
+
+  .table__row:nth-child(even) {
+    background-color: rgba(var(--color-gray-light), 0.2);
+  }
+
+  .table__row:hover {
+    background-color: rgba(var(--color-gray-light), 0.4);
+  }
+
+  th,
+  td {
+    padding: var(--spacing-md);
+    text-align: left;
+  }
+
+  th {
+    font-weight: 600;
+    color: rgb(var(--color-black));
+  }
+
+  td {
+    color: rgb(var(--color-gray));
+  }
+
+  @media (max-width: 768px) {
+    .table {
+      font-size: var(--font-size-sm);
+    }
+
+    th,
+    td {
+      padding: var(--spacing-sm);
+    }
+  }
+</style> 

@@ -6,31 +6,65 @@ interface Props {
 const { fallbackUrl = '/' } = Astro.props;
 ---
 
-<div class="back-container">
-  <a href={fallbackUrl} class="back-link" data-astro-transition="back">
-    ← Back
-  </a>
-</div>
+<nav class="back-nav" aria-label="Back navigation">
+	<a href="/" class="back-nav__link">
+		<svg
+			class="back-nav__icon"
+			xmlns="http://www.w3.org/2000/svg"
+			width="24"
+			height="24"
+			viewBox="0 0 24 24"
+			fill="none"
+			stroke="currentColor"
+			stroke-width="2"
+			stroke-linecap="round"
+			stroke-linejoin="round"
+			aria-hidden="true"
+		>
+			<path d="M19 12H5M12 19l-7-7 7-7" />
+		</svg>
+		<span class="back-nav__text">Back to home</span>
+	</a>
+</nav>
 
 <style>
-  .back-container {
-    display: flex;
-    justify-content: flex-end;
-    margin-bottom: var(--space-6);
-    width: 100%;
-  }
+	.back-nav {
+		margin-bottom: var(--spacing-xl);
+	}
 
-  .back-link {
-    display: inline-block;
-    color: var(--accent);
-    text-decoration: none;
-    font-size: 1.1em;
-    transition: opacity var(--transition-duration) var(--transition-timing);
-    
-    &:hover {
-      opacity: 0.8;
-    }
-  }
+	.back-nav__link {
+		display: inline-flex;
+		align-items: center;
+		gap: var(--spacing-sm);
+		color: rgb(var(--color-gray));
+		text-decoration: none;
+		font-weight: 500;
+		transition: color 0.2s ease;
+	}
+
+	.back-nav__link:hover {
+		color: var(--color-primary);
+	}
+
+	.back-nav__link:focus {
+		outline: 2px solid var(--color-primary);
+		outline-offset: 2px;
+	}
+
+	.back-nav__icon {
+		width: 20px;
+		height: 20px;
+	}
+
+	.back-nav__text {
+		font-size: var(--font-size-base);
+	}
+
+	@media (max-width: 768px) {
+		.back-nav {
+			margin-bottom: var(--spacing-lg);
+		}
+	}
 </style>
 
 <script>

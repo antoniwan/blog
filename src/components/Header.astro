@@ -10,35 +10,36 @@ const navLinks = [
 ];
 ---
 
-<header class="header">
-	<nav class="nav" aria-label="Main navigation">
-		<div class="nav-container">
-			<a href="/" class="logo" aria-label="Home">
-				<h2>{SITE_TITLE}</h2>
+<header class="header" role="banner">
+	<nav class="header__nav" aria-label="Main navigation">
+		<div class="header__container">
+			<a href="/" class="header__logo" aria-label="Home">
+				<h2 class="header__title">{SITE_TITLE}</h2>
 			</a>
 			
 			<button 
-				class="menu-button"
+				class="header__menu-button"
 				aria-label="Toggle menu"
 				aria-expanded="false"
-				aria-controls="nav-menu"
+				aria-controls="header__nav-menu"
+				aria-haspopup="true"
 			>
-				<span class="menu-icon" aria-hidden="true">
-					<span class="menu-icon-bar"></span>
-					<span class="menu-icon-bar"></span>
-					<span class="menu-icon-bar"></span>
+				<span class="header__menu-icon" aria-hidden="true">
+					<span class="header__menu-icon-bar"></span>
+					<span class="header__menu-icon-bar"></span>
+					<span class="header__menu-icon-bar"></span>
 				</span>
 			</button>
 
-			<div class="nav-right" id="nav-menu">
-				<ul class="nav-links">
+			<div class="header__nav-menu" id="header__nav-menu">
+				<ul class="header__nav-links">
 					{navLinks.map(({ href, label }) => (
-						<li>
+						<li class="header__nav-item">
 							<HeaderLink href={href}>{label}</HeaderLink>
 						</li>
 					))}
 				</ul>
-				<div class="theme-toggle-wrapper">
+				<div class="header__theme-toggle">
 					<ThemeToggle />
 				</div>
 			</div>
@@ -50,196 +51,125 @@ const navLinks = [
 	.header {
 		position: sticky;
 		top: 0;
-		z-index: 100;
-		background: var(--background-color);
-		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-		transition: background-color var(--transition-duration) var(--transition-timing);
-		border-bottom: 1px solid var(--border-color);
+		z-index: var(--z-index-sticky);
+		background-color: #fff;
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 	}
 
-	.nav {
-		padding: 0 var(--space-5);
+	.header__nav {
+		padding: var(--spacing-md) 0;
 	}
 
-	.nav-container {
-		max-width: 720px;
-		margin: 0 auto;
-		padding: var(--space-4) 0;
+	.header__container {
 		display: flex;
-		align-items: center;
 		justify-content: space-between;
+		align-items: center;
+		max-width: 1200px;
+		margin: 0 auto;
+		padding: 0 var(--spacing-md);
 	}
 
-	.logo {
+	.header__logo {
 		text-decoration: none;
-		color: rgb(var(--black));
-		transition: opacity var(--transition-duration) var(--transition-timing);
-		
-		&:hover {
-			opacity: 0.8;
-		}
-		
-		h2 {
-			margin: 0;
-			font-size: 1.25rem;
-			font-weight: 700;
-			letter-spacing: -0.5px;
-		}
+		color: inherit;
 	}
 
-	.menu-button {
+	.header__title {
+		margin: 0;
+		font-size: var(--font-size-xl);
+	}
+
+	.header__menu-button {
 		display: none;
 		background: none;
 		border: none;
-		padding: var(--space-2);
 		cursor: pointer;
-		transition: opacity var(--transition-duration) var(--transition-timing);
-		
-		&:hover {
-			opacity: 0.8;
-		}
+		padding: var(--spacing-sm);
 	}
 
-	.menu-icon {
+	.header__menu-icon {
 		display: block;
 		width: 24px;
 		height: 24px;
 		position: relative;
 	}
 
-	.menu-icon-bar {
+	.header__menu-icon-bar {
 		display: block;
 		width: 100%;
 		height: 2px;
-		background-color: rgb(var(--black));
-		position: absolute;
-		transition: all var(--transition-duration) var(--transition-timing);
-		border-radius: 2px;
-		
-		&:nth-child(1) {
-			top: 6px;
-		}
-		
-		&:nth-child(2) {
-			top: 12px;
-		}
-		
-		&:nth-child(3) {
-			top: 18px;
-		}
+		background-color: currentColor;
+		margin: 4px 0;
+		transition: transform 0.2s ease;
 	}
 
-	.nav-right {
+	.header__nav-menu {
 		display: flex;
 		align-items: center;
-		gap: var(--space-6);
+		gap: var(--spacing-lg);
 	}
 
-	.nav-links {
+	.header__nav-links {
 		display: flex;
-		gap: var(--space-5);
+		gap: var(--spacing-md);
 		list-style: none;
 		margin: 0;
 		padding: 0;
-		
-		a {
-			position: relative;
-			color: rgb(var(--black));
-			text-decoration: none;
-			font-weight: 500;
-			font-size: 0.95rem;
-			padding: var(--space-2) 0;
-			transition: color var(--transition-duration) var(--transition-timing);
-			
-			&:hover {
-				color: var(--accent);
-			}
-			
-			&::after {
-				content: '';
-				position: absolute;
-				bottom: 0;
-				left: 0;
-				width: 100%;
-				height: 2px;
-				background-color: var(--accent);
-				transform: scaleX(0);
-				transform-origin: right;
-				transition: transform var(--transition-duration) var(--transition-timing);
-			}
-			
-			&:hover::after,
-			&.active::after {
-				transform: scaleX(1);
-				transform-origin: left;
-			}
-		}
 	}
 
-	.theme-toggle-wrapper {
-		display: flex;
-		align-items: center;
+	.header__nav-item {
+		margin: 0;
+	}
+
+	.header__theme-toggle {
+		margin-left: var(--spacing-md);
 	}
 
 	@media (max-width: 768px) {
-		.menu-button {
+		.header__menu-button {
 			display: block;
 		}
 
-		.nav-right {
+		.header__nav-menu {
 			position: fixed;
 			top: 0;
-			right: -100%;
-			width: 100%;
-			height: 100vh;
-			background: var(--background-color);
+			left: 0;
+			right: 0;
+			bottom: 0;
+			background-color: #fff;
 			flex-direction: column;
-			padding: var(--space-8) var(--space-6) var(--space-6);
-			transition: right var(--transition-duration) var(--transition-timing);
-			gap: var(--space-8);
-			
-			&[aria-expanded="true"] {
-				right: 0;
-			}
+			justify-content: center;
+			align-items: center;
+			transform: translateX(100%);
+			transition: transform 0.3s ease;
 		}
 
-		.nav-links {
-			flex-direction: column;
-			gap: var(--space-6);
-			width: 100%;
-			
-			a {
-				display: block;
-				padding: var(--space-3) 0;
-				font-size: 1.1rem;
-			}
+		.header__nav-menu[aria-expanded="true"] {
+			transform: translateX(0);
 		}
 
-		.menu-button[aria-expanded="true"] {
-			.menu-icon-bar {
-				&:nth-child(1) {
-					transform: translateY(6px) rotate(45deg);
-				}
-				
-				&:nth-child(2) {
-					opacity: 0;
-				}
-				
-				&:nth-child(3) {
-					transform: translateY(-6px) rotate(-45deg);
-				}
-			}
+		.header__nav-links {
+			flex-direction: column;
+			align-items: center;
+		}
+
+		.header__theme-toggle {
+			margin-left: 0;
+			margin-top: var(--spacing-lg);
 		}
 	}
 </style>
 
 <script>
-	const menuButton = document.querySelector('.menu-button');
-	const navMenu = document.querySelector('.nav-right');
+	// Handle mobile menu toggle
+	const menuButton = document.querySelector('.header__menu-button');
+	const navMenu = document.querySelector('.header__nav-menu');
 
-	menuButton?.addEventListener('click', () => {
-		const isExpanded = menuButton.getAttribute('aria-expanded') === 'true';
-		menuButton.setAttribute('aria-expanded', String(!isExpanded));
-		navMenu?.setAttribute('aria-expanded', String(!isExpanded));
-	});
+	if (menuButton && navMenu) {
+		menuButton.addEventListener('click', () => {
+			const isExpanded = menuButton.getAttribute('aria-expanded') === 'true';
+			menuButton.setAttribute('aria-expanded', String(!isExpanded));
+			navMenu.setAttribute('aria-expanded', String(!isExpanded));
+		});
+	}
 </script>

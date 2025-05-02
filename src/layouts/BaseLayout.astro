@@ -137,187 +137,19 @@ const capitalize = (str: string) => str ? str.charAt(0).toUpperCase() + str.slic
               )}
             </div>
           </header>
-          <div class="content">
+          <section class="content">
             <slot />
-          </div>
+          </section>
         </article>
       )}
       {layoutType === 'default' && (
-        <div class="content">
+        <section class="content">
           <slot />
-        </div>
+        </section>
       )}
     </main>
     <Footer />
     <BackToTop />
     <Analytics />
   </body>
-</html>
-
-<style>
-  /* Layout-specific variables */
-  :root {
-    --reading-width: 65ch;
-    --line-height: 1.75;
-    --letter-spacing: -0.011em;
-  }
-
-  /* Skip link */
-  .skip-link {
-    position: absolute;
-    top: -40px;
-    left: 0;
-    background: var(--accent);
-    color: white;
-    padding: var(--space-2);
-    z-index: 100;
-    transition: top var(--transition-duration) var(--transition-timing);
-    
-    &:focus {
-      top: 0;
-    }
-  }
-
-  /* Content wrapper */
-  .content-wrapper {
-    min-height: calc(100vh - 200px);
-    width: 100%;
-    max-width: none;
-    margin: 0 auto;
-    padding: var(--space-6) var(--space-5);
-    background-color: var(--background-color);
-    transition: background-color var(--transition-duration) var(--transition-timing);
-    
-    @media (min-width: 768px) {
-      padding: var(--space-6) var(--space-8);
-    }
-  }
-
-  /* Content */
-  .content {
-    max-width: var(--content-width);
-    margin: 0 auto;
-  }
-
-  /* Blog post */
-  .blog-post {
-    max-width: var(--content-width-wide);
-    margin: 0 auto;
-  }
-
-  /* Article header */
-  .article-header {
-    margin-bottom: var(--space-8);
-    max-width: var(--content-width);
-    margin-left: auto;
-    margin-right: auto;
-    
-    img {
-      width: 100%;
-      height: auto;
-      border-radius: var(--border-radius);
-      margin-bottom: var(--space-5);
-      box-shadow: var(--shadow-md);
-    }
-    
-    h1 {
-      font-size: var(--font-size-3xl);
-      line-height: 1.2;
-      margin: var(--space-5) 0;
-      font-weight: 800;
-      letter-spacing: -0.025em;
-      color: var(--text-color);
-    }
-  }
-
-  /* Article meta */
-  .article-meta {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: var(--space-4);
-    font-size: var(--font-size-sm);
-    color: var(--secondary-color);
-    margin-bottom: var(--space-6);
-    padding-bottom: var(--space-5);
-    border-bottom: 1px solid var(--border-color);
-  }
-
-  /* Category tags */
-  .category-tags {
-    display: flex;
-    gap: var(--space-2);
-    flex-wrap: wrap;
-  }
-
-  .category-tag {
-    background: var(--accent);
-    color: white;
-    padding: var(--space-2) var(--space-4);
-    border-radius: var(--border-radius);
-    font-size: var(--font-size-sm);
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    text-decoration: none;
-    transition: all var(--transition-duration) var(--transition-timing);
-    box-shadow: var(--shadow-sm);
-    
-    &:hover {
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-md);
-      filter: brightness(1.1);
-    }
-  }
-
-  /* Language tags */
-  .language-tags {
-    display: flex;
-    gap: var(--space-2);
-    flex-wrap: wrap;
-  }
-
-  .language-tag {
-    background: var(--background-color);
-    color: var(--secondary-color);
-    padding: var(--space-2) var(--space-4);
-    border-radius: var(--border-radius);
-    font-size: var(--font-size-sm);
-    font-weight: 500;
-    border: 1px solid var(--border-color);
-  }
-
-  /* Article info */
-  .article-info {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-4);
-    font-size: var(--font-size-sm);
-    color: var(--secondary-color);
-  }
-
-  .pub-date, .updated-date, .reading-time {
-    display: flex;
-    align-items: center;
-    gap: var(--space-2);
-  }
-
-  /* Description */
-  .description {
-    font-size: var(--font-size-lg);
-    line-height: 1.6;
-    color: var(--secondary-color);
-    margin: var(--space-4) 0;
-  }
-
-  /* Subcategory */
-  .subcategory {
-    background: var(--background-color);
-    color: var(--secondary-color);
-    padding: var(--space-2) var(--space-4);
-    border-radius: var(--border-radius);
-    font-size: var(--font-size-sm);
-    font-weight: 500;
-    border: 1px solid var(--border-color);
-  }
-</style> 
+</html> 
