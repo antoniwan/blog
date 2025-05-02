@@ -1,0 +1,137 @@
+---
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<button
+  class:list={['theme-toggle', className]}
+  type="button"
+  aria-label="Toggle theme"
+  data-theme-toggle
+>
+  <svg
+    class="sun-icon"
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  >
+    <circle cx="12" cy="12" r="5" />
+    <line x1="12" y1="1" x2="12" y2="3" />
+    <line x1="12" y1="21" x2="12" y2="23" />
+    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+    <line x1="1" y1="12" x2="3" y2="12" />
+    <line x1="21" y1="12" x2="23" y2="12" />
+    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+  </svg>
+  <svg
+    class="moon-icon"
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  >
+    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+  </svg>
+</button>
+
+<script>
+  // Theme toggle functionality
+  const themeToggle = document.querySelector('[data-theme-toggle]');
+  const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+  
+  type Theme = 'light' | 'dark';
+
+  // Get theme from localStorage or system preference
+  const getTheme = (): Theme => {
+    const savedTheme = localStorage.getItem('theme') as Theme | null;
+    if (savedTheme) return savedTheme;
+    return prefersDarkScheme.matches ? 'dark' : 'light';
+  };
+
+  // Set theme
+  const setTheme = (theme: Theme) => {
+    document.documentElement.classList.toggle('dark', theme === 'dark');
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+  };
+
+  // Initialize theme
+  setTheme(getTheme());
+
+  // Toggle theme on click
+  themeToggle?.addEventListener('click', () => {
+    const currentTheme = getTheme();
+    setTheme(currentTheme === 'dark' ? 'light' : 'dark');
+  });
+
+  // Listen for system theme changes
+  prefersDarkScheme.addEventListener('change', (e) => {
+    if (!localStorage.getItem('theme')) {
+      setTheme(e.matches ? 'dark' : 'light');
+    }
+  });
+</script>
+
+<style>
+  .theme-toggle {
+    background: none;
+    border: none;
+    padding: 0.5rem;
+    cursor: pointer;
+    color: var(--text-color);
+    transition: color 0.3s ease;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .theme-toggle:hover {
+    color: var(--accent-color);
+    background-color: var(--code-bg);
+  }
+
+  .theme-toggle svg {
+    width: 1.25rem;
+    height: 1.25rem;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+
+  .theme-toggle .sun-icon {
+    position: absolute;
+    opacity: 0;
+    transform: scale(0.5);
+  }
+
+  .theme-toggle .moon-icon {
+    position: relative;
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  [data-theme="dark"] .theme-toggle .sun-icon {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  [data-theme="dark"] .theme-toggle .moon-icon {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+</style> 

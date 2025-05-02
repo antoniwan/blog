@@ -5,7 +5,7 @@ import BaseHead from '../components/BaseHead.astro';
 import BackToTop from '../components/BackToTop.astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 import Analytics from '@vercel/analytics/astro';
-import { ViewTransitions } from 'astro:transitions';
+
 
 interface Props {
   title: string;
@@ -20,7 +20,6 @@ const { title, description = SITE_DESCRIPTION } = Astro.props;
   <head>
     <BaseHead title={title} description={description} />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <ViewTransitions />
   </head>
   <body>
     <Header />
@@ -34,6 +33,37 @@ const { title, description = SITE_DESCRIPTION } = Astro.props;
 </html>
 
 <style>
+  :root {
+    /* Light theme colors */
+    --background-color: #ffffff;
+    --text-color: #1a1a1a;
+    --accent-color: #0070f3;
+    --secondary-color: #666666;
+    --border-color: #eaeaea;
+    --code-bg: #f6f8fa;
+    --code-text: #24292e;
+    --blockquote-bg: #f8f8f8;
+    --blockquote-border: #eaeaea;
+  }
+
+  .dark {
+    --background-color: #111111;
+    --text-color: #ffffff;
+    --accent-color: #3291ff;
+    --secondary-color: #888888;
+    --border-color: #333333;
+    --code-bg: #1e1e1e;
+    --code-text: #d4d4d4;
+    --blockquote-bg: #1a1a1a;
+    --blockquote-border: #333333;
+  }
+
+  body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
   main {
     min-height: calc(100vh - 200px);
     width: 100%;
