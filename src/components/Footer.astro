@@ -2,8 +2,8 @@
 import { SITE_TITLE } from '../consts';
 ---
 
-<footer class="bg-gray-light/50 dark:bg-gray-dark/50 py-16 mt-24 border-t border-gray-200 dark:border-gray-800 transition-colors duration-300" role="contentinfo">
-	<div class="container mx-auto px-4 md:px-8">
+<footer class="relative bg-gradient-to-b from-gray-light/30 to-gray-light/50 dark:from-gray-dark/30 dark:to-gray-dark/50 py-16 mt-24 border-t border-gray-200 dark:border-gray-800 transition-colors duration-300" role="contentinfo">
+	<div class="max-w-5xl mx-auto px-4 md:px-8">
 		<div class="grid md:grid-cols-3 gap-12 mb-12">
 			<section class="max-w-md">
 				<h2 class="text-2xl font-serif font-bold mb-4 text-text dark:text-gray-light group">
@@ -98,6 +98,13 @@ import { SITE_TITLE } from '../consts';
 		* {
 			transition: none !important;
 			animation: none !important;
+		}
+	}
+
+	@media (max-width: 768px) {
+		footer nav[aria-label="Footer navigation"] {
+			grid-template-columns: 1fr;
+			gap: 2rem;
 		}
 	}
 </style>
