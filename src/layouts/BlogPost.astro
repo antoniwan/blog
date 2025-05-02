@@ -34,28 +34,15 @@ const languageEmojis = {
 };
 
 const categoryEmojis: Record<string, string> = {
-	technology: '💻',
-	programming: '👨‍💻',
-	web: '🌐',
-	security: '🔒',
-	devops: '🔄',
-	cloud: '☁️',
-	ai: '🤖',
-	blockchain: '⛓️',
-	'web-development': '🖥️',
-	'cyber-security': '🛡️',
-	'cloud-computing': '☁️',
-	'devops-practices': '🔄',
-	'programming-languages': '📝',
-	'data-science': '📊',
-	'blockchain-technology': '⛓️',
-	'web-design': '🎨',
-	'web-security': '🔐',
-	'cloud-security': '☁️🔒',
-	'devops-tools': '🛠️',
-	'programming-tips': '💡',
-	'data-analysis': '📈',
-	'blockchain-development': '⛓️💻'
+	'art-expression': '🎵',
+	'diy-creation': '🛠️',
+	'integration-growth': '🧘🏽‍♂️',
+	'learning-projects': '📚',
+	'metaspace': '🌀',
+	'parenting': '👨‍👩‍👧‍👦',
+	'politics': '⚖️',
+	'psychology': '🧠',
+	'systems-strategy': '💻'
 };
 
 const capitalize = (str: string) => str ? str.charAt(0).toUpperCase() + str.slice(1) : '';
@@ -83,12 +70,12 @@ const capitalize = (str: string) => str ? str.charAt(0).toUpperCase() + str.slic
 					<div class="content">
 						<div class="metadata">
 							<nav class="category-nav" aria-label="Post categories">
-								{category && (
-									<a href={`/categories/${category.toLowerCase()}/`} class="category-link">
-										{categoryEmojis[category.toLowerCase()] || '📝'} {capitalize(category)}
+								{category && category.map((cat) => (
+									<a href={`/categories/${cat.toLowerCase()}/`} class="category-link">
+										{categoryEmojis[cat] || '📝'} {capitalize(cat)}
 										{subcategory && ` / ${capitalize(subcategory)}`}
 									</a>
-								)}
+								))}
 							</nav>
 							<span class="separator">•</span>
 							<FormattedDate date={pubDate} />
