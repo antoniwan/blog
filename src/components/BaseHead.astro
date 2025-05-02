@@ -67,18 +67,56 @@ const updatedDateISO = updatedDate ? formatDate(updatedDate) : undefined;
 // Generate structured data
 const structuredData = {
 	"@context": "https://schema.org",
-	"@type": "WebSite",
-	"name": SITE_TITLE,
-	"description": description,
-	"url": Astro.site,
-	"publisher": {
-		"@type": "Organization",
-		"name": SITE_TITLE,
-		"logo": {
-			"@type": "ImageObject",
-			"url": new URL('/favicon.svg', Astro.site)
-		}
-	}
+	"@graph": [
+		{
+			"@type": "WebSite",
+			"name": SITE_TITLE,
+			"description": description,
+			"url": Astro.site,
+			"publisher": {
+				"@type": "Organization",
+				"name": SITE_TITLE,
+				"logo": {
+					"@type": "ImageObject",
+					"url": new URL('/favicon.svg', Astro.site)
+				}
+			},
+			"potentialAction": {
+				"@type": "SearchAction",
+				"target": {
+					"@type": "EntryPoint",
+					"urlTemplate": `${Astro.site}search?q={search_term_string}`
+				},
+				"query-input": "required name=search_term_string"
+			}
+		},
+		...(pubDate ? [{
+			"@type": "Article",
+			"headline": title,
+			"description": description,
+			"image": new URL(finalOgImage, Astro.url),
+			"datePublished": pubDateISO,
+			"dateModified": updatedDateISO || pubDateISO,
+			"author": {
+				"@type": "Person",
+				"name": author
+			},
+			"publisher": {
+				"@type": "Organization",
+				"name": SITE_TITLE,
+				"logo": {
+					"@type": "ImageObject",
+					"url": new URL('/favicon.svg', Astro.site)
+				}
+			},
+			"mainEntityOfPage": {
+				"@type": "WebPage",
+				"@id": Astro.url
+			},
+			"keywords": keywords.join(', '),
+			"inLanguage": locale.split('_')[0]
+		}] : [])
+	]
 };
 ---
 
@@ -133,17 +171,24 @@ const structuredData = {
 <meta property="og:image:type" content="image/png" />
 <meta property="og:site_name" content={SITE_TITLE} />
 <meta property="og:locale" content={locale} />
+<meta property="og:determiner" content="the" />
+<meta property="og:see_also" content={Astro.site} />
 {pubDateISO && <meta property="article:published_time" content={pubDateISO} />}
 {updatedDateISO && <meta property="article:modified_time" content={updatedDateISO} />}
-
-<!-- Twitter -->
-<meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:site" content="@yourtwitterhandle" />
-<meta name="twitter:creator" content="@yourtwitterhandle" />
-<meta name="twitter:title" content={title} />
-<meta name="twitter:description" content={description} />
-<meta name="twitter:image" content={new URL(finalOgImage, Astro.url)} />
-<meta name="twitter:image:alt" content={finalOgImageAlt} />
+<meta property="article:author" content={author} />
+{keywords.length > 0 && keywords.map(keyword => (
+	<meta property="article:tag" content={keyword} />
+))}
 
 <!-- Structured Data -->
 <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+
+<!-- Additional Meta Tags -->
+<meta name="application-name" content={SITE_TITLE} />
+<meta name="apple-mobile-web-app-title" content={SITE_TITLE} />
+<meta name="format-detection" content="telephone=no" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="msapplication-TileColor" content="#0070f3" />
+<meta name="msapplication-config" content="/browserconfig.xml" />
+<meta name="theme-color" content="#0070f3" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#111111" media="(prefers-color-scheme: dark)" />
