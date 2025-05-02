@@ -10,36 +10,39 @@ const navLinks = [
 ];
 ---
 
-<header class="header" role="banner">
-	<nav class="header__nav" aria-label="Main navigation">
-		<div class="header__container">
-			<a href="/" class="header__logo" aria-label="Home">
-				<h2 class="header__title">{SITE_TITLE}</h2>
+<header class="sticky top-0 z-sticky bg-background shadow-sm dark:bg-gray-dark" role="banner">
+	<nav class="py-4" aria-label="Main navigation">
+		<div class="container mx-auto px-4 md:px-8 flex justify-between items-center">
+			<a href="/" class="no-underline text-inherit" aria-label="Home">
+				<h2 class="m-0 text-xl md:text-2xl font-bold">{SITE_TITLE}</h2>
 			</a>
 			
 			<button 
-				class="header__menu-button"
+				class="md:hidden bg-transparent border-none cursor-pointer p-2"
 				aria-label="Toggle menu"
 				aria-expanded="false"
 				aria-controls="header__nav-menu"
 				aria-haspopup="true"
 			>
-				<span class="header__menu-icon" aria-hidden="true">
-					<span class="header__menu-icon-bar"></span>
-					<span class="header__menu-icon-bar"></span>
-					<span class="header__menu-icon-bar"></span>
+				<span class="block w-6 h-6 relative" aria-hidden="true">
+					<span class="block w-full h-0.5 bg-current my-1 transition-transform"></span>
+					<span class="block w-full h-0.5 bg-current my-1 transition-transform"></span>
+					<span class="block w-full h-0.5 bg-current my-1 transition-transform"></span>
 				</span>
 			</button>
 
-			<div class="header__nav-menu" id="header__nav-menu">
-				<ul class="header__nav-links">
+			<div 
+				class="md:flex md:items-center md:gap-6 fixed md:static top-0 left-0 right-0 bottom-0 bg-background dark:bg-gray-dark flex-col justify-center items-center transform md:transform-none transition-transform duration-300 translate-x-full md:translate-x-0"
+				id="header__nav-menu"
+			>
+				<ul class="flex md:flex-row flex-col gap-4 md:gap-6 list-none m-0 p-0">
 					{navLinks.map(({ href, label }) => (
-						<li class="header__nav-item">
+						<li class="m-0">
 							<HeaderLink href={href}>{label}</HeaderLink>
 						</li>
 					))}
 				</ul>
-				<div class="header__theme-toggle">
+				<div class="md:ml-4 mt-6 md:mt-0">
 					<ThemeToggle />
 				</div>
 			</div>
@@ -47,129 +50,16 @@ const navLinks = [
 	</nav>
 </header>
 
-<style>
-	.header {
-		position: sticky;
-		top: 0;
-		z-index: var(--z-index-sticky);
-		background-color: #fff;
-		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-	}
-
-	.header__nav {
-		padding: var(--spacing-md) 0;
-	}
-
-	.header__container {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		max-width: 1200px;
-		margin: 0 auto;
-		padding: 0 var(--spacing-md);
-	}
-
-	.header__logo {
-		text-decoration: none;
-		color: inherit;
-	}
-
-	.header__title {
-		margin: 0;
-		font-size: var(--font-size-xl);
-	}
-
-	.header__menu-button {
-		display: none;
-		background: none;
-		border: none;
-		cursor: pointer;
-		padding: var(--spacing-sm);
-	}
-
-	.header__menu-icon {
-		display: block;
-		width: 24px;
-		height: 24px;
-		position: relative;
-	}
-
-	.header__menu-icon-bar {
-		display: block;
-		width: 100%;
-		height: 2px;
-		background-color: currentColor;
-		margin: 4px 0;
-		transition: transform 0.2s ease;
-	}
-
-	.header__nav-menu {
-		display: flex;
-		align-items: center;
-		gap: var(--spacing-lg);
-	}
-
-	.header__nav-links {
-		display: flex;
-		gap: var(--spacing-md);
-		list-style: none;
-		margin: 0;
-		padding: 0;
-	}
-
-	.header__nav-item {
-		margin: 0;
-	}
-
-	.header__theme-toggle {
-		margin-left: var(--spacing-md);
-	}
-
-	@media (max-width: 768px) {
-		.header__menu-button {
-			display: block;
-		}
-
-		.header__nav-menu {
-			position: fixed;
-			top: 0;
-			left: 0;
-			right: 0;
-			bottom: 0;
-			background-color: #fff;
-			flex-direction: column;
-			justify-content: center;
-			align-items: center;
-			transform: translateX(100%);
-			transition: transform 0.3s ease;
-		}
-
-		.header__nav-menu[aria-expanded="true"] {
-			transform: translateX(0);
-		}
-
-		.header__nav-links {
-			flex-direction: column;
-			align-items: center;
-		}
-
-		.header__theme-toggle {
-			margin-left: 0;
-			margin-top: var(--spacing-lg);
-		}
-	}
-</style>
-
 <script>
 	// Handle mobile menu toggle
-	const menuButton = document.querySelector('.header__menu-button');
-	const navMenu = document.querySelector('.header__nav-menu');
+	const menuButton = document.querySelector('button[aria-controls="header__nav-menu"]');
+	const navMenu = document.getElementById('header__nav-menu');
 
 	if (menuButton && navMenu) {
 		menuButton.addEventListener('click', () => {
 			const isExpanded = menuButton.getAttribute('aria-expanded') === 'true';
 			menuButton.setAttribute('aria-expanded', String(!isExpanded));
-			navMenu.setAttribute('aria-expanded', String(!isExpanded));
+			navMenu.classList.toggle('translate-x-full');
 		});
 	}
 </script>

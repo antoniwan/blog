@@ -121,3 +121,32 @@ All commands are run from the root of the project, from a terminal:
 ## Credit
 
 This theme is based off of the lovely [Bear Blog](https://github.com/HermanMartinus/bearblog/).
+
+## Styling System
+
+The blog uses Tailwind CSS for styling, providing a utility-first approach that ensures consistency, performance, and maintainability. The styling system includes:
+
+- **Design Tokens**: Custom colors, typography, spacing, and z-index scales defined in `tailwind.config.js`
+- **Dark Mode**: Automatic dark mode support using CSS variables and Tailwind's dark mode utilities
+- **Responsive Design**: Mobile-first approach with consistent breakpoints
+- **Typography**: Custom font families and responsive type scale
+- **Component Styles**: Base styles for common elements (headings, links, forms, etc.)
+- **Accessibility**: Built-in accessibility features and utilities
+
+### Directory Structure
+
+```
+src/
+├── styles/
+│   └── global.css      # Global styles and Tailwind imports
+├── components/         # Reusable components
+└── layouts/           # Page layouts
+```
+
+### Key Features
+
+- **Performance**: Tailwind's JIT compiler and purge settings ensure minimal CSS output
+- **Maintainability**: Utility-first approach reduces CSS specificity issues
+- **Consistency**: Design tokens ensure visual consistency across components
+- **Developer Experience**: Rapid prototyping with utility classes
+- **Dark Mode**: Automatic dark mode support with CSS variables
