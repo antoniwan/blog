@@ -5,30 +5,60 @@ export default {
   theme: {
     extend: {
       colors: {
+        // Primary colors
         primary: {
-          DEFAULT: "#2337ff",
-          dark: "#4d5eff",
+          50: "#e6e8ff",
+          100: "#c4c9ff",
+          200: "#a2aaff",
+          300: "#808bff",
+          400: "#5e6cff",
+          500: "#2337ff", // DEFAULT
+          600: "#1c2ccc",
+          700: "#152199",
+          800: "#0e1666",
+          900: "#070b33",
         },
-        gray: {
-          light: "#E5E9F0",
-          DEFAULT: "#60739F",
-          dark: "#1A1F2E",
+        // Neutral colors
+        neutral: {
+          50: "#f8f9fa",
+          100: "#f1f3f5",
+          200: "#e9ecef",
+          300: "#dee2e6",
+          400: "#ced4da",
+          500: "#adb5bd",
+          600: "#868e96",
+          700: "#495057",
+          800: "#343a40",
+          900: "#212529",
         },
-        black: "#0F1219",
+        // Semantic colors
         background: {
           DEFAULT: "#FFFFFF",
           dark: "#0F1219",
+          subtle: {
+            DEFAULT: "#f8f9fa",
+            dark: "#1A1F2E",
+          },
         },
         text: {
           DEFAULT: "#0F1219",
           dark: "#E5E9F0",
+          subtle: {
+            DEFAULT: "#495057",
+            dark: "#868e96",
+          },
         },
         border: {
           DEFAULT: "rgba(229, 233, 240, 0.5)",
           dark: "rgba(229, 233, 240, 0.1)",
+          subtle: {
+            DEFAULT: "rgba(229, 233, 240, 0.3)",
+            dark: "rgba(229, 233, 240, 0.05)",
+          },
         },
+        // Component-specific colors
         "code-bg": {
-          DEFAULT: "#E5E9F0",
+          DEFAULT: "#f8f9fa",
           dark: "#1A1F2E",
         },
         "blockquote-bg": {
@@ -38,6 +68,23 @@ export default {
         "blockquote-border": {
           DEFAULT: "#2337ff",
           dark: "#4d5eff",
+        },
+        // Status colors
+        success: {
+          DEFAULT: "#28a745",
+          dark: "#34d058",
+        },
+        warning: {
+          DEFAULT: "#ffc107",
+          dark: "#ffd33d",
+        },
+        error: {
+          DEFAULT: "#dc3545",
+          dark: "#f85149",
+        },
+        info: {
+          DEFAULT: "#17a2b8",
+          dark: "#79e0e8",
         },
       },
       fontFamily: {
@@ -99,11 +146,12 @@ export default {
               textDecoration: "none",
               fontWeight: "500",
               "&:hover": {
-                color: "var(--tw-color-primary)",
+                color: "var(--tw-color-primary-500)",
               },
             },
             strong: {
               color: "inherit",
+              fontWeight: "600",
             },
             code: {
               color: "inherit",
@@ -125,6 +173,9 @@ export default {
               borderLeftWidth: "0.25rem",
               borderLeftColor: "var(--tw-color-blockquote-border)",
               quotes: '"\\201C""\\201D""\\2018""\\2019"',
+              backgroundColor: "var(--tw-color-blockquote-bg)",
+              padding: "1rem 1.5rem",
+              borderRadius: "0 0.5rem 0.5rem 0",
             },
             "blockquote p:first-of-type::before": {
               content: "open-quote",
@@ -134,15 +185,23 @@ export default {
             },
             h1: {
               color: "inherit",
+              fontWeight: "800",
+              letterSpacing: "-0.025em",
             },
             h2: {
               color: "inherit",
+              fontWeight: "700",
+              letterSpacing: "-0.025em",
             },
             h3: {
               color: "inherit",
+              fontWeight: "600",
+              letterSpacing: "-0.025em",
             },
             h4: {
               color: "inherit",
+              fontWeight: "600",
+              letterSpacing: "-0.025em",
             },
           },
         },
