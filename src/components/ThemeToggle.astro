@@ -1,22 +1,12 @@
 ---
-const theme = {
-	light: {
-		label: 'Switch to dark mode',
-		icon: '🌙'
-	},
-	dark: {
-		label: 'Switch to light mode',
-		icon: '☀️'
-	}
-};
 ---
 
 <button
 	class="theme-toggle"
-	aria-label={theme.light.label}
-	title={theme.light.label}
+	aria-label="Switch to dark mode"
+	title="Switch to dark mode"
 >
-	<span class="theme-toggle__icon" aria-hidden="true">{theme.light.icon}</span>
+	<span class="theme-toggle__icon" aria-hidden="true">🌙</span>
 </button>
 
 <style>
@@ -60,8 +50,19 @@ const theme = {
 </style>
 
 <script>
-	// Get theme preference from localStorage or system preference
-	const getThemePreference = (): 'light' | 'dark' => {
+	const theme = {
+		light: {
+			label: 'Switch to dark mode',
+			icon: '🌙'
+		},
+		dark: {
+			label: 'Switch to light mode',
+			icon: '☀️'
+		}
+	};
+
+	// Get current theme from localStorage or system preference
+	const getCurrentTheme = () => {
 		const savedTheme = localStorage.getItem('theme') as 'light' | 'dark' | null;
 		if (savedTheme) return savedTheme;
 		return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
@@ -75,25 +76,37 @@ const theme = {
 
 	// Initialize theme
 	const initTheme = () => {
-		const theme = getThemePreference();
-		setTheme(theme);
+		const currentTheme = getCurrentTheme();
+		setTheme(currentTheme);
 	};
 
 	// Handle theme toggle
 	const handleThemeToggle = () => {
-		const currentTheme = document.documentElement.getAttribute('data-theme');
+		const currentTheme = document.documentElement.getAttribute('data-theme') as 'light' | 'dark';
 		const newTheme = currentTheme === 'light' ? 'dark' : 'light';
 		setTheme(newTheme);
+		
+		// Update button attributes
+		const button = document.querySelector('.theme-toggle');
+		if (button) {
+			const newThemeData = theme[newTheme];
+			button.setAttribute('aria-label', newThemeData.label);
+			button.setAttribute('title', newThemeData.label);
+			const icon = button.querySelector('.theme-toggle__icon');
+			if (icon) {
+				icon.textContent = newThemeData.icon;
+			}
+		}
 	};
 
-	// Add event listeners
+	// Initialize theme on load
+	initTheme();
+
+	// Add event listener for theme toggle
 	document.addEventListener('DOMContentLoaded', () => {
 		const themeToggle = document.querySelector('.theme-toggle');
 		if (themeToggle) {
 			themeToggle.addEventListener('click', handleThemeToggle);
 		}
 	});
-
-	// Initialize theme on load
-	initTheme();
 </script> 

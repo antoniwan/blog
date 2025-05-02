@@ -78,6 +78,26 @@
   --z-index-modal: 1050;
   --z-index-popover: 1060;
   --z-index-tooltip: 1070;
+
+  /* Theme Colors */
+  --background-color: #fff;
+  --text-color: rgb(var(--color-black));
+  --secondary-color: rgb(var(--color-gray));
+  --border-color: rgba(var(--color-gray-light), 0.5);
+  --code-bg: rgb(var(--color-gray-light));
+  --blockquote-bg: rgba(var(--color-gray-light), 0.2);
+  --blockquote-border: var(--color-primary);
+}
+
+/* Dark Theme */
+[data-theme="dark"] {
+  --background-color: rgb(var(--color-gray-dark));
+  --text-color: rgb(var(--color-gray-light));
+  --secondary-color: rgba(var(--color-gray-light), 0.7);
+  --border-color: rgba(var(--color-gray-light), 0.2);
+  --code-bg: rgba(var(--color-gray-light), 0.1);
+  --blockquote-bg: rgba(var(--color-gray-light), 0.1);
+  --blockquote-border: var(--color-primary);
 }
 
 /* ==========================================================================
