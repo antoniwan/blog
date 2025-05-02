@@ -1,0 +1,67 @@
+---
+interface Props {
+	content: string;
+	author?: string;
+	cite?: string;
+}
+
+const { content, author, cite } = Astro.props;
+---
+
+<blockquote class="blockquote relative pl-8 py-4 my-8 border-l-4 border-primary/50 dark:border-primary/30">
+	<div class="absolute left-0 top-0 w-4 h-4 bg-primary/50 dark:bg-primary/30 rounded-full"></div>
+	<div class="absolute left-0 bottom-0 w-4 h-4 bg-primary/50 dark:bg-primary/30 rounded-full"></div>
+	
+	<div class="relative z-10">
+		<p class="text-xl font-serif italic text-gray-dark dark:text-gray-light leading-relaxed">
+			{content}
+		</p>
+		
+		{author && (
+			<footer class="mt-4 text-right">
+				<cite class="not-italic font-medium text-primary dark:text-primary-light">
+					{author}
+					{cite && (
+						<>
+							, <a href={cite} class="text-gray dark:text-gray-light hover:text-primary dark:hover:text-primary-light transition-colors duration-200" target="_blank" rel="noopener noreferrer">source</a>
+						</>
+					)}
+				</cite>
+			</footer>
+		)}
+	</div>
+</blockquote>
+
+<style>
+	.blockquote {
+		position: relative;
+		transition: all 0.3s ease-in-out;
+	}
+
+	.blockquote:hover {
+		transform: translateX(4px);
+	}
+
+	.blockquote::before {
+		content: '"';
+		position: absolute;
+		top: -1rem;
+		left: 1rem;
+		font-size: 4rem;
+		font-family: serif;
+		color: var(--tw-color-primary)/0.1;
+		line-height: 1;
+		z-index: 0;
+	}
+
+	/* Respect reduced motion preferences */
+	@media (prefers-reduced-motion: reduce) {
+		.blockquote {
+			transition: none;
+		}
+		
+		.blockquote:hover {
+			transform: none;
+		}
+	}
+</style> 

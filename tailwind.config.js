@@ -39,17 +39,20 @@ export default {
       },
       fontFamily: {
         sans: ["Inter", "system-ui", "sans-serif"],
+        serif: ["Charter", "Georgia", "serif"],
         mono: ["JetBrains Mono", "ui-monospace", "monospace"],
       },
       fontSize: {
-        xs: ["0.75rem", { lineHeight: "1.2" }],
-        sm: ["0.875rem", { lineHeight: "1.375" }],
-        base: ["1rem", { lineHeight: "1.5" }],
-        lg: ["1.125rem", { lineHeight: "1.625" }],
-        xl: ["1.25rem", { lineHeight: "1.625" }],
-        "2xl": ["1.5rem", { lineHeight: "1.2" }],
-        "3xl": ["1.875rem", { lineHeight: "1.2" }],
-        "4xl": ["2.25rem", { lineHeight: "1.2" }],
+        xs: ["0.75rem", { lineHeight: "1.4" }],
+        sm: ["0.875rem", { lineHeight: "1.5" }],
+        base: ["1.125rem", { lineHeight: "1.6" }],
+        lg: ["1.25rem", { lineHeight: "1.6" }],
+        xl: ["1.5rem", { lineHeight: "1.4" }],
+        "2xl": ["1.875rem", { lineHeight: "1.3" }],
+        "3xl": ["2.25rem", { lineHeight: "1.2" }],
+        "4xl": ["2.75rem", { lineHeight: "1.1" }],
+        "5xl": ["3.5rem", { lineHeight: "1.1" }],
+        "6xl": ["4.5rem", { lineHeight: "1" }],
       },
       spacing: {
         xs: "0.25rem",
@@ -58,6 +61,14 @@ export default {
         lg: "1.5rem",
         xl: "2rem",
         "2xl": "3rem",
+        "3xl": "4rem",
+        "4xl": "6rem",
+        "5xl": "8rem",
+      },
+      maxWidth: {
+        reading: "65ch",
+        wide: "85ch",
+        full: "100%",
       },
       letterSpacing: {
         tighter: "-0.05em",
@@ -74,6 +85,64 @@ export default {
         modal: "1050",
         popover: "1060",
         tooltip: "1070",
+      },
+      typography: {
+        DEFAULT: {
+          css: {
+            maxWidth: "65ch",
+            color: "inherit",
+            a: {
+              color: "inherit",
+              textDecoration: "none",
+              fontWeight: "500",
+              "&:hover": {
+                color: "var(--tw-color-primary)",
+              },
+            },
+            strong: {
+              color: "inherit",
+            },
+            code: {
+              color: "inherit",
+              fontWeight: "400",
+              backgroundColor: "var(--tw-color-code-bg)",
+              borderRadius: "0.25rem",
+              padding: "0.2em 0.4em",
+            },
+            "code::before": {
+              content: '""',
+            },
+            "code::after": {
+              content: '""',
+            },
+            blockquote: {
+              fontWeight: "500",
+              fontStyle: "italic",
+              color: "inherit",
+              borderLeftWidth: "0.25rem",
+              borderLeftColor: "var(--tw-color-blockquote-border)",
+              quotes: '"\\201C""\\201D""\\2018""\\2019"',
+            },
+            "blockquote p:first-of-type::before": {
+              content: "open-quote",
+            },
+            "blockquote p:last-of-type::after": {
+              content: "close-quote",
+            },
+            h1: {
+              color: "inherit",
+            },
+            h2: {
+              color: "inherit",
+            },
+            h3: {
+              color: "inherit",
+            },
+            h4: {
+              color: "inherit",
+            },
+          },
+        },
       },
     },
   },

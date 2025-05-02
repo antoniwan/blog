@@ -1,0 +1,57 @@
+---
+interface Props {
+	src: string;
+	alt: string;
+	width?: number;
+	height?: number;
+	class?: string;
+	loading?: 'lazy' | 'eager';
+	priority?: boolean;
+}
+
+const { src, alt, width, height, class: className, loading = 'lazy', priority = false } = Astro.props;
+---
+
+<div class="image-container relative overflow-hidden">
+	<img
+		src={src}
+		alt={alt}
+		width={width}
+		height={height}
+		class={`image ${className || ''} ${loading === 'lazy' ? 'blur-sm' : ''} transition-all duration-300`}
+		loading={loading}
+		decoding={priority ? 'sync' : 'async'}
+		onload="this.classList.remove('blur-sm')"
+	/>
+	<div class="image-placeholder absolute inset-0 bg-gray-light/20 dark:bg-gray/20 transition-opacity duration-300"></div>
+</div>
+
+<style>
+	.image-container {
+		background-color: var(--tw-color-gray-light);
+	}
+
+	.image {
+		display: block;
+		width: 100%;
+		height: auto;
+		object-fit: cover;
+	}
+
+	.image-placeholder {
+		opacity: 1;
+		transition: opacity 300ms cubic-bezier(0.4, 0, 0.2, 1);
+	}
+
+	.image.loaded + .image-placeholder {
+		opacity: 0;
+	}
+
+	/* Respect reduced motion preferences */
+	@media (prefers-reduced-motion: reduce) {
+		.image,
+		.image-placeholder {
+			transition: none;
+		}
+	}
+</style> 

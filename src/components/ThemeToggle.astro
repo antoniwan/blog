@@ -2,11 +2,11 @@
 ---
 
 <button
-	class="theme-toggle flex items-center justify-center w-10 h-10 p-2 bg-transparent border-none rounded-full cursor-pointer transition-all duration-300 hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-2 focus:outline-primary focus:outline-offset-2 text-text hover:text-primary active:scale-95"
+	class="theme-toggle group flex items-center justify-center w-10 h-10 p-2 bg-transparent border-none rounded-full cursor-pointer transition-all duration-300 hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 focus:ring-offset-background dark:focus:ring-offset-gray-dark text-text hover:text-primary active:scale-95"
 	aria-label="Switch to dark mode"
 	title="Switch to dark mode"
 >
-	<span class="text-lg leading-none transform transition-transform duration-300" aria-hidden="true">🌙</span>
+	<span class="text-lg leading-none transform transition-all duration-300 group-hover:scale-110" aria-hidden="true">🌙</span>
 </button>
 
 <script>
@@ -60,11 +60,11 @@
 			button.setAttribute('title', newThemeData.label);
 			const icon = button.querySelector('span');
 			if (icon) {
-				// Add rotation animation
-				icon.style.transform = 'rotate(180deg)';
+				// Add rotation and scale animation
+				icon.style.transform = 'rotate(180deg) scale(0.8)';
 				setTimeout(() => {
 					icon.textContent = newThemeData.icon;
-					icon.style.transform = 'rotate(0deg)';
+					icon.style.transform = 'rotate(0deg) scale(1)';
 				}, 150);
 			}
 		}
@@ -78,6 +78,14 @@
 		const themeToggle = document.querySelector('.theme-toggle');
 		if (themeToggle) {
 			themeToggle.addEventListener('click', handleThemeToggle);
+			
+			// Add keyboard navigation support
+			themeToggle.addEventListener('keydown', (event) => {
+				if ((event as KeyboardEvent).key === 'Enter' || (event as KeyboardEvent).key === ' ') {
+					event.preventDefault();
+					handleThemeToggle();
+				}
+			});
 		}
 	});
 </script>
@@ -85,6 +93,19 @@
 <style>
 	/* Add smooth theme transition */
 	.theme-transition {
-		transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+		transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+		            color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+		            border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+	}
+
+	/* Add reduced motion support */
+	@media (prefers-reduced-motion: reduce) {
+		.theme-transition {
+			transition: none;
+		}
+		
+		.theme-toggle span {
+			transition: none;
+		}
 	}
 </style> 

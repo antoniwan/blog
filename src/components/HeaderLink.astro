@@ -11,8 +11,16 @@ const isActive = href === pathname || href === '/' + (subpath?.[0] || '');
 
 <a 
 	href={href} 
-	class="relative text-text dark:text-gray-light no-underline font-medium text-base md:text-lg py-2 transition-all duration-200 hover:text-primary dark:hover:text-primary after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-primary after:scale-x-0 after:origin-right after:transition-transform after:duration-300 hover:after:scale-x-100 hover:after:origin-left aria-[current=page]:text-primary aria-[current=page]:after:scale-x-100 aria-[current=page]:font-semibold"
+	class="group relative text-text dark:text-gray-light no-underline font-medium text-base md:text-lg py-2 transition-all duration-300 hover:text-primary dark:hover:text-primary focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 focus:ring-offset-background dark:focus:ring-offset-gray-dark rounded-lg after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-primary after:scale-x-0 after:origin-right after:transition-transform after:duration-300 after:ease-out-cubic hover:after:scale-x-100 hover:after:origin-left aria-[current=page]:text-primary aria-[current=page]:after:scale-x-100 aria-[current=page]:font-semibold aria-[current=page]:after:bg-primary/80"
 	aria-current={isActive ? 'page' : undefined}
 >
-	<slot />
+	<span class="relative z-10">
+		<slot />
+	</span>
 </a>
+
+<style>
+	:global(.ease-out-cubic) {
+		transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+	}
+</style>

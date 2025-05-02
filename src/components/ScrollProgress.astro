@@ -1,0 +1,41 @@
+<div class="scroll-progress fixed top-0 left-0 right-0 h-1 bg-primary/20 z-50">
+	<div class="scroll-progress__bar h-full bg-primary transition-transform duration-200 origin-left" style="transform: scaleX(0);"></div>
+</div>
+
+<script>
+	// Handle scroll progress
+	const scrollProgress = document.querySelector('.scroll-progress__bar') as HTMLElement;
+	
+	if (scrollProgress) {
+		const updateProgress = () => {
+			const windowHeight = window.innerHeight;
+			const documentHeight = document.documentElement.scrollHeight - windowHeight;
+			const scrollPosition = window.scrollY;
+			const progress = scrollPosition / documentHeight;
+			
+			scrollProgress.style.transform = `scaleX(${progress})`;
+		};
+		
+		// Update on scroll
+		window.addEventListener('scroll', () => {
+			requestAnimationFrame(updateProgress);
+		});
+		
+		// Update on resize
+		window.addEventListener('resize', () => {
+			requestAnimationFrame(updateProgress);
+		});
+		
+		// Initial update
+		updateProgress();
+	}
+</script>
+
+<style>
+	/* Respect reduced motion preferences */
+	@media (prefers-reduced-motion: reduce) {
+		.scroll-progress__bar {
+			transition: none;
+		}
+	}
+</style> 
