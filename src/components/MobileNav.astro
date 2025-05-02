@@ -1,0 +1,163 @@
+<button
+  id="mobile-menu-button"
+  class="md:hidden flex items-center justify-center w-10 h-10 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 focus:ring-offset-background dark:focus:ring-offset-gray-dark"
+  aria-label="Toggle mobile menu"
+  aria-expanded="false"
+  aria-controls="mobile-menu"
+>
+  <div class="relative w-6 h-6">
+    <!-- Hamburger lines -->
+    <span class="absolute top-0 left-0 w-6 h-0.5 bg-text dark:bg-gray-light transform transition-transform duration-200 origin-center"></span>
+    <span class="absolute top-3 left-0 w-6 h-0.5 bg-text dark:bg-gray-light transform transition-transform duration-200 origin-center"></span>
+    <span class="absolute top-6 left-0 w-6 h-0.5 bg-text dark:bg-gray-light transform transition-transform duration-200 origin-center"></span>
+  </div>
+</button>
+
+<!-- Mobile menu overlay -->
+<div
+  id="mobile-menu-overlay"
+  class="fixed inset-0 bg-black/40 backdrop-blur-sm transition-opacity duration-300 opacity-0 invisible md:hidden"
+  aria-hidden="true"
+></div>
+
+<!-- Mobile menu panel -->
+<nav
+  id="mobile-menu"
+  class="fixed top-0 left-0 w-full h-screen bg-background dark:bg-gray-dark transform transition-transform duration-300 ease-in-out translate-y-[-100%] md:hidden"
+  aria-label="Mobile navigation"
+>
+  <div class="flex flex-col h-full px-6 py-8">
+    <!-- Close button -->
+    <div class="flex justify-end mb-8">
+      <button
+        class="flex items-center justify-center w-10 h-10 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 focus:ring-offset-background dark:focus:ring-offset-gray-dark"
+        aria-label="Close mobile menu"
+      >
+        <svg
+          class="w-6 h-6 text-text dark:text-gray-light"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          aria-hidden="true"
+        >
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Navigation links -->
+    <div class="flex flex-col space-y-6">
+      <a href="/" class="text-lg font-medium py-4 border-b border-gray-200 dark:border-gray-700 text-text dark:text-gray-light hover:text-primary dark:hover:text-primary transition-colors duration-300">Home</a>
+      <a href="/category" class="text-lg font-medium py-4 border-b border-gray-200 dark:border-gray-700 text-text dark:text-gray-light hover:text-primary dark:hover:text-primary transition-colors duration-300">Categories</a>
+      <a href="/about" class="text-lg font-medium py-4 border-b border-gray-200 dark:border-gray-700 text-text dark:text-gray-light hover:text-primary dark:hover:text-primary transition-colors duration-300">About</a>
+    </div>
+  </div>
+</nav>
+
+<script>
+  // Mobile menu state
+  let isMenuOpen = false;
+  const menuButton = document.getElementById('mobile-menu-button');
+  const menuOverlay = document.getElementById('mobile-menu-overlay');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const closeButton = mobileMenu?.querySelector('button');
+
+  // Toggle menu function
+  const toggleMenu = () => {
+    isMenuOpen = !isMenuOpen;
+    
+    // Update button state
+    menuButton?.setAttribute('aria-expanded', String(isMenuOpen));
+    
+    // Update menu visibility
+    if (isMenuOpen) {
+      document.body.style.overflow = 'hidden';
+      menuOverlay?.classList.remove('opacity-0', 'invisible');
+      mobileMenu?.classList.remove('translate-y-[-100%]');
+      mobileMenu?.classList.add('translate-y-0');
+      
+      // Focus first focusable element
+      const firstFocusable = mobileMenu?.querySelector('a, button') as HTMLElement;
+      firstFocusable?.focus();
+    } else {
+      document.body.style.overflow = '';
+      menuOverlay?.classList.add('opacity-0', 'invisible');
+      mobileMenu?.classList.remove('translate-y-0');
+      mobileMenu?.classList.add('translate-y-[-100%]');
+      
+      // Return focus to menu button
+      menuButton?.focus();
+    }
+  };
+
+  // Close menu function
+  const closeMenu = () => {
+    if (isMenuOpen) {
+      toggleMenu();
+    }
+  };
+
+  // Event listeners
+  menuButton?.addEventListener('click', toggleMenu);
+  closeButton?.addEventListener('click', closeMenu);
+  menuOverlay?.addEventListener('click', closeMenu);
+
+  // Handle escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && isMenuOpen) {
+      closeMenu();
+    }
+  });
+
+  // Handle focus trap
+  mobileMenu?.addEventListener('keydown', (e) => {
+    if (e.key === 'Tab') {
+      const focusableElements = mobileMenu.querySelectorAll('a, button') as NodeListOf<HTMLElement>;
+      const firstFocusable = focusableElements[0];
+      const lastFocusable = focusableElements[focusableElements.length - 1];
+
+      if (e.shiftKey) {
+        if (document.activeElement === firstFocusable) {
+          lastFocusable.focus();
+          e.preventDefault();
+        }
+      } else {
+        if (document.activeElement === lastFocusable) {
+          firstFocusable.focus();
+          e.preventDefault();
+        }
+      }
+    }
+  });
+
+  // Handle menu link clicks
+  const menuLinks = mobileMenu?.querySelectorAll('a');
+  menuLinks?.forEach((link) => {
+    link.addEventListener('click', closeMenu);
+  });
+</script>
+
+<style>
+  /* Hamburger animation */
+  #mobile-menu-button[aria-expanded="true"] span:nth-child(1) {
+    transform: translateY(3px) rotate(45deg);
+  }
+  
+  #mobile-menu-button[aria-expanded="true"] span:nth-child(2) {
+    opacity: 0;
+  }
+  
+  #mobile-menu-button[aria-expanded="true"] span:nth-child(3) {
+    transform: translateY(-3px) rotate(-45deg);
+  }
+
+  /* Respect reduced motion preferences */
+  @media (prefers-reduced-motion: reduce) {
+    #mobile-menu,
+    #mobile-menu-overlay,
+    #mobile-menu-button span {
+      transition: none !important;
+    }
+  }
+</style> 
