@@ -23,21 +23,21 @@ const sortedCategories = [...categories].sort((a, b) => {
 ---
 
 <BaseLayout title="Categories - StrongVault">
-  <main>
-    <div class="category-header">
-      <h1>Categories</h1>
-      <p class="category-description">Explore all content organized by category</p>
+  <main class="max-w-5xl mx-auto px-4 md:px-8 py-12">
+    <div class="text-center mb-16">
+      <h1 class="text-4xl md:text-5xl font-bold mb-4 text-text dark:text-text-dark">Categories</h1>
+      <p class="text-xl text-neutral-600 dark:text-neutral-400">Explore all content organized by category</p>
     </div>
 
-    <div class="categories-grid">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {sortedCategories.map(category => {
         const postCount = categoryCounts.get(category.id) || 0;
         return (
-          <a href={`/category/${category.id}/`} class="category-card">
-            <div class="category-icon">{category.icon}</div>
-            <h2>{category.name}</h2>
-            <p>{category.description}</p>
-            <span class="post-count">{postCount} {postCount === 1 ? 'post' : 'posts'}</span>
+          <a href={`/category/${category.id}/`} class="group bg-background dark:bg-background-dark p-6 rounded-lg border border-border/20 dark:border-border-dark/20 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
+            <div class="text-4xl mb-4">{category.icon}</div>
+            <h2 class="text-xl font-semibold mb-2 text-text dark:text-text-dark group-hover:text-primary-500 dark:group-hover:text-primary-400">{category.name}</h2>
+            <p class="text-neutral-600 dark:text-neutral-400 mb-4">{category.description}</p>
+            <span class="inline-block px-3 py-1 bg-primary-500 dark:bg-primary-400 text-white text-sm font-medium rounded-full">{postCount} {postCount === 1 ? 'post' : 'posts'}</span>
           </a>
         );
       })}
@@ -46,100 +46,16 @@ const sortedCategories = [...categories].sort((a, b) => {
 </BaseLayout>
 
 <style>
+  /* Smooth transitions for dark mode */
   main {
-    max-width: var(--content-width-wide);
-    margin: 0 auto;
-    padding: var(--space-6) var(--space-4);
+    transition: background-color 300ms cubic-bezier(0.4, 0, 0.2, 1),
+                color 300ms cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  .category-header {
-    text-align: center;
-    margin-bottom: var(--space-8);
-    max-width: var(--content-width);
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .category-header h1 {
-    font-size: var(--font-size-3xl);
-    line-height: 1.2;
-    margin: 0 0 var(--space-4) 0;
-    font-weight: 800;
-    letter-spacing: -0.025em;
-    color: var(--text-color);
-  }
-
-  .category-description {
-    font-size: var(--font-size-xl);
-    line-height: 1.6;
-    color: var(--secondary-color);
-    margin: 0;
-  }
-
-  .categories-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: var(--space-6);
-    margin: 0 auto;
-  }
-
-  .category-card {
-    background: var(--background-color);
-    border: 1px solid var(--border-color);
-    border-radius: var(--border-radius);
-    padding: var(--space-6);
-    text-decoration: none;
-    color: var(--text-color);
-    transition: all var(--transition-duration) var(--transition-timing);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    
-    &:hover {
-      transform: translateY(-4px);
-      box-shadow: var(--shadow-lg);
-      border-color: var(--accent);
-    }
-  }
-
-  .category-icon {
-    font-size: var(--font-size-3xl);
-    margin-bottom: var(--space-4);
-  }
-
-  .category-card h2 {
-    font-size: var(--font-size-xl);
-    margin: 0 0 var(--space-2) 0;
-    color: var(--text-color);
-  }
-
-  .category-card p {
-    color: var(--secondary-color);
-    margin: 0 0 var(--space-4) 0;
-    line-height: 1.6;
-  }
-
-  .post-count {
-    background: var(--accent);
-    color: white;
-    padding: var(--space-1) var(--space-3);
-    border-radius: var(--border-radius-full);
-    font-size: var(--font-size-sm);
-    font-weight: 600;
-  }
-
-  @media (max-width: 768px) {
-    .category-header h1 {
-      font-size: var(--font-size-2xl);
-    }
-
-    .category-description {
-      font-size: var(--font-size-lg);
-    }
-
-    .categories-grid {
-      grid-template-columns: 1fr;
+  /* Respect reduced motion preferences */
+  @media (prefers-reduced-motion: reduce) {
+    main {
+      transition: none !important;
     }
   }
 </style> 
