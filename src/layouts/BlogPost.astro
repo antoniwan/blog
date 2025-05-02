@@ -118,6 +118,43 @@ const capitalize = (str: string) => str ? str.charAt(0).toUpperCase() + str.slic
 </html>
 
 <style>
+	:root {
+		/* Light theme colors */
+		--background-color: #ffffff;
+		--text-color: #1a1a1a;
+		--accent-color: #0070f3;
+		--secondary-color: #666666;
+		--border-color: #eaeaea;
+		--code-bg: #f6f8fa;
+		--code-text: #24292e;
+		--blockquote-bg: #f8f8f8;
+		--blockquote-border: #eaeaea;
+		--gray: 102, 102, 102;
+		--gray-light: 234, 234, 234;
+		--black: 26, 26, 26;
+	}
+
+	.dark {
+		--background-color: #111111;
+		--text-color: #ffffff;
+		--accent-color: #3291ff;
+		--secondary-color: #888888;
+		--border-color: #333333;
+		--code-bg: #1e1e1e;
+		--code-text: #d4d4d4;
+		--blockquote-bg: #1a1a1a;
+		--blockquote-border: #333333;
+		--gray: 136, 136, 136;
+		--gray-light: 51, 51, 51;
+		--black: 255, 255, 255;
+	}
+
+	body {
+		background-color: var(--background-color);
+		color: var(--text-color);
+		transition: background-color 0.3s ease, color 0.3s ease;
+	}
+
 	main {
 		min-height: calc(100vh - 200px);
 		width: 100%;
