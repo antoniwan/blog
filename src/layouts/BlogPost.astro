@@ -18,9 +18,9 @@ const {
 	heroImage,
 	readingTime,
 	tags,
-	category,
+	category = [],
 	subcategory,
-	language,
+	language = ['en'],
 	// SEO fields
 	canonicalUrl,
 	ogImage,
@@ -70,7 +70,7 @@ const capitalize = (str: string) => str ? str.charAt(0).toUpperCase() + str.slic
 					<div class="content">
 						<div class="metadata">
 							<nav class="category-nav" aria-label="Post categories">
-								{category && category.map((cat) => (
+								{category.length > 0 && category.map((cat) => (
 									<a href={`/categories/${cat.toLowerCase()}/`} class="category-link">
 										{categoryEmojis[cat] || '📝'} {capitalize(cat)}
 										{subcategory && ` / ${capitalize(subcategory)}`}
