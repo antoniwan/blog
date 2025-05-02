@@ -1,0 +1,46 @@
+---
+interface Props {
+  fallbackUrl?: string;
+}
+
+const { fallbackUrl = '/' } = Astro.props;
+---
+
+<div class="back-container">
+  <a href={fallbackUrl} class="back-link" data-astro-transition="back">
+    ← Back
+  </a>
+</div>
+
+<style>
+  .back-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 1.5em;
+    width: 100%;
+  }
+  .back-link {
+    display: inline-block;
+    color: rgb(var(--accent));
+    text-decoration: none;
+    font-size: 1.1em;
+    transition: color 0.2s ease;
+  }
+  .back-link:hover {
+    opacity: 0.8;
+  }
+</style>
+
+<script>
+  // Get the previous page URL from browser history
+  const backLink = document.querySelector('.back-link') as HTMLAnchorElement;
+  if (backLink && document.referrer) {
+    const referrer = new URL(document.referrer);
+    const current = new URL(window.location.href);
+    
+    // Only update the link if the referrer is from the same origin
+    if (referrer.origin === current.origin) {
+      backLink.href = document.referrer;
+    }
+  }
+</script> 

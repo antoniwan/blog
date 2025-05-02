@@ -4,7 +4,7 @@ import { getCollection } from 'astro:content';
 import { categories } from '../../data/categories';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import FormattedDate from '../../components/FormattedDate.astro';
-import BackToHome from '../../components/BackToHome.astro';
+import BackNavigation from '../../components/BackNavigation.astro';
 import GroupedPostCard from '../../components/GroupedPostCard.astro';
 
 export async function getStaticPaths() {
@@ -36,7 +36,7 @@ const groupedPosts: CollectionEntry<'blog'>[][] = Object.values(grouped);
 
 <BaseLayout title={`${category.name} - StrongVault`}>
   <main>
-    <BackToHome />
+    <BackNavigation fallbackUrl="/categories" />
     <div class="blog-header">
       <h1>{category.icon} {category.name}</h1>
       <p>{category.description}</p>
