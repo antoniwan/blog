@@ -16,18 +16,20 @@ const { fallbackUrl = '/' } = Astro.props;
   .back-container {
     display: flex;
     justify-content: flex-end;
-    margin-bottom: 1.5em;
+    margin-bottom: var(--space-6);
     width: 100%;
   }
+
   .back-link {
     display: inline-block;
-    color: rgb(var(--accent));
+    color: var(--accent);
     text-decoration: none;
     font-size: 1.1em;
-    transition: color 0.2s ease;
-  }
-  .back-link:hover {
-    opacity: 0.8;
+    transition: opacity var(--transition-duration) var(--transition-timing);
+    
+    &:hover {
+      opacity: 0.8;
+    }
   }
 </style>
 

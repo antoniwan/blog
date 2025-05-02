@@ -22,42 +22,51 @@ const today = new Date();
 		</a>
 	</div>
 </footer>
+
 <style>
 	footer {
-		padding: 2em 1em 6em 1em;
+		padding: var(--space-8) var(--space-4) var(--space-24);
 		background-color: var(--background-color);
-		color: var(--text-color);
+		color: rgb(var(--black));
 		text-align: center;
 		border-top: 1px solid var(--border-color);
+		transition: background-color var(--transition-duration) var(--transition-timing);
 	}
+
 	.license {
-		margin: 1em 0;
+		margin: var(--space-4) 0;
 		font-size: 0.8em;
+		
+		a {
+			color: var(--accent);
+			text-decoration: none;
+			transition: text-decoration var(--transition-duration) var(--transition-timing);
+			
+			&:hover {
+				text-decoration: underline;
+			}
+		}
 	}
-	.license a {
-		color: var(--accent-color);
-		text-decoration: none;
-	}
-	.license a:hover {
-		text-decoration: underline;
-	}
+
 	.social-links {
 		display: flex;
 		justify-content: center;
-		gap: 1em;
-		margin-top: 1em;
+		gap: var(--space-4);
+		margin-top: var(--space-4);
 		flex-wrap: wrap;
-	}
-	.social-links a {
-		text-decoration: none;
-		color: var(--text-color);
-		padding: 0.5em 1em;
-		border-radius: 4px;
-		background-color: var(--code-bg);
-		transition: all 0.2s ease;
-	}
-	.social-links a:hover {
-		background-color: var(--accent-color);
-		color: white;
+		
+		a {
+			text-decoration: none;
+			color: rgb(var(--black));
+			padding: var(--space-2) var(--space-4);
+			border-radius: var(--border-radius);
+			background-color: var(--code-bg);
+			transition: all var(--transition-duration) var(--transition-timing);
+			
+			&:hover {
+				background-color: var(--accent);
+				color: white;
+			}
+		}
 	}
 </style>

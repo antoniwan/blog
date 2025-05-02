@@ -92,46 +92,51 @@ const { class: className } = Astro.props;
   .theme-toggle {
     background: none;
     border: none;
-    padding: 0.5rem;
+    padding: var(--space-2);
     cursor: pointer;
-    color: var(--text-color);
-    transition: color 0.3s ease;
+    color: rgb(var(--black));
+    transition: all var(--transition-duration) var(--transition-timing);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
+    
+    &:hover {
+      color: var(--accent);
+      background-color: var(--code-bg);
+    }
+    
+    svg {
+      width: 1.25rem;
+      height: 1.25rem;
+      transition: transform var(--transition-duration) var(--transition-timing),
+                  opacity var(--transition-duration) var(--transition-timing);
+    }
+    
+    .sun-icon {
+      position: absolute;
+      opacity: 0;
+      transform: scale(0.5);
+    }
+    
+    .moon-icon {
+      position: relative;
+      opacity: 1;
+      transform: scale(1);
+    }
   }
 
-  .theme-toggle:hover {
-    color: var(--accent-color);
-    background-color: var(--code-bg);
-  }
-
-  .theme-toggle svg {
-    width: 1.25rem;
-    height: 1.25rem;
-    transition: transform 0.3s ease, opacity 0.3s ease;
-  }
-
-  .theme-toggle .sun-icon {
-    position: absolute;
-    opacity: 0;
-    transform: scale(0.5);
-  }
-
-  .theme-toggle .moon-icon {
-    position: relative;
-    opacity: 1;
-    transform: scale(1);
-  }
-
-  [data-theme="dark"] .theme-toggle .sun-icon {
-    opacity: 1;
-    transform: scale(1);
-  }
-
-  [data-theme="dark"] .theme-toggle .moon-icon {
-    opacity: 0;
-    transform: scale(0.5);
+  [data-theme="dark"] {
+    .theme-toggle {
+      .sun-icon {
+        opacity: 1;
+        transform: scale(1);
+      }
+      
+      .moon-icon {
+        opacity: 0;
+        transform: scale(0.5);
+      }
+    }
   }
 </style> 
