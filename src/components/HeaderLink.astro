@@ -23,4 +23,13 @@ const isActive = href === pathname || href === '/' + (subpath?.[0] || '');
 	:global(.ease-out-cubic) {
 		transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 	}
+
+	/* Remove any global underline styles that might conflict */
+	:global(a) {
+		text-decoration: none;
+	}
+
+	:global(a:hover) {
+		text-decoration: none;
+	}
 </style>

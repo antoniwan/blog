@@ -60,7 +60,12 @@
 
   /* Links */
   a {
-    @apply text-primary hover:text-primary-dark transition-colors;
+    @apply text-primary hover:text-primary-dark transition-colors no-underline;
+  }
+
+  /* Navigation links should not have default underline */
+  nav a {
+    @apply no-underline;
   }
 
   /* Forms */
@@ -267,17 +272,6 @@ h6 {
 /* ==========================================================================
    Links
    ========================================================================== */
-a {
-  color: var(--color-primary);
-  text-decoration: none;
-  transition: color 0.2s ease;
-}
-
-a:hover {
-  color: var(--color-primary-dark);
-  text-decoration: underline;
-}
-
 a:focus {
   outline: 2px solid var(--color-primary);
   outline-offset: 2px;
