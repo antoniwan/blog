@@ -39,9 +39,7 @@ const alternateTranslation = translations?.find(t => t.id !== post.id);
 			aria-label={`Read in ${alternateTranslation.language === 'en' ? 'English' : 'Spanish'}`}
 		>
 			<span class="flag">{alternateTranslation.language === 'en' ? '🇺🇸' : '🇵🇷'}</span>
-			<span class="text">
-				{alternateTranslation.language === 'en' ? 'Read in English' : 'Leer en Español'}
-			</span>
+			<span class="text">{alternateTranslation.language === 'en' ? 'English' : 'Español'}</span>
 		</a>
 	)}
 	<div class="post-content">
