@@ -87,4 +87,30 @@ _Date: May 2, 2025_
 
 ---
 
+## 📸 Photos & Videos
+
+<div class="media-gallery">
+  <figure class="video-wrapper">
+    <video controls preload="metadata">
+      <source src="/recipes/lemon-pepper-chicken/lemon-pepper-chicken-02.MP4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </figure>
+
+  <figure class="video-wrapper">
+    <video controls preload="metadata">
+      <source src="/recipes/lemon-pepper-chicken/lemon-pepper-chicken-01.MP4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </figure>
+
+  <div class="photo-gallery">
+    <img src="/recipes/lemon-pepper-chicken/lemon-pepper-chicken-photo-0a88a2aa-cfa3-48a4-ad07-7d91f440fd3e.jpeg" alt="Prepped chicken thighs">
+    <img src="/recipes/lemon-pepper-chicken/lemon-pepper-chicken-photo-2568.jpeg" alt="Lemon-pepper chicken thighs">
+    <img src="/recipes/lemon-pepper-chicken/lemon-pepper-chicken-photo-2562.jpeg" alt="Finished lemon-pepper chicken">
+  </div>
+</div>
+
+---
+
 **"Strong hands seasoned it. Soft heart glazed it. Fire finished it."**
