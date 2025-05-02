@@ -83,6 +83,11 @@ const capitalize = (str: string) => str ? str.charAt(0).toUpperCase() + str.slic
       ogImage={ogImage}
       ogImageAlt={ogImageAlt}
       robots={robots}
+      pubDate={pubDate}
+      updatedDate={updatedDate}
+      author={SITE_TITLE}
+      keywords={tags}
+      locale={language[0] ? `${language[0]}_${language[0].toUpperCase()}` : 'en_US'}
     />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
   </head>
