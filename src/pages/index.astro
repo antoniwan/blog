@@ -26,8 +26,8 @@ const languageEmojis = {
 <BaseLayout title="Home - StrongVault">
 	<main class="max-w-5xl mx-auto px-4 md:px-8 py-12">
 		<header class="text-center mb-16">
-			<h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-text dark:text-gray-light leading-tight tracking-tight">Welcome to the<br />Strong Vault</h1>
-			<p class="text-xl md:text-2xl text-gray dark:text-gray-light leading-relaxed max-w-3xl mx-auto">Software, power, weakness, science, opinions, emotional alchemy, DIY creation, and the journey of building a life of integrity</p>
+			<h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-text dark:text-text-dark leading-tight tracking-tight">Welcome to the<br />Strong Vault</h1>
+			<p class="text-xl md:text-2xl text-neutral-600 dark:text-neutral-400 leading-relaxed max-w-3xl mx-auto">Software, power, weakness, science, opinions, emotional alchemy, DIY creation, and the journey of building a life of integrity</p>
 		</header>
 
 		<section class="grid gap-8 md:gap-12" aria-label="Latest posts">
@@ -81,7 +81,7 @@ const languageEmojis = {
 	.subtitle {
 		font-size: var(--font-size-xl);
 		line-height: 1.6;
-		color: var(--secondary-color);
+		color: var(--neutral-600);
 		margin: 0;
 	}
 
@@ -104,7 +104,7 @@ const languageEmojis = {
 	.post-card:hover {
 		transform: translateY(-4px);
 		box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-		border-color: var(--accent-color);
+		border-color: var(--primary-500);
 	}
 
 	.post-title-link {
@@ -115,7 +115,7 @@ const languageEmojis = {
 	}
 
 	.post-title-link:hover .post-title {
-		color: var(--accent-color);
+		color: var(--primary-500);
 	}
 
 	.post-meta {
@@ -124,7 +124,7 @@ const languageEmojis = {
 		gap: 1.5rem;
 		margin-bottom: 1.25rem;
 		font-size: 0.9375rem;
-		color: var(--secondary-color);
+		color: var(--neutral-600);
 		flex-wrap: wrap;
 	}
 
@@ -138,7 +138,7 @@ const languageEmojis = {
 
 	.post-excerpt {
 		margin: 0 0 1.5rem 0;
-		color: var(--secondary-color);
+		color: var(--neutral-600);
 		line-height: 1.6;
 		font-size: 1.125rem;
 	}
@@ -153,8 +153,8 @@ const languageEmojis = {
 	}
 
 	.tag {
-		background: rgba(var(--gray-dark), 0.1);
-		color: var(--secondary-color);
+		background: var(--neutral-100);
+		color: var(--neutral-700);
 		padding: 0.375rem 0.75rem;
 		border-radius: 6px;
 		font-size: 0.875rem;
@@ -164,7 +164,7 @@ const languageEmojis = {
 	}
 
 	.category-badge {
-		background: var(--accent-color);
+		background: var(--primary-500);
 		color: white;
 		padding: 0.5rem 1rem;
 		border-radius: 8px;
@@ -174,18 +174,18 @@ const languageEmojis = {
 		letter-spacing: 0.05em;
 		text-decoration: none;
 		transition: all 0.2s ease;
-		box-shadow: 0 2px 4px rgba(var(--accent), 0.3);
+		box-shadow: 0 2px 4px rgba(var(--primary-500), 0.3);
 	}
 
 	.category-badge:hover {
 		transform: translateY(-2px);
-		box-shadow: 0 4px 8px rgba(var(--accent), 0.4);
+		box-shadow: 0 4px 8px rgba(var(--primary-500), 0.4);
 		filter: brightness(1.1);
 	}
 
 	.language-badge {
 		background: var(--background-color);
-		color: var(--secondary-color);
+		color: var(--neutral-600);
 		padding: 0.375rem 0.75rem;
 		border-radius: 6px;
 		font-size: 0.875rem;
