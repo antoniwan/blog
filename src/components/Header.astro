@@ -11,7 +11,7 @@ const navLinks = [
 ---
 
 <header 
-	class="sticky top-0 z-sticky bg-background/80 dark:bg-gray-dark/80 backdrop-blur-md shadow-sm border-b border-gray-100 dark:border-gray-800 transition-all duration-300 transform-gpu"
+	class="sticky top-0 z-sticky bg-background/95 dark:bg-gray-dark/95 backdrop-blur-md shadow-sm border-b border-gray-100/60 dark:border-gray-800/60 transition-all duration-300 transform-gpu"
 	role="banner"
 	id="site-header"
 >
@@ -116,7 +116,7 @@ const navLinks = [
 		});
 	}
 
-	// Handle header hide/show on scroll
+	// Handle header hide/show on scroll with smooth animation
 	if (header) {
 		const updateHeader = () => {
 			const currentScrollY = window.scrollY;
@@ -142,6 +142,28 @@ const navLinks = [
 </script>
 
 <style>
+	/* Enhanced typography for header */
+	header h2 {
+		font-family: var(--font-serif);
+		letter-spacing: -0.025em;
+		line-height: 1.2;
+	}
+
+	/* Smooth transitions for all interactive elements */
+	header a,
+	header button {
+		transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+	}
+
+	/* Mobile menu backdrop blur */
+	@media (max-width: 768px) {
+		#header__nav-menu {
+			backdrop-filter: blur(8px);
+			-webkit-backdrop-filter: blur(8px);
+		}
+	}
+
+	/* Respect reduced motion preferences */
 	@media (prefers-reduced-motion: reduce) {
 		* {
 			transition: none !important;

@@ -24,6 +24,13 @@ const isActive = href === pathname || href === '/' + (subpath?.[0] || '');
 		transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 	}
 
+	/* Enhanced typography for navigation links */
+	a {
+		font-family: var(--font-sans);
+		letter-spacing: -0.01em;
+		line-height: 1.5;
+	}
+
 	/* Remove any global underline styles that might conflict */
 	:global(a) {
 		text-decoration: none;
@@ -31,5 +38,38 @@ const isActive = href === pathname || href === '/' + (subpath?.[0] || '');
 
 	:global(a:hover) {
 		text-decoration: none;
+	}
+
+	/* Enhanced focus states */
+	a:focus-visible {
+		outline-offset: 4px;
+		transition: outline-offset 200ms ease-out;
+	}
+
+	/* Smooth hover transitions */
+	a::after {
+		transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1),
+					background-color 300ms cubic-bezier(0.4, 0, 0.2, 1);
+	}
+
+	/* Active state enhancements */
+	a[aria-current="page"] {
+		font-weight: 600;
+		letter-spacing: -0.015em;
+	}
+
+	/* Dark mode optimizations */
+	@media (prefers-color-scheme: dark) {
+		a::after {
+			background-color: var(--tw-color-primary-light);
+		}
+	}
+
+	/* Respect reduced motion preferences */
+	@media (prefers-reduced-motion: reduce) {
+		a,
+		a::after {
+			transition: none !important;
+		}
 	}
 </style>
