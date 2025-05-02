@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getCollection, type CollectionEntry } from 'astro:content';
-import GroupedPostCard from '../components/GroupedPostCard.astro';
+import PostCard from '../components/PostCard.astro';
 
 // Get all blog posts and sort by date
 const posts = (await getCollection('blog'))
@@ -31,9 +31,18 @@ const languageEmojis = {
 		</header>
 
 		<section class="posts-grid" aria-label="Latest posts">
-			{groupedPosts.map((translations) => (
-				<GroupedPostCard translations={translations} />
-			))}
+			{groupedPosts.map((translations) => {
+				const main = translations[0];
+				return (
+					<PostCard 
+						post={main} 
+						translations={translations.map(t => ({
+							id: t.id,
+							language: t.data.language[0]
+						}))}
+					/>
+				);
+			})}
 		</section>
 	</main>
 </BaseLayout>
