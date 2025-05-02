@@ -1,26 +1,46 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
 import { categories } from '../../data/categories';
 
-const capitalize = (str: string) => str ? str.charAt(0).toUpperCase() + str.slice(1) : '';
+// Get all non-draft posts
+const posts = await getCollection('blog', ({ data }) => !data.draft);
+
+// Count posts per category
+const categoryCounts = new Map<string, number>();
+posts.forEach(post => {
+  post.data.category?.forEach(cat => {
+    categoryCounts.set(cat, (categoryCounts.get(cat) || 0) + 1);
+  });
+});
+
+// Sort categories by post count
+const sortedCategories = [...categories].sort((a, b) => {
+  const countA = categoryCounts.get(a.id) || 0;
+  const countB = categoryCounts.get(b.id) || 0;
+  return countB - countA;
+});
 ---
 
 <BaseLayout title="Categories - StrongVault">
   <main>
-    <div class="categories-header">
-      <a href="/" class="back-link">← Back to Home</a>
+    <div class="category-header">
       <h1>Categories</h1>
-      <p class="categories-description">Explore all topics and themes covered in StrongVault</p>
+      <p class="category-description">Explore all content organized by category</p>
     </div>
 
     <div class="categories-grid">
-      {categories.map((category) => (
-        <a href={`/category/${category.id}/`} class="category-card">
-          <div class="category-icon">{category.icon}</div>
-          <h2>{category.name}</h2>
-          <p>{category.description}</p>
-        </a>
-      ))}
+      {sortedCategories.map(category => {
+        const postCount = categoryCounts.get(category.id) || 0;
+        return (
+          <a href={`/category/${category.id}/`} class="category-card">
+            <div class="category-icon">{category.icon}</div>
+            <h2>{category.name}</h2>
+            <p>{category.description}</p>
+            <span class="post-count">{postCount} {postCount === 1 ? 'post' : 'posts'}</span>
+          </a>
+        );
+      })}
     </div>
   </main>
 </BaseLayout>
@@ -32,7 +52,7 @@ const capitalize = (str: string) => str ? str.charAt(0).toUpperCase() + str.slic
     padding: 2rem 1rem;
   }
 
-  .categories-header {
+  .category-header {
     text-align: center;
     margin-bottom: 4rem;
     max-width: 800px;
@@ -40,20 +60,7 @@ const capitalize = (str: string) => str ? str.charAt(0).toUpperCase() + str.slic
     margin-right: auto;
   }
 
-  .back-link {
-    display: inline-block;
-    margin-bottom: 1.5rem;
-    color: var(--secondary-color);
-    text-decoration: none;
-    font-size: 1rem;
-    transition: color 0.2s ease;
-  }
-
-  .back-link:hover {
-    color: var(--accent-color);
-  }
-
-  .categories-header h1 {
+  .category-header h1 {
     font-size: 3rem;
     line-height: 1.2;
     margin: 0 0 1rem 0;
@@ -62,7 +69,7 @@ const capitalize = (str: string) => str ? str.charAt(0).toUpperCase() + str.slic
     color: var(--text-color);
   }
 
-  .categories-description {
+  .category-description {
     font-size: 1.25rem;
     line-height: 1.6;
     color: var(--secondary-color);
@@ -73,19 +80,21 @@ const capitalize = (str: string) => str ? str.charAt(0).toUpperCase() + str.slic
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 2rem;
-    max-width: 1200px;
     margin: 0 auto;
   }
 
   .category-card {
     background: var(--background-color);
+    border: 1px solid var(--border-color);
     border-radius: 12px;
     padding: 2rem;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-    border: 1px solid var(--border-color);
     text-decoration: none;
     color: var(--text-color);
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
   }
 
   .category-card:hover {
@@ -106,17 +115,26 @@ const capitalize = (str: string) => str ? str.charAt(0).toUpperCase() + str.slic
   }
 
   .category-card p {
-    margin: 0;
     color: var(--secondary-color);
+    margin: 0 0 1rem 0;
     line-height: 1.6;
   }
 
+  .post-count {
+    background: var(--accent-color);
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+
   @media (max-width: 768px) {
-    .categories-header h1 {
+    .category-header h1 {
       font-size: 2.25rem;
     }
 
-    .categories-description {
+    .category-description {
       font-size: 1.125rem;
     }
 

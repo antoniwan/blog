@@ -15,13 +15,5 @@ interface Props {
 
 const { category } = Astro.props as Props;
 
-<!DOCTYPE html>
-<html>
-	<head>
-		<meta http-equiv="refresh" content={`0;url=/category/${category.toLowerCase()}/`} />
-		<link rel="canonical" href={`/category/${category.toLowerCase()}/`} />
-	</head>
-	<body>
-		<p>Redirecting to <a href={`/category/${category.toLowerCase()}/`}>/category/{category.toLowerCase()}/</a>...</p>
-	</body>
-</html> 
+// Redirect to the canonical category URL
+return Astro.redirect(`/category/${category.toLowerCase()}/`); 

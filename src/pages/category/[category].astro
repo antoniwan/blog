@@ -23,6 +23,11 @@ const { category } = Astro.props as Props;
 // Get category data
 const categoryData = categories.find(cat => cat.id === category);
 
+// If category doesn't exist, redirect to category listing
+if (!categoryData) {
+	return Astro.redirect('/category/');
+}
+
 // Get all blog posts for this category and sort by date
 const posts = (await getCollection('blog'))
 	.filter((post) => !post.data.draft && (post.data.category || []).includes(category))
@@ -52,12 +57,12 @@ const categoryEmojis: Record<string, string> = {
 const capitalize = (str: string) => str ? str.charAt(0).toUpperCase() + str.slice(1) : '';
 ---
 
-<BaseLayout title={`${categoryData?.name || capitalize(category)} - StrongVault`}>
+<BaseLayout title={`${categoryData.name} - StrongVault`}>
 	<main>
 		<div class="category-header">
 			<a href="/category" class="back-link">← Back to Categories</a>
-			<h1>{categoryData?.icon || '📝'} {categoryData?.name || capitalize(category)}</h1>
-			<p class="category-description">{categoryData?.description || `Explore all posts in the ${category.toLowerCase()} category`}</p>
+			<h1>{categoryData.icon} {categoryData.name}</h1>
+			<p class="category-description">{categoryData.description}</p>
 		</div>
 
 		<div class="posts-grid">
