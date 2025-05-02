@@ -3,29 +3,148 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import BaseHead from '../components/BaseHead.astro';
 import BackToTop from '../components/BackToTop.astro';
+import FormattedDate from '../components/FormattedDate.astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 import Analytics from '@vercel/analytics/astro';
-
 
 interface Props {
   title: string;
   description?: string;
+  // Blog-specific props
+  pubDate?: Date;
+  updatedDate?: Date;
+  heroImage?: string;
+  readingTime?: number;
+  tags?: string[];
+  category?: string[];
+  subcategory?: string;
+  language?: string[];
+  // SEO fields
+  canonicalUrl?: string;
+  ogImage?: string;
+  ogImageAlt?: string;
+  robots?: {
+    index?: boolean;
+    follow?: boolean;
+    noarchive?: boolean;
+    nosnippet?: boolean;
+    noimageindex?: boolean;
+  };
+  // Layout type
+  layoutType?: 'default' | 'blog';
 }
 
-const { title, description = SITE_DESCRIPTION } = Astro.props;
+const { 
+  title, 
+  description = SITE_DESCRIPTION,
+  pubDate,
+  updatedDate,
+  heroImage,
+  readingTime,
+  tags,
+  category = [],
+  subcategory,
+  language = ['en'],
+  canonicalUrl,
+  ogImage,
+  ogImageAlt,
+  robots,
+  layoutType = 'default'
+} = Astro.props;
+
+const languageEmojis: Record<string, string> = {
+  en: '🇺🇸',
+  es: '🇵🇷'
+};
+
+const categoryEmojis: Record<string, string> = {
+  'art-expression': '🎵',
+  'diy-creation': '🛠️',
+  'integration-growth': '🧘🏽‍♂️',
+  'learning-projects': '📚',
+  'metaspace': '🌀',
+  'parenting': '👨‍👩‍👧‍👦',
+  'politics': '⚖️',
+  'psychology': '🧠',
+  'systems-strategy': '💻'
+};
+
+const capitalize = (str: string) => str ? str.charAt(0).toUpperCase() + str.slice(1) : '';
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
-    <BaseHead title={title} description={description} />
+    <BaseHead 
+      title={title} 
+      description={description}
+      image={heroImage}
+      canonicalUrl={canonicalUrl}
+      ogImage={ogImage}
+      ogImageAlt={ogImageAlt}
+      robots={robots}
+    />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
   </head>
   <body>
     <a href="#main-content" class="skip-link">Skip to main content</a>
     <Header />
     <main id="main-content" role="main">
-      <slot />
+      {layoutType === 'blog' && (
+        <article>
+          <header class="article-header">
+            {heroImage && <img width={1020} height={510} src={heroImage} alt="" />}
+            <div class="content">
+              <div class="metadata">
+                <nav class="category-nav" aria-label="Post categories">
+                  {category.length > 0 && category.map((cat) => (
+                    <a href={`/categories/${cat.toLowerCase()}/`} class="category-link">
+                      {categoryEmojis[cat] || '📝'} {capitalize(cat)}
+                      {subcategory && ` / ${capitalize(subcategory)}`}
+                    </a>
+                  ))}
+                </nav>
+                <span class="separator">•</span>
+                {pubDate && (
+                  <>
+                    <span class="separator">•</span>
+                    <FormattedDate date={pubDate} />
+                  </>
+                )}
+                {updatedDate && (
+                  <>
+                    <span class="separator">•</span>
+                    <span>Updated <FormattedDate date={updatedDate} /></span>
+                  </>
+                )}
+                {readingTime && (
+                  <>
+                    <span class="separator">•</span>
+                    <span>{readingTime} min read</span>
+                  </>
+                )}
+                {language.map(lang => (
+                  <span class="language">{languageEmojis[lang] || ''}</span>
+                ))}
+              </div>
+              <h1>{title}</h1>
+            </div>
+          </header>
+
+          <div class="prose">
+            <slot />
+
+            {tags && tags.length > 0 && (
+              <div class="tags">
+                {tags.map((tag) => (
+                  <span class="tag">{tag}</span>
+                ))}
+              </div>
+            )}
+          </div>
+        </article>
+      )}
+      {layoutType === 'default' && <slot />}
     </main>
     <Footer />
     <BackToTop />
@@ -45,6 +164,12 @@ const { title, description = SITE_DESCRIPTION } = Astro.props;
     --code-text: #24292e;
     --blockquote-bg: #f8f8f8;
     --blockquote-border: #eaeaea;
+    --gray: 102, 102, 102;
+    --gray-light: 234, 234, 234;
+    --black: 26, 26, 26;
+    --reading-width: 65ch;
+    --line-height: 1.75;
+    --letter-spacing: -0.011em;
   }
 
   .dark {
@@ -57,12 +182,17 @@ const { title, description = SITE_DESCRIPTION } = Astro.props;
     --code-text: #d4d4d4;
     --blockquote-bg: #1a1a1a;
     --blockquote-border: #333333;
+    --gray: 136, 136, 136;
+    --gray-light: 51, 51, 51;
+    --black: 255, 255, 255;
   }
 
   body {
     background-color: var(--background-color);
     color: var(--text-color);
     transition: background-color 0.3s ease, color 0.3s ease;
+    line-height: var(--line-height);
+    letter-spacing: var(--letter-spacing);
   }
 
   .skip-link {
@@ -92,6 +222,102 @@ const { title, description = SITE_DESCRIPTION } = Astro.props;
     main {
       padding: 2rem;
     }
+  }
+
+  /* Blog-specific styles */
+  .article-header {
+    margin-bottom: 4rem;
+    max-width: 1400px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .article-header img {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    margin-bottom: 2.5rem;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  }
+
+  .article-header .content {
+    padding: 0 1rem;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .article-header h1 {
+    font-size: 2.75rem;
+    line-height: 1.2;
+    margin: 1.5rem 0;
+    font-weight: 800;
+    letter-spacing: -0.025em;
+  }
+
+  .metadata {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+    font-size: 0.9375rem;
+    color: rgb(var(--gray));
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .category-nav {
+    display: inline-block;
+    margin-right: 0.5em;
+    font-size: 0.9375rem;
+    vertical-align: middle;
+  }
+
+  .category-link {
+    color: rgb(var(--black));
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.2s;
+    padding: 0.375rem 0.75rem;
+    border-radius: 6px;
+    background: rgba(var(--gray-light), 0.2);
+  }
+
+  .category-link:hover {
+    color: var(--accent-color);
+    background: rgba(var(--gray-light), 0.3);
+    transform: translateY(-1px);
+  }
+
+  .separator {
+    color: rgb(var(--gray-light));
+  }
+
+  .language {
+    margin-left: 0.5rem;
+  }
+
+  .prose {
+    padding: 0 1rem;
+    font-size: 1.125rem;
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.8;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 2rem;
+  }
+
+  .tag {
+    background: rgba(var(--gray-light), 0.2);
+    padding: 0.375rem 0.75rem;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    color: rgb(var(--gray));
   }
 
   /* View Transitions */

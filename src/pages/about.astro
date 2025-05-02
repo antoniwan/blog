@@ -1,15 +1,13 @@
 ---
-import Layout from '../layouts/BlogPost.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
-<Layout
+<BaseLayout
 	title="About Antonio Rodríguez Martínez"
 	description="Systems builder. Warrior poet. Father. I write, build, and create with integrity."
 	pubDate={new Date('May 01 2025')}
 	language={['en']}
 	category={['about']}
-	draft={false}
-	featured={false}
 	robots={{
 		index: true,
 		follow: true,
@@ -17,6 +15,7 @@ import Layout from '../layouts/BlogPost.astro';
 		nosnippet: false,
 		noimageindex: false
 	}}
+	layoutType="blog"
 >
 
 	<p>
@@ -48,11 +47,11 @@ import Layout from '../layouts/BlogPost.astro';
 		<li><strong>Parenting</strong> 👨‍👩‍👧‍👦 — raising resilient children, family dynamics, and personal growth</li>
 		<li><strong>Politics</strong> ⚖️ — power dynamics, social structures, and collective healing</li>
 		<li><strong>Psychology</strong> 🧠 — human behavior, social dynamics, and mental processes</li>
-		<li><strong>Systems & Strategy</strong> 💻 — digital power, code, and strategic design</li>
+		<li><strong>Systems & Strategy</strong> 💻 — technical systems, organizational design, and strategic thinking</li>
 	</ul>
 
 	<p>
-		I don't build for algorithms. I build for real life.
+		Join me on this journey of exploration, creation, and growth.
 	</p>
 
 	<h2>👇 Links</h2>
@@ -74,7 +73,7 @@ import Layout from '../layouts/BlogPost.astro';
 			🌟 <strong>Sacred Disclaimer:</strong> The wisdom, practices, and digital alchemy shared here flow from personal experience and creative exploration. None of this constitutes medical, legal, psychological, or spiritual advice — though it dances with all of these realms. This is a space for inspiration, experimentation, and conscious growth. Use these tools and insights as starting points for your own journey, not as prescriptions or promises. Your path is yours to walk. If something here calls to you or raises questions in your heart, reach out. Let's explore together, with reverence for the mysteries we're all navigating.
 		</p>
 	</div>
-</Layout>
+</BaseLayout>
 
 <style>
 	.disclaimer {
