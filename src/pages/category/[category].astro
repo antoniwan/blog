@@ -3,6 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection, type CollectionEntry } from 'astro:content';
 import GroupedPostCard from '../../components/GroupedPostCard.astro';
 import FormattedDate from '../../components/FormattedDate.astro';
+import { categories } from '../../data/categories';
 
 export async function getStaticPaths() {
 	const posts = await getCollection('blog');
@@ -18,6 +19,9 @@ interface Props {
 }
 
 const { category } = Astro.props as Props;
+
+// Get category data
+const categoryData = categories.find(cat => cat.id === category);
 
 // Get all blog posts for this category and sort by date
 const posts = (await getCollection('blog'))
@@ -48,12 +52,12 @@ const categoryEmojis: Record<string, string> = {
 const capitalize = (str: string) => str ? str.charAt(0).toUpperCase() + str.slice(1) : '';
 ---
 
-<BaseLayout title={`${capitalize(category)} - StrongVault`}>
+<BaseLayout title={`${categoryData?.name || capitalize(category)} - StrongVault`}>
 	<main>
 		<div class="category-header">
-			<a href="/" class="back-link">← Back to Home</a>
-			<h1>{categoryEmojis[category] || '📝'} {capitalize(category)}</h1>
-			<p class="category-description">Explore all posts in the {category.toLowerCase()} category</p>
+			<a href="/category" class="back-link">← Back to Categories</a>
+			<h1>{categoryData?.icon || '📝'} {categoryData?.name || capitalize(category)}</h1>
+			<p class="category-description">{categoryData?.description || `Explore all posts in the ${category.toLowerCase()} category`}</p>
 		</div>
 
 		<div class="posts-grid">

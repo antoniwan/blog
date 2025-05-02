@@ -1,0 +1,27 @@
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+	const posts = await getCollection('blog');
+	const categories = new Set(posts.flatMap(post => post.data.category || []));
+	return Array.from(categories).map(category => ({
+		params: { category: category.toLowerCase() },
+		props: { category }
+	}));
+}
+
+interface Props {
+	category: string;
+}
+
+const { category } = Astro.props as Props;
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="refresh" content={`0;url=/category/${category.toLowerCase()}/`} />
+		<link rel="canonical" href={`/category/${category.toLowerCase()}/`} />
+	</head>
+	<body>
+		<p>Redirecting to <a href={`/category/${category.toLowerCase()}/`}>/category/{category.toLowerCase()}/</a>...</p>
+	</body>
+</html> 

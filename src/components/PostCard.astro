@@ -32,7 +32,7 @@ const categoryData = post.data.category?.map(catId => categories.find(cat => cat
 					<nav class="category-nav" aria-label="Post categories">
 						{categoryData.map((cat, index) => (
 							<>
-								<a href={`/categories/${cat?.id.toLowerCase()}/`} class="category-link">
+								<a href={`/category/${cat?.id}/`} class="category-link">
 									{cat?.icon} {cat?.name}
 									{post.data.subcategory && index === 0 && <span class="subcategory">/ {post.data.subcategory}</span>}
 								</a>
@@ -167,25 +167,33 @@ const categoryData = post.data.category?.map(catId => categories.find(cat => cat
 	.category-nav {
 		display: inline-block;
 		margin-right: 0.5em;
-		font-size: 1rem;
+		font-size: 0.9375rem;
 		vertical-align: middle;
 	}
+
 	.category-link {
-		color: #1a202c;
+		color: var(--text-color);
 		text-decoration: none;
 		font-weight: 600;
-		transition: color 0.2s;
+		transition: all 0.2s;
+		padding: 0.375rem 0.75rem;
+		border-radius: 6px;
+		background: rgba(var(--gray-light), 0.2);
 	}
+
 	.category-link:hover {
-		color: #2563eb;
-		text-decoration: underline;
+		color: var(--accent-color);
+		background: rgba(var(--gray-light), 0.3);
+		transform: translateY(-1px);
 	}
+
 	.separator {
-		color: rgb(var(--gray));
+		color: var(--secondary-color);
 		opacity: 0.6;
 	}
+
 	.subcategory {
-		color: #4b5563;
+		color: var(--secondary-color);
 		font-weight: 500;
 		margin-left: 0.25em;
 	}
