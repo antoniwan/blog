@@ -10,25 +10,25 @@ const navLinks = [
 ];
 ---
 
-<header class="sticky top-0 z-sticky bg-background shadow-sm dark:bg-gray-dark" role="banner">
+<header class="sticky top-0 z-sticky bg-background dark:bg-gray-dark shadow-sm" role="banner">
 	<nav class="py-4" aria-label="Main navigation">
 		<div class="container mx-auto px-4 md:px-8">
 			<div class="flex justify-between items-center">
-				<a href="/" class="no-underline text-inherit" aria-label="Home">
+				<a href="/" class="no-underline text-inherit hover:text-primary transition-colors" aria-label="Home">
 					<h2 class="m-0 text-xl md:text-2xl font-bold">{SITE_TITLE}</h2>
 				</a>
 				
 				<button 
-					class="md:hidden bg-transparent border-none cursor-pointer p-2"
+					class="md:hidden bg-transparent border-none cursor-pointer p-2 text-text hover:text-primary transition-colors"
 					aria-label="Toggle menu"
 					aria-expanded="false"
 					aria-controls="header__nav-menu"
 					aria-haspopup="true"
 				>
 					<span class="block w-6 h-6 relative" aria-hidden="true">
-						<span class="block w-full h-0.5 bg-current my-1 transition-transform"></span>
-						<span class="block w-full h-0.5 bg-current my-1 transition-transform"></span>
-						<span class="block w-full h-0.5 bg-current my-1 transition-transform"></span>
+						<span class="block w-full h-0.5 bg-current my-1 transition-transform duration-300"></span>
+						<span class="block w-full h-0.5 bg-current my-1 transition-transform duration-300"></span>
+						<span class="block w-full h-0.5 bg-current my-1 transition-transform duration-300"></span>
 					</span>
 				</button>
 			</div>

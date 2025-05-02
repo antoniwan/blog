@@ -8,9 +8,9 @@ const { caption } = Astro.props;
 
 <div class="w-full overflow-x-auto my-6">
   <table class="w-full border-collapse text-base leading-normal">
-    {caption && <caption class="text-lg font-semibold text-left mb-4 text-black">{caption}</caption>}
-    <thead class="bg-gray-light">
-      <tr class="border-b border-gray-light last:border-b-0 even:bg-gray-light/20 hover:bg-gray-light/40">
+    {caption && <caption class="text-lg font-semibold text-left mb-4 text-black dark:text-gray-light">{caption}</caption>}
+    <thead class="bg-gray-light dark:bg-gray">
+      <tr class="border-b border-gray-light dark:border-gray last:border-b-0 even:bg-gray-light/20 dark:even:bg-gray/20 hover:bg-gray-light/40 dark:hover:bg-gray/40">
         <slot name="header" />
       </tr>
     </thead>

@@ -11,7 +11,7 @@ const isActive = href === pathname || href === '/' + (subpath?.[0] || '');
 
 <a 
 	href={href} 
-	class="relative text-black dark:text-gray-light no-underline font-medium text-base md:text-base py-2 transition-colors hover:text-primary after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-primary after:scale-x-0 after:origin-right after:transition-transform hover:after:scale-x-100 hover:after:origin-left md:py-2 md:text-lg"
+	class="relative text-black dark:text-gray-light no-underline font-medium text-base md:text-lg py-2 transition-colors hover:text-primary after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-primary after:scale-x-0 after:origin-right after:transition-transform hover:after:scale-x-100 hover:after:origin-left aria-[current=page]:text-primary aria-[current=page]:after:scale-x-100"
 	aria-current={isActive ? 'page' : undefined}
 >
 	<slot />

@@ -32,10 +32,10 @@ const categoryData = post.data.category?.map(catId => categories.find(cat => cat
 const alternateTranslation = translations?.find(t => t.id !== post.id);
 ---
 
-<article class="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-200 hover:-translate-y-1 hover:shadow-lg">
+<article class="bg-background dark:bg-gray-dark rounded-lg shadow-md overflow-hidden transition-all duration-200 hover:-translate-y-1 hover:shadow-lg">
 	<a href={`/blog/${post.id}/`} class="block no-underline text-inherit">
 		{post.data.image && (
-			<div class="relative pt-[56.25%] bg-gray-light">
+			<div class="relative pt-[56.25%] bg-gray-light dark:bg-gray">
 				<img
 					src={post.data.image}
 					alt=""
@@ -48,13 +48,13 @@ const alternateTranslation = translations?.find(t => t.id !== post.id);
 		)}
 		<div class="p-6 md:p-8">
 			{post.data.category && (
-				<span class="inline-block px-2 py-1 bg-gray-light/20 text-primary text-sm font-medium rounded-md mb-2">
+				<span class="inline-block px-2 py-1 bg-gray-light/20 dark:bg-gray/20 text-primary text-sm font-medium rounded-md mb-2">
 					{post.data.category.map((catId) => categories.find(cat => cat.id === catId)?.name).join(', ')}
 				</span>
 			)}
-			<h3 class="text-xl md:text-2xl font-semibold mb-2 text-black leading-tight">{post.data.title}</h3>
-			<p class="text-gray mb-4 leading-relaxed">{post.data.description}</p>
-			<time class="text-sm text-gray" datetime={post.data.pubDate.toISOString()}>
+			<h3 class="text-xl md:text-2xl font-semibold mb-2 text-black dark:text-gray-light leading-tight">{post.data.title}</h3>
+			<p class="text-gray dark:text-gray-light mb-4 leading-relaxed">{post.data.description}</p>
+			<time class="text-sm text-gray dark:text-gray-light" datetime={post.data.pubDate.toISOString()}>
 				{post.data.pubDate.toLocaleDateString('en-US', {
 					year: 'numeric',
 					month: 'long',

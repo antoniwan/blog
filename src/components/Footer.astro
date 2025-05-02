@@ -2,192 +2,60 @@
 import { SITE_TITLE } from '../consts';
 ---
 
-<footer class="bg-gray-50 dark:bg-gray-900 py-12 mt-16" role="contentinfo">
+<footer class="bg-gray-light dark:bg-gray-dark py-12 mt-16" role="contentinfo">
 	<div class="container mx-auto px-4 md:px-8">
 		<div class="grid md:grid-cols-3 gap-8 mb-8">
 			<section class="max-w-md">
-				<h2 class="text-xl font-bold mb-2">{SITE_TITLE}</h2>
-				<p class="text-gray-600 dark:text-gray-400 leading-relaxed">
+				<h2 class="text-xl font-bold mb-2 text-black dark:text-gray-light">{SITE_TITLE}</h2>
+				<p class="text-gray dark:text-gray-light leading-relaxed">
 					Exploring the intersection of food, health, technology, and parenting. Sharing recipes, insights, and experiences.
 				</p>
 			</section>
 
 			<nav class="grid grid-cols-2 gap-8" aria-label="Footer navigation">
 				<section>
-					<h3 class="text-base font-semibold mb-2">Categories</h3>
+					<h3 class="text-base font-semibold mb-2 text-black dark:text-gray-light">Categories</h3>
 					<ul class="space-y-2">
 						<li>
-							<a href="/blog/category/recipes" class="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors">Recipes</a>
+							<a href="/blog/category/recipes" class="text-gray dark:text-gray-light hover:text-primary dark:hover:text-primary transition-colors">Recipes</a>
 						</li>
 						<li>
-							<a href="/blog/category/health" class="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors">Health & Wellness</a>
+							<a href="/blog/category/health" class="text-gray dark:text-gray-light hover:text-primary dark:hover:text-primary transition-colors">Health & Wellness</a>
 						</li>
 						<li>
-							<a href="/blog/category/technology" class="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors">Technology</a>
+							<a href="/blog/category/technology" class="text-gray dark:text-gray-light hover:text-primary dark:hover:text-primary transition-colors">Technology</a>
 						</li>
 					</ul>
 				</section>
 
 				<section>
-					<h3 class="text-base font-semibold mb-2">Resources</h3>
+					<h3 class="text-base font-semibold mb-2 text-black dark:text-gray-light">Resources</h3>
 					<ul class="space-y-2">
 						<li>
-							<a href="/blog" class="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors">All Posts</a>
+							<a href="/blog" class="text-gray dark:text-gray-light hover:text-primary dark:hover:text-primary transition-colors">All Posts</a>
 						</li>
 						<li>
-							<a href="/about" class="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors">About</a>
+							<a href="/about" class="text-gray dark:text-gray-light hover:text-primary dark:hover:text-primary transition-colors">About</a>
 						</li>
 						<li>
-							<a href="/contact" class="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors">Contact</a>
+							<a href="/contact" class="text-gray dark:text-gray-light hover:text-primary dark:hover:text-primary transition-colors">Contact</a>
 						</li>
 					</ul>
 				</section>
 			</nav>
 		</div>
 
-		<section class="border-t border-gray-200 dark:border-gray-800 pt-8">
+		<section class="border-t border-border dark:border-border-dark pt-8">
 			<nav class="flex justify-center gap-6 mb-4 flex-wrap" aria-label="Social links">
-				<a href="https://bsky.app/profile/antoniwan.online" class="inline-flex items-center gap-2 text-accent bg-gray-100 dark:bg-gray-800 rounded-lg px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-white" target="_blank" rel="noopener" aria-label="BlueSky">🌀 BlueSky</a>
-				<a href="https://github.com/antoniwan" class="inline-flex items-center gap-2 text-accent bg-gray-100 dark:bg-gray-800 rounded-lg px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-white" target="_blank" rel="noopener" aria-label="GitHub">🐙 GitHub</a>
-				<a href="https://stronghandssoftheart.com" class="inline-flex items-center gap-2 text-accent bg-gray-100 dark:bg-gray-800 rounded-lg px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-white" target="_blank" rel="noopener" aria-label="Strong Hands Soft Heart">💜 Strong Hands Soft Heart</a>
-				<a href="https://builds.software" class="inline-flex items-center gap-2 text-accent bg-gray-100 dark:bg-gray-800 rounded-lg px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-white" target="_blank" rel="noopener" aria-label="Builds.Software">🛠 Builds.Software</a>
+				<a href="https://bsky.app/profile/antoniwan.online" class="inline-flex items-center gap-2 text-primary bg-gray-light dark:bg-gray-dark rounded-lg px-4 py-2 text-sm font-medium transition-colors hover:bg-primary hover:text-white" target="_blank" rel="noopener" aria-label="BlueSky">🌀 BlueSky</a>
+				<a href="https://github.com/antoniwan" class="inline-flex items-center gap-2 text-primary bg-gray-light dark:bg-gray-dark rounded-lg px-4 py-2 text-sm font-medium transition-colors hover:bg-primary hover:text-white" target="_blank" rel="noopener" aria-label="GitHub">🐙 GitHub</a>
+				<a href="https://stronghandssoftheart.com" class="inline-flex items-center gap-2 text-primary bg-gray-light dark:bg-gray-dark rounded-lg px-4 py-2 text-sm font-medium transition-colors hover:bg-primary hover:text-white" target="_blank" rel="noopener" aria-label="Strong Hands Soft Heart">💜 Strong Hands Soft Heart</a>
+				<a href="https://builds.software" class="inline-flex items-center gap-2 text-primary bg-gray-light dark:bg-gray-dark rounded-lg px-4 py-2 text-sm font-medium transition-colors hover:bg-primary hover:text-white" target="_blank" rel="noopener" aria-label="Builds.Software">🛠 Builds.Software</a>
 			</nav>
-			<p class="text-center text-sm text-gray-600 dark:text-gray-400">
+			<p class="text-center text-sm text-gray dark:text-gray-light">
 				© {new Date().getFullYear()} {SITE_TITLE}. All rights reserved.<br />
-				This work is licensed under a <span role="img" aria-label="Creative Commons">🔖</span> <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener" class="text-accent hover:text-primary transition-colors">Creative Commons Attribution 4.0 International License</a>.
+				This work is licensed under a <span role="img" aria-label="Creative Commons">🔖</span> <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener" class="text-primary hover:text-primary-dark transition-colors">Creative Commons Attribution 4.0 International License</a>.
 			</p>
 		</section>
 	</div>
 </footer>
-
-<style>
-	.footer {
-		background-color: rgb(var(--color-gray-light));
-		padding: var(--spacing-xl) 0;
-		margin-top: var(--spacing-2xl);
-	}
-
-	.footer__container {
-		max-width: 1200px;
-		margin: 0 auto;
-		padding: 0 var(--spacing-md);
-	}
-
-	.footer__content {
-		display: grid;
-		grid-template-columns: 1fr;
-		gap: var(--spacing-xl);
-		margin-bottom: var(--spacing-xl);
-	}
-
-	.footer__info {
-		max-width: 400px;
-	}
-
-	.footer__title {
-		font-size: var(--font-size-xl);
-		margin-bottom: var(--spacing-sm);
-	}
-
-	.footer__description {
-		color: rgb(var(--color-gray));
-		line-height: var(--line-height-relaxed);
-	}
-
-	.footer__nav {
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-		gap: var(--spacing-xl);
-	}
-
-	.footer__nav-section {
-		display: flex;
-		flex-direction: column;
-		gap: var(--spacing-sm);
-	}
-
-	.footer__nav-title {
-		font-size: var(--font-size-base);
-		font-weight: 600;
-		margin-bottom: var(--spacing-sm);
-	}
-
-	.footer__nav-links {
-		list-style: none;
-		margin: 0;
-		padding: 0;
-		display: flex;
-		flex-direction: column;
-		gap: var(--spacing-sm);
-	}
-
-	.footer__nav-item {
-		margin: 0;
-	}
-
-	.footer__link {
-		color: rgb(var(--color-gray));
-		text-decoration: none;
-		transition: color 0.2s ease;
-	}
-
-	.footer__link:hover {
-		color: var(--color-primary);
-	}
-
-	.footer__bottom {
-		border-top: 1px solid rgba(var(--color-gray), 0.1);
-		padding-top: var(--spacing-lg);
-	}
-
-	.footer__social {
-		display: flex;
-		justify-content: center;
-		gap: 1.5rem;
-		margin-bottom: 1rem;
-		flex-wrap: wrap;
-	}
-
-	.footer__social-link {
-		display: inline-flex;
-		align-items: center;
-		gap: 0.5rem;
-		color: var(--accent);
-		background: rgba(var(--color-gray-light), 0.5);
-		border-radius: 6px;
-		padding: 0.5rem 1rem;
-		font-size: 1.1em;
-		text-decoration: none;
-		font-weight: 500;
-		transition: background 0.2s, color 0.2s, box-shadow 0.2s;
-		box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-	}
-
-	.footer__social-link:hover {
-		background: var(--accent);
-		color: #fff;
-		box-shadow: 0 4px 16px rgba(0,0,0,0.08);
-	}
-
-	.footer__copyright {
-		color: rgb(var(--color-gray));
-		font-size: var(--font-size-sm);
-		text-align: center;
-	}
-
-	.footer__cc-link {
-		color: var(--accent);
-		text-decoration: underline;
-		transition: color 0.2s;
-	}
-
-	.footer__cc-link:hover {
-		color: var(--color-primary);
-	}
-
-	@media (min-width: 768px) {
-		.footer__content {
-			grid-template-columns: 1fr 2fr;
-		}
-	}
-</style>

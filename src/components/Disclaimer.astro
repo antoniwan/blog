@@ -6,9 +6,9 @@ interface Props {
 const { text = "🌟 <strong>Sacred Disclaimer:</strong> The wisdom, practices, and digital alchemy shared here flow from personal experience and creative exploration. None of this constitutes medical, legal, psychological, or spiritual advice — though it dances with all of these realms. This is a space for inspiration, experimentation, and conscious growth. Use these tools and insights as starting points for your own journey, not as prescriptions or promises. Your path is yours to walk. If something here calls to you or raises questions in your heart, reach out. Let's explore together, with reverence for the mysteries we're all navigating." } = Astro.props;
 ---
 
-<div class="bg-gray-light/20 border-l-4 border-primary p-4 md:p-6 my-6 rounded-md" role="complementary" aria-label="Disclaimer">
+<div class="bg-gray-light/20 dark:bg-gray/20 border-l-4 border-primary p-4 md:p-6 my-6 rounded-md" role="complementary" aria-label="Disclaimer">
 	<div class="max-w-3xl mx-auto">
-		<h3 class="text-lg font-semibold mb-2 text-black">Disclaimer</h3>
-		<p class="text-gray leading-relaxed m-0" set:html={text} />
+		<h3 class="text-lg font-semibold mb-2 text-black dark:text-gray-light">Disclaimer</h3>
+		<p class="text-gray dark:text-gray-light leading-relaxed m-0" set:html={text} />
 	</div>
 </div> 
