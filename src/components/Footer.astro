@@ -61,8 +61,15 @@ import { SITE_TITLE } from '../consts';
 		</div>
 
 		<div class="footer__bottom">
+			<div class="footer__social">
+				<a href="https://bsky.app/profile/antoniwan.online" class="footer__social-link" target="_blank" rel="noopener" aria-label="BlueSky">🌀 BlueSky</a>
+				<a href="https://github.com/antoniwan" class="footer__social-link" target="_blank" rel="noopener" aria-label="GitHub">🐙 GitHub</a>
+				<a href="https://stronghandssoftheart.com" class="footer__social-link" target="_blank" rel="noopener" aria-label="Strong Hands Soft Heart">💜 Strong Hands Soft Heart</a>
+				<a href="https://builds.software" class="footer__social-link" target="_blank" rel="noopener" aria-label="Builds.Software">🛠 Builds.Software</a>
+			</div>
 			<p class="footer__copyright">
-				© {new Date().getFullYear()} {SITE_TITLE}. All rights reserved.
+				© {new Date().getFullYear()} {SITE_TITLE}. All rights reserved.<br />
+				This work is licensed under a <span role="img" aria-label="Creative Commons">🔖</span> <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener" class="footer__cc-link">Creative Commons Attribution 4.0 International License</a>.
 			</p>
 		</div>
 	</div>
@@ -148,10 +155,49 @@ import { SITE_TITLE } from '../consts';
 		padding-top: var(--spacing-lg);
 	}
 
+	.footer__social {
+		display: flex;
+		justify-content: center;
+		gap: 1.5rem;
+		margin-bottom: 1rem;
+		flex-wrap: wrap;
+	}
+
+	.footer__social-link {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+		color: var(--accent);
+		background: rgba(var(--color-gray-light), 0.5);
+		border-radius: 6px;
+		padding: 0.5rem 1rem;
+		font-size: 1.1em;
+		text-decoration: none;
+		font-weight: 500;
+		transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+		box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+	}
+
+	.footer__social-link:hover {
+		background: var(--accent);
+		color: #fff;
+		box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+	}
+
 	.footer__copyright {
 		color: rgb(var(--color-gray));
 		font-size: var(--font-size-sm);
 		text-align: center;
+	}
+
+	.footer__cc-link {
+		color: var(--accent);
+		text-decoration: underline;
+		transition: color 0.2s;
+	}
+
+	.footer__cc-link:hover {
+		color: var(--color-primary);
 	}
 
 	@media (min-width: 768px) {
