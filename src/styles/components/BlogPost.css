@@ -1,6 +1,6 @@
 /* Blog Post Styles */
 .article-header {
-  margin-bottom: 2rem;
+  margin-bottom: 3rem;
   width: 100%;
 }
 
@@ -10,7 +10,7 @@
   margin-bottom: 2rem;
   display: block;
   border-radius: 12px;
-  box-shadow: var(--box-shadow);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .article-header h1 {
@@ -70,4 +70,78 @@
   .article-header h1 {
     font-size: 2.5rem;
   }
+}
+
+/* Additional styles for code blocks */
+.prose pre {
+  background: var(--code-bg);
+  padding: 1.5rem;
+  border-radius: 8px;
+  overflow-x: auto;
+  margin: 2rem 0;
+}
+
+.prose code {
+  background: var(--code-bg);
+  padding: 0.2em 0.4em;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+
+.prose blockquote {
+  border-left: 4px solid var(--blockquote-border);
+  padding-left: 1.5rem;
+  margin: 2rem 0;
+  background: var(--blockquote-bg);
+  border-radius: 4px;
+  padding: 1rem;
+}
+
+.prose a {
+  color: var(--accent-color);
+  text-decoration: none;
+  border-bottom: 1px solid var(--accent-color);
+  transition: all 0.2s;
+}
+
+.prose a:hover {
+  color: var(--accent-color);
+  border-bottom-width: 2px;
+}
+
+/* Responsive images */
+.prose img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin: 2rem 0;
+}
+
+/* Lists */
+.prose ul,
+.prose ol {
+  margin: 1.5rem 0;
+  padding-left: 1.5rem;
+}
+
+.prose li {
+  margin-bottom: 0.5rem;
+}
+
+/* Tables */
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 2rem 0;
+}
+
+.prose th,
+.prose td {
+  padding: 0.75rem;
+  border: 1px solid var(--border-color);
+}
+
+.prose th {
+  background: var(--code-bg);
+  font-weight: 600;
 }
