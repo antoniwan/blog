@@ -32,16 +32,6 @@ const alternateTranslation = translations?.find(t => t.id !== post.id);
 ---
 
 <article class="post-card">
-	{alternateTranslation && (
-		<a 
-			href={`/blog/${alternateTranslation.id}/`} 
-			class="language-switch"
-			aria-label={`Read in ${alternateTranslation.language === 'en' ? 'English' : 'Spanish'}`}
-		>
-			<span class="flag">{alternateTranslation.language === 'en' ? '🇺🇸' : '🇵🇷'}</span>
-			<span class="text">{alternateTranslation.language === 'en' ? 'English' : 'Español'}</span>
-		</a>
-	)}
 	<div class="post-content">
 		<div class="post-meta">
 			<div class="meta-details">
@@ -65,6 +55,19 @@ const alternateTranslation = translations?.find(t => t.id !== post.id);
 					<>
 						<span class="separator">•</span>
 						<span class="reading-time">{post.data.readingTime} min read</span>
+					</>
+				)}
+				{alternateTranslation && (
+					<>
+						<span class="separator">•</span>
+						<a 
+							href={`/blog/${alternateTranslation.id}/`} 
+							class="language-switch"
+							aria-label={`Read in ${alternateTranslation.language === 'en' ? 'English' : 'Spanish'}`}
+						>
+							<span class="flag">{alternateTranslation.language === 'en' ? '🇺🇸' : '🇵🇷'}</span>
+							<span class="text">{alternateTranslation.language === 'en' ? 'English' : 'Español'}</span>
+						</a>
 					</>
 				)}
 			</div>
@@ -123,29 +126,21 @@ const alternateTranslation = translations?.find(t => t.id !== post.id);
 	}
 
 	.language-switch {
-		position: absolute;
-		top: 1rem;
-		right: 1rem;
-		display: flex;
+		display: inline-flex;
 		align-items: center;
-		gap: 0.5rem;
-		padding: 0.5rem 0.75rem;
-		background: var(--background-color);
-		color: var(--text-color);
-		border-radius: 8px;
+		gap: 0.375rem;
+		color: var(--text-color-secondary);
+		text-decoration: none;
 		font-weight: 500;
 		font-size: 0.875rem;
-		text-decoration: none;
 		transition: all 0.2s ease;
-		border: 1px solid var(--border-color);
-		backdrop-filter: blur(8px);
+		padding: 0.25rem 0.5rem;
+		border-radius: 4px;
 	}
 
 	.language-switch:hover {
-		background: var(--accent-color);
-		color: white;
-		transform: translateY(-1px);
-		border-color: var(--accent-color);
+		color: var(--accent-color);
+		background: var(--background-color-tertiary);
 	}
 
 	.language-switch .flag {
