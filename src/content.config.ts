@@ -20,7 +20,9 @@ const blog = defineCollection({
     // Optional fields
     updatedDate: z.coerce.date().optional(),
     heroImage: z.string().optional(),
-    category: z.enum(validCategoryIds as [string, ...string[]]).optional(),
+    category: z
+      .array(z.enum(validCategoryIds as [string, ...string[]]))
+      .optional(),
     subcategory: z.string().optional(),
     tags: z.array(z.string()).optional(),
     draft: z.boolean().optional().default(false),

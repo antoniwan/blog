@@ -3,7 +3,7 @@ title: "Cómo Proteger a Nuestros Niños del Peligro Digital: Guía para Padres 
 description: "Una guía sencilla y poderosa para cuidar el corazón y la mente de nuestros toddlers en el mundo digital moderno."
 pubDate: 2025-05-01T00:00:00.000Z
 language: ["es"]
-category: "parenting"
+category: ["parenting"]
 subcategory: "Seguridad Digital"
 tags: ["padres", "niños", "seguridad", "internet", "educación"]
 readingTime: 8

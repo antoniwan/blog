@@ -4,7 +4,7 @@ description: "Esta guía te acompaña paso a paso en la elección, configuració
 pubDate: "2025-05-01"
 heroImage: "/guia-padres.jpg"
 language: ["es"]
-category: "parenting"
+category: ["parenting"]
 subcategory: "Tecnología y Crianza"
 tags:
   [
@@ -94,62 +94,4 @@ Desactiva estas opciones desde `Tiempo en pantalla > Restricciones de contenido 
 - `YouTube Kids` (con filtros activos).
 - `Khan Academy Kids`.
 - `Toca Boca / Sago Mini / Endless Alphabet`.
-- `Libby` o `Kindle` para cuentos.
-- `Moshi` o `Calm Kids` para meditación nocturna.
-
----
-
-## 5. Seguridad Psicológica: Lo que No se Ve También Daña
-
-> El Internet no es un parque. Es una ciudad sin ley.
-
-Dejar un iPad sin control es como dejar a un niño solo en la calle. La exposición a violencia, pornografía, y contenido manipulativo puede dejar cicatrices invisibles.
-
-### Como explica Steiner-Adair (2013):
-
-> "La exposición temprana a contenido inapropiado en Internet puede alterar patrones de apego, autoestima y regulación emocional."
-
-### Por eso:
-
-> **Nosotros, no ellos, debemos ser el firewall.**
-
----
-
-## 6. Valores Fundamentales
-
-- **Presencia sobre perfección.**
-- **Amor firme.**
-- **Educación digital.**
-- **Tiempo de calidad.**
-
----
-
-## 7. Diario de un Padre Responsable
-
-> "Hoy configuré el iPad nuevo para Mia. Desactivé Safari, instalé Khan Academy Kids, y limité YouTube Kids a 45 minutos.  
-> Me sentí más tranquilo sabiendo que no va a toparse con nada raro.  
-> Le expliqué que esto no es castigo, sino amor. Me miró, sonrió, y dijo 'ok papi'.  
-> Fue suficiente para saber que estoy haciendo lo correcto."  
-> — _Antonio, padre boricua, abril 2025_
-
----
-
-## 8. Conclusión: Ser el Puente, No la Barrera
-
-Nuestros niños no necesitan un Internet libre. **Necesitan una infancia libre.**
-
-Y si usamos bien estas herramientas, el iPad puede ser una extensión de su aprendizaje y de nuestro amor consciente.
-
----
-
-## Referencias
-
-Steiner-Adair, C., & Barker, T. (2013). _The Big Disconnect: Protecting Childhood and Family Relationships in the Digital Age_. Harper.
-
-American Academy of Pediatrics. (2016). Media and Young Minds. _Pediatrics_, 138(5). https://doi.org/10.1542/peds.2016-2591
-
-Common Sense Media. (2023). _Device Setup for Kids: Parental Controls Guide_. https://www.commonsensemedia.org
-
----
-
-**¿Quieres que esto se convierta en un PDF imprimible o guía visual para escuelas y comunidades? Avísame y te lo creo con gusto.**
+- `Libby` o `Kindle`

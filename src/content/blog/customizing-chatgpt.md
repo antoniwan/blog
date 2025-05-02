@@ -3,7 +3,7 @@ title: "Customizing ChatGPT: Crafting a Mirror, Not a Mirrorball"
 description: "On turning AI into a sacred tool, not a shallow assistant."
 pubDate: "2025-05-01T18:16:00.000Z"
 language: ["en"]
-category: "systems-strategy"
+category: ["systems-strategy"]
 subcategory: "AI"
 tags: ["chatgpt", "values", "customization", "ritual", "tools"]
 readingTime: 4

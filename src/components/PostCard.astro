@@ -9,7 +9,7 @@ interface Props {
 			title: string;
 			description: string;
 			pubDate: Date;
-			category?: string;
+			category?: string[];
 			subcategory?: string;
 			language: string[];
 			readingTime?: number;
@@ -20,23 +20,28 @@ interface Props {
 
 const { post } = Astro.props;
 
-// Find the category data
-const categoryData = post.data.category ? categories.find(cat => cat.id === post.data.category) : null;
+// Find the category data for all categories
+const categoryData = post.data.category?.map(catId => categories.find(cat => cat.id === catId)) || [];
 ---
 
 <article class="post-card">
 	<div class="post-content">
 		<div class="post-meta">
 			<div class="meta-details">
-				{categoryData && (
+				{categoryData.length > 0 && (
 					<nav class="category-nav" aria-label="Post categories">
-						<a href={`/categories/${post.data.category?.toLowerCase()}/`} class="category-link">
-							{categoryData.icon} {categoryData.name}
-							{post.data.subcategory && <span class="subcategory">/ {post.data.subcategory}</span>}
-						</a>
+						{categoryData.map((cat, index) => (
+							<>
+								<a href={`/categories/${cat?.id.toLowerCase()}/`} class="category-link">
+									{cat?.icon} {cat?.name}
+									{post.data.subcategory && index === 0 && <span class="subcategory">/ {post.data.subcategory}</span>}
+								</a>
+								{index < categoryData.length - 1 && <span class="separator">•</span>}
+							</>
+						))}
 					</nav>
 				)}
-				<span class="separator">•</span>
+				{categoryData.length > 0 && <span class="separator">•</span>}
 				<FormattedDate date={post.data.pubDate} />
 				{post.data.readingTime && (
 					<>

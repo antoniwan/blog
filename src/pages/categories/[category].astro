@@ -21,7 +21,7 @@ interface Props {
 const { category } = Astro.props;
 const posts = await getCollection('blog');
 const categoryPosts = posts
-  .filter((post: CollectionEntry<'blog'>) => post.data.category === category.id)
+  .filter((post: CollectionEntry<'blog'>) => post.data.category?.includes(category.id))
   .sort((a: CollectionEntry<'blog'>, b: CollectionEntry<'blog'>) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
 // Group by translationGroup (or fallback to id)
