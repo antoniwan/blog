@@ -91,59 +91,64 @@ const capitalize = (str: string) => str ? str.charAt(0).toUpperCase() + str.slic
     />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
   </head>
-  <body>
-    <a href="#main-content" class="skip-link">Skip to main content</a>
+  <body class="min-h-screen flex flex-col">
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:bg-white focus:px-4 focus:py-2 focus:rounded focus:shadow-lg">Skip to main content</a>
     <Header />
-    <main id="main-content" role="main" class="content-wrapper">
+    <main id="main-content" role="main" class="flex-grow container mx-auto px-4 md:px-8 py-8">
       {layoutType === 'blog' && (
-        <article class="blog-post">
-          <header class="article-header">
-            <div class="article-meta">
+        <article class="max-w-3xl mx-auto">
+          <header class="mb-8">
+            <div class="flex flex-wrap gap-2 mb-4">
               {category && category.length > 0 && (
-                <div class="category-tags">
+                <div class="flex flex-wrap gap-2">
                   {category.map((cat) => (
-                    <a href={`/category/${cat.toLowerCase()}`} class="category-tag">
+                    <a 
+                      href={`/category/${cat.toLowerCase()}`} 
+                      class="inline-flex items-center gap-1 text-sm bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 px-3 py-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+                    >
                       {categoryEmojis[cat] || '📝'} {capitalize(cat)}
                     </a>
                   ))}
                 </div>
               )}
               {subcategory && (
-                <span class="subcategory">{subcategory}</span>
+                <span class="text-sm text-gray-600 dark:text-gray-400">{subcategory}</span>
               )}
               {language && language.length > 0 && (
-                <div class="language-tags">
+                <div class="flex flex-wrap gap-2">
                   {language.map((lang) => (
-                    <span class="language-tag">{languageEmojis[lang] || '🌐'} {lang.toUpperCase()}</span>
+                    <span class="inline-flex items-center gap-1 text-sm text-gray-600 dark:text-gray-400">
+                      {languageEmojis[lang] || '🌐'} {lang.toUpperCase()}
+                    </span>
                   ))}
                 </div>
               )}
             </div>
-            <h1>{title}</h1>
-            {description && <p class="description">{description}</p>}
-            <div class="article-info">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4">{title}</h1>
+            {description && <p class="text-xl text-gray-600 dark:text-gray-400 mb-6">{description}</p>}
+            <div class="flex flex-wrap gap-4 text-sm text-gray-600 dark:text-gray-400">
               {pubDate && (
-                <time datetime={pubDate.toISOString()} class="pub-date">
+                <time datetime={pubDate.toISOString()}>
                   <FormattedDate date={pubDate} />
                 </time>
               )}
               {updatedDate && (
-                <time datetime={updatedDate.toISOString()} class="updated-date">
+                <time datetime={updatedDate.toISOString()}>
                   Updated: <FormattedDate date={updatedDate} />
                 </time>
               )}
               {readingTime && (
-                <span class="reading-time">{readingTime} min read</span>
+                <span>{readingTime} min read</span>
               )}
             </div>
           </header>
-          <section class="content">
+          <section class="prose dark:prose-invert max-w-none">
             <slot />
           </section>
         </article>
       )}
       {layoutType === 'default' && (
-        <section class="content">
+        <section class="max-w-3xl mx-auto">
           <slot />
         </section>
       )}

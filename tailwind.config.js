@@ -1,6 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ["./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}"],
+  darkMode: "class",
   theme: {
     extend: {
       colors: {
@@ -14,6 +15,27 @@ export default {
           dark: "rgb(34, 41, 57)",
         },
         black: "rgb(15, 18, 25)",
+        background: {
+          DEFAULT: "#fff",
+          dark: "rgb(34, 41, 57)",
+        },
+        text: {
+          DEFAULT: "rgb(15, 18, 25)",
+          dark: "rgb(229, 233, 240)",
+        },
+        border: {
+          DEFAULT: "rgba(229, 233, 240, 0.5)",
+          dark: "rgba(229, 233, 240, 0.2)",
+        },
+        "code-bg": {
+          DEFAULT: "rgb(229, 233, 240)",
+          dark: "rgba(229, 233, 240, 0.1)",
+        },
+        "blockquote-bg": {
+          DEFAULT: "rgba(229, 233, 240, 0.2)",
+          dark: "rgba(229, 233, 240, 0.1)",
+        },
+        "blockquote-border": "#2337ff",
       },
       fontFamily: {
         sans: ["Inter", "system-ui", "sans-serif"],

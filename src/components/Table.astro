@@ -6,15 +6,15 @@ interface Props {
 const { caption } = Astro.props;
 ---
 
-<div class="table-container">
-  <table class="table">
-    {caption && <caption class="table__caption">{caption}</caption>}
-    <thead class="table__head">
-      <tr class="table__row">
+<div class="w-full overflow-x-auto my-6">
+  <table class="w-full border-collapse text-base leading-normal">
+    {caption && <caption class="text-lg font-semibold text-left mb-4 text-black">{caption}</caption>}
+    <thead class="bg-gray-light">
+      <tr class="border-b border-gray-light last:border-b-0 even:bg-gray-light/20 hover:bg-gray-light/40">
         <slot name="header" />
       </tr>
     </thead>
-    <tbody class="table__body">
+    <tbody>
       <slot />
     </tbody>
   </table>

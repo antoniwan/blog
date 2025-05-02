@@ -1,0 +1,17 @@
+---
+interface Props {
+  src: string;
+  title?: string;
+}
+
+const { src, title } = Astro.props;
+---
+
+<div class="my-8 max-w-full overflow-hidden rounded-lg shadow-md">
+  <video
+    src={src}
+    title={title}
+    class="w-full h-auto block"
+    controls
+  />
+</div> 

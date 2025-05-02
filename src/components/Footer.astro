@@ -2,61 +2,61 @@
 import { SITE_TITLE } from '../consts';
 ---
 
-<footer class="footer" role="contentinfo">
-	<div class="footer__container">
-		<div class="footer__content">
-			<div class="footer__info">
-				<h2 class="footer__title">{SITE_TITLE}</h2>
-				<p class="footer__description">
+<footer class="bg-gray-50 dark:bg-gray-900 py-12 mt-16" role="contentinfo">
+	<div class="container mx-auto px-4 md:px-8">
+		<div class="grid md:grid-cols-3 gap-8 mb-8">
+			<section class="max-w-md">
+				<h2 class="text-xl font-bold mb-2">{SITE_TITLE}</h2>
+				<p class="text-gray-600 dark:text-gray-400 leading-relaxed">
 					Exploring the intersection of food, health, technology, and parenting. Sharing recipes, insights, and experiences.
 				</p>
-			</div>
+			</section>
 
-			<nav class="footer__nav" aria-label="Footer navigation">
-				<div class="footer__nav-section">
-					<h3 class="footer__nav-title">Categories</h3>
-					<ul class="footer__nav-links">
-						<li class="footer__nav-item">
-							<a href="/blog/category/recipes" class="footer__link">Recipes</a>
+			<nav class="grid grid-cols-2 gap-8" aria-label="Footer navigation">
+				<section>
+					<h3 class="text-base font-semibold mb-2">Categories</h3>
+					<ul class="space-y-2">
+						<li>
+							<a href="/blog/category/recipes" class="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors">Recipes</a>
 						</li>
-						<li class="footer__nav-item">
-							<a href="/blog/category/health" class="footer__link">Health & Wellness</a>
+						<li>
+							<a href="/blog/category/health" class="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors">Health & Wellness</a>
 						</li>
-						<li class="footer__nav-item">
-							<a href="/blog/category/technology" class="footer__link">Technology</a>
+						<li>
+							<a href="/blog/category/technology" class="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors">Technology</a>
 						</li>
 					</ul>
-				</div>
+				</section>
 
-				<div class="footer__nav-section">
-					<h3 class="footer__nav-title">Resources</h3>
-					<ul class="footer__nav-links">
-						<li class="footer__nav-item">
-							<a href="/blog" class="footer__link">All Posts</a>
+				<section>
+					<h3 class="text-base font-semibold mb-2">Resources</h3>
+					<ul class="space-y-2">
+						<li>
+							<a href="/blog" class="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors">All Posts</a>
 						</li>
-						<li class="footer__nav-item">
-							<a href="/about" class="footer__link">About</a>
+						<li>
+							<a href="/about" class="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors">About</a>
 						</li>
-						<li class="footer__nav-item">
-							<a href="/contact" class="footer__link">Contact</a>
+						<li>
+							<a href="/contact" class="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors">Contact</a>
 						</li>
 					</ul>
-				</div>
+				</section>
 			</nav>
 		</div>
 
-		<div class="footer__bottom">
-			<div class="footer__social">
-				<a href="https://bsky.app/profile/antoniwan.online" class="footer__social-link" target="_blank" rel="noopener" aria-label="BlueSky">🌀 BlueSky</a>
-				<a href="https://github.com/antoniwan" class="footer__social-link" target="_blank" rel="noopener" aria-label="GitHub">🐙 GitHub</a>
-				<a href="https://stronghandssoftheart.com" class="footer__social-link" target="_blank" rel="noopener" aria-label="Strong Hands Soft Heart">💜 Strong Hands Soft Heart</a>
-				<a href="https://builds.software" class="footer__social-link" target="_blank" rel="noopener" aria-label="Builds.Software">🛠 Builds.Software</a>
-			</div>
-			<p class="footer__copyright">
+		<section class="border-t border-gray-200 dark:border-gray-800 pt-8">
+			<nav class="flex justify-center gap-6 mb-4 flex-wrap" aria-label="Social links">
+				<a href="https://bsky.app/profile/antoniwan.online" class="inline-flex items-center gap-2 text-accent bg-gray-100 dark:bg-gray-800 rounded-lg px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-white" target="_blank" rel="noopener" aria-label="BlueSky">🌀 BlueSky</a>
+				<a href="https://github.com/antoniwan" class="inline-flex items-center gap-2 text-accent bg-gray-100 dark:bg-gray-800 rounded-lg px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-white" target="_blank" rel="noopener" aria-label="GitHub">🐙 GitHub</a>
+				<a href="https://stronghandssoftheart.com" class="inline-flex items-center gap-2 text-accent bg-gray-100 dark:bg-gray-800 rounded-lg px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-white" target="_blank" rel="noopener" aria-label="Strong Hands Soft Heart">💜 Strong Hands Soft Heart</a>
+				<a href="https://builds.software" class="inline-flex items-center gap-2 text-accent bg-gray-100 dark:bg-gray-800 rounded-lg px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-white" target="_blank" rel="noopener" aria-label="Builds.Software">🛠 Builds.Software</a>
+			</nav>
+			<p class="text-center text-sm text-gray-600 dark:text-gray-400">
 				© {new Date().getFullYear()} {SITE_TITLE}. All rights reserved.<br />
-				This work is licensed under a <span role="img" aria-label="Creative Commons">🔖</span> <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener" class="footer__cc-link">Creative Commons Attribution 4.0 International License</a>.
+				This work is licensed under a <span role="img" aria-label="Creative Commons">🔖</span> <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener" class="text-accent hover:text-primary transition-colors">Creative Commons Attribution 4.0 International License</a>.
 			</p>
-		</div>
+		</section>
 	</div>
 </footer>
 

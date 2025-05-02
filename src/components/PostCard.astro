@@ -32,29 +32,29 @@ const categoryData = post.data.category?.map(catId => categories.find(cat => cat
 const alternateTranslation = translations?.find(t => t.id !== post.id);
 ---
 
-<article class="post-card">
-	<a href={`/blog/${post.id}/`} class="post-card__link">
+<article class="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-200 hover:-translate-y-1 hover:shadow-lg">
+	<a href={`/blog/${post.id}/`} class="block no-underline text-inherit">
 		{post.data.image && (
-			<div class="post-card__image">
+			<div class="relative pt-[56.25%] bg-gray-light">
 				<img
 					src={post.data.image}
 					alt=""
-					class="post-card__img"
+					class="absolute top-0 left-0 w-full h-full object-cover"
 					width="800"
 					height="400"
 					loading="lazy"
 				/>
 			</div>
 		)}
-		<div class="post-card__content">
+		<div class="p-6 md:p-8">
 			{post.data.category && (
-				<span class="post-card__category" aria-label="Category">
+				<span class="inline-block px-2 py-1 bg-gray-light/20 text-primary text-sm font-medium rounded-md mb-2">
 					{post.data.category.map((catId) => categories.find(cat => cat.id === catId)?.name).join(', ')}
 				</span>
 			)}
-			<h3 class="post-card__title">{post.data.title}</h3>
-			<p class="post-card__description">{post.data.description}</p>
-			<time class="post-card__date" datetime={post.data.pubDate.toISOString()}>
+			<h3 class="text-xl md:text-2xl font-semibold mb-2 text-black leading-tight">{post.data.title}</h3>
+			<p class="text-gray mb-4 leading-relaxed">{post.data.description}</p>
+			<time class="text-sm text-gray" datetime={post.data.pubDate.toISOString()}>
 				{post.data.pubDate.toLocaleDateString('en-US', {
 					year: 'numeric',
 					month: 'long',
@@ -63,84 +63,4 @@ const alternateTranslation = translations?.find(t => t.id !== post.id);
 			</time>
 		</div>
 	</a>
-</article>
-
-<style>
-	.post-card {
-		background-color: #fff;
-		border-radius: 8px;
-		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-		overflow: hidden;
-		transition: transform 0.2s ease, box-shadow 0.2s ease;
-	}
-
-	.post-card:hover {
-		transform: translateY(-4px);
-		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-	}
-
-	.post-card__link {
-		display: block;
-		text-decoration: none;
-		color: inherit;
-	}
-
-	.post-card__image {
-		position: relative;
-		padding-top: 56.25%; /* 16:9 aspect ratio */
-		background-color: rgb(var(--color-gray-light));
-	}
-
-	.post-card__img {
-		position: absolute;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
-	}
-
-	.post-card__content {
-		padding: var(--spacing-lg);
-	}
-
-	.post-card__category {
-		display: inline-block;
-		padding: var(--spacing-xs) var(--spacing-sm);
-		background-color: rgba(var(--color-gray-light), 0.2);
-		color: var(--color-primary);
-		font-size: var(--font-size-sm);
-		font-weight: 500;
-		border-radius: 4px;
-		margin-bottom: var(--spacing-sm);
-	}
-
-	.post-card__title {
-		font-size: var(--font-size-xl);
-		font-weight: 600;
-		margin: 0 0 var(--spacing-sm);
-		color: rgb(var(--color-black));
-		line-height: var(--line-height-tight);
-	}
-
-	.post-card__description {
-		color: rgb(var(--color-gray));
-		margin: 0 0 var(--spacing-md);
-		line-height: var(--line-height-relaxed);
-	}
-
-	.post-card__date {
-		color: rgb(var(--color-gray));
-		font-size: var(--font-size-sm);
-	}
-
-	@media (max-width: 768px) {
-		.post-card__content {
-			padding: var(--spacing-md);
-		}
-
-		.post-card__title {
-			font-size: var(--font-size-lg);
-		}
-	}
-</style> 
+</article> 

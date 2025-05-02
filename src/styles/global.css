@@ -21,32 +21,12 @@
 @tailwind utilities;
 
 @layer base {
-  :root {
-    --background-color: #fff;
-    --text-color: rgb(15, 18, 25);
-    --secondary-color: rgb(96, 115, 159);
-    --border-color: rgba(229, 233, 240, 0.5);
-    --code-bg: rgb(229, 233, 240);
-    --blockquote-bg: rgba(229, 233, 240, 0.2);
-    --blockquote-border: #2337ff;
-  }
-
-  [data-theme="dark"] {
-    --background-color: rgb(34, 41, 57);
-    --text-color: rgb(229, 233, 240);
-    --secondary-color: rgba(229, 233, 240, 0.7);
-    --border-color: rgba(229, 233, 240, 0.2);
-    --code-bg: rgba(229, 233, 240, 0.1);
-    --blockquote-bg: rgba(229, 233, 240, 0.1);
-    --blockquote-border: #2337ff;
-  }
-
   html {
     @apply antialiased;
   }
 
   body {
-    @apply bg-background text-text font-sans;
+    @apply bg-background text-text font-sans min-h-screen flex flex-col;
   }
 
   /* Typography */
@@ -62,23 +42,18 @@
   h1 {
     @apply text-4xl md:text-5xl;
   }
-
   h2 {
     @apply text-3xl md:text-4xl;
   }
-
   h3 {
     @apply text-2xl md:text-3xl;
   }
-
   h4 {
     @apply text-xl md:text-2xl;
   }
-
   h5 {
     @apply text-lg md:text-xl;
   }
-
   h6 {
     @apply text-base md:text-lg;
   }
@@ -139,7 +114,9 @@
   hr {
     @apply border-t border-border my-8;
   }
+}
 
+@layer components {
   /* Accessibility */
   .sr-only {
     @apply absolute w-px h-px p-0 -m-px overflow-hidden whitespace-nowrap border-0;

@@ -6,47 +6,9 @@ interface Props {
 const { text = "🌟 <strong>Sacred Disclaimer:</strong> The wisdom, practices, and digital alchemy shared here flow from personal experience and creative exploration. None of this constitutes medical, legal, psychological, or spiritual advice — though it dances with all of these realms. This is a space for inspiration, experimentation, and conscious growth. Use these tools and insights as starting points for your own journey, not as prescriptions or promises. Your path is yours to walk. If something here calls to you or raises questions in your heart, reach out. Let's explore together, with reverence for the mysteries we're all navigating." } = Astro.props;
 ---
 
-<div class="disclaimer" role="complementary" aria-label="Disclaimer">
-	<div class="disclaimer__content">
-		<h3 class="disclaimer__title">Disclaimer</h3>
-		<p class="disclaimer__text">
-			This website is for educational purposes only. The information provided is not
-			intended to be a substitute for professional advice. Please consult with a
-			qualified professional for any specific questions or concerns.
-		</p>
+<div class="bg-gray-light/20 border-l-4 border-primary p-4 md:p-6 my-6 rounded-md" role="complementary" aria-label="Disclaimer">
+	<div class="max-w-3xl mx-auto">
+		<h3 class="text-lg font-semibold mb-2 text-black">Disclaimer</h3>
+		<p class="text-gray leading-relaxed m-0" set:html={text} />
 	</div>
-</div>
-
-<style>
-	.disclaimer {
-		background-color: rgba(var(--color-gray-light), 0.2);
-		border-left: 4px solid var(--color-primary);
-		padding: var(--spacing-md);
-		margin: var(--spacing-lg) 0;
-		border-radius: 4px;
-	}
-
-	.disclaimer__content {
-		max-width: 800px;
-		margin: 0 auto;
-	}
-
-	.disclaimer__title {
-		font-size: var(--font-size-lg);
-		font-weight: 600;
-		margin-bottom: var(--spacing-sm);
-		color: rgb(var(--color-black));
-	}
-
-	.disclaimer__text {
-		color: rgb(var(--color-gray));
-		line-height: var(--line-height-relaxed);
-		margin: 0;
-	}
-
-	@media (min-width: 768px) {
-		.disclaimer {
-			padding: var(--spacing-lg);
-		}
-	}
-</style> 
+</div> 

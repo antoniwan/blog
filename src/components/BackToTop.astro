@@ -1,10 +1,10 @@
 <button
-	class="back-to-top"
+	class="fixed bottom-6 right-6 md:bottom-8 md:right-8 flex items-center justify-center w-10 h-10 p-2 bg-primary text-white border-none rounded-full cursor-pointer opacity-0 invisible transition-all duration-200 hover:bg-primary-dark focus:outline-2 focus:outline-primary focus:outline-offset-2 z-fixed"
 	aria-label="Back to top"
 	title="Back to top"
 >
 	<svg
-		class="back-to-top__icon"
+		class="w-6 h-6"
 		xmlns="http://www.w3.org/2000/svg"
 		width="24"
 		height="24"
@@ -20,55 +20,6 @@
 	</svg>
 </button>
 
-<style>
-	.back-to-top {
-		position: fixed;
-		bottom: var(--spacing-lg);
-		right: var(--spacing-lg);
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		width: 40px;
-		height: 40px;
-		padding: var(--spacing-sm);
-		background-color: var(--color-primary);
-		color: white;
-		border: none;
-		border-radius: 50%;
-		cursor: pointer;
-		opacity: 0;
-		visibility: hidden;
-		transition: all 0.2s ease;
-		z-index: var(--z-index-fixed);
-	}
-
-	.back-to-top:hover {
-		background-color: var(--color-primary-dark);
-	}
-
-	.back-to-top:focus {
-		outline: 2px solid var(--color-primary);
-		outline-offset: 2px;
-	}
-
-	.back-to-top--visible {
-		opacity: 1;
-		visibility: visible;
-	}
-
-	.back-to-top__icon {
-		width: 24px;
-		height: 24px;
-	}
-
-	@media (max-width: 768px) {
-		.back-to-top {
-			bottom: var(--spacing-md);
-			right: var(--spacing-md);
-		}
-	}
-</style>
-
 <script>
 	// Handle back to top button visibility
 	const handleScroll = () => {
@@ -77,12 +28,11 @@
 
 		const scrollPosition = window.scrollY;
 		const windowHeight = window.innerHeight;
-		const documentHeight = document.documentElement.scrollHeight;
 
 		if (scrollPosition > windowHeight / 2) {
-			backToTop.classList.add('back-to-top--visible');
+			backToTop.classList.remove('opacity-0', 'invisible');
 		} else {
-			backToTop.classList.remove('back-to-top--visible');
+			backToTop.classList.add('opacity-0', 'invisible');
 		}
 	};
 

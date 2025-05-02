@@ -2,52 +2,12 @@
 ---
 
 <button
-	class="theme-toggle"
+	class="flex items-center justify-center w-10 h-10 p-2 bg-transparent border-none rounded-full cursor-pointer transition-colors hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-2 focus:outline-primary focus:outline-offset-2"
 	aria-label="Switch to dark mode"
 	title="Switch to dark mode"
 >
-	<span class="theme-toggle__icon" aria-hidden="true">🌙</span>
+	<span class="text-lg leading-none" aria-hidden="true">🌙</span>
 </button>
-
-<style>
-	.theme-toggle {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		width: 40px;
-		height: 40px;
-		padding: var(--spacing-sm);
-		background: none;
-		border: none;
-		border-radius: 50%;
-		cursor: pointer;
-		transition: background-color 0.2s ease;
-	}
-
-	.theme-toggle:hover {
-		background-color: rgba(var(--color-gray-light), 0.2);
-	}
-
-	.theme-toggle:focus {
-		outline: 2px solid var(--color-primary);
-		outline-offset: 2px;
-	}
-
-	.theme-toggle__icon {
-		font-size: var(--font-size-lg);
-		line-height: 1;
-	}
-
-	@media (prefers-color-scheme: dark) {
-		.theme-toggle {
-			background-color: rgba(var(--color-gray-dark), 0.2);
-		}
-
-		.theme-toggle:hover {
-			background-color: rgba(var(--color-gray-dark), 0.4);
-		}
-	}
-</style>
 
 <script>
 	const theme = {
@@ -70,7 +30,7 @@
 
 	// Set theme
 	const setTheme = (theme: 'light' | 'dark') => {
-		document.documentElement.setAttribute('data-theme', theme);
+		document.documentElement.classList.toggle('dark', theme === 'dark');
 		localStorage.setItem('theme', theme);
 	};
 
@@ -82,7 +42,7 @@
 
 	// Handle theme toggle
 	const handleThemeToggle = () => {
-		const currentTheme = document.documentElement.getAttribute('data-theme') as 'light' | 'dark';
+		const currentTheme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
 		const newTheme = currentTheme === 'light' ? 'dark' : 'light';
 		setTheme(newTheme);
 		
@@ -92,7 +52,7 @@
 			const newThemeData = theme[newTheme];
 			button.setAttribute('aria-label', newThemeData.label);
 			button.setAttribute('title', newThemeData.label);
-			const icon = button.querySelector('.theme-toggle__icon');
+			const icon = button.querySelector('span');
 			if (icon) {
 				icon.textContent = newThemeData.icon;
 			}
