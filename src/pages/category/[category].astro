@@ -85,44 +85,38 @@ const capitalize = (str: string) => str ? str.charAt(0).toUpperCase() + str.slic
 </BaseLayout>
 
 <style>
-	:root {
-		--reading-width: 65ch;
-		--line-height: 1.75;
-		--letter-spacing: -0.011em;
-	}
-
 	.category-header {
 		text-align: center;
-		margin-bottom: 4rem;
-		max-width: 800px;
+		margin-bottom: var(--space-8);
+		max-width: var(--content-width);
 		margin-left: auto;
 		margin-right: auto;
 	}
 
 	.back-link {
 		display: inline-block;
-		margin-bottom: 1.5rem;
+		margin-bottom: var(--space-6);
 		color: var(--secondary-color);
 		text-decoration: none;
-		font-size: 1rem;
-		transition: color 0.2s ease;
-	}
-
-	.back-link:hover {
-		color: var(--accent-color);
+		font-size: var(--font-size-base);
+		transition: color var(--transition-duration) var(--transition-timing);
+		
+		&:hover {
+			color: var(--accent);
+		}
 	}
 
 	.category-header h1 {
-		font-size: 3rem;
+		font-size: var(--font-size-3xl);
 		line-height: 1.2;
-		margin: 0 0 1rem 0;
+		margin: 0 0 var(--space-4) 0;
 		font-weight: 800;
 		letter-spacing: -0.025em;
 		color: var(--text-color);
 	}
 
 	.category-description {
-		font-size: 1.25rem;
+		font-size: var(--font-size-xl);
 		line-height: 1.6;
 		color: var(--secondary-color);
 		margin: 0;
@@ -130,18 +124,18 @@ const capitalize = (str: string) => str ? str.charAt(0).toUpperCase() + str.slic
 
 	.posts-grid {
 		display: grid;
-		gap: 2.5rem;
-		max-width: 800px;
+		gap: var(--space-8);
+		max-width: var(--content-width);
 		margin: 0 auto;
 	}
 
 	@media (max-width: 768px) {
 		.category-header h1 {
-			font-size: 2.25rem;
+			font-size: var(--font-size-2xl);
 		}
 
 		.category-description {
-			font-size: 1.125rem;
+			font-size: var(--font-size-lg);
 		}
 	}
 </style> 

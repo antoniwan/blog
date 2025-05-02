@@ -48,31 +48,25 @@ const languageEmojis = {
 </BaseLayout>
 
 <style>
-	:root {
-		--reading-width: 65ch;
-		--line-height: 1.75;
-		--letter-spacing: -0.011em;
-	}
-
 	.hero-section {
 		text-align: center;
-		margin-bottom: 4rem;
-		max-width: 800px;
+		margin-bottom: var(--space-8);
+		max-width: var(--content-width);
 		margin-left: auto;
 		margin-right: auto;
 	}
 
 	.hero-section h1 {
-		font-size: 3.5rem;
+		font-size: var(--font-size-4xl);
 		line-height: 1.2;
-		margin: 0 0 1.5rem 0;
+		margin: 0 0 var(--space-6) 0;
 		font-weight: 800;
 		letter-spacing: -0.025em;
 		color: var(--text-color);
 	}
 
 	.subtitle {
-		font-size: 1.25rem;
+		font-size: var(--font-size-xl);
 		line-height: 1.6;
 		color: var(--secondary-color);
 		margin: 0;
@@ -80,8 +74,8 @@ const languageEmojis = {
 
 	.posts-grid {
 		display: grid;
-		gap: 2.5rem;
-		max-width: 800px;
+		gap: var(--space-8);
+		max-width: var(--content-width);
 		margin: 0 auto;
 	}
 
@@ -188,11 +182,11 @@ const languageEmojis = {
 
 	@media (max-width: 768px) {
 		.hero-section h1 {
-			font-size: 2.5rem;
+			font-size: var(--font-size-3xl);
 		}
 
 		.subtitle {
-			font-size: 1.125rem;
+			font-size: var(--font-size-lg);
 		}
 	}
 </style>
