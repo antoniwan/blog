@@ -9,11 +9,11 @@ interface Props {
 const { code, language = 'plaintext', showLineNumbers = false, highlightLines = [] } = Astro.props;
 ---
 
-<div class="code-block group relative rounded-lg overflow-hidden bg-gray-light/20 dark:bg-gray/20">
+<div class="code-block group relative rounded-lg overflow-hidden bg-gray-light/20 dark:bg-gray/20 transition-colors duration-300">
 	<div class="flex items-center justify-between px-4 py-2 bg-gray-light/30 dark:bg-gray/30 border-b border-gray-light/40 dark:border-gray/40">
 		<span class="text-sm font-mono text-gray dark:text-gray-light">{language}</span>
 		<button
-			class="copy-button p-2 text-gray dark:text-gray-light hover:text-primary dark:hover:text-primary transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 focus:ring-offset-background dark:focus:ring-offset-gray-dark rounded-md"
+			class="copy-button p-2 text-gray dark:text-gray-light hover:text-primary dark:hover:text-primary-dark transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 focus:ring-offset-background dark:focus:ring-offset-gray-dark rounded-md"
 			aria-label="Copy code"
 			title="Copy code"
 		>
@@ -41,7 +41,7 @@ const { code, language = 'plaintext', showLineNumbers = false, highlightLines = 
 					
 					// Show success feedback
 					copyButton.innerHTML = `
-						<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+						<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-green-500 dark:text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
 						</svg>
 					`;
@@ -95,6 +95,19 @@ const { code, language = 'plaintext', showLineNumbers = false, highlightLines = 
 	/* Highlighted lines */
 	:global(.highlight-line) {
 		background-color: var(--tw-color-primary)/0.1;
+	}
+
+	/* Dark mode syntax highlighting */
+	:global(.dark .language-*) {
+		color: var(--tw-color-text-dark);
+	}
+
+	:global(.dark .line-numbers code > span::before) {
+		color: var(--tw-color-gray-light);
+	}
+
+	:global(.dark .highlight-line) {
+		background-color: var(--tw-color-primary-dark)/0.1;
 	}
 
 	/* Respect reduced motion preferences */

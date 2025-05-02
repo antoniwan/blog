@@ -7,7 +7,7 @@ const theme = typeof document !== 'undefined'
 ---
 
 <button
-	class="group relative inline-flex items-center justify-center p-2 rounded-lg bg-transparent text-text dark:text-gray-light hover:text-primary dark:hover:text-primary focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 focus:ring-offset-background dark:focus:ring-offset-gray-dark transition-all duration-300"
+	class="group relative inline-flex items-center justify-center p-2 rounded-lg bg-transparent text-text dark:text-gray-light hover:text-primary dark:hover:text-primary-dark focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 focus:ring-offset-background dark:focus:ring-offset-gray-dark transition-all duration-300"
 	aria-label="Toggle theme"
 	role="switch"
 	aria-checked={theme === 'dark'}
@@ -59,24 +59,40 @@ const theme = typeof document !== 'undefined'
 	const html = document.documentElement;
 
 	if (themeToggle) {
+		// Function to set theme
+		const setTheme = (theme: 'light' | 'dark') => {
+			if (theme === 'dark') {
+				html.classList.add('dark');
+				themeToggle.setAttribute('aria-checked', 'true');
+			} else {
+				html.classList.remove('dark');
+				themeToggle.setAttribute('aria-checked', 'false');
+			}
+			localStorage.setItem('theme', theme);
+		};
+
+		// Handle theme toggle click
 		themeToggle.addEventListener('click', () => {
 			const isDark = html.classList.contains('dark');
-			html.classList.toggle('dark');
-			themeToggle.setAttribute('aria-checked', String(!isDark));
-			
-			// Save preference to localStorage
-			localStorage.setItem('theme', isDark ? 'light' : 'dark');
+			setTheme(isDark ? 'light' : 'dark');
 		});
 
-		// Check for saved theme preference
-		const savedTheme = localStorage.getItem('theme');
-		if (savedTheme === 'dark') {
-			html.classList.add('dark');
-			themeToggle.setAttribute('aria-checked', 'true');
-		} else if (savedTheme === 'light') {
-			html.classList.remove('dark');
-			themeToggle.setAttribute('aria-checked', 'false');
+		// Check for saved theme preference or system preference
+		const savedTheme = localStorage.getItem('theme') as 'light' | 'dark' | null;
+		const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+		if (savedTheme) {
+			setTheme(savedTheme);
+		} else if (systemPrefersDark) {
+			setTheme('dark');
 		}
+
+		// Listen for system theme changes
+		window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+			if (!localStorage.getItem('theme')) {
+				setTheme(e.matches ? 'dark' : 'light');
+			}
+		});
 	}
 </script>
 

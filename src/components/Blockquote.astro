@@ -8,22 +8,22 @@ interface Props {
 const { content, author, cite } = Astro.props;
 ---
 
-<blockquote class="blockquote relative pl-8 py-4 my-8 border-l-4 border-primary/50 dark:border-primary/30">
-	<div class="absolute left-0 top-0 w-4 h-4 bg-primary/50 dark:bg-primary/30 rounded-full"></div>
-	<div class="absolute left-0 bottom-0 w-4 h-4 bg-primary/50 dark:bg-primary/30 rounded-full"></div>
+<blockquote class="blockquote relative pl-8 py-4 my-8 border-l-4 border-primary/50 dark:border-primary-dark/30 transition-colors duration-300">
+	<div class="absolute left-0 top-0 w-4 h-4 bg-primary/50 dark:bg-primary-dark/30 rounded-full transition-colors duration-300"></div>
+	<div class="absolute left-0 bottom-0 w-4 h-4 bg-primary/50 dark:bg-primary-dark/30 rounded-full transition-colors duration-300"></div>
 	
 	<div class="relative z-10">
-		<p class="text-xl font-serif italic text-gray-dark dark:text-gray-light leading-relaxed">
+		<p class="text-xl font-serif italic text-gray-dark dark:text-gray-light leading-relaxed transition-colors duration-300">
 			{content}
 		</p>
 		
 		{author && (
 			<footer class="mt-4 text-right">
-				<cite class="not-italic font-medium text-primary dark:text-primary-light">
+				<cite class="not-italic font-medium text-primary dark:text-primary-dark transition-colors duration-300">
 					{author}
 					{cite && (
 						<>
-							, <a href={cite} class="text-gray dark:text-gray-light hover:text-primary dark:hover:text-primary-light transition-colors duration-200" target="_blank" rel="noopener noreferrer">source</a>
+							, <a href={cite} class="text-gray dark:text-gray-light hover:text-primary dark:hover:text-primary-dark transition-colors duration-300" target="_blank" rel="noopener noreferrer">source</a>
 						</>
 					)}
 				</cite>
@@ -52,6 +52,10 @@ const { content, author, cite } = Astro.props;
 		color: var(--tw-color-primary)/0.1;
 		line-height: 1;
 		z-index: 0;
+	}
+
+	.dark .blockquote::before {
+		color: var(--tw-color-primary-dark)/0.1;
 	}
 
 	/* Respect reduced motion preferences */

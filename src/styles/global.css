@@ -26,7 +26,7 @@
   }
 
   body {
-    @apply bg-background text-text font-sans min-h-screen flex flex-col;
+    @apply bg-background text-text font-sans min-h-screen flex flex-col transition-colors duration-300;
   }
 
   /* Typography */
@@ -36,7 +36,7 @@
   h4,
   h5,
   h6 {
-    @apply font-bold text-black dark:text-gray-light;
+    @apply font-bold text-black dark:text-gray-light transition-colors duration-300;
   }
 
   h1 {
@@ -60,7 +60,7 @@
 
   /* Links */
   a {
-    @apply text-primary hover:text-primary-dark transition-colors no-underline;
+    @apply text-primary hover:text-primary-dark dark:text-primary-dark dark:hover:text-primary transition-colors duration-300 no-underline;
   }
 
   /* Navigation links should not have default underline */
@@ -72,7 +72,7 @@
   input,
   textarea,
   select {
-    @apply bg-background text-text border border-border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary;
+    @apply bg-background text-text border border-border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary dark:focus:ring-primary-dark transition-colors duration-300;
   }
 
   /* Tables */
@@ -82,7 +82,7 @@
 
   th,
   td {
-    @apply border border-border px-4 py-2;
+    @apply border border-border px-4 py-2 transition-colors duration-300;
   }
 
   th {
@@ -95,11 +95,11 @@
 
   /* Code */
   code {
-    @apply font-mono text-sm bg-code-bg rounded px-1 py-0.5;
+    @apply font-mono text-sm bg-code-bg rounded px-1 py-0.5 transition-colors duration-300;
   }
 
   pre {
-    @apply bg-code-bg rounded-lg p-4 overflow-x-auto;
+    @apply bg-code-bg rounded-lg p-4 overflow-x-auto transition-colors duration-300;
   }
 
   pre > code {
@@ -108,7 +108,7 @@
 
   /* Blockquotes */
   blockquote {
-    @apply border-l-4 border-blockquote-border bg-blockquote-bg p-4 my-4;
+    @apply border-l-4 border-blockquote-border bg-blockquote-bg p-4 my-4 transition-colors duration-300;
   }
 
   blockquote p {
@@ -117,7 +117,7 @@
 
   /* Horizontal Rule */
   hr {
-    @apply border-t border-border my-8;
+    @apply border-t border-border my-8 transition-colors duration-300;
   }
 }
 
@@ -138,6 +138,27 @@
 
   .content {
     @apply prose prose-gray dark:prose-invert max-w-none;
+  }
+}
+
+/* Dark mode specific styles */
+.dark {
+  color-scheme: dark;
+}
+
+.dark ::selection {
+  @apply bg-primary-dark text-white;
+}
+
+/* Smooth transitions for all color changes */
+* {
+  @apply transition-colors duration-300;
+}
+
+/* Respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    @apply transition-none;
   }
 }
 

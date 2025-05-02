@@ -7,35 +7,38 @@ export default {
       colors: {
         primary: {
           DEFAULT: "#2337ff",
-          dark: "#000d8a",
+          dark: "#4d5eff",
         },
         gray: {
-          light: "rgb(229, 233, 240)",
-          DEFAULT: "rgb(96, 115, 159)",
-          dark: "rgb(34, 41, 57)",
+          light: "#E5E9F0",
+          DEFAULT: "#60739F",
+          dark: "#1A1F2E",
         },
-        black: "rgb(15, 18, 25)",
+        black: "#0F1219",
         background: {
-          DEFAULT: "#fff",
-          dark: "rgb(34, 41, 57)",
+          DEFAULT: "#FFFFFF",
+          dark: "#0F1219",
         },
         text: {
-          DEFAULT: "rgb(15, 18, 25)",
-          dark: "rgb(229, 233, 240)",
+          DEFAULT: "#0F1219",
+          dark: "#E5E9F0",
         },
         border: {
           DEFAULT: "rgba(229, 233, 240, 0.5)",
-          dark: "rgba(229, 233, 240, 0.2)",
+          dark: "rgba(229, 233, 240, 0.1)",
         },
         "code-bg": {
-          DEFAULT: "rgb(229, 233, 240)",
-          dark: "rgba(229, 233, 240, 0.1)",
+          DEFAULT: "#E5E9F0",
+          dark: "#1A1F2E",
         },
         "blockquote-bg": {
           DEFAULT: "rgba(229, 233, 240, 0.2)",
-          dark: "rgba(229, 233, 240, 0.1)",
+          dark: "rgba(229, 233, 240, 0.05)",
         },
-        "blockquote-border": "#2337ff",
+        "blockquote-border": {
+          DEFAULT: "#2337ff",
+          dark: "#4d5eff",
+        },
       },
       fontFamily: {
         sans: ["Inter", "system-ui", "sans-serif"],
