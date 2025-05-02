@@ -1,16 +1,18 @@
 # Strong Vault
 
-A modern, secure, and professional website built with Astro. Strong Vault is designed to provide a robust and efficient web presence with a focus on security and performance.
+A personal digital space where I document my journey of building systems — digital, emotional, spiritual, and physical. This is more than just a blog; it's a living document of my exploration, creation, and growth.
 
-## 🚀 Features
+## 🌟 What You'll Find Here
 
-- ✅ Modern and responsive design
-- ✅ Optimized for performance and security
-- ✅ SEO-friendly with canonical URLs and OpenGraph data
-- ✅ Sitemap support
-- ✅ RSS Feed support
-- ✅ Markdown & MDX support
-- ✅ TypeScript support
+- 🎵 **Art & Expression** — creative soul, aesthetic power, truth-telling
+- 🛠️ **DIY & Creation** — physical builds, handmade goods, crafting
+- 🧘🏽‍♂️ **Integration & Growth** — inner mastery, parenting, masculine leadership
+- 📚 **Learning Projects** — documentation of mastery in progress
+- 🌀 **Metaspace** — reflections on the journey itself
+- 👨‍👩‍👧‍👦 **Parenting** — raising resilient children, family dynamics, and personal growth
+- ⚖️ **Politics** — power dynamics, social structures, and collective healing
+- 🧠 **Psychology** — human behavior, social dynamics, and mental processes
+- 💻 **Systems & Strategy** — technical systems, organizational design, and strategic thinking
 
 ## 🛠️ Tech Stack
 
@@ -18,12 +20,12 @@ A modern, secure, and professional website built with Astro. Strong Vault is des
 - [TypeScript](https://www.typescriptlang.org/) - Type-safe JavaScript
 - [MDX](https://mdxjs.com/) - Markdown with JSX support
 
-## 📦 Installation
+## 📦 Getting Started
 
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/yourusername/strongvault.git
+git clone https://github.com/antoniwan/strongvault.git
 cd strongvault
 ```
 
@@ -63,19 +65,20 @@ npm run dev
 | `npm run preview`   | Preview your build locally, before deploying     |
 | `npm run astro ...` | Run CLI commands like `astro add`, `astro check` |
 
-## 📚 Documentation
+## 🤝 Connect With Me
 
-- [Astro Documentation](https://docs.astro.build)
-- [TypeScript Documentation](https://www.typescriptlang.org/docs/)
-- [MDX Documentation](https://mdxjs.com/docs/)
-
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
+- 🛠 [Builds.software](https://builds.software) — my technical portfolio
+- 💜 [Strong Hands, Soft Heart](https://stronghandssoftheart.com) — my brand
+- 🐙 [GitHub](https://github.com/antoniwan) — open source & code
+- 🌀 [BlueSky](https://bsky.app/profile/antoniwan.online) — my social brain
 
 ## 📄 License
 
-This project is licensed under the [Creative Commons Attribution 4.0 International License](https://creativecommons.org/licenses/by/4.0/).
+This work is licensed under a [Creative Commons Attribution 4.0 International License](https://creativecommons.org/licenses/by/4.0/).
+
+---
+
+> "If you're building something good, or trying to become someone better, I'm probably down to help. Get in touch." — Antonio Rodríguez Martínez
 
 ```sh
 npm create astro@latest -- --template blog
