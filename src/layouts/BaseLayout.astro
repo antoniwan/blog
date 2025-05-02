@@ -218,9 +218,10 @@ const capitalize = (str: string) => str ? str.charAt(0).toUpperCase() + str.slic
 
   .content-wrapper {
     min-height: calc(100vh - 200px);
-    max-width: 1400px;
+    width: 100%;
+    max-width: none;
     margin: 0 auto;
-    padding: 2rem 1rem;
+    padding: 2rem 1.5rem;
     background-color: var(--background-color);
   }
 
@@ -231,7 +232,7 @@ const capitalize = (str: string) => str ? str.charAt(0).toUpperCase() + str.slic
 
   @media (min-width: 768px) {
     .content-wrapper {
-      padding: 2rem;
+      padding: 2rem 3rem;
     }
   }
 
