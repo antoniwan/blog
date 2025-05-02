@@ -1,11 +1,27 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection, type CollectionEntry } from 'astro:content';
-import GroupedPostCard from '../components/GroupedPostCard.astro';
+import GroupedPostCard from '../../components/GroupedPostCard.astro';
+import FormattedDate from '../../components/FormattedDate.astro';
 
-// Get all blog posts and sort by date
+export async function getStaticPaths() {
+	const posts = await getCollection('blog');
+	const categories = new Set(posts.flatMap(post => post.data.category || []));
+	return Array.from(categories).map(category => ({
+		params: { category: category.toLowerCase() },
+		props: { category }
+	}));
+}
+
+interface Props {
+	category: string;
+}
+
+const { category } = Astro.props as Props;
+
+// Get all blog posts for this category and sort by date
 const posts = (await getCollection('blog'))
-	.filter((post) => !post.data.draft)
+	.filter((post) => !post.data.draft && (post.data.category || []).includes(category))
 	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
 // Group by translationGroup (or fallback to id)
@@ -17,17 +33,27 @@ for (const post of posts) {
 }
 const groupedPosts: CollectionEntry<'blog'>[][] = Object.values(grouped);
 
-const languageEmojis = {
-	en: '🇺🇸',
-	es: '🇵🇷'
+const categoryEmojis: Record<string, string> = {
+	'art-expression': '🎵',
+	'diy-creation': '🛠️',
+	'integration-growth': '🧘🏽‍♂️',
+	'learning-projects': '📚',
+	'metaspace': '🌀',
+	'parenting': '👨‍👩‍👧‍👦',
+	'politics': '⚖️',
+	'psychology': '🧠',
+	'systems-strategy': '💻'
 };
+
+const capitalize = (str: string) => str ? str.charAt(0).toUpperCase() + str.slice(1) : '';
 ---
 
-<BaseLayout title="Home - StrongVault">
+<BaseLayout title={`${capitalize(category)} - StrongVault`}>
 	<main>
-		<div class="hero-section">
-			<h1>Welcome to the<br />Strong Vault</h1>
-			<p class="subtitle">Software, power, weakness, science, opinions, emotional alchemy, DIY creation, and the journey of building a life of integrity</p>
+		<div class="category-header">
+			<a href="/" class="back-link">← Back to Home</a>
+			<h1>{categoryEmojis[category] || '📝'} {capitalize(category)}</h1>
+			<p class="category-description">Explore all posts in the {category.toLowerCase()} category</p>
 		</div>
 
 		<div class="posts-grid">
@@ -51,7 +77,7 @@ const languageEmojis = {
 		padding: 2rem 1rem;
 	}
 
-	.hero-section {
+	.category-header {
 		text-align: center;
 		margin-bottom: 4rem;
 		max-width: 800px;
@@ -59,16 +85,29 @@ const languageEmojis = {
 		margin-right: auto;
 	}
 
-	.hero-section h1 {
-		font-size: 3.5rem;
+	.back-link {
+		display: inline-block;
+		margin-bottom: 1.5rem;
+		color: var(--secondary-color);
+		text-decoration: none;
+		font-size: 1rem;
+		transition: color 0.2s ease;
+	}
+
+	.back-link:hover {
+		color: var(--accent-color);
+	}
+
+	.category-header h1 {
+		font-size: 3rem;
 		line-height: 1.2;
-		margin: 0 0 1.5rem 0;
+		margin: 0 0 1rem 0;
 		font-weight: 800;
 		letter-spacing: -0.025em;
 		color: var(--text-color);
 	}
 
-	.subtitle {
+	.category-description {
 		font-size: 1.25rem;
 		line-height: 1.6;
 		color: var(--secondary-color);
@@ -184,11 +223,11 @@ const languageEmojis = {
 	}
 
 	@media (max-width: 768px) {
-		.hero-section h1 {
-			font-size: 2.5rem;
+		.category-header h1 {
+			font-size: 2.25rem;
 		}
 
-		.subtitle {
+		.category-description {
 			font-size: 1.125rem;
 		}
 
@@ -204,4 +243,4 @@ const languageEmojis = {
 			font-size: 1.5rem;
 		}
 	}
-</style>
+</style> 
