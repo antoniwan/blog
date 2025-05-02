@@ -2,82 +2,240 @@
 import HeaderLink from './HeaderLink.astro';
 import { SITE_TITLE } from '../consts';
 import ThemeToggle from './ThemeToggle.astro';
+
+const navLinks = [
+	{ href: '/', label: 'Home' },
+	{ href: '/category', label: 'Categories' },
+	{ href: '/about', label: 'About' }
+];
 ---
 
-<header>
-	<nav>
-		<h2><a href="/">{SITE_TITLE}</a></h2>
-		<div class="nav-right">
-			<div class="internal-links">
-				<HeaderLink href="/">Home</HeaderLink>
-				<HeaderLink href="/category">Categories</HeaderLink>
-				<HeaderLink href="/about">About</HeaderLink>
+<header class="header">
+	<nav class="nav" aria-label="Main navigation">
+		<div class="nav-container">
+			<a href="/" class="logo" aria-label="Home">
+				<h2>{SITE_TITLE}</h2>
+			</a>
+			
+			<button 
+				class="menu-button"
+				aria-label="Toggle menu"
+				aria-expanded="false"
+				aria-controls="nav-menu"
+			>
+				<span class="menu-icon" aria-hidden="true">
+					<span class="menu-icon-bar"></span>
+					<span class="menu-icon-bar"></span>
+					<span class="menu-icon-bar"></span>
+				</span>
+			</button>
+
+			<div class="nav-right" id="nav-menu">
+				<ul class="nav-links">
+					{navLinks.map(({ href, label }) => (
+						<li>
+							<HeaderLink href={href}>{label}</HeaderLink>
+						</li>
+					))}
+				</ul>
+				<div class="theme-toggle-wrapper">
+					<ThemeToggle />
+				</div>
 			</div>
-			<ThemeToggle />
 		</div>
 	</nav>
 </header>
 
 <style>
-	header {
-		margin: 0;
-		padding: 0 1em;
+	.header {
+		position: sticky;
+		top: 0;
+		z-index: 100;
 		background: var(--background-color);
 		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 		transition: background-color 0.3s ease;
+		border-bottom: 1px solid var(--border-color);
 	}
 
-	h2 {
-		margin: 0;
-		font-size: 1.125rem;
-		font-weight: 600;
+	.nav {
+		padding: 0 1.5rem;
 	}
 
-	h2 a,
-	h2 a.active {
-		text-decoration: none;
-		color: var(--text-color);
-	}
-
-	nav {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
+	.nav-container {
 		max-width: 720px;
 		margin: 0 auto;
 		padding: 1rem 0;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
+
+	.logo {
+		text-decoration: none;
+		color: var(--text-color);
+		transition: opacity 0.2s ease;
+	}
+
+	.logo:hover {
+		opacity: 0.8;
+	}
+
+	.logo h2 {
+		margin: 0;
+		font-size: 1.25rem;
+		font-weight: 700;
+		letter-spacing: -0.5px;
+	}
+
+	.menu-button {
+		display: none;
+		background: none;
+		border: none;
+		padding: 0.5rem;
+		cursor: pointer;
+		transition: opacity 0.2s ease;
+	}
+
+	.menu-button:hover {
+		opacity: 0.8;
+	}
+
+	.menu-icon {
+		display: block;
+		width: 24px;
+		height: 24px;
+		position: relative;
+	}
+
+	.menu-icon-bar {
+		display: block;
+		width: 100%;
+		height: 2px;
+		background-color: var(--text-color);
+		position: absolute;
+		transition: all 0.3s ease;
+		border-radius: 2px;
+	}
+
+	.menu-icon-bar:nth-child(1) {
+		top: 6px;
+	}
+
+	.menu-icon-bar:nth-child(2) {
+		top: 12px;
+	}
+
+	.menu-icon-bar:nth-child(3) {
+		top: 18px;
 	}
 
 	.nav-right {
 		display: flex;
 		align-items: center;
-		gap: 1rem;
+		gap: 2rem;
 	}
 
-	.internal-links {
+	.nav-links {
 		display: flex;
-		gap: 0.5rem;
+		gap: 1.5rem;
+		list-style: none;
+		margin: 0;
+		padding: 0;
 	}
 
-	nav a {
-		padding: 0.5em;
+	.nav-links a {
+		position: relative;
 		color: var(--text-color);
-		border-bottom: 2px solid transparent;
 		text-decoration: none;
-		transition: color 0.3s ease, border-color 0.3s ease;
+		font-weight: 500;
+		font-size: 0.95rem;
+		padding: 0.5rem 0;
+		transition: color 0.2s ease;
 	}
 
-	nav a:hover {
+	.nav-links a:hover {
 		color: var(--accent-color);
 	}
 
-	nav a.active {
-		border-bottom-color: var(--accent-color);
+	.nav-links a::after {
+		content: '';
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		width: 100%;
+		height: 2px;
+		background-color: var(--accent-color);
+		transform: scaleX(0);
+		transform-origin: right;
+		transition: transform 0.3s ease;
+	}
+
+	.nav-links a:hover::after,
+	.nav-links a.active::after {
+		transform: scaleX(1);
+		transform-origin: left;
+	}
+
+	.theme-toggle-wrapper {
+		display: flex;
+		align-items: center;
 	}
 
 	@media (max-width: 768px) {
-		.internal-links {
-			display: none;
+		.menu-button {
+			display: block;
+		}
+
+		.nav-right {
+			position: fixed;
+			top: 0;
+			right: -100%;
+			width: 100%;
+			height: 100vh;
+			background: var(--background-color);
+			flex-direction: column;
+			padding: 5rem 2rem 2rem;
+			transition: right 0.3s ease;
+			gap: 2.5rem;
+		}
+
+		.nav-right[aria-expanded="true"] {
+			right: 0;
+		}
+
+		.nav-links {
+			flex-direction: column;
+			gap: 2rem;
+			width: 100%;
+		}
+
+		.nav-links a {
+			display: block;
+			padding: 0.75rem 0;
+			font-size: 1.1rem;
+		}
+
+		.menu-button[aria-expanded="true"] .menu-icon-bar:nth-child(1) {
+			transform: translateY(6px) rotate(45deg);
+		}
+
+		.menu-button[aria-expanded="true"] .menu-icon-bar:nth-child(2) {
+			opacity: 0;
+		}
+
+		.menu-button[aria-expanded="true"] .menu-icon-bar:nth-child(3) {
+			transform: translateY(-6px) rotate(-45deg);
 		}
 	}
 </style>
+
+<script>
+	const menuButton = document.querySelector('.menu-button');
+	const navMenu = document.querySelector('.nav-right');
+
+	menuButton?.addEventListener('click', () => {
+		const isExpanded = menuButton.getAttribute('aria-expanded') === 'true';
+		menuButton.setAttribute('aria-expanded', String(!isExpanded));
+		navMenu?.setAttribute('aria-expanded', String(!isExpanded));
+	});
+</script>
