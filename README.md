@@ -22,6 +22,7 @@ A personal digital space where I document my journey of building systems — dig
 - [Tailwind CSS](https://tailwindcss.com/) - Utility-first CSS framework
 - [Sharp](https://sharp.pixelplumbing.com/) - Image optimization
 - [Vercel Analytics](https://vercel.com/analytics) - Performance monitoring
+- [Vercel Speed Insights](https://vercel.com/speed-insights) - Real-time performance metrics
 
 ## 🚀 Features
 
@@ -32,13 +33,20 @@ A personal digital space where I document my journey of building systems — dig
 - ✅ Image optimization with Sharp
 - ✅ RSS feed support
 - ✅ Sitemap generation
-- ✅ Vercel Analytics integration
+- ✅ Vercel Analytics & Speed Insights integration
 - ✅ Tailwind CSS with custom design tokens
 - ✅ TypeScript configuration
 - ✅ PostCSS for CSS processing
+- ✅ Reading progress indicator
+- ✅ Back to top button
+- ✅ Skip to main content accessibility feature
 
 ### Content Management
 
+- ✅ Multi-language support (English, Spanish)
+- ✅ Category and tag organization
+- ✅ Reading time estimation
+- ✅ Publication and update date tracking
 - 🚧 Content preview system (in progress)
 - 📅 Automated backups (planned)
 - 📅 Content validation (planned)
@@ -54,6 +62,7 @@ A personal digital space where I document my journey of building systems — dig
 - ✅ Image optimization
 - ✅ Lazy loading
 - ✅ Caching strategies
+- ✅ Reduced motion preferences support
 
 ## 📦 Getting Started
 

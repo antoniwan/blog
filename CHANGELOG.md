@@ -5,6 +5,31 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] - 2024-05-03
+
+### Added
+
+- Vercel Speed Insights integration for real-time performance monitoring
+- Reading progress indicator for blog posts
+- Back to top button for improved navigation
+- Skip to main content accessibility feature
+- Multi-language support (English, Spanish)
+- Category and tag organization system
+- Reading time estimation
+- Publication and update date tracking
+- Reduced motion preferences support
+- Enhanced typography with drop caps and improved blockquotes
+- Dark mode optimizations for better readability
+
+### Improved
+
+- Enhanced blog post metadata display
+- Improved accessibility with semantic HTML and ARIA labels
+- Optimized image handling and lazy loading
+- Refined dark mode color scheme
+- Enhanced typography and spacing
+- Improved mobile responsiveness
+
 ## [1.0.0] - 2024-05-03
 
 ### Added
