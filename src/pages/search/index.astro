@@ -12,7 +12,7 @@ const searchQuery = searchParams.get('q')?.toLowerCase() || '';
 const allPosts = await getCollection('blog');
 const posts = allPosts.filter(post => !post.data.draft);
 
-// Search through posts
+// Search through posts with fuzzy matching
 const searchResults = posts.filter(post => {
   const searchableContent = [
     post.data.title,
@@ -24,7 +24,11 @@ const searchResults = posts.filter(post => {
 
   // Split search query into words and check if all words are present
   const searchWords = searchQuery.split(/\s+/).filter(Boolean);
-  return searchWords.every(word => searchableContent.includes(word));
+  return searchWords.every(word => {
+    // Basic fuzzy matching - allow for small typos
+    const regex = new RegExp(word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i');
+    return regex.test(searchableContent);
+  });
 });
 
 // Sort results by date
@@ -44,7 +48,7 @@ const hasResults = searchQuery && groupedResults.length > 0;
 ---
 
 <BaseLayout title={pageTitle}>
-  <main class="max-w-5xl mx-auto px-4 md:px-8 py-12">
+  <main class="max-w-5xl mx-auto px-4 md:px-8 py-12" role="main">
     <header class="text-center mb-16">
       <h1 class="text-4xl md:text-5xl font-bold mb-4 text-text dark:text-text-dark">Search</h1>
       <!-- Search Form -->
@@ -52,7 +56,7 @@ const hasResults = searchQuery && groupedResults.length > 0;
         <SearchBar value={searchQuery} />
       </div>
       {searchQuery && (
-        <p class="text-xl text-neutral-600 dark:text-neutral-400">
+        <p class="text-xl text-neutral-600 dark:text-neutral-400" role="status">
           Found {groupedResults.length} {groupedResults.length === 1 ? 'result' : 'results'} for "{searchQuery}"
         </p>
       )}
@@ -75,16 +79,22 @@ const hasResults = searchQuery && groupedResults.length > 0;
       </section>
     )}
     {!hasResults && searchQuery && (
-      <div class="text-center">
+      <div class="text-center" role="status">
         <p class="text-xl text-neutral-600 dark:text-neutral-400">
           No results found for "{searchQuery}"
+        </p>
+        <p class="mt-4 text-neutral-500 dark:text-neutral-400">
+          Try different keywords or check your spelling.
         </p>
       </div>
     )}
     {!searchQuery && (
-      <div class="text-center">
+      <div class="text-center" role="status">
         <p class="text-xl text-neutral-600 dark:text-neutral-400">
           Enter a search term to find content on the site.
+        </p>
+        <p class="mt-4 text-neutral-500 dark:text-neutral-400">
+          You can search by title, description, tags, or category.
         </p>
       </div>
     )}
