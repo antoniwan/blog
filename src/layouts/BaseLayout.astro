@@ -105,50 +105,11 @@ const capitalize = (str: string) => str ? str.charAt(0).toUpperCase() + str.slic
           <nav aria-label="Breadcrumb" class="mb-8">
             <ol class="flex flex-wrap gap-2 text-sm text-neutral-600 dark:text-neutral-400">
               <li><a href="/" class="hover:text-primary-500 dark:hover:text-primary-400 transition-colors">Home</a></li>
-              {category && category.length > 0 && category.map((cat, index) => (
-                <>
-                  <li aria-hidden="true">›</li>
-                  <li>
-                    <a 
-                      href={`/category/${cat.toLowerCase()}`}
-                      class="hover:text-primary-500 dark:hover:text-primary-400 transition-colors"
-                    >
-                      {capitalize(cat)}
-                    </a>
-                  </li>
-                </>
-              ))}
               <li aria-hidden="true">›</li>
               <li class="text-text dark:text-text-dark">{cleanTitle}</li>
             </ol>
           </nav>
           <header class="mb-16">
-            <div class="flex flex-wrap gap-3 mb-8">
-              {category && category.length > 0 && (
-                <div class="flex flex-wrap gap-3">
-                  {category.map((cat) => (
-                    <a 
-                      href={`/category/${cat.toLowerCase()}`} 
-                      class="inline-flex items-center gap-1.5 text-sm font-medium bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 px-4 py-1.5 rounded-full hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-all duration-200 hover:scale-105"
-                    >
-                      {categoryEmojis[cat] || '📝'} {capitalize(cat)}
-                    </a>
-                  ))}
-                </div>
-              )}
-              {subcategory && (
-                <span class="text-sm text-neutral-600 dark:text-neutral-400 font-medium">{subcategory}</span>
-              )}
-              {language && language.length > 0 && (
-                <div class="flex flex-wrap gap-3">
-                  {language.map((lang) => (
-                    <span class="inline-flex items-center gap-1.5 text-sm text-neutral-600 dark:text-neutral-400 font-medium">
-                      {languageEmojis[lang] || '🌐'} {lang.toUpperCase()}
-                    </span>
-                  ))}
-                </div>
-              )}
-            </div>
             <h1 class="text-4xl md:text-5xl lg:text-6xl font-serif font-bold mb-8 leading-tight tracking-tight text-text dark:text-text-dark">{title}</h1>
             {description && <p class="text-xl md:text-2xl text-neutral-600 dark:text-neutral-400 mb-10 leading-relaxed">{description}</p>}
             <div class="flex flex-wrap gap-6 text-sm text-neutral-600 dark:text-neutral-400">
