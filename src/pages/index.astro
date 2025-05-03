@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getCollection, type CollectionEntry } from 'astro:content';
 import PostCard from '../components/PostCard.astro';
+import { categories } from '../data/categories';
 
 // Get all blog posts and sort by date
 const posts = (await getCollection('blog'))
@@ -17,9 +18,44 @@ for (const post of posts) {
 }
 const groupedPosts: CollectionEntry<'blog'>[][] = Object.values(grouped);
 
-const languageEmojis = {
-	en: '🇺🇸',
-	es: '🇵🇷'
+// Get unique tags and languages
+const allTags = new Set<string>();
+const allLanguages = new Set<string>();
+posts.forEach(post => {
+	post.data.tags?.forEach(tag => allTags.add(tag));
+	post.data.language?.forEach(lang => allLanguages.add(lang));
+});
+
+// Count posts per category
+const categoryCounts = new Map<string, number>();
+posts.forEach(post => {
+	post.data.category?.forEach(cat => {
+		categoryCounts.set(cat, (categoryCounts.get(cat) || 0) + 1);
+	});
+});
+
+// Sort categories by post count
+const sortedCategories = [...categories].sort((a, b) => {
+	const countA = categoryCounts.get(a.id) || 0;
+	const countB = categoryCounts.get(b.id) || 0;
+	return countB - countA;
+});
+
+// Get language flag emoji
+const getLanguageFlag = (lang: string) => {
+	const flags: Record<string, string> = {
+		'en': '🇺🇸',
+		'es': '🇪🇸',
+		'fr': '🇫🇷',
+		'de': '🇩🇪',
+		'it': '🇮🇹',
+		'pt': '🇵🇹',
+		'ru': '🇷🇺',
+		'zh': '🇨🇳',
+		'ja': '🇯🇵',
+		'ko': '🇰🇷'
+	};
+	return flags[lang] || lang.toUpperCase();
 };
 ---
 
@@ -30,7 +66,8 @@ const languageEmojis = {
 			<p class="text-xl md:text-2xl text-neutral-600 dark:text-neutral-400 leading-relaxed max-w-3xl mx-auto">Software, power, weakness, science, opinions, emotional alchemy, DIY creation, and the journey of building a life of integrity</p>
 		</header>
 
-		<section class="grid gap-8 md:gap-12" aria-label="Latest posts">
+		{/* Main Content */}
+		<section class="grid gap-8 md:gap-12 mb-16" aria-label="Latest posts">
 			{groupedPosts.map((translations) => {
 				const main = translations[0];
 				return (
@@ -44,6 +81,61 @@ const languageEmojis = {
 				);
 			})}
 		</section>
+
+		{/* Filtering Sections */}
+		<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+			{/* Categories */}
+			<div class="bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 p-6">
+				<h2 class="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">Categories</h2>
+				<nav class="space-y-2">
+					{sortedCategories.map(category => {
+						const postCount = categoryCounts.get(category.id) || 0;
+						return (
+							<a 
+								href={`/category/${category.id}/`}
+								class="flex items-center justify-between group p-2 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
+							>
+								<span class="flex items-center gap-2">
+									<span class="text-lg">{category.icon}</span>
+									<span class="text-gray-700 dark:text-gray-300 group-hover:text-primary-500 dark:group-hover:text-primary-400">{category.name}</span>
+								</span>
+								<span class="text-xs px-2 py-0.5 rounded-full bg-zinc-100 dark:bg-zinc-800 text-gray-700 dark:text-gray-300">{postCount}</span>
+							</a>
+						);
+					})}
+				</nav>
+			</div>
+
+			{/* Languages */}
+			<div class="bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 p-6">
+				<h2 class="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">Languages</h2>
+				<div class="flex flex-wrap gap-2">
+					{[...allLanguages].map(lang => (
+						<a 
+							href={`/language/${lang}/`}
+							class="text-xs px-2 py-0.5 rounded-full bg-zinc-100 dark:bg-zinc-800 font-medium text-gray-700 dark:text-gray-300 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors"
+						>
+							{getLanguageFlag(lang)}
+						</a>
+					))}
+				</div>
+			</div>
+
+			{/* Tags */}
+			<div class="bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 p-6">
+				<h2 class="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">Tags</h2>
+				<div class="flex flex-wrap gap-2">
+					{[...allTags].map(tag => (
+						<a 
+							href={`/tag/${tag}/`}
+							class="text-xs px-2 py-0.5 rounded-full bg-zinc-100 dark:bg-zinc-800 font-medium text-gray-700 dark:text-gray-300 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors"
+						>
+							{tag}
+						</a>
+					))}
+				</div>
+			</div>
+		</div>
 	</main>
 </BaseLayout>
 
