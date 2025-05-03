@@ -1,3 +1,4 @@
+---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection, type CollectionEntry } from 'astro:content';
 import PostCard from '../../components/PostCard.astro';
@@ -32,6 +33,7 @@ for (const post of posts) {
 const groupedPosts: CollectionEntry<'blog'>[][] = Object.values(grouped);
 
 const capitalize = (str: string) => str ? str.charAt(0).toUpperCase() + str.slice(1) : '';
+---
 
 <BaseLayout title={`${capitalize(tag)} - StrongVault`}>
 	<main class="max-w-5xl mx-auto px-4 md:px-8 py-12">
