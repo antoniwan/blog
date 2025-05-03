@@ -131,6 +131,32 @@ const capitalize = (str: string) => str ? str.charAt(0).toUpperCase() + str.slic
                   {readingTime} min read
                 </span>
               )}
+              {language && language.length > 0 && (
+                <span class="flex items-center gap-2">
+                  <span class="text-primary-500 dark:text-primary-400">🌐</span>
+                  {language.map(lang => languageEmojis[lang] || lang.toUpperCase()).join(' ')}
+                </span>
+              )}
+              {category && category.length > 0 && (
+                <span class="flex items-center gap-2">
+                  <span class="text-primary-500 dark:text-primary-400">📂</span>
+                  {category.map(cat => (
+                    <a 
+                      href={`/category/${cat}/`}
+                      class="hover:text-primary-500 dark:hover:text-primary-400 transition-colors"
+                      title={`View all posts in ${cat.replace(/-/g, ' ')}`}
+                    >
+                      {categoryEmojis[cat] || cat}
+                    </a>
+                  )).reduce((prev, curr) => [prev, ' ', curr])}
+                </span>
+              )}
+              {tags && tags.length > 0 && (
+                <span class="flex items-center gap-2">
+                  <span class="text-primary-500 dark:text-primary-400">🏷️</span>
+                  {tags.join(', ')}
+                </span>
+              )}
             </div>
           </header>
           <section class="prose prose-lg dark:prose-invert max-w-none prose-headings:font-serif prose-headings:tracking-tight prose-p:leading-relaxed prose-p:text-lg prose-a:text-primary-500 dark:prose-a:text-primary-400 prose-a:no-underline hover:prose-a:underline prose-img:rounded-lg prose-img:shadow-lg prose-blockquote:border-l-4 prose-blockquote:border-primary-500 dark:prose-blockquote:border-primary-400 prose-blockquote:pl-4 prose-blockquote:italic prose-blockquote:bg-neutral-100 dark:prose-blockquote:bg-neutral-800 prose-blockquote:p-4 prose-blockquote:rounded-r-lg prose-ul:my-6 prose-ol:my-6 prose-li:my-2 prose-h2:mt-12 prose-h2:mb-6 prose-h3:mt-8 prose-h3:mb-4">
