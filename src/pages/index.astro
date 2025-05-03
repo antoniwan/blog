@@ -83,30 +83,48 @@ const getLanguageFlag = (lang: string) => {
 		</section>
 
 		{/* Filtering Sections */}
-		<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-			{/* Categories */}
-			<div class="bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 p-6">
-				<h2 class="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">Categories</h2>
-				<nav class="space-y-2">
-					{sortedCategories.map(category => {
-						const postCount = categoryCounts.get(category.id) || 0;
-						return (
+		<div class="space-y-8">
+			{/* Categories and Tags Row */}
+			<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+				{/* Categories */}
+				<div class="bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 p-6">
+					<h2 class="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">Categories</h2>
+					<nav class="space-y-2">
+						{sortedCategories.map(category => {
+							const postCount = categoryCounts.get(category.id) || 0;
+							return (
+								<a 
+									href={`/category/${category.id}/`}
+									class="flex items-center justify-between group p-2 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
+								>
+									<span class="flex items-center gap-2">
+										<span class="text-lg">{category.icon}</span>
+										<span class="text-gray-700 dark:text-gray-300 group-hover:text-primary-500 dark:group-hover:text-primary-400">{category.name}</span>
+									</span>
+									<span class="text-xs px-2 py-0.5 rounded-full bg-zinc-100 dark:bg-zinc-800 text-gray-700 dark:text-gray-300">{postCount}</span>
+								</a>
+							);
+						})}
+					</nav>
+				</div>
+
+				{/* Tags */}
+				<div class="bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 p-6">
+					<h2 class="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">Tags</h2>
+					<div class="flex flex-wrap gap-2">
+						{[...allTags].map(tag => (
 							<a 
-								href={`/category/${category.id}/`}
-								class="flex items-center justify-between group p-2 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
+								href={`/tag/${tag}/`}
+								class="text-xs px-2 py-0.5 rounded-full bg-zinc-100 dark:bg-zinc-800 font-medium text-gray-700 dark:text-gray-300 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors"
 							>
-								<span class="flex items-center gap-2">
-									<span class="text-lg">{category.icon}</span>
-									<span class="text-gray-700 dark:text-gray-300 group-hover:text-primary-500 dark:group-hover:text-primary-400">{category.name}</span>
-								</span>
-								<span class="text-xs px-2 py-0.5 rounded-full bg-zinc-100 dark:bg-zinc-800 text-gray-700 dark:text-gray-300">{postCount}</span>
+								{tag}
 							</a>
-						);
-					})}
-				</nav>
+						))}
+					</div>
+				</div>
 			</div>
 
-			{/* Languages */}
+			{/* Languages Row */}
 			<div class="bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 p-6">
 				<h2 class="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">Languages</h2>
 				<div class="flex flex-wrap gap-2">
@@ -116,21 +134,6 @@ const getLanguageFlag = (lang: string) => {
 							class="text-xs px-2 py-0.5 rounded-full bg-zinc-100 dark:bg-zinc-800 font-medium text-gray-700 dark:text-gray-300 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors"
 						>
 							{getLanguageFlag(lang)}
-						</a>
-					))}
-				</div>
-			</div>
-
-			{/* Tags */}
-			<div class="bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 p-6">
-				<h2 class="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">Tags</h2>
-				<div class="flex flex-wrap gap-2">
-					{[...allTags].map(tag => (
-						<a 
-							href={`/tag/${tag}/`}
-							class="text-xs px-2 py-0.5 rounded-full bg-zinc-100 dark:bg-zinc-800 font-medium text-gray-700 dark:text-gray-300 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors"
-						>
-							{tag}
 						</a>
 					))}
 				</div>
