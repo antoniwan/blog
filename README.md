@@ -20,6 +20,42 @@ A personal digital space where I document my journey of building systems — dig
 - [TypeScript](https://www.typescriptlang.org/) - Type-safe JavaScript
 - [MDX](https://mdxjs.com/) - Markdown with JSX support
 
+## 🚀 Roadmap & Recommendations
+
+The blog's development follows a structured roadmap with ongoing improvements. For detailed recommendations and implementation status, see [RECOMMENDATIONS.md](./RECOMMENDATIONS.md).
+
+### Current Focus Areas
+
+1. **Content Management**
+
+   - Content preview system
+   - Automated backups
+   - Content validation
+
+2. **Search & Discovery**
+
+   - Full-text search implementation
+   - Tag-based filtering
+   - Related posts suggestions
+
+3. **Performance**
+
+   - Image optimization
+   - Lazy loading
+   - Caching strategies
+
+4. **Developer Experience**
+   - Automated testing
+   - CI/CD pipeline
+   - Content templates
+
+### Implementation Status
+
+- ✅ **Completed**: Basic blog functionality, content structure, styling system
+- 🚧 **In Progress**: Content preview system, image optimization
+- 📅 **Planned**: Search functionality, comment system, internationalization
+- ⏳ **Future**: API development, advanced analytics, content management system
+
 ## 📦 Getting Started
 
 1. Clone the repository:
