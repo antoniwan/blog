@@ -8,48 +8,51 @@ This design system is inspired by the New York Times digital experience, focusin
 
 ### Font Families
 
-- **Serif**: Used for headings and display text (e.g., NYT-style headlines)
-- **Sans-serif**: Used for body text and UI elements
+- **Serif (Charter)**: Used for headings and display text
+- **Sans-serif (Inter)**: Used for body text and UI elements
+- **Monospace (JetBrains Mono)**: Used for code blocks and technical content
 
 ### Scale
 
-- **H1**: 3rem (48px) - 4rem (64px) - 5rem (80px)
-- **H2**: 2.25rem (36px) - 3rem (48px)
-- **H3**: 1.875rem (30px) - 2.25rem (36px)
-- **H4**: 1.5rem (24px) - 1.875rem (30px)
-- **Body**: 1.125rem (18px) - 1.25rem (20px)
-- **Small**: 0.875rem (14px) - 1rem (16px)
+- **Display (6xl)**: 4.5rem (72px) - Hero headlines
+- **Display (5xl)**: 3.5rem (56px) - Section headlines
+- **H1 (4xl)**: 2.75rem (44px) - Article headlines
+- **H2 (3xl)**: 2.25rem (36px) - Major sections
+- **H3 (2xl)**: 1.875rem (30px) - Subsections
+- **H4 (xl)**: 1.5rem (24px) - Minor headings
+- **Body (base)**: 1.125rem (18px) - Main content
+- **Small (sm)**: 0.875rem (14px) - Captions, metadata
 
 ### Line Heights
 
-- **Headings**: 1.1 - 1.2
-- **Body**: 1.5 - 1.6
-- **UI Elements**: 1.4
+- **Display**: 1.0 - 1.1 (tight for impact)
+- **Headings**: 1.2 - 1.3 (balanced)
+- **Body**: 1.6 (optimal readability)
+- **UI Elements**: 1.4 - 1.5 (comfortable)
 
 ## Color System
 
 ### Primary Colors
 
-- **Primary**: Brand color for interactive elements
-- **Primary Dark**: Darker shade for hover states
-- **Text**: Main text color
-- **Background**: Main background color
+- **Primary**: #2337ff (vibrant blue for interactive elements)
+- **Primary Dark**: #000d8a (darker shade for hover states)
+
+### Text Colors
+
+- **Light Mode**: rgb(15, 18, 25) - Deep black for optimal contrast
+- **Dark Mode**: rgb(229, 233, 240) - Soft white for reduced eye strain
+
+### Background Colors
+
+- **Light Mode**: #fff - Pure white for clarity
+- **Dark Mode**: rgb(34, 41, 57) - Deep navy for comfort
 
 ### Semantic Colors
 
-- **Success**: Green for positive actions
-- **Warning**: Yellow for cautionary states
-- **Error**: Red for error states
-- **Info**: Blue for informational states
-
-### Grayscale
-
-- **Gray-100**: Light backgrounds
-- **Gray-200**: Subtle borders
-- **Gray-300**: Secondary text
-- **Gray-400**: Tertiary text
-- **Gray-800**: Dark mode backgrounds
-- **Gray-900**: Dark mode text
+- **Success**: #10B981 - Green for positive actions
+- **Warning**: #F59E0B - Yellow for cautionary states
+- **Error**: #EF4444 - Red for error states
+- **Info**: #3B82F6 - Blue for informational states
 
 ## Spacing
 
@@ -59,13 +62,15 @@ This design system is inspired by the New York Times digital experience, focusin
 
 ### Scale
 
-- **xs**: 0.25rem (4px)
-- **sm**: 0.5rem (8px)
-- **md**: 1rem (16px)
-- **lg**: 1.5rem (24px)
-- **xl**: 2rem (32px)
-- **2xl**: 3rem (48px)
-- **3xl**: 4rem (64px)
+- **xs**: 0.25rem (4px) - Micro spacing
+- **sm**: 0.5rem (8px) - Small spacing
+- **md**: 1rem (16px) - Medium spacing
+- **lg**: 1.5rem (24px) - Large spacing
+- **xl**: 2rem (32px) - Extra large spacing
+- **2xl**: 3rem (48px) - Section spacing
+- **3xl**: 4rem (64px) - Major spacing
+- **4xl**: 6rem (96px) - Hero spacing
+- **5xl**: 8rem (128px) - Full section spacing
 
 ## Components
 
@@ -108,9 +113,9 @@ This design system is inspired by the New York Times digital experience, focusin
 
 ### Transitions
 
-- **Fast**: 150ms
-- **Medium**: 200ms
-- **Slow**: 300ms
+- **Fast**: 150ms - UI feedback
+- **Medium**: 200ms - Content transitions
+- **Slow**: 300ms - Page transitions
 - **Easing**: cubic-bezier(0.4, 0, 0.2, 1)
 
 ## Accessibility
@@ -118,18 +123,16 @@ This design system is inspired by the New York Times digital experience, focusin
 ### Guidelines
 
 - WCAG 2.1 AA compliance
+- Minimum contrast ratio of 4.5:1
 - Keyboard navigation support
 - Screen reader optimization
-- Color contrast requirements
+
+### Implementation
+
+- Semantic HTML structure
+- ARIA attributes where needed
 - Focus management
-- ARIA attributes
-
-### Focus States
-
-- Visible outline
-- High contrast
-- Consistent styling
-- Keyboard-only navigation
+- Reduced motion support
 
 ## Responsive Design
 
@@ -168,10 +171,10 @@ This design system is inspired by the New York Times digital experience, focusin
 
 ### Optimization
 
-- Minimal CSS
+- Minimal CSS with Tailwind
 - Efficient animations
-- Lazy loading
-- Image optimization
+- Lazy loading for images
+- Image optimization with Sharp
 - Font loading strategy
 
 ### Metrics

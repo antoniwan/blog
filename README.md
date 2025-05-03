@@ -19,42 +19,41 @@ A personal digital space where I document my journey of building systems — dig
 - [Astro](https://astro.build) - Modern static site builder
 - [TypeScript](https://www.typescriptlang.org/) - Type-safe JavaScript
 - [MDX](https://mdxjs.com/) - Markdown with JSX support
+- [Tailwind CSS](https://tailwindcss.com/) - Utility-first CSS framework
+- [Sharp](https://sharp.pixelplumbing.com/) - Image optimization
+- [Vercel Analytics](https://vercel.com/analytics) - Performance monitoring
 
-## 🚀 Roadmap & Recommendations
+## 🚀 Features
 
-The blog's development follows a structured roadmap with ongoing improvements. For detailed recommendations and implementation status, see [RECOMMENDATIONS.md](./RECOMMENDATIONS.md).
+### Core Features
 
-### Current Focus Areas
+- ✅ Responsive design with mobile-first approach
+- ✅ Dark mode support with system preference detection
+- ✅ Image optimization with Sharp
+- ✅ RSS feed support
+- ✅ Sitemap generation
+- ✅ Vercel Analytics integration
+- ✅ Tailwind CSS with custom design tokens
+- ✅ TypeScript configuration
+- ✅ PostCSS for CSS processing
 
-1. **Content Management**
+### Content Management
 
-   - Content preview system
-   - Automated backups
-   - Content validation
+- 🚧 Content preview system (in progress)
+- 📅 Automated backups (planned)
+- 📅 Content validation (planned)
 
-2. **Search & Discovery**
+### Search & Discovery
 
-   - Full-text search implementation
-   - Tag-based filtering
-   - Related posts suggestions
+- 📅 Full-text search implementation (planned)
+- 📅 Tag-based filtering (planned)
+- 📅 Related posts suggestions (planned)
 
-3. **Performance**
+### Performance
 
-   - Image optimization
-   - Lazy loading
-   - Caching strategies
-
-4. **Developer Experience**
-   - Automated testing
-   - CI/CD pipeline
-   - Content templates
-
-### Implementation Status
-
-- ✅ **Completed**: Basic blog functionality, content structure, styling system
-- 🚧 **In Progress**: Content preview system, image optimization
-- 📅 **Planned**: Search functionality, comment system, internationalization
-- ⏳ **Future**: API development, advanced analytics, content management system
+- ✅ Image optimization
+- ✅ Lazy loading
+- ✅ Caching strategies
 
 ## 📦 Getting Started
 
@@ -100,6 +99,13 @@ npm run dev
 | `npm run build`     | Build your production site to `./dist/`          |
 | `npm run preview`   | Preview your build locally, before deploying     |
 | `npm run astro ...` | Run CLI commands like `astro add`, `astro check` |
+
+## 📚 Documentation
+
+- [Design System](./DESIGN_SYSTEM.md) - Visual design guidelines
+- [Recommendations](./RECOMMENDATIONS.md) - Future improvements
+- [Notes](./NOTES.md) - Development notes and guidelines
+- [Changelog](./CHANGELOG.md) - Version history
 
 ## 🤝 Connect With Me
 

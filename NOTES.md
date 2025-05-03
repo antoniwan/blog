@@ -1,181 +1,158 @@
-# StrongVault Design System Documentation
+# StrongVault Development Notes
 
-## Design Philosophy
+## Project Overview
 
-Our design system is built on the principles of editorial excellence, readability, and user experience, taking inspiration from world-class digital publications like The New York Times. We've created a system that balances aesthetic beauty with functional clarity, ensuring that content is both engaging and accessible.
+StrongVault is a personal digital space built with modern web technologies, focusing on performance, accessibility, and user experience. This document contains development notes and guidelines for maintaining and improving the project.
 
-## Typography System
+## Tech Stack
 
-### Font Selection
+### Core Technologies
 
-- **Serif (Charter)**: Used for headlines and display text, providing a classic editorial feel
-- **Sans-serif (Inter)**: Used for body text and UI elements, ensuring optimal readability
-- **Monospace (JetBrains Mono)**: Used for code blocks and technical content
+- **Astro**: Modern static site builder
+- **TypeScript**: Type-safe JavaScript
+- **MDX**: Markdown with JSX support
+- **Tailwind CSS**: Utility-first CSS framework
+- **Sharp**: Image optimization
+- **Vercel Analytics**: Performance monitoring
 
-### Type Scale
+### Development Tools
 
-Our type scale follows a modular system that maintains visual hierarchy while ensuring readability:
+- **VS Code**: Primary code editor
+- **ESLint**: Code linting
+- **Prettier**: Code formatting
+- **PostCSS**: CSS processing
+- **Git**: Version control
 
-- **Display (6xl)**: 4.5rem (72px) - Hero headlines
-- **Display (5xl)**: 3.5rem (56px) - Section headlines
-- **H1 (4xl)**: 2.75rem (44px) - Article headlines
-- **H2 (3xl)**: 2.25rem (36px) - Major sections
-- **H3 (2xl)**: 1.875rem (30px) - Subsections
-- **H4 (xl)**: 1.5rem (24px) - Minor headings
-- **Body (base)**: 1.125rem (18px) - Main content
-- **Small (sm)**: 0.875rem (14px) - Captions, metadata
+## Project Structure
 
-### Line Heights
+```
+├── public/          # Static assets
+├── src/
+│   ├── components/  # Reusable UI components
+│   ├── content/     # Content collections
+│   ├── layouts/     # Page layouts
+│   └── pages/       # Route components
+├── astro.config.mjs # Astro configuration
+├── package.json     # Project dependencies
+└── tsconfig.json    # TypeScript configuration
+```
 
-- **Display**: 1.0 - 1.1 (tight for impact)
-- **Headings**: 1.2 - 1.3 (balanced)
-- **Body**: 1.6 (optimal readability)
-- **UI Elements**: 1.4 - 1.5 (comfortable)
+## Development Guidelines
 
-## Layout System
+### Code Style
 
-### Reading Width
+- Use TypeScript for type safety
+- Follow ESLint and Prettier configurations
+- Write semantic HTML
+- Use Tailwind CSS for styling
+- Keep components focused and reusable
 
-- **Optimal**: 65ch (standard reading width)
-- **Wide**: 85ch (for complex content)
-- **Full**: 100% (for special layouts)
+### Performance
 
-### Spacing Scale
+- Optimize images with Sharp
+- Implement lazy loading
+- Use proper caching strategies
+- Minimize CSS and JavaScript
+- Monitor performance metrics
 
-Based on an 8px grid system:
+### Accessibility
 
-- **xs**: 0.25rem (4px) - Micro spacing
-- **sm**: 0.5rem (8px) - Small spacing
-- **md**: 1rem (16px) - Medium spacing
-- **lg**: 1.5rem (24px) - Large spacing
-- **xl**: 2rem (32px) - Extra large spacing
-- **2xl**: 3rem (48px) - Section spacing
-- **3xl**: 4rem (64px) - Major spacing
-- **4xl**: 6rem (96px) - Hero spacing
-- **5xl**: 8rem (128px) - Full section spacing
+- Follow WCAG 2.1 AA guidelines
+- Ensure proper color contrast
+- Support keyboard navigation
+- Use semantic HTML
+- Test with screen readers
 
-## Color System
+### Content Management
 
-### Primary Colors
+- Use MDX for enhanced markdown
+- Follow content structure guidelines
+- Optimize images before upload
+- Use proper metadata
+- Maintain consistent formatting
 
-- **Primary**: #2337ff (vibrant blue for interactive elements)
-- **Primary Dark**: #000d8a (darker shade for hover states)
+## Implementation Notes
 
-### Text Colors
-
-- **Light Mode**: rgb(15, 18, 25) - Deep black for optimal contrast
-- **Dark Mode**: rgb(229, 233, 240) - Soft white for reduced eye strain
-
-### Background Colors
-
-- **Light Mode**: #fff - Pure white for clarity
-- **Dark Mode**: rgb(34, 41, 57) - Deep navy for comfort
-
-## Motion Design
-
-### Animation Principles
-
-1. **Purposeful**: Every animation serves a clear function
-2. **Subtle**: Never distracts from content
-3. **Responsive**: Feels natural and immediate
-4. **Accessible**: Respects reduced motion preferences
-
-### Transition Durations
-
-- **Fast**: 150ms - UI feedback
-- **Medium**: 200ms - Content transitions
-- **Slow**: 300ms - Page transitions
-
-### Easing Curves
-
-- **Standard**: cubic-bezier(0.4, 0, 0.2, 1)
-- **Bounce**: cubic-bezier(0.34, 1.56, 0.64, 1)
-
-## Component Design
-
-### Navigation
-
-- Sticky header with backdrop blur
-- Smooth transitions between states
-- Clear visual hierarchy
-- Mobile-first approach
-
-### Content Blocks
-
-- Consistent vertical rhythm
-- Clear typographic hierarchy
-- Responsive image handling
-- Elegant blockquote styling
-
-### Interactive Elements
-
-- Subtle hover states
-- Clear focus indicators
-- Consistent feedback
-- Accessible keyboard navigation
-
-## Accessibility
-
-### Guidelines
-
-- WCAG 2.1 AA compliance
-- Minimum contrast ratio of 4.5:1
-- Keyboard navigation support
-- Screen reader optimization
-
-### Implementation
-
-- Semantic HTML structure
-- ARIA attributes where needed
-- Focus management
-- Reduced motion support
-
-## Performance
-
-### Optimization Goals
-
-- First Contentful Paint < 1.5s
-- Time to Interactive < 3.5s
-- Cumulative Layout Shift < 0.1
-- Largest Contentful Paint < 2.5s
-
-### Implementation
-
-- Optimized font loading
-- Lazy loading for images
-- Minimal CSS footprint
-- Efficient animations
-
-## Dark Mode
-
-### Implementation
+### Dark Mode
 
 - System preference detection
 - Manual toggle option
 - Smooth transitions
 - Consistent contrast
-
-### Color Adjustments
-
-- Adjusted contrast ratios
-- Reduced brightness
 - Preserved readability
-- Maintained brand colors
 
-## Future Considerations
+### Responsive Design
 
-### Planned Improvements
+- Mobile-first approach
+- Progressive enhancement
+- Touch-friendly targets
+- Responsive typography
+- Flexible layouts
 
-- Component variants
-- Design tokens
-- Animation library
-- Icon system
-- Documentation site
+### SEO
 
-### Maintenance
+- Proper meta tags
+- Structured data
+- Sitemap generation
+- RSS feed support
+- Performance optimization
 
-- Regular audits
+## Future Improvements
+
+### High Priority
+
+- Content preview system
+- Full-text search
+- Comment system
+- Content backup
 - Performance monitoring
-- Accessibility testing
-- Browser compatibility
-- User feedback integration
+
+### Medium Priority
+
+- Internationalization
+- Advanced analytics
+- Content validation
+- API development
+- Security enhancements
+
+## Maintenance
+
+### Regular Tasks
+
+- Update dependencies
+- Check performance metrics
+- Review accessibility
+- Test responsive design
+- Backup content
+
+### Monitoring
+
+- Performance metrics
+- Error tracking
+- Security updates
+- Content quality
+- User feedback
+
+## Resources
+
+### Documentation
+
+- [Astro Documentation](https://docs.astro.build)
+- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
+- [TypeScript Documentation](https://www.typescriptlang.org/docs)
+- [MDX Documentation](https://mdxjs.com/docs)
+
+### Tools
+
+- [VS Code](https://code.visualstudio.com)
+- [ESLint](https://eslint.org)
+- [Prettier](https://prettier.io)
+- [Sharp](https://sharp.pixelplumbing.com)
+
+## Notes
+
+- Keep documentation up to date
+- Test changes thoroughly
+- Consider performance impact
+- Maintain accessibility
+- Follow best practices
