@@ -110,26 +110,28 @@ const formatRelativeDate = (date: Date) => {
 
 			{/* Categories Section */}
 			{post.data.category && (
-				<div class="flex items-center gap-1 text-sm text-gray-500 dark:text-gray-400 border-t border-zinc-100 dark:border-zinc-800 pt-3">
-					{post.data.category.map((catId, index) => {
-						const cat = categories.find(c => c.id === catId);
-						return (
-							<>
-								{index > 0 && <span class="text-gray-400 dark:text-gray-500">→</span>}
-								<span>{cat?.name}</span>
-							</>
-						);
-					})}
+				<div class="flex flex-wrap gap-3 mb-4">
+					{categoryData.map(cat => cat && (
+						<a 
+							href={`/category/${cat.id}/`} 
+							class="inline-flex items-center gap-1.5 text-sm font-medium bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 px-4 py-1.5 rounded-full hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-all duration-200 hover:scale-105"
+						>
+							{cat.icon} {cat.name}
+						</a>
+					))}
 				</div>
 			)}
 
 			{/* Tags Section */}
 			{post.data.tags && post.data.tags.length > 0 && (
-				<div class="inline-flex flex-wrap gap-2">
+				<div class="flex flex-wrap gap-3 mb-4">
 					{post.data.tags.map(tag => (
-						<span class="text-xs px-2 py-0.5 rounded-full bg-zinc-100 dark:bg-zinc-800 text-gray-700 dark:text-gray-300">
-							{tag}
-						</span>
+						<a 
+							href={`/tag/${tag}/`} 
+							class="inline-flex items-center gap-1.5 text-sm font-medium bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 px-4 py-1.5 rounded-full hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-all duration-200 hover:scale-105"
+						>
+							🏷️ {tag}
+						</a>
 					))}
 				</div>
 			)}

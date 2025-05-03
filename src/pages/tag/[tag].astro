@@ -1,0 +1,79 @@
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection, type CollectionEntry } from 'astro:content';
+import PostCard from '../../components/PostCard.astro';
+
+export async function getStaticPaths() {
+	const posts = await getCollection('blog');
+	const tags = new Set(posts.flatMap(post => post.data.tags || []));
+	return Array.from(tags).map(tag => ({
+		params: { tag: tag.toLowerCase() },
+		props: { tag }
+	}));
+}
+
+interface Props {
+	tag: string;
+}
+
+const { tag } = Astro.props as Props;
+
+// Get all blog posts for this tag and sort by date
+const posts = (await getCollection('blog'))
+	.filter((post) => !post.data.draft && (post.data.tags || []).includes(tag))
+	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+// Group by translationGroup (or fallback to id)
+const grouped: Record<string, CollectionEntry<'blog'>[]> = {};
+for (const post of posts) {
+	const group = post.data.translationGroup || post.id;
+	if (!grouped[group]) grouped[group] = [];
+	grouped[group].push(post);
+}
+const groupedPosts: CollectionEntry<'blog'>[][] = Object.values(grouped);
+
+const capitalize = (str: string) => str ? str.charAt(0).toUpperCase() + str.slice(1) : '';
+
+<BaseLayout title={`${capitalize(tag)} - StrongVault`}>
+	<main class="max-w-5xl mx-auto px-4 md:px-8 py-12">
+		<header class="text-center mb-16">
+			<nav aria-label="Breadcrumb" class="flex justify-center">
+				<a href="/tag" class="inline-flex items-center gap-1.5 text-neutral-600 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400 transition-colors duration-300">
+					<span class="text-lg">←</span>
+					<span class="text-base font-medium">Back to Tags</span>
+				</a>
+			</nav>
+			<h1 class="text-4xl md:text-5xl font-bold mb-4 text-text dark:text-text-dark">🏷️ {capitalize(tag)}</h1>
+			<p class="text-xl text-neutral-600 dark:text-neutral-400">{groupedPosts.length} {groupedPosts.length === 1 ? 'post' : 'posts'} tagged with {tag}</p>
+		</header>
+
+		<section class="grid gap-8 md:gap-12" aria-label="Posts with this tag">
+			{groupedPosts.map((translations) => {
+				const main = translations[0];
+				return (
+					<PostCard 
+						post={main} 
+						translations={translations.map(t => ({
+							id: t.id,
+							language: t.data.language[0]
+						}))}
+					/>
+				);
+			})}
+		</section>
+	</main>
+</BaseLayout>
+
+<style>
+	/* Smooth transitions for dark mode */
+	main {
+		transition: background-color 300ms cubic-bezier(0.4, 0, 0.2, 1),
+					color 300ms cubic-bezier(0.4, 0, 0.2, 1);
+	}
+
+	/* Respect reduced motion preferences */
+	@media (prefers-reduced-motion: reduce) {
+		main {
+			transition: none !important;
+		}
+	}
+</style> 
