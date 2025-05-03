@@ -35,7 +35,7 @@ const searchResults = posts.filter(post => {
 const sortedResults = searchResults.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
 // Group by translationGroup (or fallback to id)
-const grouped = {};
+const grouped: Record<string, typeof posts> = {};
 for (const post of sortedResults) {
   const group = post.data.translationGroup || post.id;
   if (!grouped[group]) grouped[group] = [];
