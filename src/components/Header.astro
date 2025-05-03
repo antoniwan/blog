@@ -17,9 +17,9 @@ import { mainNavigation } from '../data/navigation';
 					{mainNavigation.map((item) => (
 						<a 
 							href={item.href} 
-							class="text-text dark:text-text-dark no-underline font-medium text-base md:text-lg py-2 transition-all duration-300 hover:text-primary-500 dark:hover:text-primary-400 focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:ring-offset-2 focus:ring-offset-background dark:focus:ring-offset-background-dark rounded-lg after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-primary-500 dark:after:bg-primary-400 after:scale-x-0 after:origin-right after:transition-transform after:duration-300 after:ease-out-cubic hover:after:scale-x-100 hover:after:origin-left aria-[current=page]:text-primary-500 dark:aria-[current=page]:text-primary-400 aria-[current=page]:after:scale-x-100 aria-[current=page]:font-semibold aria-[current=page]:after:bg-primary-500/80 dark:aria-[current=page]:after:bg-primary-400/80"
+							class="relative text-text dark:text-text-dark no-underline font-medium text-base md:text-lg py-2 transition-all duration-300 hover:text-primary-500 dark:hover:text-primary-400 focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:ring-offset-2 focus:ring-offset-background dark:focus:ring-offset-background-dark rounded-lg after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-primary-500 dark:after:bg-primary-400 after:scale-x-0 after:origin-right after:transition-transform after:duration-300 after:ease-out-cubic hover:after:scale-x-100 hover:after:origin-left aria-[current=page]:text-primary-500 dark:aria-[current=page]:text-primary-400 aria-[current=page]:after:scale-x-100 aria-[current=page]:font-semibold aria-[current=page]:after:bg-primary-500/80 dark:aria-[current=page]:after:bg-primary-400/80"
 						>
-							<span class="relative z-10">
+							<span class="relative z-10 px-2">
 								{item.label}
 							</span>
 						</a>
