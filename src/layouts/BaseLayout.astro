@@ -53,6 +53,9 @@ const {
   layoutType = 'default'
 } = Astro.props;
 
+// Clean title for breadcrumb by removing "- StrongVault" suffix
+const cleanTitle = title.replace(/\s*-\s*StrongVault$/, '');
+
 const languageEmojis: Record<string, string> = {
   en: '🇺🇸',
   es: '🇵🇷'
@@ -99,6 +102,26 @@ const capitalize = (str: string) => str ? str.charAt(0).toUpperCase() + str.slic
     <main id="main-content" role="main" class="flex-grow">
       {layoutType === 'blog' && (
         <article class="max-w-5xl mx-auto px-4 md:px-8 py-12">
+          <nav aria-label="Breadcrumb" class="mb-8">
+            <ol class="flex flex-wrap gap-2 text-sm text-neutral-600 dark:text-neutral-400">
+              <li><a href="/" class="hover:text-primary-500 dark:hover:text-primary-400 transition-colors">Home</a></li>
+              {category && category.length > 0 && category.map((cat, index) => (
+                <>
+                  <li aria-hidden="true">›</li>
+                  <li>
+                    <a 
+                      href={`/category/${cat.toLowerCase()}`}
+                      class="hover:text-primary-500 dark:hover:text-primary-400 transition-colors"
+                    >
+                      {capitalize(cat)}
+                    </a>
+                  </li>
+                </>
+              ))}
+              <li aria-hidden="true">›</li>
+              <li class="text-text dark:text-text-dark">{cleanTitle}</li>
+            </ol>
+          </nav>
           <header class="mb-16">
             <div class="flex flex-wrap gap-3 mb-8">
               {category && category.length > 0 && (
@@ -156,6 +179,15 @@ const capitalize = (str: string) => str ? str.charAt(0).toUpperCase() + str.slic
       )}
       {layoutType === 'default' && (
         <section class="max-w-5xl mx-auto px-4 md:px-8 py-12">
+          {Astro.url.pathname !== '/' && (
+            <nav aria-label="Breadcrumb" class="mb-8">
+              <ol class="flex flex-wrap gap-2 text-sm text-neutral-600 dark:text-neutral-400">
+                <li><a href="/" class="hover:text-primary-500 dark:hover:text-primary-400 transition-colors">Home</a></li>
+                <li aria-hidden="true">›</li>
+                <li class="text-text dark:text-text-dark">{cleanTitle}</li>
+              </ol>
+            </nav>
+          )}
           <slot />
         </section>
       )}
