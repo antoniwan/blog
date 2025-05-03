@@ -1,6 +1,7 @@
 ---
 import FormattedDate from './FormattedDate.astro';
 import { categories } from '../data/categories';
+import { formatDistanceToNow } from 'date-fns';
 
 interface Props {
 	post: {
@@ -36,14 +37,6 @@ const getLanguageFlag = (lang: string) => {
 	const flags: Record<string, string> = {
 		'en': '🇺🇸',
 		'es': '🇵🇷',
-		'fr': '🇫🇷',
-		'de': '🇩🇪',
-		'it': '🇮🇹',
-		'pt': '🇵🇹',
-		'ru': '🇷🇺',
-		'zh': '🇨🇳',
-		'ja': '🇯🇵',
-		'ko': '🇰🇷'
 	};
 	return flags[lang] || lang.toUpperCase();
 };
@@ -147,7 +140,7 @@ const formatRelativeDate = (date: Date) => {
 						day: 'numeric'
 					})}
 				>
-					{formatRelativeDate(post.data.pubDate)}
+					{formatDistanceToNow(post.data.pubDate, { addSuffix: true })}
 				</time>
 			</div>
 		</div>
