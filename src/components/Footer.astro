@@ -5,33 +5,35 @@ import Logo from './Logo.astro';
 
 <footer class="w-full bg-gradient-to-b from-transparent to-neutral-100/20 dark:to-neutral-800/20 border-t border-border/20 dark:border-border-dark/20 mt-24 pt-16 pb-12 px-4 md:px-0">
   <div class="max-w-5xl mx-auto">
-    <!-- Brand Section -->
-    <div class="mb-12">
-      <Logo size="sm" />
-      <p class="text-neutral-600 dark:text-neutral-400 text-base leading-relaxed max-w-md mt-3">
-        Exploring the intersection of food, health, technology, and parenting. Sharing recipes, insights, and experiences.
-      </p>
+    <div class="flex flex-col md:flex-row md:items-start md:gap-12 mb-12">
+      <!-- Left: Logo and Paragraph -->
+      <div class="flex-1 md:max-w-xs md:pr-4">
+        <Logo size="sm" />
+        <p class="text-neutral-600 dark:text-neutral-400 text-base leading-relaxed mt-3">
+          Exploring the intersection of food, health, technology, and parenting. Sharing recipes, insights, and experiences.
+        </p>
+      </div>
+      <!-- Right: Categories -->
+      <div class="flex-1 w-full">
+        <ul class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+          <li><a href="/category/art-expression" class="block text-neutral-700 dark:text-neutral-300 hover:text-primary-500 dark:hover:text-primary-400 text-base transition-colors duration-200">🎵 Art & Expression</a></li>
+          <li><a href="/category/diy-creation" class="block text-neutral-700 dark:text-neutral-300 hover:text-primary-500 dark:hover:text-primary-400 text-base transition-colors duration-200">🛠️ DIY & Creation</a></li>
+          <li><a href="/category/integration-growth" class="block text-neutral-700 dark:text-neutral-300 hover:text-primary-500 dark:hover:text-primary-400 text-base transition-colors duration-200">🧘🏽‍♂️ Integration & Growth</a></li>
+          <li><a href="/category/learning-projects" class="block text-neutral-700 dark:text-neutral-300 hover:text-primary-500 dark:hover:text-primary-400 text-base transition-colors duration-200">📚 Learning Projects</a></li>
+          <li><a href="/category/metaspace" class="block text-neutral-700 dark:text-neutral-300 hover:text-primary-500 dark:hover:text-primary-400 text-base transition-colors duration-200">🌀 Metaspace</a></li>
+          <li><a href="/category/parenting" class="block text-neutral-700 dark:text-neutral-300 hover:text-primary-500 dark:hover:text-primary-400 text-base transition-colors duration-200">👨‍👩‍👧‍👦 Parenting</a></li>
+          <li><a href="/category/politics" class="block text-neutral-700 dark:text-neutral-300 hover:text-primary-500 dark:hover:text-primary-400 text-base transition-colors duration-200">⚖️ Politics</a></li>
+          <li><a href="/category/psychology" class="block text-neutral-700 dark:text-neutral-300 hover:text-primary-500 dark:hover:text-primary-400 text-base transition-colors duration-200">🧠 Psychology</a></li>
+          <li><a href="/category/systems-strategy" class="block text-neutral-700 dark:text-neutral-300 hover:text-primary-500 dark:hover:text-primary-400 text-base transition-colors duration-200">💻 Systems & Strategy</a></li>
+        </ul>
+      </div>
     </div>
-
-    <!-- Navigation Grid -->
-    <h3 class="text-sm font-medium uppercase tracking-wider text-neutral-500 dark:text-neutral-400 mb-4 text-center">Categories</h3>
-    <ul class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
-      <li><a href="/category/art-expression" class="block text-neutral-700 dark:text-neutral-300 hover:text-primary-500 dark:hover:text-primary-400 text-base transition-colors duration-200">🎵 Art & Expression</a></li>
-      <li><a href="/category/diy-creation" class="block text-neutral-700 dark:text-neutral-300 hover:text-primary-500 dark:hover:text-primary-400 text-base transition-colors duration-200">🛠️ DIY & Creation</a></li>
-      <li><a href="/category/integration-growth" class="block text-neutral-700 dark:text-neutral-300 hover:text-primary-500 dark:hover:text-primary-400 text-base transition-colors duration-200">🧘🏽‍♂️ Integration & Growth</a></li>
-      <li><a href="/category/learning-projects" class="block text-neutral-700 dark:text-neutral-300 hover:text-primary-500 dark:hover:text-primary-400 text-base transition-colors duration-200">📚 Learning Projects</a></li>
-      <li><a href="/category/metaspace" class="block text-neutral-700 dark:text-neutral-300 hover:text-primary-500 dark:hover:text-primary-400 text-base transition-colors duration-200">🌀 Metaspace</a></li>
-      <li><a href="/category/parenting" class="block text-neutral-700 dark:text-neutral-300 hover:text-primary-500 dark:hover:text-primary-400 text-base transition-colors duration-200">👨‍👩‍👧‍👦 Parenting</a></li>
-      <li><a href="/category/politics" class="block text-neutral-700 dark:text-neutral-300 hover:text-primary-500 dark:hover:text-primary-400 text-base transition-colors duration-200">⚖️ Politics</a></li>
-      <li><a href="/category/psychology" class="block text-neutral-700 dark:text-neutral-300 hover:text-primary-500 dark:hover:text-primary-400 text-base transition-colors duration-200">🧠 Psychology</a></li>
-      <li><a href="/category/systems-strategy" class="block text-neutral-700 dark:text-neutral-300 hover:text-primary-500 dark:hover:text-primary-400 text-base transition-colors duration-200">💻 Systems & Strategy</a></li>
-    </ul>
 
     <!-- New Bottom Section -->
     <div class="mt-16 flex flex-col items-center gap-4">
       <div class="flex flex-wrap justify-center gap-4 mb-2">
         <a href="https://bsky.app/profile/antoniwan.online" class="px-4 py-1.5 rounded-full bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 font-medium text-base hover:bg-blue-200 dark:hover:bg-blue-800 transition-colors">BlueSky</a>
-        <a href="https://github.com/antoniwan" class="px-4 py-1.5 rounded-full bg-orange-100 dark:bg-orange-900 text-orange-700 dark:text-orange-300 font-medium text-base hover:bg-orange-200 dark:hover:bg-orange-800 transition-colors">GitHub</a>
+        <a href="https://github.com/antoniwan/strongvault" class="px-4 py-1.5 rounded-full bg-orange-100 dark:bg-orange-900 text-orange-700 dark:text-orange-300 font-medium text-base hover:bg-orange-200 dark:hover:bg-orange-800 transition-colors">Source Code</a>
         <a href="https://stronghandssoftheart.com" class="px-4 py-1.5 rounded-full bg-purple-100 dark:bg-purple-900 text-purple-700 dark:text-purple-300 font-medium text-base hover:bg-purple-200 dark:hover:bg-purple-800 transition-colors">Strong Hands Soft Heart</a>
         <a href="https://builds.software" class="px-4 py-1.5 rounded-full bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 font-medium text-base hover:bg-blue-200 dark:hover:bg-blue-800 transition-colors">Builds.Software</a>
       </div>
