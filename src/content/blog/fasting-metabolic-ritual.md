@@ -4,7 +4,7 @@ description: "A 10.5-hour intentional fast and the ritualistic, physiological, a
 pubDate: "2025-05-02"
 heroImage: "/images/u3632568553_a_ceremonial_warriors_feast_at_sunset_beautifully_437383ac-aefb-4b34-b88c-f073916a1810_0.png"
 language: ["en"]
-category: ["integration-growth"]
+category: ["integration-growth", "learning-projects"]
 subcategory: "Health"
 tags: ["fasting", "discipline", "ritual", "mental clarity", "sovereignty"]
 readingTime: 7

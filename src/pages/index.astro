@@ -45,15 +45,7 @@ const sortedCategories = [...categories].sort((a, b) => {
 const getLanguageFlag = (lang: string) => {
 	const flags: Record<string, string> = {
 		'en': '🇺🇸',
-		'es': '🇵🇷',
-		'fr': '🇫🇷',
-		'de': '🇩🇪',
-		'it': '🇮🇹',
-		'pt': '🇵🇹',
-		'ru': '🇷🇺',
-		'zh': '🇨🇳',
-		'ja': '🇯🇵',
-		'ko': '🇰🇷'
+		'es': '🇵🇷'
 	};
 	return flags[lang] || lang.toUpperCase();
 };

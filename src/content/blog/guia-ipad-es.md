@@ -4,7 +4,7 @@ description: "Esta guía te acompaña paso a paso en la elección, configuració
 pubDate: "2025-05-01"
 heroImage: "/guia-padres.jpg"
 language: ["es"]
-category: ["parenting"]
+category: ["parenting", "systems-strategy"]
 subcategory: "Tecnología y Crianza"
 tags:
   [

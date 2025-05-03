@@ -3,7 +3,7 @@ title: "Lemon-Pepper Chicken Thighs with Post-Bake Raw Honey Finish"
 description: "A simple yet sophisticated recipe for perfectly crispy chicken thighs with a bright citrus finish and sweet honey glaze."
 pubDate: "2025-05-02"
 language: ["en"]
-category: ["diy-creation"]
+category: ["diy-creation", "learning-projects"]
 subcategory: "Recipes"
 tags: ["chicken", "recipes", "cooking", "meal prep"]
 readingTime: 5

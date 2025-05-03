@@ -3,7 +3,7 @@ title: "If Your Politics Obsess Over Control, You're Not Well"
 description: "An honest breakdown of how fear masquerades as morality in right-wing ideology — and how healing begins with courage, not control."
 pubDate: 2025-04-01T00:00:00.000Z
 language: ["en"]
-category: ["politics"]
+category: ["politics", "psychology"]
 subcategory: "Psychology"
 tags: ["politics", "fear", "control", "healing", "threads", "astro"]
 readingTime: 7

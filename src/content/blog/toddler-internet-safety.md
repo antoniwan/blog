@@ -3,7 +3,7 @@ title: "How to Protect Our Children in the Digital Age: A Conscious Parent's Gui
 description: "A clear, powerful guide for safeguarding the hearts and minds of toddlers and young children in today's online world."
 pubDate: 2025-05-01T00:00:00.000Z
 language: ["en"]
-category: ["parenting"]
+category: ["parenting", "systems-strategy"]
 subcategory: "Digital Safety"
 tags: ["parents", "children", "internet", "safety", "education"]
 readingTime: 8
