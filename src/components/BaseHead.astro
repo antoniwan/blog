@@ -24,6 +24,7 @@ interface Props {
 	author?: string;
 	keywords?: string[];
 	locale?: string;
+	category?: string[];
 }
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
@@ -40,7 +41,8 @@ const {
 	updatedDate,
 	author = SITE_TITLE,
 	keywords = [],
-	locale = 'en_US'
+	locale = 'en_US',
+	category = []
 } = Astro.props;
 
 // Generate robots meta content
@@ -114,7 +116,9 @@ const structuredData = {
 				"@id": Astro.url
 			},
 			"keywords": keywords.join(', '),
-			"inLanguage": locale.split('_')[0]
+			"inLanguage": locale.split('_')[0],
+			"wordCount": description.split(' ').length,
+			"articleSection": category?.[0] || "General"
 		}] : [])
 	]
 };
@@ -135,10 +139,12 @@ const structuredData = {
 />
 <meta name="generator" content={Astro.generator} />
 
-<!-- Font preloads -->
+<!-- Performance Optimizations -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="dns-prefetch" href="https://fonts.googleapis.com">
+<link rel="dns-prefetch" href="https://fonts.gstatic.com">
 
 <!-- Canonical URL -->
 <link rel="canonical" href={finalCanonicalUrl} />
@@ -174,8 +180,62 @@ const structuredData = {
 	<meta property="article:tag" content={keyword} />
 ))}
 
-<!-- Structured Data -->
-<script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+<!-- Enhanced Structured Data -->
+<script type="application/ld+json" set:html={JSON.stringify({
+	"@context": "https://schema.org",
+	"@graph": [
+		{
+			"@type": "WebSite",
+			"name": SITE_TITLE,
+			"description": description,
+			"url": Astro.site,
+			"publisher": {
+				"@type": "Organization",
+				"name": SITE_TITLE,
+				"logo": {
+					"@type": "ImageObject",
+					"url": new URL('/favicon.svg', Astro.site)
+				}
+			},
+			"potentialAction": {
+				"@type": "SearchAction",
+				"target": {
+					"@type": "EntryPoint",
+					"urlTemplate": `${Astro.site}search?q={search_term_string}`
+				},
+				"query-input": "required name=search_term_string"
+			}
+		},
+		...(pubDate ? [{
+			"@type": "Article",
+			"headline": title,
+			"description": description,
+			"image": new URL(finalOgImage, Astro.url),
+			"datePublished": pubDateISO,
+			"dateModified": updatedDateISO || pubDateISO,
+			"author": {
+				"@type": "Person",
+				"name": author
+			},
+			"publisher": {
+				"@type": "Organization",
+				"name": SITE_TITLE,
+				"logo": {
+					"@type": "ImageObject",
+					"url": new URL('/favicon.svg', Astro.site)
+				}
+			},
+			"mainEntityOfPage": {
+				"@type": "WebPage",
+				"@id": Astro.url
+			},
+			"keywords": keywords.join(', '),
+			"inLanguage": locale.split('_')[0],
+			"wordCount": description.split(' ').length,
+			"articleSection": category?.[0] || "General"
+		}] : [])
+	]
+})} />
 
 <!-- Additional Meta Tags -->
 <meta name="application-name" content={SITE_TITLE} />
@@ -186,3 +246,10 @@ const structuredData = {
 <meta name="msapplication-config" content="/browserconfig.xml" />
 <meta name="theme-color" content="#2337ff" media="(prefers-color-scheme: light)" />
 <meta name="theme-color" content="#000d8a" media="(prefers-color-scheme: dark)" />
+
+<!-- Security Headers -->
+<meta http-equiv="X-Content-Type-Options" content="nosniff" />
+<meta http-equiv="X-Frame-Options" content="SAMEORIGIN" />
+<meta http-equiv="X-XSS-Protection" content="1; mode=block" />
+<meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin" />
+<meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), interest-cohort=()" />
