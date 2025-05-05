@@ -35,4 +35,15 @@ export default defineConfig({
       cssMinify: true,
     },
   },
+  // Enable built-in prefetch
+  prefetch: {
+    prefetchAll: true,
+    defaultStrategy: 'hover',
+  },
+  // Enable image optimization
+  image: {
+    service: {
+      entrypoint: 'astro/assets/services/sharp',
+    },
+  },
 });

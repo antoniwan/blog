@@ -125,15 +125,6 @@
     @apply bg-transparent p-0;
   }
 
-  /* Blockquotes */
-  blockquote {
-    @apply border-l-4 border-blockquote-border bg-blockquote-bg p-4 my-4 transition-colors duration-300;
-  }
-
-  blockquote p {
-    @apply m-0;
-  }
-
   /* Horizontal Rule */
   hr {
     @apply border-t border-border my-8 transition-colors duration-300;
@@ -431,21 +422,6 @@ pre > code {
 }
 
 /* ==========================================================================
-   Blockquotes
-   ========================================================================== */
-blockquote {
-  margin: var(--spacing-lg) 0;
-  padding: var(--spacing-md) var(--spacing-lg);
-  border-left: 4px solid var(--color-primary-500);
-  background-color: rgb(var(--color-neutral-100));
-}
-
-blockquote p {
-  margin: 0;
-  font-style: italic;
-}
-
-/* ==========================================================================
    Horizontal Rules
    ========================================================================== */
 hr {
@@ -556,4 +532,25 @@ body {
   :root:not(.light) {
     color-scheme: dark;
   }
+}
+
+/* Media Gallery */
+.media-gallery {
+  display: grid;
+  gap: 2rem;
+  margin: 2rem 0;
+}
+
+.media-gallery .video-wrapper {
+  margin: 0;
+  padding: 0;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+}
+
+.media-gallery .photo-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
 }

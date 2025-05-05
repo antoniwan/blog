@@ -167,21 +167,10 @@ export default {
               content: '""',
             },
             blockquote: {
-              fontWeight: "500",
-              fontStyle: "italic",
               color: "inherit",
               borderLeftWidth: "0.25rem",
-              borderLeftColor: "var(--tw-color-blockquote-border)",
-              quotes: '"\\201C""\\201D""\\2018""\\2019"',
-              backgroundColor: "var(--tw-color-blockquote-bg)",
+              borderLeftColor: "var(--tw-color-neutral-300)",
               padding: "1rem 1.5rem",
-              borderRadius: "0 0.5rem 0.5rem 0",
-            },
-            "blockquote p:first-of-type::before": {
-              content: "open-quote",
-            },
-            "blockquote p:last-of-type::after": {
-              content: "close-quote",
             },
             h1: {
               color: "inherit",
@@ -214,6 +203,7 @@ export default {
   plugins: [
     require('@tailwindcss/typography'),
     require('@tailwindcss/forms'),
+    require('@tailwindcss/aspect-ratio'),
   ],
   // Optimize for production
   ...(process.env.NODE_ENV === 'production' ? {

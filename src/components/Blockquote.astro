@@ -8,64 +8,18 @@ interface Props {
 const { content, author, cite } = Astro.props;
 ---
 
-<blockquote class="blockquote relative pl-8 py-4 my-8 border-l-4 border-primary/50 dark:border-primary-dark/30 transition-colors duration-300">
-	<div class="absolute left-0 top-0 w-4 h-4 bg-primary/50 dark:bg-primary-dark/30 rounded-full transition-colors duration-300"></div>
-	<div class="absolute left-0 bottom-0 w-4 h-4 bg-primary/50 dark:bg-primary-dark/30 rounded-full transition-colors duration-300"></div>
-	
-	<div class="relative z-10">
-		<p class="text-xl font-serif italic text-gray-dark dark:text-gray-light leading-relaxed transition-colors duration-300">
-			{content}
-		</p>
-		
-		{author && (
-			<footer class="mt-4 text-right">
-				<cite class="not-italic font-medium text-primary dark:text-primary-dark transition-colors duration-300">
-					{author}
-					{cite && (
-						<>
-							, <a href={cite} class="text-gray dark:text-gray-light hover:text-primary dark:hover:text-primary-dark transition-colors duration-300" target="_blank" rel="noopener noreferrer">source</a>
-						</>
-					)}
-				</cite>
-			</footer>
-		)}
-	</div>
-</blockquote>
-
-<style>
-	.blockquote {
-		position: relative;
-		transition: all 0.3s ease-in-out;
-	}
-
-	.blockquote:hover {
-		transform: translateX(4px);
-	}
-
-	.blockquote::before {
-		content: '"';
-		position: absolute;
-		top: -1rem;
-		left: 1rem;
-		font-size: 4rem;
-		font-family: serif;
-		color: var(--tw-color-primary)/0.1;
-		line-height: 1;
-		z-index: 0;
-	}
-
-	.dark .blockquote::before {
-		color: var(--tw-color-primary-dark)/0.1;
-	}
-
-	/* Respect reduced motion preferences */
-	@media (prefers-reduced-motion: reduce) {
-		.blockquote {
-			transition: none;
-		}
-		
-		.blockquote:hover {
-			transform: none;
-		}
-	}
-</style> 
+<blockquote>
+	<p>{content}</p>
+	{author && (
+		<footer>
+			<cite>
+				{author}
+				{cite && (
+					<>
+						, <a href={cite} target="_blank" rel="noopener noreferrer">source</a>
+					</>
+				)}
+			</cite>
+		</footer>
+	)}
+</blockquote> 

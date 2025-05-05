@@ -91,23 +91,43 @@ _Date: May 2, 2025_
 
 <div class="media-gallery">
   <figure class="video-wrapper">
-    <video controls preload="metadata">
-      <source src="/recipes/lemon-pepper-chicken/lemon-pepper-chicken-02.MP4" type="video/mp4">
-      Your browser does not support the video tag.
-    </video>
+    <OptimizedVideo
+      src="/recipes/lemon-pepper-chicken/lemon-pepper-chicken-02.MP4"
+      title="Lemon Pepper Chicken Cooking Process"
+      aspectRatio="16/9"
+    />
   </figure>
 
   <figure class="video-wrapper">
-    <video controls preload="metadata">
-      <source src="/recipes/lemon-pepper-chicken/lemon-pepper-chicken-01.MP4" type="video/mp4">
-      Your browser does not support the video tag.
-    </video>
+    <OptimizedVideo
+      src="/recipes/lemon-pepper-chicken/lemon-pepper-chicken-01.MP4"
+      title="Lemon Pepper Chicken Final Result"
+      aspectRatio="16/9"
+    />
   </figure>
 
   <div class="photo-gallery">
-    <img src="/recipes/lemon-pepper-chicken/lemon-pepper-chicken-photo-0a88a2aa-cfa3-48a4-ad07-7d91f440fd3e.jpeg" alt="Prepped chicken thighs">
-    <img src="/recipes/lemon-pepper-chicken/lemon-pepper-chicken-photo-2568.jpeg" alt="Lemon-pepper chicken thighs">
-    <img src="/recipes/lemon-pepper-chicken/lemon-pepper-chicken-photo-2562.jpeg" alt="Finished lemon-pepper chicken">
+    <OptimizedImage
+      src="/recipes/lemon-pepper-chicken/lemon-pepper-chicken-photo-0a88a2aa-cfa3-48a4-ad07-7d91f440fd3e.jpeg"
+      alt="Prepped chicken thighs"
+      aspectRatio="4/3"
+      width={800}
+      height={600}
+    />
+    <OptimizedImage
+      src="/recipes/lemon-pepper-chicken/lemon-pepper-chicken-photo-2568.jpeg"
+      alt="Lemon-pepper chicken thighs"
+      aspectRatio="4/3"
+      width={800}
+      height={600}
+    />
+    <OptimizedImage
+      src="/recipes/lemon-pepper-chicken/lemon-pepper-chicken-photo-2562.jpeg"
+      alt="Finished lemon-pepper chicken"
+      aspectRatio="4/3"
+      width={800}
+      height={600}
+    />
   </div>
 </div>
 

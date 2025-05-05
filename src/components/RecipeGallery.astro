@@ -1,4 +1,6 @@
 ---
+import OptimizedImage from './OptimizedImage.astro';
+
 interface Props {
   images: Array<{
     src: string;
@@ -13,10 +15,13 @@ const { images } = Astro.props;
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 my-8">
   {images.map((image) => (
     <figure class="m-0 p-0">
-      <img
+      <OptimizedImage
         src={image.src}
         alt={image.alt}
-        class="w-full h-auto rounded-lg shadow-md object-cover"
+        aspectRatio="4/3"
+        class="rounded-lg shadow-md"
+        width={800}
+        height={600}
       />
       {image.caption && (
         <figcaption class="mt-2 text-sm text-gray dark:text-gray-light text-center">
