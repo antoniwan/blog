@@ -87,49 +87,17 @@ _Date: May 2, 2025_
 
 ---
 
-## 📸 Photos & Videos
+## 📸 Photos
 
-<div class="media-gallery">
-  <figure class="video-wrapper">
-    <OptimizedVideo
-      src="/recipes/lemon-pepper-chicken/lemon-pepper-chicken-02.MP4"
-      title="Lemon Pepper Chicken Cooking Process"
-      aspectRatio="16/9"
-    />
-  </figure>
+![Prepped chicken thighs](/recipes/lemon-pepper-chicken/lemon-pepper-chicken-photo-0a88a2aa-cfa3-48a4-ad07-7d91f440fd3e.jpeg)
 
-  <figure class="video-wrapper">
-    <OptimizedVideo
-      src="/recipes/lemon-pepper-chicken/lemon-pepper-chicken-01.MP4"
-      title="Lemon Pepper Chicken Final Result"
-      aspectRatio="16/9"
-    />
-  </figure>
+![Lemon-pepper chicken thighs](/recipes/lemon-pepper-chicken/lemon-pepper-chicken-photo-2568.jpeg)
 
-  <div class="photo-gallery">
-    <OptimizedImage
-      src="/recipes/lemon-pepper-chicken/lemon-pepper-chicken-photo-0a88a2aa-cfa3-48a4-ad07-7d91f440fd3e.jpeg"
-      alt="Prepped chicken thighs"
-      aspectRatio="4/3"
-      width={800}
-      height={600}
-    />
-    <OptimizedImage
-      src="/recipes/lemon-pepper-chicken/lemon-pepper-chicken-photo-2568.jpeg"
-      alt="Lemon-pepper chicken thighs"
-      aspectRatio="4/3"
-      width={800}
-      height={600}
-    />
-    <OptimizedImage
-      src="/recipes/lemon-pepper-chicken/lemon-pepper-chicken-photo-2562.jpeg"
-      alt="Finished lemon-pepper chicken"
-      aspectRatio="4/3"
-      width={800}
-      height={600}
-    />
-  </div>
-</div>
+![Finished lemon-pepper chicken](/recipes/lemon-pepper-chicken/lemon-pepper-chicken-photo-2562.jpeg)
+
+## 📽️ Videos
+
+[![Lemon Pepper Chicken Final Result](/recipes/lemon-pepper-chicken/lemon-pepper-chicken-01.MP4)
 
 ---
 
