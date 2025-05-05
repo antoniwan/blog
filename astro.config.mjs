@@ -3,7 +3,6 @@ import { defineConfig } from "astro/config";
 import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
 import tailwind from "@astrojs/tailwind";
-
 import vercel from "@astrojs/vercel";
 
 // https://astro.build/config
@@ -13,7 +12,12 @@ export default defineConfig({
     mdx(),
     sitemap(),
     tailwind({
-      applyBaseStyles: false,
+      applyBaseStyles: true,
+      config: {
+        future: {
+          hoverOnlyWhenSupported: true,
+        },
+      },
     }),
   ],
   adapter: vercel(),
@@ -21,6 +25,25 @@ export default defineConfig({
     syntaxHighlight: "shiki",
     shikiConfig: {
       theme: "github-dark",
+    },
+  },
+  vite: {
+    css: {
+      devSourcemap: true,
+    },
+    build: {
+      cssMinify: true,
+    },
+  },
+  // Enable built-in prefetch
+  prefetch: {
+    prefetchAll: true,
+    defaultStrategy: 'hover',
+  },
+  // Enable image optimization
+  image: {
+    service: {
+      entrypoint: 'astro/assets/services/sharp',
     },
   },
 });

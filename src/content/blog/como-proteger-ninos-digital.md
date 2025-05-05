@@ -17,7 +17,7 @@ translationGroup: "toddler-internet-safety"
 En Puerto Rico —y en el mundo entero— vivimos en una era donde el Internet está en todos lados. Pero **el hecho de que algo sea común, no lo hace seguro.**  
 El Internet NO es un lugar hecho para niños. Es un campo abierto con belleza, pero también con basura, violencia, sexualidad extrema, y contenidos que un niño no está emocionalmente preparado para ver.
 
-> **"La mente de un niño es como un campo fértil. Lo que siembres ahora, florecerá o se pudrirá más adelante."**
+> **La mente de un niño es como un campo fértil. Lo que siembres ahora, florecerá o se pudrirá más adelante.**
 
 ---
 
@@ -64,17 +64,17 @@ El Internet NO es un lugar hecho para niños. Es un campo abierto con belleza, p
 
 - **No lo regañes.** Puede que no entienda lo que vio.
 - Di algo como:
-  > "Esas imágenes no son para niños. Si ves algo que te confunde o te asusta, ven donde mí."
+  > Esas imágenes no son para niños. Si ves algo que te confunde o te asusta, ven donde mí.
 
 #### Si el niño tiene 6-12 años:
 
 - Haz preguntas con ternura:
 
-  > "¿Qué sentiste cuando viste eso?"  
-  > "¿Alguien te lo mostró o fue por accidente?"
+  > ¿Qué sentiste cuando viste eso?"  
+  > "¿Alguien te lo mostró o fue por accidente?
 
 - Explícale:
-  > "Eso que viste no muestra el amor verdadero. Nuestro cuerpo y nuestro corazón merecen respeto."
+  > Eso que viste no muestra el amor verdadero. Nuestro cuerpo y nuestro corazón merecen respeto.
 
 #### Si el contenido era violento o humillante:
 

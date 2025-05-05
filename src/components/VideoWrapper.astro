@@ -1,17 +1,22 @@
 ---
+import OptimizedVideo from './OptimizedVideo.astro';
+
 interface Props {
   src: string;
   title?: string;
+  aspectRatio?: string;
+  poster?: string;
 }
 
-const { src, title } = Astro.props;
+const { src, title, aspectRatio = '16/9', poster } = Astro.props;
 ---
 
 <div class="my-8 max-w-full overflow-hidden rounded-lg shadow-md bg-gray-light dark:bg-gray">
-  <video
+  <OptimizedVideo
     src={src}
     title={title}
-    class="w-full h-auto block"
+    aspectRatio={aspectRatio}
+    poster={poster}
     controls
   />
 </div> 

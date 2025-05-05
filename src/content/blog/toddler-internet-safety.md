@@ -64,7 +64,7 @@ The Internet is NOT made for children. It's a wild field filled with beauty, but
 
 - **Do not scold.** They may not understand what they saw.
 - Say something like:
-  > "Those images aren't for kids. If you ever see something that confuses or scares you, come tell me."
+  > Those images aren't for kids. If you ever see something that confuses or scares you, come tell me.
 
 #### For children ages 6–12:
 

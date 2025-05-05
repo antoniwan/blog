@@ -1,0 +1,65 @@
+---
+interface Props {
+  src: string;
+  title?: string;
+  aspectRatio?: string;
+  poster?: string;
+  autoplay?: boolean;
+  loop?: boolean;
+  muted?: boolean;
+  controls?: boolean;
+  class?: string;
+}
+
+const { 
+  src, 
+  title, 
+  aspectRatio = '16/9',
+  poster,
+  autoplay = false,
+  loop = false,
+  muted = false,
+  controls = true,
+  class: className = ''
+} = Astro.props;
+
+// Convert aspect ratio string to number (e.g., "16/9" to 16/9)
+const aspectRatioValue = eval(aspectRatio);
+---
+
+<div class={`relative overflow-hidden aspect-ratio ${className}`}>
+  <video
+    src={src}
+    title={title}
+    poster={poster}
+    autoplay={autoplay}
+    loop={loop}
+    muted={muted}
+    controls={controls}
+    class="absolute inset-0 w-full h-full object-cover"
+    preload="metadata"
+  />
+</div>
+
+<style>
+  .aspect-ratio {
+    position: relative;
+    padding-bottom: calc(var(--aspect-ratio, 56.25%) * 100%);
+  }
+
+  .aspect-ratio > :global(video) {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+</style>
+
+<script define:vars={{ aspectRatioValue }}>
+  const container = document.currentScript?.parentElement;
+  if (container) {
+    container.style.setProperty('--aspect-ratio', aspectRatioValue);
+  }
+</script> 
