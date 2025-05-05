@@ -2,6 +2,7 @@
 import FormattedDate from './FormattedDate.astro';
 import { categories } from '../data/categories';
 import { formatDistanceToNow } from 'date-fns';
+import Figure from './media/Figure.astro';
 
 interface Props {
 	post: {
@@ -65,12 +66,13 @@ const formatRelativeDate = (date: Date) => {
 	<a href={`/blog/${post.id}/`} class="block no-underline text-inherit" transition:name={`post-link-${post.id}`}>
 		{post.data.image && (
 			<div class="relative pt-[56.25%] bg-zinc-100 dark:bg-zinc-800 overflow-hidden">
-				<img
+				<Figure
 					src={post.data.image}
-					alt=""
-					class="absolute top-0 left-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-					width="800"
-					height="400"
+					alt={`Featured image for ${post.data.title}`}
+					width={800}
+					height={450}
+					aspectRatio="16/9"
+					class="group-hover:scale-105"
 					loading="lazy"
 					transition:name={`post-image-${post.id}`}
 				/>

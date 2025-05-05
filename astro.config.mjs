@@ -38,12 +38,12 @@ export default defineConfig({
   // Enable built-in prefetch
   prefetch: {
     prefetchAll: true,
-    defaultStrategy: 'hover',
+    defaultStrategy: "hover",
   },
   // Enable image optimization
   image: {
     service: {
-      entrypoint: 'astro/assets/services/sharp',
+      entrypoint: "astro/assets/services/sharp",
     },
   },
 });

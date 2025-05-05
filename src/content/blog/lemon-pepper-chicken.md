@@ -97,7 +97,7 @@ _Date: May 2, 2025_
 
 ## 📽️ Videos
 
-[![Lemon Pepper Chicken Final Result](/recipes/lemon-pepper-chicken/lemon-pepper-chicken-01.MP4)
+![Lemon Pepper Chicken Final Result](/recipes/lemon-pepper-chicken/lemon-pepper-chicken-01.MP4)
 
 ---
 
