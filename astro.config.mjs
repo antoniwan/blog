@@ -13,18 +13,15 @@ export default defineConfig({
     sitemap(),
     tailwind({
       applyBaseStyles: true,
-      config: {
-        future: {
-          hoverOnlyWhenSupported: true,
-        },
-      },
     }),
   ],
+  output: "server",
   adapter: vercel(),
   markdown: {
     syntaxHighlight: "shiki",
     shikiConfig: {
       theme: "github-dark",
+      wrap: true,
     },
   },
   vite: {

@@ -23,29 +23,18 @@
 /* Custom base styles */
 @layer base {
   :root {
-    --font-sans: 'Inter var', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    --font-serif: Georgia, Cambria, 'Times New Roman', Times, serif;
+    --font-sans: "Inter var", system-ui, -apple-system, BlinkMacSystemFont,
+      "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans",
+      "Helvetica Neue", sans-serif;
+    --font-serif: Georgia, Cambria, "Times New Roman", Times, serif;
   }
 
   html {
-    font-family: var(--font-sans);
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-rendering: optimizeLegibility;
+    @apply font-sans antialiased;
   }
 
   body {
-    margin: 0;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    background-color: #ffffff;
-    color: #1a1a1a;
-  }
-
-  .dark body {
-    background-color: #1a1a1a;
-    color: #ffffff;
+    @apply m-0 min-h-screen flex flex-col bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white;
   }
 
   /* Typography */
@@ -55,7 +44,7 @@
   h4,
   h5,
   h6 {
-    @apply font-bold text-text dark:text-text-dark transition-colors duration-300;
+    @apply font-bold text-neutral-900 dark:text-white transition-colors duration-300;
   }
 
   h1 {
@@ -91,7 +80,7 @@
   input,
   textarea,
   select {
-    @apply bg-background text-text border border-border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 transition-colors duration-300;
+    @apply bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white border border-neutral-200 dark:border-neutral-700 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 transition-colors duration-300;
   }
 
   /* Tables */
@@ -101,7 +90,7 @@
 
   th,
   td {
-    @apply border border-border px-4 py-2 transition-colors duration-300;
+    @apply border border-neutral-200 dark:border-neutral-700 px-4 py-2 transition-colors duration-300;
   }
 
   th {
@@ -114,11 +103,11 @@
 
   /* Code */
   code {
-    @apply font-mono text-sm bg-code-bg rounded px-1 py-0.5 transition-colors duration-300;
+    @apply font-mono text-sm bg-neutral-100 dark:bg-neutral-800 rounded px-1 py-0.5 transition-colors duration-300;
   }
 
   pre {
-    @apply bg-code-bg rounded-lg p-4 overflow-x-auto transition-colors duration-300;
+    @apply bg-neutral-100 dark:bg-neutral-800 rounded-lg p-4 overflow-x-auto transition-colors duration-300;
   }
 
   pre > code {
@@ -127,7 +116,7 @@
 
   /* Horizontal Rule */
   hr {
-    @apply border-t border-border my-8 transition-colors duration-300;
+    @apply border-t border-neutral-200 dark:border-neutral-700 my-8 transition-colors duration-300;
   }
 
   /* Dark mode specific styles */
@@ -160,7 +149,7 @@
   }
 
   .skip-link {
-    @apply absolute top-0 left-0 -translate-y-full focus:translate-y-0 bg-primary-500 text-white px-4 py-2 z-modal;
+    @apply absolute top-0 left-0 -translate-y-full focus:translate-y-0 bg-primary-500 text-white px-4 py-2 z-50;
   }
 
   /* Content Layout */
@@ -174,383 +163,27 @@
 
   /* Status indicators */
   .status-success {
-    @apply text-success dark:text-success-dark;
+    @apply text-green-500 dark:text-green-400;
   }
 
   .status-warning {
-    @apply text-warning dark:text-warning-dark;
+    @apply text-yellow-500 dark:text-yellow-400;
   }
 
   .status-error {
-    @apply text-error dark:text-error-dark;
+    @apply text-red-500 dark:text-red-400;
   }
 
   .status-info {
-    @apply text-info dark:text-info-dark;
-  }
-}
-
-/* ==========================================================================
-   CSS Custom Properties
-   ========================================================================== */
-:root {
-  /* Color System */
-  --color-primary-50: #e6e8ff;
-  --color-primary-100: #c4c9ff;
-  --color-primary-200: #a2aaff;
-  --color-primary-300: #808bff;
-  --color-primary-400: #5e6cff;
-  --color-primary-500: #2337ff;
-  --color-primary-600: #1c2ccc;
-  --color-primary-700: #152199;
-  --color-primary-800: #0e1666;
-  --color-primary-900: #070b33;
-
-  /* Neutral colors */
-  --color-neutral-50: #f8f9fa;
-  --color-neutral-100: #f1f3f5;
-  --color-neutral-200: #e9ecef;
-  --color-neutral-300: #dee2e6;
-  --color-neutral-400: #ced4da;
-  --color-neutral-500: #adb5bd;
-  --color-neutral-600: #868e96;
-  --color-neutral-700: #495057;
-  --color-neutral-800: #343a40;
-  --color-neutral-900: #212529;
-
-  /* Typography System */
-  --font-family-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
-    Roboto, sans-serif;
-  --font-family-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Consolas,
-    monospace;
-
-  /* Typography Scale */
-  --font-size-xs: 0.75rem; /* 12px */
-  --font-size-sm: 0.875rem; /* 14px */
-  --font-size-base: 1rem; /* 16px */
-  --font-size-lg: 1.125rem; /* 18px */
-  --font-size-xl: 1.25rem; /* 20px */
-  --font-size-2xl: 1.5rem; /* 24px */
-  --font-size-3xl: 1.875rem; /* 30px */
-  --font-size-4xl: 2.25rem; /* 36px */
-
-  /* Spacing System */
-  --spacing-xs: 0.25rem; /* 4px */
-  --spacing-sm: 0.5rem; /* 8px */
-  --spacing-md: 1rem; /* 16px */
-  --spacing-lg: 1.5rem; /* 24px */
-  --spacing-xl: 2rem; /* 32px */
-  --spacing-2xl: 3rem; /* 48px */
-
-  /* Line Heights */
-  --line-height-tight: 1.2;
-  --line-height-snug: 1.375;
-  --line-height-normal: 1.5;
-  --line-height-relaxed: 1.625;
-  --line-height-loose: 2;
-
-  /* Letter Spacing */
-  --letter-spacing-tighter: -0.05em;
-  --letter-spacing-tight: -0.025em;
-  --letter-spacing-normal: -0.011em;
-  --letter-spacing-wide: 0.025em;
-  --letter-spacing-wider: 0.05em;
-
-  /* Z-index System */
-  --z-index-dropdown: 1000;
-  --z-index-sticky: 1020;
-  --z-index-fixed: 1030;
-  --z-index-modal-backdrop: 1040;
-  --z-index-modal: 1050;
-  --z-index-popover: 1060;
-  --z-index-tooltip: 1070;
-}
-
-/* ==========================================================================
-   Base Styles
-   ========================================================================== */
-html {
-  font-family: var(--font-sans);
-  font-size: 16px;
-  line-height: var(--line-height-normal);
-  color: rgb(var(--color-neutral-900));
-  background-color: #fff;
-  -webkit-text-size-adjust: 100%;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
-}
-
-body {
-  margin: 0;
-  padding: 0;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
-/* ==========================================================================
-   Typography
-   ========================================================================== */
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  margin: 0;
-  line-height: var(--line-height-tight);
-  font-weight: 700;
-}
-
-h1 {
-  font-size: var(--font-size-4xl);
-  margin-bottom: var(--spacing-lg);
-}
-
-h2 {
-  font-size: var(--font-size-3xl);
-  margin-bottom: var(--spacing-md);
-}
-
-h3 {
-  font-size: var(--font-size-2xl);
-  margin-bottom: var(--spacing-md);
-}
-
-h4 {
-  font-size: var(--font-size-xl);
-  margin-bottom: var(--spacing-sm);
-}
-
-h5 {
-  font-size: var(--font-size-lg);
-  margin-bottom: var(--spacing-sm);
-}
-
-h6 {
-  font-size: var(--font-size-base);
-  margin-bottom: var(--spacing-sm);
-}
-
-/* ==========================================================================
-   Links
-   ========================================================================== */
-a:focus {
-  outline: 2px solid var(--color-primary-500);
-  outline-offset: 2px;
-}
-
-/* ==========================================================================
-   Forms
-   ========================================================================== */
-input,
-textarea {
-  font-family: var(--font-family-sans);
-  font-size: var(--font-size-base);
-  line-height: var(--line-height-normal);
-  padding: var(--spacing-sm);
-  border: 1px solid rgb(var(--color-neutral-200));
-  border-radius: 4px;
-  width: 100%;
-}
-
-input:focus,
-textarea:focus {
-  outline: 2px solid var(--color-primary-500);
-  outline-offset: 0;
-}
-
-/* ==========================================================================
-   Tables
-   ========================================================================== */
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin: var(--spacing-lg) 0;
-}
-
-th,
-td {
-  padding: var(--spacing-sm);
-  border: 1px solid rgb(var(--color-neutral-200));
-  text-align: left;
-}
-
-th {
-  background-color: rgb(var(--color-neutral-100));
-  font-weight: 600;
-}
-
-tr:nth-child(even) {
-  background-color: rgba(var(--color-neutral-100), 0.5);
-}
-
-/* ==========================================================================
-   Images
-   ========================================================================== */
-img {
-  max-width: 100%;
-  height: auto;
-  display: block;
-  content-visibility: auto;
-}
-
-/* ==========================================================================
-   Code
-   ========================================================================== */
-code {
-  font-family: var(--font-family-mono);
-  font-size: 0.9em;
-  background-color: rgb(var(--color-neutral-100));
-  padding: 0.2em 0.4em;
-  border-radius: 3px;
-}
-
-pre {
-  background-color: rgb(var(--color-neutral-800));
-  color: #fff;
-  padding: var(--spacing-md);
-  border-radius: 4px;
-  overflow-x: auto;
-}
-
-pre > code {
-  background-color: transparent;
-  padding: 0;
-  color: inherit;
-}
-
-/* ==========================================================================
-   Horizontal Rules
-   ========================================================================== */
-hr {
-  border: 0;
-  height: 1px;
-  background-color: rgb(var(--color-neutral-200));
-  margin: var(--spacing-xl) 0;
-}
-
-/* ==========================================================================
-   Utility Classes
-   ========================================================================== */
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border-width: 0;
-}
-
-.skip-link {
-  position: absolute;
-  top: -40px;
-  left: 0;
-  background: var(--color-primary-500);
-  color: white;
-  padding: 8px;
-  z-index: var(--z-index-fixed);
-  transition: top 0.2s ease;
-}
-
-.skip-link:focus {
-  top: 0;
-}
-
-/* ==========================================================================
-   Layout Components
-   ========================================================================== */
-.content-wrapper {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 var(--spacing-md);
-}
-
-@media (min-width: 768px) {
-  .content-wrapper {
-    padding: 0 var(--spacing-lg);
-  }
-}
-
-.content {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: var(--spacing-xl) 0;
-}
-
-/* ==========================================================================
-   Media Queries
-   ========================================================================== */
-@media (min-width: 768px) {
-  html {
-    font-size: 18px;
-  }
-
-  h1 {
-    font-size: var(--font-size-4xl);
-  }
-
-  h2 {
-    font-size: var(--font-size-3xl);
-  }
-
-  h3 {
-    font-size: var(--font-size-2xl);
-  }
-
-  h4 {
-    font-size: var(--font-size-xl);
-  }
-
-  h5 {
-    font-size: var(--font-size-lg);
-  }
-
-  h6 {
-    font-size: var(--font-size-base);
-  }
-}
-
-@media (max-width: 768px) {
-  table {
-    display: block;
-    overflow-x: auto;
-  }
-}
-
-/* Smooth transitions for dark mode */
-body {
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-/* Prevent FOUC for dark mode */
-@media (prefers-color-scheme: dark) {
-  :root:not(.light) {
-    color-scheme: dark;
+    @apply text-blue-500 dark:text-blue-400;
   }
 }
 
 /* Media Gallery */
 .media-gallery {
-  display: grid;
-  gap: 2rem;
-  margin: 2rem 0;
-}
-
-.media-gallery .video-wrapper {
-  margin: 0;
-  padding: 0;
-  border-radius: 0.5rem;
-  overflow: hidden;
-  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4;
 }
 
 .media-gallery .photo-gallery {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1rem;
+  @apply relative aspect-[1/1] overflow-hidden rounded-lg;
 }
