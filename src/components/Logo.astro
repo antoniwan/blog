@@ -59,12 +59,29 @@ const sizeClasses = {
     }
   }
 
+  /* R2-D2 style spin animation */
+  .logo-svg.r2d2-spin {
+    animation: r2d2Spin 0.5s linear infinite;
+  }
+
+  @keyframes r2d2Spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
   /* Respect reduced motion preferences */
   @media (prefers-reduced-motion: reduce) {
     .logo-svg {
       animation: none;
     }
     a:hover .logo-svg {
+      animation: none;
+    }
+    .logo-svg.r2d2-spin {
       animation: none;
     }
   }
@@ -75,13 +92,34 @@ const sizeClasses = {
   const logo = document.querySelector('.logo-svg') as SVGElement;
   let lastScrollY = window.scrollY;
   let ticking = false;
+  let isSpinning = false;
 
   function updateLogoOnScroll() {
     if (logo) {
       const scrollDelta = window.scrollY - lastScrollY;
       const rotation = Math.min(Math.max(scrollDelta * 0.1, -5), 5); // Limit rotation to -5 to 5 degrees
       
-      logo.style.transform = `rotate(${rotation}deg)`;
+      // Get footer position
+      const footer = document.querySelector('footer');
+      if (footer) {
+        const footerTop = footer.getBoundingClientRect().top;
+        const windowHeight = window.innerHeight;
+        
+        // Start spinning when footer is 300px from viewport bottom
+        if (footerTop < windowHeight + 300 && !isSpinning) {
+          logo.classList.add('r2d2-spin');
+          isSpinning = true;
+        } else if (footerTop >= windowHeight + 300 && isSpinning) {
+          logo.classList.remove('r2d2-spin');
+          isSpinning = false;
+        }
+      }
+
+      // Only apply scroll rotation if not spinning
+      if (!isSpinning) {
+        logo.style.transform = `rotate(${rotation}deg)`;
+      }
+      
       lastScrollY = window.scrollY;
     }
     ticking = false;
