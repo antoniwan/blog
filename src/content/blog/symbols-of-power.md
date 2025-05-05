@@ -4,7 +4,7 @@ description: "A reflection on the symbols—mythic, fictional, and personal—th
 pubDate: "2024-07-06"
 heroImage: "/images/symbols/narsil.avif"
 language: ["en"]
-category: ["metaspace"]
+category: ["metaspace", "psychology", "integration-growth", "art-expression"]
 subcategory: "Philosophy"
 tags:
   [
@@ -91,18 +91,18 @@ These symbols go beyond ink. They are **usable power icons** — to focus the mi
 | Symbol                          | Meaning                        | Tactical Use                                                                                 |
 | ------------------------------- | ------------------------------ | -------------------------------------------------------------------------------------------- |
 | Brand of Sacrifice (_Berserk_)  | Survival through pain          | Use when you feel cursed, but keep going. It reminds you: you _are_ the resistance.          |
-| Uchiha Crest (_Naruto_)         | Fire, bloodline, tragic genius | Use to remember your depth. You see what others don’t. Channel emotion into clarity.         |
+| Uchiha Crest (_Naruto_)         | Fire, bloodline, tragic genius | Use to remember your depth. You see what others don't. Channel emotion into clarity.         |
 | Alchemist Circle (_FMA_)        | Transformation through cost    | Draw when something needs to _change_. Use it in journaling or rituals. Equivalent exchange. |
-| Hunter’s License (_HxH_)        | Permission to explore the edge | A reminder that mastery grants access to deeper quests. You’ve earned this.                  |
-| Goku’s Kanji (悟) (_DBZ_)       | Wisdom, growth, power          | Wear it when training, learning, or ascending. You are always leveling up.                   |
+| Hunter's License (_HxH_)        | Permission to explore the edge | A reminder that mastery grants access to deeper quests. You've earned this.                  |
+| Goku's Kanji (悟) (_DBZ_)       | Wisdom, growth, power          | Wear it when training, learning, or ascending. You are always leveling up.                   |
 | Millennium Puzzle (_Yu-Gi-Oh!_) | Duality, inner shadow          | Use in integration work or inner child healing. Your shadow self is powerful, too.           |
 
 ### ⚔️ Cartoons & Comics
 
 | Symbol                             | Meaning                   | Tactical Use                                                                 |
 | ---------------------------------- | ------------------------- | ---------------------------------------------------------------------------- |
-| Sword of Omens (_Thundercats_)     | Sight beyond sight        | Meditate with it in mind. Ask: what aren’t you seeing clearly yet?           |
-| Power Sword (_He-Man_)             | Raw agency                | Chant your own version of “I have the power” before hard actions. It works.  |
+| Sword of Omens (_Thundercats_)     | Sight beyond sight        | Meditate with it in mind. Ask: what aren't you seeing clearly yet?           |
+| Power Sword (_He-Man_)             | Raw agency                | Chant your own version of "I have the power" before hard actions. It works.  |
 | Planeteer Rings (_Captain Planet_) | Elements + Heart          | Choose one element to embody in a day. Combine with others in group rituals. |
 | Green Lantern Ring (_DC_)          | Willpower creates reality | Use for manifestation or discipline tasks. What you imagine becomes.         |
 | Triforce (_Zelda_)                 | Power, Courage, Wisdom    | Use in decision-making. Which force do you need most right now?              |
@@ -111,7 +111,7 @@ These symbols go beyond ink. They are **usable power icons** — to focus the mi
 
 | Symbol                              | Meaning                    | Tactical Use                                                                      |
 | ----------------------------------- | -------------------------- | --------------------------------------------------------------------------------- |
-| Bonfire (_Dark Souls_)              | Rest, rebirth in chaos     | Use this symbol as a grounding ritual. Light a candle to “reset.”                 |
+| Bonfire (_Dark Souls_)              | Rest, rebirth in chaos     | Use this symbol as a grounding ritual. Light a candle to "reset."                 |
 | Spartan Helmet (_Halo_)             | Silent service             | Wear it when you carry burdens for others. Quiet strength.                        |
 | Bloody Handprint (_God of War_)     | Rage, guilt, choice        | Recall this when confronting your past. You can carry your pain and still change. |
 | Fire Keeper Eyes (_Dark Souls III_) | Inner darkness, compassion | Symbol for seeing _what is_, not what should be. Use during therapy, shadow work. |
@@ -121,18 +121,18 @@ These symbols go beyond ink. They are **usable power icons** — to focus the mi
 
 | Symbol                          | Meaning                | Tactical Use                                                     |
 | ------------------------------- | ---------------------- | ---------------------------------------------------------------- |
-| Dharma Initiative Logo (_Lost_) | Experiment, fate, loop | Use when life feels recursive. What’s the deeper test here?      |
+| Dharma Initiative Logo (_Lost_) | Experiment, fate, loop | Use when life feels recursive. What's the deeper test here?      |
 | Infinity Stones (_Marvel_)      | Domains of control     | Journal each domain. Which are you weakest in? Train that.       |
 | One Ring (_LOTR_)               | Corruption of power    | Ask: what do I desire that might destroy me? Use for ego checks. |
-| Light of Earendil (_LOTR_)      | Hope in darkness       | Keep a “light” object nearby. For when it gets dark again.       |
+| Light of Earendil (_LOTR_)      | Hope in darkness       | Keep a "light" object nearby. For when it gets dark again.       |
 
 ### 🧙 Mythic Additions
 
 | Symbol                            | Meaning         | Tactical Use                                               |
 | --------------------------------- | --------------- | ---------------------------------------------------------- |
-| Witcher Medallion                 | Magic radar     | A reminder to listen to your instincts. “Tremors” = truth. |
+| Witcher Medallion                 | Magic radar     | A reminder to listen to your instincts. "Tremors" = truth. |
 | Dovahkiin Sigil (_Skyrim_)        | Voice is weapon | Speak truth even if your voice shakes. Shout if you must.  |
-| Hidden Blade (_Assassin’s Creed_) | Freedom, legacy | Used in stealth mode. Tactical patience, not weakness.     |
+| Hidden Blade (_Assassin's Creed_) | Freedom, legacy | Used in stealth mode. Tactical patience, not weakness.     |
 
 ---
 
@@ -170,16 +170,16 @@ These symbols go beyond ink. They are **usable power icons** — to focus the mi
 | The Lord of the Rings            | Film              | https://www.imdb.com/title/tt0120737/             |
 | The Witcher                      | Game / Series     | https://www.imdb.com/title/tt5180504/             |
 | Skyrim                           | Video Game        | https://www.imdb.com/title/tt1814884/             |
-| Assassin’s Creed                 | Video Game / Film | https://www.imdb.com/title/tt2094766/             |
+| Assassin's Creed                 | Video Game / Film | https://www.imdb.com/title/tt2094766/             |
 
 ---
 
 ## 🔮 Final Notes for the Seeker
 
-These are more than fandom. They’re _tools_. Build your own **Codex of Symbols**. Make a wall, a tattoo sleeve, or an altar. Ritualize how and when you call on each power.
+These are more than fandom. They're _tools_. Build your own **Codex of Symbols**. Make a wall, a tattoo sleeve, or an altar. Ritualize how and when you call on each power.
 
 This is your inventory. Your magic. Your reminder:
 
-**Power isn’t just what you have — it’s what you remember.**
+**Power isn't just what you have — it's what you remember.**
 
 ---
