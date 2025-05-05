@@ -6,8 +6,9 @@ import BackToTop from '../components/BackToTop.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import ReadingProgress from '../components/ReadingProgress.astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
-import  SpeedInsights  from "@vercel/speed-insights/astro"
+import SpeedInsights from "@vercel/speed-insights/astro";
 import Analytics from '@vercel/analytics/astro';
+import '../styles/global.css';
 
 interface Props {
   title: string;
@@ -87,8 +88,10 @@ const capitalize = (str: string) => str ? str.charAt(0).toUpperCase() + str.slic
 
 <!doctype html>
 <html lang="en">
-  <SpeedInsights
   <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preload" href="/fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin />
     <BaseHead 
       title={title} 
       description={description}
@@ -103,7 +106,26 @@ const capitalize = (str: string) => str ? str.charAt(0).toUpperCase() + str.slic
       keywords={tags}
       locale={language[0] ? `${language[0]}_${language[0].toUpperCase()}` : 'en_US'}
     />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script is:inline>
+      // Prevent FOUC for dark mode
+      const theme = (() => {
+        if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
+          return localStorage.getItem('theme');
+        }
+        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          return 'dark';
+        }
+        return 'light';
+      })();
+      
+      if (theme === 'dark') {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+      
+      window.localStorage.setItem('theme', theme);
+    </script>
   </head>
   <body class="min-h-screen flex flex-col bg-background text-text dark:bg-background-dark dark:text-text-dark">
     <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:bg-background dark:focus:bg-background-dark focus:px-4 focus:py-2 focus:rounded focus:shadow-lg focus:ring-2 focus:ring-primary-500">Skip to main content</a>
@@ -196,59 +218,59 @@ const capitalize = (str: string) => str ? str.charAt(0).toUpperCase() + str.slic
 </html>
 
 <style>
-	/* Enhanced typography for longform content */
-	.prose {
-		--tw-prose-body: var(--tw-color-text);
-		--tw-prose-headings: var(--tw-color-text);
-		--tw-prose-links: var(--tw-color-primary-500);
-		--tw-prose-bold: var(--tw-color-text);
-		--tw-prose-counters: var(--tw-color-text);
-		--tw-prose-bullets: var(--tw-color-text);
-		--tw-prose-hr: var(--tw-color-border);
-		--tw-prose-quotes: var(--tw-color-text);
-		--tw-prose-quote-borders: var(--tw-color-primary-500);
-		--tw-prose-captions: var(--tw-color-text);
-		--tw-prose-code: var(--tw-color-text);
-		--tw-prose-pre-code: var(--tw-color-text);
-		--tw-prose-pre-bg: var(--tw-color-background);
-		--tw-prose-th-borders: var(--tw-color-border);
-		--tw-prose-td-borders: var(--tw-color-border);
-	}
+  /* Enhanced typography for longform content */
+  .prose {
+    --tw-prose-body: var(--tw-color-text);
+    --tw-prose-headings: var(--tw-color-text);
+    --tw-prose-links: var(--tw-color-primary-500);
+    --tw-prose-bold: var(--tw-color-text);
+    --tw-prose-counters: var(--tw-color-text);
+    --tw-prose-bullets: var(--tw-color-text);
+    --tw-prose-hr: var(--tw-color-border);
+    --tw-prose-quotes: var(--tw-color-text);
+    --tw-prose-quote-borders: var(--tw-color-primary-500);
+    --tw-prose-captions: var(--tw-color-text);
+    --tw-prose-code: var(--tw-color-text);
+    --tw-prose-pre-code: var(--tw-color-text);
+    --tw-prose-pre-bg: var(--tw-color-background);
+    --tw-prose-th-borders: var(--tw-color-border);
+    --tw-prose-td-borders: var(--tw-color-border);
+  }
 
-	/* Drop cap for first paragraph */
-	.prose > p:first-of-type::first-letter {
-		float: left;
-		font-size: 4.5em;
-		line-height: 0.8;
-		margin-right: 0.1em;
-		margin-bottom: 0.1em;
-		font-family: var(--font-serif);
-		color: var(--tw-color-primary-500);
-	}
+  /* Drop cap for first paragraph */
+  .prose > p:first-of-type::first-letter {
+    float: left;
+    font-size: 4.5em;
+    line-height: 0.8;
+    margin-right: 0.1em;
+    margin-bottom: 0.1em;
+    font-family: var(--font-serif);
+    color: var(--tw-color-primary-500);
+  }
 
-	/* Enhanced blockquote styling */
-	.prose blockquote {
-		border-left-width: 4px;
-		border-left-color: var(--tw-color-primary-500);
-		padding-left: 1.5rem;
-		font-style: italic;
-		background-color: var(--tw-color-neutral-100);
-		padding: 1.5rem;
-		border-radius: 0 0.5rem 0.5rem 0;
-	}
+  /* Enhanced blockquote styling */
+  .prose blockquote {
+    border-left-width: 4px;
+    border-left-color: var(--tw-color-primary-500);
+    padding-left: 1.5rem;
+    font-style: italic;
+    background-color: var(--tw-color-neutral-100);
+    padding: 1.5rem;
+    border-radius: 0 0.5rem 0.5rem 0;
+  }
 
-	/* Dark mode optimizations */
-	@media (prefers-color-scheme: dark) {
-		.prose blockquote {
-			background-color: var(--tw-color-neutral-800);
-		}
-	}
+  /* Dark mode optimizations */
+  @media (prefers-color-scheme: dark) {
+    .prose blockquote {
+      background-color: var(--tw-color-neutral-800);
+    }
+  }
 
-	/* Respect reduced motion preferences */
-	@media (prefers-reduced-motion: reduce) {
-		* {
-			transition: none !important;
-			animation: none !important;
-		}
-	}
+  /* Respect reduced motion preferences */
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      transition: none !important;
+      animation: none !important;
+    }
+  }
 </style> 
