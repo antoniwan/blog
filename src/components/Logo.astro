@@ -13,7 +13,7 @@ const sizeClasses = {
 ---
 <a href="/" class="flex items-center space-x-2 text-text dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400 transition-colors duration-300">
   <svg 
-    class={`${sizeClasses[size]} text-text dark:text-neutral-400`}
+    class={`${sizeClasses[size]} text-text dark:text-neutral-400 logo-svg`}
     width={size === 'sm' ? '19.2' : '25.6'}
     height={size === 'sm' ? '19.2' : '25.6'}
     viewBox="0 0 100 100"
@@ -23,4 +23,74 @@ const sizeClasses = {
     <line x1="0" y1="50" x2="100" y2="50" stroke="currentColor" stroke-width="5"/>
   </svg>
   <span class="font-bold text-xl">{SITE_TITLE}</span>
-</a> 
+</a>
+
+<style>
+  .logo-svg {
+    transform-origin: center;
+    animation: logoEntrance 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+
+  @keyframes logoEntrance {
+    0% {
+      transform: scale(0.8) rotate(-10deg);
+      opacity: 0;
+    }
+    100% {
+      transform: scale(1) rotate(0);
+      opacity: 1;
+    }
+  }
+
+  /* Add subtle hover animation */
+  a:hover .logo-svg {
+    animation: logoHover 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+
+  @keyframes logoHover {
+    0% {
+      transform: scale(1) rotate(0);
+    }
+    50% {
+      transform: scale(1.1) rotate(5deg);
+    }
+    100% {
+      transform: scale(1) rotate(0);
+    }
+  }
+
+  /* Respect reduced motion preferences */
+  @media (prefers-reduced-motion: reduce) {
+    .logo-svg {
+      animation: none;
+    }
+    a:hover .logo-svg {
+      animation: none;
+    }
+  }
+</style>
+
+<script>
+  // Add scroll-based animation
+  const logo = document.querySelector('.logo-svg') as SVGElement;
+  let lastScrollY = window.scrollY;
+  let ticking = false;
+
+  function updateLogoOnScroll() {
+    if (logo) {
+      const scrollDelta = window.scrollY - lastScrollY;
+      const rotation = Math.min(Math.max(scrollDelta * 0.1, -5), 5); // Limit rotation to -5 to 5 degrees
+      
+      logo.style.transform = `rotate(${rotation}deg)`;
+      lastScrollY = window.scrollY;
+    }
+    ticking = false;
+  }
+
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      window.requestAnimationFrame(updateLogoOnScroll);
+      ticking = true;
+    }
+  }, { passive: true });
+</script> 
