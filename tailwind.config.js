@@ -195,6 +195,46 @@ export default {
           },
         },
       },
+      keyframes: {
+        "fade-in": {
+          "0%": { opacity: "0" },
+          "100%": { opacity: "1" },
+        },
+        "fade-up": {
+          "0%": {
+            opacity: "0",
+            transform: "translateY(10px)",
+          },
+          "100%": {
+            opacity: "1",
+            transform: "translateY(0)",
+          },
+        },
+        heartbeat: {
+          "0%": { transform: "scale(1)" },
+          "50%": { transform: "scale(1.05)" },
+          "100%": { transform: "scale(1)" },
+        },
+        "slide-up": {
+          "0%": {
+            opacity: "0",
+            transform: "translateY(20px)",
+          },
+          "100%": {
+            opacity: "1",
+            transform: "translateY(0)",
+          },
+        },
+      },
+      animation: {
+        "fade-in": "fade-in 0.5s ease-out forwards",
+        "fade-up": "fade-up 0.5s ease-out forwards",
+        heartbeat: "heartbeat 2s ease-in-out infinite",
+        "slide-up": "slide-up 0.5s ease-out forwards",
+      },
+      transitionTimingFunction: {
+        "ease-out": "cubic-bezier(0.16, 1, 0.3, 1)",
+      },
     },
   },
   future: {

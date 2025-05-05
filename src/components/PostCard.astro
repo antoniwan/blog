@@ -2,7 +2,6 @@
 import FormattedDate from './FormattedDate.astro';
 import { categories } from '../data/categories';
 import { formatDistanceToNow } from 'date-fns';
-import OptimizedImage from './OptimizedImage.astro';
 
 interface Props {
 	post: {
@@ -58,35 +57,37 @@ const formatRelativeDate = (date: Date) => {
 ---
 
 <article 
-	class="group relative flex flex-col overflow-hidden rounded-lg border border-border dark:border-border-dark bg-background dark:bg-background-dark shadow-sm hover:shadow-md transition-all duration-300"
+	class="group rounded-xl border border-zinc-200 dark:border-zinc-800 shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden bg-white dark:bg-zinc-900 animate-fade-up"
 	aria-label={`Post: ${post.data.title}`}
+	transition:animate="slide"
+	transition:name={`post-${post.id}`}
 >
-	<a href={`/blog/${post.id}/`} class="block no-underline text-inherit">
+	<a href={`/blog/${post.id}/`} class="block no-underline text-inherit" transition:name={`post-link-${post.id}`}>
 		{post.data.image && (
-			<div class="relative bg-zinc-100 dark:bg-zinc-800 overflow-hidden">
-				<OptimizedImage
+			<div class="relative pt-[56.25%] bg-zinc-100 dark:bg-zinc-800 overflow-hidden">
+				<img
 					src={post.data.image}
 					alt=""
-					aspectRatio="16/9"
-					class="transition-transform duration-300 group-hover:scale-105"
+					class="absolute top-0 left-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+					width="800"
+					height="400"
 					loading="lazy"
-					width={800}
-					height={450}
+					transition:name={`post-image-${post.id}`}
 				/>
 				<div class="absolute inset-0 bg-gradient-to-t from-background/80 dark:from-background-dark/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 			</div>
 		)}
 		
-		<div class="p-6 md:p-7 space-y-4">
+		<div class="p-6 md:p-7 space-y-4" transition:name={`post-content-${post.id}`}>
 			{/* Metadata Section */}
 			<div class="flex items-center gap-2 border-b border-zinc-100 dark:border-zinc-800 pb-3">
 				{post.data.language.map(lang => (
-					<span class="text-xs px-2 py-0.5 rounded-full bg-zinc-100 dark:bg-zinc-800 font-medium text-gray-700 dark:text-gray-300">
+					<span class="text-xs px-2 py-0.5 rounded-full bg-zinc-100 dark:bg-zinc-800 font-medium text-gray-700 dark:text-gray-300 transition-colors duration-200">
 						{getLanguageFlag(lang)}
 					</span>
 				))}
 				{post.data.readingTime && (
-					<span class="text-xs px-2 py-0.5 rounded-full bg-zinc-100 dark:bg-zinc-800 font-medium text-gray-700 dark:text-gray-300">
+					<span class="text-xs px-2 py-0.5 rounded-full bg-zinc-100 dark:bg-zinc-800 font-medium text-gray-700 dark:text-gray-300 transition-colors duration-200">
 						{post.data.readingTime} min read
 					</span>
 				)}
@@ -135,7 +136,7 @@ const formatRelativeDate = (date: Date) => {
 			<div class="flex items-center justify-between pt-3 border-t border-zinc-100 dark:border-zinc-800">
 				<time 
 					datetime={post.data.pubDate.toISOString()}
-					class="text-sm text-gray-500 dark:text-gray-400 hover:underline cursor-pointer"
+					class="text-sm text-gray-500 dark:text-gray-400 hover:underline cursor-pointer transition-colors duration-200"
 					title={post.data.pubDate.toLocaleDateString('en-US', {
 						year: 'numeric',
 						month: 'long',
@@ -162,5 +163,28 @@ const formatRelativeDate = (date: Date) => {
 			transition: none !important;
 			animation: none !important;
 		}
+	}
+
+	/* Astro transition styles */
+	::view-transition-old(post-*),
+	::view-transition-new(post-*) {
+		animation: none;
+		mix-blend-mode: normal;
+	}
+
+	::view-transition-old(post-*) {
+		z-index: 1;
+	}
+
+	::view-transition-new(post-*) {
+		z-index: 2;
+	}
+
+	.dark::view-transition-old(post-*) {
+		z-index: 2;
+	}
+
+	.dark::view-transition-new(post-*) {
+		z-index: 1;
 	}
 </style> 

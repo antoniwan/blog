@@ -6,9 +6,8 @@ import BackToTop from '../components/BackToTop.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import ReadingProgress from '../components/ReadingProgress.astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
-import SpeedInsights from "@vercel/speed-insights/astro";
+import  SpeedInsights  from "@vercel/speed-insights/astro"
 import Analytics from '@vercel/analytics/astro';
-import '../styles/global.css';
 
 interface Props {
   title: string;
@@ -88,10 +87,8 @@ const capitalize = (str: string) => str ? str.charAt(0).toUpperCase() + str.slic
 
 <!doctype html>
 <html lang="en">
+  <SpeedInsights />
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="preload" href="/fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin />
     <BaseHead 
       title={title} 
       description={description}
@@ -106,34 +103,15 @@ const capitalize = (str: string) => str ? str.charAt(0).toUpperCase() + str.slic
       keywords={tags}
       locale={language[0] ? `${language[0]}_${language[0].toUpperCase()}` : 'en_US'}
     />
-    <script is:inline>
-      // Prevent FOUC for dark mode
-      const theme = (() => {
-        if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
-          return localStorage.getItem('theme');
-        }
-        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-          return 'dark';
-        }
-        return 'light';
-      })();
-      
-      if (theme === 'dark') {
-        document.documentElement.classList.add('dark');
-      } else {
-        document.documentElement.classList.remove('dark');
-      }
-      
-      window.localStorage.setItem('theme', theme);
-    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
   </head>
   <body class="min-h-screen flex flex-col bg-background text-text dark:bg-background-dark dark:text-text-dark">
     <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:bg-background dark:focus:bg-background-dark focus:px-4 focus:py-2 focus:rounded focus:shadow-lg focus:ring-2 focus:ring-primary-500">Skip to main content</a>
     <Header />
     <ReadingProgress />
-    <main id="main-content" role="main" class="flex-grow">
+    <main id="main-content" role="main" class="flex-grow animate-fade-in">
       {layoutType === 'blog' && (
-        <article class="max-w-5xl mx-auto px-4 md:px-8 py-12">
+        <article class="max-w-5xl mx-auto px-4 md:px-8 py-12" transition:animate="fade">
           <nav aria-label="Breadcrumb" class="mb-8">
             <ol class="flex flex-wrap gap-2 text-sm text-neutral-600 dark:text-neutral-400">
               <li><a href="/" class="hover:text-primary-500 dark:hover:text-primary-400 transition-colors">Home</a></li>
@@ -141,7 +119,7 @@ const capitalize = (str: string) => str ? str.charAt(0).toUpperCase() + str.slic
               <li class="text-text dark:text-text-dark">{cleanTitle}</li>
             </ol>
           </nav>
-          <header class="mb-16">
+          <header class="mb-16 animate-slide-up">
             <h1 class="text-4xl md:text-5xl lg:text-6xl font-serif font-bold mb-8 leading-tight tracking-tight text-text dark:text-text-dark">{title}</h1>
             {description && <p class="text-xl md:text-2xl text-neutral-600 dark:text-neutral-400 mb-10 leading-relaxed">{description}</p>}
             <div class="flex flex-wrap gap-6 text-sm text-neutral-600 dark:text-neutral-400">
@@ -191,13 +169,13 @@ const capitalize = (str: string) => str ? str.charAt(0).toUpperCase() + str.slic
               )}
             </div>
           </header>
-          <section class="prose prose-lg dark:prose-invert max-w-none prose-headings:font-serif prose-headings:tracking-tight prose-p:leading-relaxed prose-p:text-lg prose-a:text-primary-500 dark:prose-a:text-primary-400 prose-a:no-underline hover:prose-a:underline prose-img:rounded-lg prose-img:shadow-lg prose-blockquote:border-l-4 prose-blockquote:border-primary-500 dark:prose-blockquote:border-primary-400 prose-blockquote:pl-4 prose-blockquote:bg-neutral-100 dark:prose-blockquote:bg-neutral-800 prose-blockquote:p-4 prose-blockquote:rounded-r-lg prose-ul:my-6 prose-ol:my-6 prose-li:my-2 prose-h2:mt-12 prose-h2:mb-6 prose-h3:mt-8 prose-h3:mb-4">
+          <section class="prose prose-lg dark:prose-invert max-w-none prose-headings:font-serif prose-headings:tracking-tight prose-p:leading-relaxed prose-p:text-lg prose-a:text-primary-500 dark:prose-a:text-primary-400 prose-a:no-underline hover:prose-a:underline prose-img:rounded-lg prose-img:shadow-lg prose-blockquote:border-l-4 prose-blockquote:border-primary-500 dark:prose-blockquote:border-primary-400 prose-blockquote:pl-4 prose-blockquote:italic prose-blockquote:bg-neutral-100 dark:prose-blockquote:bg-neutral-800 prose-blockquote:p-4 prose-blockquote:rounded-r-lg prose-ul:my-6 prose-ol:my-6 prose-li:my-2 prose-h2:mt-12 prose-h2:mb-6 prose-h3:mt-8 prose-h3:mb-4">
             <slot />
           </section>
         </article>
       )}
       {layoutType === 'default' && (
-        <section class="max-w-5xl mx-auto px-4 md:px-8 py-12">
+        <section class="max-w-5xl mx-auto px-4 md:px-8 py-12" transition:animate="fade">
           {Astro.url.pathname !== '/' && (
             <nav aria-label="Breadcrumb" class="mb-8">
               <ol class="flex flex-wrap gap-2 text-sm text-neutral-600 dark:text-neutral-400">
@@ -218,59 +196,103 @@ const capitalize = (str: string) => str ? str.charAt(0).toUpperCase() + str.slic
 </html>
 
 <style>
-  /* Enhanced typography for longform content */
-  .prose {
-    --tw-prose-body: var(--tw-color-text);
-    --tw-prose-headings: var(--tw-color-text);
-    --tw-prose-links: var(--tw-color-primary-500);
-    --tw-prose-bold: var(--tw-color-text);
-    --tw-prose-counters: var(--tw-color-text);
-    --tw-prose-bullets: var(--tw-color-text);
-    --tw-prose-hr: var(--tw-color-border);
-    --tw-prose-quotes: var(--tw-color-text);
-    --tw-prose-quote-borders: var(--tw-color-primary-500);
-    --tw-prose-captions: var(--tw-color-text);
-    --tw-prose-code: var(--tw-color-text);
-    --tw-prose-pre-code: var(--tw-color-text);
-    --tw-prose-pre-bg: var(--tw-color-background);
-    --tw-prose-th-borders: var(--tw-color-border);
-    --tw-prose-td-borders: var(--tw-color-border);
-  }
+	/* Enhanced typography for longform content */
+	.prose {
+		--tw-prose-body: var(--tw-color-text);
+		--tw-prose-headings: var(--tw-color-text);
+		--tw-prose-links: var(--tw-color-primary-500);
+		--tw-prose-bold: var(--tw-color-text);
+		--tw-prose-counters: var(--tw-color-text);
+		--tw-prose-bullets: var(--tw-color-text);
+		--tw-prose-hr: var(--tw-color-border);
+		--tw-prose-quotes: var(--tw-color-text);
+		--tw-prose-quote-borders: var(--tw-color-primary-500);
+		--tw-prose-captions: var(--tw-color-text);
+		--tw-prose-code: var(--tw-color-text);
+		--tw-prose-pre-code: var(--tw-color-text);
+		--tw-prose-pre-bg: var(--tw-color-background);
+		--tw-prose-th-borders: var(--tw-color-border);
+		--tw-prose-td-borders: var(--tw-color-border);
+	}
 
-  /* Drop cap for first paragraph */
-  .prose > p:first-of-type::first-letter {
-    float: left;
-    font-size: 4.5em;
-    line-height: 0.8;
-    margin-right: 0.1em;
-    margin-bottom: 0.1em;
-    font-family: var(--font-serif);
-    color: var(--tw-color-primary-500);
-  }
+	/* Drop cap for first paragraph */
+	.prose > p:first-of-type::first-letter {
+		float: left;
+		font-size: 4.5em;
+		line-height: 0.8;
+		margin-right: 0.1em;
+		margin-bottom: 0.1em;
+		font-family: var(--font-serif);
+		color: var(--tw-color-primary-500);
+	}
 
-  /* Enhanced blockquote styling */
-  .prose blockquote {
-    border-left-width: 4px;
-    border-left-color: var(--tw-color-primary-500);
-    padding-left: 1.5rem;
-    font-style: italic;
-    background-color: var(--tw-color-neutral-100);
-    padding: 1.5rem;
-    border-radius: 0 0.5rem 0.5rem 0;
-  }
+	/* Enhanced blockquote styling */
+	.prose blockquote {
+		border-left-width: 4px;
+		border-left-color: var(--tw-color-primary-500);
+		padding-left: 1.5rem;
+		font-style: italic;
+		background-color: var(--tw-color-neutral-100);
+		padding: 1.5rem;
+		border-radius: 0 0.5rem 0.5rem 0;
+	}
 
-  /* Dark mode optimizations */
-  @media (prefers-color-scheme: dark) {
-    .prose blockquote {
-      background-color: var(--tw-color-neutral-800);
-    }
-  }
+	/* Dark mode optimizations */
+	@media (prefers-color-scheme: dark) {
+		.prose blockquote {
+			background-color: var(--tw-color-neutral-800);
+		}
+	}
 
-  /* Respect reduced motion preferences */
-  @media (prefers-reduced-motion: reduce) {
-    * {
-      transition: none !important;
-      animation: none !important;
-    }
-  }
+	/* Animation styles */
+	@keyframes fade-in {
+		from {
+			opacity: 0;
+		}
+		to {
+			opacity: 1;
+		}
+	}
+
+	@keyframes slide-up {
+		from {
+			opacity: 0;
+			transform: translateY(20px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	/* Astro transition styles */
+	::view-transition-old(root),
+	::view-transition-new(root) {
+		animation: none;
+		mix-blend-mode: normal;
+	}
+
+	::view-transition-old(root) {
+		z-index: 1;
+	}
+
+	::view-transition-new(root) {
+		z-index: 2;
+	}
+
+	.dark::view-transition-old(root) {
+		z-index: 2;
+	}
+
+	.dark::view-transition-new(root) {
+		z-index: 1;
+	}
+
+	/* Respect reduced motion preferences */
+	@media (prefers-reduced-motion: reduce) {
+		* {
+			transition: none !important;
+			animation: none !important;
+		}
+	}
 </style> 
