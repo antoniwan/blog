@@ -23,6 +23,22 @@ export default defineConfig({
       theme: "github-dark",
       wrap: true,
     },
+    rehypePlugins: [
+      // Ensure proper Unicode handling
+      () => (tree) => {
+        // This ensures proper handling of Unicode characters
+        tree.children = tree.children.map((node) => {
+          if (node.type === "text") {
+            // Preserve Unicode characters
+            node.value = node.value
+              .replace(/[\u2018\u2019]/g, "'")
+              .replace(/[\u201C\u201D]/g, '"')
+              .replace(/[\u2013\u2014]/g, "-");
+          }
+          return node;
+        });
+      },
+    ],
   },
   vite: {
     css: {

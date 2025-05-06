@@ -1,7 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
-  darkMode: 'class',
+  content: ["./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}"],
+  darkMode: "class",
   theme: {
     extend: {
       colors: {
@@ -88,9 +88,41 @@ export default {
         },
       },
       fontFamily: {
-        sans: ['Inter var', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Open Sans', 'Helvetica Neue', 'sans-serif'],
-        serif: ['Georgia', 'Cambria', 'Times New Roman', 'Times', 'serif'],
-        mono: ["JetBrains Mono", "ui-monospace", "monospace"],
+        sans: [
+          "Inter var",
+          "system-ui",
+          "-apple-system",
+          "BlinkMacSystemFont",
+          "Segoe UI",
+          "Roboto",
+          "Oxygen",
+          "Ubuntu",
+          "Cantarell",
+          "Open Sans",
+          "Helvetica Neue",
+          '"Segoe UI Emoji"',
+          '"Apple Color Emoji"',
+          '"Noto Color Emoji"',
+          "sans-serif",
+        ],
+        serif: [
+          "Georgia",
+          "Cambria",
+          "Times New Roman",
+          "Times",
+          '"Segoe UI Emoji"',
+          '"Apple Color Emoji"',
+          '"Noto Color Emoji"',
+          "serif",
+        ],
+        mono: [
+          "JetBrains Mono",
+          "ui-monospace",
+          "monospace",
+          '"Segoe UI Emoji"',
+          '"Apple Color Emoji"',
+          '"Noto Color Emoji"',
+        ],
       },
       fontSize: {
         xs: ["0.75rem", { lineHeight: "1.4" }],
@@ -241,15 +273,14 @@ export default {
     hoverOnlyWhenSupported: true,
   },
   plugins: [
-    require('@tailwindcss/typography'),
-    require('@tailwindcss/forms'),
-    require('@tailwindcss/aspect-ratio'),
+    require("@tailwindcss/typography"),
+    require("@tailwindcss/forms"),
+    require("@tailwindcss/aspect-ratio"),
   ],
   // Optimize for production
-  ...(process.env.NODE_ENV === 'production' ? {
-    safelist: [
-      'dark',
-      'light',
-    ],
-  } : {}),
+  ...(process.env.NODE_ENV === "production"
+    ? {
+        safelist: ["dark", "light"],
+      }
+    : {}),
 };
