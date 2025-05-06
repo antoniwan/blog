@@ -17,7 +17,7 @@ featured: true
 I fasted from 5:30 AM to 4:00 PM today. Not for aesthetics. Not for a trend.  
 I needed **clarity**. **Stillness**. **Dominion** over impulse.
 
-> _"I'm not starving. I'm choosing."_
+> _I'm not starving. I'm choosing._
 
 ## 🧬 What Happens in the Body?
 

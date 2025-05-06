@@ -89,20 +89,54 @@
 
   /* Tables */
   table {
-    @apply w-full border-collapse;
+    @apply w-full border-collapse text-base leading-relaxed;
+    font-feature-settings: "tnum";
+    font-variant-numeric: tabular-nums;
   }
 
   th,
   td {
-    @apply border border-neutral-200 dark:border-neutral-700 px-4 py-2 transition-colors duration-300;
+    @apply border border-neutral-200 dark:border-neutral-700 px-6 py-3 transition-colors duration-300;
   }
 
   th {
-    @apply bg-neutral-100 dark:bg-neutral-800;
+    @apply bg-neutral-50 dark:bg-neutral-800 font-semibold text-neutral-900 dark:text-white text-left tracking-tight;
+    font-size: 0.9375rem;
+    letter-spacing: -0.01em;
+  }
+
+  td {
+    @apply text-neutral-700 dark:text-neutral-300;
+    font-size: 0.9375rem;
   }
 
   tr:nth-child(even) {
     @apply bg-neutral-50/50 dark:bg-neutral-800/50;
+  }
+
+  tr:hover {
+    @apply bg-neutral-100/50 dark:bg-neutral-700/50;
+  }
+
+  tr > td:first-child,
+  tr > th:first-child {
+    @apply pl-7;
+  }
+
+  @media (max-width: 640px) {
+    table {
+      @apply text-sm;
+    }
+
+    th,
+    td {
+      @apply px-4 py-2;
+    }
+
+    tr > td:first-child,
+    tr > th:first-child {
+      @apply pl-4;
+    }
   }
 
   /* Code */
