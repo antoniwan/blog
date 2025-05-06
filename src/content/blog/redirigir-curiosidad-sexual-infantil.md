@@ -2,7 +2,7 @@
 title: "Cómo Redirigir la Curiosidad Sexual Infantil con Amor, Liderazgo y Claridad (Edades 4–8)"
 description: "Guía práctica y evolutiva para padres conscientes que desean acompañar la curiosidad corporal de sus hijas desde los 4 hasta los 8 años, con ejemplos reales, estructura emocional y lenguaje protector."
 pubDate: "2025-05-06T16:30:00.000Z"
-heroImage: ""
+heroImage: "/images/guia-practica-padres-conscientes.avif"
 language: ["es"]
 category: ["parenting"]
 subcategory: "Emotional Education"
