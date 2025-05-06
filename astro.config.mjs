@@ -31,6 +31,11 @@ export default defineConfig({
     build: {
       cssMinify: true,
     },
+    server: {
+      fs: {
+        strict: true,
+      },
+    },
   },
   // Enable built-in prefetch
   prefetch: {
