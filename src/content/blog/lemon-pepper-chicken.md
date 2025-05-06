@@ -89,11 +89,11 @@ _Date: May 2, 2025_
 
 ## 📸 Photos
 
-![Prepped chicken thighs](/recipes/lemon-pepper-chicken/lemon-pepper-chicken-photo-0a88a2aa-cfa3-48a4-ad07-7d91f440fd3e.jpeg)
+![Prepped chicken thighs](/images/lemon-pepper-chicken/1.jpeg)
 
-![Lemon-pepper chicken thighs](/recipes/lemon-pepper-chicken/lemon-pepper-chicken-photo-2568.jpeg)
+![Lemon-pepper chicken thighs](/images/lemon-pepper-chicken/2.jpeg)
 
-![Finished lemon-pepper chicken](/recipes/lemon-pepper-chicken/lemon-pepper-chicken-photo-2562.jpeg)
+![Finished lemon-pepper chicken](/images/lemon-pepper-chicken/3.jpeg)
 
 ---
 
