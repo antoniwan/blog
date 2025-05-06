@@ -41,7 +41,7 @@ const getLanguageFlag = (lang: string) => LANGUAGE_FLAGS[lang] || lang.toUpperCa
 	transition:animate="slide"
 	transition:name={`post-${post.id}`}
 >
-	<a href={`/blog/${post.id}/`} class="block no-underline text-inherit" transition:name={`post-link-${post.id}`}>
+	<a href={`/p/${post.id}/`} class="block no-underline text-inherit" transition:name={`post-link-${post.id}`}>
 		{post.data.image && (
 			<div class="relative pt-[56.25%] bg-zinc-100 dark:bg-zinc-800 overflow-hidden">
 				<Figure
@@ -119,7 +119,7 @@ const getLanguageFlag = (lang: string) => LANGUAGE_FLAGS[lang] || lang.toUpperCa
 						<div class="flex gap-1">
 							{translations.map(t => (
 								<a 
-									href={`/blog/${t.id}/`}
+									href={`/p/${t.id}/`}
 									class="text-xs px-2 py-0.5 rounded-full bg-zinc-100 dark:bg-zinc-800 font-medium text-gray-700 dark:text-gray-300 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors duration-200"
 									title={`View in ${t.language.toUpperCase()}`}
 								>

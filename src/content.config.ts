@@ -16,8 +16,8 @@ const dateSchema = z.union([
 });
 
 const blog = defineCollection({
-  // Load Markdown and MDX files in the `src/content/blog/` directory.
-  loader: glob({ base: "./src/content/blog", pattern: "**/*.{md,mdx}" }),
+  // Load Markdown and MDX files in the `src/content/p/` directory.
+  loader: glob({ base: "./src/content/p", pattern: "**/*.{md,mdx}" }),
   // Type-check frontmatter using a schema
   schema: z.object({
     // Required fields
