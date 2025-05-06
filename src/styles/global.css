@@ -147,14 +147,14 @@
 
   /* Tables */
   table {
-    @apply w-full border-collapse text-base leading-relaxed;
+    @apply w-full border-collapse text-base leading-relaxed overflow-x-auto block;
     font-feature-settings: "tnum";
     font-variant-numeric: tabular-nums;
   }
 
   th,
   td {
-    @apply border border-border px-6 py-3 transition-colors duration-300;
+    @apply border border-border px-6 py-3 transition-colors duration-300 whitespace-nowrap;
   }
 
   th {
@@ -184,11 +184,16 @@
   @media (max-width: 640px) {
     table {
       @apply text-sm;
+      display: block;
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
     }
 
     th,
     td {
       @apply px-4 py-2;
+      min-width: 120px; /* Ensure minimum width for readability */
     }
 
     tr > td:first-child,
