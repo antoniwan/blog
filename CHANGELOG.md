@@ -5,6 +5,27 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.0] - 2024-05-03
+
+### Added
+- Replaced Source Serif 4 with Fraunces font for enhanced typography
+- Added new font families and improved line heights for better readability
+- Enhanced typography with adjusted letter spacing and margin styles
+
+### Improved
+- Refactored Tailwind CSS configuration for better typography management
+- Enhanced table styles for better responsiveness and readability on mobile
+- Improved UI/UX with cleaner tag design and better spacing
+- Enhanced SEO with improved page titles and metadata consistency
+- Streamlined site configuration with centralized constants
+- Improved component organization and maintainability
+
+### Technical
+- Refactored BlogPost and PostCard components for better image handling
+- Enhanced SearchBar styles for improved user experience
+- Improved code organization with centralized constants for site configuration
+- Enhanced BaseHead component for better metadata management
+
 ## [1.2.1] - 2024-05-03
 
 ### Improved

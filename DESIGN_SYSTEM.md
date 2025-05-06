@@ -8,7 +8,7 @@ This design system is inspired by the New York Times digital experience, focusin
 
 ### Font Families
 
-- **Serif (Charter)**: Used for headings and display text
+- **Serif (Fraunces)**: Used for headings and display text, providing elegant and distinctive typography
 - **Sans-serif (Inter)**: Used for body text and UI elements
 - **Monospace (JetBrains Mono)**: Used for code blocks and technical content
 
@@ -25,10 +25,17 @@ This design system is inspired by the New York Times digital experience, focusin
 
 ### Line Heights
 
-- **Display**: 1.0 - 1.1 (tight for impact)
-- **Headings**: 1.2 - 1.3 (balanced)
-- **Body**: 1.6 (optimal readability)
+- **Display**: 1.1 - 1.2 (enhanced readability for Fraunces)
+- **Headings**: 1.3 - 1.4 (optimized for Fraunces)
+- **Body**: 1.6 - 1.7 (improved readability)
 - **UI Elements**: 1.4 - 1.5 (comfortable)
+
+### Letter Spacing
+
+- **Display**: -0.02em (tighter for impact)
+- **Headings**: -0.01em (balanced)
+- **Body**: 0 (natural)
+- **UI Elements**: 0.01em (slightly wider for clarity)
 
 ## Color System
 
