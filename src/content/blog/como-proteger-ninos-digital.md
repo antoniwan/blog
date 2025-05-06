@@ -70,8 +70,8 @@ El Internet NO es un lugar hecho para niños. Es un campo abierto con belleza, p
 
 - Haz preguntas con ternura:
 
-  > ¿Qué sentiste cuando viste eso?"  
-  > "¿Alguien te lo mostró o fue por accidente?
+  > ¿Qué sentiste cuando viste eso?
+  > ¿Alguien te lo mostró o fue por accidente?
 
 - Explícale:
   > Eso que viste no muestra el amor verdadero. Nuestro cuerpo y nuestro corazón merecen respeto.
