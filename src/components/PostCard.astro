@@ -18,9 +18,13 @@ interface Props {
 			image?: string;
 		};
 	};
+	translations?: {
+		id: string;
+		language: string;
+	}[];
 }
 
-const { post } = Astro.props;
+const { post, translations = [] } = Astro.props;
 
 // Find the category data for all categories
 const categoryData = post.data.category?.map(catId => categories.find(cat => cat.id === catId)) || [];
@@ -123,6 +127,24 @@ const getLanguageFlag = (lang: string) => {
 				>
 					{formatDistanceToNow(post.data.pubDate, { addSuffix: true })}
 				</time>
+
+				{/* Translations Section */}
+				{translations.length > 0 && (
+					<div class="flex items-center gap-2">
+						<span class="text-xs text-gray-500 dark:text-gray-400">Available in:</span>
+						<div class="flex gap-1">
+							{translations.map(t => (
+								<a 
+									href={`/blog/${t.id}/`}
+									class="text-xs px-2 py-0.5 rounded-full bg-zinc-100 dark:bg-zinc-800 font-medium text-gray-700 dark:text-gray-300 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors duration-200"
+									title={`View in ${t.language.toUpperCase()}`}
+								>
+									{getLanguageFlag(t.language)}
+								</a>
+							))}
+						</div>
+					</div>
+				)}
 			</div>
 		</div>
 	</a>
