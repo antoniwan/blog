@@ -30,14 +30,8 @@ const { post, translations = [] } = Astro.props;
 // Find the category data for all categories
 const categoryData = post.data.category?.map(catId => categories.find(cat => cat.id === catId)) || [];
 
-// Get language flag emoji
-const getLanguageFlag = (lang: string) => {
-	const flags: Record<string, string> = {
-		'en': '🇺🇸',
-		'es': '🇵🇷',
-	};
-	return flags[lang] || lang.toUpperCase();
-};
+// Get language flag emoji using the constant from consts.ts
+const getLanguageFlag = (lang: string) => LANGUAGE_FLAGS[lang] || lang.toUpperCase();
 ---
 
 <article 

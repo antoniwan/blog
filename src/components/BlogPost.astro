@@ -11,13 +11,6 @@ const { post } = Astro.props;
 const processedContent = post.Content;
 ---
 
-<article class="prose prose-lg dark:prose-invert mx-auto max-w-[65ch] py-8 px-4">
+<article class="prose prose-lg dark:prose-invert mx-auto max-w-[65ch] py-8 px-4 [&>img]:w-full [&>img]:h-auto [&>img]:rounded-lg [&>img]:my-8">
   {processedContent}
-</article>
-
-<style>
-  /* Image styles */
-  article :global(img) {
-    @apply w-full h-auto rounded-lg my-8;
-  }
-</style> 
+</article> 

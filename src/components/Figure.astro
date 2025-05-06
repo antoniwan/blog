@@ -1,0 +1,54 @@
+---
+import { Image } from 'astro:assets';
+
+interface Props {
+  src: string;
+  alt: string;
+  caption?: string;
+  aspectRatio?: '16:9' | '4:3' | '1:1' | '3:4' | '9:16';
+  priority?: boolean;
+  class?: string;
+}
+
+const {
+  src,
+  alt,
+  caption,
+  aspectRatio = '16:9',
+  priority = false,
+  class: className = '',
+} = Astro.props;
+
+// Convert aspect ratio to decimal
+const aspectRatioMap = {
+  '16:9': 16/9,
+  '4:3': 4/3,
+  '1:1': 1,
+  '3:4': 3/4,
+  '9:16': 9/16,
+};
+
+const aspectRatioValue = aspectRatioMap[aspectRatio];
+const paddingBottom = `${(1/aspectRatioValue) * 100}%`;
+
+---
+<figure class={`relative my-8 ${className}`}>
+  <div class="relative" style={`padding-bottom: ${paddingBottom}`}>
+    <Image
+      src={src}
+      alt={alt}
+      width={1920}
+      height={Math.round(1920 / aspectRatioValue)}
+      format="webp"
+      quality={80}
+      loading={priority ? 'eager' : 'lazy'}
+      decoding="async"
+      class="absolute inset-0 w-full h-full object-cover rounded-lg"
+    />
+  </div>
+  {caption && (
+    <figcaption class="mt-2 text-sm text-neutral-600 dark:text-neutral-400 text-center">
+      {caption}
+    </figcaption>
+  )}
+</figure> 
