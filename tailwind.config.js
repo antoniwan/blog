@@ -31,26 +31,29 @@ export default {
           800: "#343a40",
           900: "#212529",
         },
-        // Semantic colors
+        // Background colors
         background: {
-          DEFAULT: "#FFFFFF",
-          dark: "#0F1219",
+          DEFAULT: "rgb(var(--color-background))",
+          dark: "rgb(var(--color-background))",
+          alt: "rgb(var(--color-background-alt))",
+          elevated: "rgb(var(--color-background-elevated))",
           subtle: {
             DEFAULT: "#f8f9fa",
             dark: "#1A1F2E",
           },
         },
+        // Text colors
         text: {
-          DEFAULT: "#0F1219",
-          dark: "#E5E9F0",
-          subtle: {
-            DEFAULT: "#495057",
-            dark: "#868e96",
-          },
+          DEFAULT: "rgb(var(--color-text))",
+          dark: "rgb(var(--color-text))",
+          muted: "rgb(var(--color-text-muted))",
+          subtle: "rgb(var(--color-text-subtle))",
         },
+        // Border colors
         border: {
-          DEFAULT: "rgba(229, 233, 240, 0.5)",
-          dark: "rgba(229, 233, 240, 0.1)",
+          DEFAULT: "rgb(var(--color-border))",
+          dark: "rgb(var(--color-border))",
+          strong: "rgb(var(--color-border-strong))",
           subtle: {
             DEFAULT: "rgba(229, 233, 240, 0.3)",
             dark: "rgba(229, 233, 240, 0.05)",
@@ -71,20 +74,20 @@ export default {
         },
         // Status colors
         success: {
-          DEFAULT: "#28a745",
-          dark: "#34d058",
+          DEFAULT: "rgb(var(--color-success))",
+          dark: "rgb(var(--color-success))",
         },
         warning: {
-          DEFAULT: "#ffc107",
-          dark: "#ffd33d",
+          DEFAULT: "rgb(var(--color-warning))",
+          dark: "rgb(var(--color-warning))",
         },
         error: {
-          DEFAULT: "#dc3545",
-          dark: "#f85149",
+          DEFAULT: "rgb(var(--color-error))",
+          dark: "rgb(var(--color-error))",
         },
         info: {
-          DEFAULT: "#17a2b8",
-          dark: "#79e0e8",
+          DEFAULT: "rgb(var(--color-info))",
+          dark: "rgb(var(--color-info))",
         },
       },
       fontFamily: {
