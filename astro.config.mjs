@@ -15,7 +15,6 @@ export default defineConfig({
       applyBaseStyles: true,
     }),
   ],
-  output: "server",
   adapter: vercel(),
   markdown: {
     syntaxHighlight: "shiki",
@@ -27,17 +26,9 @@ export default defineConfig({
     gfm: true,
   },
   vite: {
-    css: {
-      devSourcemap: true,
-    },
-    build: {
-      cssMinify: true,
-    },
-    server: {
-      fs: {
-        strict: true,
-      },
-    },
+    css: {},
+    build: {},
+    server: {},
   },
   // Enable built-in prefetch
   prefetch: {
