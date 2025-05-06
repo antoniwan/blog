@@ -31,7 +31,6 @@ const sortedTags = Array.from(tagCounts.entries())
         const postCount = tagCounts.get(tag) || 0;
         return (
           <a href={`/tag/${tag}/`} class="group bg-background dark:bg-background-dark p-6 rounded-lg border border-border/20 dark:border-border-dark/20 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
-            <div class="text-4xl mb-4">🏷️</div>
             <h2 class="text-xl font-semibold mb-2 text-text dark:text-text-dark group-hover:text-primary-500 dark:group-hover:text-primary-400">{tag}</h2>
             <span class="inline-block px-3 py-1 bg-primary-500 dark:bg-primary-400 text-white text-sm font-medium rounded-full">{postCount} {postCount === 1 ? 'post' : 'posts'}</span>
           </a>
