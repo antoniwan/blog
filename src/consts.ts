@@ -6,6 +6,14 @@ export const SITE_TITLE = "StrongVault";
 export const SITE_DESCRIPTION = "A personal digital space exploring the intersection of food, health, technology, and parenting. Sharing recipes, insights, and experiences.";
 export const SITE_URL = "https://blog.antoniwan.online";
 
+// Author Information
+export const AUTHOR = {
+  name: "Antonio Rodríguez Martínez",
+  twitter: "@antoniwan",
+  website: "https://antoniwan.online",
+  bio: "Systems builder. Warrior poet. Father. I write, build, and create with integrity."
+};
+
 // Language Configuration
 export const LANGUAGE_FLAGS: Record<string, string> = {
   'en': '🇺🇸',

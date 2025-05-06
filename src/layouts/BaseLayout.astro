@@ -5,7 +5,7 @@ import BaseHead from '../components/BaseHead.astro';
 import BackToTop from '../components/BackToTop.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import ReadingProgress from '../components/ReadingProgress.astro';
-import { SITE_TITLE, SITE_DESCRIPTION, LANGUAGE_FLAGS, CATEGORY_EMOJIS } from '../consts';
+import { SITE_TITLE, SITE_DESCRIPTION, LANGUAGE_FLAGS, CATEGORY_EMOJIS, AUTHOR } from '../consts';
 import  SpeedInsights  from "@vercel/speed-insights/astro"
 import Analytics from '@vercel/analytics/astro';
 
@@ -35,6 +35,7 @@ interface Props {
   // Additional SEO fields
   author?: string;
   keywords?: string[];
+  locale?: string;
   // Layout type
   layoutType?: 'default' | 'blog';
 }
@@ -53,8 +54,9 @@ const {
   ogImage,
   ogImageAlt,
   robots,
-  author = SITE_TITLE,
+  author = AUTHOR.name,
   keywords = tags,
+  locale = language[0] ? `${language[0]}_${language[0].toUpperCase()}` : 'en_US',
   layoutType = 'default'
 } = Astro.props;
 
@@ -99,7 +101,7 @@ const categoryEmojis: Record<string, string> = {
       updatedDate={updatedDate}
       author={author}
       keywords={keywords}
-      locale={language[0] ? `${language[0]}_${language[0].toUpperCase()}` : 'en_US'}
+      locale={locale}
     />
     <SpeedInsights />
   </head>

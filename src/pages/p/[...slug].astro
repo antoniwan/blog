@@ -17,13 +17,17 @@ type Props = CollectionEntry<'blog'>;
 const post = Astro.props;
 const { Content } = await render(post);
 
-// Combine tags and categories for keywords
+// Combine tags and categories for keywords, ensuring all values are strings
 const keywords = [
 	...(post.data.tags || []),
 	...(post.data.category || []),
 	post.data.subcategory,
 	...(post.data.language || [])
-].filter(Boolean);
+].filter((value): value is string => typeof value === 'string');
+
+// Ensure we have a valid image for social sharing
+const shareImage = post.data.ogImage || post.data.heroImage || '/share-image.png';
+const shareImageAlt = post.data.ogImageAlt || post.data.title;
 ---
 
 <BaseLayout 
@@ -38,8 +42,8 @@ const keywords = [
 	subcategory={post.data.subcategory}
 	language={post.data.language}
 	canonicalUrl={post.data.canonicalUrl}
-	ogImage={post.data.ogImage || post.data.heroImage}
-	ogImageAlt={post.data.ogImageAlt || post.data.title}
+	ogImage={shareImage}
+	ogImageAlt={shareImageAlt}
 	robots={post.data.robots}
 	author={post.data.author}
 	keywords={keywords}

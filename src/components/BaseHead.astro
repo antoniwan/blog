@@ -2,7 +2,7 @@
 // Import the global.css file here so that it is included on
 // all pages through the use of the <BaseHead /> component.
 import '../styles/global.css';
-import { SITE_TITLE } from '../consts';
+import { SITE_TITLE, AUTHOR } from '../consts';
 
 interface Props {
 	title: string;
@@ -39,7 +39,7 @@ const {
 	robots = {},
 	pubDate,
 	updatedDate,
-	author = SITE_TITLE,
+	author = AUTHOR.name,
 	keywords = [],
 	locale = 'en_US',
 	category = []
@@ -123,6 +123,15 @@ const fullTitle = `${title} - ${SITE_TITLE}`;
 	<meta property="article:tag" content={keyword} />
 ))}
 
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content={AUTHOR.twitter} />
+<meta name="twitter:creator" content={AUTHOR.twitter} />
+<meta name="twitter:title" content={fullTitle} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={new URL(finalOgImage, Astro.url)} />
+<meta name="twitter:image:alt" content={finalOgImageAlt} />
+
 <!-- Enhanced Structured Data -->
 <script type="application/ld+json" is:inline set:html={JSON.stringify({
 	"@context": "https://schema.org",
@@ -150,7 +159,12 @@ const fullTitle = `${title} - ${SITE_TITLE}`;
 			"dateModified": updatedDateISO || pubDateISO,
 			"author": {
 				"@type": "Person",
-				"name": author
+				"name": author,
+				"url": AUTHOR.website,
+				"sameAs": [
+					AUTHOR.website,
+					`https://twitter.com/${AUTHOR.twitter.replace('@', '')}`
+				]
 			},
 			"publisher": {
 				"@type": "Organization",
