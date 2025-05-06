@@ -25,7 +25,6 @@ This document outlines recommendations for enhancing the blog's backend function
 
 ### 📅 Planned Features
 
-- Full-text search functionality
 - Tag-based filtering
 - Related posts suggestions
 - Content backup system
@@ -49,22 +48,18 @@ This document outlines recommendations for enhancing the blog's backend function
 - Content scheduling
 - Content expiration dates
 
-## 2. Search and Discovery
+## 2. Discovery and Organization
 
 ### High Priority
 
-- 📅 Full-text search implementation
-  - Algolia for production
-  - Lunr.js for development/local search
-- 📅 Tag-based filtering and search
+- 📅 Tag-based filtering
 - 📅 Related posts suggestions
 
 ### Medium Priority
 
-- Search index optimization
 - Advanced filtering options
-- Search analytics
-- Search result highlighting
+- Content analytics
+- Content highlighting
 
 ## 3. Performance Optimizations
 
@@ -87,15 +82,6 @@ This document outlines recommendations for enhancing the blog's backend function
 
 - Automated testing setup
 - CI/CD pipeline implementation
-- Content templates
-- Development environment improvements
-
-### Medium Priority
-
-- Linting rules for content
-- Automated content validation
-- Development documentation
-- Debugging tools
 
 ## 5. SEO and Analytics
 
