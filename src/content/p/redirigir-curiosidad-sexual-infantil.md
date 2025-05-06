@@ -4,7 +4,7 @@ description: "Guía práctica y evolutiva para padres conscientes que desean aco
 pubDate: "2025-05-06T16:30:00.000Z"
 heroImage: "/images/guia-practica-padres-conscientes.avif"
 language: ["es"]
-category: ["parenting"]
+category: ["parenting", "psychology"]
 subcategory: "Emotional Education"
 tags: ["crianza", "sexualidad infantil", "educación emocional", "límites", "padres e hijas", "cuerpo", "curiosidad sexual", "paternidad", "niñez"]
 readingTime: 9
