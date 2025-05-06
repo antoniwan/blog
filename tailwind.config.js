@@ -103,7 +103,7 @@ export default {
           "sans-serif"
         ],
         serif: [
-          "Source Serif 4",
+          "Fraunces",
           "Georgia",
           "Times New Roman",
           "serif"
