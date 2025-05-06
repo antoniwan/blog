@@ -2,7 +2,7 @@
 // Import the global.css file here so that it is included on
 // all pages through the use of the <BaseHead /> component.
 import '../styles/global.css';
-import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+import { SITE_TITLE } from '../consts';
 
 interface Props {
 	title: string;
@@ -65,63 +65,6 @@ const finalOgImageAlt = ogImageAlt || title;
 const formatDate = (date: Date) => date.toISOString();
 const pubDateISO = pubDate ? formatDate(pubDate) : undefined;
 const updatedDateISO = updatedDate ? formatDate(updatedDate) : undefined;
-
-// Generate structured data
-const structuredData = {
-	"@context": "https://schema.org",
-	"@graph": [
-		{
-			"@type": "WebSite",
-			"name": SITE_TITLE,
-			"description": description,
-			"url": Astro.site,
-			"publisher": {
-				"@type": "Organization",
-				"name": SITE_TITLE,
-				"logo": {
-					"@type": "ImageObject",
-					"url": new URL('/favicon.svg', Astro.site)
-				}
-			},
-			"potentialAction": {
-				"@type": "SearchAction",
-				"target": {
-					"@type": "EntryPoint",
-					"urlTemplate": `${Astro.site}search?q={search_term_string}`
-				},
-				"query-input": "required name=search_term_string"
-			}
-		},
-		...(pubDate ? [{
-			"@type": "Article",
-			"headline": title,
-			"description": description,
-			"image": new URL(finalOgImage, Astro.url),
-			"datePublished": pubDateISO,
-			"dateModified": updatedDateISO || pubDateISO,
-			"author": {
-				"@type": "Person",
-				"name": author
-			},
-			"publisher": {
-				"@type": "Organization",
-				"name": SITE_TITLE,
-				"logo": {
-					"@type": "ImageObject",
-					"url": new URL('/favicon.svg', Astro.site)
-				}
-			},
-			"mainEntityOfPage": {
-				"@type": "WebPage",
-				"@id": Astro.url
-			},
-			"keywords": keywords.join(', '),
-			"inLanguage": locale.split('_')[0],
-			"wordCount": description.split(' ').length,
-			"articleSection": category?.[0] || "General"
-		}] : [])
-	]
-};
 ---
 
 <!-- Global Metadata -->
@@ -174,7 +117,7 @@ const structuredData = {
 ))}
 
 <!-- Enhanced Structured Data -->
-<script type="application/ld+json" set:html={JSON.stringify({
+<script type="application/ld+json" is:inline set:html={JSON.stringify({
 	"@context": "https://schema.org",
 	"@graph": [
 		{

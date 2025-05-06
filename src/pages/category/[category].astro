@@ -1,62 +1,43 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { getCollection, type CollectionEntry } from 'astro:content';
 import PostCard from '../../components/PostCard.astro';
-import FormattedDate from '../../components/FormattedDate.astro';
 import { categories } from '../../data/categories';
+import { getCollection, type CollectionEntry } from 'astro:content';
 
 export const prerender = true;
 
 export async function getStaticPaths() {
 	const posts = await getCollection('blog');
-	const categories = new Set(posts.flatMap(post => post.data.category || []));
-	return Array.from(categories).map(category => ({
-		params: { category: category.toLowerCase() },
+	const uniqueCategories = [...new Set(posts.flatMap(post => post.data.category || []))];
+	
+	return uniqueCategories.map(category => ({
+		params: { category },
 		props: { category }
 	}));
 }
 
-interface Props {
-	category: string;
-}
-
-const { category } = Astro.props as Props;
-
-// Get category data
-const categoryData = categories.find(cat => cat.id === category);
+const { category: categoryParam } = Astro.props;
+const posts = await getCollection('blog', post => post.data.category?.includes(categoryParam));
+const categoryData = categories.find(cat => cat.id === categoryParam);
 
 // If category doesn't exist, redirect to category listing
 if (!categoryData) {
-	return Astro.redirect('/category/');
+	return Astro.redirect('/categories');
 }
 
 // Get all blog posts for this category and sort by date
-const posts = (await getCollection('blog'))
-	.filter((post) => !post.data.draft && (post.data.category || []).includes(category))
+const sortedPosts = posts
+	.filter((post) => !post.data.draft)
 	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
 // Group by translationGroup (or fallback to id)
 const grouped: Record<string, CollectionEntry<'blog'>[]> = {};
-for (const post of posts) {
+for (const post of sortedPosts) {
 	const group = post.data.translationGroup || post.id;
 	if (!grouped[group]) grouped[group] = [];
 	grouped[group].push(post);
 }
 const groupedPosts: CollectionEntry<'blog'>[][] = Object.values(grouped);
-
-const categoryEmojis: Record<string, string> = {
-	'art-expression': '🎵',
-	'diy-creation': '🛠️',
-	'integration-growth': '🧘🏽‍♂️',
-	'learning-projects': '📚',
-	'metaspace': '🌀',
-	'parenting': '👨‍👩‍👧‍👦',
-	'politics': '⚖️',
-	'psychology': '🧠',
-	'systems-strategy': '💻'
-};
-
-const capitalize = (str: string) => str ? str.charAt(0).toUpperCase() + str.slice(1) : '';
 ---
 
 <BaseLayout title={`${categoryData.name} - StrongVault`}>

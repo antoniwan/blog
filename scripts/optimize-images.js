@@ -1,4 +1,4 @@
-const sharp = require("sharp");
+import sharp from "sharp";
 const fs = require("fs");
 const path = require("path");
 

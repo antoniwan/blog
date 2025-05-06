@@ -1,4 +1,4 @@
-const { exec } = require("child_process");
+import { exec } from "child_process";
 const fs = require("fs");
 const path = require("path");
 
@@ -35,12 +35,12 @@ const processVideo = (filename) => {
 
   const command = `ffmpeg -i "${sourcePath}" -c:v ${videoSettings.codec} -preset ${videoSettings.preset} -crf ${videoSettings.crf} -vf "scale='min(${videoSettings.maxWidth},iw)':'min(${videoSettings.maxHeight},ih)':force_original_aspect_ratio=decrease" -r ${videoSettings.fps} -c:a aac -b:a 128k "${targetPath}"`;
 
-  exec(command, (error, stdout, stderr) => {
+  exec(command, (error) => {
     if (error) {
-      console.error(`Error processing ${filename}:`, error);
+      console.error(`Error executing command: ${error}`);
       return;
     }
-    console.log(`Optimized ${filename}`);
+    console.log(`Processed: ${sourcePath}`);
   });
 };
 
