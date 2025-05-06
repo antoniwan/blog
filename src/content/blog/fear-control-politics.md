@@ -51,14 +51,14 @@ You don't need a PhD in psychology to recognize this:
 
 ## The Real Diagnosis: Not Evil, But Afraid
 
-> "Fear is the mind-killer."  
+> Fear is the mind-killer. <br />
 > — _Frank Herbert, Dune_ (1965)
 
 Fear turns _curiosity_ into _conspiracy_.  
 Fear turns _moral agency_ into _moral policing_.  
 Fear says:
 
-> _"If I control them, I won't have to face myself."_
+> _If I control them, I won't have to face myself._
 
 (Chaos break: Do you think there's a secret lab of old white men somewhere injecting Fox News straight into their frontal lobes? Because I do. It's shaped like a bald eagle, it's underground in Utah, and it smells like microwave bacon.)
 
