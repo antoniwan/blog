@@ -107,10 +107,13 @@ npm run dev
 ├── public/          # Static assets
 ├── src/
 │   ├── components/  # Reusable UI components
-│   │   └── media/   # Media-specific components
 │   ├── content/     # Content collections
+│   ├── data/        # Static data and configurations
 │   ├── layouts/     # Page layouts
-│   └── pages/       # Route components
+│   ├── pages/       # Route components
+│   ├── plugins/     # Custom Astro plugins
+│   ├── styles/      # Global styles and Tailwind config
+│   └── utils/       # Utility functions
 ├── scripts/         # Build and optimization scripts
 ├── astro.config.mjs # Astro configuration
 ├── package.json     # Project dependencies
