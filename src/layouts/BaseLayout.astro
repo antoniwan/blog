@@ -81,7 +81,6 @@ const categoryEmojis: Record<string, string> = {
 
 <!doctype html>
 <html lang="en">
-  <SpeedInsights />
   <head>
     <BaseHead 
       title={title} 
@@ -97,6 +96,7 @@ const categoryEmojis: Record<string, string> = {
       keywords={tags}
       locale={language[0] ? `${language[0]}_${language[0].toUpperCase()}` : 'en_US'}
     />
+    <SpeedInsights />
   </head>
   <body class="min-h-screen flex flex-col bg-background text-text dark:bg-background-dark dark:text-text-dark">
     <script>
