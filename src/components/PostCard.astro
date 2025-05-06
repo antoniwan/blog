@@ -18,13 +18,9 @@ interface Props {
 			image?: string;
 		};
 	};
-	translations?: {
-		id: string;
-		language: string;
-	}[];
 }
 
-const { post, translations } = Astro.props;
+const { post } = Astro.props;
 
 // Find the category data for all categories
 const categoryData = post.data.category?.map(catId => categories.find(cat => cat.id === catId)) || [];

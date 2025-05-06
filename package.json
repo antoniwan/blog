@@ -21,7 +21,6 @@
     "@vercel/speed-insights": "^1.2.0",
     "astro": "^5.7.10",
     "date-fns": "^4.1.0",
-    "satori": "^0.10.0",
     "sharp": "^0.33.2"
   },
   "devDependencies": {
