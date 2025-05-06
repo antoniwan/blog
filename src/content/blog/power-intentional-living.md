@@ -1,7 +1,7 @@
 ---
 title: "On Self-Discovery, Self-Awareness, Value-Based Living"
 description: "A journey through self-awareness, challenging negative self-talk, and discovering the transformative power of value-based decision making in everyday life."
-pubDate: "2024-03-25"
+pubDate: "2024-03-25T14:15:00.000Z"
 heroImage: ""
 language: ["en"]
 category: ["psychology", "integration-growth"]

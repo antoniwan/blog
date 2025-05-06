@@ -3,6 +3,7 @@ import { categories } from '../data/categories';
 import { formatDistanceToNow } from 'date-fns';
 import Figure from './media/Figure.astro';
 import { LANGUAGE_FLAGS } from '../consts';
+import FormattedDate from './FormattedDate.astro';
 
 interface Props {
 	post: {
@@ -63,17 +64,11 @@ const getLanguageFlag = (lang: string) => LANGUAGE_FLAGS[lang] || lang.toUpperCa
 						{post.data.readingTime} min read
 					</span>
 				)}
-				<time 
-					datetime={post.data.pubDate.toISOString()}
-					class="text-xs text-gray-500 dark:text-gray-400 hover:underline cursor-pointer transition-colors duration-200"
-					title={post.data.pubDate.toLocaleDateString('en-US', {
-						year: 'numeric',
-						month: 'long',
-						day: 'numeric'
-					})}
-				>
-					{formatDistanceToNow(post.data.pubDate, { addSuffix: true })}
-				</time>
+				<div class="flex items-center gap-2">
+					<FormattedDate date={post.data.pubDate} format="relative" />
+					<span class="text-gray-400">•</span>
+					<FormattedDate date={post.data.pubDate} format="short" />
+				</div>
 			</div>
 
 			{/* Title Section */}

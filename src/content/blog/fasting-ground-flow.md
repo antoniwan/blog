@@ -1,7 +1,7 @@
 ---
 title: "⚔️ Ritual Meal: Ground + Flow"
 description: "A detailed guide to breaking a fast with intention, combining protein-rich steak, energizing pasta, and a warrior's garden salad."
-pubDate: "2025-05-02"
+pubDate: "2025-05-02T09:45:00.000Z"
 heroImage: "/images/u3632568553_a_ceremonial_warriors_feast_at_sunset_beautifully_437383ac-aefb-4b34-b88c-f073916a1810_0.png"
 language: ["en"]
 category: ["integration-growth", "learning-projects"]

@@ -6,6 +6,15 @@ import type { Category } from "./data/categories";
 // Create a list of valid category IDs
 const validCategoryIds = categories.map((cat: Category) => cat.id);
 
+// Date validation and formatting
+const dateSchema = z.union([
+  z.string().transform((str) => new Date(str)),
+  z.date(),
+  z.number().transform((num) => new Date(num))
+]).refine((date) => !isNaN(date.getTime()), {
+  message: "Invalid date format"
+});
+
 const blog = defineCollection({
   // Load Markdown and MDX files in the `src/content/blog/` directory.
   loader: glob({ base: "./src/content/blog", pattern: "**/*.{md,mdx}" }),
@@ -14,11 +23,11 @@ const blog = defineCollection({
     // Required fields
     title: z.string(),
     description: z.string(),
-    pubDate: z.coerce.date(),
+    pubDate: dateSchema,
     language: z.array(z.enum(["en", "es"])).default(["en"]),
 
     // Optional fields
-    updatedDate: z.coerce.date().optional(),
+    updatedDate: dateSchema.optional(),
     heroImage: z.string().optional(),
     category: z
       .array(z.enum(validCategoryIds as [string, ...string[]]))

@@ -109,13 +109,6 @@ const categoryEmojis: Record<string, string> = {
     <main id="main-content" role="main" class="flex-grow animate-fade-in">
       {layoutType === 'blog' && (
         <article class="max-w-5xl mx-auto px-4 md:px-8 py-12" transition:animate="fade">
-          <nav aria-label="Breadcrumb" class="mb-8">
-            <ol class="flex flex-wrap gap-2 text-sm text-neutral-600 dark:text-neutral-400">
-              <li><a href="/" class="hover:text-primary-500 dark:hover:text-primary-400 transition-colors">Home</a></li>
-              <li aria-hidden="true">›</li>
-              <li class="text-text dark:text-text-dark">{title}</li>
-            </ol>
-          </nav>
           <header class="mb-16 animate-slide-up">
             <h1 class="text-4xl md:text-5xl lg:text-6xl font-serif font-bold mb-8 leading-tight tracking-tight text-text dark:text-text-dark">{title}</h1>
             {description && <p class="text-xl md:text-2xl text-neutral-600 dark:text-neutral-400 mb-10 leading-relaxed">{description}</p>}
@@ -134,13 +127,13 @@ const categoryEmojis: Record<string, string> = {
               {pubDate && (
                 <time datetime={pubDate.toISOString()} class="flex items-center gap-2">
                   <span class="text-primary-500 dark:text-primary-400">📅</span>
-                  <FormattedDate date={pubDate} />
+                  <FormattedDate date={pubDate} format="long" />
                 </time>
               )}
               {updatedDate && (
                 <time datetime={updatedDate.toISOString()} class="flex items-center gap-2">
                   <span class="text-primary-500 dark:text-primary-400">🔄</span>
-                  Updated: <FormattedDate date={updatedDate} />
+                  Updated: <FormattedDate date={updatedDate} format="long" />
                 </time>
               )}
               {readingTime && (
@@ -184,15 +177,6 @@ const categoryEmojis: Record<string, string> = {
       )}
       {layoutType === 'default' && (
         <section class="max-w-5xl mx-auto px-4 md:px-8 py-12" transition:animate="fade">
-          {Astro.url.pathname !== '/' && (
-            <nav aria-label="Breadcrumb" class="mb-8">
-              <ol class="flex flex-wrap gap-2 text-sm text-neutral-600 dark:text-neutral-400">
-                <li><a href="/" class="hover:text-primary-500 dark:hover:text-primary-400 transition-colors">Home</a></li>
-                <li aria-hidden="true">›</li>
-                <li class="text-text dark:text-text-dark">{title}</li>
-              </ol>
-            </nav>
-          )}
           <slot />
         </section>
       )}
