@@ -13,6 +13,7 @@ StrongVault is a personal digital space built with modern web technologies, focu
 - **MDX**: Markdown with JSX support
 - **Tailwind CSS**: Utility-first CSS framework
 - **Sharp**: Image optimization
+- **FFmpeg**: Video processing and optimization
 - **Vercel Analytics**: Performance monitoring
 
 ### Development Tools
@@ -29,9 +30,11 @@ StrongVault is a personal digital space built with modern web technologies, focu
 ├── public/          # Static assets
 ├── src/
 │   ├── components/  # Reusable UI components
+│   │   └── media/   # Media-specific components
 │   ├── content/     # Content collections
 │   ├── layouts/     # Page layouts
 │   └── pages/       # Route components
+├── scripts/         # Build and optimization scripts
 ├── astro.config.mjs # Astro configuration
 ├── package.json     # Project dependencies
 └── tsconfig.json    # TypeScript configuration
