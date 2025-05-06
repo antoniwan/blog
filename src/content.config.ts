@@ -50,14 +50,14 @@ const blog = defineCollection({
     ogImageAlt: z.string().optional(),
     robots: z
       .object({
-        index: z.boolean().optional().default(true),
-        follow: z.boolean().optional().default(true),
-        noarchive: z.boolean().optional().default(false),
-        nosnippet: z.boolean().optional().default(false),
-        noimageindex: z.boolean().optional().default(false),
+        index: z.boolean().optional(),
+        follow: z.boolean().optional(),
+        noarchive: z.boolean().optional(),
+        nosnippet: z.boolean().optional(),
+        noimageindex: z.boolean().optional()
       })
-      .optional()
-      .default({}),
+      .optional(),
+    keywords: z.array(z.string()).optional()
   }),
 });
 

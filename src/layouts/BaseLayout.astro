@@ -32,6 +32,9 @@ interface Props {
     nosnippet?: boolean;
     noimageindex?: boolean;
   };
+  // Additional SEO fields
+  author?: string;
+  keywords?: string[];
   // Layout type
   layoutType?: 'default' | 'blog';
 }
@@ -50,6 +53,8 @@ const {
   ogImage,
   ogImageAlt,
   robots,
+  author = SITE_TITLE,
+  keywords = tags,
   layoutType = 'default'
 } = Astro.props;
 
@@ -92,8 +97,8 @@ const categoryEmojis: Record<string, string> = {
       robots={robots}
       pubDate={pubDate}
       updatedDate={updatedDate}
-      author={SITE_TITLE}
-      keywords={tags}
+      author={author}
+      keywords={keywords}
       locale={language[0] ? `${language[0]}_${language[0].toUpperCase()}` : 'en_US'}
     />
     <SpeedInsights />
