@@ -13,18 +13,15 @@ export default defineConfig({
     sitemap(),
     tailwind({
       applyBaseStyles: true,
-      config: {
-        future: {
-          hoverOnlyWhenSupported: true,
-        },
-      },
     }),
   ],
+  output: "server",
   adapter: vercel(),
   markdown: {
     syntaxHighlight: "shiki",
     shikiConfig: {
       theme: "github-dark",
+      wrap: true,
     },
   },
   vite: {
@@ -38,12 +35,12 @@ export default defineConfig({
   // Enable built-in prefetch
   prefetch: {
     prefetchAll: true,
-    defaultStrategy: 'hover',
+    defaultStrategy: "hover",
   },
   // Enable image optimization
   image: {
     service: {
-      entrypoint: 'astro/assets/services/sharp',
+      entrypoint: "astro/assets/services/sharp",
     },
   },
 });

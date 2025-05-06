@@ -95,10 +95,6 @@ _Date: May 2, 2025_
 
 ![Finished lemon-pepper chicken](/recipes/lemon-pepper-chicken/lemon-pepper-chicken-photo-2562.jpeg)
 
-## 📽️ Videos
-
-[![Lemon Pepper Chicken Final Result](/recipes/lemon-pepper-chicken/lemon-pepper-chicken-01.MP4)
-
 ---
 
 **"Strong hands seasoned it. Soft heart glazed it. Fire finished it."**

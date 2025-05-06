@@ -85,27 +85,18 @@ import { mainNavigation } from '../data/navigation';
       menuOverlay?.classList.remove('opacity-0', 'invisible');
       mobileMenu?.classList.remove('translate-y-[-100%]');
       mobileMenu?.classList.add('translate-y-0');
-      
-      // Focus first focusable element
-      const firstFocusable = mobileMenu?.querySelector('a, button') as HTMLElement;
-      firstFocusable?.focus();
+      (mobileMenu?.querySelector('a, button') as HTMLElement)?.focus();
     } else {
       document.body.style.overflow = '';
       menuOverlay?.classList.add('opacity-0', 'invisible');
       mobileMenu?.classList.remove('translate-y-0');
       mobileMenu?.classList.add('translate-y-[-100%]');
-      
-      // Return focus to menu button
       menuButton?.focus();
     }
   };
 
   // Close menu function
-  const closeMenu = () => {
-    if (isMenuOpen) {
-      toggleMenu();
-    }
-  };
+  const closeMenu = () => isMenuOpen && toggleMenu();
 
   // Event listeners
   menuButton?.addEventListener('click', toggleMenu);
@@ -141,8 +132,7 @@ import { mainNavigation } from '../data/navigation';
   });
 
   // Handle menu link clicks
-  const menuLinks = mobileMenu?.querySelectorAll('a');
-  menuLinks?.forEach((link) => {
+  mobileMenu?.querySelectorAll('a').forEach((link) => {
     link.addEventListener('click', closeMenu);
   });
 </script>
@@ -150,15 +140,15 @@ import { mainNavigation } from '../data/navigation';
 <style>
   /* Hamburger animation */
   #mobile-menu-button[aria-expanded="true"] span:nth-child(1) {
-    transform: translateY(3px) rotate(45deg);
+    @apply translate-y-[3px] rotate-45;
   }
   
   #mobile-menu-button[aria-expanded="true"] span:nth-child(2) {
-    opacity: 0;
+    @apply opacity-0;
   }
   
   #mobile-menu-button[aria-expanded="true"] span:nth-child(3) {
-    transform: translateY(-3px) rotate(-45deg);
+    @apply -translate-y-[3px] -rotate-45;
   }
 
   /* Respect reduced motion preferences */
@@ -166,7 +156,7 @@ import { mainNavigation } from '../data/navigation';
     #mobile-menu,
     #mobile-menu-overlay,
     #mobile-menu-button span {
-      transition: none !important;
+      @apply transition-none;
     }
   }
 </style> 

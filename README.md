@@ -41,6 +41,19 @@ A personal digital space where I document my journey of building systems — dig
 - ✅ Back to top button
 - ✅ Skip to main content accessibility feature
 
+### Media Architecture
+
+- ✅ Responsive image handling with proper aspect ratios
+- ✅ WebP format conversion for images
+- ✅ Lazy loading with eager loading option for above-the-fold
+- ✅ Accessibility-first media components
+- ✅ Reduced motion support
+- ✅ Gallery component for grid-based media display
+- ✅ Figure component for semantic image markup
+- ✅ Optimized image loading and caching
+- ✅ Proper alt text and caption support
+- ✅ Mobile-first media gallery layouts
+
 ### Content Management
 
 - ✅ Multi-language support (English, Spanish)
@@ -59,10 +72,13 @@ A personal digital space where I document my journey of building systems — dig
 
 ### Performance
 
-- ✅ Image optimization
-- ✅ Lazy loading
+- ✅ Image optimization with Sharp
+- ✅ Lazy loading with eager option
 - ✅ Caching strategies
 - ✅ Reduced motion preferences support
+- ✅ WebP format support
+- ✅ Proper aspect ratio handling
+- ✅ Optimized media delivery
 
 ## 📦 Getting Started
 
@@ -91,9 +107,11 @@ npm run dev
 ├── public/          # Static assets
 ├── src/
 │   ├── components/  # Reusable UI components
+│   │   └── media/   # Media-specific components
 │   ├── content/     # Content collections
 │   ├── layouts/     # Page layouts
 │   └── pages/       # Route components
+├── scripts/         # Build and optimization scripts
 ├── astro.config.mjs # Astro configuration
 ├── package.json     # Project dependencies
 └── tsconfig.json    # TypeScript configuration
@@ -131,57 +149,15 @@ This work is licensed under a [Creative Commons Attribution 4.0 International Li
 
 > "If you're building something good, or trying to become someone better, I'm probably down to help. Get in touch." — Antonio Rodríguez Martínez
 
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-├── public/
-├── src/
-│   ├── components/
-│   ├── content/
-│   ├── layouts/
-│   └── pages/
-├── astro.config.mjs
-├── README.md
-├── package.json
-└── tsconfig.json
-```
-
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
-
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
-
-The `src/content/` directory contains "collections" of related Markdown and MDX documents. Use `getCollection()` to retrieve posts from `src/content/blog/`, and type-check your frontmatter using an optional schema. See [Astro's Content Collections docs](https://docs.astro.build/en/guides/content-collections/) to learn more.
-
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## Credit
-
-This theme is based off of the lovely [Bear Blog](https://github.com/HermanMartinus/bearblog/).
-
 ## Styling System
 
-The blog uses Tailwind CSS for styling, providing a utility-first approach that ensures consistency, performance, and maintainability. The styling system includes:
+The blog uses Tailwind CSS for styling, providing a utility-first approach that ensures consistency and maintainability. The styling system includes:
 
 - **Design Tokens**: Custom colors, typography, spacing, and z-index scales defined in `tailwind.config.js`
-- **Dark Mode**: Automatic dark mode support using CSS variables and Tailwind's dark mode utilities
+- **Dark Mode**: System preference detection and manual toggle
 - **Responsive Design**: Mobile-first approach with consistent breakpoints
 - **Typography**: Custom font families and responsive type scale
-- **Component Styles**: Base styles for common elements (headings, links, forms, etc.)
+- **Component Styles**: Base styles for common elements
 - **Accessibility**: Built-in accessibility features and utilities
 
 ### Directory Structure
@@ -196,8 +172,8 @@ src/
 
 ### Key Features
 
-- **Performance**: Tailwind's JIT compiler and purge settings ensure minimal CSS output
-- **Maintainability**: Utility-first approach reduces CSS specificity issues
-- **Consistency**: Design tokens ensure visual consistency across components
+- **Performance**: Tailwind's JIT compiler and purge settings
+- **Maintainability**: Utility-first approach
+- **Consistency**: Design tokens for visual consistency
 - **Developer Experience**: Rapid prototyping with utility classes
-- **Dark Mode**: Automatic dark mode support with CSS variables
+- **Dark Mode**: System preference support with CSS variables

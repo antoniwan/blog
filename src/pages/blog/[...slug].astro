@@ -3,6 +3,8 @@ import { type CollectionEntry, getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { render } from 'astro:content';
 
+export const prerender = true;
+
 export async function getStaticPaths() {
 	const posts = await getCollection('blog');
 	return posts.map((post) => ({
@@ -16,6 +18,22 @@ const post = Astro.props;
 const { Content } = await render(post);
 ---
 
-<BaseLayout {...post.data} layoutType="blog">
+<BaseLayout 
+  title={post.data.title}
+  description={post.data.description}
+  pubDate={post.data.pubDate}
+  updatedDate={post.data.updatedDate}
+  heroImage={post.data.heroImage}
+  readingTime={post.data.readingTime}
+  tags={post.data.tags}
+  category={post.data.category}
+  subcategory={post.data.subcategory}
+  language={post.data.language}
+  canonicalUrl={post.data.canonicalUrl}
+  ogImage={post.data.ogImage}
+  ogImageAlt={post.data.ogImageAlt}
+  robots={post.data.robots}
+  layoutType="blog"
+>
 	<Content />
 </BaseLayout>

@@ -54,9 +54,6 @@ const {
   layoutType = 'default'
 } = Astro.props;
 
-// Clean title for breadcrumb by removing "- StrongVault" suffix
-const cleanTitle = title.replace(/\s*-\s*StrongVault$/, '');
-
 const languageEmojis: Record<string, string> = {
   en: '🇺🇸',
   es: '🇵🇷',
@@ -120,12 +117,23 @@ const capitalize = (str: string) => str ? str.charAt(0).toUpperCase() + str.slic
             <ol class="flex flex-wrap gap-2 text-sm text-neutral-600 dark:text-neutral-400">
               <li><a href="/" class="hover:text-primary-500 dark:hover:text-primary-400 transition-colors">Home</a></li>
               <li aria-hidden="true">›</li>
-              <li class="text-text dark:text-text-dark">{cleanTitle}</li>
+              <li class="text-text dark:text-text-dark">{title}</li>
             </ol>
           </nav>
           <header class="mb-16 animate-slide-up">
             <h1 class="text-4xl md:text-5xl lg:text-6xl font-serif font-bold mb-8 leading-tight tracking-tight text-text dark:text-text-dark">{title}</h1>
             {description && <p class="text-xl md:text-2xl text-neutral-600 dark:text-neutral-400 mb-10 leading-relaxed">{description}</p>}
+            {heroImage && (
+              <div class="relative w-full aspect-[21/9] mb-10 rounded-xl overflow-hidden shadow-xl">
+                <img
+                  src={heroImage}
+                  alt={`Hero image for ${title}`}
+                  class="w-full h-full object-cover"
+                  loading="eager"
+                  decoding="async"
+                />
+              </div>
+            )}
             <div class="flex flex-wrap gap-6 text-sm text-neutral-600 dark:text-neutral-400">
               {pubDate && (
                 <time datetime={pubDate.toISOString()} class="flex items-center gap-2">
@@ -185,7 +193,7 @@ const capitalize = (str: string) => str ? str.charAt(0).toUpperCase() + str.slic
               <ol class="flex flex-wrap gap-2 text-sm text-neutral-600 dark:text-neutral-400">
                 <li><a href="/" class="hover:text-primary-500 dark:hover:text-primary-400 transition-colors">Home</a></li>
                 <li aria-hidden="true">›</li>
-                <li class="text-text dark:text-text-dark">{cleanTitle}</li>
+                <li class="text-text dark:text-text-dark">{title}</li>
               </ol>
             </nav>
           )}

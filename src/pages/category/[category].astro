@@ -5,6 +5,8 @@ import PostCard from '../../components/PostCard.astro';
 import FormattedDate from '../../components/FormattedDate.astro';
 import { categories } from '../../data/categories';
 
+export const prerender = true;
+
 export async function getStaticPaths() {
 	const posts = await getCollection('blog');
 	const categories = new Set(posts.flatMap(post => post.data.category || []));

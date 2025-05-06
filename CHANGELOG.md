@@ -5,6 +5,46 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0] - 2024-05-03
+
+### Added
+
+- New media architecture with optimized components:
+  - Figure component for responsive image handling
+  - Gallery component for grid-based media display
+- Media optimization scripts for images
+- WebP format conversion for all images
+- Proper aspect ratio handling for all media
+- Lazy loading with eager loading option for above-the-fold content
+- Accessibility-first design for all media components
+- Reduced motion support across all components
+
+### Improved
+
+- Enhanced media performance with optimized formats
+- Better accessibility with proper ARIA attributes
+- Improved responsive design for media content
+- Optimized image loading and caching
+- Enhanced dark mode support for media
+- Better mobile responsiveness for media galleries
+- Improved SEO with proper image metadata
+
+### Technical
+
+- Implemented Sharp for image optimization
+- Enhanced TypeScript types for media components
+- Improved build process with media optimization
+- Added proper error handling for media processing
+- Enhanced documentation for media components
+
+## [1.1.2] - 2024-05-03
+
+### Improved
+
+- Updated documentation and README files
+- Updated package dependencies
+- Improved package lock file
+
 ## [1.1.1] - 2024-05-03
 
 ### Improved
