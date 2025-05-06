@@ -92,25 +92,39 @@ export default {
       },
       fontFamily: {
         sans: [
+          "Inter",
           "system-ui",
           "-apple-system",
+          "BlinkMacSystemFont",
+          "Segoe UI",
+          "Roboto",
+          "Helvetica Neue",
+          "Arial",
           "sans-serif"
         ],
         serif: [
+          "Source Serif 4",
           "Georgia",
+          "Times New Roman",
           "serif"
         ],
         mono: [
           "JetBrains Mono",
           "ui-monospace",
+          "SFMono-Regular",
+          "Menlo",
+          "Monaco",
+          "Consolas",
+          "Liberation Mono",
+          "Courier New",
           "monospace"
         ],
       },
       fontSize: {
         xs: ["0.875rem", { lineHeight: "1.5", letterSpacing: "0.01em" }],
         sm: ["1rem", { lineHeight: "1.6", letterSpacing: "0.01em" }],
-        base: ["1.125rem", { lineHeight: "1.7", letterSpacing: "0.01em" }],
-        lg: ["1.25rem", { lineHeight: "1.7", letterSpacing: "0.01em" }],
+        base: ["1.125rem", { lineHeight: "1.75", letterSpacing: "0.01em" }],
+        lg: ["1.25rem", { lineHeight: "1.75", letterSpacing: "0.01em" }],
         xl: ["1.5rem", { lineHeight: "1.4", letterSpacing: "-0.01em" }],
         "2xl": ["1.875rem", { lineHeight: "1.3", letterSpacing: "-0.02em" }],
         "3xl": ["2.25rem", { lineHeight: "1.2", letterSpacing: "-0.02em" }],
@@ -187,7 +201,7 @@ export default {
               padding: "1rem 1.5rem",
               fontStyle: "italic",
               fontSize: "1.125rem",
-              lineHeight: "1.7",
+              lineHeight: "1.75",
             },
             h1: {
               color: "inherit",
@@ -196,6 +210,7 @@ export default {
               lineHeight: "1.1",
               marginTop: "2em",
               marginBottom: "0.5em",
+              fontFamily: "var(--tw-font-serif)",
             },
             h2: {
               color: "inherit",
@@ -204,6 +219,7 @@ export default {
               lineHeight: "1.2",
               marginTop: "1.75em",
               marginBottom: "0.5em",
+              fontFamily: "var(--tw-font-serif)",
             },
             h3: {
               color: "inherit",
@@ -212,6 +228,7 @@ export default {
               lineHeight: "1.3",
               marginTop: "1.5em",
               marginBottom: "0.5em",
+              fontFamily: "var(--tw-font-serif)",
             },
             h4: {
               color: "inherit",
@@ -220,11 +237,13 @@ export default {
               lineHeight: "1.4",
               marginTop: "1.25em",
               marginBottom: "0.5em",
+              fontFamily: "var(--tw-font-serif)",
             },
             p: {
               marginTop: "1.25em",
               marginBottom: "1.25em",
-              lineHeight: "1.7",
+              lineHeight: "1.75",
+              fontFamily: "var(--tw-font-sans)",
             },
             ul: {
               marginTop: "1.25em",
@@ -239,6 +258,7 @@ export default {
             li: {
               marginTop: "0.5em",
               marginBottom: "0.5em",
+              lineHeight: "1.75",
             },
           },
         },
