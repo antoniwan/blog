@@ -11,11 +11,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - New media architecture with optimized components:
   - Figure component for responsive image handling
-  - Video component with semantic markup and accessibility
   - Gallery component for grid-based media display
-- Media optimization scripts for images and videos
+- Media optimization scripts for images
 - WebP format conversion for all images
-- Video transcoding to WebM format
 - Proper aspect ratio handling for all media
 - Lazy loading with eager loading option for above-the-fold content
 - Accessibility-first design for all media components
@@ -34,7 +32,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Technical
 
 - Implemented Sharp for image optimization
-- Added FFmpeg integration for video processing
 - Enhanced TypeScript types for media components
 - Improved build process with media optimization
 - Added proper error handling for media processing

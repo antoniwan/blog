@@ -21,7 +21,6 @@ A personal digital space where I document my journey of building systems — dig
 - [MDX](https://mdxjs.com/) - Markdown with JSX support
 - [Tailwind CSS](https://tailwindcss.com/) - Utility-first CSS framework
 - [Sharp](https://sharp.pixelplumbing.com/) - Image optimization
-- [FFmpeg](https://ffmpeg.org/) - Video processing and optimization
 - [Vercel Analytics](https://vercel.com/analytics) - Performance monitoring
 - [Vercel Speed Insights](https://vercel.com/speed-insights) - Real-time performance metrics
 
@@ -46,14 +45,12 @@ A personal digital space where I document my journey of building systems — dig
 
 - ✅ Responsive image handling with proper aspect ratios
 - ✅ WebP format conversion for optimal image delivery
-- ✅ Video transcoding to WebM format
 - ✅ Lazy loading with eager loading option for above-the-fold
 - ✅ Accessibility-first media components
 - ✅ Reduced motion support for all media
 - ✅ Gallery component for grid-based media display
 - ✅ Figure component for semantic image markup
-- ✅ Video component with proper controls and attributes
-- ✅ Optimized media loading and caching
+- ✅ Optimized image loading and caching
 - ✅ Proper alt text and caption support
 - ✅ Mobile-first media gallery layouts
 
@@ -76,11 +73,10 @@ A personal digital space where I document my journey of building systems — dig
 ### Performance
 
 - ✅ Image optimization with Sharp
-- ✅ Video optimization with FFmpeg
 - ✅ Lazy loading with eager option
 - ✅ Caching strategies
 - ✅ Reduced motion preferences support
-- ✅ WebP and WebM format support
+- ✅ WebP format support
 - ✅ Proper aspect ratio handling
 - ✅ Optimized media delivery
 
@@ -137,7 +133,6 @@ npm run dev
 - [Recommendations](./RECOMMENDATIONS.md) - Future improvements
 - [Notes](./NOTES.md) - Development notes and guidelines
 - [Changelog](./CHANGELOG.md) - Version history
-- [Media Report](./media-report.md) - Media architecture documentation
 
 ## 🤝 Connect With Me
 

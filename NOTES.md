@@ -13,7 +13,6 @@ StrongVault is a personal digital space built with modern web technologies, focu
 - **MDX**: Markdown with JSX support
 - **Tailwind CSS**: Utility-first CSS framework
 - **Sharp**: Image optimization
-- **FFmpeg**: Video processing and optimization
 - **Vercel Analytics**: Performance monitoring
 
 ### Development Tools
