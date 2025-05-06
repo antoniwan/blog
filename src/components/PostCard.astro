@@ -69,11 +69,9 @@ const formatRelativeDate = (date: Date) => {
 				<Figure
 					src={post.data.image}
 					alt={`Featured image for ${post.data.title}`}
-					width={800}
-					height={450}
-					aspectRatio="16/9"
+					aspectRatio="16:9"
 					class="group-hover:scale-105"
-					loading="lazy"
+					priority={false}
 					transition:name={`post-image-${post.id}`}
 				/>
 				<div class="absolute inset-0 bg-gradient-to-t from-background/80 dark:from-background-dark/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
