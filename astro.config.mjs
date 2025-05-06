@@ -26,14 +26,9 @@ export default defineConfig({
     smartypants: true,
     gfm: true,
   },
-  vite: {
-    css: {},
-    build: {},
-    server: {},
-  },
-  // Enable built-in prefetch
+  // Enable built-in prefetch with optimized settings
   prefetch: {
-    prefetchAll: true,
+    prefetchAll: false,
     defaultStrategy: "hover",
   },
   // Enable image optimization
