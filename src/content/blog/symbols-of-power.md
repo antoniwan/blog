@@ -2,7 +2,7 @@
 title: "My Favorite Symbols of Power"
 description: "A reflection on the symbols—mythic, fictional, and personal—that remind me of resilience, willpower, and transformation. These are the icons I'd etch into my skin if I ever choose to."
 pubDate: "2024-07-06"
-heroImage: "/images/symbols/narsil.avif"
+heroImage: "/symbols/lightsaber.avif"
 language: ["en"]
 category: ["metaspace", "psychology", "integration-growth", "art-expression"]
 subcategory: "Philosophy"
@@ -79,6 +79,24 @@ The **Vegvisir** is an Icelandic magical stave—a compass that guides its beare
 ### 🌀 "Amor fati" – Phrase of Power
 
 "**Amor fati**" means _love of fate_—a Stoic concept that teaches us to embrace everything that happens to us. It's not about passive acceptance, but about actively loving our fate, about finding meaning and growth in every experience. It's a reminder that our power lies not in controlling what happens to us, but in how we respond to it.
+
+---
+
+### 🔦 Lightsaber – Weapon of Light, Shadow, and Will
+
+![Lightsaber – A blade tuned to the soul of its wielder](/symbols/lightsaber.avif)
+
+The **lightsaber** is a weapon of will — forged not just by Jedi in serene temples, but by Sith in rage-forged crucibles, and by rogue force wielders who walk between light and shadow. It's a symbol of **raw agency**, amplified by discipline, vision, or vengeance. The color of your blade says something... but never everything.
+
+- **Blue and green**: guardians and seers — clarity, peace, protection.
+- **Red**: forged through pain — will sharpened into fury, unapologetic power.
+- **Purple**: the edge walker — one who knows both peace and war.
+- **White**: reclaimed sovereignty — purified power.
+- **Black (Darksaber)**: leadership through might and legend.
+
+Use the lightsaber symbol when you must cut through confusion. When you’re forging identity. When your truth needs to shine or strike. Whether you're aligning with the Force, bending it, or breaking from it altogether — the saber is a reminder:
+
+**You are the crystal. You decide how it burns.**
 
 ---
 
