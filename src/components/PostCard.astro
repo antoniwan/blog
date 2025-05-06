@@ -63,11 +63,6 @@ const getLanguageFlag = (lang: string) => {
 		<div class="p-6 md:p-7 space-y-4" transition:name={`post-content-${post.id}`}>
 			{/* Metadata Section */}
 			<div class="flex items-center gap-2 border-b border-zinc-100 dark:border-zinc-800 pb-3">
-				{post.data.language.map(lang => (
-					<span class="text-xs px-2 py-0.5 rounded-full bg-zinc-100 dark:bg-zinc-800 font-medium text-gray-700 dark:text-gray-300 transition-colors duration-200">
-						{getLanguageFlag(lang)}
-					</span>
-				))}
 				{post.data.readingTime && (
 					<span class="text-xs px-2 py-0.5 rounded-full bg-zinc-100 dark:bg-zinc-800 font-medium text-gray-700 dark:text-gray-300 transition-colors duration-200">
 						{post.data.readingTime} min read
