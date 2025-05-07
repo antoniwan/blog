@@ -1,9 +1,11 @@
 ---
+import { DISCLAIMER_TEXT } from '../consts';
+
 interface Props {
   text?: string;
 }
 
-const { text = "The wisdom, practices, and digital alchemy shared here flow from personal experience and creative exploration. None of this constitutes medical, legal, psychological, or spiritual advice — though it dances with all of these realms. This is a space for inspiration, experimentation, and conscious growth. Use these tools and insights as starting points for your own journey, not as prescriptions or promises. Your path is yours to walk. If something here calls to you or raises questions in your heart, reach out. Let's explore together, with reverence for the mysteries we're all navigating." } = Astro.props;
+const { text = DISCLAIMER_TEXT } = Astro.props;
 ---
 
 <div class="bg-neutral-100/20 dark:bg-neutral-800/20 border-l-4 border-primary-500 dark:border-primary-400 p-4 md:p-6 my-6 rounded-md" role="complementary" aria-label="Disclaimer">

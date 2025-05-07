@@ -1,7 +1,7 @@
 ---
 title: "My Favorite Symbols of Power"
 description: "A reflection on the symbols—mythic, fictional, and personal—that remind me of resilience, willpower, and transformation. These are the icons I'd etch into my skin if I ever choose to."
-pubDate: "2024-07-06"
+pubDate: "2024-07-06T11:20:00.000Z"
 heroImage: "/symbols/lightsaber.avif"
 language: ["en"]
 category: ["metaspace", "psychology", "integration-growth", "art-expression"]
@@ -94,7 +94,7 @@ The **lightsaber** is a weapon of will — forged not just by Jedi in serene tem
 - **White**: reclaimed sovereignty — purified power.
 - **Black (Darksaber)**: leadership through might and legend.
 
-Use the lightsaber symbol when you must cut through confusion. When you’re forging identity. When your truth needs to shine or strike. Whether you're aligning with the Force, bending it, or breaking from it altogether — the saber is a reminder:
+Use the lightsaber symbol when you must cut through confusion. When you're forging identity. When your truth needs to shine or strike. Whether you're aligning with the Force, bending it, or breaking from it altogether — the saber is a reminder:
 
 **You are the crystal. You decide how it burns.**
 

@@ -5,6 +5,15 @@
   --font-serif: Georgia, Cambria, "Times New Roman", Times, serif;
 }
 
+/* Theme initialization */
+:root {
+  color-scheme: light;
+}
+
+:root.dark {
+  color-scheme: dark;
+}
+
 /* Prevent FOUC in Firefox */
 html {
   visibility: hidden;
@@ -14,6 +23,7 @@ html.ready {
   visibility: visible;
 }
 
+/* Base styles */
 html {
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
@@ -26,13 +36,13 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background-color: #ffffff;
-  color: #1a1a1a;
+  background-color: rgb(var(--color-background));
+  color: rgb(var(--color-text));
 }
 
 .dark body {
-  background-color: #1a1a1a;
-  color: #ffffff;
+  background-color: rgb(var(--color-background));
+  color: rgb(var(--color-text));
 }
 
 /* Prevent layout shift during load */
@@ -40,14 +50,18 @@ img {
   content-visibility: auto;
 }
 
-/* Smooth transitions for dark mode */
-body {
-  transition: background-color 0.3s ease, color 0.3s ease;
+/* Theme transition */
+* {
+  transition: background-color 0.3s ease-in-out,
+              border-color 0.3s ease-in-out,
+              color 0.3s ease-in-out,
+              fill 0.3s ease-in-out,
+              stroke 0.3s ease-in-out;
 }
 
-/* Prevent FOUC for dark mode */
-@media (prefers-color-scheme: dark) {
-  :root:not(.light) {
-    color-scheme: dark;
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
   }
 }

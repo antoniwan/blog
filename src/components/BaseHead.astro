@@ -2,7 +2,7 @@
 // Import the global.css file here so that it is included on
 // all pages through the use of the <BaseHead /> component.
 import '../styles/global.css';
-import { SITE_TITLE } from '../consts';
+import { SITE_TITLE, AUTHOR } from '../consts';
 
 interface Props {
 	title: string;
@@ -39,7 +39,7 @@ const {
 	robots = {},
 	pubDate,
 	updatedDate,
-	author = SITE_TITLE,
+	author = AUTHOR.name,
 	keywords = [],
 	locale = 'en_US',
 	category = []
@@ -65,12 +65,18 @@ const finalOgImageAlt = ogImageAlt || title;
 const formatDate = (date: Date) => date.toISOString();
 const pubDateISO = pubDate ? formatDate(pubDate) : undefined;
 const updatedDateISO = updatedDate ? formatDate(updatedDate) : undefined;
+
+// Create the full title for SEO purposes
+const fullTitle = `${title} - ${SITE_TITLE}`;
 ---
 
 <!-- Global Metadata -->
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<meta name="theme-color" content="#2337ff" />
+<meta name="viewport-height" content="100vh" />
+<meta name="HandheldFriendly" content="true" />
+<meta name="apple-touch-fullscreen" content="yes" />
+<meta name="theme-color" content="#1a1a2e" />
 <meta name="color-scheme" content="light dark" />
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 <link rel="apple-touch-icon" href="/favicon.svg" />
@@ -87,8 +93,8 @@ const updatedDateISO = updatedDate ? formatDate(updatedDate) : undefined;
 <link rel="canonical" href={finalCanonicalUrl} />
 
 <!-- Primary Meta Tags -->
-<title>{title}</title>
-<meta name="title" content={title} />
+<title>{fullTitle}</title>
+<meta name="title" content={fullTitle} />
 <meta name="description" content={description} />
 <meta name="robots" content={robotsContent} />
 <meta name="author" content={author} />
@@ -99,7 +105,7 @@ const updatedDateISO = updatedDate ? formatDate(updatedDate) : undefined;
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content="website" />
 <meta property="og:url" content={Astro.url} />
-<meta property="og:title" content={title} />
+<meta property="og:title" content={fullTitle} />
 <meta property="og:description" content={description} />
 <meta property="og:image" content={new URL(finalOgImage, Astro.url)} />
 <meta property="og:image:alt" content={finalOgImageAlt} />
@@ -117,6 +123,15 @@ const updatedDateISO = updatedDate ? formatDate(updatedDate) : undefined;
 	<meta property="article:tag" content={keyword} />
 ))}
 
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content={AUTHOR.twitter} />
+<meta name="twitter:creator" content={AUTHOR.twitter} />
+<meta name="twitter:title" content={fullTitle} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={new URL(finalOgImage, Astro.url)} />
+<meta name="twitter:image:alt" content={finalOgImageAlt} />
+
 <!-- Enhanced Structured Data -->
 <script type="application/ld+json" is:inline set:html={JSON.stringify({
 	"@context": "https://schema.org",
@@ -133,26 +148,23 @@ const updatedDateISO = updatedDate ? formatDate(updatedDate) : undefined;
 					"@type": "ImageObject",
 					"url": new URL('/favicon.svg', Astro.site)
 				}
-			},
-			"potentialAction": {
-				"@type": "SearchAction",
-				"target": {
-					"@type": "EntryPoint",
-					"urlTemplate": `${Astro.site}search?q={search_term_string}`
-				},
-				"query-input": "required name=search_term_string"
 			}
 		},
 		...(pubDate ? [{
 			"@type": "Article",
-			"headline": title,
+			"headline": fullTitle,
 			"description": description,
 			"image": new URL(finalOgImage, Astro.url),
 			"datePublished": pubDateISO,
 			"dateModified": updatedDateISO || pubDateISO,
 			"author": {
 				"@type": "Person",
-				"name": author
+				"name": author,
+				"url": AUTHOR.website,
+				"sameAs": [
+					AUTHOR.website,
+					`https://twitter.com/${AUTHOR.twitter.replace('@', '')}`
+				]
 			},
 			"publisher": {
 				"@type": "Organization",
@@ -181,5 +193,5 @@ const updatedDateISO = updatedDate ? formatDate(updatedDate) : undefined;
 <meta name="mobile-web-app-capable" content="yes" />
 <meta name="msapplication-TileColor" content="#2337ff" />
 <meta name="msapplication-config" content="/browserconfig.xml" />
-<meta name="theme-color" content="#2337ff" media="(prefers-color-scheme: light)" />
-<meta name="theme-color" content="#000d8a" media="(prefers-color-scheme: dark)" />
+<meta name="theme-color" content="#1a1a2e" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0f0f1a" media="(prefers-color-scheme: dark)" />

@@ -1,17 +1,52 @@
 ---
 interface Props {
 	date: Date;
+	format?: 'short' | 'long' | 'relative';
+	locale?: string;
 }
 
-const { date } = Astro.props;
+const { 
+	date, 
+	format = 'short',
+	locale = 'en-US'
+} = Astro.props;
+
+// Format options
+const formatOptions: Record<string, Intl.DateTimeFormatOptions> = {
+	short: {
+		year: 'numeric',
+		month: 'short',
+		day: 'numeric'
+	},
+	long: {
+		year: 'numeric',
+		month: 'long',
+		day: 'numeric',
+		hour: '2-digit',
+		minute: '2-digit',
+		timeZoneName: 'short'
+	}
+};
+
+// Get formatted date based on format type
+const getFormattedDate = () => {
+	if (format === 'relative') {
+		const rtf = new Intl.RelativeTimeFormat(locale, { numeric: 'auto' });
+		const now = new Date();
+		const diff = date.getTime() - now.getTime();
+		const days = Math.round(diff / (1000 * 60 * 60 * 24));
+		
+		if (Math.abs(days) < 1) {
+			const hours = Math.round(diff / (1000 * 60 * 60));
+			return rtf.format(hours, 'hour');
+		}
+		return rtf.format(days, 'day');
+	}
+	
+	return date.toLocaleDateString(locale, formatOptions[format]);
+};
 ---
 
 <time datetime={date.toISOString()} class="text-neutral-600 dark:text-neutral-400">
-	{
-		date.toLocaleDateString('en-us', {
-			year: 'numeric',
-			month: 'short',
-			day: 'numeric',
-		})
-	}
+	{getFormattedDate()}
 </time>

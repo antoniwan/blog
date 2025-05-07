@@ -1,7 +1,7 @@
 ---
 title: "Guía para Padres y Madres de Puerto Rico: Cómo Configurar un iPad Seguro para Niños"
 description: "Esta guía te acompaña paso a paso en la elección, configuración y supervisión consciente de un iPad para niños, con valores boricuas y responsabilidad adulta al centro."
-pubDate: "2025-05-01"
+pubDate: "2025-05-01T10:30:00.000Z"
 heroImage: "/images/guia-padres.jpg"
 language: ["es"]
 category: ["parenting", "systems-strategy"]

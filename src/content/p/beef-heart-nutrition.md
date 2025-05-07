@@ -1,7 +1,7 @@
 ---
 title: "The Underrated Superfood: Why Beef Heart Should Be on Your Plate"
 description: "A nutritional deep dive comparing beef heart with common meats like chicken, salami, and ham, and how to tactically integrate this organ meat into your diet."
-pubDate: "2025-05-01"
+pubDate: "2025-05-01T16:45:00.000Z"
 heroImage: "/beef-heart-comparison-chart.png"
 language: ["en"]
 category: ["integration-growth", "learning-projects"]

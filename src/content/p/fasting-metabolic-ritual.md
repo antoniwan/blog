@@ -1,7 +1,7 @@
 ---
 title: "Fasting from Dawn to Dusk: A Metabolic Ritual"
 description: "A 10.5-hour intentional fast and the ritualistic, physiological, and psychological shifts it unlocks."
-pubDate: "2025-05-02"
+pubDate: "2025-05-02T08:00:00.000Z"
 heroImage: "/images/u3632568553_a_ceremonial_warriors_feast_at_sunset_beautifully_437383ac-aefb-4b34-b88c-f073916a1810_0.png"
 language: ["en"]
 category: ["integration-growth", "learning-projects"]

@@ -1,7 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import BackToHome from '../components/BackToHome.astro';
-import SearchBar from '../components/SearchBar.astro';
 import { categories } from '../data/categories';
 import { getCollection } from 'astro:content';
 
@@ -15,16 +14,11 @@ const recentPosts = posts
 const popularCategories = categories.slice(0, 5);
 ---
 
-<BaseLayout title="404 - Page Not Found - StrongVault">
+<BaseLayout title="404 - Page Not Found">
 	<main class="max-w-5xl mx-auto px-4 md:px-8 py-12">
 		<div class="text-center mb-12">
 			<h1 class="text-4xl md:text-5xl font-bold mb-4 text-text dark:text-text-dark">404 - Page Not Found</h1>
 			<p class="text-xl text-neutral-600 dark:text-neutral-400 mb-8">Oops! The page you're looking for doesn't exist or has been moved.</p>
-			
-			{/* Search Form */}
-			<div class="max-w-md mx-auto mb-12">
-				<SearchBar />
-			</div>
 		</div>
 
 		<div class="grid gap-6 md:grid-cols-2">
@@ -35,7 +29,7 @@ const popularCategories = categories.slice(0, 5);
 					{recentPosts.map(post => (
 						<li>
 							<a 
-								href={`/blog/${post.id}/`}
+								href={`/p/${post.id}/`}
 								class="text-lg text-neutral-600 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400 transition-colors duration-300"
 							>
 								{post.data.title}

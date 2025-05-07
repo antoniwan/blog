@@ -1,7 +1,7 @@
 ---
 title: "Learning is a Construction of the Self"
 description: "Reflections on humility, personal growth, and the quiet lessons hidden in relationships, silence, and life's daily rituals."
-pubDate: "2024-07-15"
+pubDate: "2024-07-15T16:45:00.000Z"
 heroImage: ""
 language: ["en"]
 category: ["psychology", "integration-growth"]

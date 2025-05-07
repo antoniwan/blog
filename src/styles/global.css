@@ -1,3 +1,5 @@
+@import './fonts.css';
+
 /*
   StrongVault CSS Architecture
   ===========================
@@ -23,36 +25,90 @@
 /* Custom base styles */
 @layer base {
   :root {
-    --font-sans:
-      "Inter var", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    /* Font families */
+    --font-sans: "Inter var", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
       Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
       sans-serif;
     --font-serif: Georgia, Cambria, "Times New Roman", Times, serif;
+    
+    /* Typography */
     --smart-quote-open: '"';
     --smart-quote-close: '"';
     --smart-apostrophe: "'";
+    
+    /* Theme colors - Light mode */
+    --color-primary: 26 26 46; /* Deep navy - represents strength and depth */
+    --color-primary-light: 37 37 66; /* Lighter navy - for hover states */
+    --color-primary-dark: 15 15 26; /* Darker navy - for active states */
+    
+    --color-background: 250 250 252; /* Slightly warm white */
+    --color-background-alt: 245 245 247; /* Subtle gray */
+    --color-background-elevated: 240 240 242; /* Slightly darker for elevation */
+    
+    --color-text: 26 26 46; /* Deep navy for text */
+    --color-text-muted: 89 89 109; /* Muted navy */
+    --color-text-subtle: 128 128 148; /* Subtle navy */
+    
+    --color-border: 230 230 232; /* Light gray border */
+    --color-border-strong: 210 210 212; /* Stronger border */
+    
+    /* Accent colors */
+    --color-accent: 147 51 234; /* Purple - represents creativity and wisdom */
+    --color-accent-light: 168 85 247;
+    --color-accent-dark: 126 34 206;
+    
+    /* Status colors */
+    --color-success: 34 197 94; /* Green */
+    --color-warning: 234 179 8; /* Yellow */
+    --color-error: 239 68 68; /* Red */
+    --color-info: 59 130 246; /* Blue */
   }
 
+  .dark {
+    /* Theme colors - Dark mode */
+    --color-primary: 245 245 247; /* Light gray - represents clarity in darkness */
+    --color-primary-light: 255 255 255; /* White - for hover states */
+    --color-primary-dark: 235 235 237; /* Darker gray - for active states */
+    
+    --color-background: 15 15 26; /* Deep navy background */
+    --color-background-alt: 20 20 31; /* Slightly lighter navy */
+    --color-background-elevated: 25 25 36; /* Even lighter for elevation */
+    
+    --color-text: 245 245 247; /* Light gray text */
+    --color-text-muted: 200 200 212; /* Muted light gray */
+    --color-text-subtle: 170 170 182; /* Subtle light gray */
+    
+    --color-border: 35 35 46; /* Dark navy border */
+    --color-border-strong: 45 45 56; /* Stronger border */
+    
+    /* Accent colors - Dark mode */
+    --color-accent: 168 85 247; /* Lighter purple for dark mode */
+    --color-accent-light: 192 132 252;
+    --color-accent-dark: 147 51 234;
+    
+    /* Status colors - Dark mode */
+    --color-success: 74 222 128; /* Brighter green */
+    --color-warning: 250 204 21; /* Brighter yellow */
+    --color-error: 248 113 113; /* Brighter red */
+    --color-info: 96 165 250; /* Brighter blue */
+  }
+
+  /* Base styles */
   html {
     @apply font-sans antialiased;
   }
 
   body {
-    @apply m-0 min-h-screen flex flex-col bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white;
+    @apply m-0 min-h-screen flex flex-col bg-background text-text;
   }
 
   /* Typography */
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    @apply font-bold text-neutral-900 dark:text-white transition-colors duration-300;
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-bold text-text transition-colors duration-300;
   }
 
   h1 {
-    @apply text-4xl md:text-5xl font-extrabold tracking-tight;
+    @apply text-4xl md:text-5xl font-black tracking-tight;
   }
   h2 {
     @apply text-3xl md:text-4xl font-bold tracking-tight;
@@ -72,7 +128,7 @@
 
   /* Links */
   a {
-    @apply text-primary-500 hover:text-primary-600 dark:text-primary-400 dark:hover:text-primary-300 transition-colors duration-300 no-underline;
+    @apply text-primary-500 hover:text-primary-600 dark:hover:text-primary-400 transition-colors duration-300 no-underline;
   }
 
   /* Navigation links should not have default underline */
@@ -84,38 +140,42 @@
   input,
   textarea,
   select {
-    @apply bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white border border-neutral-200 dark:border-neutral-700 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 transition-colors duration-300;
+    @apply bg-background-alt text-text 
+           border border-border 
+           rounded-md px-3 py-2 
+           focus:outline-none focus:ring-2 focus:ring-primary-500/50 
+           transition-colors duration-300;
   }
 
   /* Tables */
   table {
-    @apply w-full border-collapse text-base leading-relaxed;
+    @apply w-full border-collapse text-base leading-relaxed overflow-x-auto block;
     font-feature-settings: "tnum";
     font-variant-numeric: tabular-nums;
   }
 
   th,
   td {
-    @apply border border-neutral-200 dark:border-neutral-700 px-6 py-3 transition-colors duration-300;
+    @apply border border-border px-6 py-3 transition-colors duration-300 whitespace-nowrap;
   }
 
   th {
-    @apply bg-neutral-50 dark:bg-neutral-800 font-semibold text-neutral-900 dark:text-white text-left tracking-tight;
+    @apply bg-background-alt font-semibold text-text text-left tracking-tight;
     font-size: 0.9375rem;
     letter-spacing: -0.01em;
   }
 
   td {
-    @apply text-neutral-700 dark:text-neutral-300;
+    @apply text-text-muted;
     font-size: 0.9375rem;
   }
 
   tr:nth-child(even) {
-    @apply bg-neutral-50/50 dark:bg-neutral-800/50;
+    @apply bg-background-alt/50;
   }
 
   tr:hover {
-    @apply bg-neutral-100/50 dark:bg-neutral-700/50;
+    @apply bg-background-elevated/50;
   }
 
   tr > td:first-child,
@@ -126,11 +186,16 @@
   @media (max-width: 640px) {
     table {
       @apply text-sm;
+      display: block;
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
     }
 
     th,
     td {
       @apply px-4 py-2;
+      min-width: 120px; /* Ensure minimum width for readability */
     }
 
     tr > td:first-child,
@@ -141,11 +206,11 @@
 
   /* Code */
   code {
-    @apply font-mono text-sm bg-neutral-100 dark:bg-neutral-800 rounded px-1 py-0.5 transition-colors duration-300;
+    @apply font-mono text-sm bg-background-alt rounded px-1 py-0.5 transition-colors duration-300;
   }
 
   pre {
-    @apply bg-neutral-100 dark:bg-neutral-800 rounded-lg p-4 overflow-x-auto transition-colors duration-300;
+    @apply bg-background-alt rounded-lg p-4 overflow-x-auto transition-colors duration-300;
   }
 
   pre > code {
@@ -154,7 +219,7 @@
 
   /* Horizontal Rule */
   hr {
-    @apply border-t border-neutral-200 dark:border-neutral-700 my-8 transition-colors duration-300;
+    @apply border-t border-border my-8 transition-colors duration-300;
   }
 
   /* Dark mode specific styles */
@@ -210,19 +275,19 @@
 
   /* Status indicators */
   .status-success {
-    @apply text-green-500 dark:text-green-400;
+    @apply text-success;
   }
 
   .status-warning {
-    @apply text-yellow-500 dark:text-yellow-400;
+    @apply text-warning;
   }
 
   .status-error {
-    @apply text-red-500 dark:text-red-400;
+    @apply text-error;
   }
 
   .status-info {
-    @apply text-blue-500 dark:text-blue-400;
+    @apply text-info;
   }
 }
 

@@ -2,6 +2,8 @@
 import { categories } from '../data/categories';
 import { formatDistanceToNow } from 'date-fns';
 import Figure from './media/Figure.astro';
+import { LANGUAGE_FLAGS } from '../consts';
+import FormattedDate from './FormattedDate.astro';
 
 interface Props {
 	post: {
@@ -29,14 +31,8 @@ const { post, translations = [] } = Astro.props;
 // Find the category data for all categories
 const categoryData = post.data.category?.map(catId => categories.find(cat => cat.id === catId)) || [];
 
-// Get language flag emoji
-const getLanguageFlag = (lang: string) => {
-	const flags: Record<string, string> = {
-		'en': '🇺🇸',
-		'es': '🇵🇷',
-	};
-	return flags[lang] || lang.toUpperCase();
-};
+// Get language flag emoji using the constant from consts.ts
+const getLanguageFlag = (lang: string) => LANGUAGE_FLAGS[lang] || lang.toUpperCase();
 ---
 
 <article 
@@ -45,7 +41,7 @@ const getLanguageFlag = (lang: string) => {
 	transition:animate="slide"
 	transition:name={`post-${post.id}`}
 >
-	<a href={`/blog/${post.id}/`} class="block no-underline text-inherit" transition:name={`post-link-${post.id}`}>
+	<a href={`/p/${post.id}/`} class="block no-underline text-inherit" transition:name={`post-link-${post.id}`}>
 		{post.data.image && (
 			<div class="relative pt-[56.25%] bg-zinc-100 dark:bg-zinc-800 overflow-hidden">
 				<Figure
@@ -68,17 +64,11 @@ const getLanguageFlag = (lang: string) => {
 						{post.data.readingTime} min read
 					</span>
 				)}
-				<time 
-					datetime={post.data.pubDate.toISOString()}
-					class="text-xs text-gray-500 dark:text-gray-400 hover:underline cursor-pointer transition-colors duration-200"
-					title={post.data.pubDate.toLocaleDateString('en-US', {
-						year: 'numeric',
-						month: 'long',
-						day: 'numeric'
-					})}
-				>
-					{formatDistanceToNow(post.data.pubDate, { addSuffix: true })}
-				</time>
+				<div class="flex items-center gap-2">
+					<FormattedDate date={post.data.pubDate} format="relative" />
+					<span class="text-gray-400">•</span>
+					<FormattedDate date={post.data.pubDate} format="short" />
+				</div>
 			</div>
 
 			{/* Title Section */}
@@ -129,7 +119,7 @@ const getLanguageFlag = (lang: string) => {
 						<div class="flex gap-1">
 							{translations.map(t => (
 								<a 
-									href={`/blog/${t.id}/`}
+									href={`/p/${t.id}/`}
 									class="text-xs px-2 py-0.5 rounded-full bg-zinc-100 dark:bg-zinc-800 font-medium text-gray-700 dark:text-gray-300 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors duration-200"
 									title={`View in ${t.language.toUpperCase()}`}
 								>

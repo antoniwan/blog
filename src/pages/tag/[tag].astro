@@ -37,7 +37,7 @@ const groupedPosts: CollectionEntry<'blog'>[][] = Object.values(grouped);
 const capitalize = (str: string) => str ? str.charAt(0).toUpperCase() + str.slice(1) : '';
 ---
 
-<BaseLayout title={`${capitalize(tag)} - StrongVault`}>
+<BaseLayout title={capitalize(tag)}>
 	<main class="max-w-5xl mx-auto px-4 md:px-8 py-12">
 		<header class="text-center mb-16">
 			<nav aria-label="Breadcrumb" class="flex justify-center">

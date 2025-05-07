@@ -1,0 +1,54 @@
+---
+import { type CollectionEntry, getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { render } from 'astro:content';
+
+export const prerender = true;
+
+export async function getStaticPaths() {
+	const posts = await getCollection('blog');
+	return posts.map((post) => ({
+		params: { slug: post.id },
+		props: post,
+	}));
+}
+type Props = CollectionEntry<'blog'>;
+
+const post = Astro.props;
+const { Content } = await render(post);
+
+// Combine tags and categories for keywords, ensuring all values are strings
+const keywords = [
+	...(post.data.tags || []),
+	...(post.data.category || []),
+	post.data.subcategory,
+	...(post.data.language || [])
+].filter((value): value is string => typeof value === 'string');
+
+// Ensure we have a valid image for social sharing
+const shareImage = post.data.ogImage || post.data.heroImage || '/share-image.png';
+const shareImageAlt = post.data.ogImageAlt || post.data.title;
+---
+
+<BaseLayout 
+	title={post.data.title}
+	description={post.data.description}
+	pubDate={post.data.pubDate}
+	updatedDate={post.data.updatedDate}
+	heroImage={post.data.heroImage}
+	readingTime={post.data.readingTime}
+	tags={post.data.tags}
+	category={post.data.category}
+	subcategory={post.data.subcategory}
+	language={post.data.language}
+	canonicalUrl={post.data.canonicalUrl}
+	ogImage={shareImage}
+	ogImageAlt={shareImageAlt}
+	robots={post.data.robots}
+	author={post.data.author}
+	keywords={keywords}
+	locale={post.data.language?.[0] ? `${post.data.language[0]}_${post.data.language[0].toUpperCase()}` : 'en_US'}
+	layoutType="blog"
+>
+	<Content />
+</BaseLayout> 
