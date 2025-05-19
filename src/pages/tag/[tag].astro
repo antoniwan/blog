@@ -22,7 +22,7 @@ const { tag } = Astro.props as Props;
 
 // Get all blog posts for this tag and sort by date
 const posts = (await getCollection('blog'))
-	.filter((post) => !post.data.draft && (post.data.tags || []).includes(tag))
+	.filter((post) => !post.data.draft && post.data.published !== false && (post.data.tags || []).includes(tag))
 	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
 // Group by translationGroup (or fallback to id)

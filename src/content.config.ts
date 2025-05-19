@@ -34,7 +34,8 @@ const blog = defineCollection({
       .optional(),
     subcategory: z.string().optional(),
     tags: z.array(z.string()).optional(),
-    draft: z.boolean().optional().default(false),
+    draft: z.boolean().optional().default(false).describe('Whether this post is a draft (not ready for publication)'),
+    published: z.boolean().optional().default(true).describe('Whether this post should be published on the site'),
     readingTime: z.number().optional(), // in minutes
     author: z.string().optional(),
     authorImage: z.string().optional(),

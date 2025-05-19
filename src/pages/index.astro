@@ -6,7 +6,7 @@ import { categories } from '../data/categories';
 
 // Get all blog posts and sort by date
 const posts = (await getCollection('blog'))
-	.filter((post) => !post.data.draft)
+	.filter((post) => !post.data.draft && post.data.published !== false)
 	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
 // Group by translationGroup (or fallback to id)
