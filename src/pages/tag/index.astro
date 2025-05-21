@@ -29,45 +29,23 @@ const sortedTags = Object.entries(tagCounts)
   contentWidth="default"
   spacing="comfortable"
 >
-  <Section padding="section">
-		<h1 class="text-4xl md:text-5xl font-bold text-text dark:text-text-dark leading-tight tracking-tight mb-6">
-      Tags
-    </h1>
-		<p class="text-xl md:text-2xl text-neutral-600 dark:text-neutral-400 leading-relaxed">
-      Browse posts by tag
-    </p>
+  <Section>
+    <h1>Tags</h1>
+    <p>Browse posts by tag</p>
   </Section>
 
-  <Section padding="block">
-    <div class="flex flex-wrap gap-2">
+  <Section>
+    <nav>
       {sortedTags.map(tag => {
         const count = tagCounts[tag];
         return (
-          <a
-            href={`/tag/${tag}/`}
-            class="flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-full bg-zinc-100 dark:bg-zinc-800 text-gray-700 dark:text-gray-300 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors"
-          >
+          <a href={`/tag/${tag}/`}>
             <span>🏷️</span>
             <span>{tag}</span>
-            <span class="text-xs px-1.5 py-0.5 rounded-full bg-zinc-200 dark:bg-zinc-700 text-gray-600 dark:text-gray-400">{count}</span>
+            <span>{count}</span>
           </a>
         );
       })}
-    </div>
+    </nav>
   </Section>
-</BaseLayout>
-
-<style>
-  /* Smooth transitions for dark mode */
-  main {
-    transition: background-color 300ms cubic-bezier(0.4, 0, 0.2, 1),
-                color 300ms cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  /* Respect reduced motion preferences */
-  @media (prefers-reduced-motion: reduce) {
-    main {
-      transition: none !important;
-    }
-  }
-</style> 
+</BaseLayout> 

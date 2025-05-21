@@ -32,35 +32,16 @@ const categoryPosts = posts
 	contentWidth="default"
 	spacing="comfortable"
 >
-	<Section padding="section">
-		<h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-text dark:text-text-dark leading-tight tracking-tight">
-			{category.name}
-		</h1>
-		<p class="text-xl md:text-2xl text-neutral-600 dark:text-neutral-400 leading-relaxed max-w-2xl">
-			{category.description}
-		</p>
+	<Section>
+		<h1>{category.name}</h1>
+		<p>{category.description}</p>
 	</Section>
 
-	<Section padding="block">
-		<div class="space-y-block">
+	<Section>
+		<nav>
 			{categoryPosts.map(post => (
 				<PostCard post={post} />
 			))}
-		</div>
+		</nav>
 	</Section>
-</BaseLayout>
-
-<style>
-	/* Smooth transitions for dark mode */
-	main {
-		transition: background-color 300ms cubic-bezier(0.4, 0, 0.2, 1),
-					color 300ms cubic-bezier(0.4, 0, 0.2, 1);
-	}
-
-	/* Respect reduced motion preferences */
-	@media (prefers-reduced-motion: reduce) {
-		main {
-			transition: none !important;
-		}
-	}
-</style> 
+</BaseLayout> 
