@@ -51,11 +51,7 @@ const { class: className = '' } = Astro.props;
 <script>
 	// Function to set theme
 	function setTheme(theme: 'dark' | 'light') {
-		if (theme === 'dark') {
-			document.documentElement.classList.add('dark');
-		} else {
-			document.documentElement.classList.remove('dark');
-		}
+		document.documentElement.classList.toggle('dark', theme === 'dark');
 		localStorage.setItem('theme', theme);
 	}
 
@@ -65,35 +61,9 @@ const { class: className = '' } = Astro.props;
 		setTheme(isDark ? 'light' : 'dark');
 	}
 
-	// Initialize theme
-	function initializeTheme() {
-		// Check for saved theme preference
-		const savedTheme = localStorage.getItem('theme');
-		
-		// Check for system preference
-		const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-		
-		// Set initial theme
-		if (savedTheme) {
-			setTheme(savedTheme as 'dark' | 'light');
-		} else {
-			setTheme(systemPrefersDark ? 'dark' : 'light');
-		}
-	}
-
 	// Add click event listener
 	const themeToggle = document.getElementById('theme-toggle');
 	themeToggle?.addEventListener('click', toggleTheme);
-
-	// Initialize theme on load
-	initializeTheme();
-
-	// Listen for system theme changes
-	window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-		if (!localStorage.getItem('theme')) {
-			setTheme(e.matches ? 'dark' : 'light');
-		}
-	});
 </script>
 
 <style>
