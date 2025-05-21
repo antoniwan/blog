@@ -5,9 +5,9 @@ import BaseHead from '../components/BaseHead.astro';
 import BackToTop from '../components/BackToTop.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import ReadingProgress from '../components/ReadingProgress.astro';
-import LayoutContainer from '../components/LayoutContainer.astro';
+import PageSection from '../components/PageSection.astro';
 import { SITE_TITLE, SITE_DESCRIPTION, LANGUAGE_FLAGS, CATEGORY_EMOJIS, AUTHOR } from '../consts';
-import  SpeedInsights  from "@vercel/speed-insights/astro"
+import SpeedInsights from "@vercel/speed-insights/astro"
 import Analytics from '@vercel/analytics/astro';
 
 interface Props {
@@ -39,6 +39,10 @@ interface Props {
   locale?: string;
   // Layout type
   layoutType?: 'default' | 'blog';
+  // Content width
+  contentWidth?: 'narrow' | 'default' | 'wide';
+  // Spacing
+  spacing?: 'compact' | 'default' | 'comfortable';
 }
 
 const { 
@@ -58,7 +62,9 @@ const {
   author = AUTHOR.name,
   keywords = tags,
   locale = language[0] ? `${language[0]}_${language[0].toUpperCase()}` : 'en_US',
-  layoutType = 'default'
+  layoutType = 'default',
+  contentWidth = 'default',
+  spacing = 'default'
 } = Astro.props;
 
 const languageEmojis: Record<string, string> = {
@@ -88,7 +94,7 @@ const categoryEmojis: Record<string, string> = {
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
   <head>
     <BaseHead 
       title={title} 
@@ -106,21 +112,47 @@ const categoryEmojis: Record<string, string> = {
     />
     <SpeedInsights />
   </head>
-  <body class="min-h-screen flex flex-col bg-background text-text dark:bg-background-dark dark:text-text-dark">
+  <body class="min-h-screen flex flex-col bg-background text-text dark:bg-background-dark dark:text-text-dark antialiased">
     <script>
       // Prevent FOUC in Firefox
       document.documentElement.classList.add('ready');
+      
+      // Theme initialization
+      const theme = (() => {
+        if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
+          return localStorage.getItem('theme') || 'light';
+        }
+        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          return 'dark';
+        }
+        return 'light';
+      })();
+      
+      if (theme === 'light') {
+        document.documentElement.classList.remove('dark');
+      } else {
+        document.documentElement.classList.add('dark');
+      }
+      
+      window.localStorage.setItem('theme', theme);
     </script>
+    
     <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:bg-background dark:focus:bg-background-dark focus:px-4 focus:py-2 focus:rounded focus:shadow-lg focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-background-dark">Skip to main content</a>
+    
     <Header />
     <ReadingProgress />
-    <main id="main-content" role="main" class="flex-grow animate-fade-in">
+    
+    <main 
+      id="main-content" 
+      role="main" 
+      class="flex-grow animate-fade-in"
+    >
       {layoutType === 'blog' && (
-        <LayoutContainer size="lg" padding="md">
-          <article class="py-12" transition:animate="fade">
+        <PageSection width={contentWidth} spacing={spacing}>
+          <article class="animate-fade-in" transition:animate="fade">
             <header class="mb-16 animate-slide-up">
-              <h1 class="text-4xl md:text-5xl lg:text-6xl font-serif font-bold mb-8 leading-tight tracking-tight text-text dark:text-text-dark max-w-content">{title}</h1>
-              {description && <p class="text-xl md:text-2xl text-neutral-600 dark:text-neutral-400 mb-10 leading-relaxed max-w-content">{description}</p>}
+              <h1 class="text-4xl md:text-5xl lg:text-6xl font-serif font-bold mb-8 leading-tight tracking-tight text-text dark:text-text-dark">{title}</h1>
+              {description && <p class="text-xl md:text-2xl text-neutral-600 dark:text-neutral-400 mb-10 leading-relaxed">{description}</p>}
               {heroImage && (
                 <div class="relative w-full aspect-[21/9] mb-10 rounded-xl overflow-hidden shadow-xl">
                   <img
@@ -179,20 +211,21 @@ const categoryEmojis: Record<string, string> = {
                 )}
               </div>
             </header>
-            <section class="prose prose-lg dark:prose-invert max-w-content mx-auto prose-headings:font-serif prose-headings:tracking-tight prose-p:leading-relaxed prose-p:text-lg prose-a:text-primary-500 dark:prose-a:text-primary-400 prose-a:no-underline hover:prose-a:underline prose-img:rounded-lg prose-img:shadow-lg prose-blockquote:border-l-4 prose-blockquote:border-primary-500 dark:prose-blockquote:border-primary-400 prose-blockquote:pl-4 prose-blockquote:italic prose-blockquote:bg-neutral-100 dark:prose-blockquote:bg-neutral-800 prose-blockquote:p-4 prose-blockquote:rounded-r-lg prose-ul:my-6 prose-ol:my-6 prose-li:my-2 prose-h2:mt-12 prose-h2:mb-6 prose-h3:mt-8 prose-h3:mb-4">
+            <section class="prose prose-lg dark:prose-invert prose-headings:font-serif prose-headings:tracking-tight prose-p:leading-relaxed prose-p:text-lg prose-a:text-primary-500 dark:prose-a:text-primary-400 prose-a:no-underline hover:prose-a:underline prose-img:rounded-lg prose-img:shadow-lg prose-blockquote:border-l-4 prose-blockquote:border-primary-500 dark:prose-blockquote:border-primary-400 prose-blockquote:pl-4 prose-blockquote:italic prose-blockquote:bg-neutral-100 dark:prose-blockquote:bg-neutral-800 prose-blockquote:p-4 prose-blockquote:rounded-r-lg prose-ul:my-6 prose-ol:my-6 prose-li:my-2 prose-h2:mt-12 prose-h2:mb-6 prose-h3:mt-8 prose-h3:mb-4">
               <slot />
             </section>
           </article>
-        </LayoutContainer>
+        </PageSection>
       )}
       {layoutType === 'default' && (
-        <LayoutContainer size="lg" padding="md">
-          <section class="py-12" transition:animate="fade">
+        <PageSection width={contentWidth} spacing={spacing}>
+          <div class="animate-fade-in" transition:animate="fade">
             <slot />
-          </section>
-        </LayoutContainer>
+          </div>
+        </PageSection>
       )}
     </main>
+    
     <Footer />
     <BackToTop />
     <Analytics />
@@ -200,146 +233,187 @@ const categoryEmojis: Record<string, string> = {
 </html>
 
 <style>
-	/* Enhanced typography for longform content */
-	.prose {
-		--tw-prose-body: var(--tw-color-text);
-		--tw-prose-headings: var(--tw-color-text);
-		--tw-prose-links: var(--tw-color-primary-500);
-		--tw-prose-bold: var(--tw-color-text);
-		--tw-prose-counters: var(--tw-color-text);
-		--tw-prose-bullets: var(--tw-color-text);
-		--tw-prose-hr: var(--tw-color-border);
-		--tw-prose-quotes: var(--tw-color-text);
-		--tw-prose-quote-borders: var(--tw-color-primary-500);
-		--tw-prose-captions: var(--tw-color-text);
-		--tw-prose-code: var(--tw-color-text);
-		--tw-prose-pre-code: var(--tw-color-text);
-		--tw-prose-pre-bg: var(--tw-color-background);
-		--tw-prose-th-borders: var(--tw-color-border);
-		--tw-prose-td-borders: var(--tw-color-border);
-	}
+  /* Enhanced typography for longform content */
+  .prose {
+    --tw-prose-body: var(--tw-color-text);
+    --tw-prose-headings: var(--tw-color-text);
+    --tw-prose-links: var(--tw-color-primary-500);
+    --tw-prose-bold: var(--tw-color-text);
+    --tw-prose-counters: var(--tw-color-text);
+    --tw-prose-bullets: var(--tw-color-text);
+    --tw-prose-hr: var(--tw-color-border);
+    --tw-prose-quotes: var(--tw-color-text);
+    --tw-prose-quote-borders: var(--tw-color-primary-500);
+    --tw-prose-captions: var(--tw-color-text);
+    --tw-prose-code: var(--tw-color-text);
+    --tw-prose-pre-code: var(--tw-color-text);
+    --tw-prose-pre-bg: var(--tw-color-background);
+    --tw-prose-th-borders: var(--tw-color-border);
+    --tw-prose-td-borders: var(--tw-color-border);
+  }
 
-	/* Drop cap for first paragraph */
-	.prose > p:first-of-type::first-letter {
-		float: left;
-		font-size: 4.5em;
-		line-height: 0.8;
-		margin-right: 0.1em;
-		margin-bottom: 0.1em;
-		font-family: var(--font-serif);
-		color: var(--tw-color-primary-500);
-	}
+  /* Drop cap for first paragraph */
+  .prose > p:first-of-type::first-letter {
+    float: left;
+    font-size: 4.5em;
+    line-height: 0.8;
+    margin-right: 0.1em;
+    margin-bottom: 0.1em;
+    font-family: var(--font-serif);
+    color: var(--tw-color-primary-500);
+  }
 
-	/* Enhanced blockquote styling */
-	.prose blockquote {
-		border-left-width: 4px;
-		border-left-color: var(--tw-color-primary-500);
-		padding-left: 1.5rem;
-		font-style: italic;
-		background-color: var(--tw-color-neutral-100);
-		padding: 1.5rem;
-		border-radius: 0 0.5rem 0.5rem 0;
-		position: relative;
-	}
+  /* Enhanced blockquote styling */
+  .prose blockquote {
+    border-left-width: 4px;
+    border-left-color: var(--tw-color-primary-500);
+    padding-left: 1.5rem;
+    font-style: italic;
+    background-color: var(--tw-color-neutral-100);
+    padding: 1.5rem;
+    border-radius: 0 0.5rem 0.5rem 0;
+    position: relative;
+  }
 
-	.prose blockquote::before {
-		content: '"';
-		font-size: 4em;
-		position: absolute;
-		left: 0.5rem;
-		top: -0.5rem;
-		color: var(--tw-color-primary-500);
-		font-family: var(--font-serif);
-		opacity: 0.2;
-	}
+  .prose blockquote::before {
+    content: '"';
+    font-size: 4em;
+    position: absolute;
+    left: 0.5rem;
+    top: -0.5rem;
+    color: var(--tw-color-primary-500);
+    font-family: var(--font-serif);
+    opacity: 0.2;
+  }
 
-	/* Code block enhancement */
-	.prose pre {
-		background-color: var(--tw-color-neutral-900);
-		border-radius: 0.5rem;
-		padding: 1rem;
-		border: 1px solid var(--tw-color-neutral-200);
-		overflow-x: auto;
-	}
+  /* Code block enhancement */
+  .prose pre {
+    background-color: var(--tw-color-neutral-900);
+    border-radius: 0.5rem;
+    padding: 1rem;
+    border: 1px solid var(--tw-color-neutral-200);
+    overflow-x: auto;
+  }
 
-	.prose code {
-		font-family: var(--font-mono);
-		font-size: 0.875em;
-		background-color: var(--tw-color-neutral-100);
-		padding: 0.2em 0.4em;
-		border-radius: 0.25rem;
-		color: var(--tw-color-neutral-900);
-	}
+  .prose code {
+    font-family: var(--font-mono);
+    font-size: 0.875em;
+    background-color: var(--tw-color-neutral-100);
+    padding: 0.2em 0.4em;
+    border-radius: 0.25rem;
+    color: var(--tw-color-neutral-900);
+  }
 
-	.dark .prose code {
-		background-color: var(--tw-color-neutral-800);
-		color: var(--tw-color-neutral-100);
-	}
+  .dark .prose code {
+    background-color: var(--tw-color-neutral-800);
+    color: var(--tw-color-neutral-100);
+  }
 
-	/* Focus ring utility */
-	.focus-ring {
-		@apply focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-background-dark;
-	}
+  /* Focus ring utility */
+  .focus-ring {
+    @apply focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-background-dark;
+  }
 
-	/* Print styles */
-	@media print {
-		.prose {
-			max-width: none;
-		}
-		
-		.prose pre {
-			break-inside: avoid;
-		}
-		
-		.prose img {
-			break-inside: avoid;
-		}
+  /* Print styles */
+  @media print {
+    .prose {
+      max-width: none;
+    }
+    
+    .prose pre {
+      break-inside: avoid;
+    }
+    
+    .prose img {
+      break-inside: avoid;
+    }
 
-		.prose blockquote {
-			break-inside: avoid;
-			border-left-width: 2px;
-			padding: 1rem;
-		}
+    .prose blockquote {
+      break-inside: avoid;
+      border-left-width: 2px;
+      padding: 1rem;
+    }
 
-		.prose h1, .prose h2, .prose h3 {
-			break-after: avoid;
-		}
+    .prose h1, .prose h2, .prose h3 {
+      break-after: avoid;
+    }
 
-		.prose p {
-			orphans: 3;
-			widows: 3;
-		}
-	}
+    .prose p {
+      orphans: 3;
+      widows: 3;
+    }
 
-	/* Animation styles */
-	@keyframes fade-in {
-		from {
-			opacity: 0;
-		}
-		to {
-			opacity: 1;
-		}
-	}
+    /* Hide non-essential elements */
+    header, footer, .reading-progress, .back-to-top {
+      display: none !important;
+    }
 
-	@keyframes slide-up {
-		from {
-			transform: translateY(20px);
-			opacity: 0;
-		}
-		to {
-			transform: translateY(0);
-			opacity: 1;
-		}
-	}
+    /* Ensure proper page breaks */
+    main {
+      margin: 0 !important;
+      padding: 0 !important;
+    }
 
-	@keyframes slide-down {
-		from {
-			transform: translateY(-20px);
-			opacity: 0;
-		}
-		to {
-			transform: translateY(0);
-			opacity: 1;
-		}
-	}
+    /* Optimize text for printing */
+    body {
+      font-size: 12pt;
+      line-height: 1.5;
+      color: #000 !important;
+      background: #fff !important;
+    }
+
+    /* Ensure links are visible */
+    a {
+      text-decoration: underline;
+      color: #000 !important;
+    }
+
+    /* Add URL after external links */
+    a[href^="http"]:after {
+      content: " (" attr(href) ")";
+      font-size: 90%;
+    }
+  }
+
+  /* Animation styles */
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes slide-up {
+    from {
+      transform: translateY(20px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes slide-down {
+    from {
+      transform: translateY(-20px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  /* Respect reduced motion preferences */
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
 </style> 

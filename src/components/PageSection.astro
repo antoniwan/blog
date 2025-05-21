@@ -1,0 +1,84 @@
+---
+interface Props {
+  /**
+   * The width of the content area
+   * - narrow: 65ch (optimal for long-form reading)
+   * - default: 75ch (balanced for most content)
+   * - wide: 85ch (for wider content like code blocks)
+   * - full: No max-width constraint
+   */
+  width?: 'narrow' | 'default' | 'wide';
+  
+  /**
+   * The vertical spacing around the section
+   * - compact: 2rem (32px)
+   * - default: 3rem (48px)
+   * - comfortable: 4rem (64px)
+   * - none: No vertical spacing
+   */
+  spacing?: 'compact' | 'default' | 'comfortable';
+  
+  /**
+   * Whether to center the content horizontally
+   */
+  center?: boolean;
+  
+  /**
+   * Additional classes to apply to the section
+   */
+  class?: string;
+  
+  /**
+   * Whether this section should break out of the container
+   * Useful for full-width sections like hero banners
+   */
+  breakout?: boolean;
+}
+
+const {
+  width = 'default',
+  spacing = 'default',
+  center = false,
+  class: className = '',
+  breakout = false
+} = Astro.props;
+
+// Width classes
+const widthClasses = {
+  narrow: 'max-w-2xl',
+  default: 'max-w-4xl',
+  wide: 'max-w-6xl'
+};
+
+// Spacing classes
+const spacingClasses = {
+  compact: 'py-8',
+  default: 'py-12',
+  comfortable: 'py-16'
+};
+
+// Combine classes
+const classes = [
+  'w-full',
+  widthClasses[width],
+  spacingClasses[spacing],
+  center ? 'mx-auto' : '',
+  breakout ? 'relative -mx-4 sm:-mx-6 lg:-mx-8' : '',
+  className
+].filter(Boolean).join(' ');
+---
+
+<section class={classes}>
+  <slot />
+</section>
+
+<style>
+  /* Print styles */
+  @media print {
+    section {
+      max-width: none !important;
+      padding: 0 !important;
+      margin: 0 !important;
+    }
+  }
+</style> 

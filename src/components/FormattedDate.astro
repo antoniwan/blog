@@ -2,51 +2,65 @@
 interface Props {
 	date: Date;
 	format?: 'short' | 'long' | 'relative';
-	locale?: string;
 }
 
-const { 
-	date, 
-	format = 'short',
-	locale = 'en-US'
-} = Astro.props;
+const { date, format = 'long' } = Astro.props;
 
-// Format options
-const formatOptions: Record<string, Intl.DateTimeFormatOptions> = {
-	short: {
-		year: 'numeric',
-		month: 'short',
-		day: 'numeric'
-	},
-	long: {
-		year: 'numeric',
-		month: 'long',
-		day: 'numeric',
-		hour: '2-digit',
-		minute: '2-digit',
-		timeZoneName: 'short'
+const formatDate = (date: Date, format: string) => {
+	switch (format) {
+		case 'short':
+			return date.toLocaleDateString('en-US', {
+				year: 'numeric',
+				month: 'short',
+				day: 'numeric'
+			});
+		case 'long':
+			return date.toLocaleDateString('en-US', {
+				year: 'numeric',
+				month: 'long',
+				day: 'numeric'
+			});
+		case 'relative':
+			const now = new Date();
+			const diff = now.getTime() - date.getTime();
+			const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+			
+			if (days === 0) {
+				return 'Today';
+			} else if (days === 1) {
+				return 'Yesterday';
+			} else if (days < 7) {
+				return `${days} days ago`;
+			} else if (days < 30) {
+				const weeks = Math.floor(days / 7);
+				return `${weeks} ${weeks === 1 ? 'week' : 'weeks'} ago`;
+			} else if (days < 365) {
+				const months = Math.floor(days / 30);
+				return `${months} ${months === 1 ? 'month' : 'months'} ago`;
+			} else {
+				const years = Math.floor(days / 365);
+				return `${years} ${years === 1 ? 'year' : 'years'} ago`;
+			}
+		default:
+			return date.toLocaleDateString();
 	}
-};
-
-// Get formatted date based on format type
-const getFormattedDate = () => {
-	if (format === 'relative') {
-		const rtf = new Intl.RelativeTimeFormat(locale, { numeric: 'auto' });
-		const now = new Date();
-		const diff = date.getTime() - now.getTime();
-		const days = Math.round(diff / (1000 * 60 * 60 * 24));
-		
-		if (Math.abs(days) < 1) {
-			const hours = Math.round(diff / (1000 * 60 * 60));
-			return rtf.format(hours, 'hour');
-		}
-		return rtf.format(days, 'day');
-	}
-	
-	return date.toLocaleDateString(locale, formatOptions[format]);
 };
 ---
 
-<time datetime={date.toISOString()} class="text-text-muted">
-	{getFormattedDate()}
+<time datetime={date.toISOString()} class="text-neutral-600 dark:text-neutral-400">
+	{formatDate(date, format)}
 </time>
+
+<style>
+	/* Smooth transitions for dark mode */
+	time {
+		transition: color 300ms cubic-bezier(0.4, 0, 0.2, 1);
+	}
+
+	/* Respect reduced motion preferences */
+	@media (prefers-reduced-motion: reduce) {
+		time {
+			transition: none !important;
+		}
+	}
+</style>

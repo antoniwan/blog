@@ -1,189 +1,77 @@
 ---
-import { categories } from '../data/categories';
-import { formatDistanceToNow } from 'date-fns';
-import Figure from './media/Figure.astro';
-import { LANGUAGE_FLAGS } from '../consts';
+import type { CollectionEntry } from 'astro:content';
 import FormattedDate from './FormattedDate.astro';
 
 interface Props {
-	post: {
-		id: string;
-		data: {
-			title: string;
-			description: string;
-			pubDate: Date;
-			category?: string[];
-			subcategory?: string;
-			language: string[];
-			readingTime?: number;
-			tags?: string[];
-			image?: string;
-		};
-	};
-	translations?: {
-		id: string;
-		language: string;
-	}[];
+	post: CollectionEntry<'blog'>;
 }
 
-const { post, translations = [] } = Astro.props;
-
-// Find the category data for all categories
-const categoryData = post.data.category?.map(catId => categories.find(cat => cat.id === catId)) || [];
-
-// Get language flag emoji using the constant from consts.ts
-const getLanguageFlag = (lang: string) => LANGUAGE_FLAGS[lang] || lang.toUpperCase();
+const { post } = Astro.props;
+const { data } = post;
 ---
 
-<article 
-	class="group relative bg-background border border-border/20 rounded-xl overflow-hidden transition-all duration-300 hover:shadow-lg hover:border-primary-500/20 animate-fade-up max-w-card"
-	aria-labelledby={`post-title-${post.id}`}
-	transition:animate="slide"
-	transition:name={`post-${post.id}`}
->
-	<a 
-		href={`/p/${post.id}/`} 
-		class="block no-underline text-inherit focus-ring relative z-10"
-		transition:name={`post-link-${post.id}`}
-	>
-		{/* Featured Image Section */}
-		{post.data.image && (
-			<div class="relative pt-[56.25%] bg-background-alt overflow-hidden">
-				<Figure
-					src={post.data.image}
-					alt={`Featured image for ${post.data.title}`}
-					aspectRatio="16:9"
-					class="group-hover:scale-105 transition-transform duration-500 ease-out-cubic max-w-media"
-					priority={false}
-					transition:name={`post-image-${post.id}`}
-				/>
-				<div class="absolute inset-0 bg-gradient-to-t from-background/90 via-background/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+<article class="group bg-background dark:bg-background-dark rounded-xl border border-border/20 dark:border-border-dark/20 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
+	<div class="p-6">
+		<header class="mb-4">
+			<div class="flex items-center gap-4 text-sm text-neutral-600 dark:text-neutral-400 mb-3">
+				{data.pubDate && (
+					<time datetime={data.pubDate.toISOString()} class="flex items-center gap-1.5">
+						<span class="text-primary-500 dark:text-primary-400">📅</span>
+						<FormattedDate date={data.pubDate} format="long" />
+					</time>
+				)}
+				{data.category && data.category.length > 0 && (
+					<span class="flex items-center gap-1.5">
+						<span class="text-primary-500 dark:text-primary-400">📁</span>
+						<a 
+							href={`/category/${data.category[0]}/`}
+							class="hover:text-primary-500 dark:hover:text-primary-400 transition-colors"
+						>
+							{data.category[0]}
+						</a>
+					</span>
+				)}
 			</div>
+			<h2 class="text-2xl font-bold text-text dark:text-text-dark group-hover:text-primary-500 dark:group-hover:text-primary-400 transition-colors">
+				<a href={`/blog/${post.id}/`} class="hover:underline focus-ring">
+					{data.title}
+				</a>
+			</h2>
+		</header>
+		
+		{data.description && (
+			<p class="text-neutral-600 dark:text-neutral-400 mb-4 line-clamp-3">
+				{data.description}
+			</p>
 		)}
 		
-		{/* Content Section */}
-		<div class="p-6 md:p-8 space-y-6" transition:name={`post-content-${post.id}`}>
-			{/* Metadata Section */}
-			<div class="flex flex-wrap items-center gap-3 text-sm">
-				{/* Category Badge */}
-				{post.data.category && categoryData[0] && (
-					<span 
-						class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary-100 text-primary-700 font-medium"
-					>
-						{categoryData[0].icon} {categoryData[0].name}
-					</span>
-				)}
-				
-				{/* Reading Time */}
-				{post.data.readingTime && (
-					<span class="text-text-muted">
-						{post.data.readingTime} min read
-					</span>
-				)}
-				
-				{/* Publication Date */}
-				<div class="flex items-center gap-2 text-text-muted">
-					{post.data.readingTime && <span aria-hidden="true">—</span>}
-					<FormattedDate date={post.data.pubDate} format="relative" />
-					<span aria-hidden="true">•</span>
-					<FormattedDate date={post.data.pubDate} format="short" />
-				</div>
-			</div>
-
-			{/* Title and Description Section */}
-			<div class="space-y-4">
-				<h3 
-					id={`post-title-${post.id}`}
-					class="text-2xl md:text-3xl font-serif font-bold leading-tight tracking-tight text-text group-hover:text-primary-500 transition-colors duration-300 max-w-content"
+		<footer class="flex flex-wrap gap-2">
+			{data.tags?.map(tag => (
+				<a
+					href={`/tag/${tag}/`}
+					class="inline-flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-full bg-zinc-100 dark:bg-zinc-800 text-gray-700 dark:text-gray-300 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors"
 				>
-					{post.data.title}
-				</h3>
-
-				<p class="text-base md:text-lg text-text-muted leading-relaxed line-clamp-3 max-w-content">
-					{post.data.description}
-				</p>
-			</div>
-
-			{/* Tags Section */}
-			{post.data.tags && post.data.tags.length > 0 && (
-				<div class="flex flex-wrap gap-2">
-					{post.data.tags.map(tag => (
-						<span 
-							class="inline-flex items-center gap-1.5 text-sm font-medium bg-background-alt text-text-muted px-3 py-1 rounded-full"
-						>
-							🏷️ {tag}
-						</span>
-					))}
-				</div>
-			)}
-
-			{/* Translations Section */}
-			{translations.length > 0 && (
-				<div class="flex items-center gap-2 pt-4 border-t border-border/20">
-					<span class="text-sm text-text-muted">Available in:</span>
-					<div class="flex gap-1">
-						{translations.map(t => (
-							<span
-								class="text-sm px-2 py-0.5 rounded-full bg-background-alt font-medium text-text-muted"
-							>
-								{getLanguageFlag(t.language)}
-							</span>
-						))}
-					</div>
-				</div>
-			)}
-		</div>
-	</a>
+					<span>🏷️</span>
+					<span>{tag}</span>
+				</a>
+			))}
+		</footer>
+	</div>
 </article>
 
 <style>
-	.line-clamp-3 {
-		display: -webkit-box;
-		-webkit-line-clamp: 3;
-		-webkit-box-orient: vertical;
-		overflow: hidden;
-	}
-
-	/* Enhanced hover effects */
+	/* Smooth transitions for dark mode */
 	article {
-		transform: translateY(0);
-		transition: transform var(--animation-duration-default) var(--animation-easing-default),
-					box-shadow var(--animation-duration-default) var(--animation-easing-default),
-					border-color var(--animation-duration-default) var(--animation-easing-default);
-	}
-
-	article:hover {
-		transform: translateY(-4px);
-	}
-
-	/* Astro transition styles */
-	::view-transition-old(post-*),
-	::view-transition-new(post-*) {
-		animation: none;
-		mix-blend-mode: normal;
-	}
-
-	::view-transition-old(post-*) {
-		z-index: 1;
-	}
-
-	::view-transition-new(post-*) {
-		z-index: 2;
-	}
-
-	.dark::view-transition-old(post-*) {
-		z-index: 2;
-	}
-
-	.dark::view-transition-new(post-*) {
-		z-index: 1;
+		transition: background-color 300ms cubic-bezier(0.4, 0, 0.2, 1),
+					color 300ms cubic-bezier(0.4, 0, 0.2, 1),
+					transform 300ms cubic-bezier(0.4, 0, 0.2, 1),
+					box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1);
 	}
 
 	/* Respect reduced motion preferences */
 	@media (prefers-reduced-motion: reduce) {
-		* {
+		article {
 			transition: none !important;
-			animation: none !important;
 		}
 	}
 </style> 

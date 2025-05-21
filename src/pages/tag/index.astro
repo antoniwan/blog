@@ -1,46 +1,60 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageSection from '../../components/PageSection.astro';
 import { getCollection } from 'astro:content';
-import LayoutContainer from '../../components/LayoutContainer.astro';
 
-// Get all non-draft posts
-const posts = await getCollection('blog', ({ data }) => !data.draft);
-
-// Count posts per tag
-const tagCounts = new Map<string, number>();
-posts.forEach(post => {
-  post.data.tags?.forEach(tag => {
-    tagCounts.set(tag, (tagCounts.get(tag) || 0) + 1);
-  });
+// Get all posts
+const posts = await getCollection('blog', ({ data }) => {
+  return import.meta.env.PROD ? !data.draft : true;
 });
 
+// Get post counts by tag
+const tagCounts = posts.reduce((acc, post) => {
+  post.data.tags?.forEach(tag => {
+    acc[tag] = (acc[tag] || 0) + 1;
+  });
+  return acc;
+}, {} as Record<string, number>);
+
 // Sort tags by post count
-const sortedTags = Array.from(tagCounts.entries())
-  .sort((a, b) => b[1] - a[1])
+const sortedTags = Object.entries(tagCounts)
+  .sort(([, a], [, b]) => b - a)
   .map(([tag]) => tag);
 ---
 
-<BaseLayout title="Tags">
-  <LayoutContainer size="lg" padding="md">
-    <main class="py-12">
-      <div class="text-center mb-16 max-w-content mx-auto">
-        <h1 class="text-4xl md:text-5xl font-bold mb-4 text-text dark:text-text-dark">Tags</h1>
-        <p class="text-xl text-neutral-600 dark:text-neutral-400">Explore all content organized by tags</p>
-      </div>
+<BaseLayout
+  title="Tags"
+  description="Browse posts by tag"
+  layoutType="default"
+  contentWidth="default"
+  spacing="comfortable"
+>
+  <PageSection width="default" spacing="comfortable" class="text-center">
+    <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-text dark:text-text-dark leading-tight tracking-tight">
+      Tags
+    </h1>
+    <p class="text-xl md:text-2xl text-neutral-600 dark:text-neutral-400 leading-relaxed max-w-2xl mx-auto">
+      Browse posts by tag
+    </p>
+  </PageSection>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-content mx-auto">
-        {sortedTags.map(tag => {
-          const postCount = tagCounts.get(tag) || 0;
-          return (
-            <a href={`/tag/${tag}/`} class="group bg-background dark:bg-background-dark p-6 rounded-lg border border-border/20 dark:border-border-dark/20 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
-              <h2 class="text-xl font-semibold mb-2 text-text dark:text-text-dark group-hover:text-primary-500 dark:group-hover:text-primary-400">{tag}</h2>
-              <span class="inline-block px-3 py-1 bg-primary-500 dark:bg-primary-400 text-white text-sm font-medium rounded-full">{postCount} {postCount === 1 ? 'post' : 'posts'}</span>
-            </a>
-          );
-        })}
-      </div>
-    </main>
-  </LayoutContainer>
+  <PageSection width="default" spacing="default">
+    <div class="flex flex-wrap gap-2">
+      {sortedTags.map(tag => {
+        const count = tagCounts[tag];
+        return (
+          <a
+            href={`/tag/${tag}/`}
+            class="flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-full bg-zinc-100 dark:bg-zinc-800 text-gray-700 dark:text-gray-300 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors"
+          >
+            <span>🏷️</span>
+            <span>{tag}</span>
+            <span class="text-xs px-1.5 py-0.5 rounded-full bg-zinc-200 dark:bg-zinc-700 text-gray-600 dark:text-gray-400">{count}</span>
+          </a>
+        );
+      })}
+    </div>
+  </PageSection>
 </BaseLayout>
 
 <style>

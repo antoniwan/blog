@@ -1,132 +1,119 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { getCollection, type CollectionEntry } from 'astro:content';
 import PostCard from '../components/PostCard.astro';
+import PageSection from '../components/PageSection.astro';
+import { getCollection } from 'astro:content';
 import { categories } from '../data/categories';
-import LayoutContainer from '../components/LayoutContainer.astro';
 
-// Get all blog posts and sort by date
-const posts = (await getCollection('blog'))
-	.filter((post) => !post.data.draft && post.data.published !== false)
-	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
-
-// Group by translationGroup (or fallback to id)
-const grouped: Record<string, CollectionEntry<'blog'>[]> = {};
-for (const post of posts) {
-	const group = post.data.translationGroup || post.id;
-	if (!grouped[group]) grouped[group] = [];
-	grouped[group].push(post);
-}
-const groupedPosts: CollectionEntry<'blog'>[][] = Object.values(grouped);
-
-// Get unique tags and languages
-const allTags = new Set<string>();
-const allLanguages = new Set<string>();
-posts.forEach(post => {
-	post.data.tags?.forEach(tag => allTags.add(tag));
-	post.data.language?.forEach(lang => allLanguages.add(lang));
+// Get all posts
+const posts = await getCollection('blog', ({ data }) => {
+	return import.meta.env.PROD ? !data.draft : true;
 });
 
-// Count posts per category
-const categoryCounts = new Map<string, number>();
-posts.forEach(post => {
-	post.data.category?.forEach(cat => {
-		categoryCounts.set(cat, (categoryCounts.get(cat) || 0) + 1);
+// Sort posts by date
+const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+// Get post counts by category
+const postCounts = categories.reduce((acc, category) => {
+	acc[category.id] = posts.filter(post => post.data.category?.includes(category.id)).length;
+	return acc;
+}, {} as Record<string, number>);
+
+// Get post counts by tag
+const tagCounts = posts.reduce((acc, post) => {
+	post.data.tags?.forEach(tag => {
+		acc[tag] = (acc[tag] || 0) + 1;
 	});
-});
-
-// Sort categories by post count
-const sortedCategories = [...categories].sort((a, b) => {
-	const countA = categoryCounts.get(a.id) || 0;
-	const countB = categoryCounts.get(b.id) || 0;
-	return countB - countA;
-});
-
-// Get language flag emoji
-const getLanguageFlag = (lang: string) => {
-	const flags: Record<string, string> = {
-		'en': '🇺🇸',
-		'es': '🇵🇷'
-	};
-	return flags[lang] || lang.toUpperCase();
-};
+	return acc;
+}, {} as Record<string, number>);
 ---
 
-<BaseLayout title="Home">
-	<LayoutContainer size="lg" padding="md">
-		<main class="py-12">
-			<header class="text-center mb-16">
-				<h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-text dark:text-text-dark leading-tight tracking-tight max-w-content mx-auto">Welcome to the<br />Strong Vault</h1>
-				<p class="text-xl md:text-2xl text-neutral-600 dark:text-neutral-400 leading-relaxed max-w-content mx-auto">Notes on strength, clarity, ritual, and creation — one builder's journey through code, craft, and self-mastery.</p>
-			</header>
+<BaseLayout
+	title="Welcome to the Strong Vault"
+	description="Notes on strength, clarity, ritual, and creation — one builder's journey through code, craft, and self-mastery."
+	layoutType="default"
+	contentWidth="default"
+	spacing="comfortable"
+>
+	{/* Hero Section */}
+	<PageSection width="default" spacing="comfortable" class="text-center">
+		<h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-text dark:text-text-dark leading-tight tracking-tight">
+			Welcome to the<br />Strong Vault
+		</h1>
+		<p class="text-xl md:text-2xl text-neutral-600 dark:text-neutral-400 leading-relaxed">
+			Notes on strength, clarity, ritual, and creation — one builder's journey through code, craft, and self-mastery.
+		</p>
+	</PageSection>
 
-			{/* Main Content */}
-			<section class="grid gap-8 md:gap-12 mb-16" aria-label="Latest posts">
-				{groupedPosts.map((translations) => {
-					const main = translations[0];
+	{/* Featured Posts Section */}
+	<PageSection width="default" spacing="default">
+		<div class="space-y-6">
+			<h2 class="text-2xl md:text-3xl font-bold text-text dark:text-text-dark">Featured Posts</h2>
+			<div class="grid gap-8 md:gap-12">
+				{sortedPosts.slice(0, 3).map(post => (
+					<PostCard post={post} />
+				))}
+			</div>
+		</div>
+	</PageSection>
+
+	{/* Categories Section */}
+	<PageSection width="default" spacing="default">
+		<div class="space-y-6">
+			<h2 class="text-2xl md:text-3xl font-bold text-text dark:text-text-dark">Categories</h2>
+			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+				{categories.map(category => {
+					const postCount = postCounts[category.id] || 0;
 					return (
-						<PostCard 
-							post={main} 
-							translations={translations.map(t => ({
-								id: t.id,
-								language: t.data.language[0]
-							}))}
-						/>
+						<a
+							href={`/category/${category.id}/`}
+							class="flex items-center justify-between p-4 rounded-lg bg-background-alt hover:bg-background-alt/80 transition-colors"
+						>
+							<div class="flex items-center gap-3">
+								<span class="text-2xl" aria-hidden="true">{category.icon}</span>
+								<span class="font-medium text-text dark:text-text-dark">{category.name}</span>
+							</div>
+							<span class="text-sm text-text-muted">{postCount} {postCount === 1 ? 'post' : 'posts'}</span>
+						</a>
 					);
 				})}
-			</section>
-
-			{/* Filtering Sections */}
-			<div class="space-y-6 max-w-content mx-auto">
-				{/* Categories Section */}
-				<div class="bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 p-4">
-					<h2 class="text-base font-semibold mb-3 text-gray-900 dark:text-gray-100">Categories</h2>
-					<nav class="flex flex-wrap gap-2">
-						{sortedCategories.map(category => {
-							const postCount = categoryCounts.get(category.id) || 0;
-							return (
-								<a 
-									href={`/category/${category.id}/`}
-									class="flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-full bg-zinc-100 dark:bg-zinc-800 text-gray-700 dark:text-gray-300 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors"
-								>
-									<span class="text-base">{category.icon}</span>
-									<span>{category.name}</span>
-									<span class="text-xs px-1.5 py-0.5 rounded-full bg-zinc-200 dark:bg-zinc-700 text-gray-600 dark:text-gray-400">{postCount}</span>
-								</a>
-							);
-						})}
-					</nav>
-				</div>
-
-				{/* Tags Section */}
-				<div class="bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 p-4">
-					<h2 class="text-base font-semibold mb-3 text-gray-900 dark:text-gray-100">Tags</h2>
-					<div class="flex flex-wrap gap-2">
-						{[...allTags].map(tag => (
-							<a 
-								href={`/tag/${tag}/`}
-								class="text-xs px-2 py-1 rounded-full bg-zinc-100 dark:bg-zinc-800 font-medium text-gray-700 dark:text-gray-300 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors"
-							>
-								{tag}
-							</a>
-						))}
-					</div>
-				</div>
-
-				{/* Languages Section */}
-				<div class="bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 p-4">
-					<h2 class="text-base font-semibold mb-3 text-gray-900 dark:text-gray-100">Languages</h2>
-					<div class="flex flex-wrap gap-2">
-						{[...allLanguages].map(lang => (
-							<span class="text-xs px-2 py-1 rounded-full bg-zinc-100 dark:bg-zinc-800 font-medium text-gray-700 dark:text-gray-300">
-								{getLanguageFlag(lang)} {lang.toUpperCase()}
-							</span>
-						))}
-					</div>
-				</div>
 			</div>
-		</main>
-	</LayoutContainer>
+		</div>
+	</PageSection>
+
+	{/* Popular Tags Section */}
+	<PageSection width="default" spacing="default">
+		<div class="space-y-6">
+			<h2 class="text-2xl md:text-3xl font-bold text-text dark:text-text-dark">Popular Tags</h2>
+			<div class="flex flex-wrap gap-2">
+				{Object.entries(tagCounts)
+					.sort(([, a], [, b]) => b - a)
+					.slice(0, 10)
+					.map(([tag, count]) => (
+						<a
+							href={`/tag/${tag}/`}
+							class="flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-full bg-zinc-100 dark:bg-zinc-800 text-gray-700 dark:text-gray-300 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors"
+						>
+							<span>🏷️</span>
+							<span>{tag}</span>
+							<span class="text-xs px-1.5 py-0.5 rounded-full bg-zinc-200 dark:bg-zinc-700 text-gray-600 dark:text-gray-400">{count}</span>
+						</a>
+					))}
+			</div>
+		</div>
+	</PageSection>
+
+	{/* Latest Posts Section */}
+	<PageSection width="default" spacing="default">
+		<div class="space-y-6">
+			<h2 class="text-2xl md:text-3xl font-bold text-text dark:text-text-dark">Latest Posts</h2>
+			<div class="grid gap-8 md:gap-12">
+				{sortedPosts.slice(3, 6).map(post => (
+					<PostCard post={post} />
+				))}
+			</div>
+		</div>
+	</PageSection>
 </BaseLayout>
 
 <style>

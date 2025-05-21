@@ -1,0 +1,225 @@
+---
+import { mainNavigation } from '../data/navigation';
+---
+
+<nav class="hidden md:flex items-center gap-6">
+  {mainNavigation.map((item) => (
+    <div class="relative group">
+      <a 
+        href={item.href} 
+        class="relative text-text dark:text-text-dark no-underline font-medium text-base hover:text-primary-500 dark:hover:text-primary-400 transition-colors focus-ring rounded-lg after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-primary-500 dark:after:bg-primary-400 after:scale-x-0 after:origin-right after:transition-transform after:duration-300 hover:after:scale-x-100 hover:after:origin-left aria-[current=page]:text-primary-500 dark:aria-[current=page]:text-primary-400 aria-[current=page]:after:scale-x-100 aria-[current=page]:font-semibold"
+      >
+        <span class="relative z-10 px-2">
+          {item.label}
+        </span>
+      </a>
+      
+      {item.dropdown && (
+        <div class="absolute left-0 mt-2 w-64 rounded-lg bg-background dark:bg-background-dark border border-border/20 dark:border-border-dark/20 shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform origin-top-left scale-95 group-hover:scale-100">
+          <div class="py-2">
+            <div class="px-4 py-2 text-sm font-medium text-text/60 dark:text-text-dark/60">
+              {item.dropdown.label}
+            </div>
+            <div class="border-t border-border/20 dark:border-border-dark/20"></div>
+            {item.dropdown.items.map((dropdownItem) => (
+              <a
+                href={dropdownItem.href}
+                class="flex items-center px-4 py-2 text-sm text-text dark:text-text-dark hover:bg-background-alt dark:hover:bg-background-alt-dark transition-colors"
+              >
+                {dropdownItem.icon && (
+                  <span class="mr-2">{dropdownItem.icon}</span>
+                )}
+                {dropdownItem.label}
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  ))}
+</nav>
+
+<!-- Mobile menu button -->
+<button
+  id="mobile-menu-button"
+  class="md:hidden flex items-center justify-center w-10 h-10 rounded-lg focus-ring"
+  aria-label="Toggle mobile menu"
+  aria-expanded="false"
+  aria-controls="mobile-menu"
+>
+  <div class="relative w-6 h-6">
+    <!-- Hamburger lines -->
+    <span class="absolute top-0 left-0 w-6 h-0.5 bg-text transform transition-transform duration-200 origin-center"></span>
+    <span class="absolute top-3 left-0 w-6 h-0.5 bg-text transform transition-transform duration-200 origin-center"></span>
+    <span class="absolute top-6 left-0 w-6 h-0.5 bg-text transform transition-transform duration-200 origin-center"></span>
+  </div>
+</button>
+
+<!-- Mobile menu overlay -->
+<div
+  id="mobile-menu-overlay"
+  class="fixed inset-0 bg-black/40 backdrop-blur-sm transition-opacity duration-300 opacity-0 invisible md:hidden"
+  aria-hidden="true"
+></div>
+
+<!-- Mobile menu panel -->
+<nav
+  id="mobile-menu"
+  class="fixed top-0 left-0 w-full h-screen bg-background dark:bg-background-dark transform transition-transform duration-300 ease-in-out translate-y-[-100%] md:hidden"
+  aria-label="Mobile navigation"
+>
+  <div class="flex flex-col h-full px-6 py-8">
+    <!-- Close button -->
+    <div class="flex justify-end mb-8">
+      <button
+        class="flex items-center justify-center w-10 h-10 rounded-lg focus-ring"
+        aria-label="Close mobile menu"
+      >
+        <svg
+          class="w-6 h-6 text-text dark:text-text-dark"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          aria-hidden="true"
+        >
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Navigation links -->
+    <div class="flex flex-col space-y-6">
+      {mainNavigation.map((item) => (
+        <div class="space-y-2">
+          <a 
+            href={item.href} 
+            class="block text-lg font-medium py-4 border-b border-border/20 text-text dark:text-text-dark hover:text-primary-500 dark:hover:text-primary-400 transition-colors duration-300 focus-ring"
+          >
+            {item.label}
+          </a>
+          {item.dropdown && (
+            <div class="pl-4 space-y-2">
+              {item.dropdown.items.map((dropdownItem) => (
+                <a
+                  href={dropdownItem.href}
+                  class="flex items-center py-2 text-base text-text dark:text-text-dark hover:text-primary-500 dark:hover:text-primary-400 transition-colors"
+                >
+                  {dropdownItem.icon && (
+                    <span class="mr-2">{dropdownItem.icon}</span>
+                  )}
+                  {dropdownItem.label}
+                </a>
+              ))}
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
+  </div>
+</nav>
+
+<script>
+  // Mobile menu state
+  let isMenuOpen = false;
+  const menuButton = document.getElementById('mobile-menu-button');
+  const menuOverlay = document.getElementById('mobile-menu-overlay');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const closeButton = mobileMenu?.querySelector('button');
+
+  // Toggle menu function
+  const toggleMenu = () => {
+    isMenuOpen = !isMenuOpen;
+    
+    // Update button state
+    menuButton?.setAttribute('aria-expanded', String(isMenuOpen));
+    
+    // Update menu visibility
+    if (isMenuOpen) {
+      document.body.style.overflow = 'hidden';
+      menuOverlay?.classList.remove('opacity-0', 'invisible');
+      mobileMenu?.classList.remove('translate-y-[-100%]');
+      mobileMenu?.classList.add('translate-y-0');
+      (mobileMenu?.querySelector('a, button') as HTMLElement)?.focus();
+    } else {
+      document.body.style.overflow = '';
+      menuOverlay?.classList.add('opacity-0', 'invisible');
+      mobileMenu?.classList.remove('translate-y-0');
+      mobileMenu?.classList.add('translate-y-[-100%]');
+      menuButton?.focus();
+    }
+  };
+
+  // Close menu function
+  const closeMenu = () => isMenuOpen && toggleMenu();
+
+  // Event listeners
+  menuButton?.addEventListener('click', toggleMenu);
+  closeButton?.addEventListener('click', closeMenu);
+  menuOverlay?.addEventListener('click', closeMenu);
+
+  // Handle escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && isMenuOpen) {
+      closeMenu();
+    }
+  });
+
+  // Handle focus trap
+  mobileMenu?.addEventListener('keydown', (e) => {
+    if (e.key === 'Tab') {
+      const focusableElements = mobileMenu.querySelectorAll('a, button') as NodeListOf<HTMLElement>;
+      const firstFocusable = focusableElements[0];
+      const lastFocusable = focusableElements[focusableElements.length - 1];
+
+      if (e.shiftKey) {
+        if (document.activeElement === firstFocusable) {
+          lastFocusable.focus();
+          e.preventDefault();
+        }
+      } else {
+        if (document.activeElement === lastFocusable) {
+          firstFocusable.focus();
+          e.preventDefault();
+        }
+      }
+    }
+  });
+
+  // Handle menu link clicks
+  mobileMenu?.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', closeMenu);
+  });
+</script>
+
+<style>
+  /* Hamburger animation */
+  #mobile-menu-button[aria-expanded="true"] span:nth-child(1) {
+    @apply translate-y-[3px] rotate-45;
+  }
+  
+  #mobile-menu-button[aria-expanded="true"] span:nth-child(2) {
+    @apply opacity-0;
+  }
+  
+  #mobile-menu-button[aria-expanded="true"] span:nth-child(3) {
+    @apply -translate-y-[3px] -rotate-45;
+  }
+
+  /* Smooth transitions for dark mode */
+  nav {
+    transition: color 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Respect reduced motion preferences */
+  @media (prefers-reduced-motion: reduce) {
+    #mobile-menu,
+    #mobile-menu-overlay,
+    #mobile-menu-button span {
+      @apply transition-none;
+    }
+    nav {
+      transition: none !important;
+    }
+  }
+</style> 
