@@ -20,14 +20,14 @@ const {
 <BaseLayout
   title={title}
   description={description}
-  layoutType="default"
+  layoutType="home"
   contentWidth={contentWidth}
   spacing={spacing}
+  showTitle={false}
+  showDescription={false}
   {...rest}
 >
-  <div class="animate-fade-in" transition:animate="fade">
-    <slot />
-  </div>
+  <slot />
 </BaseLayout>
 
 <style>

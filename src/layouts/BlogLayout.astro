@@ -1,9 +1,8 @@
 ---
 import BaseLayout from './BaseLayout.astro';
-import type { Props as BaseLayoutProps } from './BaseLayout.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 
-interface Props extends Omit<BaseLayoutProps, 'layoutType'> {
+interface Props {
   title: string;
   description?: string;
   pubDate?: Date;
@@ -11,6 +10,34 @@ interface Props extends Omit<BaseLayoutProps, 'layoutType'> {
   heroImage?: string;
   readingTime?: number;
   tags?: string[];
+  category?: string[];
+  subcategory?: string;
+  language?: string[];
+  contentWidth?: 'narrow' | 'default' | 'wide';
+  spacing?: 'compact' | 'default' | 'comfortable';
+  // SEO fields
+  canonicalUrl?: string;
+  ogImage?: string;
+  ogImageAlt?: string;
+  robots?: {
+    index?: boolean;
+    follow?: boolean;
+    noarchive?: boolean;
+    nosnippet?: boolean;
+    noimageindex?: boolean;
+  };
+  // Additional SEO fields
+  author?: string;
+  keywords?: string[];
+  locale?: string;
+  // Structured data
+  tableOfContents?: {
+    items: Array<{
+      text: string;
+      slug: string;
+      depth: number;
+    }>;
+  };
 }
 
 const {
@@ -21,8 +48,41 @@ const {
   heroImage,
   readingTime,
   tags,
+  category,
+  subcategory,
+  language,
+  contentWidth = 'default',
+  spacing = 'default',
+  canonicalUrl,
+  ogImage,
+  ogImageAlt,
+  robots,
+  author,
+  keywords,
+  locale,
+  tableOfContents,
   ...rest
 } = Astro.props;
+
+// Generate structured data for blog post
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: title,
+  description: description,
+  image: heroImage || ogImage,
+  datePublished: pubDate?.toISOString(),
+  dateModified: updatedDate?.toISOString(),
+  author: {
+    '@type': 'Person',
+    name: author
+  },
+  keywords: keywords?.join(', '),
+  articleSection: category?.[0],
+  articleBody: tableOfContents?.items.map(item => item.text).join(' '),
+  wordCount: tableOfContents?.items.reduce((acc, item) => acc + item.text.length, 0),
+  timeRequired: readingTime ? `PT${readingTime}M` : undefined
+};
 ---
 
 <BaseLayout
@@ -34,13 +94,77 @@ const {
   heroImage={heroImage}
   readingTime={readingTime}
   tags={tags}
+  category={category}
+  subcategory={subcategory}
+  language={language}
+  contentWidth={contentWidth}
+  spacing={spacing}
+  canonicalUrl={canonicalUrl}
+  ogImage={ogImage}
+  ogImageAlt={ogImageAlt}
+  robots={robots}
+  author={author}
+  keywords={keywords}
+  locale={locale}
   {...rest}
 >
-  <article>
-    <section class="prose dark:prose-invert">
-      <slot />
-    </section>
-  </article>
+  <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+  
+  <header class="mb-8">
+    <h1 class="text-4xl md:text-5xl font-bold text-text dark:text-text-dark leading-tight tracking-tight mb-6">
+      {title}
+    </h1>
+    
+    {description && (
+      <p class="text-xl md:text-2xl text-neutral-600 dark:text-neutral-400 leading-relaxed mb-6">
+        {description}
+      </p>
+    )}
+    
+    <div class="flex flex-wrap gap-4 text-sm text-neutral-600 dark:text-neutral-400">
+      {pubDate && (
+        <time datetime={pubDate.toISOString()} class="flex items-center gap-2">
+          <span class="text-primary-500 dark:text-primary-400">📅</span>
+          <FormattedDate date={pubDate} format="long" />
+        </time>
+      )}
+      
+      {readingTime && (
+        <span class="flex items-center gap-2">
+          <span class="text-primary-500 dark:text-primary-400">⏱️</span>
+          {readingTime} min read
+        </span>
+      )}
+      
+      {category && category.length > 0 && (
+        <span class="flex items-center gap-2">
+          <span class="text-primary-500 dark:text-primary-400">📁</span>
+          <a 
+            href={`/category/${category[0]}/`}
+            class="hover:text-primary-500 dark:hover:text-primary-400 transition-colors"
+          >
+            {category[0]}
+          </a>
+        </span>
+      )}
+      
+      {tags && tags.length > 0 && (
+        <div class="flex flex-wrap gap-2">
+          {tags.map(tag => (
+            <a
+              href={`/tag/${tag}/`}
+              class="flex items-center gap-1.5 px-2 py-1 rounded-full bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors"
+            >
+              <span>🏷️</span>
+              <span>{tag}</span>
+            </a>
+          ))}
+        </div>
+      )}
+    </div>
+  </header>
+  
+  <slot />
 </BaseLayout>
 
 <style>

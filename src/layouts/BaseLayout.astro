@@ -38,11 +38,15 @@ interface Props {
   keywords?: string[];
   locale?: string;
   // Layout type
-  layoutType?: 'default' | 'blog';
+  layoutType?: 'default' | 'blog' | 'home' | 'category';
   // Content width
   contentWidth?: 'narrow' | 'default' | 'wide';
   // Spacing
   spacing?: 'compact' | 'default' | 'comfortable';
+  // Additional layout options
+  showTitle?: boolean;
+  showDescription?: boolean;
+  showMeta?: boolean;
 }
 
 const { 
@@ -64,7 +68,10 @@ const {
   locale = language[0] ? `${language[0]}_${language[0].toUpperCase()}` : 'en_US',
   layoutType = 'default',
   contentWidth = 'default',
-  spacing = 'default'
+  spacing = 'default',
+  showTitle = true,
+  showDescription = true,
+  showMeta = true
 } = Astro.props;
 
 const languageEmojis: Record<string, string> = {
@@ -135,75 +142,19 @@ const paddingMap = { compact: 'sm', default: 'md', comfortable: 'lg' };
       <LayoutContainer type="container" size={sizeMap[contentWidth] as 'narrow' | 'default' | 'wide'} padding={paddingMap[spacing] as 'sm' | 'md' | 'lg' | 'none'}>
         {layoutType === 'blog' && (
           <article class="animate-fade-in" transition:animate="fade">
-            <header class="mb-3xl animate-slide-up">
-              <h1 class="text-4xl md:text-5xl lg:text-6xl font-serif font-bold mb-2xl leading-tight tracking-tight text-text dark:text-text-dark">{title}</h1>
-              {description && <p class="text-xl md:text-2xl text-neutral-600 dark:text-neutral-400 mb-xl leading-relaxed">{description}</p>}
-              {(Astro.url.pathname.startsWith('/p/')) && (
-                <div class="flex flex-wrap gap-lg text-sm text-neutral-600 dark:text-neutral-400 mb-2xl">
-                  {pubDate && (
-                    <time datetime={pubDate.toISOString()} class="flex items-center gap-sm">
-                      <span class="text-primary-500 dark:text-primary-400">📅</span>
-                      <FormattedDate date={pubDate} format="long" />
-                    </time>
-                  )}
-                  {updatedDate && (
-                    <time datetime={updatedDate.toISOString()} class="flex items-center gap-sm">
-                      <span class="text-primary-500 dark:text-primary-400">🔄</span>
-                      Updated: <FormattedDate date={updatedDate} format="long" />
-                    </time>
-                  )}
-                  {readingTime && (
-                    <span class="flex items-center gap-sm">
-                      <span class="text-primary-500 dark:text-primary-400">⏱️</span>
-                      {readingTime} min read
-                    </span>
-                  )}
-                  {language && language.length > 0 && (
-                    <span class="flex items-center gap-sm">
-                      <span class="text-primary-500 dark:text-primary-400">🌐</span>
-                      {language.map(lang => languageEmojis[lang] || lang.toUpperCase()).join(' ')}
-                    </span>
-                  )}
-                  {category && category.length > 0 && (
-                    <span class="flex items-center gap-sm">
-                      <span class="text-primary-500 dark:text-primary-400">📂</span>
-                      {category.map(cat => (
-                        <a 
-                          href={`/category/${cat}/`}
-                          class="hover:text-primary-500 dark:hover:text-primary-400 transition-colors focus-ring"
-                          title={`View all posts in ${cat.replace(/-/g, ' ')}`}
-                        >
-                          {categoryEmojis[cat] || cat}
-                        </a>
-                      )).reduce((prev, curr) => [prev, ' ', curr])}
-                    </span>
-                  )}
-                  {tags && tags.length > 0 && (
-                    <span class="flex items-center gap-sm">
-                      <span class="text-primary-500 dark:text-primary-400">🏷️</span>
-                      {tags.join(', ')}
-                    </span>
-                  )}
-                </div>
-              )}
-              {heroImage && (
-                <div class="relative w-full aspect-[21/9] mb-2xl rounded-xl overflow-hidden shadow-xl">
-                  <img
-                    src={heroImage}
-                    alt={`Hero image for ${title}`}
-                    class="w-full h-full object-cover"
-                    loading="eager"
-                    decoding="async"
-                  />
-                </div>
-              )}
-            </header>
             <section class="prose prose-lg dark:prose-invert prose-headings:font-serif prose-headings:tracking-tight prose-p:leading-relaxed prose-p:text-lg prose-a:text-primary-500 dark:prose-a:text-primary-400 prose-a:no-underline hover:prose-a:underline prose-img:rounded-lg prose-img:shadow-lg prose-blockquote:border-l-4 prose-blockquote:border-primary-500 dark:prose-blockquote:border-primary-400 prose-blockquote:pl-4 prose-blockquote:italic prose-blockquote:bg-neutral-100 dark:prose-blockquote:bg-neutral-800 prose-blockquote:p-4 prose-blockquote:rounded-r-lg prose-ul:my-xl prose-ol:my-xl prose-li:my-sm prose-h2:mt-3xl prose-h2:mb-xl prose-h3:mt-2xl prose-h3:mb-lg">
               <slot />
             </section>
           </article>
         )}
         {layoutType === 'default' && (
+          <div class="animate-fade-in" transition:animate="fade">
+            <div class="prose prose-lg dark:prose-invert max-w-none">
+              <slot />
+            </div>
+          </div>
+        )}
+        {(layoutType === 'home' || layoutType === 'category') && (
           <div class="animate-fade-in" transition:animate="fade">
             <slot />
           </div>
@@ -299,17 +250,18 @@ const paddingMap = { compact: 'sm', default: 'md', comfortable: 'lg' };
     @apply focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-background-dark;
   }
 
-  .prose {
-		transition: color 300ms cubic-bezier(0.4, 0, 0.2, 1);
-	}
+  /* Smooth transitions */
+  main, .prose {
+    transition: background-color 300ms cubic-bezier(0.4, 0, 0.2, 1),
+                color 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
 
-	/* Respect reduced motion preferences */
-	@media (prefers-reduced-motion: reduce) {
-		.prose {
-			transition: none !important;
-		}
-	}
-  
+  /* Respect reduced motion preferences */
+  @media (prefers-reduced-motion: reduce) {
+    main, .prose {
+      transition: none !important;
+    }
+  }
 
   /* Print styles */
   @media print {
