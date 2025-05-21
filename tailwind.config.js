@@ -113,14 +113,9 @@ export default {
           "Roboto",
           "Helvetica Neue",
           "Arial",
-          "sans-serif"
+          "sans-serif",
         ],
-        serif: [
-          "Fraunces",
-          "Georgia",
-          "Times New Roman",
-          "serif"
-        ],
+        serif: ["Fraunces", "Georgia", "Times New Roman", "serif"],
         mono: [
           "JetBrains Mono",
           "ui-monospace",
@@ -130,7 +125,7 @@ export default {
           "Consolas",
           "Liberation Mono",
           "Courier New",
-          "monospace"
+          "monospace",
         ],
       },
       fontSize: {
@@ -157,9 +152,22 @@ export default {
         "5xl": "8rem",
       },
       maxWidth: {
-        reading: "65ch",
-        wide: "85ch",
-        full: "100%",
+        // Content widths
+        content: "65ch", // Optimal reading width
+        "content-wide": "85ch", // Wider content area
+        "content-full": "100%", // Full width
+
+        // Container widths
+        "container-sm": "640px",
+        "container-md": "768px",
+        "container-lg": "1024px",
+        "container-xl": "1280px",
+        "container-2xl": "1536px",
+
+        // Component widths
+        card: "400px",
+        "card-wide": "600px",
+        media: "100%",
       },
       letterSpacing: {
         tighter: "-0.05em",

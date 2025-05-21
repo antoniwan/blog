@@ -2,6 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection, type CollectionEntry } from 'astro:content';
 import PostCard from '../../components/PostCard.astro';
+import LayoutContainer from '../../components/LayoutContainer.astro';
 
 export const prerender = true;
 
@@ -38,33 +39,35 @@ const capitalize = (str: string) => str ? str.charAt(0).toUpperCase() + str.slic
 ---
 
 <BaseLayout title={capitalize(tag)}>
-	<main class="max-w-5xl mx-auto px-4 md:px-8 py-12">
-		<header class="text-center mb-16">
-			<nav aria-label="Breadcrumb" class="flex justify-center">
-				<a href="/tag" class="inline-flex items-center gap-1.5 text-neutral-600 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400 transition-colors duration-300">
-					<span class="text-lg">←</span>
-					<span class="text-base font-medium">Back to Tags</span>
-				</a>
-			</nav>
-			<h1 class="text-4xl md:text-5xl font-bold mb-4 text-text dark:text-text-dark">🏷️ {capitalize(tag)}</h1>
-			<p class="text-xl text-neutral-600 dark:text-neutral-400">{groupedPosts.length} {groupedPosts.length === 1 ? 'post' : 'posts'} tagged with {tag}</p>
-		</header>
+	<LayoutContainer size="lg" padding="md">
+		<main class="py-12">
+			<header class="text-center mb-16 max-w-content mx-auto">
+				<nav aria-label="Breadcrumb" class="flex justify-center">
+					<a href="/tag" class="inline-flex items-center gap-1.5 text-neutral-600 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400 transition-colors duration-300">
+						<span class="text-lg">←</span>
+						<span class="text-base font-medium">Back to Tags</span>
+					</a>
+				</nav>
+				<h1 class="text-4xl md:text-5xl font-bold mb-4 text-text dark:text-text-dark">🏷️ {capitalize(tag)}</h1>
+				<p class="text-xl text-neutral-600 dark:text-neutral-400">{groupedPosts.length} {groupedPosts.length === 1 ? 'post' : 'posts'} tagged with {tag}</p>
+			</header>
 
-		<section class="grid gap-8 md:gap-12" aria-label="Posts with this tag">
-			{groupedPosts.map((translations) => {
-				const main = translations[0];
-				return (
-					<PostCard 
-						post={main} 
-						translations={translations.map(t => ({
-							id: t.id,
-							language: t.data.language[0]
-						}))}
-					/>
-				);
-			})}
-		</section>
-	</main>
+			<section class="grid gap-8 md:gap-12 max-w-content mx-auto" aria-label="Posts with this tag">
+				{groupedPosts.map((translations) => {
+					const main = translations[0];
+					return (
+						<PostCard 
+							post={main} 
+							translations={translations.map(t => ({
+								id: t.id,
+								language: t.data.language[0]
+							}))}
+						/>
+					);
+				})}
+			</section>
+		</main>
+	</LayoutContainer>
 </BaseLayout>
 
 <style>

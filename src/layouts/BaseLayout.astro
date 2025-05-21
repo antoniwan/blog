@@ -5,6 +5,7 @@ import BaseHead from '../components/BaseHead.astro';
 import BackToTop from '../components/BackToTop.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import ReadingProgress from '../components/ReadingProgress.astro';
+import LayoutContainer from '../components/LayoutContainer.astro';
 import { SITE_TITLE, SITE_DESCRIPTION, LANGUAGE_FLAGS, CATEGORY_EMOJIS, AUTHOR } from '../consts';
 import  SpeedInsights  from "@vercel/speed-insights/astro"
 import Analytics from '@vercel/analytics/astro';
@@ -115,77 +116,81 @@ const categoryEmojis: Record<string, string> = {
     <ReadingProgress />
     <main id="main-content" role="main" class="flex-grow animate-fade-in">
       {layoutType === 'blog' && (
-        <article class="max-w-5xl mx-auto px-4 md:px-8 py-12" transition:animate="fade">
-          <header class="mb-16 animate-slide-up">
-            <h1 class="text-4xl md:text-5xl lg:text-6xl font-serif font-bold mb-8 leading-tight tracking-tight text-text dark:text-text-dark">{title}</h1>
-            {description && <p class="text-xl md:text-2xl text-neutral-600 dark:text-neutral-400 mb-10 leading-relaxed">{description}</p>}
-            {heroImage && (
-              <div class="relative w-full aspect-[21/9] mb-10 rounded-xl overflow-hidden shadow-xl">
-                <img
-                  src={heroImage}
-                  alt={`Hero image for ${title}`}
-                  class="w-full h-full object-cover"
-                  loading="eager"
-                  decoding="async"
-                />
+        <LayoutContainer size="lg" padding="md">
+          <article class="py-12" transition:animate="fade">
+            <header class="mb-16 animate-slide-up">
+              <h1 class="text-4xl md:text-5xl lg:text-6xl font-serif font-bold mb-8 leading-tight tracking-tight text-text dark:text-text-dark max-w-content">{title}</h1>
+              {description && <p class="text-xl md:text-2xl text-neutral-600 dark:text-neutral-400 mb-10 leading-relaxed max-w-content">{description}</p>}
+              {heroImage && (
+                <div class="relative w-full aspect-[21/9] mb-10 rounded-xl overflow-hidden shadow-xl">
+                  <img
+                    src={heroImage}
+                    alt={`Hero image for ${title}`}
+                    class="w-full h-full object-cover"
+                    loading="eager"
+                    decoding="async"
+                  />
+                </div>
+              )}
+              <div class="flex flex-wrap gap-6 text-sm text-neutral-600 dark:text-neutral-400">
+                {pubDate && (
+                  <time datetime={pubDate.toISOString()} class="flex items-center gap-2">
+                    <span class="text-primary-500 dark:text-primary-400">📅</span>
+                    <FormattedDate date={pubDate} format="long" />
+                  </time>
+                )}
+                {updatedDate && (
+                  <time datetime={updatedDate.toISOString()} class="flex items-center gap-2">
+                    <span class="text-primary-500 dark:text-primary-400">🔄</span>
+                    Updated: <FormattedDate date={updatedDate} format="long" />
+                  </time>
+                )}
+                {readingTime && (
+                  <span class="flex items-center gap-2">
+                    <span class="text-primary-500 dark:text-primary-400">⏱️</span>
+                    {readingTime} min read
+                  </span>
+                )}
+                {language && language.length > 0 && (
+                  <span class="flex items-center gap-2">
+                    <span class="text-primary-500 dark:text-primary-400">🌐</span>
+                    {language.map(lang => languageEmojis[lang] || lang.toUpperCase()).join(' ')}
+                  </span>
+                )}
+                {category && category.length > 0 && (
+                  <span class="flex items-center gap-2">
+                    <span class="text-primary-500 dark:text-primary-400">📂</span>
+                    {category.map(cat => (
+                      <a 
+                        href={`/category/${cat}/`}
+                        class="hover:text-primary-500 dark:hover:text-primary-400 transition-colors focus-ring"
+                        title={`View all posts in ${cat.replace(/-/g, ' ')}`}
+                      >
+                        {categoryEmojis[cat] || cat}
+                      </a>
+                    )).reduce((prev, curr) => [prev, ' ', curr])}
+                  </span>
+                )}
+                {tags && tags.length > 0 && (
+                  <span class="flex items-center gap-2">
+                    <span class="text-primary-500 dark:text-primary-400">🏷️</span>
+                    {tags.join(', ')}
+                  </span>
+                )}
               </div>
-            )}
-            <div class="flex flex-wrap gap-6 text-sm text-neutral-600 dark:text-neutral-400">
-              {pubDate && (
-                <time datetime={pubDate.toISOString()} class="flex items-center gap-2">
-                  <span class="text-primary-500 dark:text-primary-400">📅</span>
-                  <FormattedDate date={pubDate} format="long" />
-                </time>
-              )}
-              {updatedDate && (
-                <time datetime={updatedDate.toISOString()} class="flex items-center gap-2">
-                  <span class="text-primary-500 dark:text-primary-400">🔄</span>
-                  Updated: <FormattedDate date={updatedDate} format="long" />
-                </time>
-              )}
-              {readingTime && (
-                <span class="flex items-center gap-2">
-                  <span class="text-primary-500 dark:text-primary-400">⏱️</span>
-                  {readingTime} min read
-                </span>
-              )}
-              {language && language.length > 0 && (
-                <span class="flex items-center gap-2">
-                  <span class="text-primary-500 dark:text-primary-400">🌐</span>
-                  {language.map(lang => languageEmojis[lang] || lang.toUpperCase()).join(' ')}
-                </span>
-              )}
-              {category && category.length > 0 && (
-                <span class="flex items-center gap-2">
-                  <span class="text-primary-500 dark:text-primary-400">📂</span>
-                  {category.map(cat => (
-                    <a 
-                      href={`/category/${cat}/`}
-                      class="hover:text-primary-500 dark:hover:text-primary-400 transition-colors focus-ring"
-                      title={`View all posts in ${cat.replace(/-/g, ' ')}`}
-                    >
-                      {categoryEmojis[cat] || cat}
-                    </a>
-                  )).reduce((prev, curr) => [prev, ' ', curr])}
-                </span>
-              )}
-              {tags && tags.length > 0 && (
-                <span class="flex items-center gap-2">
-                  <span class="text-primary-500 dark:text-primary-400">🏷️</span>
-                  {tags.join(', ')}
-                </span>
-              )}
-            </div>
-          </header>
-          <section class="prose prose-lg dark:prose-invert max-w-none prose-headings:font-serif prose-headings:tracking-tight prose-p:leading-relaxed prose-p:text-lg prose-a:text-primary-500 dark:prose-a:text-primary-400 prose-a:no-underline hover:prose-a:underline prose-img:rounded-lg prose-img:shadow-lg prose-blockquote:border-l-4 prose-blockquote:border-primary-500 dark:prose-blockquote:border-primary-400 prose-blockquote:pl-4 prose-blockquote:italic prose-blockquote:bg-neutral-100 dark:prose-blockquote:bg-neutral-800 prose-blockquote:p-4 prose-blockquote:rounded-r-lg prose-ul:my-6 prose-ol:my-6 prose-li:my-2 prose-h2:mt-12 prose-h2:mb-6 prose-h3:mt-8 prose-h3:mb-4">
-            <slot />
-          </section>
-        </article>
+            </header>
+            <section class="prose prose-lg dark:prose-invert max-w-content mx-auto prose-headings:font-serif prose-headings:tracking-tight prose-p:leading-relaxed prose-p:text-lg prose-a:text-primary-500 dark:prose-a:text-primary-400 prose-a:no-underline hover:prose-a:underline prose-img:rounded-lg prose-img:shadow-lg prose-blockquote:border-l-4 prose-blockquote:border-primary-500 dark:prose-blockquote:border-primary-400 prose-blockquote:pl-4 prose-blockquote:italic prose-blockquote:bg-neutral-100 dark:prose-blockquote:bg-neutral-800 prose-blockquote:p-4 prose-blockquote:rounded-r-lg prose-ul:my-6 prose-ol:my-6 prose-li:my-2 prose-h2:mt-12 prose-h2:mb-6 prose-h3:mt-8 prose-h3:mb-4">
+              <slot />
+            </section>
+          </article>
+        </LayoutContainer>
       )}
       {layoutType === 'default' && (
-        <section class="max-w-5xl mx-auto px-4 md:px-8 py-12" transition:animate="fade">
-          <slot />
-        </section>
+        <LayoutContainer size="lg" padding="md">
+          <section class="py-12" transition:animate="fade">
+            <slot />
+          </section>
+        </LayoutContainer>
       )}
     </main>
     <Footer />

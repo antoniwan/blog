@@ -36,7 +36,7 @@ const getLanguageFlag = (lang: string) => LANGUAGE_FLAGS[lang] || lang.toUpperCa
 ---
 
 <article 
-	class="group relative bg-background border border-border/20 rounded-xl overflow-hidden transition-all duration-300 hover:shadow-lg hover:border-primary-500/20 animate-fade-up"
+	class="group relative bg-background border border-border/20 rounded-xl overflow-hidden transition-all duration-300 hover:shadow-lg hover:border-primary-500/20 animate-fade-up max-w-card"
 	aria-labelledby={`post-title-${post.id}`}
 	transition:animate="slide"
 	transition:name={`post-${post.id}`}
@@ -53,7 +53,7 @@ const getLanguageFlag = (lang: string) => LANGUAGE_FLAGS[lang] || lang.toUpperCa
 					src={post.data.image}
 					alt={`Featured image for ${post.data.title}`}
 					aspectRatio="16:9"
-					class="group-hover:scale-105 transition-transform duration-500 ease-out-cubic"
+					class="group-hover:scale-105 transition-transform duration-500 ease-out-cubic max-w-media"
 					priority={false}
 					transition:name={`post-image-${post.id}`}
 				/>
@@ -94,12 +94,12 @@ const getLanguageFlag = (lang: string) => LANGUAGE_FLAGS[lang] || lang.toUpperCa
 			<div class="space-y-4">
 				<h3 
 					id={`post-title-${post.id}`}
-					class="text-2xl md:text-3xl font-serif font-bold leading-tight tracking-tight text-text group-hover:text-primary-500 transition-colors duration-300"
+					class="text-2xl md:text-3xl font-serif font-bold leading-tight tracking-tight text-text group-hover:text-primary-500 transition-colors duration-300 max-w-content"
 				>
 					{post.data.title}
 				</h3>
 
-				<p class="text-base md:text-lg text-text-muted leading-relaxed line-clamp-3">
+				<p class="text-base md:text-lg text-text-muted leading-relaxed line-clamp-3 max-w-content">
 					{post.data.description}
 				</p>
 			</div>
