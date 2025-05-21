@@ -4,7 +4,7 @@ description: "A personal journey of transformation through therapy, self-reflect
 pubDate: "2024-04-28T00:00:00.000Z"
 heroImage: "/images/saitama-okay.webp"
 language: ["en"]
-category: ["psychology", "integration-growth"]
+category: ["psychology", "integration-growth", "self-improvement"]
 subcategory: "Personal Development"
 tags:
   [
