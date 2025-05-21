@@ -1,0 +1,153 @@
+---
+import { getCollection } from 'astro:content';
+
+interface SearchResult {
+  title: string;
+  url: string;
+  tags: string[];
+}
+
+// Get all posts for search
+const posts = await getCollection('blog', ({ data }) => {
+  return import.meta.env.PROD ? !data.draft : true;
+});
+
+// Create search index
+const searchIndex: SearchResult[] = posts.map(post => ({
+  title: post.data.title,
+  url: `/p/${post.id}`,
+  tags: post.data.tags || []
+}));
+---
+
+<div class="relative" x-data="{ 
+  open: false, 
+  query: '', 
+  results: [], 
+  isSearching: false,
+  isLoading: true,
+  init() {
+    this.isLoading = false;
+  },
+  handleSearch() {
+    if (this.query.length > 2) {
+      this.isSearching = true;
+      setTimeout(() => {
+        const searchResults = searchIndex.filter(item => 
+          item.title.toLowerCase().includes(this.query.toLowerCase()) ||
+          item.tags.some(tag => tag.toLowerCase().includes(this.query.toLowerCase()))
+        );
+        this.results = searchResults.slice(0, 5);
+        this.isSearching = false;
+        this.open = true;
+      }, 300);
+    } else {
+      this.results = [];
+      this.open = false;
+    }
+  }
+}">
+  <div class="relative">
+    <input
+      type="search"
+      x-model="query"
+      @input="handleSearch()"
+      @click="open = true"
+      @click.away="open = false"
+      @keydown.escape.window="open = false"
+      placeholder="Search posts..."
+      class="w-full px-4 py-2 pl-10 text-sm bg-background dark:bg-background-dark border border-border dark:border-border-dark rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-transparent transition-colors"
+    />
+    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+      <svg class="h-5 w-5 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+      </svg>
+    </div>
+  </div>
+
+  <!-- Search Results Dropdown -->
+  <div
+    x-show="open"
+    x-transition:enter="transition ease-out duration-200"
+    x-transition:enter-start="opacity-0 translate-y-1"
+    x-transition:enter-end="opacity-100 translate-y-0"
+    x-transition:leave="transition ease-in duration-150"
+    x-transition:leave-start="opacity-100 translate-y-0"
+    x-transition:leave-end="opacity-0 translate-y-1"
+    class="absolute z-50 mt-2 w-full bg-background dark:bg-background-dark border border-border dark:border-border-dark rounded-lg shadow-lg overflow-hidden"
+    style="display: none;"
+  >
+    <!-- Loading State -->
+    <template x-if="isLoading">
+      <div class="p-4 text-sm text-neutral-500 dark:text-neutral-400 flex items-center justify-center">
+        <svg class="animate-spin h-5 w-5 mr-2" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+        Loading...
+      </div>
+    </template>
+
+    <!-- Searching State -->
+    <template x-if="!isLoading && isSearching">
+      <div class="p-4 text-sm text-neutral-500 dark:text-neutral-400 flex items-center justify-center">
+        <svg class="animate-spin h-5 w-5 mr-2" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+        Searching...
+      </div>
+    </template>
+
+    <!-- No Results State -->
+    <template x-if="!isLoading && !isSearching && query.length > 2 && results.length === 0">
+      <div class="p-4 text-sm text-neutral-500 dark:text-neutral-400">
+        No results found
+      </div>
+    </template>
+
+    <!-- Results -->
+    <template x-if="!isLoading && !isSearching && results.length > 0">
+      <div class="py-2">
+        <template x-for="result in results" :key="result.url">
+          <a
+            :href="result.url"
+            class="block px-4 py-2 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
+            @click="open = false"
+          >
+            <div class="font-medium text-text dark:text-text-dark" x-text="result.title"></div>
+            <template x-if="result.tags.length > 0">
+              <div class="mt-1">
+                <span class="text-xs px-2 py-0.5 rounded-full bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400" x-text="result.tags[0]"></span>
+              </div>
+            </template>
+          </a>
+        </template>
+      </div>
+    </template>
+  </div>
+</div>
+
+<script define:vars={{ searchIndex }}>
+  // Define searchIndex for Alpine.js
+  window.searchIndex = searchIndex;
+</script>
+
+<style>
+  /* Smooth transitions for dark mode */
+  .search-input {
+    transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1),
+                border-color 150ms cubic-bezier(0.4, 0, 0.2, 1),
+                color 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Respect reduced motion preferences */
+  @media (prefers-reduced-motion: reduce) {
+    .search-input {
+      transition: none !important;
+    }
+    .animate-spin {
+      animation: none !important;
+    }
+  }
+</style> 
