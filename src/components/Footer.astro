@@ -1,70 +1,48 @@
 ---
-import { SITE_TITLE } from '../consts';
-import { mainNavigation } from '../data/navigation';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 import Logo from './Logo.astro';
-import LayoutContainer from './LayoutContainer.astro';
-
-const currentYear = new Date().getFullYear();
-
-const socialLinks = [
-  { href: 'https://bsky.app/profile/antoniwan.online', label: 'BlueSky', icon: '🦋' },
-  { href: 'https://github.com/antoniwan/strongvault', label: 'GitHub', icon: '💻' },
-  { href: 'https://www.youtube.com/@Antoniwan777', label: 'YouTube', icon: '🎥' }
-];
 ---
 
-<footer class="border-t border-border/20 dark:border-border-dark/20 bg-background dark:bg-background-dark">
-  <LayoutContainer type="container" size="default" padding="lg">
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-      <div class="space-y-4">
-        <Logo size="sm" />
-        <p class="text-neutral-600 dark:text-neutral-400">
-          Notes on strength, clarity, ritual, and creation — one builder's journey through code, craft, and self-mastery.
+<footer class="bg-background dark:bg-background-dark border-t border-border/20 dark:border-border-dark/20">
+  <div class="mx-auto max-w-container px-sm md:px-lg lg:px-xl py-2xl">
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-2xl">
+      <div class="md:col-span-4">
+        <Logo size="md" />
+        <p class="mt-md text-neutral-600 dark:text-neutral-400">
+          {SITE_DESCRIPTION}
         </p>
       </div>
       
-      <div class="space-y-4">
-        <h3 class="text-sm font-semibold text-text dark:text-text-dark uppercase tracking-wider">Navigation</h3>
-        <ul class="space-y-2">
-          {mainNavigation.map((item) => (
-            <li>
-              <a 
-                href={item.href}
-                class="text-neutral-600 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400 transition-colors"
-              >
-                {item.label}
-              </a>
-            </li>
-          ))}
-        </ul>
+      <div class="md:col-span-4">
+        <h3 class="text-lg font-semibold mb-md">Quick Links</h3>
+        <nav class="space-y-sm">
+          <a href="/" class="block text-neutral-600 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400 transition-colors">Home</a>
+          <a href="/blog" class="block text-neutral-600 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400 transition-colors">Blog</a>
+          <a href="/about" class="block text-neutral-600 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400 transition-colors">About</a>
+          <a href="/contact" class="block text-neutral-600 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400 transition-colors">Contact</a>
+        </nav>
       </div>
       
-      <div class="space-y-4">
-        <h3 class="text-sm font-semibold text-text dark:text-text-dark uppercase tracking-wider">Connect</h3>
-        <ul class="space-y-2">
-          {socialLinks.map((link) => (
-            <li>
-              <a 
-                href={link.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="flex items-center text-neutral-600 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400 transition-colors"
-              >
-                <span class="mr-2">{link.icon}</span>
-                {link.label}
-              </a>
-            </li>
-          ))}
-        </ul>
+      <div class="md:col-span-4">
+        <h3 class="text-lg font-semibold mb-md">Connect</h3>
+        <nav class="space-y-sm">
+          <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" class="block text-neutral-600 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400 transition-colors">Twitter</a>
+          <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="block text-neutral-600 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400 transition-colors">GitHub</a>
+          <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="block text-neutral-600 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400 transition-colors">LinkedIn</a>
+        </nav>
       </div>
     </div>
     
-    <div class="mt-8 pt-8 border-t border-border/20 dark:border-border-dark/20">
-      <p class="text-center text-sm text-neutral-600 dark:text-neutral-400">
-        © {currentYear} {SITE_TITLE}. All rights reserved.
-      </p>
+    <div class="mt-2xl pt-xl border-t border-border/20 dark:border-border-dark/20">
+      <div class="flex flex-col md:flex-row justify-between items-center gap-md">
+        <div class="text-sm text-neutral-500 dark:text-neutral-400">
+          <p>© {new Date().getFullYear()} {SITE_TITLE}. All rights reserved.</p>
+          <p class="mt-1">Content licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer" class="hover:text-primary-500 dark:hover:text-primary-400 transition-colors">CC BY-NC-SA 4.0</a></p>
+          <p class="mt-1">Code licensed under <a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener noreferrer" class="hover:text-primary-500 dark:hover:text-primary-400 transition-colors">MIT License</a></p>
+        </div>
+      </div>
     </div>
-  </LayoutContainer>
+  </div>
 </footer>
 
 <style>

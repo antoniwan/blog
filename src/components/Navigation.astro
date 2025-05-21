@@ -1,41 +1,25 @@
 ---
 import { mainNavigation } from '../data/navigation';
+
+interface Props {
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props;
 ---
 
-<nav class="hidden md:flex items-center gap-6">
+<nav class:list={['space-x-lg', className]}>
   {mainNavigation.map((item) => (
-    <div class="relative group">
-      <a 
-        href={item.href} 
-        class="relative text-text dark:text-text-dark no-underline font-medium text-base hover:text-primary-500 dark:hover:text-primary-400 transition-colors focus-ring rounded-lg after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-primary-500 dark:after:bg-primary-400 after:scale-x-0 after:origin-right after:transition-transform after:duration-300 hover:after:scale-x-100 hover:after:origin-left aria-[current=page]:text-primary-500 dark:aria-[current=page]:text-primary-400 aria-[current=page]:after:scale-x-100 aria-[current=page]:font-semibold"
-      >
-        <span class="relative z-10 px-2">
-          {item.label}
-        </span>
-      </a>
-      
-      {item.dropdown && (
-        <div class="absolute left-0 mt-2 w-64 rounded-lg bg-background dark:bg-background-dark border border-border/20 dark:border-border-dark/20 shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform origin-top-left scale-95 group-hover:scale-100">
-          <div class="py-2">
-            <div class="px-4 py-2 text-sm font-medium text-text/60 dark:text-text-dark/60">
-              {item.dropdown.label}
-            </div>
-            <div class="border-t border-border/20 dark:border-border-dark/20"></div>
-            {item.dropdown.items.map((dropdownItem) => (
-              <a
-                href={dropdownItem.href}
-                class="flex items-center px-4 py-2 text-sm text-text dark:text-text-dark hover:bg-background-alt dark:hover:bg-background-alt-dark transition-colors"
-              >
-                {dropdownItem.icon && (
-                  <span class="mr-2">{dropdownItem.icon}</span>
-                )}
-                {dropdownItem.label}
-              </a>
-            ))}
-          </div>
-        </div>
-      )}
-    </div>
+    <a
+      href={item.href}
+      class="text-neutral-600 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400 transition-colors"
+      class:list={[
+        'inline-flex items-center gap-sm',
+        { 'text-primary-500 dark:text-primary-400': Astro.url.pathname === item.href }
+      ]}
+    >
+      <span>{item.label}</span>
+    </a>
   ))}
 </nav>
 

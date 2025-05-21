@@ -43,12 +43,12 @@ const sizeClasses = {
   wide: 'max-w-container-wide'
 };
 
-// Responsive padding
+// Responsive padding using design system tokens
 const paddingClasses = {
   none: '',
-  sm: 'px-4 md:px-6',
-  md: 'px-4 md:px-8 lg:px-12',
-  lg: 'px-4 md:px-12 lg:px-16'
+  sm: 'px-sm md:px-md',
+  md: 'px-sm md:px-lg lg:px-xl',
+  lg: 'px-sm md:px-xl lg:px-2xl'
 };
 
 // Combine classes based on type and size
@@ -60,11 +60,13 @@ const getMaxWidthClass = () => {
 };
 ---
 
-<div class:list={[
-  'mx-auto w-full',
-  getMaxWidthClass(),
-  paddingClasses[padding],
-  className
-]}>
+<div 
+  class:list={[
+    'mx-auto w-full',
+    getMaxWidthClass(),
+    paddingClasses[padding],
+    className
+  ]}
+>
   <slot />
 </div> 

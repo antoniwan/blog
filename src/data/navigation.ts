@@ -14,7 +14,7 @@ export interface NavigationItem {
 export const mainNavigation: NavigationItem[] = [
   { href: "/", label: "Home" },
   {
-    href: "#",
+    href: "/category",
     label: "Categories",
     dropdown: {
       label: "Browse Categories",

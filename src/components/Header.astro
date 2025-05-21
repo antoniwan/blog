@@ -1,24 +1,24 @@
 ---
-import { SITE_TITLE } from '../consts';
-import ThemeToggle from './ThemeToggle.astro';
-import Navigation from './Navigation.astro';
 import Logo from './Logo.astro';
-import LayoutContainer from './LayoutContainer.astro';
+import Navigation from './Navigation.astro';
+import ThemeToggle from './ThemeToggle.astro';
+import MobileNav from './MobileNav.astro';
 ---
 
-<header class="sticky top-0 z-50 w-full border-b border-border/20 dark:border-border-dark/20 bg-background/80 dark:bg-background-dark/80 backdrop-blur-sm">
-	<LayoutContainer type="container" size="default" padding="md">
-		<div class="flex items-center justify-between h-16">
-			<div class="flex items-center">
-				<Logo size="md" />
+<header class="sticky top-0 z-40 w-full bg-background/80 dark:bg-background-dark/80 backdrop-blur-sm border-b border-border/20 dark:border-border-dark/20">
+	<div class="mx-auto max-w-container px-sm md:px-lg lg:px-xl">
+		<div class="flex h-16 items-center justify-between">
+			<div class="flex items-center gap-lg">
+				<Logo />
+				<Navigation class="hidden md:flex" />
 			</div>
 			
-			<div class="flex items-center gap-4">
-				<Navigation />
+			<div class="flex items-center gap-md">
 				<ThemeToggle />
+				<MobileNav class="md:hidden" />
 			</div>
 		</div>
-	</LayoutContainer>
+	</div>
 </header>
 
 <style>

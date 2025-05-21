@@ -1,32 +1,41 @@
-<div class="fixed top-0 left-0 w-full h-1 bg-background-alt dark:bg-background-alt-dark z-50">
+---
+interface Props {
+	class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+---
+
+<div
+	class:list={[
+		'fixed top-0 left-0 w-full h-1 bg-background-alt dark:bg-background-alt-dark z-50',
+		className
+	]}
+>
 	<div
 		id="reading-progress"
-		class="h-full bg-primary-500 dark:bg-primary-400 transition-all duration-300"
+		class="h-full bg-primary-500 dark:bg-primary-400 transition-all duration-200"
 		style="width: 0%"
 	></div>
 </div>
 
 <script>
-	// Handle reading progress
-	const progressBar = document.getElementById('reading-progress');
+	const readingProgress = document.getElementById('reading-progress')!;
 	
-	if (progressBar) {
-		const updateProgress = () => {
-			const windowHeight = window.innerHeight;
-			const documentHeight = document.documentElement.scrollHeight - windowHeight;
-			const scrolled = window.scrollY;
-			
-			const progress = (scrolled / documentHeight) * 100;
-			progressBar.style.width = `${progress}%`;
-		};
-
-		// Update progress on scroll
-		window.addEventListener('scroll', updateProgress);
-		window.addEventListener('resize', updateProgress);
+	function updateReadingProgress() {
+		const windowHeight = window.innerHeight;
+		const documentHeight = document.documentElement.scrollHeight - windowHeight;
+		const scrolled = window.scrollY;
 		
-		// Initial update
-		updateProgress();
+		const progress = (scrolled / documentHeight) * 100;
+		readingProgress.style.width = `${progress}%`;
 	}
+
+	window.addEventListener('scroll', updateReadingProgress);
+	window.addEventListener('resize', updateReadingProgress);
+	
+	// Initial update
+	updateReadingProgress();
 </script>
 
 <style>

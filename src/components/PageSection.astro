@@ -1,75 +1,87 @@
 ---
 interface Props {
   /**
-   * The width of the content area
-   * - narrow: 65ch (optimal for long-form reading)
-   * - default: 75ch (balanced for most content)
-   * - wide: 85ch (for wider content like code blocks)
-   * - full: No max-width constraint
+   * The title of the section
    */
-  width?: 'narrow' | 'default' | 'wide';
+  title?: string;
   
   /**
-   * The vertical spacing around the section
-   * - compact: 2rem (32px)
-   * - default: 3rem (48px)
-   * - comfortable: 4rem (64px)
-   * - none: No vertical spacing
+   * The description of the section
    */
-  spacing?: 'compact' | 'default' | 'comfortable';
+  description?: string;
   
   /**
-   * Whether to center the content horizontally
+   * Whether to center the content
    */
-  center?: boolean;
+  centered?: boolean;
   
   /**
-   * Additional classes to apply to the section
+   * The background color variant
+   */
+  variant?: 'default' | 'alt' | 'elevated';
+  
+  /**
+   * The vertical padding size
+   */
+  padding?: 'none' | 'sm' | 'md' | 'lg' | 'xl';
+  
+  /**
+   * Additional classes to apply
    */
   class?: string;
-  
-  /**
-   * Whether this section should break out of the container
-   * Useful for full-width sections like hero banners
-   */
-  breakout?: boolean;
 }
 
 const {
-  width = 'default',
-  spacing = 'default',
-  center = false,
-  class: className = '',
-  breakout = false
+  title,
+  description,
+  centered = false,
+  variant = 'default',
+  padding = 'lg',
+  class: className = ''
 } = Astro.props;
 
-// Width classes
-const widthClasses = {
-  narrow: 'max-w-2xl',
-  default: 'max-w-4xl',
-  wide: 'max-w-6xl'
+const variantClasses = {
+  default: 'bg-background dark:bg-background-dark',
+  alt: 'bg-background-alt dark:bg-background-alt-dark',
+  elevated: 'bg-background-elevated dark:bg-background-elevated-dark'
 };
 
-// Spacing classes
-const spacingClasses = {
-  compact: 'py-8',
-  default: 'py-12',
-  comfortable: 'py-16'
+const paddingClasses = {
+  none: '',
+  sm: 'py-sm',
+  md: 'py-md',
+  lg: 'py-lg',
+  xl: 'py-xl'
 };
-
-// Combine classes
-const classes = [
-  'w-full',
-  widthClasses[width],
-  spacingClasses[spacing],
-  center ? 'mx-auto' : '',
-  breakout ? 'relative -mx-4 sm:-mx-6 lg:-mx-8' : '',
-  className
-].filter(Boolean).join(' ');
 ---
 
-<section class={classes}>
-  <slot />
+<section
+  class:list={[
+    variantClasses[variant],
+    paddingClasses[padding],
+    className
+  ]}
+>
+  <div class="mx-auto max-w-container px-sm md:px-lg lg:px-xl">
+    {(title || description) && (
+      <div class:list={[
+        'mb-xl',
+        { 'text-center': centered }
+      ]}>
+        {title && (
+          <h2 class="text-3xl md:text-4xl font-serif font-bold tracking-tight text-text dark:text-text-dark">
+            {title}
+          </h2>
+        )}
+        {description && (
+          <p class="mt-md text-lg text-neutral-600 dark:text-neutral-400">
+            {description}
+          </p>
+        )}
+      </div>
+    )}
+    <slot />
+  </div>
 </section>
 
 <style>
