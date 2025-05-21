@@ -40,6 +40,9 @@ A personal digital space where I document my journey of building systems — dig
 - ✅ Reading progress indicator
 - ✅ Back to top button
 - ✅ Skip to main content accessibility feature
+- ✅ Enhanced typography with Fraunces font
+- ✅ Improved table styles and tag design
+- ✅ Centralized site configuration
 
 ### Media Architecture
 
@@ -79,6 +82,15 @@ A personal digital space where I document my journey of building systems — dig
 - ✅ WebP format support
 - ✅ Proper aspect ratio handling
 - ✅ Optimized media delivery
+
+### Typography & Design
+
+- ✅ Fraunces font for enhanced typography
+- ✅ Optimized line heights and letter spacing
+- ✅ Improved table styles for better readability
+- ✅ Enhanced tag design and spacing
+- ✅ Centralized typography management
+- ✅ Improved mobile responsiveness
 
 ## 📦 Getting Started
 
