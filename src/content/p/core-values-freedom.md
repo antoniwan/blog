@@ -23,4 +23,8 @@ Only after defining my core values was I able to understand my morality and how 
 This truthfulness is what I call mental and emotional health.
 The better I practice and exercise my core values, the healthier I feel mentally and emotionally because I am truthful about what I value and how I want to live. Practicing my values makes me feel free, bringing me into situations where I consistently feel joy because I'm doing as I please. I'm doing what I want, ultimately!
 
-Therefore, practicing integrity brings me joy. 
+Therefore, practicing integrity brings me joy.
+
+---
+
+*Originally published on [Medium](https://wizards777.medium.com/the-definition-and-practice-of-my-core-values-make-me-free-a11ea789fc72).* 
