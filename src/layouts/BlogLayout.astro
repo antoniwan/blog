@@ -2,6 +2,7 @@
 import BaseLayout from './BaseLayout.astro';
 import Section from '../components/Section.astro';
 import FormattedDate from '../components/FormattedDate.astro';
+import { Image } from 'astro:assets';
 
 interface Props {
   title: string;
@@ -162,9 +163,21 @@ const structuredData = {
         </div>
       )}
     </div>
+
+    {heroImage && (
+      <div class="mt-8">
+        <img 
+          src={heroImage} 
+          alt={title}
+          class="w-full h-auto rounded-lg shadow-lg"
+          loading="eager"
+        />
+      </div>
+    )}
   </Section>
   
-  <Section padding="section">
+  <Section padding="none">
     <slot />
   </Section>
+
 </BaseLayout>

@@ -1,6 +1,7 @@
 ---
 import type { MarkdownInstance } from 'astro';
 import LayoutContainer from './LayoutContainer.astro';
+import Figure from './media/Figure.astro';
 
 interface Props {
   post: MarkdownInstance<Record<string, any>>;
@@ -13,7 +14,7 @@ const processedContent = post.Content;
 ---
 
 <LayoutContainer type="content" padding="md">
-  <article class="prose prose-lg [&>img]:w-full [&>img]:h-auto [&>img]:rounded-lg [&>img]:my-8 [&>img]:transition-transform [&>img]:duration-300 [&>img]:hover:scale-[1.02]">
+  <article class="prose prose-lg">
     {processedContent}
   </article>
 </LayoutContainer>

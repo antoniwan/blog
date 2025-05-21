@@ -142,9 +142,9 @@ const paddingMap = { compact: 'sm', default: 'md', comfortable: 'lg' };
       <LayoutContainer type="container" size={sizeMap[contentWidth] as 'narrow' | 'default' | 'wide'} padding={paddingMap[spacing] as 'sm' | 'md' | 'lg' | 'none'}>
         {layoutType === 'blog' && (
           <article class="animate-fade-in" transition:animate="fade">
-            <section class="prose prose-lg dark:prose-invert prose-headings:font-serif prose-headings:tracking-tight prose-p:leading-relaxed prose-p:text-lg prose-a:text-primary-500 dark:prose-a:text-primary-400 prose-a:no-underline hover:prose-a:underline prose-img:rounded-lg prose-img:shadow-lg prose-blockquote:border-l-4 prose-blockquote:border-primary-500 dark:prose-blockquote:border-primary-400 prose-blockquote:pl-4 prose-blockquote:italic prose-blockquote:bg-neutral-100 dark:prose-blockquote:bg-neutral-800 prose-blockquote:p-4 prose-blockquote:rounded-r-lg prose-ul:my-xl prose-ol:my-xl prose-li:my-sm prose-h2:mt-3xl prose-h2:mb-xl prose-h3:mt-2xl prose-h3:mb-lg">
+            <div class="prose prose-lg dark:prose-invert prose-headings:font-serif prose-headings:tracking-tight prose-p:leading-relaxed prose-p:text-lg prose-a:text-primary-500 dark:prose-a:text-primary-400 prose-a:no-underline hover:prose-a:underline prose-img:rounded-lg prose-img:shadow-lg prose-blockquote:border-l-4 prose-blockquote:border-primary-500 dark:prose-blockquote:border-primary-400 prose-blockquote:pl-4 prose-blockquote:italic prose-blockquote:bg-neutral-100 dark:prose-blockquote:bg-neutral-800 prose-blockquote:p-4 prose-blockquote:rounded-r-lg prose-ul:my-xl prose-ol:my-xl prose-li:my-sm prose-h2:mt-3xl prose-h2:mb-xl prose-h3:mt-2xl prose-h3:mb-lg">
               <slot />
-            </section>
+            </div>
           </article>
         )}
         {layoutType === 'default' && (

@@ -25,6 +25,10 @@ export default defineConfig({
     },
     smartypants: true,
     gfm: true,
+    rehypePlugins: [
+      // Add support for image optimization in markdown
+      ["rehype-image-size", { dir: "public" }],
+    ],
   },
   // Enable built-in prefetch with optimized settings
   prefetch: {
@@ -36,5 +40,13 @@ export default defineConfig({
     service: {
       entrypoint: "astro/assets/services/sharp",
     },
+    domains: ["blog.antoniwan.online"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "blog.antoniwan.online",
+        pathname: "/images/**",
+      },
+    ],
   },
 });
