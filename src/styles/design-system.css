@@ -3,8 +3,8 @@
 :root {
   /* Animation */
   --animation-duration-fast: 150ms;
-  --animation-duration-normal: 300ms;
-  --animation-duration-slow: 500ms;
+  --animation-duration-normal: 200ms;
+  --animation-duration-slow: 300ms;
   
   --animation-easing-default: cubic-bezier(0.4, 0, 0.2, 1);
   --animation-easing-in: cubic-bezier(0.4, 0, 1, 1);
@@ -46,9 +46,22 @@
 
 /* Utility Classes */
 
-/* Animation */
+/* Theme Transitions */
+.theme-transition {
+  @apply transition-colors duration-normal ease-default;
+}
+
+.theme-transition-all {
+  @apply transition-all duration-normal ease-default;
+}
+
+/* Animation Classes */
 .animate-fade-in {
   animation: fade-in var(--animation-duration-normal) var(--animation-easing-out);
+}
+
+.animate-fade-up {
+  animation: fade-up var(--animation-duration-normal) var(--animation-easing-out);
 }
 
 .animate-slide-up {
@@ -57,6 +70,45 @@
 
 .animate-slide-down {
   animation: slide-down var(--animation-duration-normal) var(--animation-easing-out);
+}
+
+/* Animation Keyframes */
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Elevation */

@@ -253,7 +253,7 @@
 
   /* Global transitions */
   * {
-    @apply transition-colors duration-300;
+    @apply transition-[background-color,color,border-color] duration-150;
   }
 
   /* Respect reduced motion preferences */

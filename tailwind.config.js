@@ -341,50 +341,58 @@ export default {
           },
         },
       },
-      keyframes: {
-        "fade-in": {
-          "0%": { opacity: "0" },
-          "100%": { opacity: "1" },
-        },
-        "fade-up": {
-          "0%": {
-            opacity: "0",
-            transform: "translateY(10px)",
-          },
-          "100%": {
-            opacity: "1",
-            transform: "translateY(0)",
-          },
-        },
-        heartbeat: {
-          "0%": { transform: "scale(1)" },
-          "50%": { transform: "scale(1.05)" },
-          "100%": { transform: "scale(1)" },
-        },
-        "slide-up": {
-          "0%": {
-            opacity: "0",
-            transform: "translateY(20px)",
-          },
-          "100%": {
-            opacity: "1",
-            transform: "translateY(0)",
-          },
-        },
-        "slide-down": {
-          "0%": { transform: "translateY(-20px)", opacity: "0" },
-          "100%": { transform: "translateY(0)", opacity: "1" },
-        },
-      },
-      animation: {
-        "fade-in": "fade-in 0.5s ease-out forwards",
-        "fade-up": "fade-up 0.5s ease-out forwards",
-        heartbeat: "heartbeat 2s ease-in-out infinite",
-        "slide-up": "slide-up 0.5s ease-out forwards",
-        "slide-down": "slide-down 0.5s ease-out forwards",
+      transitionDuration: {
+        'fast': 'var(--animation-duration-fast)',
+        'normal': 'var(--animation-duration-normal)',
+        'slow': 'var(--animation-duration-slow)',
       },
       transitionTimingFunction: {
-        "ease-out": "cubic-bezier(0.16, 1, 0.3, 1)",
+        'default': 'var(--animation-easing-default)',
+        'in': 'var(--animation-easing-in)',
+        'out': 'var(--animation-easing-out)',
+        'in-out': 'var(--animation-easing-in-out)',
+      },
+      animation: {
+        'fade-in': 'fade-in var(--animation-duration-normal) var(--animation-easing-out)',
+        'fade-up': 'fade-up var(--animation-duration-normal) var(--animation-easing-out)',
+        'slide-up': 'slide-up var(--animation-duration-normal) var(--animation-easing-out)',
+        'slide-down': 'slide-down var(--animation-duration-normal) var(--animation-easing-out)',
+      },
+      keyframes: {
+        'fade-in': {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' },
+        },
+        'fade-up': {
+          '0%': {
+            opacity: '0',
+            transform: 'translateY(10px)',
+          },
+          '100%': {
+            opacity: '1',
+            transform: 'translateY(0)',
+          },
+        },
+        'slide-up': {
+          '0%': {
+            opacity: '0',
+            transform: 'translateY(20px)',
+          },
+          '100%': {
+            opacity: '1',
+            transform: 'translateY(0)',
+          },
+        },
+        'slide-down': {
+          '0%': {
+            opacity: '0',
+            transform: 'translateY(-20px)',
+          },
+          '100%': {
+            opacity: '1',
+            transform: 'translateY(0)',
+          },
+        },
       },
     },
   },
