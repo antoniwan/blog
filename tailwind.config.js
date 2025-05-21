@@ -141,6 +141,14 @@ export default {
         "6xl": ["4.5rem", { lineHeight: "1", letterSpacing: "-0.04em" }],
       },
       spacing: {
+        // Vertical rhythm system
+        section: "6rem", // 96px - Major section spacing
+        block: "3rem", // 48px - Block-level spacing
+        element: "1.5rem", // 24px - Element-level spacing
+        content: "1rem", // 16px - Content-level spacing
+        tight: "0.5rem", // 8px  - Tight spacing
+
+        // Legacy spacing (keep for backward compatibility)
         xs: "0.25rem",
         sm: "0.5rem",
         md: "1rem",

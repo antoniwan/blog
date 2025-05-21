@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Disclaimer from '../components/Disclaimer.astro';
-import LayoutContainer from '../components/LayoutContainer.astro';
+import Section from '../components/Section.astro';
 ---
 
 <BaseLayout
@@ -19,59 +19,61 @@ import LayoutContainer from '../components/LayoutContainer.astro';
 	}}
 	layoutType="blog"
 >
-	<div class="prose prose-lg dark:prose-invert max-w-content mx-auto">
-		<p class="text-text dark:text-text-dark">
-			I build systems — digital, emotional, spiritual, and physical.
-		</p>
+	<Section padding="section">
+		<div class="prose prose-lg dark:prose-invert max-w-content mx-auto">
+			<p class="text-text dark:text-text-dark">
+				I build systems — digital, emotional, spiritual, and physical.
+			</p>
 
-		<p class="text-text dark:text-text-dark">
-			I'm a technical program manager, software architect, and developer with over a decade of experience building scalable products. I've founded companies, led teams, and shipped software used by millions. Now I split my time between building tools, raising my kids, and building a homestead in Puerto Rico.
-		</p>
+			<p class="text-text dark:text-text-dark">
+				I'm a technical program manager, software architect, and developer with over a decade of experience building scalable products. I've founded companies, led teams, and shipped software used by millions. Now I split my time between building tools, raising my kids, and building a homestead in Puerto Rico.
+			</p>
 
-		<p class="text-text dark:text-text-dark">
-			But that's just part of it.
-		</p>
+			<p class="text-text dark:text-text-dark">
+				But that's just part of it.
+			</p>
 
-		<p class="text-text dark:text-text-dark">
-			I'm also a father, artist, martial artist, mentor, and the founder of <strong class="text-text dark:text-text-dark">Strong Hands, Soft Heart</strong> — a brand devoted to practical strength, emotional depth, and sacred self-reliance.
-		</p>
+			<p class="text-text dark:text-text-dark">
+				I'm also a father, artist, martial artist, mentor, and the founder of <strong class="text-text dark:text-text-dark">Strong Hands, Soft Heart</strong> — a brand devoted to practical strength, emotional depth, and sacred self-reliance.
+			</p>
 
-		<p class="text-text dark:text-text-dark">
-			This blog is where I document it all:
-		</p>
+			<p class="text-text dark:text-text-dark">
+				This blog is where I document it all:
+			</p>
 
-		<ul class="text-text dark:text-text-dark">
-			<li><strong class="text-text dark:text-text-dark">Art & Expression</strong> 🎵 — creative soul, aesthetic power, truth-telling</li>
-			<li><strong class="text-text dark:text-text-dark">DIY & Creation</strong> 🛠️ — physical builds, handmade goods, crafting</li>
-			<li><strong class="text-text dark:text-text-dark">Integration & Growth</strong> 🧘🏽‍♂️ — inner mastery, parenting, masculine leadership</li>
-			<li><strong class="text-text dark:text-text-dark">Learning Projects</strong> 📚 — documentation of mastery in progress</li>
-			<li><strong class="text-text dark:text-text-dark">Metaspace</strong> 🌀 — reflections on the journey itself</li>
-			<li><strong class="text-text dark:text-text-dark">Parenting</strong> 👨‍👩‍👧‍👦 — raising resilient children, family dynamics, and personal growth</li>
-			<li><strong class="text-text dark:text-text-dark">Politics</strong> ⚖️ — power dynamics, social structures, and collective healing</li>
-			<li><strong class="text-text dark:text-text-dark">Psychology</strong> 🧠 — human behavior, social dynamics, and mental processes</li>
-			<li><strong class="text-text dark:text-text-dark">Systems & Strategy</strong> 💻 — technical systems, organizational design, and strategic thinking</li>
-		</ul>
+			<ul class="text-text dark:text-text-dark">
+				<li><strong class="text-text dark:text-text-dark">Art & Expression</strong> 🎵 — creative soul, aesthetic power, truth-telling</li>
+				<li><strong class="text-text dark:text-text-dark">DIY & Creation</strong> 🛠️ — physical builds, handmade goods, crafting</li>
+				<li><strong class="text-text dark:text-text-dark">Integration & Growth</strong> 🧘🏽‍♂️ — inner mastery, parenting, masculine leadership</li>
+				<li><strong class="text-text dark:text-text-dark">Learning Projects</strong> 📚 — documentation of mastery in progress</li>
+				<li><strong class="text-text dark:text-text-dark">Metaspace</strong> 🌀 — reflections on the journey itself</li>
+				<li><strong class="text-text dark:text-text-dark">Parenting</strong> 👨‍👩‍👧‍👦 — raising resilient children, family dynamics, and personal growth</li>
+				<li><strong class="text-text dark:text-text-dark">Politics</strong> ⚖️ — power dynamics, social structures, and collective healing</li>
+				<li><strong class="text-text dark:text-text-dark">Psychology</strong> 🧠 — human behavior, social dynamics, and mental processes</li>
+				<li><strong class="text-text dark:text-text-dark">Systems & Strategy</strong> 💻 — technical systems, organizational design, and strategic thinking</li>
+			</ul>
 
-		<p class="text-text dark:text-text-dark">
-			Join me on this journey of exploration, creation, and growth.
-		</p>
+			<p class="text-text dark:text-text-dark">
+				Join me on this journey of exploration, creation, and growth.
+			</p>
 
-		<h2 class="text-text dark:text-text-dark">👇 Links</h2>
-		<ul class="text-text dark:text-text-dark">
-			<li>🛠 <a href="https://builds.software" target="_blank" rel="noopener noreferrer" class="text-primary-500 dark:text-primary-400 hover:underline">Builds.software</a> — my technical portfolio</li>
-			<li>💜 <a href="https://stronghandssoftheart.com" target="_blank" rel="noopener noreferrer" class="text-primary-500 dark:text-primary-400 hover:underline">Strong Hands, Soft Heart</a> — my brand</li>
-			<li>🐙 <a href="https://github.com/antoniwan" target="_blank" rel="noopener noreferrer" class="text-primary-500 dark:text-primary-400 hover:underline">GitHub</a> — open source & code</li>
-			<li>🌀 <a href="https://bsky.app/profile/antoniwan.online" target="_blank" rel="noopener noreferrer" class="text-primary-500 dark:text-primary-400 hover:underline">BlueSky</a> — my social brain</li>
-		</ul>
+			<h2 class="text-text dark:text-text-dark">👇 Links</h2>
+			<ul class="text-text dark:text-text-dark">
+				<li>🛠 <a href="https://builds.software" target="_blank" rel="noopener noreferrer" class="text-primary-500 dark:text-primary-400 hover:underline">Builds.software</a> — my technical portfolio</li>
+				<li>💜 <a href="https://stronghandssoftheart.com" target="_blank" rel="noopener noreferrer" class="text-primary-500 dark:text-primary-400 hover:underline">Strong Hands, Soft Heart</a> — my brand</li>
+				<li>🐙 <a href="https://github.com/antoniwan" target="_blank" rel="noopener noreferrer" class="text-primary-500 dark:text-primary-400 hover:underline">GitHub</a> — open source & code</li>
+				<li>🌀 <a href="https://bsky.app/profile/antoniwan.online" target="_blank" rel="noopener noreferrer" class="text-primary-500 dark:text-primary-400 hover:underline">BlueSky</a> — my social brain</li>
+			</ul>
 
-		<p class="text-text dark:text-text-dark">
-			If you're building something good, or trying to become someone better,<br />
-			I'm probably down to help.<br />
-			Get in touch.
-		</p>
+			<p class="text-text dark:text-text-dark">
+				If you're building something good, or trying to become someone better,<br />
+				I'm probably down to help.<br />
+				Get in touch.
+			</p>
 
-		<Disclaimer />
-	</div>
+			<Disclaimer />
+		</div>
+	</Section>
 </BaseLayout>
 
 <style>

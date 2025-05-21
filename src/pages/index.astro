@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PostCard from '../components/PostCard.astro';
-import PageSection from '../components/PageSection.astro';
+import Section from '../components/Section.astro';
 import { getCollection } from 'astro:content';
 import { categories } from '../data/categories';
 
@@ -36,84 +36,76 @@ const tagCounts = posts.reduce((acc, post) => {
 	spacing="comfortable"
 >
 	{/* Hero Section */}
-	<section class="text-center">
-		<h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-text dark:text-text-dark leading-tight tracking-tight">
+	<Section padding="section">
+		<h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-text dark:text-text-dark leading-tight tracking-tight">
 			Welcome to the<br />Strong Vault
 		</h1>
 		<p class="text-xl md:text-2xl text-neutral-600 dark:text-neutral-400 leading-relaxed">
 			Notes on strength, clarity, ritual, and creation — one builder's journey through code, craft, and self-mastery.
 		</p>
-	</section>
+	</Section>
 
 	{/* Featured Posts Section */}
-	<section>
-		<div class="space-y-6">
-			<h2 class="text-2xl md:text-3xl font-bold text-text dark:text-text-dark">Featured Posts</h2>
-			<div class="grid gap-8 md:gap-12">
-				{sortedPosts.slice(0, 3).map(post => (
-					<PostCard post={post} />
-				))}
-			</div>
+	<Section padding="section" hasBorder>
+		<h2 class="text-2xl md:text-3xl font-bold text-text dark:text-text-dark">Featured Posts</h2>
+		<div class="space-y-block">
+			{sortedPosts.slice(0, 3).map(post => (
+				<PostCard post={post} />
+			))}
 		</div>
-	</section>
+	</Section>
 
 	{/* Categories Section */}
-	<section>
-		<div class="space-y-6">
-			<h2 class="text-2xl md:text-3xl font-bold text-text dark:text-text-dark">Categories</h2>
-			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-				{categories.map(category => {
-					const postCount = postCounts[category.id] || 0;
-					return (
-						<a
-							href={`/category/${category.id}/`}
-							class="flex items-center justify-between p-4 rounded-lg bg-background-alt hover:bg-background-alt/80 transition-colors"
-						>
-							<div class="flex items-center gap-3">
-								<span class="text-2xl" aria-hidden="true">{category.icon}</span>
-								<span class="font-medium text-text dark:text-text-dark">{category.name}</span>
-							</div>
-							<span class="text-sm text-text-muted">{postCount} {postCount === 1 ? 'post' : 'posts'}</span>
-						</a>
-					);
-				})}
-			</div>
+	<Section padding="section" isAlt>
+		<h2 class="text-2xl md:text-3xl font-bold text-text dark:text-text-dark">Categories</h2>
+		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+			{categories.map(category => {
+				const postCount = postCounts[category.id] || 0;
+				return (
+					<a
+						href={`/category/${category.id}/`}
+						class="flex items-center justify-between p-4 rounded-lg bg-background-alt hover:bg-background-alt/80 transition-colors"
+					>
+						<div class="flex items-center gap-3">
+							<span class="text-2xl" aria-hidden="true">{category.icon}</span>
+							<span class="font-medium text-text dark:text-text-dark">{category.name}</span>
+						</div>
+						<span class="text-sm text-text-muted">{postCount} {postCount === 1 ? 'post' : 'posts'}</span>
+					</a>
+				);
+			})}
 		</div>
-	</section>
+	</Section>
 
 	{/* Popular Tags Section */}
-	<section>
-		<div class="space-y-6">
-			<h2 class="text-2xl md:text-3xl font-bold text-text dark:text-text-dark">Popular Tags</h2>
-			<div class="flex flex-wrap gap-2">
-				{Object.entries(tagCounts)
-					.sort(([, a], [, b]) => b - a)
-					.slice(0, 10)
-					.map(([tag, count]) => (
-						<a
-							href={`/tag/${tag}/`}
-							class="flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-full bg-zinc-100 dark:bg-zinc-800 text-gray-700 dark:text-gray-300 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors"
-						>
-							<span>🏷️</span>
-							<span>{tag}</span>
-							<span class="text-xs px-1.5 py-0.5 rounded-full bg-zinc-200 dark:bg-zinc-700 text-gray-600 dark:text-gray-400">{count}</span>
-						</a>
-					))}
-			</div>
+	<Section padding="section">
+		<h2 class="text-2xl md:text-3xl font-bold text-text dark:text-text-dark">Popular Tags</h2>
+		<div class="flex flex-wrap gap-2">
+			{Object.entries(tagCounts)
+				.sort(([, a], [, b]) => b - a)
+				.slice(0, 10)
+				.map(([tag, count]) => (
+					<a
+						href={`/tag/${tag}/`}
+						class="flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-full bg-zinc-100 dark:bg-zinc-800 text-gray-700 dark:text-gray-300 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors"
+					>
+						<span>🏷️</span>
+						<span>{tag}</span>
+						<span class="text-xs px-1.5 py-0.5 rounded-full bg-zinc-200 dark:bg-zinc-700 text-gray-600 dark:text-gray-400">{count}</span>
+					</a>
+				))}
 		</div>
-	</section>
+	</Section>
 
 	{/* Latest Posts Section */}
-	<section>
-		<div class="space-y-6">
-			<h2 class="text-2xl md:text-3xl font-bold text-text dark:text-text-dark">Latest Posts</h2>
-			<div class="grid gap-8 md:gap-12">
-				{sortedPosts.slice(3, 6).map(post => (
-					<PostCard post={post} />
-				))}
-			</div>
+	<Section padding="section" hasBorder>
+		<h2 class="text-2xl md:text-3xl font-bold text-text dark:text-text-dark">Latest Posts</h2>
+		<div class="space-y-block">
+			{sortedPosts.slice(3, 6).map(post => (
+				<PostCard post={post} />
+			))}
 		</div>
-	</section>
+	</Section>
 </BaseLayout>
 
 <style>

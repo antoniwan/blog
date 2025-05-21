@@ -1,0 +1,66 @@
+---
+interface Props {
+  /**
+   * The vertical padding size
+   */
+  padding?: 'none' | 'content' | 'element' | 'block' | 'section';
+  
+  /**
+   * Whether to add a top border
+   */
+  hasBorder?: boolean;
+  
+  /**
+   * Whether to use an alternate background
+   */
+  isAlt?: boolean;
+  
+  /**
+   * Additional classes to apply
+   */
+  class?: string;
+}
+
+const {
+  padding = 'block',
+  hasBorder = false,
+  isAlt = false,
+  class: className = ''
+} = Astro.props;
+
+const paddingMap = {
+  none: '',
+  content: 'py-content',
+  element: 'py-element',
+  block: 'py-block',
+  section: 'py-section'
+};
+---
+
+<section
+  class:list={[
+    paddingMap[padding],
+    {
+      'border-t border-border/10': hasBorder,
+      'bg-background-alt dark:bg-background-alt-dark': isAlt
+    },
+    className
+  ]}
+>
+  <div class="mx-auto max-w-container px-content">
+    <div class="space-y-element">
+      <slot />
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Print styles */
+  @media print {
+    section {
+      max-width: none !important;
+      padding: 0 !important;
+      margin: 0 !important;
+    }
+  }
+</style> 

@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PostCard from '../../components/PostCard.astro';
-import PageSection from '../../components/PageSection.astro';
+import Section from '../../components/Section.astro';
 import { getCollection } from 'astro:content';
 
 export async function getStaticPaths() {
@@ -38,22 +38,22 @@ const tagPosts = posts
 	contentWidth="default"
 	spacing="comfortable"
 >
-	<PageSection width="default" spacing="comfortable" class="text-center">
-		<h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-text dark:text-text-dark leading-tight tracking-tight">
+	<Section padding="section" class="text-center">
+		<h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-text dark:text-text-dark leading-tight tracking-tight">
 			{tag}
 		</h1>
 		<p class="text-xl md:text-2xl text-neutral-600 dark:text-neutral-400 leading-relaxed max-w-2xl mx-auto">
 			{tagPosts.length} {tagPosts.length === 1 ? 'post' : 'posts'} tagged with {tag}
 		</p>
-	</PageSection>
+	</Section>
 
-	<PageSection width="default" spacing="default">
+	<Section padding="block">
 		<div class="grid gap-8 md:gap-12">
 			{tagPosts.map(post => (
 				<PostCard post={post} />
 			))}
 		</div>
-	</PageSection>
+	</Section>
 </BaseLayout>
 
 <style>
