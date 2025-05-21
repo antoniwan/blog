@@ -141,11 +141,11 @@ const structuredData = {
         )}
         
         {tags && tags.length > 0 && (
-            {tags.map(tag => (
+            tags.map(tag => (
               <a href={`/tag/${tag}/`}>
                 {tag}
               </a>
-            ))}
+            ))
         )}
 
       {heroImage && (
