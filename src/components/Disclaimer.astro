@@ -11,14 +11,21 @@ const { text = DISCLAIMER_TEXT, class: className = '' } = Astro.props;
 
 <div 
   class:list={[
-    'bg-background-alt dark:bg-background-alt-dark border-l-4 border-primary-500 dark:border-primary-400 p-md md:p-lg my-lg rounded-md',
+    'bg-background-alt/50 dark:bg-background-alt-dark/50',
+    'border-l-4 border-primary-500 dark:border-primary-400',
+    'p-element md:p-block',
+    'my-block',
+    'rounded-md',
+    'shadow-sm',
+    'transition-colors duration-300',
     className
   ]}
   role="complementary"
   aria-label="Disclaimer"
 >
-	<div class="max-w-3xl mx-auto">
-		<h3 class="text-lg font-semibold mb-sm text-text dark:text-text-dark">🌟 Sacred Disclaimer</h3>
+		<div>
+			<span class="text-xl">🌟</span>
+			<span>Sacred Disclaimer</span>
+    </div>
 		<p class="text-neutral-600 dark:text-neutral-400 leading-relaxed m-0" set:html={text} />
-	</div>
 </div> 
