@@ -51,5 +51,6 @@ export const mainNavigation: NavigationItem[] = [
       ],
     },
   },
+  { href: "/tag", label: "Tags" },
   { href: "/about", label: "About" },
 ];

@@ -4,6 +4,7 @@ import PostCard from '../../components/PostCard.astro';
 import PageSection from '../../components/PageSection.astro';
 import { getCollection } from 'astro:content';
 import { categories } from '../../data/categories';
+import Section from '../../components/Section.astro';
 
 export async function getStaticPaths() {
 	return categories.map(category => ({
@@ -32,22 +33,22 @@ const categoryPosts = posts
 	contentWidth="default"
 	spacing="comfortable"
 >
-	<PageSection width="default" spacing="comfortable" class="text-center">
+	<Section padding="section">
 		<h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-text dark:text-text-dark leading-tight tracking-tight">
 			{category.name}
 		</h1>
-		<p class="text-xl md:text-2xl text-neutral-600 dark:text-neutral-400 leading-relaxed max-w-2xl mx-auto">
+		<p class="text-xl md:text-2xl text-neutral-600 dark:text-neutral-400 leading-relaxed max-w-2xl">
 			{category.description}
 		</p>
-	</PageSection>
+	</Section>
 
-	<PageSection width="default" spacing="default">
+	<Section padding="block">
 		<div class="grid gap-8 md:gap-12">
 			{categoryPosts.map(post => (
 				<PostCard post={post} />
 			))}
 		</div>
-	</PageSection>
+	</Section>
 </BaseLayout>
 
 <style>
