@@ -134,25 +134,7 @@ const spacingMap = {
     
     <main id="main-content" role="main">
       <LayoutContainer>
-        {layoutType === 'blog' && (
-          <article>
-            <div>
-              <slot />
-            </div>
-          </article>
-        )}
-        {layoutType === 'default' && (
-          <div>
-            <div>
-              <slot />
-            </div>
-          </div>
-        )}
-        {(layoutType === 'home' || layoutType === 'category') && (
-          <div>
-            <slot />
-          </div>
-        )}
+        <slot />
       </LayoutContainer>
     </main>
     

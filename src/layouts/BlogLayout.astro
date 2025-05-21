@@ -112,7 +112,6 @@ const structuredData = {
   <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
   
   <Section>
-    <div>
       <h1>
         {title}
       </h1>
@@ -121,7 +120,6 @@ const structuredData = {
           {description}
         </p>
       )}
-      <div>
         {pubDate && (
           <time datetime={pubDate.toISOString()}>
             <FormattedDate date={pubDate} format="long" />
@@ -143,26 +141,20 @@ const structuredData = {
         )}
         
         {tags && tags.length > 0 && (
-          <div>
             {tags.map(tag => (
               <a href={`/tag/${tag}/`}>
                 {tag}
               </a>
             ))}
-          </div>
         )}
-      </div>
 
       {heroImage && (
-        <div>
           <img 
             src={heroImage} 
             alt={title}
             loading="eager"
           />
-        </div>
       )}
-    </div>
   </Section>
   
   <Section>

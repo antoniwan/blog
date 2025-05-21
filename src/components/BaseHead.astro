@@ -74,7 +74,8 @@ const fullTitleSEO = `${title} - ${SITE_TITLE}`;
 <meta name="theme-color" content="var(--color-primary-500)" />
 <meta name="color-scheme" content="light dark" />
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-<link rel="apple-touch-icon" href="/favicon.svg" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+<link rel="manifest" href="/site.webmanifest" />
 <link rel="sitemap" href="/sitemap-index.xml" />
 <link
 	rel="alternate"
@@ -83,6 +84,7 @@ const fullTitleSEO = `${title} - ${SITE_TITLE}`;
 	href={new URL('rss.xml', Astro.site)}
 />
 <meta name="generator" content={Astro.generator} />
+<meta http-equiv="content-language" content="en" />
 
 <!-- Alpine.js -->
 <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -120,26 +122,9 @@ const fullTitleSEO = `${title} - ${SITE_TITLE}`;
 {updatedDateISO && <meta property="article:modified_time" content={updatedDateISO} />}
 {author && <meta property="article:author" content={author} />}
 
-<!-- Canonical URL -->
-<link rel="canonical" href={canonical} />
-
-<!-- Favicon -->
-<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-<link rel="manifest" href="/site.webmanifest" />
-
 <!-- Theme Color -->
 <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
 <meta name="theme-color" content="#1a1a1a" media="(prefers-color-scheme: dark)" />
 
 <!-- Theme initialization script -->
 <script is:inline src="/src/scripts/theme.ts"></script>
-
-<!-- Viewport -->
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-<!-- Character Set -->
-<meta charset="utf-8" />
-
-<!-- Language -->
-<meta http-equiv="content-language" content="en" />
