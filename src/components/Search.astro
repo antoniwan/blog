@@ -1,5 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
+import Icon from './Icon.astro';
 
 interface SearchResult {
   title: string;
@@ -29,22 +30,15 @@ const searchIndex: SearchResult[] = posts.map(post => ({
   init() {
     this.isLoading = false;
   },
-  handleSearch() {
-    if (this.query.length > 2) {
-      this.isSearching = true;
-      setTimeout(() => {
-        const searchResults = searchIndex.filter(item => 
-          item.title.toLowerCase().includes(this.query.toLowerCase()) ||
-          item.tags.some(tag => tag.toLowerCase().includes(this.query.toLowerCase()))
-        );
-        this.results = searchResults.slice(0, 5);
-        this.isSearching = false;
-        this.open = true;
-      }, 300);
-    } else {
+  async handleSearch() {
+    if (this.query.length < 3) {
       this.results = [];
-      this.open = false;
+      return;
     }
+    
+    this.isSearching = true;
+    // Add your search logic here
+    this.isSearching = false;
   }
 }">
   <label>
@@ -57,28 +51,20 @@ const searchIndex: SearchResult[] = posts.map(post => ({
       @keydown.escape.window="open = false"
       placeholder="Search posts..."
     />
-    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-    </svg>
+    <Icon name="search" />
   </label>
 
   <div x-show="open" style="display: none;" role="listbox">
     <template x-if="isLoading">
       <p>
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"></circle>
-          <path fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-        </svg>
+        <Icon name="loader" class="animate-spin" />
         Loading...
       </p>
     </template>
 
     <template x-if="!isLoading && isSearching">
       <p>
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"></circle>
-          <path fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-        </svg>
+        <Icon name="loader" class="animate-spin" />
         Searching...
       </p>
     </template>

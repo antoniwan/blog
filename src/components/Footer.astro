@@ -4,31 +4,29 @@ import Logo from './Logo.astro';
 ---
 
 <footer>
-  <div>
-    <section>
-      <Logo />
-      <p>{SITE_DESCRIPTION}</p>
-    </section>
-    
-    <section>
-      <h3>Quick Links</h3>
-      <nav>
-        <a href="/">Home</a>
-        <a href="/category/">Categories</a>
-        <a href="/tag/">Tags</a>
-        <a href="/about">About</a>
-      </nav>
-    </section>
-    
-    <section>
-      <h3>Connect</h3>
-      <nav>
-        <a href="https://bsky.app/profile/antoniwan.online" target="_blank" rel="noopener noreferrer">🌀 BlueSky</a>
-        <a href="https://github.com/antoniwan/strongvault" target="_blank" rel="noopener noreferrer">🐙 GitHub</a>
-        <a href="https://www.youtube.com/@Antoniwan777" target="_blank" rel="noopener noreferrer">📺 YouTube</a>
-      </nav>
-    </section>
-  </div>
+  <section>
+    <Logo />
+    <p>{SITE_DESCRIPTION}</p>
+  </section>
+  
+  <section>
+    <h3>Quick Links</h3>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/category/">Categories</a>
+      <a href="/tag/">Tags</a>
+      <a href="/about">About</a>
+    </nav>
+  </section>
+  
+  <section>
+    <h3>Connect</h3>
+    <nav>
+      <a href="https://bsky.app/profile/antoniwan.online" target="_blank" rel="noopener noreferrer">🌀 BlueSky</a>
+      <a href="https://github.com/antoniwan/strongvault" target="_blank" rel="noopener noreferrer">🐙 GitHub</a>
+      <a href="https://www.youtube.com/@Antoniwan777" target="_blank" rel="noopener noreferrer">📺 YouTube</a>
+    </nav>
+  </section>
   
   <section>
     <p>© {new Date().getFullYear()} {SITE_TITLE}. All rights reserved.</p>

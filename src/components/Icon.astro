@@ -1,0 +1,25 @@
+---
+import feather from 'feather-icons';
+
+interface Props {
+  name: string;
+  size?: number;
+  stroke?: number;
+  class?: string;
+}
+
+const { name, size = 24, stroke = 2, class: className = '' } = Astro.props;
+
+const icon = feather.icons[name as keyof typeof feather.icons];
+if (!icon) {
+  throw new Error(`Icon "${name}" not found in Feather icons`);
+}
+
+const svg = icon.toSvg({
+  width: size,
+  height: size,
+  'stroke-width': stroke,
+  class: className
+});
+---
+<div set:html={svg} /> 
