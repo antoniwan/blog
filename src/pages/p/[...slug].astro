@@ -1,6 +1,7 @@
 ---
 import { type CollectionEntry, getCollection } from 'astro:content';
 import BlogLayout from '../../layouts/BlogLayout.astro';
+import Section from '../../components/Section.astro';
 import { render } from 'astro:content';
 
 export const prerender = true;
@@ -59,7 +60,6 @@ const tableOfContents = {
 	author={post.data.author}
 	keywords={keywords}
 	locale={post.data.language?.[0] ? `${post.data.language[0]}_${post.data.language[0].toUpperCase()}` : 'en_US'}
-	tableOfContents={tableOfContents}
 >
 	<Content />
 </BlogLayout> 
