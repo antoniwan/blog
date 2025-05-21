@@ -1,14 +1,11 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import PageLayout from '../layouts/PageLayout.astro';
 import Disclaimer from '../components/Disclaimer.astro';
 ---
 
-<BaseLayout
+<PageLayout
 	title="About Antonio Rodríguez Martínez"
 	description="Systems builder. Warrior poet. Father. I write, build, and create with integrity."
-	pubDate={new Date('May 01 2025')}
-	language={['en']}
-	category={['about']}
 	robots={{
 		index: true,
 		follow: true,
@@ -16,7 +13,6 @@ import Disclaimer from '../components/Disclaimer.astro';
 		nosnippet: false,
 		noimageindex: false
 	}}
-	layoutType="blog"
 >
 	<div>
 		<p class="text-text dark:text-text-dark">
@@ -71,4 +67,4 @@ import Disclaimer from '../components/Disclaimer.astro';
 
 		<Disclaimer />
 	</div>
-</BaseLayout>
+</PageLayout>

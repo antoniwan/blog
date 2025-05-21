@@ -1,0 +1,46 @@
+---
+import BaseLayout from './BaseLayout.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  contentWidth?: 'narrow' | 'default' | 'wide';
+  spacing?: 'compact' | 'default' | 'comfortable';
+}
+
+const {
+  title,
+  description,
+  contentWidth = 'default',
+  spacing = 'comfortable',
+  ...rest
+} = Astro.props;
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  layoutType="default"
+  contentWidth={contentWidth}
+  spacing={spacing}
+  {...rest}
+>
+  <div class="animate-fade-in" transition:animate="fade">
+    <slot />
+  </div>
+</BaseLayout>
+
+<style>
+  /* Smooth transitions for dark mode */
+  main {
+    transition: background-color 300ms cubic-bezier(0.4, 0, 0.2, 1),
+                color 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Respect reduced motion preferences */
+  @media (prefers-reduced-motion: reduce) {
+    main {
+      transition: none !important;
+    }
+  }
+</style> 

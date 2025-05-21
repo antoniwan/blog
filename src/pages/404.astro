@@ -1,5 +1,5 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import PageLayout from '../layouts/PageLayout.astro';
 import Section from '../components/Section.astro';
 import BackToHome from '../components/BackToHome.astro';
 import { categories } from '../data/categories';
@@ -16,10 +16,9 @@ const recentPosts = posts
 const popularCategories = categories.slice(0, 5);
 ---
 
-<BaseLayout
+<PageLayout
   title="404 - Page Not Found"
   description="The page you're looking for doesn't exist or has been moved."
-  layoutType="default"
   contentWidth="default"
   spacing="comfortable"
 >
@@ -39,7 +38,7 @@ const popularCategories = categories.slice(0, 5);
       </a>
     </div>
   </Section>
-</BaseLayout>
+</PageLayout>
 
 <style>
 	/* Smooth transitions for dark mode */

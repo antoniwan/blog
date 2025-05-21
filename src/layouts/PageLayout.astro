@@ -1,0 +1,46 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import type { Props as BaseLayoutProps } from './BaseLayout.astro';
+
+interface Props extends Omit<BaseLayoutProps, 'layoutType'> {
+  showTitle?: boolean;
+  showDescription?: boolean;
+}
+
+const {
+  title,
+  description,
+  showTitle = true,
+  showDescription = true,
+  contentWidth = 'default',
+  spacing = 'default',
+  ...rest
+} = Astro.props;
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  layoutType="default"
+  contentWidth={contentWidth}
+  spacing={spacing}
+  {...rest}
+>
+  <div class="max-w-4xl mx-auto">
+    {showTitle && (
+      <header class="mb-3xl animate-slide-up">
+        <h1 class="text-4xl md:text-5xl font-serif font-bold mb-2xl leading-tight tracking-tight text-text dark:text-text-dark">
+          {title}
+        </h1>
+        {showDescription && description && (
+          <p class="text-xl text-neutral-600 dark:text-neutral-400 mb-xl leading-relaxed">
+            {description}
+          </p>
+        )}
+      </header>
+    )}
+    <div class="prose prose-lg dark:prose-invert max-w-none">
+      <slot />
+    </div>
+  </div>
+</BaseLayout> 

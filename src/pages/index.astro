@@ -1,5 +1,5 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import HomeLayout from '../layouts/HomeLayout.astro';
 import PostCard from '../components/PostCard.astro';
 import Section from '../components/Section.astro';
 import { getCollection } from 'astro:content';
@@ -28,10 +28,9 @@ const tagCounts = posts.reduce((acc, post) => {
 }, {} as Record<string, number>);
 ---
 
-<BaseLayout
+<HomeLayout
 	title="Welcome to the Strong Vault"
 	description="Notes on strength, clarity, ritual, and creation — one builder's journey through code, craft, and self-mastery."
-	layoutType="default"
 	contentWidth="default"
 	spacing="comfortable"
 >
@@ -106,7 +105,7 @@ const tagCounts = posts.reduce((acc, post) => {
 			))}
 		</div>
 	</Section>
-</BaseLayout>
+</HomeLayout>
 
 <style>
 	/* Smooth transitions for dark mode */
@@ -121,7 +120,6 @@ const tagCounts = posts.reduce((acc, post) => {
 			transition: none !important;
 		}
 	}
-
 
 	@media (max-width: 768px) {
 		.hero-section h1 {
