@@ -36,48 +36,48 @@ const getLanguageFlag = (lang: string) => LANGUAGE_FLAGS[lang] || lang.toUpperCa
 ---
 
 <article 
-	class="group rounded-xl border border-zinc-200 dark:border-zinc-800 shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden bg-white dark:bg-zinc-900 animate-fade-up"
+	class="group card hover:elevation-lg transition-all duration-300 overflow-hidden animate-fade-up"
 	aria-label={`Post: ${post.data.title}`}
 	transition:animate="slide"
 	transition:name={`post-${post.id}`}
 >
-	<a href={`/p/${post.id}/`} class="block no-underline text-inherit" transition:name={`post-link-${post.id}`}>
+	<a href={`/p/${post.id}/`} class="block no-underline text-inherit focus-ring" transition:name={`post-link-${post.id}`}>
 		{post.data.image && (
-			<div class="relative pt-[56.25%] bg-zinc-100 dark:bg-zinc-800 overflow-hidden">
+			<div class="relative pt-[56.25%] bg-background-alt overflow-hidden">
 				<Figure
 					src={post.data.image}
 					alt={`Featured image for ${post.data.title}`}
 					aspectRatio="16:9"
-					class="group-hover:scale-105"
+					class="group-hover:scale-105 transition-transform duration-300"
 					priority={false}
 					transition:name={`post-image-${post.id}`}
 				/>
-				<div class="absolute inset-0 bg-gradient-to-t from-background/80 dark:from-background-dark/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+				<div class="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 			</div>
 		)}
 		
 		<div class="p-6 md:p-7 space-y-4" transition:name={`post-content-${post.id}`}>
 			{/* Metadata Section */}
-			<div class="flex items-center justify-between border-b border-zinc-100 dark:border-zinc-800 pb-3">
+			<div class="flex items-center justify-between border-b border-border/20 pb-3">
 				{post.data.readingTime && (
-					<span class="text-xs px-2 py-0.5 rounded-full bg-zinc-100 dark:bg-zinc-800 font-medium text-gray-700 dark:text-gray-300 transition-colors duration-200">
+					<span class="text-xs px-2 py-0.5 rounded-full bg-background-alt font-medium text-text-muted transition-colors duration-200">
 						{post.data.readingTime} min read
 					</span>
 				)}
 				<div class="flex items-center gap-2">
 					<FormattedDate date={post.data.pubDate} format="relative" />
-					<span class="text-gray-400">•</span>
+					<span class="text-text-muted">•</span>
 					<FormattedDate date={post.data.pubDate} format="short" />
 				</div>
 			</div>
 
 			{/* Title Section */}
 			<div class="space-y-3 mt-4">
-				<h3 class="text-2xl md:text-3xl font-serif font-bold leading-tight tracking-tight text-gray-900 dark:text-gray-100 group-hover:text-primary-500 dark:group-hover:text-primary-400 transition-colors duration-300">
+				<h3 class="text-2xl md:text-3xl font-serif font-bold leading-tight tracking-tight text-text group-hover:text-primary-500 transition-colors duration-300">
 					{post.data.title}
 				</h3>
 
-				<p class="text-base md:text-lg text-gray-600 dark:text-gray-400 leading-relaxed line-clamp-3">
+				<p class="text-base md:text-lg text-text-muted leading-relaxed line-clamp-3">
 					{post.data.description}
 				</p>
 			</div>
@@ -88,7 +88,7 @@ const getLanguageFlag = (lang: string) => LANGUAGE_FLAGS[lang] || lang.toUpperCa
 					{categoryData.map(cat => cat && (
 						<a 
 							href={`/category/${cat.id}/`} 
-							class="inline-flex items-center gap-1.5 text-sm font-medium bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 px-4 py-1.5 rounded-full hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-all duration-200 hover:scale-105"
+							class="inline-flex items-center gap-1.5 text-sm font-medium bg-background-alt text-text-muted px-4 py-1.5 rounded-full hover:bg-background-elevated transition-all duration-200 hover:scale-105 focus-ring"
 						>
 							{cat.icon} {cat.name}
 						</a>
@@ -102,7 +102,7 @@ const getLanguageFlag = (lang: string) => LANGUAGE_FLAGS[lang] || lang.toUpperCa
 					{post.data.tags.map(tag => (
 						<a 
 							href={`/tag/${tag}/`} 
-							class="inline-flex items-center gap-1.5 text-sm font-medium bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 px-4 py-1.5 rounded-full hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-all duration-200 hover:scale-105"
+							class="inline-flex items-center gap-1.5 text-sm font-medium bg-background-alt text-text-muted px-4 py-1.5 rounded-full hover:bg-background-elevated transition-all duration-200 hover:scale-105 focus-ring"
 						>
 							🏷️ {tag}
 						</a>
@@ -111,16 +111,16 @@ const getLanguageFlag = (lang: string) => LANGUAGE_FLAGS[lang] || lang.toUpperCa
 			)}
 
 			{/* Footer Section */}
-			<div class="flex items-center justify-between pt-3 border-t border-zinc-100 dark:border-zinc-800">
+			<div class="flex items-center justify-between pt-3 border-t border-border/20">
 				{/* Translations Section */}
 				{translations.length > 0 && (
 					<div class="flex items-center gap-2">
-						<span class="text-xs text-gray-500 dark:text-gray-400">Available in:</span>
+						<span class="text-xs text-text-muted">Available in:</span>
 						<div class="flex gap-1">
 							{translations.map(t => (
 								<a 
 									href={`/p/${t.id}/`}
-									class="text-xs px-2 py-0.5 rounded-full bg-zinc-100 dark:bg-zinc-800 font-medium text-gray-700 dark:text-gray-300 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors duration-200"
+									class="text-xs px-2 py-0.5 rounded-full bg-background-alt font-medium text-text-muted hover:bg-background-elevated transition-colors duration-200 focus-ring"
 									title={`View in ${t.language.toUpperCase()}`}
 								>
 									{getLanguageFlag(t.language)}

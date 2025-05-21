@@ -2,28 +2,28 @@
 import Logo from './Logo.astro';
 ---
 
-<footer class="w-full bg-gradient-to-b from-transparent to-neutral-100/20 dark:to-neutral-800/20 border-t border-border/20 dark:border-border-dark/20 mt-24 pt-16 pb-12 px-4 md:px-0">
+<footer class="w-full bg-gradient-to-b from-transparent to-background-alt border-t border-border/20 mt-24 pt-16 pb-12 px-4 md:px-0">
   <div class="max-w-5xl mx-auto">
     <div class="mb-12 text-center">
       <div class="flex justify-center">
         <Logo size="sm" />
       </div>
-      <p class="text-neutral-600 dark:text-neutral-400 text-sm leading-relaxed mt-3 max-w-2xl mx-auto">
+      <p class="text-text-muted text-sm leading-relaxed mt-3 max-w-2xl mx-auto">
         Exploring the intersection of food, health, technology, and parenting. Sharing recipes, insights, and experiences.
       </p>
     </div>
 
     <div class="mt-16 flex flex-col items-center gap-4">
       <div class="flex flex-wrap justify-center gap-4 mb-2">
-        <a href="https://bsky.app/profile/antoniwan.online" target="_blank" rel="noopener noreferrer" class="px-4 py-1.5 rounded-full bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 font-medium text-sm hover:bg-blue-200 dark:hover:bg-blue-800 transition-colors">BlueSky</a>
-        <a href="https://github.com/antoniwan/strongvault" target="_blank" rel="noopener noreferrer" class="px-4 py-1.5 rounded-full bg-orange-100 dark:bg-orange-900 text-orange-700 dark:text-orange-300 font-medium text-sm hover:bg-orange-200 dark:hover:bg-orange-800 transition-colors">Source Code</a>
-        <a href="https://stronghandssoftheart.com" target="_blank" rel="noopener noreferrer" class="px-4 py-1.5 rounded-full bg-purple-100 dark:bg-purple-900 text-purple-700 dark:text-purple-300 font-medium text-sm hover:bg-purple-200 dark:hover:bg-purple-800 transition-colors">Strong Hands Soft Heart</a>
-        <a href="https://builds.software" target="_blank" rel="noopener noreferrer" class="px-4 py-1.5 rounded-full bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 font-medium text-sm hover:bg-blue-200 dark:hover:bg-blue-800 transition-colors">Builds.Software</a>
-        <a href="https://www.youtube.com/@Antoniwan777" target="_blank" rel="noopener noreferrer" class="px-4 py-1.5 rounded-full bg-red-100 dark:bg-red-900 text-red-700 dark:text-red-300 font-medium text-sm hover:bg-red-200 dark:hover:bg-red-800 transition-colors">YouTube</a>
+        <a href="https://bsky.app/profile/antoniwan.online" target="_blank" rel="noopener noreferrer" class="px-4 py-1.5 rounded-full bg-primary-100 text-primary-700 font-medium text-sm hover:bg-primary-200 transition-all duration-300 hover:scale-105 focus-ring">BlueSky</a>
+        <a href="https://github.com/antoniwan/strongvault" target="_blank" rel="noopener noreferrer" class="px-4 py-1.5 rounded-full bg-accent-100 text-accent-700 font-medium text-sm hover:bg-accent-200 transition-all duration-300 hover:scale-105 focus-ring">Source Code</a>
+        <a href="https://stronghandssoftheart.com" target="_blank" rel="noopener noreferrer" class="px-4 py-1.5 rounded-full bg-primary-100 text-primary-700 font-medium text-sm hover:bg-primary-200 transition-all duration-300 hover:scale-105 focus-ring">Strong Hands Soft Heart</a>
+        <a href="https://builds.software" target="_blank" rel="noopener noreferrer" class="px-4 py-1.5 rounded-full bg-primary-100 text-primary-700 font-medium text-sm hover:bg-primary-200 transition-all duration-300 hover:scale-105 focus-ring">Builds.Software</a>
+        <a href="https://www.youtube.com/@Antoniwan777" target="_blank" rel="noopener noreferrer" class="px-4 py-1.5 rounded-full bg-accent-100 text-accent-700 font-medium text-sm hover:bg-accent-200 transition-all duration-300 hover:scale-105 focus-ring">YouTube</a>
       </div>
-      <p class="text-xs text-neutral-500 dark:text-neutral-400 text-center">
+      <p class="text-xs text-text-muted text-center">
         © {new Date().getFullYear()} Strong Hands, Soft Heart LLC. All rights reserved.<br />
-        This work is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/" class="text-red-500 hover:underline" target="_blank" rel="noopener">Creative Commons Attribution 4.0 International License</a>.
+        This work is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/" class="text-accent-500 hover:underline focus-ring" target="_blank" rel="noopener">Creative Commons Attribution 4.0 International License</a>.
       </p>
     </div>
   </div>
@@ -32,8 +32,8 @@ import Logo from './Logo.astro';
 <style>
   /* Enhanced footer transitions */
   footer {
-    transition: background-color 300ms cubic-bezier(0.4, 0, 0.2, 1),
-                border-color 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    transition: background-color var(--animation-duration-default) var(--animation-easing-default),
+                border-color var(--animation-duration-default) var(--animation-easing-default);
   }
 
   /* Respect reduced motion preferences */

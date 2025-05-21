@@ -1,6 +1,6 @@
 <button
 	id="back-to-top"
-	class="fixed bottom-8 right-8 p-3 rounded-full bg-primary-500 text-white shadow-lg hover:bg-primary-600 transition-colors duration-200 animate-heartbeat opacity-0 invisible"
+	class="fixed bottom-8 right-8 p-3 rounded-full bg-primary-500 text-white shadow-lg hover:bg-primary-600 transition-colors duration-200 animate-heartbeat opacity-0 invisible focus-ring"
 	aria-label="Back to top"
 >
 	<svg
@@ -49,9 +49,19 @@
 </script>
 
 <style>
+	#back-to-top {
+		transition: opacity var(--animation-duration-fast) var(--animation-easing-default),
+					transform var(--animation-duration-fast) var(--animation-easing-default);
+	}
+
+	#back-to-top:hover {
+		transform: translateY(-2px);
+	}
+
 	@media (prefers-reduced-motion: reduce) {
 		#back-to-top {
 			animation: none !important;
+			transition: none !important;
 		}
 	}
 </style> 

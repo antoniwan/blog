@@ -1,3 +1,11 @@
 <div class="flex justify-end w-full mb-6">
-  <a href="/" class="inline-block text-primary-500 dark:text-primary-400 no-underline text-lg transition-opacity hover:opacity-80">← Back to Home</a>
-</div> 
+  <a href="/" class="inline-block text-primary-500 no-underline text-lg transition-all duration-300 hover:opacity-80 hover:translate-x-[-4px] focus-ring">← Back to Home</a>
+</div>
+
+<style>
+  @media (prefers-reduced-motion: reduce) {
+    a {
+      transition: none !important;
+    }
+  }
+</style> 

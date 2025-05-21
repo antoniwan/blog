@@ -8,9 +8,9 @@ interface Props {
 const { text = DISCLAIMER_TEXT } = Astro.props;
 ---
 
-<div class="bg-neutral-100/20 dark:bg-neutral-800/20 border-l-4 border-primary-500 dark:border-primary-400 p-4 md:p-6 my-6 rounded-md" role="complementary" aria-label="Disclaimer">
+<div class="bg-background-alt border-l-4 border-primary-500 p-4 md:p-6 my-6 rounded-md" role="complementary" aria-label="Disclaimer">
 	<div class="max-w-3xl mx-auto">
-		<h3 class="text-lg font-semibold mb-2 text-text dark:text-text-dark">🌟 Sacred Disclaimer</h3>
-		<p class="text-neutral-600 dark:text-neutral-400 leading-relaxed m-0" set:html={text} />
+		<h3 class="text-lg font-semibold mb-2 text-text">🌟 Sacred Disclaimer</h3>
+		<p class="text-text-muted leading-relaxed m-0" set:html={text} />
 	</div>
 </div> 

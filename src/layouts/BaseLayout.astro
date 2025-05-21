@@ -110,7 +110,7 @@ const categoryEmojis: Record<string, string> = {
       // Prevent FOUC in Firefox
       document.documentElement.classList.add('ready');
     </script>
-    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:bg-background dark:focus:bg-background-dark focus:px-4 focus:py-2 focus:rounded focus:shadow-lg focus:ring-2 focus:ring-primary-500">Skip to main content</a>
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:bg-background dark:focus:bg-background-dark focus:px-4 focus:py-2 focus:rounded focus:shadow-lg focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-background-dark">Skip to main content</a>
     <Header />
     <ReadingProgress />
     <main id="main-content" role="main" class="flex-grow animate-fade-in">
@@ -161,7 +161,7 @@ const categoryEmojis: Record<string, string> = {
                   {category.map(cat => (
                     <a 
                       href={`/category/${cat}/`}
-                      class="hover:text-primary-500 dark:hover:text-primary-400 transition-colors"
+                      class="hover:text-primary-500 dark:hover:text-primary-400 transition-colors focus-ring"
                       title={`View all posts in ${cat.replace(/-/g, ' ')}`}
                     >
                       {categoryEmojis[cat] || cat}
@@ -234,12 +234,75 @@ const categoryEmojis: Record<string, string> = {
 		background-color: var(--tw-color-neutral-100);
 		padding: 1.5rem;
 		border-radius: 0 0.5rem 0.5rem 0;
+		position: relative;
 	}
 
-	/* Dark mode optimizations */
-	@media (prefers-color-scheme: dark) {
+	.prose blockquote::before {
+		content: '"';
+		font-size: 4em;
+		position: absolute;
+		left: 0.5rem;
+		top: -0.5rem;
+		color: var(--tw-color-primary-500);
+		font-family: var(--font-serif);
+		opacity: 0.2;
+	}
+
+	/* Code block enhancement */
+	.prose pre {
+		background-color: var(--tw-color-neutral-900);
+		border-radius: 0.5rem;
+		padding: 1rem;
+		border: 1px solid var(--tw-color-neutral-200);
+		overflow-x: auto;
+	}
+
+	.prose code {
+		font-family: var(--font-mono);
+		font-size: 0.875em;
+		background-color: var(--tw-color-neutral-100);
+		padding: 0.2em 0.4em;
+		border-radius: 0.25rem;
+		color: var(--tw-color-neutral-900);
+	}
+
+	.dark .prose code {
+		background-color: var(--tw-color-neutral-800);
+		color: var(--tw-color-neutral-100);
+	}
+
+	/* Focus ring utility */
+	.focus-ring {
+		@apply focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-background-dark;
+	}
+
+	/* Print styles */
+	@media print {
+		.prose {
+			max-width: none;
+		}
+		
+		.prose pre {
+			break-inside: avoid;
+		}
+		
+		.prose img {
+			break-inside: avoid;
+		}
+
 		.prose blockquote {
-			background-color: var(--tw-color-neutral-800);
+			break-inside: avoid;
+			border-left-width: 2px;
+			padding: 1rem;
+		}
+
+		.prose h1, .prose h2, .prose h3 {
+			break-after: avoid;
+		}
+
+		.prose p {
+			orphans: 3;
+			widows: 3;
 		}
 	}
 
@@ -255,43 +318,23 @@ const categoryEmojis: Record<string, string> = {
 
 	@keyframes slide-up {
 		from {
-			opacity: 0;
 			transform: translateY(20px);
+			opacity: 0;
 		}
 		to {
-			opacity: 1;
 			transform: translateY(0);
+			opacity: 1;
 		}
 	}
 
-	/* Astro transition styles */
-	::view-transition-old(root),
-	::view-transition-new(root) {
-		animation: none;
-		mix-blend-mode: normal;
-	}
-
-	::view-transition-old(root) {
-		z-index: 1;
-	}
-
-	::view-transition-new(root) {
-		z-index: 2;
-	}
-
-	.dark::view-transition-old(root) {
-		z-index: 2;
-	}
-
-	.dark::view-transition-new(root) {
-		z-index: 1;
-	}
-
-	/* Respect reduced motion preferences */
-	@media (prefers-reduced-motion: reduce) {
-		* {
-			transition: none !important;
-			animation: none !important;
+	@keyframes slide-down {
+		from {
+			transform: translateY(-20px);
+			opacity: 0;
+		}
+		to {
+			transform: translateY(0);
+			opacity: 1;
 		}
 	}
 </style> 

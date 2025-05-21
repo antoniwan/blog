@@ -7,16 +7,29 @@ export default {
       colors: {
         // Primary colors
         primary: {
-          50: "#e6e8ff",
-          100: "#c4c9ff",
-          200: "#a2aaff",
-          300: "#808bff",
-          400: "#5e6cff",
-          500: "#2337ff", // DEFAULT
-          600: "#1c2ccc",
-          700: "#152199",
-          800: "#0e1666",
-          900: "#070b33",
+          50: "#f0f4ff",
+          100: "#dbe4ff",
+          200: "#b8c7ff",
+          300: "#8fa3ff",
+          400: "#6179ff",
+          500: "#3d5afe", // More vibrant primary
+          600: "#1a3bff",
+          700: "#0026ff",
+          800: "#0018cc",
+          900: "#000d99",
+        },
+        // Accent colors
+        accent: {
+          50: "#fff5f5",
+          100: "#ffe3e3",
+          200: "#ffc9c9",
+          300: "#ffa8a8",
+          400: "#ff8787",
+          500: "#ff6b6b", // Complementary accent
+          600: "#fa5252",
+          700: "#f03e3e",
+          800: "#e03131",
+          900: "#c92a2a",
         },
         // Neutral colors
         neutral: {
@@ -293,12 +306,17 @@ export default {
             transform: "translateY(0)",
           },
         },
+        "slide-down": {
+          "0%": { transform: "translateY(-20px)", opacity: "0" },
+          "100%": { transform: "translateY(0)", opacity: "1" },
+        },
       },
       animation: {
         "fade-in": "fade-in 0.5s ease-out forwards",
         "fade-up": "fade-up 0.5s ease-out forwards",
         heartbeat: "heartbeat 2s ease-in-out infinite",
         "slide-up": "slide-up 0.5s ease-out forwards",
+        "slide-down": "slide-down 0.5s ease-out forwards",
       },
       transitionTimingFunction: {
         "ease-out": "cubic-bezier(0.16, 1, 0.3, 1)",

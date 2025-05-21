@@ -7,7 +7,7 @@ const theme = typeof document !== 'undefined'
 ---
 
 <button
-	class="group relative inline-flex items-center justify-center p-2 rounded-lg bg-background-alt text-text hover:text-primary-500 dark:hover:text-primary-400 focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:ring-offset-2 focus:ring-offset-background dark:focus:ring-offset-background transition-all duration-300 hover:scale-110 active:scale-95"
+	class="group relative inline-flex items-center justify-center p-2 rounded-lg bg-background-alt text-text hover:text-primary-500 dark:hover:text-primary-400 focus-ring transition-all duration-300 hover:scale-110 active:scale-95"
 	aria-label="Toggle theme"
 	role="switch"
 	aria-checked={theme === 'dark'}
@@ -101,7 +101,7 @@ const theme = typeof document !== 'undefined'
 <style>
 	/* Custom spring animation for theme toggle */
 	.ease-spring {
-		transition-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+		transition-timing-function: var(--animation-easing-default);
 	}
 
 	/* Respect reduced motion preferences */
@@ -110,11 +110,6 @@ const theme = typeof document !== 'undefined'
 		svg {
 			@apply transition-none;
 		}
-	}
-
-	/* Focus styles */
-	button:focus-visible {
-		@apply outline-none ring-2 ring-primary-500/50 ring-offset-2 ring-offset-background;
 	}
 
 	/* Hover and active states */

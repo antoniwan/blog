@@ -1,0 +1,169 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import './design-system.css';
+
+@layer base {
+  :root {
+    --color-background: 255, 255, 255;
+    --color-background-alt: 248, 249, 250;
+    --color-background-elevated: 255, 255, 255;
+    --color-text: 33, 37, 41;
+    --color-text-muted: 108, 117, 125;
+    --color-text-subtle: 173, 181, 189;
+    --color-border: 206, 212, 218;
+    --color-border-strong: 173, 181, 189;
+    --color-success: 40, 167, 69;
+    --color-warning: 255, 193, 7;
+    --color-error: 220, 53, 69;
+    --color-info: 23, 162, 184;
+  }
+
+  .dark {
+    --color-background: 33, 37, 41;
+    --color-background-alt: 52, 58, 64;
+    --color-background-elevated: 73, 80, 87;
+    --color-text: 248, 249, 250;
+    --color-text-muted: 173, 181, 189;
+    --color-text-subtle: 108, 117, 125;
+    --color-border: 73, 80, 87;
+    --color-border-strong: 108, 117, 125;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center px-4 py-2 rounded-md font-medium transition-colors focus-ring;
+  }
+
+  .btn-primary {
+    @apply bg-primary-500 text-white hover:bg-primary-600 dark:bg-primary-400 dark:hover:bg-primary-500;
+  }
+
+  .btn-secondary {
+    @apply bg-neutral-100 text-neutral-900 hover:bg-neutral-200 dark:bg-neutral-800 dark:text-neutral-100 dark:hover:bg-neutral-700;
+  }
+
+  .card {
+    @apply bg-background dark:bg-background-dark rounded-lg border border-border dark:border-border-dark p-6 elevation-md;
+  }
+
+  .input {
+    @apply w-full px-4 py-2 rounded-md border border-border dark:border-border-dark bg-background dark:bg-background-dark text-text dark:text-text-dark focus-ring;
+  }
+}
+
+/* Global Styles */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply antialiased;
+}
+
+/* Selection */
+::selection {
+  @apply bg-primary-500/20 dark:bg-primary-400/20;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  @apply w-2;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-neutral-100 dark:bg-neutral-800;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-neutral-300 dark:bg-neutral-600 rounded-full hover:bg-neutral-400 dark:hover:bg-neutral-500;
+}
+
+/* Focus Outline */
+:focus-visible {
+  @apply outline-none ring-2 ring-primary-500 ring-offset-2 dark:ring-offset-background-dark;
+}
+
+/* Image Optimization */
+img {
+  @apply max-w-full h-auto;
+}
+
+/* Link Styles */
+a {
+  @apply text-primary-500 dark:text-primary-400 hover:underline focus-ring;
+}
+
+/* List Styles */
+ul, ol {
+  @apply my-6;
+}
+
+li {
+  @apply my-2;
+}
+
+/* Table Styles */
+table {
+  @apply w-full border-collapse;
+}
+
+th, td {
+  @apply border border-border dark:border-border-dark p-4;
+}
+
+th {
+  @apply bg-neutral-100 dark:bg-neutral-800 font-semibold;
+}
+
+/* Code Styles */
+code {
+  @apply font-mono text-sm bg-neutral-100 dark:bg-neutral-800 px-1.5 py-0.5 rounded;
+}
+
+pre {
+  @apply bg-neutral-900 dark:bg-neutral-800 rounded-lg p-4 border border-neutral-200 dark:border-neutral-700 overflow-x-auto;
+}
+
+pre code {
+  @apply bg-transparent p-0 text-neutral-100;
+}
+
+/* Blockquote Styles */
+blockquote {
+  @apply border-l-4 border-primary-500 pl-6 py-4 pr-4 bg-neutral-50 dark:bg-neutral-800 rounded-r-lg text-lg leading-relaxed italic relative;
+}
+
+blockquote::before {
+  content: '"';
+  @apply absolute left-2 -top-2 text-4xl text-primary-500 font-serif opacity-20;
+}
+
+/* Print Styles */
+@media print {
+  body {
+    @apply text-black bg-white;
+  }
+
+  .prose {
+    @apply max-w-none;
+  }
+
+  .prose pre,
+  .prose img,
+  .prose blockquote {
+    @apply break-inside-avoid;
+  }
+
+  .prose h1,
+  .prose h2,
+  .prose h3 {
+    @apply break-after-avoid;
+  }
+
+  .prose p {
+    @apply orphans-3 widows-3;
+  }
+} 

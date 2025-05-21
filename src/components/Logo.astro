@@ -11,9 +11,9 @@ const sizeClasses = {
   md: 'w-6.4 h-6.4'
 };
 ---
-<a href="/" class="flex items-center space-x-2 text-text dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400 transition-colors duration-300">
+<a href="/" class="flex items-center space-x-2 text-text hover:text-primary-500 dark:hover:text-primary-400 transition-colors duration-300 focus-ring">
   <svg 
-    class={`${sizeClasses[size]} text-text dark:text-neutral-400 logo-svg`}
+    class={`${sizeClasses[size]} text-text logo-svg`}
     width={size === 'sm' ? '19.2' : '25.6'}
     height={size === 'sm' ? '19.2' : '25.6'}
     viewBox="0 0 100 100"
@@ -28,7 +28,7 @@ const sizeClasses = {
 <style>
   .logo-svg {
     transform-origin: center;
-    animation: logoEntrance 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    animation: logoEntrance var(--animation-duration-default) var(--animation-easing-default) forwards;
   }
 
   @keyframes logoEntrance {
@@ -44,7 +44,7 @@ const sizeClasses = {
 
   /* Add subtle hover animation */
   a:hover .logo-svg {
-    animation: logoHover 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    animation: logoHover var(--animation-duration-fast) var(--animation-easing-default) forwards;
   }
 
   @keyframes logoHover {
@@ -61,7 +61,7 @@ const sizeClasses = {
 
   /* R2-D2 style spin animation */
   .logo-svg.r2d2-spin {
-    animation: r2d2Spin 0.5s linear infinite;
+    animation: r2d2Spin var(--animation-duration-fast) linear infinite;
   }
 
   @keyframes r2d2Spin {

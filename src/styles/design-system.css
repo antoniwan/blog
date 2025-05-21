@@ -1,0 +1,116 @@
+/* Design System Tokens */
+
+:root {
+  /* Animation */
+  --animation-duration-fast: 150ms;
+  --animation-duration-normal: 300ms;
+  --animation-duration-slow: 500ms;
+  
+  --animation-easing-default: cubic-bezier(0.4, 0, 0.2, 1);
+  --animation-easing-in: cubic-bezier(0.4, 0, 1, 1);
+  --animation-easing-out: cubic-bezier(0, 0, 0.2, 1);
+  --animation-easing-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Elevation */
+  --elevation-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --elevation-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  --elevation-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+
+  /* Typography */
+  --font-scale-ratio: 1.25;
+  --font-size-base: 1.125rem;
+  
+  --line-height-tight: 1.2;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.75;
+
+  /* Spacing */
+  --spacing-unit: 0.25rem;
+  --spacing-xs: calc(var(--spacing-unit) * 1);
+  --spacing-sm: calc(var(--spacing-unit) * 2);
+  --spacing-md: calc(var(--spacing-unit) * 4);
+  --spacing-lg: calc(var(--spacing-unit) * 6);
+  --spacing-xl: calc(var(--spacing-unit) * 8);
+  --spacing-2xl: calc(var(--spacing-unit) * 12);
+  --spacing-3xl: calc(var(--spacing-unit) * 16);
+  --spacing-4xl: calc(var(--spacing-unit) * 24);
+  --spacing-5xl: calc(var(--spacing-unit) * 32);
+
+  /* Border Radius */
+  --radius-sm: 0.125rem;
+  --radius-md: 0.25rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 1rem;
+  --radius-full: 9999px;
+}
+
+/* Utility Classes */
+
+/* Animation */
+.animate-fade-in {
+  animation: fade-in var(--animation-duration-normal) var(--animation-easing-out);
+}
+
+.animate-slide-up {
+  animation: slide-up var(--animation-duration-normal) var(--animation-easing-out);
+}
+
+.animate-slide-down {
+  animation: slide-down var(--animation-duration-normal) var(--animation-easing-out);
+}
+
+/* Elevation */
+.elevation-sm {
+  box-shadow: var(--elevation-sm);
+}
+
+.elevation-md {
+  box-shadow: var(--elevation-md);
+}
+
+.elevation-lg {
+  box-shadow: var(--elevation-lg);
+}
+
+/* Focus Ring */
+.focus-ring {
+  @apply focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-background-dark;
+}
+
+/* Typography */
+.text-balance {
+  text-wrap: balance;
+}
+
+.text-pretty {
+  text-wrap: pretty;
+}
+
+/* Print Styles */
+@media print {
+  .print-break-inside-avoid {
+    break-inside: avoid;
+  }
+
+  .print-break-after-avoid {
+    break-after: avoid;
+  }
+
+  .print-orphans-3 {
+    orphans: 3;
+  }
+
+  .print-widows-3 {
+    widows: 3;
+  }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+} 

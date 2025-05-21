@@ -31,9 +31,7 @@ Each project folder can contain a `.vscode/settings.json` file with a unique tit
     "titleBar.activeBackground": "#006400",
     "titleBar.inactiveBackground": "#004d00",
     "titleBar.activeForeground": "#ffffff"
-  },
-  "window.titleBarStyle": "custom",
-  "window.title": "${dirty}${activeEditorShort}${separator}${rootName}"
+  }
 }
 ```
 
@@ -64,9 +62,7 @@ This is per-project and auto-applies when opening that folder in VS Code.
     "titleBar.activeBackground": "#8B0000",
     "titleBar.inactiveBackground": "#5A0000",
     "titleBar.activeForeground": "#ffffff"
-  },
-  "window.titleBarStyle": "custom",
-  "window.title": "${dirty}${activeEditorShort}${separator}${rootName}"
+  }
 }
 ```
 
@@ -78,9 +74,7 @@ This is per-project and auto-applies when opening that folder in VS Code.
     "titleBar.activeBackground": "#FF8C00",
     "titleBar.inactiveBackground": "#CC7000",
     "titleBar.activeForeground": "#ffffff"
-  },
-  "window.titleBarStyle": "custom",
-  "window.title": "${dirty}${activeEditorShort}${separator}${rootName}"
+  }
 }
 ```
 
@@ -92,9 +86,7 @@ This is per-project and auto-applies when opening that folder in VS Code.
     "titleBar.activeBackground": "#CCCC00",
     "titleBar.inactiveBackground": "#999900",
     "titleBar.activeForeground": "#000000"
-  },
-  "window.titleBarStyle": "custom",
-  "window.title": "${dirty}${activeEditorShort}${separator}${rootName}"
+  }
 }
 ```
 
@@ -106,9 +98,7 @@ This is per-project and auto-applies when opening that folder in VS Code.
     "titleBar.activeBackground": "#006400",
     "titleBar.inactiveBackground": "#004d00",
     "titleBar.activeForeground": "#ffffff"
-  },
-  "window.titleBarStyle": "custom",
-  "window.title": "${dirty}${activeEditorShort}${separator}${rootName}"
+  }
 }
 ```
 
@@ -120,9 +110,7 @@ This is per-project and auto-applies when opening that folder in VS Code.
     "titleBar.activeBackground": "#1E90FF",
     "titleBar.inactiveBackground": "#0B73D9",
     "titleBar.activeForeground": "#ffffff"
-  },
-  "window.titleBarStyle": "custom",
-  "window.title": "${dirty}${activeEditorShort}${separator}${rootName}"
+  }
 }
 ```
 
@@ -134,9 +122,7 @@ This is per-project and auto-applies when opening that folder in VS Code.
     "titleBar.activeBackground": "#8A2BE2",
     "titleBar.inactiveBackground": "#6A1BA2",
     "titleBar.activeForeground": "#ffffff"
-  },
-  "window.titleBarStyle": "custom",
-  "window.title": "${dirty}${activeEditorShort}${separator}${rootName}"
+  }
 }
 ```
 

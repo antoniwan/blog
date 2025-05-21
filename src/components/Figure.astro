@@ -43,12 +43,29 @@ const paddingBottom = `${(1/aspectRatioValue) * 100}%`;
       quality={80}
       loading={priority ? 'eager' : 'lazy'}
       decoding="async"
-      class="absolute inset-0 w-full h-full object-cover rounded-lg"
+      class="absolute inset-0 w-full h-full object-cover rounded-lg transition-transform duration-300 hover:scale-[1.02]"
     />
   </div>
   {caption && (
-    <figcaption class="mt-2 text-sm text-neutral-600 dark:text-neutral-400 text-center">
+    <figcaption class="mt-2 text-sm text-text-muted text-center">
       {caption}
     </figcaption>
   )}
-</figure> 
+</figure>
+
+<style>
+  figure {
+    transition: transform var(--animation-duration-default) var(--animation-easing-default);
+  }
+
+  figure:hover {
+    transform: translateY(-2px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    figure,
+    figure img {
+      transition: none !important;
+    }
+  }
+</style> 
