@@ -14,33 +14,37 @@ export interface NavigationItem {
 export const mainNavigation: NavigationItem[] = [
   { href: "/", label: "Home" },
   {
-    href: "/category",
+    href: "/category/",
     label: "Categories",
     dropdown: {
       label: "Browse Categories",
       items: [
         {
-          href: "/category/art-expression",
+          href: "/category/art-expression/",
           label: "Art & Expression",
           icon: "🎵",
         },
-        { href: "/category/diy-creation", label: "DIY & Creation", icon: "🛠️" },
         {
-          href: "/category/integration-growth",
+          href: "/category/diy-creation/",
+          label: "DIY & Creation",
+          icon: "🛠️",
+        },
+        {
+          href: "/category/integration-growth/",
           label: "Integration & Growth",
           icon: "🧘🏽‍♂️",
         },
         {
-          href: "/category/learning-projects",
+          href: "/category/learning-projects/",
           label: "Learning Projects",
           icon: "📚",
         },
-        { href: "/category/metaspace", label: "Metaspace", icon: "🌀" },
-        { href: "/category/parenting", label: "Parenting", icon: "👨‍👩‍👧‍👦" },
-        { href: "/category/politics", label: "Politics", icon: "⚖️" },
-        { href: "/category/psychology", label: "Psychology", icon: "🧠" },
+        { href: "/category/metaspace/", label: "Metaspace", icon: "🌀" },
+        { href: "/category/parenting/", label: "Parenting", icon: "👨‍👩‍👧‍👦" },
+        { href: "/category/politics/", label: "Politics", icon: "⚖️" },
+        { href: "/category/psychology/", label: "Psychology", icon: "🧠" },
         {
-          href: "/category/systems-strategy",
+          href: "/category/systems-strategy/",
           label: "Systems & Strategy",
           icon: "💻",
         },

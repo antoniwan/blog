@@ -1,152 +1,119 @@
 ---
 import { mainNavigation } from '../data/navigation';
-
-interface Props {
-  class?: string;
-}
-
-const { class: className = '' } = Astro.props;
 ---
 
+<!-- Hamburger Button -->
 <button
-  type="button"
-  class:list={[
-    'inline-flex items-center justify-center p-sm rounded-lg text-neutral-600 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400 hover:bg-background-alt dark:hover:bg-background-alt-dark transition-colors',
-    className
-  ]}
-  aria-label="Open menu"
   id="mobile-menu-button"
+  type="button"
+  aria-label="Open menu"
+  aria-expanded="false"
+  aria-controls="mobile-menu"
+  class="inline-flex items-center justify-center p-2 rounded-lg text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 focus:outline-none focus:ring-2 focus:ring-primary-500 md:hidden"
 >
-  <svg
-    class="h-6 w-6"
-    fill="none"
-    stroke="currentColor"
-    viewBox="0 0 24 24"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      stroke-width="2"
-      d="M4 6h16M4 12h16M4 18h16"
-    />
+  <svg class="h-7 w-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
   </svg>
 </button>
 
+<!-- Overlay Menu -->
 <div
   id="mobile-menu"
-  class="fixed inset-0 z-50 hidden bg-background/95 dark:bg-background-dark/95 backdrop-blur-sm"
+  class="fixed inset-0 z-50 hidden flex flex-col bg-white dark:bg-neutral-900 h-screen w-full transform transition-transform duration-300 ease-in-out md:hidden"
+  tabindex="-1"
+  aria-modal="true"
+  role="dialog"
 >
-  <div class="flex min-h-screen flex-col">
-    <div class="flex items-center justify-between p-lg">
-      <h2 class="text-lg font-semibold">Menu</h2>
-      <button
-        type="button"
-        class="inline-flex items-center justify-center p-sm rounded-lg text-neutral-600 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400 hover:bg-background-alt dark:hover:bg-background-alt-dark transition-colors"
-        aria-label="Close menu"
-      >
-        <svg
-          class="h-6 w-6"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M6 18L18 6M6 6l12 12"
-          />
-        </svg>
-      </button>
-    </div>
-    
-    <nav class="flex-1 space-y-sm p-lg">
-      {mainNavigation.map((item) => (
-        <div class="space-y-sm">
-          <a
-            href={item.href}
-            class="block text-lg text-neutral-600 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400 transition-colors"
-            class:list={[
-              { 'text-primary-500 dark:text-primary-400': Astro.url.pathname === item.href }
-            ]}
-          >
-            {item.label}
-          </a>
-          
-          {item.dropdown && (
-            <div class="pl-lg space-y-sm">
-              <div class="text-sm font-medium text-neutral-500 dark:text-neutral-400">
-                {item.dropdown.label}
-              </div>
-              {item.dropdown.items.map((dropdownItem) => (
-                <a
-                  href={dropdownItem.href}
-                  class="block text-neutral-600 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400 transition-colors"
-                >
-                  {dropdownItem.icon && (
-                    <span class="mr-sm">{dropdownItem.icon}</span>
-                  )}
-                  {dropdownItem.label}
-                </a>
-              ))}
-            </div>
-          )}
-        </div>
-      ))}
-    </nav>
+  <div class="flex items-center justify-between p-4 border-b border-neutral-200 dark:border-neutral-800">
+    <span class="text-lg font-semibold">Menu</span>
+    <button
+      type="button"
+      aria-label="Close menu"
+      class="p-2 rounded-lg text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 focus:outline-none focus:ring-2 focus:ring-primary-500"
+      id="close-mobile-menu"
+    >
+      <svg class="h-7 w-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+      </svg>
+    </button>
   </div>
+  <nav class="flex-1 overflow-y-auto p-4 space-y-4">
+    {mainNavigation.map((item) => (
+      <div>
+        <a
+          href={item.href}
+          class="block text-lg font-medium text-neutral-800 dark:text-neutral-200 py-2 rounded hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
+        >
+          {item.label}
+        </a>
+        {item.dropdown && (
+          <div class="pl-4 mt-1 space-y-1">
+            {item.dropdown.items.map((dropdownItem) => (
+              <a
+                href={dropdownItem.href}
+                class="flex items-center text-base text-neutral-700 dark:text-neutral-300 py-1 rounded hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
+              >
+                {dropdownItem.icon && <span class="mr-2">{dropdownItem.icon}</span>}
+                {dropdownItem.label}
+              </a>
+            ))}
+          </div>
+        )}
+      </div>
+    ))}
+  </nav>
 </div>
 
 <script>
-  const mobileMenuButton = document.getElementById('mobile-menu-button');
-  const mobileMenu = document.getElementById('mobile-menu');
-  const closeButton = mobileMenu?.querySelector('button[aria-label="Close menu"]');
-  
-  function toggleMenu() {
-    mobileMenu?.classList.toggle('hidden');
-    document.body.classList.toggle('overflow-hidden');
+  const menuButton = document.getElementById('mobile-menu-button');
+  const menu = document.getElementById('mobile-menu');
+  const closeButton = document.getElementById('close-mobile-menu');
+
+  function openMenu() {
+    if (!menu || !menuButton) return;
+    menu.classList.remove('hidden');
+    menuButton.setAttribute('aria-expanded', 'true');
+    document.body.classList.add('overflow-hidden');
+    menu.focus();
   }
-  
-  mobileMenuButton?.addEventListener('click', toggleMenu);
-  closeButton?.addEventListener('click', toggleMenu);
-  
-  // Close menu when clicking outside
-  mobileMenu?.addEventListener('click', (e) => {
-    if (e.target === mobileMenu) {
-      toggleMenu();
-    }
+  function closeMenu() {
+    if (!menu || !menuButton) return;
+    menu.classList.add('hidden');
+    menuButton.setAttribute('aria-expanded', 'false');
+    document.body.classList.remove('overflow-hidden');
+    menuButton.focus();
+  }
+
+  menuButton?.addEventListener('click', openMenu);
+  closeButton?.addEventListener('click', closeMenu);
+
+  // Close on overlay click (if you want, add a semi-transparent overlay div)
+  menu?.addEventListener('click', (e) => {
+    if (e.target === menu) closeMenu();
   });
-  
-  // Close menu when pressing Escape
+
+  // Close on Escape key
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && !mobileMenu?.classList.contains('hidden')) {
-      toggleMenu();
+    if (e.key === 'Escape' && menu && !menu.classList.contains('hidden')) {
+      closeMenu();
     }
   });
+
+  // Close on link click
+  if (menu) {
+    menu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', closeMenu);
+    });
+  }
 </script>
 
 <style>
-  /* Hamburger animation */
-  #mobile-menu-button[aria-expanded="true"] span:nth-child(1) {
-    @apply translate-y-[3px] rotate-45;
+@media (min-width: 768px) {
+  #mobile-menu-button {
+    display: none;
   }
-  
-  #mobile-menu-button[aria-expanded="true"] span:nth-child(2) {
-    @apply opacity-0;
+  #mobile-menu {
+    display: none !important;
   }
-  
-  #mobile-menu-button[aria-expanded="true"] span:nth-child(3) {
-    @apply -translate-y-[3px] -rotate-45;
-  }
-
-  /* Respect reduced motion preferences */
-  @media (prefers-reduced-motion: reduce) {
-    #mobile-menu,
-    #mobile-menu-overlay,
-    #mobile-menu-button span {
-      @apply transition-none;
-    }
-  }
+}
 </style> 
