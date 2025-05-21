@@ -120,25 +120,6 @@ const paddingMap = { compact: 'sm', default: 'md', comfortable: 'lg' };
     <script>
       // Prevent FOUC in Firefox
       document.documentElement.classList.add('ready');
-      
-      // Theme initialization
-      const theme = (() => {
-        if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
-          return localStorage.getItem('theme') || 'light';
-        }
-        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-          return 'dark';
-        }
-        return 'light';
-      })();
-      
-      if (theme === 'light') {
-        document.documentElement.classList.remove('dark');
-      } else {
-        document.documentElement.classList.add('dark');
-      }
-      
-      window.localStorage.setItem('theme', theme);
     </script>
     
     <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-sm focus:left-sm focus:z-50 focus:bg-background dark:focus:bg-background-dark focus:px-sm focus:py-xs focus:rounded focus:shadow-lg focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-background-dark">Skip to main content</a>
