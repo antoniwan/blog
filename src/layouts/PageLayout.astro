@@ -1,0 +1,76 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Section from '../components/Section.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  showTitle?: boolean;
+  showDescription?: boolean;
+  contentWidth?: 'narrow' | 'default' | 'wide';
+  spacing?: 'compact' | 'default' | 'comfortable';
+  // SEO fields
+  canonicalUrl?: string;
+  ogImage?: string;
+  ogImageAlt?: string;
+  robots?: {
+    index?: boolean;
+    follow?: boolean;
+    noarchive?: boolean;
+    nosnippet?: boolean;
+    noimageindex?: boolean;
+  };
+  // Additional SEO fields
+  author?: string;
+  keywords?: string[];
+  locale?: string;
+}
+
+const {
+  title,
+  description,
+  showTitle = true,
+  showDescription = true,
+  contentWidth = 'default',
+  spacing = 'default',
+  canonicalUrl,
+  ogImage,
+  ogImageAlt,
+  robots,
+  author,
+  keywords,
+  locale,
+  ...rest
+} = Astro.props;
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  layoutType="default"
+  contentWidth={contentWidth}
+  spacing={spacing}
+  showTitle={false}
+  showDescription={false}
+  canonicalUrl={canonicalUrl}
+  ogImage={ogImage}
+  ogImageAlt={ogImageAlt}
+  robots={robots}
+  author={author}
+  keywords={keywords}
+  locale={locale}
+  {...rest}
+>
+  <Section padding="section">
+    <h1 class="text-4xl md:text-5xl font-bold text-text dark:text-text-dark leading-tight tracking-tight mb-6">
+      {title}
+    </h1>
+    {description && (
+      <p class="text-xl md:text-2xl text-neutral-600 dark:text-neutral-400 leading-relaxed">
+        {description}
+      </p>
+    )}
+  </Section>
+  
+  <slot />
+</BaseLayout> 

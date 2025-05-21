@@ -1,0 +1,31 @@
+---
+import BaseLayout from './BaseLayout.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  contentWidth?: 'narrow' | 'default' | 'wide';
+  spacing?: 'compact' | 'default' | 'comfortable';
+}
+
+const {
+  title,
+  description,
+  contentWidth = 'default',
+  spacing = 'comfortable',
+  ...rest
+} = Astro.props;
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  layoutType="home"
+  contentWidth={contentWidth}
+  spacing={spacing}
+  showTitle={false}
+  showDescription={false}
+  {...rest}
+>
+  <slot />
+</BaseLayout> 

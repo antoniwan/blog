@@ -2,11 +2,11 @@
 // Import the global.css file here so that it is included on
 // all pages through the use of the <BaseHead /> component.
 import '../styles/global.css';
-import { SITE_TITLE, AUTHOR } from '../consts';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 
 interface Props {
 	title: string;
-	description: string;
+	description?: string;
 	image?: string;
 	canonicalUrl?: string;
 	ogImage?: string;
@@ -24,50 +24,45 @@ interface Props {
 	author?: string;
 	keywords?: string[];
 	locale?: string;
-	category?: string[];
 }
 
-const canonicalURL = new URL(Astro.url.pathname, Astro.site);
-
-const { 
-	title, 
-	description, 
-	image = '/share-image.png',
+const {
+	title,
+	description = SITE_DESCRIPTION,
+	image,
 	canonicalUrl,
-	ogImage = '/share-image.png',
+	ogImage,
 	ogImageAlt,
-	robots = {},
+	robots = { index: true, follow: true },
 	pubDate,
 	updatedDate,
-	author = AUTHOR.name,
+	author,
 	keywords = [],
-	locale = 'en_US',
-	category = []
+	locale = 'en_US'
 } = Astro.props;
 
-// Generate robots meta content
-const robotsContent = [
-	robots.index === false ? 'noindex' : 'index',
-	robots.follow === false ? 'nofollow' : 'follow',
-	robots.noarchive && 'noarchive',
-	robots.nosnippet && 'nosnippet',
-	robots.noimageindex && 'noimageindex'
-].filter(Boolean).join(', ');
+// Construct the full title
+const fullTitle = `${title} | ${SITE_TITLE}`;
 
-// Use provided canonical URL or generate one
-const finalCanonicalUrl = canonicalUrl || canonicalURL;
+// Construct the robots meta content
+const robotsContent = Object.entries(robots)
+	.filter(([, value]) => value !== undefined)
+	.map(([key, value]) => (value ? key : `no${key}`))
+	.join(', ');
+
+// Construct the canonical URL
+const canonical = canonicalUrl || Astro.url.href;
 
 // Use provided OG image or fallback to default image
 const finalOgImage = ogImage || image;
 const finalOgImageAlt = ogImageAlt || title;
 
 // Format dates for meta tags
-const formatDate = (date: Date) => date.toISOString();
-const pubDateISO = pubDate ? formatDate(pubDate) : undefined;
-const updatedDateISO = updatedDate ? formatDate(updatedDate) : undefined;
+const pubDateISO = pubDate?.toISOString();
+const updatedDateISO = updatedDate?.toISOString();
 
 // Create the full title for SEO purposes
-const fullTitle = `${title} - ${SITE_TITLE}`;
+const fullTitleSEO = `${title} - ${SITE_TITLE}`;
 ---
 
 <!-- Global Metadata -->
@@ -90,108 +85,58 @@ const fullTitle = `${title} - ${SITE_TITLE}`;
 <meta name="generator" content={Astro.generator} />
 
 <!-- Canonical URL -->
-<link rel="canonical" href={finalCanonicalUrl} />
+<link rel="canonical" href={canonical} />
 
 <!-- Primary Meta Tags -->
 <title>{fullTitle}</title>
 <meta name="title" content={fullTitle} />
 <meta name="description" content={description} />
 <meta name="robots" content={robotsContent} />
-<meta name="author" content={author} />
-<meta name="keywords" content={keywords.join(', ')} />
-<meta name="language" content={locale.split('_')[0]} />
-<meta name="revisit-after" content="7 days" />
+{keywords.length > 0 && <meta name="keywords" content={keywords.join(', ')} />}
 
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content="website" />
-<meta property="og:url" content={Astro.url} />
+<meta property="og:url" content={canonical} />
 <meta property="og:title" content={fullTitle} />
 <meta property="og:description" content={description} />
-<meta property="og:image" content={new URL(finalOgImage, Astro.url)} />
-<meta property="og:image:alt" content={finalOgImageAlt} />
-<meta property="og:image:width" content="1200" />
-<meta property="og:image:height" content="630" />
-<meta property="og:image:type" content="image/png" />
-<meta property="og:site_name" content={SITE_TITLE} />
+{(ogImage || image) && <meta property="og:image" content={ogImage || image} />}
+{ogImageAlt && <meta property="og:image:alt" content={ogImageAlt} />}
 <meta property="og:locale" content={locale} />
-<meta property="og:determiner" content="the" />
-<meta property="og:see_also" content={Astro.site} />
-{pubDateISO && <meta property="article:published_time" content={pubDateISO} />}
-{updatedDateISO && <meta property="article:modified_time" content={updatedDateISO} />}
-<meta property="article:author" content={author} />
-{keywords.length > 0 && keywords.map(keyword => (
-	<meta property="article:tag" content={keyword} />
-))}
+{author && <meta property="og:site_name" content={author} />}
 
 <!-- Twitter -->
-<meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:site" content={AUTHOR.twitter} />
-<meta name="twitter:creator" content={AUTHOR.twitter} />
-<meta name="twitter:title" content={fullTitle} />
-<meta name="twitter:description" content={description} />
-<meta name="twitter:image" content={new URL(finalOgImage, Astro.url)} />
-<meta name="twitter:image:alt" content={finalOgImageAlt} />
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:url" content={canonical} />
+<meta property="twitter:title" content={fullTitle} />
+<meta property="twitter:description" content={description} />
+{(ogImage || image) && <meta property="twitter:image" content={ogImage || image} />}
+{ogImageAlt && <meta property="twitter:image:alt" content={ogImageAlt} />}
 
-<!-- Enhanced Structured Data -->
-<script type="application/ld+json" is:inline set:html={JSON.stringify({
-	"@context": "https://schema.org",
-	"@graph": [
-		{
-			"@type": "WebSite",
-			"name": SITE_TITLE,
-			"description": description,
-			"url": Astro.site,
-			"publisher": {
-				"@type": "Organization",
-				"name": SITE_TITLE,
-				"logo": {
-					"@type": "ImageObject",
-					"url": new URL('/favicon.svg', Astro.site)
-				}
-			}
-		},
-		...(pubDate ? [{
-			"@type": "Article",
-			"headline": fullTitle,
-			"description": description,
-			"image": new URL(finalOgImage, Astro.url),
-			"datePublished": pubDateISO,
-			"dateModified": updatedDateISO || pubDateISO,
-			"author": {
-				"@type": "Person",
-				"name": author,
-				"url": AUTHOR.website,
-				"sameAs": [
-					AUTHOR.website,
-					`https://twitter.com/${AUTHOR.twitter.replace('@', '')}`
-				]
-			},
-			"publisher": {
-				"@type": "Organization",
-				"name": SITE_TITLE,
-				"logo": {
-					"@type": "ImageObject",
-					"url": new URL('/favicon.svg', Astro.site)
-				}
-			},
-			"mainEntityOfPage": {
-				"@type": "WebPage",
-				"@id": Astro.url
-			},
-			"keywords": keywords.join(', '),
-			"inLanguage": locale.split('_')[0],
-			"wordCount": description.split(' ').length,
-			"articleSection": category?.[0] || "General"
-		}] : [])
-	]
-})} />
+<!-- Article Specific Meta Tags -->
+{pubDateISO && <meta property="article:published_time" content={pubDateISO} />}
+{updatedDateISO && <meta property="article:modified_time" content={updatedDateISO} />}
+{author && <meta property="article:author" content={author} />}
 
-<!-- Additional Meta Tags -->
-<meta name="application-name" content={SITE_TITLE} />
-<meta name="apple-mobile-web-app-title" content={SITE_TITLE} />
-<meta name="format-detection" content="telephone=no" />
-<meta name="mobile-web-app-capable" content="yes" />
-<meta name="msapplication-TileColor" content="var(--color-primary-500)" />
-<meta name="msapplication-config" content="/browserconfig.xml" />
-<meta name="theme-color" content="var(--color-primary-500)" media="(prefers-color-scheme: light)" />
-<meta name="theme-color" content="var(--color-primary-600)" media="(prefers-color-scheme: dark)" />
+<!-- Canonical URL -->
+<link rel="canonical" href={canonical} />
+
+<!-- Favicon -->
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+<link rel="manifest" href="/site.webmanifest" />
+
+<!-- Theme Color -->
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#1a1a1a" media="(prefers-color-scheme: dark)" />
+
+<!-- Theme initialization script -->
+<script is:inline src="/src/scripts/theme.ts"></script>
+
+<!-- Viewport -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<!-- Character Set -->
+<meta charset="utf-8" />
+
+<!-- Language -->
+<meta http-equiv="content-language" content="en" />

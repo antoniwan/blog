@@ -1,73 +1,53 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PostCard from '../../components/PostCard.astro';
+import Section from '../../components/Section.astro';
+import { getCollection } from 'astro:content';
 import { categories } from '../../data/categories';
-import { getCollection, type CollectionEntry } from 'astro:content';
-
-export const prerender = true;
 
 export async function getStaticPaths() {
-	const posts = await getCollection('blog');
-	const uniqueCategories = [...new Set(posts.flatMap(post => post.data.category || []))];
-	
-	return uniqueCategories.map(category => ({
-		params: { category },
-		props: { category }
+	return categories.map(category => ({
+		params: { category: category.id },
+		props: { category },
 	}));
 }
 
-const { category: categoryParam } = Astro.props;
-const posts = await getCollection('blog', post => post.data.category?.includes(categoryParam));
-const categoryData = categories.find(cat => cat.id === categoryParam);
+const { category } = Astro.props;
 
-// If category doesn't exist, redirect to category listing
-if (!categoryData) {
-	return Astro.redirect('/categories');
-}
+// Get all posts in this category
+const posts = await getCollection('blog', ({ data }) => {
+	return import.meta.env.PROD ? !data.draft : true;
+});
 
-// Get all blog posts for this category and sort by date
-const sortedPosts = posts
-	.filter((post) => !post.data.draft)
+// Filter posts by category
+const categoryPosts = posts
+	.filter(post => post.data.category?.includes(category.id))
 	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
-
-// Group by translationGroup (or fallback to id)
-const grouped: Record<string, CollectionEntry<'blog'>[]> = {};
-for (const post of sortedPosts) {
-	const group = post.data.translationGroup || post.id;
-	if (!grouped[group]) grouped[group] = [];
-	grouped[group].push(post);
-}
-const groupedPosts: CollectionEntry<'blog'>[][] = Object.values(grouped);
 ---
 
-<BaseLayout title={categoryData.name}>
-	<main class="max-w-5xl mx-auto px-4 md:px-8 py-12">
-		<header class="text-center mb-16">
-			<nav aria-label="Breadcrumb" class="flex justify-center">
-				<a href="/category" class="inline-flex items-center gap-1.5 text-neutral-600 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400 transition-colors duration-300">
-					<span class="text-lg">←</span>
-					<span class="text-base font-medium">Back to Categories</span>
-				</a>
-			</nav>
-			<h1 class="text-4xl md:text-5xl font-bold mb-4 text-text dark:text-text-dark">{categoryData.icon} {categoryData.name}</h1>
-			<p class="text-xl text-neutral-600 dark:text-neutral-400">{categoryData.description}</p>
-		</header>
+<BaseLayout
+	title={`${category.name} - Category`}
+	description={`Browse all posts in the ${category.name} category`}
+	layoutType="default"
+	contentWidth="default"
+	spacing="comfortable"
+>
+	<Section padding="section">
+		<h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-text dark:text-text-dark leading-tight tracking-tight">
+			{category.name}
+		</h1>
+		<p class="text-xl md:text-2xl text-neutral-600 dark:text-neutral-400 leading-relaxed max-w-2xl">
+			{category.description}
+		</p>
+	</Section>
 
-		<section class="grid gap-8 md:gap-12" aria-label="Posts in this category">
-			{groupedPosts.map((translations) => {
-				const main = translations[0];
-				return (
-					<PostCard 
-						post={main} 
-						translations={translations.map(t => ({
-							id: t.id,
-							language: t.data.language[0]
-						}))}
-					/>
-				);
-			})}
-		</section>
-	</main>
+	<Section padding="block">
+		<div class="space-y-block">
+			{categoryPosts.map(post => (
+				<PostCard post={post} />
+			))}
+		</div>
+	</Section>
 </BaseLayout>
 
 <style>

@@ -7,13 +7,15 @@ import type { Category } from "./data/categories";
 const validCategoryIds = categories.map((cat: Category) => cat.id);
 
 // Date validation and formatting
-const dateSchema = z.union([
-  z.string().transform((str) => new Date(str)),
-  z.date(),
-  z.number().transform((num) => new Date(num))
-]).refine((date) => !isNaN(date.getTime()), {
-  message: "Invalid date format"
-});
+const dateSchema = z
+  .union([
+    z.string().transform((str) => new Date(str)),
+    z.date(),
+    z.number().transform((num) => new Date(num)),
+  ])
+  .refine((date) => !isNaN(date.getTime()), {
+    message: "Invalid date format",
+  });
 
 const blog = defineCollection({
   // Load Markdown and MDX files in the `src/content/p/` directory.
@@ -34,8 +36,16 @@ const blog = defineCollection({
       .optional(),
     subcategory: z.string().optional(),
     tags: z.array(z.string()).optional(),
-    draft: z.boolean().optional().default(false).describe('Whether this post is a draft (not ready for publication)'),
-    published: z.boolean().optional().default(true).describe('Whether this post should be published on the site'),
+    draft: z
+      .boolean()
+      .optional()
+      .default(false)
+      .describe("Whether this post is a draft (not ready for publication)"),
+    published: z
+      .boolean()
+      .optional()
+      .default(true)
+      .describe("Whether this post should be published on the site"),
     readingTime: z.number().optional(), // in minutes
     author: z.string().optional(),
     authorImage: z.string().optional(),
@@ -55,10 +65,10 @@ const blog = defineCollection({
         follow: z.boolean().optional(),
         noarchive: z.boolean().optional(),
         nosnippet: z.boolean().optional(),
-        noimageindex: z.boolean().optional()
+        noimageindex: z.boolean().optional(),
       })
       .optional(),
-    keywords: z.array(z.string()).optional()
+    keywords: z.array(z.string()).optional(),
   }),
 });
 

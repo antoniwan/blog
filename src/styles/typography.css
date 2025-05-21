@@ -1,0 +1,193 @@
+/* Base typography styles */
+@layer base {
+  /* Enhanced typography for longform content */
+  .prose {
+    --tw-prose-body: var(--tw-color-text);
+    --tw-prose-headings: var(--tw-color-text);
+    --tw-prose-links: var(--tw-color-primary-500);
+    --tw-prose-bold: var(--tw-color-text);
+    --tw-prose-counters: var(--tw-color-text);
+    --tw-prose-bullets: var(--tw-color-text);
+    --tw-prose-hr: var(--tw-color-border);
+    --tw-prose-quotes: var(--tw-color-text);
+    --tw-prose-quote-borders: var(--tw-color-primary-500);
+    --tw-prose-captions: var(--tw-color-text);
+    --tw-prose-code: var(--tw-color-text);
+    --tw-prose-pre-code: var(--tw-color-text);
+    --tw-prose-pre-bg: var(--tw-color-background);
+    --tw-prose-th-borders: var(--tw-color-border);
+    --tw-prose-td-borders: var(--tw-color-border);
+  }
+
+  /* Drop cap for first paragraph */
+  .prose > p:first-of-type::first-letter {
+    float: left;
+    font-size: 4.5em;
+    line-height: 0.8;
+    margin-right: 0.1em;
+    margin-bottom: 0.1em;
+    font-family: var(--font-serif);
+    color: var(--tw-color-primary-500);
+  }
+
+  /* Enhanced blockquote styling */
+  .prose blockquote {
+    border-left-width: 4px;
+    border-left-color: var(--tw-color-primary-500);
+    padding-left: 1.5rem;
+    font-style: italic;
+    background-color: var(--tw-color-neutral-100);
+    padding: 1.5rem;
+    border-radius: 0 0.5rem 0.5rem 0;
+    position: relative;
+  }
+
+  .prose blockquote::before {
+    content: '"';
+    font-size: 4em;
+    position: absolute;
+    left: 0.5rem;
+    top: -0.5rem;
+    color: var(--tw-color-primary-500);
+    font-family: var(--font-serif);
+    opacity: 0.2;
+  }
+
+  /* Code block enhancement */
+  .prose pre {
+    background-color: var(--tw-color-neutral-900);
+    border-radius: 0.5rem;
+    padding: 1rem;
+    border: 1px solid var(--tw-color-neutral-200);
+    overflow-x: auto;
+  }
+
+  .prose code {
+    font-family: var(--font-mono);
+    font-size: 0.875em;
+    background-color: var(--tw-color-neutral-100);
+    padding: 0.2em 0.4em;
+    border-radius: 0.25rem;
+    color: var(--tw-color-neutral-900);
+  }
+
+  .dark .prose code {
+    background-color: var(--tw-color-neutral-800);
+    color: var(--tw-color-neutral-100);
+  }
+
+  /* Typography scale */
+  .text-scale-1 {
+    @apply text-sm leading-relaxed tracking-normal;
+  }
+  .text-scale-2 {
+    @apply text-base leading-relaxed tracking-normal;
+  }
+  .text-scale-3 {
+    @apply text-lg leading-relaxed tracking-normal;
+  }
+  .text-scale-4 {
+    @apply text-xl leading-snug tracking-tight;
+  }
+  .text-scale-5 {
+    @apply text-2xl leading-snug tracking-tight;
+  }
+  .text-scale-6 {
+    @apply text-3xl leading-tight tracking-tight;
+  }
+  .text-scale-7 {
+    @apply text-4xl leading-tight tracking-tighter;
+  }
+  .text-scale-8 {
+    @apply text-5xl leading-none tracking-tighter;
+  }
+  .text-scale-9 {
+    @apply text-6xl leading-none tracking-tighter;
+  }
+
+  /* Vertical rhythm */
+  .space-y-scale-1 {
+    @apply space-y-2;
+  }
+  .space-y-scale-2 {
+    @apply space-y-4;
+  }
+  .space-y-scale-3 {
+    @apply space-y-6;
+  }
+  .space-y-scale-4 {
+    @apply space-y-8;
+  }
+  .space-y-scale-5 {
+    @apply space-y-12;
+  }
+  .space-y-scale-6 {
+    @apply space-y-16;
+  }
+  .space-y-scale-7 {
+    @apply space-y-20;
+  }
+  .space-y-scale-8 {
+    @apply space-y-24;
+  }
+  .space-y-scale-9 {
+    @apply space-y-32;
+  }
+
+  /* Margin scales */
+  .mt-scale-1 {
+    @apply mt-2;
+  }
+  .mt-scale-2 {
+    @apply mt-4;
+  }
+  .mt-scale-3 {
+    @apply mt-6;
+  }
+  .mt-scale-4 {
+    @apply mt-8;
+  }
+  .mt-scale-5 {
+    @apply mt-12;
+  }
+  .mt-scale-6 {
+    @apply mt-16;
+  }
+  .mt-scale-7 {
+    @apply mt-20;
+  }
+  .mt-scale-8 {
+    @apply mt-24;
+  }
+  .mt-scale-9 {
+    @apply mt-32;
+  }
+
+  .mb-scale-1 {
+    @apply mb-2;
+  }
+  .mb-scale-2 {
+    @apply mb-4;
+  }
+  .mb-scale-3 {
+    @apply mb-6;
+  }
+  .mb-scale-4 {
+    @apply mb-8;
+  }
+  .mb-scale-5 {
+    @apply mb-12;
+  }
+  .mb-scale-6 {
+    @apply mb-16;
+  }
+  .mb-scale-7 {
+    @apply mb-20;
+  }
+  .mb-scale-8 {
+    @apply mb-24;
+  }
+  .mb-scale-9 {
+    @apply mb-32;
+  }
+}

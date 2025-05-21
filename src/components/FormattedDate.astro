@@ -1,52 +1,52 @@
 ---
 interface Props {
+	/**
+	 * The date to format
+	 */
 	date: Date;
+	
+	/**
+	 * The format to use
+	 */
 	format?: 'short' | 'long' | 'relative';
-	locale?: string;
+	
+	/**
+	 * Additional classes to apply
+	 */
+	class?: string;
 }
 
-const { 
-	date, 
-	format = 'short',
-	locale = 'en-US'
-} = Astro.props;
+const { date, format = 'long', class: className = '' } = Astro.props;
 
-// Format options
-const formatOptions: Record<string, Intl.DateTimeFormatOptions> = {
-	short: {
-		year: 'numeric',
-		month: 'short',
-		day: 'numeric'
-	},
-	long: {
-		year: 'numeric',
-		month: 'long',
-		day: 'numeric',
-		hour: '2-digit',
-		minute: '2-digit',
-		timeZoneName: 'short'
-	}
-};
+const formatter = new Intl.DateTimeFormat('en-US', {
+	year: 'numeric',
+	month: format === 'short' ? 'short' : 'long',
+	day: 'numeric'
+});
 
-// Get formatted date based on format type
-const getFormattedDate = () => {
-	if (format === 'relative') {
-		const rtf = new Intl.RelativeTimeFormat(locale, { numeric: 'auto' });
-		const now = new Date();
-		const diff = date.getTime() - now.getTime();
-		const days = Math.round(diff / (1000 * 60 * 60 * 24));
-		
-		if (Math.abs(days) < 1) {
-			const hours = Math.round(diff / (1000 * 60 * 60));
-			return rtf.format(hours, 'hour');
-		}
-		return rtf.format(days, 'day');
-	}
+const relativeTimeFormatter = new Intl.RelativeTimeFormat('en-US', {
+	numeric: 'auto'
+});
+
+function getRelativeTime(date: Date): string {
+	const now = new Date();
+	const diff = date.getTime() - now.getTime();
+	const days = Math.round(diff / (1000 * 60 * 60 * 24));
 	
-	return date.toLocaleDateString(locale, formatOptions[format]);
-};
+	if (days === 0) return 'today';
+	if (days === -1) return 'yesterday';
+	if (days === 1) return 'tomorrow';
+	
+	return relativeTimeFormatter.format(days, 'day');
+}
 ---
 
-<time datetime={date.toISOString()} class="text-text-muted">
-	{getFormattedDate()}
+<time
+	datetime={date.toISOString()}
+	class:list={[
+		'text-neutral-600 dark:text-neutral-400 transition-colors duration-300',
+		className
+	]}
+>
+	{format === 'relative' ? getRelativeTime(date) : formatter.format(date)}
 </time>

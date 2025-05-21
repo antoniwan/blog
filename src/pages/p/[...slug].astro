@@ -1,6 +1,7 @@
 ---
 import { type CollectionEntry, getCollection } from 'astro:content';
-import BaseLayout from '../../layouts/BaseLayout.astro';
+import BlogLayout from '../../layouts/BlogLayout.astro';
+import Section from '../../components/Section.astro';
 import { render } from 'astro:content';
 
 export const prerender = true;
@@ -28,9 +29,20 @@ const keywords = [
 // Ensure we have a valid image for social sharing
 const shareImage = post.data.ogImage || post.data.heroImage || '/share-image.png';
 const shareImageAlt = post.data.ogImageAlt || post.data.title;
+
+// Generate table of contents from headings
+const headings = post.body?.match(/<h[2-3][^>]*>.*?<\/h[2-3]>/g) || [];
+const tableOfContents = {
+	items: headings.map(heading => {
+		const text = heading.replace(/<[^>]+>/g, '');
+		const depth = parseInt(heading.match(/<h([2-3])/)?.[1] || '2');
+		const slug = text.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+		return { text, slug, depth };
+	})
+};
 ---
 
-<BaseLayout 
+<BlogLayout 
 	title={post.data.title}
 	description={post.data.description}
 	pubDate={post.data.pubDate}
@@ -48,7 +60,11 @@ const shareImageAlt = post.data.ogImageAlt || post.data.title;
 	author={post.data.author}
 	keywords={keywords}
 	locale={post.data.language?.[0] ? `${post.data.language[0]}_${post.data.language[0].toUpperCase()}` : 'en_US'}
-	layoutType="blog"
+	tableOfContents={tableOfContents}
 >
-	<Content />
-</BaseLayout> 
+	<Section padding="none">
+		<article class="prose prose-lg dark:prose-invert max-w-none">
+			<Content />
+		</article>
+	</Section>
+</BlogLayout> 

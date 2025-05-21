@@ -1,6 +1,6 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import BackToHome from '../components/BackToHome.astro';
+import PageLayout from '../layouts/PageLayout.astro';
+import Section from '../components/Section.astro';
 import { categories } from '../data/categories';
 import { getCollection } from 'astro:content';
 
@@ -14,54 +14,24 @@ const recentPosts = posts
 const popularCategories = categories.slice(0, 5);
 ---
 
-<BaseLayout title="404 - Page Not Found">
-	<main class="max-w-5xl mx-auto px-4 md:px-8 py-12">
-		<div class="text-center mb-12">
-			<h1 class="text-4xl md:text-5xl font-bold mb-4 text-text dark:text-text-dark">404 - Page Not Found</h1>
-			<p class="text-xl text-neutral-600 dark:text-neutral-400 mb-8">Oops! The page you're looking for doesn't exist or has been moved.</p>
-		</div>
+<PageLayout
+  title="404 - Page Not Found"
+  description="The page you're looking for doesn't exist or has been moved."
+  contentWidth="default"
+  spacing="comfortable"
+>
+  <Section padding="section">
 
-		<div class="grid gap-6 md:grid-cols-2">
-			{/* Recent Posts Section */}
-			<div class="bg-background dark:bg-background-dark p-6 rounded-lg border border-border/20 dark:border-border-dark/20 shadow-sm hover:shadow-md transition-shadow duration-300">
-				<h2 class="text-2xl font-semibold mb-4 text-text dark:text-text-dark">Recent Posts</h2>
-				<ul class="space-y-3">
-					{recentPosts.map(post => (
-						<li>
-							<a 
-								href={`/p/${post.id}/`}
-								class="text-lg text-neutral-600 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400 transition-colors duration-300"
-							>
-								{post.data.title}
-							</a>
-						</li>
-					))}
-				</ul>
-			</div>
-
-			{/* Popular Categories Section */}
-			<div class="bg-background dark:bg-background-dark p-6 rounded-lg border border-border/20 dark:border-border-dark/20 shadow-sm hover:shadow-md transition-shadow duration-300">
-				<h2 class="text-2xl font-semibold mb-4 text-text dark:text-text-dark">Popular Categories</h2>
-				<ul class="space-y-3">
-					{popularCategories.map(category => (
-						<li>
-							<a 
-								href={`/category/${category.id}/`}
-								class="text-lg text-neutral-600 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400 transition-colors duration-300"
-							>
-								{category.icon} {category.name}
-							</a>
-						</li>
-					))}
-				</ul>
-			</div>
-		</div>
-
-		<div class="text-center mt-12">
-			<BackToHome />
-		</div>
-	</main>
-</BaseLayout>
+    <div class="mt-element">
+      <a
+        href="/"
+        class="inline-flex items-center justify-center px-6 py-3 text-base font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
+      >
+        Return Home
+      </a>
+    </div>
+  </Section>
+</PageLayout>
 
 <style>
 	/* Smooth transitions for dark mode */

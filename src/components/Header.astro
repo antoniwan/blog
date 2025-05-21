@@ -1,62 +1,31 @@
 ---
+import Logo from './Logo.astro';
+import Navigation from './Navigation.astro';
 import ThemeToggle from './ThemeToggle.astro';
 import MobileNav from './MobileNav.astro';
-import Logo from './Logo.astro';
-import { mainNavigation } from '../data/navigation';
 ---
 
-<header class="sticky top-0 z-50 w-full bg-background/80 backdrop-blur-md border-b border-border/20 transition-colors duration-300">
-	<div class="max-w-5xl mx-auto px-4 md:px-8">
-		<nav class="flex items-center justify-between h-16">
-			<div class="flex items-center space-x-8">
-				<!-- Logo -->
+<header class="sticky top-0 z-40 w-full bg-background/80 dark:bg-background-dark/80 backdrop-blur-sm border-b border-border/20 dark:border-border-dark/20 theme-transition">
+	<div class="mx-auto max-w-container px-4 md:px-6 lg:px-8">
+		<div class="flex h-16 items-center justify-between">
+			<div class="flex items-center gap-6">
 				<Logo />
-
-				<!-- Desktop Navigation Links -->
-				<div class="hidden md:flex items-center space-x-6">
-					{mainNavigation.map((item) => (
-						<a 
-							href={item.href} 
-							class="relative text-text no-underline font-medium text-base md:text-lg py-2 transition-all duration-300 hover:text-primary-500 focus-ring rounded-lg after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-primary-500 after:scale-x-0 after:origin-right after:transition-transform after:duration-300 after:ease-out-cubic hover:after:scale-x-100 hover:after:origin-left aria-[current=page]:text-primary-500 aria-[current=page]:after:scale-x-100 aria-[current=page]:font-semibold aria-[current=page]:after:bg-primary-500/80"
-						>
-							<span class="relative z-10 px-2">
-								{item.label}
-							</span>
-						</a>
-					))}
-				</div>
+				<Navigation class="hidden md:flex" />
 			</div>
-
-			<div class="flex items-center space-x-4">
-				<!-- Theme Toggle -->
+			
+			<div class="flex items-center gap-4">
 				<ThemeToggle />
-
-				<!-- Mobile Navigation -->
-				<MobileNav />
+				<MobileNav class="md:hidden" />
 			</div>
-		</nav>
+		</div>
 	</div>
 </header>
 
 <style>
-	/* Enhanced header animations */
+	/* Smooth transitions for dark mode */
 	header {
-		transition: background-color var(--animation-duration-default) var(--animation-easing-default),
-					border-color var(--animation-duration-default) var(--animation-easing-default);
-	}
-
-	/* Mobile menu styles */
-	@media (max-width: 768px) {
-		nav {
-			padding: var(--spacing-sm) 0;
-		}
-	}
-
-	/* Dark mode optimizations */
-	@media (prefers-color-scheme: dark) {
-		header {
-			background-color: var(--color-background-alt);
-		}
+		transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1),
+					border-color 150ms cubic-bezier(0.4, 0, 0.2, 1);
 	}
 
 	/* Respect reduced motion preferences */

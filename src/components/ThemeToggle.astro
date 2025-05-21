@@ -1,123 +1,75 @@
 ---
-const theme = typeof document !== 'undefined' 
-	? document.documentElement.classList.contains('dark') 
-		? 'dark' 
-		: 'light' 
-	: 'light';
+interface Props {
+	class?: string;
+}
+
+const { class: className = '' } = Astro.props;
 ---
 
 <button
-	class="group relative inline-flex items-center justify-center p-2 rounded-lg bg-background-alt text-text hover:text-primary-500 dark:hover:text-primary-400 focus-ring transition-all duration-300 hover:scale-110 active:scale-95"
+	type="button"
+	class:list={[
+		'inline-flex items-center justify-center p-2 rounded-lg text-neutral-600 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400 hover:bg-background-alt dark:hover:bg-background-alt-dark theme-transition',
+		className
+	]}
 	aria-label="Toggle theme"
-	role="switch"
-	aria-checked={theme === 'dark'}
+	id="theme-toggle"
 >
-	<span class="sr-only">Toggle theme</span>
-	<span class="relative w-5 h-5">
-		<!-- Sun icon -->
-		<svg
-			class="absolute inset-0 w-full h-full transform transition-transform duration-500 ease-spring dark:scale-0"
-			xmlns="http://www.w3.org/2000/svg"
-			viewBox="0 0 24 24"
-			fill="none"
-			stroke="currentColor"
-			stroke-width="2"
+	<!-- Sun icon -->
+	<svg
+		class="h-6 w-6 dark:hidden"
+		fill="none"
+		stroke="currentColor"
+		viewBox="0 0 24 24"
+		xmlns="http://www.w3.org/2000/svg"
+	>
+		<path
 			stroke-linecap="round"
 			stroke-linejoin="round"
-			aria-hidden="true"
-		>
-			<circle cx="12" cy="12" r="5" />
-			<line x1="12" y1="1" x2="12" y2="3" />
-			<line x1="12" y1="21" x2="12" y2="23" />
-			<line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
-			<line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
-			<line x1="1" y1="12" x2="3" y2="12" />
-			<line x1="21" y1="12" x2="23" y2="12" />
-			<line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
-			<line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
-		</svg>
-		<!-- Moon icon -->
-		<svg
-			class="absolute inset-0 w-full h-full transform transition-transform duration-500 ease-spring scale-0 dark:scale-100"
-			xmlns="http://www.w3.org/2000/svg"
-			viewBox="0 0 24 24"
-			fill="none"
-			stroke="currentColor"
 			stroke-width="2"
+			d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
+		/>
+	</svg>
+	
+	<!-- Moon icon -->
+	<svg
+		class="hidden h-6 w-6 dark:block"
+		fill="none"
+		stroke="currentColor"
+		viewBox="0 0 24 24"
+		xmlns="http://www.w3.org/2000/svg"
+	>
+		<path
 			stroke-linecap="round"
 			stroke-linejoin="round"
-			aria-hidden="true"
-		>
-			<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-		</svg>
-	</span>
+			stroke-width="2"
+			d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+		/>
+	</svg>
 </button>
 
 <script>
-	// Handle theme toggle
-	const themeToggle = document.querySelector('button[aria-label="Toggle theme"]');
-	const html = document.documentElement;
-
-	if (themeToggle) {
-		// Function to set theme
-		const setTheme = (theme: 'light' | 'dark') => {
-			if (theme === 'dark') {
-				html.classList.add('dark');
-				themeToggle.setAttribute('aria-checked', 'true');
-				document.documentElement.style.colorScheme = 'dark';
-			} else {
-				html.classList.remove('dark');
-				themeToggle.setAttribute('aria-checked', 'false');
-				document.documentElement.style.colorScheme = 'light';
-			}
-			localStorage.setItem('theme', theme);
-		};
-
-		// Handle theme toggle click
-		themeToggle.addEventListener('click', () => {
-			const isDark = html.classList.contains('dark');
-			setTheme(isDark ? 'light' : 'dark');
-		});
-
-		// Check for saved theme preference or system preference
-		const savedTheme = localStorage.getItem('theme') as 'light' | 'dark' | null;
-		const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-		if (savedTheme) {
-			setTheme(savedTheme);
-		} else if (systemPrefersDark) {
-			setTheme('dark');
-		}
-
-		// Listen for system theme changes
-		window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-			if (!localStorage.getItem('theme')) {
-				setTheme(e.matches ? 'dark' : 'light');
-			}
-		});
+	// Function to set theme
+	function setTheme(theme: 'dark' | 'light') {
+		document.documentElement.classList.toggle('dark', theme === 'dark');
+		localStorage.setItem('theme', theme);
 	}
+
+	// Function to toggle theme
+	function toggleTheme() {
+		const isDark = document.documentElement.classList.contains('dark');
+		setTheme(isDark ? 'light' : 'dark');
+	}
+
+	// Add click event listener
+	const themeToggle = document.getElementById('theme-toggle');
+	themeToggle?.addEventListener('click', toggleTheme);
 </script>
 
 <style>
-	/* Custom spring animation for theme toggle */
-	.ease-spring {
-		transition-timing-function: var(--animation-easing-default);
-	}
-
-	/* Respect reduced motion preferences */
 	@media (prefers-reduced-motion: reduce) {
-		button,
-		svg {
-			@apply transition-none;
+		button {
+			transition: none !important;
 		}
-	}
-
-	/* Hover and active states */
-	button:hover {
-		@apply bg-background-elevated;
-	}
-
-	button:active {
-		@apply bg-background-alt;
 	}
 </style> 

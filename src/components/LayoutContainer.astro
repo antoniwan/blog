@@ -1,0 +1,71 @@
+---
+interface Props {
+  /**
+   * The type of content being contained
+   */
+  type?: 'container' | 'section' | 'content';
+  
+  /**
+   * The size variant for the container
+   */
+  size?: 'narrow' | 'default' | 'wide';
+  
+  /**
+   * Whether to apply responsive padding
+   */
+  padding?: 'none' | 'sm' | 'md' | 'lg';
+  
+  /**
+   * Additional classes to apply
+   */
+  className?: string;
+}
+
+const { 
+  type = 'container',
+  size = 'default',
+  padding = 'md',
+  className = ''
+} = Astro.props;
+
+// Map container types to max-width classes
+const maxWidthMap = {
+  container: {
+    narrow: 'max-w-container-narrow',
+    default: 'max-w-container',
+    wide: 'max-w-container-wide',
+  },
+  section: {
+    narrow: 'max-w-prose',
+    default: 'max-w-prose-wide',
+    wide: 'max-w-none',
+  },
+  content: {
+    narrow: 'max-w-prose',
+    default: 'max-w-prose-wide',
+    wide: 'max-w-none',
+  },
+};
+
+// Map padding sizes to Tailwind classes
+const paddingMap = {
+  none: '',
+  sm: 'px-4 py-8 md:px-6 md:py-12',
+  md: 'px-6 py-12 md:px-8 md:py-16',
+  lg: 'px-8 py-16 md:px-12 md:py-24',
+};
+
+const maxWidthClass = maxWidthMap[type][size];
+const paddingClass = paddingMap[padding];
+---
+
+<div 
+  class:list={[
+    'mx-auto w-full',
+    maxWidthClass,
+    paddingClass,
+    className
+  ]}
+>
+  <slot />
+</div> 

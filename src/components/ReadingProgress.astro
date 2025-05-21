@@ -1,51 +1,53 @@
-<div class="reading-progress fixed top-0 left-0 right-0 h-1 bg-primary-500/20 z-50">
-	<div class="reading-progress__bar h-full bg-primary-500 transition-transform duration-200 origin-left" style="transform: scaleX(0);"></div>
+---
+interface Props {
+	class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+---
+
+<div
+	class:list={[
+		'fixed top-0 left-0 w-full h-1 bg-background-alt dark:bg-background-alt-dark z-50',
+		className
+	]}
+>
+	<div
+		id="reading-progress"
+		class="h-full bg-primary-500 dark:bg-primary-400 transition-all duration-300"
+		style="width: 0%"
+	></div>
 </div>
 
 <script>
-	// Handle reading progress
-	const progressBar = document.querySelector('.reading-progress__bar') as HTMLElement;
+	const readingProgress = document.getElementById('reading-progress')!;
 	
-	if (progressBar) {
-		const updateProgress = () => {
-			const windowHeight = window.innerHeight;
-			const documentHeight = document.documentElement.scrollHeight - windowHeight;
-			const scrollTop = window.scrollY;
-			const progress = scrollTop / documentHeight;
-			
-			progressBar.style.transform = `scaleX(${progress})`;
-		};
-
-		// Update progress on scroll
-		window.addEventListener('scroll', () => {
-			requestAnimationFrame(updateProgress);
-		});
-
-		// Initial progress
-		updateProgress();
+	function updateReadingProgress() {
+		const windowHeight = window.innerHeight;
+		const documentHeight = document.documentElement.scrollHeight - windowHeight;
+		const scrolled = window.scrollY;
+		
+		const progress = (scrolled / documentHeight) * 100;
+		readingProgress.style.width = `${progress}%`;
 	}
+
+	window.addEventListener('scroll', updateReadingProgress);
+	window.addEventListener('resize', updateReadingProgress);
+	
+	// Initial update
+	updateReadingProgress();
 </script>
 
 <style>
-	/* Smooth progress bar transitions */
-	.reading-progress__bar {
-		transition: transform var(--animation-duration-fast) var(--animation-easing-default);
-	}
-
-	/* Hide progress bar when not scrolling */
-	.reading-progress {
-		opacity: 0;
-		transition: opacity var(--animation-duration-fast) var(--animation-easing-default);
-	}
-
-	.reading-progress.visible {
-		opacity: 1;
+	/* Smooth transitions for dark mode */
+	#reading-progress {
+		transition: width 150ms cubic-bezier(0.4, 0, 0.2, 1),
+					background-color 150ms cubic-bezier(0.4, 0, 0.2, 1);
 	}
 
 	/* Respect reduced motion preferences */
 	@media (prefers-reduced-motion: reduce) {
-		.reading-progress,
-		.reading-progress__bar {
+		#reading-progress {
 			transition: none !important;
 		}
 	}

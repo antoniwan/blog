@@ -1,70 +1,59 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { getCollection, type CollectionEntry } from 'astro:content';
 import PostCard from '../../components/PostCard.astro';
-
-export const prerender = true;
+import Section from '../../components/Section.astro';
+import { getCollection } from 'astro:content';
 
 export async function getStaticPaths() {
 	const posts = await getCollection('blog');
-	const tags = new Set(posts.flatMap(post => post.data.tags || []));
+	const tags = new Set<string>();
+	
+	posts.forEach(post => {
+		post.data.tags?.forEach(tag => tags.add(tag));
+	});
+
 	return Array.from(tags).map(tag => ({
-		params: { tag: tag.toLowerCase() },
-		props: { tag }
+		params: { tag },
+		props: { tag },
 	}));
 }
 
-interface Props {
-	tag: string;
-}
+const { tag } = Astro.props;
 
-const { tag } = Astro.props as Props;
+// Get all posts with this tag
+const posts = await getCollection('blog', ({ data }) => {
+	return import.meta.env.PROD ? !data.draft : true;
+});
 
-// Get all blog posts for this tag and sort by date
-const posts = (await getCollection('blog'))
-	.filter((post) => !post.data.draft && post.data.published !== false && (post.data.tags || []).includes(tag))
+// Filter posts by tag
+const tagPosts = posts
+	.filter(post => post.data.tags?.includes(tag))
 	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
-
-// Group by translationGroup (or fallback to id)
-const grouped: Record<string, CollectionEntry<'blog'>[]> = {};
-for (const post of posts) {
-	const group = post.data.translationGroup || post.id;
-	if (!grouped[group]) grouped[group] = [];
-	grouped[group].push(post);
-}
-const groupedPosts: CollectionEntry<'blog'>[][] = Object.values(grouped);
-
-const capitalize = (str: string) => str ? str.charAt(0).toUpperCase() + str.slice(1) : '';
 ---
 
-<BaseLayout title={capitalize(tag)}>
-	<main class="max-w-5xl mx-auto px-4 md:px-8 py-12">
-		<header class="text-center mb-16">
-			<nav aria-label="Breadcrumb" class="flex justify-center">
-				<a href="/tag" class="inline-flex items-center gap-1.5 text-neutral-600 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400 transition-colors duration-300">
-					<span class="text-lg">←</span>
-					<span class="text-base font-medium">Back to Tags</span>
-				</a>
-			</nav>
-			<h1 class="text-4xl md:text-5xl font-bold mb-4 text-text dark:text-text-dark">🏷️ {capitalize(tag)}</h1>
-			<p class="text-xl text-neutral-600 dark:text-neutral-400">{groupedPosts.length} {groupedPosts.length === 1 ? 'post' : 'posts'} tagged with {tag}</p>
-		</header>
+<BaseLayout
+	title={`${tag} - Tag`}
+	description={`Browse all posts tagged with ${tag}`}
+	layoutType="default"
+	contentWidth="default"
+	spacing="comfortable"
+>
+	<Section padding="section">
+		<h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-text dark:text-text-dark leading-tight tracking-tight">
+			{tag}
+		</h1>
+		<p class="text-xl md:text-2xl text-neutral-600 dark:text-neutral-400 leading-relaxed max-w-2xl">
+			{tagPosts.length} {tagPosts.length === 1 ? 'post' : 'posts'} tagged with {tag}
+		</p>
+	</Section>
 
-		<section class="grid gap-8 md:gap-12" aria-label="Posts with this tag">
-			{groupedPosts.map((translations) => {
-				const main = translations[0];
-				return (
-					<PostCard 
-						post={main} 
-						translations={translations.map(t => ({
-							id: t.id,
-							language: t.data.language[0]
-						}))}
-					/>
-				);
-			})}
-		</section>
-	</main>
+	<Section padding="block">
+		<div class="space-y-block">
+			{tagPosts.map(post => (
+				<PostCard post={post} />
+			))}
+		</div>
+	</Section>
 </BaseLayout>
 
 <style>

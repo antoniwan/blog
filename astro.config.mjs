@@ -25,6 +25,9 @@ export default defineConfig({
     },
     smartypants: true,
     gfm: true,
+    rehypePlugins: [
+      // Removed rehype-image-size as it is not used
+    ],
   },
   // Enable built-in prefetch with optimized settings
   prefetch: {
@@ -36,5 +39,13 @@ export default defineConfig({
     service: {
       entrypoint: "astro/assets/services/sharp",
     },
+    domains: ["blog.antoniwan.online"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "blog.antoniwan.online",
+        pathname: "/images/**",
+      },
+    ],
   },
 });

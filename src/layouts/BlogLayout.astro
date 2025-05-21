@@ -1,0 +1,184 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Section from '../components/Section.astro';
+import FormattedDate from '../components/FormattedDate.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  pubDate?: Date;
+  updatedDate?: Date;
+  heroImage?: string;
+  readingTime?: number;
+  tags?: string[];
+  category?: string[];
+  subcategory?: string;
+  language?: string[];
+  contentWidth?: 'narrow' | 'default' | 'wide';
+  spacing?: 'compact' | 'default' | 'comfortable';
+  // SEO fields
+  canonicalUrl?: string;
+  ogImage?: string;
+  ogImageAlt?: string;
+  robots?: {
+    index?: boolean;
+    follow?: boolean;
+    noarchive?: boolean;
+    nosnippet?: boolean;
+    noimageindex?: boolean;
+  };
+  // Additional SEO fields
+  author?: string;
+  keywords?: string[];
+  locale?: string;
+  // Structured data
+  tableOfContents?: {
+    items: Array<{
+      text: string;
+      slug: string;
+      depth: number;
+    }>;
+  };
+}
+
+const {
+  title,
+  description,
+  pubDate,
+  updatedDate,
+  heroImage,
+  readingTime,
+  tags,
+  category,
+  subcategory,
+  language,
+  contentWidth = 'default',
+  spacing = 'default',
+  canonicalUrl,
+  ogImage,
+  ogImageAlt,
+  robots,
+  author,
+  keywords,
+  locale,
+  tableOfContents,
+  ...rest
+} = Astro.props;
+
+// Generate structured data for blog post
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: title,
+  description: description,
+  image: heroImage || ogImage,
+  datePublished: pubDate?.toISOString(),
+  dateModified: updatedDate?.toISOString(),
+  author: {
+    '@type': 'Person',
+    name: author
+  },
+  keywords: keywords?.join(', '),
+  articleSection: category?.[0],
+  articleBody: tableOfContents?.items.map(item => item.text).join(' '),
+  wordCount: tableOfContents?.items.reduce((acc, item) => acc + item.text.length, 0),
+  timeRequired: readingTime ? `PT${readingTime}M` : undefined
+};
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  layoutType="blog"
+  pubDate={pubDate}
+  updatedDate={updatedDate}
+  heroImage={heroImage}
+  readingTime={readingTime}
+  tags={tags}
+  category={category}
+  subcategory={subcategory}
+  language={language}
+  contentWidth={contentWidth}
+  spacing={spacing}
+  canonicalUrl={canonicalUrl}
+  ogImage={ogImage}
+  ogImageAlt={ogImageAlt}
+  robots={robots}
+  author={author}
+  keywords={keywords}
+  locale={locale}
+  {...rest}
+>
+  <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+  
+  {/* Hero Section */}
+  <Section padding="lg">
+    <div class="space-y-scale-4">
+      <h1 class="text-scale-7 font-serif">
+        {title}
+      </h1>
+      {description && (
+        <p class="text-scale-3 text-neutral-600 dark:text-neutral-400">
+          {description}
+        </p>
+      )}
+      <div class="flex flex-wrap gap-4 text-scale-1 text-neutral-600 dark:text-neutral-400">
+        {pubDate && (
+          <time datetime={pubDate.toISOString()} class="flex items-center gap-2">
+            <span class="text-primary-500 dark:text-primary-400">📅</span>
+            <FormattedDate date={pubDate} format="long" />
+          </time>
+        )}
+        
+        {readingTime && (
+          <span class="flex items-center gap-2">
+            <span class="text-primary-500 dark:text-primary-400">⏱️</span>
+            {readingTime} min read
+          </span>
+        )}
+        
+        {category && category.length > 0 && (
+          <span class="flex items-center gap-2">
+            <span class="text-primary-500 dark:text-primary-400">📁</span>
+            <a 
+              href={`/category/${category[0]}/`}
+              class="hover:text-primary-500 dark:hover:text-primary-400 transition-colors"
+            >
+              {category[0]}
+            </a>
+          </span>
+        )}
+        
+        {tags && tags.length > 0 && (
+          <div class="flex flex-wrap gap-2">
+            {tags.map(tag => (
+              <a
+                href={`/tag/${tag}/`}
+                class="inline-flex items-center gap-2 text-scale-1 px-3 py-1.5 rounded-full bg-zinc-100 dark:bg-zinc-800 text-gray-700 dark:text-gray-300 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors"
+              >
+                <span>🏷️</span>
+                <span>{tag}</span>
+              </a>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {heroImage && (
+        <div class="mt-scale-4">
+          <img 
+            src={heroImage} 
+            alt={title}
+            class="w-full h-auto rounded-lg shadow-lg"
+            loading="eager"
+          />
+        </div>
+      )}
+    </div>
+  </Section>
+  
+  <Section padding="none">
+    <slot />
+  </Section>
+
+</BaseLayout>

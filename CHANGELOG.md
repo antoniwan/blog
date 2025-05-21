@@ -5,6 +5,55 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0] - 2024-05-03
+
+### Breaking Changes
+- Removed deprecated components (PageSection, TableOfContents, Figure)
+- Refactored layout system with new Section component
+- Consolidated layout logic and removed deprecated pages
+- Updated navigation structure with new dropdown system
+- Changed category URLs to include trailing slashes
+
+### Added
+- New Section component for consistent layout structure
+- Enhanced theme management with centralized functions
+- New animation utilities and transition settings
+- Structured data for blog posts to improve SEO
+- Table of contents generation for blog posts
+- New social media links (BlueSky, YouTube)
+- Enhanced vertical rhythm system for improved spacing
+- New layout types and additional props for customization
+
+### Improved
+- Refactored layout components for better structure and maintainability
+- Enhanced Tailwind configuration for typography and spacing
+- Improved theme toggle functionality with system preference support
+- Enhanced accessibility features across all components
+- Streamlined content presentation and organization
+- Improved mobile responsiveness and navigation
+- Enhanced SEO with structured data
+- Better handling of reduced motion preferences
+- Improved image optimization with updated Sharp version
+- Enhanced blog post structure and layout consistency
+
+### Technical
+- Removed unused rehype-image-size plugin
+- Updated Sharp dependency to version 0.33.5
+- Changed hero image format from AVIF to WEBP for better compatibility
+- Refactored author information and category emojis in consts.ts
+- Enhanced class-based styling for dynamic class management
+- Improved theme initialization and management
+- Streamlined layout container implementation
+- Enhanced TypeScript types and component props
+
+## [1.3.1] - 2024-05-03
+
+### Improved
+- Updated documentation and README files
+- Enhanced documentation links and organization
+- Improved package dependencies
+- Updated package lock file
+
 ## [1.3.0] - 2024-05-03
 
 ### Added
