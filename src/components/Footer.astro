@@ -1,30 +1,102 @@
 ---
 import Logo from './Logo.astro';
+
+const currentYear = new Date().getFullYear();
+
+const navigation = [
+  { href: '/', label: 'Home' },
+  { href: '/blog', label: 'Blog' },
+  { href: '/about', label: 'About' },
+];
+
+const socialLinks = [
+  { href: 'https://bsky.app/profile/antoniwan.online', label: 'BlueSky', icon: '🦋' },
+  { href: 'https://github.com/antoniwan/strongvault', label: 'GitHub', icon: '💻' },
+  { href: 'https://www.youtube.com/@Antoniwan777', label: 'YouTube', icon: '🎥' }
+];
 ---
 
-<footer class="w-full bg-gradient-to-b from-transparent to-background-alt border-t border-border/20 mt-24 pt-16 pb-12 px-4 md:px-0">
+<footer 
+  class="w-full bg-gradient-to-b from-transparent to-background-alt border-t border-border/20 mt-24 pt-16 pb-12 px-4 md:px-0"
+  role="contentinfo"
+>
   <div class="max-w-5xl mx-auto">
-    <div class="mb-12 text-center">
-      <div class="flex justify-center">
-        <Logo size="sm" />
+    <!-- Brand Section -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-16">
+      <div class="space-y-6">
+        <div class="flex items-center gap-3">
+          <Logo size="sm" />
+          <span class="text-lg font-serif font-medium text-text">Strong Hands, Soft Heart</span>
+        </div>
+        <p class="text-text-muted text-sm leading-relaxed max-w-md">
+          A digital journal exploring the art of mindful living through code, philosophy, and legacy-building. 
+          Where technical precision meets human warmth.
+        </p>
       </div>
-      <p class="text-text-muted text-sm leading-relaxed mt-3 max-w-2xl mx-auto">
-        Exploring the intersection of food, health, technology, and parenting. Sharing recipes, insights, and experiences.
-      </p>
+
+      <!-- Navigation -->
+      <nav class="grid grid-cols-2 gap-8" aria-label="Footer navigation">
+        <div>
+          <h3 class="text-sm font-medium text-text mb-4">Navigation</h3>
+          <ul class="space-y-3">
+            {navigation.map(item => (
+              <li>
+                <a 
+                  href={item.href}
+                  class="text-sm text-text-muted hover:text-primary-500 transition-colors duration-300 focus-ring"
+                >
+                  {item.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-sm font-medium text-text mb-4">Connect</h3>
+          <ul class="space-y-3">
+            {socialLinks.map(item => (
+              <li>
+                <a 
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="inline-flex items-center gap-2 text-sm text-text-muted hover:text-primary-500 transition-colors duration-300 focus-ring"
+                >
+                  <span class="text-base" aria-hidden="true">{item.icon}</span>
+                  {item.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </nav>
     </div>
 
-    <div class="mt-16 flex flex-col items-center gap-4">
-      <div class="flex flex-wrap justify-center gap-4 mb-2">
-        <a href="https://bsky.app/profile/antoniwan.online" target="_blank" rel="noopener noreferrer" class="px-4 py-1.5 rounded-full bg-primary-100 text-primary-700 font-medium text-sm hover:bg-primary-200 transition-all duration-300 hover:scale-105 focus-ring">BlueSky</a>
-        <a href="https://github.com/antoniwan/strongvault" target="_blank" rel="noopener noreferrer" class="px-4 py-1.5 rounded-full bg-accent-100 text-accent-700 font-medium text-sm hover:bg-accent-200 transition-all duration-300 hover:scale-105 focus-ring">Source Code</a>
-        <a href="https://stronghandssoftheart.com" target="_blank" rel="noopener noreferrer" class="px-4 py-1.5 rounded-full bg-primary-100 text-primary-700 font-medium text-sm hover:bg-primary-200 transition-all duration-300 hover:scale-105 focus-ring">Strong Hands Soft Heart</a>
-        <a href="https://builds.software" target="_blank" rel="noopener noreferrer" class="px-4 py-1.5 rounded-full bg-primary-100 text-primary-700 font-medium text-sm hover:bg-primary-200 transition-all duration-300 hover:scale-105 focus-ring">Builds.Software</a>
-        <a href="https://www.youtube.com/@Antoniwan777" target="_blank" rel="noopener noreferrer" class="px-4 py-1.5 rounded-full bg-accent-100 text-accent-700 font-medium text-sm hover:bg-accent-200 transition-all duration-300 hover:scale-105 focus-ring">YouTube</a>
+    <!-- Bottom Section -->
+    <div class="pt-8 border-t border-border/20">
+      <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+        <p class="text-xs text-text-muted text-center md:text-left">
+          © {currentYear} Strong Hands, Soft Heart LLC. All rights reserved.
+        </p>
+        <div class="flex items-center gap-4">
+          <a 
+            href="https://creativecommons.org/licenses/by/4.0/" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            class="text-xs text-text-muted hover:text-primary-500 transition-colors duration-300 focus-ring"
+          >
+            CC BY 4.0
+          </a>
+          <button
+            id="theme-toggle"
+            class="p-2 text-text-muted hover:text-primary-500 transition-colors duration-300 focus-ring rounded-full"
+            aria-label="Toggle theme"
+          >
+            <span class="text-base dark:hidden" aria-hidden="true">☀️</span>
+            <span class="text-base hidden dark:block" aria-hidden="true">🌙</span>
+          </button>
+        </div>
       </div>
-      <p class="text-xs text-text-muted text-center">
-        © {new Date().getFullYear()} Strong Hands, Soft Heart LLC. All rights reserved.<br />
-        This work is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/" class="text-accent-500 hover:underline focus-ring" target="_blank" rel="noopener">Creative Commons Attribution 4.0 International License</a>.
-      </p>
     </div>
   </div>
 </footer>
@@ -42,4 +114,14 @@ import Logo from './Logo.astro';
       transition: none !important;
     }
   }
-</style> 
+</style>
+
+<script>
+  // Theme toggle functionality
+  const themeToggle = document.getElementById('theme-toggle');
+  
+  themeToggle?.addEventListener('click', () => {
+    const isDark = document.documentElement.classList.toggle('dark');
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+  });
+</script> 
