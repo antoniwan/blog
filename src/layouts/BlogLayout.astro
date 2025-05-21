@@ -113,67 +113,69 @@ const structuredData = {
   <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
   
   {/* Hero Section */}
-  <Section padding="section">
-    <h1>
-      {title}
-    </h1>
-    {description && (
-      <p class="text-neutral-600">
-        {description}
-      </p>
-    )}
-    <div class="flex flex-wrap gap-4 text-sm text-neutral-600 dark:text-neutral-400">
-      {pubDate && (
-        <time datetime={pubDate.toISOString()} class="flex items-center gap-2">
-          <span class="text-primary-500 dark:text-primary-400">📅</span>
-          <FormattedDate date={pubDate} format="long" />
-        </time>
+  <Section padding="lg">
+    <div class="space-y-scale-4">
+      <h1 class="text-scale-7 font-serif">
+        {title}
+      </h1>
+      {description && (
+        <p class="text-scale-3 text-neutral-600 dark:text-neutral-400">
+          {description}
+        </p>
       )}
-      
-      {readingTime && (
-        <span class="flex items-center gap-2">
-          <span class="text-primary-500 dark:text-primary-400">⏱️</span>
-          {readingTime} min read
-        </span>
-      )}
-      
-      {category && category.length > 0 && (
-        <span class="flex items-center gap-2">
-          <span class="text-primary-500 dark:text-primary-400">📁</span>
-          <a 
-            href={`/category/${category[0]}/`}
-            class="hover:text-primary-500 dark:hover:text-primary-400 transition-colors"
-          >
-            {category[0]}
-          </a>
-        </span>
-      )}
-      
-      {tags && tags.length > 0 && (
-        <div class="flex flex-wrap gap-2">
-          {tags.map(tag => (
-            <a
-              href={`/tag/${tag}/`}
-              class="flex items-center gap-1.5 px-2 py-1 rounded-full bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors"
+      <div class="flex flex-wrap gap-4 text-scale-1 text-neutral-600 dark:text-neutral-400">
+        {pubDate && (
+          <time datetime={pubDate.toISOString()} class="flex items-center gap-2">
+            <span class="text-primary-500 dark:text-primary-400">📅</span>
+            <FormattedDate date={pubDate} format="long" />
+          </time>
+        )}
+        
+        {readingTime && (
+          <span class="flex items-center gap-2">
+            <span class="text-primary-500 dark:text-primary-400">⏱️</span>
+            {readingTime} min read
+          </span>
+        )}
+        
+        {category && category.length > 0 && (
+          <span class="flex items-center gap-2">
+            <span class="text-primary-500 dark:text-primary-400">📁</span>
+            <a 
+              href={`/category/${category[0]}/`}
+              class="hover:text-primary-500 dark:hover:text-primary-400 transition-colors"
             >
-              <span>🏷️</span>
-              <span>{tag}</span>
+              {category[0]}
             </a>
-          ))}
+          </span>
+        )}
+        
+        {tags && tags.length > 0 && (
+          <div class="flex flex-wrap gap-2">
+            {tags.map(tag => (
+              <a
+                href={`/tag/${tag}/`}
+                class="inline-flex items-center gap-2 text-scale-1 px-3 py-1.5 rounded-full bg-zinc-100 dark:bg-zinc-800 text-gray-700 dark:text-gray-300 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors"
+              >
+                <span>🏷️</span>
+                <span>{tag}</span>
+              </a>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {heroImage && (
+        <div class="mt-scale-4">
+          <img 
+            src={heroImage} 
+            alt={title}
+            class="w-full h-auto rounded-lg shadow-lg"
+            loading="eager"
+          />
         </div>
       )}
     </div>
-
-    {heroImage && (
-      <div class="mt-8">
-        <img 
-          src={heroImage} 
-          alt={title}
-          class="w-full h-auto rounded-lg shadow-lg"
-          loading="eager"
-        />
-      </div>
-    )}
   </Section>
   
   <Section padding="none">

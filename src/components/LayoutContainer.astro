@@ -3,7 +3,7 @@ interface Props {
   /**
    * The type of content being contained
    */
-  type?: 'content' | 'container' | 'card' | 'media';
+  type?: 'container' | 'section' | 'content';
   
   /**
    * The size variant for the container
@@ -28,43 +28,42 @@ const {
   className = ''
 } = Astro.props;
 
-// Content type determines the base max-width
-const typeClasses = {
-  content: 'max-w-prose',
-  container: 'max-w-container',
-  card: 'max-w-card',
-  media: 'max-w-media'
+// Map container types to max-width classes
+const maxWidthMap = {
+  container: {
+    narrow: 'max-w-container-narrow',
+    default: 'max-w-container',
+    wide: 'max-w-container-wide',
+  },
+  section: {
+    narrow: 'max-w-prose',
+    default: 'max-w-prose-wide',
+    wide: 'max-w-none',
+  },
+  content: {
+    narrow: 'max-w-prose',
+    default: 'max-w-prose-wide',
+    wide: 'max-w-none',
+  },
 };
 
-// Size variants adjust the width
-const sizeClasses = {
-  narrow: 'max-w-container-narrow',
-  default: 'max-w-container',
-  wide: 'max-w-container-wide'
-};
-
-// Responsive padding using design system tokens
-const paddingClasses = {
+// Map padding sizes to Tailwind classes
+const paddingMap = {
   none: '',
-  sm: 'px-sm md:px-md',
-  md: 'px-sm md:px-lg lg:px-xl',
-  lg: 'px-sm md:px-xl lg:px-2xl'
+  sm: 'px-4 py-8 md:px-6 md:py-12',
+  md: 'px-6 py-12 md:px-8 md:py-16',
+  lg: 'px-8 py-16 md:px-12 md:py-24',
 };
 
-// Combine classes based on type and size
-const getMaxWidthClass = () => {
-  if (type === 'content') return typeClasses.content;
-  if (type === 'media') return typeClasses.media;
-  if (type === 'card') return typeClasses.card;
-  return sizeClasses[size];
-};
+const maxWidthClass = maxWidthMap[type][size];
+const paddingClass = paddingMap[padding];
 ---
 
 <div 
   class:list={[
     'mx-auto w-full',
-    getMaxWidthClass(),
-    paddingClasses[padding],
+    maxWidthClass,
+    paddingClass,
     className
   ]}
 >

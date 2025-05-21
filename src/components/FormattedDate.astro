@@ -44,23 +44,9 @@ function getRelativeTime(date: Date): string {
 <time
 	datetime={date.toISOString()}
 	class:list={[
-		'text-neutral-600 dark:text-neutral-400',
+		'text-neutral-600 dark:text-neutral-400 transition-colors duration-300',
 		className
 	]}
 >
 	{format === 'relative' ? getRelativeTime(date) : formatter.format(date)}
 </time>
-
-<style>
-	/* Smooth transitions for dark mode */
-	time {
-		transition: color 300ms cubic-bezier(0.4, 0, 0.2, 1);
-	}
-
-	/* Respect reduced motion preferences */
-	@media (prefers-reduced-motion: reduce) {
-		time {
-			transition: none !important;
-		}
-	}
-</style>

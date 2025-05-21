@@ -3,19 +3,19 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 import Logo from './Logo.astro';
 ---
 
-<footer class="bg-background dark:bg-background-dark border-t border-border/20 dark:border-border-dark/20">
-  <div class="mx-auto max-w-container px-sm md:px-lg lg:px-xl py-2xl">
-    <div class="grid grid-cols-1 md:grid-cols-12 gap-2xl">
+<footer class="bg-background dark:bg-background-dark border-t border-border/20 dark:border-border-dark/20 transition-colors duration-300">
+  <div class="mx-auto max-w-container px-4 md:px-6 lg:px-8 py-16">
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-8">
       <div class="md:col-span-4">
         <Logo size="md" />
-        <p class="mt-md text-neutral-600 dark:text-neutral-400">
+        <p class="mt-4 text-neutral-600 dark:text-neutral-400">
           {SITE_DESCRIPTION}
         </p>
       </div>
       
       <div class="md:col-span-4">
-        <h3 class="text-lg font-semibold mb-md">Quick Links</h3>
-        <nav class="space-y-sm">
+        <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+        <nav class="space-y-2">
           <a href="/" class="block text-neutral-600 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400 transition-colors">Home</a>
           <a href="/category/" class="block text-neutral-600 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400 transition-colors">Categories</a>
           <a href="/about" class="block text-neutral-600 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400 transition-colors">About</a>
@@ -23,8 +23,8 @@ import Logo from './Logo.astro';
       </div>
       
       <div class="md:col-span-4">
-        <h3 class="text-lg font-semibold mb-md">Connect</h3>
-        <nav class="space-y-sm">
+        <h3 class="text-lg font-semibold mb-4">Connect</h3>
+        <nav class="space-y-2">
           <a href="https://bsky.app/profile/antoniwan.online" target="_blank" rel="noopener noreferrer" class="block text-neutral-600 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400 transition-colors">🌀 BlueSky</a>
           <a href="https://github.com/antoniwan/strongvault" target="_blank" rel="noopener noreferrer" class="block text-neutral-600 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400 transition-colors">🐙 GitHub</a>
           <a href="https://www.youtube.com/@Antoniwan777" target="_blank" rel="noopener noreferrer" class="block text-neutral-600 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400 transition-colors">📺 YouTube</a>
@@ -32,8 +32,8 @@ import Logo from './Logo.astro';
       </div>
     </div>
     
-    <div class="mt-2xl pt-xl border-t border-border/20 dark:border-border-dark/20">
-      <div class="flex flex-col md:flex-row justify-between items-center gap-md">
+    <div class="mt-8 pt-8 border-t border-border/20 dark:border-border-dark/20">
+      <div class="flex flex-col md:flex-row justify-between items-center gap-4">
         <div class="text-sm text-neutral-500 dark:text-neutral-400">
           <p>© {new Date().getFullYear()} {SITE_TITLE}. All rights reserved.</p>
           <p class="mt-1">Content licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer" class="hover:text-primary-500 dark:hover:text-primary-400 transition-colors">CC BY-NC-SA 4.0</a></p>
@@ -42,20 +42,4 @@ import Logo from './Logo.astro';
       </div>
     </div>
   </div> 
-</footer>
-
-<style>
-  /* Smooth transitions for dark mode */
-  footer {
-    transition: background-color 300ms cubic-bezier(0.4, 0, 0.2, 1),
-                border-color 300ms cubic-bezier(0.4, 0, 0.2, 1),
-                color 300ms cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  /* Respect reduced motion preferences */
-  @media (prefers-reduced-motion: reduce) {
-    footer {
-      transition: none !important;
-    }
-  }
-</style> 
+</footer> 

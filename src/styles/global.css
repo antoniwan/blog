@@ -1,4 +1,4 @@
-@import './fonts.css';
+@import "./fonts.css";
 
 /*
   StrongVault CSS Architecture
@@ -26,37 +26,38 @@
 @layer base {
   :root {
     /* Font families */
-    --font-sans: "Inter var", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    --font-sans:
+      "Inter var", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
       Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
       sans-serif;
     --font-serif: Georgia, Cambria, "Times New Roman", Times, serif;
-    
+
     /* Typography */
     --smart-quote-open: '"';
     --smart-quote-close: '"';
     --smart-apostrophe: "'";
-    
+
     /* Theme colors - Light mode */
     --color-primary: 26 26 46; /* Deep navy - represents strength and depth */
     --color-primary-light: 37 37 66; /* Lighter navy - for hover states */
     --color-primary-dark: 15 15 26; /* Darker navy - for active states */
-    
+
     --color-background: 250 250 252; /* Slightly warm white */
     --color-background-alt: 245 245 247; /* Subtle gray */
     --color-background-elevated: 240 240 242; /* Slightly darker for elevation */
-    
+
     --color-text: 26 26 46; /* Deep navy for text */
     --color-text-muted: 89 89 109; /* Muted navy */
     --color-text-subtle: 128 128 148; /* Subtle navy */
-    
+
     --color-border: 230 230 232; /* Light gray border */
     --color-border-strong: 210 210 212; /* Stronger border */
-    
+
     /* Accent colors */
     --color-accent: 147 51 234; /* Purple - represents creativity and wisdom */
     --color-accent-light: 168 85 247;
     --color-accent-dark: 126 34 206;
-    
+
     /* Status colors */
     --color-success: 34 197 94; /* Green */
     --color-warning: 234 179 8; /* Yellow */
@@ -69,23 +70,23 @@
     --color-primary: 245 245 247; /* Light gray - represents clarity in darkness */
     --color-primary-light: 255 255 255; /* White - for hover states */
     --color-primary-dark: 235 235 237; /* Darker gray - for active states */
-    
+
     --color-background: 15 15 26; /* Deep navy background */
     --color-background-alt: 20 20 31; /* Slightly lighter navy */
     --color-background-elevated: 25 25 36; /* Even lighter for elevation */
-    
+
     --color-text: 245 245 247; /* Light gray text */
     --color-text-muted: 200 200 212; /* Muted light gray */
     --color-text-subtle: 170 170 182; /* Subtle light gray */
-    
+
     --color-border: 35 35 46; /* Dark navy border */
     --color-border-strong: 45 45 56; /* Stronger border */
-    
+
     /* Accent colors - Dark mode */
     --color-accent: 168 85 247; /* Lighter purple for dark mode */
     --color-accent-light: 192 132 252;
     --color-accent-dark: 147 51 234;
-    
+
     /* Status colors - Dark mode */
     --color-success: 74 222 128; /* Brighter green */
     --color-warning: 250 204 21; /* Brighter yellow */
@@ -103,7 +104,12 @@
   }
 
   /* Typography */
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     @apply font-bold text-text transition-colors duration-300;
   }
 
@@ -149,20 +155,22 @@
 
   /* Tables */
   table {
-    @apply w-full border-collapse text-base leading-relaxed overflow-x-auto block;
+    @apply w-full border-collapse text-base leading-relaxed;
     font-feature-settings: "tnum";
     font-variant-numeric: tabular-nums;
+    margin: 1.5rem 0;
   }
 
   th,
   td {
-    @apply border border-border px-6 py-3 transition-colors duration-300 whitespace-nowrap;
+    @apply border border-border px-6 py-4 transition-colors duration-300;
   }
 
   th {
     @apply bg-background-alt font-semibold text-text text-left tracking-tight;
     font-size: 0.9375rem;
     letter-spacing: -0.01em;
+    position: relative;
   }
 
   td {
@@ -171,7 +179,7 @@
   }
 
   tr:nth-child(even) {
-    @apply bg-background-alt/50;
+    @apply bg-background-alt/30;
   }
 
   tr:hover {
@@ -183,6 +191,12 @@
     @apply pl-7;
   }
 
+  tr > td:last-child,
+  tr > th:last-child {
+    @apply pr-7;
+  }
+
+  /* Responsive table styles */
   @media (max-width: 640px) {
     table {
       @apply text-sm;
@@ -190,11 +204,12 @@
       width: 100%;
       overflow-x: auto;
       -webkit-overflow-scrolling: touch;
+      margin: 1rem 0;
     }
 
     th,
     td {
-      @apply px-4 py-2;
+      @apply px-4 py-3;
       min-width: 120px; /* Ensure minimum width for readability */
     }
 
@@ -202,100 +217,102 @@
     tr > th:first-child {
       @apply pl-4;
     }
+
+    tr > td:last-child,
+    tr > th:last-child {
+      @apply pr-4;
+    }
   }
 
-  /* Code */
+  /* Code blocks */
   code {
-    @apply font-mono text-sm bg-background-alt rounded px-1 py-0.5 transition-colors duration-300;
+    @apply font-mono text-sm bg-background-alt px-1.5 py-0.5 rounded;
   }
 
   pre {
-    @apply bg-background-alt rounded-lg p-4 overflow-x-auto transition-colors duration-300;
+    @apply bg-background-alt p-4 rounded-lg overflow-x-auto;
   }
 
   pre > code {
-    @apply bg-transparent p-0;
+    @apply bg-transparent p-0 text-sm;
   }
 
-  /* Horizontal Rule */
+  /* Horizontal rule */
   hr {
-    @apply border-t border-border my-8 transition-colors duration-300;
+    @apply border-t border-border my-8;
   }
 
-  /* Dark mode specific styles */
+  /* Dark mode styles */
   .dark {
-    color-scheme: dark;
+    @apply bg-background-dark text-text-dark;
   }
 
   .dark ::selection {
-    @apply bg-primary-400 text-white;
+    @apply bg-primary-500/20;
   }
 
-  /* Smooth transitions for all color changes */
+  /* Global transitions */
   * {
     @apply transition-colors duration-300;
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
   }
 
   /* Respect reduced motion preferences */
   @media (prefers-reduced-motion: reduce) {
     * {
-      transition: none !important;
-      animation: none !important;
+      @apply transition-none !important;
     }
   }
 
-  /* Force emoji font fallback */
+  /* Emoji styles */
   emoji {
-    font-family:
-      "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", sans-serif;
+    @apply inline-block align-text-bottom;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+    vertical-align: -0.1em;
   }
-}
 
-@layer components {
   /* Accessibility */
   .sr-only {
     @apply absolute w-px h-px p-0 -m-px overflow-hidden whitespace-nowrap border-0;
   }
 
   .skip-link {
-    @apply absolute top-0 left-0 -translate-y-full focus:translate-y-0 bg-primary-500 text-white px-4 py-2 z-50;
+    @apply sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:bg-background dark:focus:bg-background-dark focus:px-4 focus:py-2 focus:rounded focus:shadow-lg focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-background-dark;
   }
 
-  /* Content Layout */
+  /* Content layout */
   .content-wrapper {
-    @apply max-w-4xl mx-auto px-4 md:px-8;
+    @apply max-w-container mx-auto px-4 md:px-6 lg:px-8;
   }
 
   .content {
-    @apply prose prose-neutral dark:prose-invert max-w-none;
+    @apply prose prose-lg dark:prose-invert max-w-none;
   }
 
   /* Status indicators */
   .status-success {
-    @apply text-success;
+    @apply text-success-500 dark:text-success-400;
   }
 
   .status-warning {
-    @apply text-warning;
+    @apply text-warning-500 dark:text-warning-400;
   }
 
   .status-error {
-    @apply text-error;
+    @apply text-error-500 dark:text-error-400;
   }
 
   .status-info {
-    @apply text-info;
+    @apply text-info-500 dark:text-info-400;
   }
-}
 
-/* Media Gallery */
-.media-gallery {
-  @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4;
-}
+  /* Media gallery */
+  .media-gallery {
+    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4;
+  }
 
-.media-gallery .photo-gallery {
-  @apply relative aspect-[1/1] overflow-hidden rounded-lg;
+  .media-gallery .photo-gallery {
+    @apply aspect-square rounded-lg overflow-hidden;
+  }
 }

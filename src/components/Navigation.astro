@@ -8,13 +8,13 @@ interface Props {
 const { class: className = '' } = Astro.props;
 ---
 
-<nav class:list={['space-x-lg', className]}>
+<nav class:list={['space-x-6', className]}>
   {mainNavigation.map((item) => (
     <a
       href={item.href}
       class="text-neutral-600 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400 transition-colors"
       class:list={[
-        'inline-flex items-center gap-sm',
+        'inline-flex items-center gap-2',
         { 'text-primary-500 dark:text-primary-400': Astro.url.pathname === item.href }
       ]}
     >

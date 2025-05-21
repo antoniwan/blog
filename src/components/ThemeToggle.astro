@@ -9,7 +9,7 @@ const { class: className = '' } = Astro.props;
 <button
 	type="button"
 	class:list={[
-		'inline-flex items-center justify-center p-sm rounded-lg text-neutral-600 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400 hover:bg-background-alt dark:hover:bg-background-alt-dark transition-colors',
+		'inline-flex items-center justify-center p-2 rounded-lg text-neutral-600 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400 hover:bg-background-alt dark:hover:bg-background-alt-dark transition-colors duration-300',
 		className
 	]}
 	aria-label="Toggle theme"
@@ -94,19 +94,4 @@ const { class: className = '' } = Astro.props;
 			setTheme(e.matches ? 'dark' : 'light');
 		}
 	});
-</script>
-
-<style>
-	/* Smooth transitions for dark mode */
-	button {
-		transition: background-color 300ms cubic-bezier(0.4, 0, 0.2, 1),
-					color 300ms cubic-bezier(0.4, 0, 0.2, 1);
-	}
-
-	/* Respect reduced motion preferences */
-	@media (prefers-reduced-motion: reduce) {
-		button {
-			transition: none !important;
-		}
-	}
-</style> 
+</script> 
