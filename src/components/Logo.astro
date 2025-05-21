@@ -14,23 +14,10 @@ interface Props {
 }
 
 const { size = 'md', class: className = '' } = Astro.props;
-
-const sizeClasses = {
-  sm: 'text-lg',
-  md: 'text-xl',
-  lg: 'text-2xl'
-};
 ---
 
-<a
-  href="/"
-  class:list={[
-    'inline-flex items-center gap-2 font-serif font-bold tracking-tight text-text dark:text-text-dark hover:text-primary-500 dark:hover:text-primary-400 transition-colors duration-300',
-    sizeClasses[size],
-    className
-  ]}
->
-  <span class="text-primary-500 dark:text-primary-400">⚡</span>
+<a href="/">
+  <span>⚡</span>
   <span>{SITE_TITLE}</span>
 </a>
 

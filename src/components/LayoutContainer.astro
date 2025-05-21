@@ -59,13 +59,6 @@ const maxWidthClass = maxWidthMap[type][size];
 const paddingClass = paddingMap[padding];
 ---
 
-<div 
-  class:list={[
-    'mx-auto w-full',
-    maxWidthClass,
-    paddingClass,
-    className
-  ]}
->
+<div>
   <slot />
 </div> 

@@ -1,38 +1,11 @@
 ---
 import { mainNavigation } from '../data/navigation';
-
-interface Props {
-  class?: string;
-}
-
-const { class: className = '' } = Astro.props;
 ---
 
-<nav class:list={['space-x-6', className]}>
+<nav>
   {mainNavigation.map((item) => (
-    <a
-      href={item.href}
-      class="text-neutral-600 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400 theme-transition"
-      class:list={[
-        'inline-flex items-center gap-2',
-        { 'text-primary-500 dark:text-primary-400': Astro.url.pathname === item.href }
-      ]}
-    >
+    <a href={item.href}>
       <span>{item.label}</span>
     </a>
   ))}
-</nav>
-
-<style>
-  /* Smooth transitions for dark mode */
-  nav {
-    transition: color 150ms cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  /* Respect reduced motion preferences */
-  @media (prefers-reduced-motion: reduce) {
-    nav {
-      transition: none !important;
-    }
-  }
-</style> 
+</nav> 

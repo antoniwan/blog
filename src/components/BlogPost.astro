@@ -13,35 +13,7 @@ const processedContent = post.Content;
 ---
 
 <LayoutContainer type="content" padding="md">
-  <article class="prose prose-lg">
+  <article>
     {processedContent}
   </article>
-</LayoutContainer>
-
-<style>
-  /* Enhanced typography styles */
-  :global(.prose) {
-    --tw-prose-body: var(--text-text);
-    --tw-prose-headings: var(--text-text);
-    --tw-prose-links: var(--text-primary-500);
-    --tw-prose-bold: var(--text-text);
-    --tw-prose-counters: var(--text-text-muted);
-    --tw-prose-bullets: var(--text-text-muted);
-    --tw-prose-hr: var(--border-border);
-    --tw-prose-quotes: var(--text-text);
-    --tw-prose-quote-borders: var(--border-primary-500);
-    --tw-prose-captions: var(--text-text-muted);
-    --tw-prose-code: var(--text-text);
-    --tw-prose-pre-code: var(--text-text);
-    --tw-prose-pre-bg: var(--bg-background-alt);
-    --tw-prose-th-borders: var(--border-border);
-    --tw-prose-td-borders: var(--border-border);
-  }
-
-  /* Respect reduced motion preferences */
-  @media (prefers-reduced-motion: reduce) {
-    :global(.prose img) {
-      transition: none !important;
-    }
-  }
-</style> 
+</LayoutContainer> 

@@ -6,15 +6,9 @@ interface Props {
 const { class: className = '' } = Astro.props;
 ---
 
-<div
-	class:list={[
-		'fixed top-0 left-0 w-full h-1 bg-background-alt dark:bg-background-alt-dark z-50',
-		className
-	]}
->
+<div>
 	<div
 		id="reading-progress"
-		class="h-full bg-primary-500 dark:bg-primary-400 transition-all duration-300"
 		style="width: 0%"
 	></div>
 </div>
@@ -34,21 +28,5 @@ const { class: className = '' } = Astro.props;
 	window.addEventListener('scroll', updateReadingProgress);
 	window.addEventListener('resize', updateReadingProgress);
 	
-	// Initial update
 	updateReadingProgress();
-</script>
-
-<style>
-	/* Smooth transitions for dark mode */
-	#reading-progress {
-		transition: width 150ms cubic-bezier(0.4, 0, 0.2, 1),
-					background-color 150ms cubic-bezier(0.4, 0, 0.2, 1);
-	}
-
-	/* Respect reduced motion preferences */
-	@media (prefers-reduced-motion: reduce) {
-		#reading-progress {
-			transition: none !important;
-		}
-	}
-</style> 
+</script> 

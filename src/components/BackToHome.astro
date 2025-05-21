@@ -6,15 +6,8 @@ interface Props {
 const { class: className = '' } = Astro.props;
 ---
 
-<a
-  href="/"
-  class:list={[
-    'inline-flex items-center gap-sm text-neutral-600 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400 transition-colors',
-    className
-  ]}
->
+<a href="/">
   <svg
-    class="h-5 w-5"
     fill="none"
     stroke="currentColor"
     viewBox="0 0 24 24"

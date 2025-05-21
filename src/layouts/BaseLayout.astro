@@ -108,7 +108,7 @@ const spacingMap = {
 ---
 
 <!doctype html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
   <head>
     <BaseHead 
       title={title} 
@@ -126,43 +126,30 @@ const spacingMap = {
     />
     <SpeedInsights />
   </head>
-  <body class="min-h-screen flex flex-col bg-background text-text dark:bg-background-dark dark:text-text-dark antialiased">
-    <script>
-      // Prevent FOUC in Firefox
-      document.documentElement.classList.add('ready');
-    </script>
-    
-    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:bg-background dark:focus:bg-background-dark focus:px-4 focus:py-2 focus:rounded focus:shadow-lg focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-background-dark">Skip to main content</a>
+  <body>
+    <a href="#main-content">Skip to main content</a>
     
     <Header />
     <ReadingProgress />
     
-    <main 
-      id="main-content" 
-      role="main" 
-      class="flex-grow animate-fade-in"
-    >
-      <LayoutContainer 
-        type="container" 
-        size={contentWidth} 
-        padding={spacingMap[spacing]}
-      >
+    <main id="main-content" role="main">
+      <LayoutContainer>
         {layoutType === 'blog' && (
-          <article class="animate-fade-in" transition:animate="fade">
-            <div class="prose prose-lg dark:prose-invert max-w-none">
+          <article>
+            <div>
               <slot />
             </div>
           </article>
         )}
         {layoutType === 'default' && (
-          <div class="animate-fade-in" transition:animate="fade">
-            <div class="prose prose-lg dark:prose-invert max-w-none">
+          <div>
+            <div>
               <slot />
             </div>
           </div>
         )}
         {(layoutType === 'home' || layoutType === 'category') && (
-          <div class="animate-fade-in" transition:animate="fade">
+          <div>
             <slot />
           </div>
         )}

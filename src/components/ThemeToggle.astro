@@ -8,16 +8,10 @@ const { class: className = '' } = Astro.props;
 
 <button
 	type="button"
-	class:list={[
-		'inline-flex items-center justify-center p-2 rounded-lg text-neutral-600 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400 hover:bg-background-alt dark:hover:bg-background-alt-dark theme-transition',
-		className
-	]}
 	aria-label="Toggle theme"
 	id="theme-toggle"
 >
-	<!-- Sun icon -->
 	<svg
-		class="h-6 w-6 dark:hidden"
 		fill="none"
 		stroke="currentColor"
 		viewBox="0 0 24 24"
@@ -31,9 +25,7 @@ const { class: className = '' } = Astro.props;
 		/>
 	</svg>
 	
-	<!-- Moon icon -->
 	<svg
-		class="hidden h-6 w-6 dark:block"
 		fill="none"
 		stroke="currentColor"
 		viewBox="0 0 24 24"
@@ -49,27 +41,16 @@ const { class: className = '' } = Astro.props;
 </button>
 
 <script>
-	// Function to set theme
 	function setTheme(theme: 'dark' | 'light') {
 		document.documentElement.classList.toggle('dark', theme === 'dark');
 		localStorage.setItem('theme', theme);
 	}
 
-	// Function to toggle theme
 	function toggleTheme() {
 		const isDark = document.documentElement.classList.contains('dark');
 		setTheme(isDark ? 'light' : 'dark');
 	}
 
-	// Add click event listener
 	const themeToggle = document.getElementById('theme-toggle');
 	themeToggle?.addEventListener('click', toggleTheme);
-</script>
-
-<style>
-	@media (prefers-reduced-motion: reduce) {
-		button {
-			transition: none !important;
-		}
-	}
-</style> 
+</script> 

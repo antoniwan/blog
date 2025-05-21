@@ -6,36 +6,15 @@ import MobileNav from './MobileNav.astro';
 import Search from './Search.astro';
 ---
 
-<header class="sticky top-0 z-40 w-full bg-background/80 dark:bg-background-dark/80 backdrop-blur-sm border-b border-border/20 dark:border-border-dark/20 theme-transition">
-	<div class="mx-auto max-w-container px-4 md:px-6 lg:px-8">
-		<div class="flex h-16 items-center justify-between">
-			<div class="flex items-center gap-6">
-				<Logo />
-				<Navigation class="hidden md:flex" />
-			</div>
-			
-			<div class="flex items-center gap-4">
-				<div class="hidden md:block w-64">
-					<Search />
-				</div>
-				<ThemeToggle />
-				<MobileNav class="md:hidden" />
-			</div>
-		</div>
+<header>
+	<nav>
+		<Logo />
+		<Navigation />
+	</nav>
+	
+	<div>
+		<Search />
+		<ThemeToggle />
+		<MobileNav />
 	</div>
-</header>
-
-<style>
-	/* Smooth transitions for dark mode */
-	header {
-		transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1),
-					border-color 150ms cubic-bezier(0.4, 0, 0.2, 1);
-	}
-
-	/* Respect reduced motion preferences */
-	@media (prefers-reduced-motion: reduce) {
-		header {
-			transition: none !important;
-		}
-	}
-</style> 
+</header> 

@@ -111,53 +111,42 @@ const structuredData = {
 >
   <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
   
-  {/* Hero Section */}
-  <Section padding="lg">
-    <div class="space-y-scale-4">
-      <h1 class="text-scale-7 font-serif">
+  <Section>
+    <div>
+      <h1>
         {title}
       </h1>
       {description && (
-        <p class="text-scale-3 text-neutral-600 dark:text-neutral-400">
+        <p>
           {description}
         </p>
       )}
-      <div class="flex flex-wrap gap-4 text-scale-1 text-neutral-600 dark:text-neutral-400">
+      <div>
         {pubDate && (
-          <time datetime={pubDate.toISOString()} class="flex items-center gap-2">
-            <span class="text-primary-500 dark:text-primary-400">📅</span>
+          <time datetime={pubDate.toISOString()}>
             <FormattedDate date={pubDate} format="long" />
           </time>
         )}
         
         {readingTime && (
-          <span class="flex items-center gap-2">
-            <span class="text-primary-500 dark:text-primary-400">⏱️</span>
+          <span>
             {readingTime} min read
           </span>
         )}
         
         {category && category.length > 0 && (
-          <span class="flex items-center gap-2">
-            <span class="text-primary-500 dark:text-primary-400">📁</span>
-            <a 
-              href={`/category/${category[0]}/`}
-              class="hover:text-primary-500 dark:hover:text-primary-400 transition-colors"
-            >
+          <span>
+            <a href={`/category/${category[0]}/`}>
               {category[0]}
             </a>
           </span>
         )}
         
         {tags && tags.length > 0 && (
-          <div class="flex flex-wrap gap-2">
+          <div>
             {tags.map(tag => (
-              <a
-                href={`/tag/${tag}/`}
-                class="inline-flex items-center gap-2 text-scale-1 px-3 py-1.5 rounded-full bg-zinc-100 dark:bg-zinc-800 text-gray-700 dark:text-gray-300 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors"
-              >
-                <span>🏷️</span>
-                <span>{tag}</span>
+              <a href={`/tag/${tag}/`}>
+                {tag}
               </a>
             ))}
           </div>
@@ -165,11 +154,10 @@ const structuredData = {
       </div>
 
       {heroImage && (
-        <div class="mt-scale-4">
+        <div>
           <img 
             src={heroImage} 
             alt={title}
-            class="w-full h-auto rounded-lg shadow-lg"
             loading="eager"
           />
         </div>
@@ -177,7 +165,7 @@ const structuredData = {
     </div>
   </Section>
   
-  <Section padding="none">
+  <Section>
     <slot />
   </Section>
 

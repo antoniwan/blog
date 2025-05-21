@@ -9,14 +9,9 @@ interface Props {
 	 * The format to use
 	 */
 	format?: 'short' | 'long' | 'relative';
-	
-	/**
-	 * Additional classes to apply
-	 */
-	class?: string;
 }
 
-const { date, format = 'long', class: className = '' } = Astro.props;
+const { date, format = 'long' } = Astro.props;
 
 const formatter = new Intl.DateTimeFormat('en-US', {
 	year: 'numeric',
@@ -41,12 +36,6 @@ function getRelativeTime(date: Date): string {
 }
 ---
 
-<time
-	datetime={date.toISOString()}
-	class:list={[
-		'text-neutral-600 dark:text-neutral-400 transition-colors duration-300',
-		className
-	]}
->
+<time datetime={date.toISOString()}>
 	{format === 'relative' ? getRelativeTime(date) : formatter.format(date)}
 </time>

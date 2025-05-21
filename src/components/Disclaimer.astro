@@ -3,31 +3,15 @@ import { DISCLAIMER_TEXT } from '../consts';
 
 interface Props {
   text?: string;
-  class?: string;
-  style?: string;
 }
 
-const { text = DISCLAIMER_TEXT, class: className = '', style = '' } = Astro.props;
+const { text = DISCLAIMER_TEXT } = Astro.props;
 ---
 
-<div 
-  class:list={[
-    'bg-background-alt/50 dark:bg-background-alt-dark/50',
-    'border-l-4 border-primary-500 dark:border-primary-400',
-    'p-element md:p-block',
-    'my-block',
-    'rounded-md',
-    'shadow-sm',
-    'transition-colors duration-300',
-    className
-  ]}
-  role="complementary"
-  aria-label="Disclaimer"
-  style={style}
->
+<div role="complementary" aria-label="Disclaimer">
 		<div>
-			<span class="text-xl">🌟</span>
+			<span>🌟</span>
 			<span>Sacred Disclaimer</span>
     </div>
-		<p class="text-neutral-600 dark:text-neutral-400 leading-relaxed m-0" set:html={text} />
+		<p set:html={text} />
 </div> 

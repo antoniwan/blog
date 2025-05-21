@@ -3,44 +3,36 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 import Logo from './Logo.astro';
 ---
 
-<footer class="bg-background dark:bg-background-dark border-t border-border/20 dark:border-border-dark/20 transition-colors duration-300">
-  <div class="mx-auto max-w-container px-4 md:px-6 lg:px-8 py-16">
-    <div class="grid grid-cols-1 md:grid-cols-12 gap-8">
-      <div class="md:col-span-4">
-        <Logo size="md" />
-        <p class="mt-4 text-neutral-600 dark:text-neutral-400">
-          {SITE_DESCRIPTION}
-        </p>
-      </div>
-      
-      <div class="md:col-span-4">
-        <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
-        <nav class="space-y-2">
-          <a href="/" class="block text-neutral-600 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400 transition-colors">Home</a>
-          <a href="/category/" class="block text-neutral-600 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400 transition-colors">Categories</a>
-          <a href="/tag/" class="block text-neutral-600 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400 transition-colors">Tags</a>
-          <a href="/about" class="block text-neutral-600 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400 transition-colors">About</a>
-        </nav>
-      </div>
-      
-      <div class="md:col-span-4">
-        <h3 class="text-lg font-semibold mb-4">Connect</h3>
-        <nav class="space-y-2">
-          <a href="https://bsky.app/profile/antoniwan.online" target="_blank" rel="noopener noreferrer" class="block text-neutral-600 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400 transition-colors">🌀 BlueSky</a>
-          <a href="https://github.com/antoniwan/strongvault" target="_blank" rel="noopener noreferrer" class="block text-neutral-600 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400 transition-colors">🐙 GitHub</a>
-          <a href="https://www.youtube.com/@Antoniwan777" target="_blank" rel="noopener noreferrer" class="block text-neutral-600 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400 transition-colors">📺 YouTube</a>
-        </nav>
-      </div>
-    </div>
+<footer>
+  <div>
+    <section>
+      <Logo />
+      <p>{SITE_DESCRIPTION}</p>
+    </section>
     
-    <div class="mt-8 pt-8 border-t border-border/20 dark:border-border-dark/20">
-      <div class="flex flex-col md:flex-row justify-between items-center gap-4">
-        <div class="text-sm text-neutral-500 dark:text-neutral-400">
-          <p>© {new Date().getFullYear()} {SITE_TITLE}. All rights reserved.</p>
-          <p class="mt-1">Content licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer" class="hover:text-primary-500 dark:hover:text-primary-400 transition-colors">CC BY-NC-SA 4.0</a></p>
-          <p class="mt-1">Code licensed under <a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener noreferrer" class="hover:text-primary-500 dark:hover:text-primary-400 transition-colors">MIT License</a></p>
-        </div>
-      </div>
-    </div>
-  </div> 
+    <section>
+      <h3>Quick Links</h3>
+      <nav>
+        <a href="/">Home</a>
+        <a href="/category/">Categories</a>
+        <a href="/tag/">Tags</a>
+        <a href="/about">About</a>
+      </nav>
+    </section>
+    
+    <section>
+      <h3>Connect</h3>
+      <nav>
+        <a href="https://bsky.app/profile/antoniwan.online" target="_blank" rel="noopener noreferrer">🌀 BlueSky</a>
+        <a href="https://github.com/antoniwan/strongvault" target="_blank" rel="noopener noreferrer">🐙 GitHub</a>
+        <a href="https://www.youtube.com/@Antoniwan777" target="_blank" rel="noopener noreferrer">📺 YouTube</a>
+      </nav>
+    </section>
+  </div>
+  
+  <section>
+    <p>© {new Date().getFullYear()} {SITE_TITLE}. All rights reserved.</p>
+    <p>Content licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer">CC BY-NC-SA 4.0</a></p>
+    <p>Code licensed under <a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener noreferrer">MIT License</a></p>
+  </section>
 </footer> 
