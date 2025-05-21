@@ -1,35 +1,68 @@
 ---
 interface Props {
-  size?: 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+  /**
+   * The type of content being contained
+   */
+  type?: 'content' | 'container' | 'card' | 'media';
+  
+  /**
+   * The size variant for the container
+   */
+  size?: 'narrow' | 'default' | 'wide';
+  
+  /**
+   * Whether to apply responsive padding
+   */
   padding?: 'none' | 'sm' | 'md' | 'lg';
+  
+  /**
+   * Additional classes to apply
+   */
   className?: string;
 }
 
 const { 
-  size = 'lg',
+  type = 'container',
+  size = 'default',
   padding = 'md',
   className = ''
 } = Astro.props;
 
-const containerClasses = {
-  sm: 'max-w-container-sm',
-  md: 'max-w-container-md',
-  lg: 'max-w-container-lg',
-  xl: 'max-w-container-xl',
-  '2xl': 'max-w-container-2xl'
+// Content type determines the base max-width
+const typeClasses = {
+  content: 'max-w-prose',
+  container: 'max-w-container',
+  card: 'max-w-card',
+  media: 'max-w-media'
 };
 
+// Size variants adjust the width
+const sizeClasses = {
+  narrow: 'max-w-container-narrow',
+  default: 'max-w-container',
+  wide: 'max-w-container-wide'
+};
+
+// Responsive padding
 const paddingClasses = {
   none: '',
   sm: 'px-4 md:px-6',
-  md: 'px-4 md:px-8',
-  lg: 'px-4 md:px-12'
+  md: 'px-4 md:px-8 lg:px-12',
+  lg: 'px-4 md:px-12 lg:px-16'
+};
+
+// Combine classes based on type and size
+const getMaxWidthClass = () => {
+  if (type === 'content') return typeClasses.content;
+  if (type === 'media') return typeClasses.media;
+  if (type === 'card') return typeClasses.card;
+  return sizeClasses[size];
 };
 ---
 
 <div class:list={[
   'mx-auto w-full',
-  containerClasses[size],
+  getMaxWidthClass(),
   paddingClasses[padding],
   className
 ]}>

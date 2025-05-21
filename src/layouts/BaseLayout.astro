@@ -5,7 +5,7 @@ import BaseHead from '../components/BaseHead.astro';
 import BackToTop from '../components/BackToTop.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import ReadingProgress from '../components/ReadingProgress.astro';
-import PageSection from '../components/PageSection.astro';
+import LayoutContainer from '../components/LayoutContainer.astro';
 import { SITE_TITLE, SITE_DESCRIPTION, LANGUAGE_FLAGS, CATEGORY_EMOJIS, AUTHOR } from '../consts';
 import SpeedInsights from "@vercel/speed-insights/astro"
 import Analytics from '@vercel/analytics/astro';
@@ -91,6 +91,10 @@ const categoryEmojis: Record<string, string> = {
   'psychology': '🧠',
   'systems-strategy': '💻'
 };
+
+// Map contentWidth and spacing to LayoutContainer props
+const sizeMap = { narrow: 'narrow', default: 'default', wide: 'wide' };
+const paddingMap = { compact: 'sm', default: 'md', comfortable: 'lg' };
 ---
 
 <!doctype html>
@@ -147,8 +151,8 @@ const categoryEmojis: Record<string, string> = {
       role="main" 
       class="flex-grow animate-fade-in"
     >
-      {layoutType === 'blog' && (
-        <PageSection width={contentWidth} spacing={spacing}>
+      <LayoutContainer type="container" size={sizeMap[contentWidth] as 'narrow' | 'default' | 'wide'} padding={paddingMap[spacing] as 'sm' | 'md' | 'lg' | 'none'}>
+        {layoutType === 'blog' && (
           <article class="animate-fade-in" transition:animate="fade">
             <header class="mb-16 animate-slide-up">
               <h1 class="text-4xl md:text-5xl lg:text-6xl font-serif font-bold mb-8 leading-tight tracking-tight text-text dark:text-text-dark">{title}</h1>
@@ -215,15 +219,13 @@ const categoryEmojis: Record<string, string> = {
               <slot />
             </section>
           </article>
-        </PageSection>
-      )}
-      {layoutType === 'default' && (
-        <PageSection width={contentWidth} spacing={spacing}>
+        )}
+        {layoutType === 'default' && (
           <div class="animate-fade-in" transition:animate="fade">
             <slot />
           </div>
-        </PageSection>
-      )}
+        )}
+      </LayoutContainer>
     </main>
     
     <Footer />

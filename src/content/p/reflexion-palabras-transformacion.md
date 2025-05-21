@@ -5,7 +5,15 @@ pubDate: "2025-05-16T09:00:00-04:00"
 heroImage: "/images/comunicacion_propia.jpg"
 category: ["integration-growth", "psychology"]
 language: ["es"]
-tags: ["comunicación", "transformación personal", "lenguaje", "autodesarrollo", "psicología", "crecimiento personal"]
+tags:
+  [
+    "comunicación",
+    "transformación personal",
+    "lenguaje",
+    "autodesarrollo",
+    "psicología",
+    "crecimiento personal",
+  ]
 draft: true
 published: false
 ---
@@ -42,4 +50,4 @@ El lenguaje, como todo en la vida, es un proceso en constante evolución. He apr
 ## Referencias
 
 - Beattie, M. (1992). Journey of the Heart. HarperCollins.
-- Goleman, D. (1995). Emotional Intelligence: Why It Can Matter More Than IQ. Bantam Books. 
+- Goleman, D. (1995). Emotional Intelligence: Why It Can Matter More Than IQ. Bantam Books.

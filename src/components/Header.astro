@@ -3,10 +3,11 @@ import { SITE_TITLE } from '../consts';
 import ThemeToggle from './ThemeToggle.astro';
 import Navigation from './Navigation.astro';
 import Logo from './Logo.astro';
+import LayoutContainer from './LayoutContainer.astro';
 ---
 
 <header class="sticky top-0 z-50 w-full border-b border-border/20 dark:border-border-dark/20 bg-background/80 dark:bg-background-dark/80 backdrop-blur-sm">
-	<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+	<LayoutContainer type="container" size="default" padding="md">
 		<div class="flex items-center justify-between h-16">
 			<div class="flex items-center">
 				<Logo size="md" />
@@ -17,7 +18,7 @@ import Logo from './Logo.astro';
 				<ThemeToggle />
 			</div>
 		</div>
-	</div>
+	</LayoutContainer>
 </header>
 
 <style>

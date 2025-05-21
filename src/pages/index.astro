@@ -36,17 +36,17 @@ const tagCounts = posts.reduce((acc, post) => {
 	spacing="comfortable"
 >
 	{/* Hero Section */}
-	<PageSection width="default" spacing="comfortable" class="text-center">
+	<section class="text-center">
 		<h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-text dark:text-text-dark leading-tight tracking-tight">
 			Welcome to the<br />Strong Vault
 		</h1>
 		<p class="text-xl md:text-2xl text-neutral-600 dark:text-neutral-400 leading-relaxed">
 			Notes on strength, clarity, ritual, and creation — one builder's journey through code, craft, and self-mastery.
 		</p>
-	</PageSection>
+	</section>
 
 	{/* Featured Posts Section */}
-	<PageSection width="default" spacing="default">
+	<section>
 		<div class="space-y-6">
 			<h2 class="text-2xl md:text-3xl font-bold text-text dark:text-text-dark">Featured Posts</h2>
 			<div class="grid gap-8 md:gap-12">
@@ -55,10 +55,10 @@ const tagCounts = posts.reduce((acc, post) => {
 				))}
 			</div>
 		</div>
-	</PageSection>
+	</section>
 
 	{/* Categories Section */}
-	<PageSection width="default" spacing="default">
+	<section>
 		<div class="space-y-6">
 			<h2 class="text-2xl md:text-3xl font-bold text-text dark:text-text-dark">Categories</h2>
 			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -79,10 +79,10 @@ const tagCounts = posts.reduce((acc, post) => {
 				})}
 			</div>
 		</div>
-	</PageSection>
+	</section>
 
 	{/* Popular Tags Section */}
-	<PageSection width="default" spacing="default">
+	<section>
 		<div class="space-y-6">
 			<h2 class="text-2xl md:text-3xl font-bold text-text dark:text-text-dark">Popular Tags</h2>
 			<div class="flex flex-wrap gap-2">
@@ -101,10 +101,10 @@ const tagCounts = posts.reduce((acc, post) => {
 					))}
 			</div>
 		</div>
-	</PageSection>
+	</section>
 
 	{/* Latest Posts Section */}
-	<PageSection width="default" spacing="default">
+	<section>
 		<div class="space-y-6">
 			<h2 class="text-2xl md:text-3xl font-bold text-text dark:text-text-dark">Latest Posts</h2>
 			<div class="grid gap-8 md:gap-12">
@@ -113,7 +113,7 @@ const tagCounts = posts.reduce((acc, post) => {
 				))}
 			</div>
 		</div>
-	</PageSection>
+	</section>
 </BaseLayout>
 
 <style>

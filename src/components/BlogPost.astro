@@ -1,5 +1,6 @@
 ---
 import type { MarkdownInstance } from 'astro';
+import LayoutContainer from './LayoutContainer.astro';
 
 interface Props {
   post: MarkdownInstance<Record<string, any>>;
@@ -11,9 +12,11 @@ const { post } = Astro.props;
 const processedContent = post.Content;
 ---
 
-<article class="prose prose-lg mx-auto max-w-[65ch] py-8 px-4 [&>img]:w-full [&>img]:h-auto [&>img]:rounded-lg [&>img]:my-8 [&>img]:transition-transform [&>img]:duration-300 [&>img]:hover:scale-[1.02]">
-  {processedContent}
-</article>
+<LayoutContainer type="content" padding="md">
+  <article class="prose prose-lg [&>img]:w-full [&>img]:h-auto [&>img]:rounded-lg [&>img]:my-8 [&>img]:transition-transform [&>img]:duration-300 [&>img]:hover:scale-[1.02]">
+    {processedContent}
+  </article>
+</LayoutContainer>
 
 <style>
   /* Enhanced typography styles */

@@ -153,16 +153,13 @@ export default {
       },
       maxWidth: {
         // Content widths
-        content: "65ch", // Optimal reading width
-        "content-wide": "85ch", // Wider content area
-        "content-full": "100%", // Full width
+        prose: "65ch", // Optimal reading width
+        "prose-wide": "85ch", // Wider content area
 
-        // Container widths
-        "container-sm": "640px",
-        "container-md": "768px",
-        "container-lg": "1024px",
-        "container-xl": "1280px",
-        "container-2xl": "1536px",
+        // Layout containers
+        container: "1280px", // Default container
+        "container-narrow": "1024px", // For focused content
+        "container-wide": "1536px", // For full-width layouts
 
         // Component widths
         card: "400px",
