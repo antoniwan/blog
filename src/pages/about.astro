@@ -1,5 +1,6 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
+import Section from '../components/Section.astro';
 import Disclaimer from '../components/Disclaimer.astro';
 ---
 
@@ -14,24 +15,20 @@ import Disclaimer from '../components/Disclaimer.astro';
 		noimageindex: false
 	}}
 >
-	<div>
-		<h1 class="text-4xl md:text-5xl font-bold text-text dark:text-text-dark leading-tight tracking-tight mb-6">
-			About Antonio Rodríguez Martínez
-		</h1>
-
-		<p class="text-text dark:text-text-dark">
+	<Section padding="section">
+		<p>
 			I build systems — digital, emotional, spiritual, and physical.
 		</p>
 
-		<p class="text-text dark:text-text-dark">
+		<p>
 			I'm a technical program manager, software architect, and developer with over a decade of experience building scalable products. I've founded companies, led teams, and shipped software used by millions. Now I split my time between building tools, raising my kids, and building a homestead in Puerto Rico.
 		</p>
 
-		<p class="text-text dark:text-text-dark">
+		<p>
 			But that's just part of it.
 		</p>
 
-		<p class="text-text dark:text-text-dark">
+		<p>
 			I'm also a father, artist, martial artist, mentor, and the founder of <strong class="text-text dark:text-text-dark">Strong Hands, Soft Heart</strong> — a brand devoted to practical strength, emotional depth, and sacred self-reliance.
 		</p>
 
@@ -70,5 +67,5 @@ import Disclaimer from '../components/Disclaimer.astro';
 		</p>
 
 		<Disclaimer />
-	</div>
+	</Section>
 </PageLayout>

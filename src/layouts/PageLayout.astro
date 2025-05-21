@@ -1,5 +1,6 @@
 ---
 import BaseLayout from './BaseLayout.astro';
+import Section from '../components/Section.astro';
 
 interface Props {
   title: string;
@@ -49,8 +50,8 @@ const {
   layoutType="default"
   contentWidth={contentWidth}
   spacing={spacing}
-  showTitle={showTitle}
-  showDescription={showDescription}
+  showTitle={false}
+  showDescription={false}
   canonicalUrl={canonicalUrl}
   ogImage={ogImage}
   ogImageAlt={ogImageAlt}
@@ -60,19 +61,17 @@ const {
   locale={locale}
   {...rest}
 >
-  {showTitle && (
-    <header class="mb-8">
-      <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-text dark:text-text-dark leading-tight tracking-tight mb-4">
-        {title}
-      </h1>
-      
-      {showDescription && description && (
-        <p class="text-xl md:text-2xl text-neutral-600 dark:text-neutral-400 leading-relaxed">
-          {description}
-        </p>
-      )}
-    </header>
-  )}
+
+  {/* Hero Section */}
+  <Section padding="section">
+    <h1 class="text-4xl md:text-5xl font-bold text-text dark:text-text-dark leading-tight tracking-tight mb-6">
+      {title}
+    </h1>
+    <p class="text-xl md:text-2xl text-neutral-600 dark:text-neutral-400 leading-relaxed">
+      {description}
+      Notes on strength, clarity, ritual, and creation — one builder's journey through code, craft, and self-mastery.
+    </p>
+  </Section>
   
   <slot />
 </BaseLayout> 
