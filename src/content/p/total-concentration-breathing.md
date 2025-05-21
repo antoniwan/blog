@@ -2,7 +2,7 @@
 title: "Total Concentration Breathing (4-Second Intervals)"
 description: "A rhythmic, box-style breathing technique used to cultivate focus, regulate the nervous system, and deepen mind-body awareness."
 pubDate: "2025-05-06T07:15:00.000Z"
-heroImage: "/images/tcb.avif"
+heroImage: "/images/tcb.webp"
 category: ["integration-growth", "learning-projects"]
 tags:
   [

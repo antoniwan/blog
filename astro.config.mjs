@@ -26,8 +26,7 @@ export default defineConfig({
     smartypants: true,
     gfm: true,
     rehypePlugins: [
-      // Add support for image optimization in markdown
-      ["rehype-image-size", { dir: "public" }],
+      // Removed rehype-image-size as it is not used
     ],
   },
   // Enable built-in prefetch with optimized settings
