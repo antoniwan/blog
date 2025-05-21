@@ -1,10 +1,9 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PostCard from '../../components/PostCard.astro';
-import PageSection from '../../components/PageSection.astro';
+import Section from '../../components/Section.astro';
 import { getCollection } from 'astro:content';
 import { categories } from '../../data/categories';
-import Section from '../../components/Section.astro';
 
 export async function getStaticPaths() {
 	return categories.map(category => ({
