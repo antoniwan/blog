@@ -3,7 +3,7 @@ title: "Note to Self: On Being a Conscious Parent"
 description: "A personal reflection on conscious parenting, modeling behaviors, and the importance of leading by example."
 pubDate: "2024-05-05"
 language: ["en"]
-category: ["parenting", "integration-growth", "personal-development"]
+category: ["parenting", "integration-growth", "psychology"]
 tags: ["parenting", "consciousness", "personal-growth", "self-improvement", "essay"]
 readingTime: 3
 author: "wizards777"
