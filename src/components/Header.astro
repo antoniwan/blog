@@ -7,15 +7,15 @@ import Search from './Search.astro';
 ---
 
 <header class="sticky top-0 z-40 w-full bg-background/80 dark:bg-background-dark/80 backdrop-blur-sm border-b border-border/20 dark:border-border-dark/20 theme-transition">
-	<div class="mx-auto max-w-container px-4 md:px-6 lg:px-8">
-		<div class="flex h-16 items-center justify-between">
-			<div class="flex items-center gap-6">
+	<div class="mx-auto max-w-container px-3 md:px-6">
+		<div class="flex h-14 md:h-16 items-center justify-between">
+			<div class="flex items-center gap-4 md:gap-6">
 				<Logo />
 				<Navigation class="hidden md:flex" />
 			</div>
 			
-			<div class="flex items-center gap-4">
-				<div class="hidden md:block w-64">
+			<div class="flex items-center gap-3 md:gap-4">
+				<div class="hidden md:block w-56 lg:w-64">
 					<Search />
 				</div>
 				<ThemeToggle />

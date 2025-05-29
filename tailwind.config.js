@@ -142,11 +142,11 @@ export default {
       },
       spacing: {
         // Vertical rhythm system
-        section: "6rem", // 96px - Major section spacing
-        block: "3rem", // 48px - Block-level spacing
-        element: "1.5rem", // 24px - Element-level spacing
-        content: "1rem", // 16px - Content-level spacing
-        tight: "0.5rem", // 8px  - Tight spacing
+        section: "4rem", // 64px - Major section spacing
+        block: "2rem", // 32px - Block-level spacing
+        element: "1rem", // 16px - Element-level spacing
+        content: "0.75rem", // 12px - Content-level spacing
+        tight: "0.375rem", // 6px  - Tight spacing
 
         // Legacy spacing (keep for backward compatibility)
         xs: "0.25rem",
@@ -342,55 +342,59 @@ export default {
         },
       },
       transitionDuration: {
-        'fast': 'var(--animation-duration-fast)',
-        'normal': 'var(--animation-duration-normal)',
-        'slow': 'var(--animation-duration-slow)',
+        fast: "var(--animation-duration-fast)",
+        normal: "var(--animation-duration-normal)",
+        slow: "var(--animation-duration-slow)",
       },
       transitionTimingFunction: {
-        'default': 'var(--animation-easing-default)',
-        'in': 'var(--animation-easing-in)',
-        'out': 'var(--animation-easing-out)',
-        'in-out': 'var(--animation-easing-in-out)',
+        default: "var(--animation-easing-default)",
+        in: "var(--animation-easing-in)",
+        out: "var(--animation-easing-out)",
+        "in-out": "var(--animation-easing-in-out)",
       },
       animation: {
-        'fade-in': 'fade-in var(--animation-duration-normal) var(--animation-easing-out)',
-        'fade-up': 'fade-up var(--animation-duration-normal) var(--animation-easing-out)',
-        'slide-up': 'slide-up var(--animation-duration-normal) var(--animation-easing-out)',
-        'slide-down': 'slide-down var(--animation-duration-normal) var(--animation-easing-out)',
+        "fade-in":
+          "fade-in var(--animation-duration-normal) var(--animation-easing-out)",
+        "fade-up":
+          "fade-up var(--animation-duration-normal) var(--animation-easing-out)",
+        "slide-up":
+          "slide-up var(--animation-duration-normal) var(--animation-easing-out)",
+        "slide-down":
+          "slide-down var(--animation-duration-normal) var(--animation-easing-out)",
       },
       keyframes: {
-        'fade-in': {
-          '0%': { opacity: '0' },
-          '100%': { opacity: '1' },
+        "fade-in": {
+          "0%": { opacity: "0" },
+          "100%": { opacity: "1" },
         },
-        'fade-up': {
-          '0%': {
-            opacity: '0',
-            transform: 'translateY(10px)',
+        "fade-up": {
+          "0%": {
+            opacity: "0",
+            transform: "translateY(10px)",
           },
-          '100%': {
-            opacity: '1',
-            transform: 'translateY(0)',
-          },
-        },
-        'slide-up': {
-          '0%': {
-            opacity: '0',
-            transform: 'translateY(20px)',
-          },
-          '100%': {
-            opacity: '1',
-            transform: 'translateY(0)',
+          "100%": {
+            opacity: "1",
+            transform: "translateY(0)",
           },
         },
-        'slide-down': {
-          '0%': {
-            opacity: '0',
-            transform: 'translateY(-20px)',
+        "slide-up": {
+          "0%": {
+            opacity: "0",
+            transform: "translateY(20px)",
           },
-          '100%': {
-            opacity: '1',
-            transform: 'translateY(0)',
+          "100%": {
+            opacity: "1",
+            transform: "translateY(0)",
+          },
+        },
+        "slide-down": {
+          "0%": {
+            opacity: "0",
+            transform: "translateY(-20px)",
+          },
+          "100%": {
+            opacity: "1",
+            transform: "translateY(0)",
           },
         },
       },
