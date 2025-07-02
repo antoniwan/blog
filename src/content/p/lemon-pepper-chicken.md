@@ -85,16 +85,4 @@ _Date: May 2, 2025_
 - Store in fridge up to 4–5 days.
 - Reheat in air fryer/oven at 350°F for ~8 minutes for crispy results.
 
----
-
-## 📸 Photos
-
-![Prepped chicken thighs](/images/lemon-pepper-chicken/1.jpeg)
-
-![Lemon-pepper chicken thighs](/images/lemon-pepper-chicken/2.jpeg)
-
-![Finished lemon-pepper chicken](/images/lemon-pepper-chicken/3.jpeg)
-
----
-
-**"Strong hands seasoned it. Soft heart glazed it. Fire finished it."**
+_Enjoy!_
