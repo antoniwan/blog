@@ -17,15 +17,24 @@ const popularCategories = categories.slice(0, 5);
 <PageLayout
   title="404 - Page Not Found"
   description="The page you're looking for doesn't exist or has been moved."
-  container="default"
-  spacing="comfortable"
+  fullWidth={false}
+  containerPadding="lg"
+  contentMaxWidth="prose-wide"
 >
-  <LayoutContainer type="section" padding="section">
+  <LayoutContainer padding="none" maxWidth="none" class="text-center">
+    <div class="mb-8">
+      <h2 class="text-2xl md:text-3xl font-bold text-text dark:text-text-dark mb-4">
+        Page Not Found
+      </h2>
+      <p class="text-lg text-neutral-600 dark:text-neutral-400 mb-8">
+        The page you're looking for doesn't exist or has been moved.
+      </p>
+    </div>
 
-    <div class="mt-element">
+    <div class="mt-8">
       <a
         href="/"
-        class="inline-flex items-center justify-center px-6 py-3 text-base font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
+        class="inline-flex items-center justify-center px-6 py-3 text-base font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors"
       >
         Return Home
       </a>

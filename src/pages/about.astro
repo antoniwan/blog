@@ -7,6 +7,9 @@ import Disclaimer from '../components/Disclaimer.astro';
 <PageLayout
 	title="About Antonio Rodríguez Martínez"
 	description="Systems builder. Technical program manager. Father. I write, build, and create."
+	fullWidth={false}
+	containerPadding="lg"
+	contentMaxWidth="prose-wide"
 	robots={{
 		index: true,
 		follow: true,
@@ -15,7 +18,7 @@ import Disclaimer from '../components/Disclaimer.astro';
 		noimageindex: false
 	}}
 >
-	<LayoutContainer type="section" padding="none" class="animate-fade-in">
+	<LayoutContainer padding="none" maxWidth="none" class="animate-fade-in">
 		<p class="animate-fade-up [animation-delay:0ms]">
 			I build systems — digital, emotional, spiritual, and physical.
 		</p>
@@ -32,31 +35,39 @@ import Disclaimer from '../components/Disclaimer.astro';
 			This blog documents:
 		</p>
 
-		<ul class="text-text dark:text-text-dark animate-fade-up [animation-delay:400ms] theme-transition">
-			<li><strong class="text-text dark:text-text-dark theme-transition">Art & Expression</strong> 🎵 — creative soul, aesthetic power, truth-telling</li>
-			<li><strong class="text-text dark:text-text-dark theme-transition">DIY & Creation</strong> 🛠️ — physical builds, handmade goods, crafting</li>
-			<li><strong class="text-text dark:text-text-dark theme-transition">Integration & Growth</strong> 🧘🏽‍♂️ — inner mastery, parenting, masculine leadership</li>
-			<li><strong class="text-text dark:text-text-dark theme-transition">Learning Projects</strong> 📚 — documentation of mastery in progress</li>
-			<li><strong class="text-text dark:text-text-dark theme-transition">Metaspace</strong> 🌀 — reflections on the journey itself</li>
-			<li><strong class="text-text dark:text-text-dark theme-transition">Parenting</strong> 👨‍👩‍👧‍👦 — raising resilient children, family dynamics, and personal growth</li>
-			<li><strong class="text-text dark:text-text-dark theme-transition">Politics</strong> ⚖️ — power dynamics, social structures, and collective healing</li>
-			<li><strong class="text-text dark:text-text-dark theme-transition">Psychology</strong> 🧠 — human behavior, social dynamics, and mental processes</li>
-			<li><strong class="text-text dark:text-text-dark theme-transition">Systems & Strategy</strong> 💻 — technical systems, organizational design, and strategic thinking</li>
+		<ul class="animate-fade-up [animation-delay:400ms] space-y-2 mt-4">
+			<li class="flex items-start gap-2">
+				<span class="text-primary-500 dark:text-primary-400 mt-1">•</span>
+				<span>My journey toward strength and clarity</span>
+			</li>
+			<li class="flex items-start gap-2">
+				<span class="text-primary-500 dark:text-primary-400 mt-1">•</span>
+				<span>Lessons learned building software and teams</span>
+			</li>
+			<li class="flex items-start gap-2">
+				<span class="text-primary-500 dark:text-primary-400 mt-1">•</span>
+				<span>Parenting insights and family dynamics</span>
+			</li>
+			<li class="flex items-start gap-2">
+				<span class="text-primary-500 dark:text-primary-400 mt-1">•</span>
+				<span>Personal development and self-mastery</span>
+			</li>
+			<li class="flex items-start gap-2">
+				<span class="text-primary-500 dark:text-primary-400 mt-1">•</span>
+				<span>Creative projects and artistic expression</span>
+			</li>
 		</ul>
 
-		<h2 class="text-text dark:text-text-dark animate-fade-up [animation-delay:500ms] theme-transition">👇 Links</h2>
-		<ul class="text-text dark:text-text-dark animate-fade-up [animation-delay:600ms] theme-transition">
-			<li>🛠 <a href="https://builds.software" target="_blank" rel="noopener noreferrer" class="text-primary-500 dark:text-primary-400 hover:underline theme-transition">Builds.software</a> — my technical portfolio</li>
-			<li>💜 <a href="https://stronghandssoftheart.com" target="_blank" rel="noopener noreferrer" class="text-primary-500 dark:text-primary-400 hover:underline theme-transition">Strong Hands, Soft Heart</a> — my brand</li>
-			<li>🐙 <a href="https://github.com/antoniwan" target="_blank" rel="noopener noreferrer" class="text-primary-500 dark:text-primary-400 hover:underline theme-transition">GitHub</a> — open source & code</li>
-			<li>🌀 <a href="https://bsky.app/profile/antoniwan.online" target="_blank" rel="noopener noreferrer" class="text-primary-500 dark:text-primary-400 hover:underline theme-transition">BlueSky</a> — my social brain</li>
-		</ul>
-
-		<p class="text-text dark:text-text-dark animate-fade-up [animation-delay:700ms] theme-transition">
-			For collaboration or questions,<br />
-			get in touch.
+		<p class="animate-fade-up [animation-delay:500ms] mt-8">
+			I believe in the power of <strong class="text-text dark:text-text-dark theme-transition">practical wisdom</strong> — knowledge that can be immediately applied to improve your life, work, and relationships. Every post here is written with that intention.
 		</p>
 
-		<Disclaimer class="animate-fade-up [animation-delay:800ms]" />
+		<p class="animate-fade-up [animation-delay:600ms]">
+			If you're interested in building better systems, developing deeper relationships, or creating more meaningful work, you're in the right place.
+		</p>
+
+		<div class="animate-fade-up [animation-delay:700ms] mt-12">
+			<Disclaimer />
+		</div>
 	</LayoutContainer>
 </PageLayout>

@@ -31,11 +31,13 @@ const tagCounts = posts.reduce((acc, post) => {
 <HomeLayout
 	title="Welcome to the Strong Vault"
 	description="Notes on strength, clarity, ritual, and creation — one builder's journey through code, craft, and self-mastery."
-	container="default"
-	spacing="comfortable"
+	fullWidth={true}
+	containerPadding="xl"
+	contentMaxWidth="container"
 >
-	<LayoutContainer type="section" padding="section">
-		<h1 class="text-4xl md:text-5xl font-bold text-text dark:text-text-dark leading-tight tracking-tight mb-6">
+	{/* Hero Section */}
+	<LayoutContainer padding="none" maxWidth="prose-wide" class="mb-16">
+		<h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-text dark:text-text-dark leading-tight tracking-tight mb-6">
 			Welcome to the Strong Vault
 		</h1>
 		<p class="text-xl md:text-2xl text-neutral-600 dark:text-neutral-400 leading-relaxed">
@@ -44,32 +46,11 @@ const tagCounts = posts.reduce((acc, post) => {
 	</LayoutContainer>
 
 	{/* Latest Posts Section */}
-	<LayoutContainer type="section" padding="none" hasBorder>
-		<div class="space-y-block">
+	<LayoutContainer padding="none" maxWidth="container" hasBorder>
+		<div class="space-y-8">
 			{sortedPosts.map(post => (
 				<PostCard post={post} />
 			))}
-		</div>
-	</LayoutContainer>
-
-
-	{/* Popular Tags Section */}
-	<LayoutContainer type="section" padding="section">
-		<h2 class="text-2xl md:text-3xl font-bold text-text dark:text-text-dark">Popular Tags</h2>
-		<div class="flex flex-wrap gap-2">
-			{Object.entries(tagCounts)
-				.sort(([, a], [, b]) => b - a)
-				.slice(0, 10)
-				.map(([tag, count]) => (
-					<a
-						href={`/tag/${tag}/`}
-						class="flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-full bg-zinc-100 dark:bg-zinc-800 text-gray-700 dark:text-gray-300 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors"
-					>
-						<span>🏷️</span>
-						<span>{tag}</span>
-						<span class="text-xs px-1.5 py-0.5 rounded-full bg-zinc-200 dark:bg-zinc-700 text-gray-600 dark:text-gray-400">{count}</span>
-					</a>
-				))}
 		</div>
 	</LayoutContainer>
 </HomeLayout>

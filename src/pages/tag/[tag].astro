@@ -34,11 +34,12 @@ const tagPosts = posts
 <BaseLayout
 	title={`${tag} - Tag`}
 	description={`Browse all posts tagged with ${tag}`}
-	layout="default"
-	container="default"
-	spacing="comfortable"
+	fullWidth={true}
+	containerPadding="xl"
+	contentMaxWidth="container"
 >
-	<LayoutContainer type="section" padding="section">
+	{/* Tag Header */}
+	<LayoutContainer padding="none" maxWidth="prose-wide" class="mb-16">
 		<h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-text dark:text-text-dark leading-tight tracking-tight">
 			{tag}
 		</h1>
@@ -47,8 +48,9 @@ const tagPosts = posts
 		</p>
 	</LayoutContainer>
 
-	<LayoutContainer type="section" padding="block">
-		<div class="space-y-block">
+	{/* Posts List */}
+	<LayoutContainer padding="none" maxWidth="container">
+		<div class="space-y-8">
 			{tagPosts.map(post => (
 				<PostCard post={post} />
 			))}

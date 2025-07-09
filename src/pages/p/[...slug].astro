@@ -1,7 +1,6 @@
 ---
 import { type CollectionEntry, getCollection } from 'astro:content';
 import BlogLayout from '../../layouts/BlogLayout.astro';
-import LayoutContainer from '../../components/LayoutContainer.astro';
 import { render } from 'astro:content';
 
 export const prerender = true;
@@ -51,6 +50,9 @@ const tableOfContents = {
 	readingTime={post.data.readingTime}
 	tags={post.data.tags}
 	category={post.data.category}
+	fullWidth={false}
+	containerPadding="lg"
+	contentMaxWidth="prose-wide"
 	canonicalUrl={post.data.canonicalUrl}
 	ogImage={shareImage}
 	ogImageAlt={shareImageAlt}
@@ -59,9 +61,5 @@ const tableOfContents = {
 	keywords={keywords}
 	tableOfContents={tableOfContents}
 >
-	<LayoutContainer type="section" padding="none">
-		<article class="prose prose-lg dark:prose-invert max-w-none">
-			<Content />
-		</article>
-	</LayoutContainer>
+	<Content />
 </BlogLayout> 

@@ -1,12 +1,12 @@
 ---
 import BaseLayout from './BaseLayout.astro';
-import LayoutContainer from '../components/LayoutContainer.astro';
 
 interface Props {
   title: string;
   description?: string;
-  container?: 'narrow' | 'default' | 'wide';
-  spacing?: 'compact' | 'default' | 'comfortable';
+  fullWidth?: boolean;
+  containerPadding?: 'none' | 'sm' | 'md' | 'lg' | 'xl';
+  contentMaxWidth?: 'none' | 'prose' | 'prose-wide' | 'container' | 'container-narrow';
   // SEO fields
   canonicalUrl?: string;
   ogImage?: string;
@@ -25,8 +25,9 @@ interface Props {
 const {
   title,
   description,
-  container = 'default',
-  spacing = 'default',
+  fullWidth = false,
+  containerPadding = 'lg',
+  contentMaxWidth = 'prose-wide',
   canonicalUrl,
   ogImage,
   ogImageAlt,
@@ -40,9 +41,9 @@ const {
 <BaseLayout
   title={title}
   description={description}
-  layout="default"
-  container={container}
-  spacing={spacing}
+  fullWidth={fullWidth}
+  containerPadding={containerPadding}
+  contentMaxWidth={contentMaxWidth}
   canonicalUrl={canonicalUrl}
   ogImage={ogImage}
   ogImageAlt={ogImageAlt}
@@ -51,8 +52,9 @@ const {
   keywords={keywords}
   {...rest}
 >
-  <LayoutContainer type="section" padding="section">
-    <h1 class="text-4xl md:text-5xl font-bold text-text dark:text-text-dark leading-tight tracking-tight mb-6">
+  {/* Page Header */}
+  <div class="mb-12">
+    <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-text dark:text-text-dark leading-tight tracking-tight mb-6">
       {title}
     </h1>
     {description && (
@@ -60,7 +62,10 @@ const {
         {description}
       </p>
     )}
-  </LayoutContainer>
+  </div>
   
-  <slot />
+  {/* Page Content */}
+  <div class="prose prose-lg dark:prose-invert max-w-none">
+    <slot />
+  </div>
 </BaseLayout> 
