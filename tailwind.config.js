@@ -63,7 +63,7 @@ export default {
       },
       fontFamily: {
         sans: [
-          "Inter",
+          "Open Sans",
           "system-ui",
           "-apple-system",
           "BlinkMacSystemFont",
@@ -73,9 +73,9 @@ export default {
           "Arial",
           "sans-serif",
         ],
-        serif: ["Fraunces", "Georgia", "Times New Roman", "serif"],
+        serif: ["Source Serif Pro", "Georgia", "Times New Roman", "serif"],
         mono: [
-          "JetBrains Mono",
+          "Fira Code",
           "ui-monospace",
           "SFMono-Regular",
           "Menlo",
