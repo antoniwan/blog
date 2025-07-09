@@ -4,14 +4,14 @@ import BaseLayout from './BaseLayout.astro';
 interface Props {
   title: string;
   description?: string;
-  contentWidth?: 'narrow' | 'default' | 'wide';
+  container?: 'narrow' | 'default' | 'wide';
   spacing?: 'compact' | 'default' | 'comfortable';
 }
 
 const {
   title,
   description,
-  contentWidth = 'default',
+  container = 'default',
   spacing = 'comfortable',
   ...rest
 } = Astro.props;
@@ -20,11 +20,9 @@ const {
 <BaseLayout
   title={title}
   description={description}
-  layoutType="home"
-  contentWidth={contentWidth}
+  layout="home"
+  container={container}
   spacing={spacing}
-  showTitle={false}
-  showDescription={false}
   {...rest}
 >
   <slot />

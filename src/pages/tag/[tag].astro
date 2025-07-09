@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PostCard from '../../components/PostCard.astro';
-import Section from '../../components/Section.astro';
+import LayoutContainer from '../../components/LayoutContainer.astro';
 import { getCollection } from 'astro:content';
 
 export async function getStaticPaths() {
@@ -34,26 +34,26 @@ const tagPosts = posts
 <BaseLayout
 	title={`${tag} - Tag`}
 	description={`Browse all posts tagged with ${tag}`}
-	layoutType="default"
-	contentWidth="default"
+	layout="default"
+	container="default"
 	spacing="comfortable"
 >
-	<Section padding="section">
+	<LayoutContainer type="section" padding="section">
 		<h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-text dark:text-text-dark leading-tight tracking-tight">
 			{tag}
 		</h1>
 		<p class="text-xl md:text-2xl text-neutral-600 dark:text-neutral-400 leading-relaxed max-w-2xl">
 			{tagPosts.length} {tagPosts.length === 1 ? 'post' : 'posts'} tagged with {tag}
 		</p>
-	</Section>
+	</LayoutContainer>
 
-	<Section padding="block">
+	<LayoutContainer type="section" padding="block">
 		<div class="space-y-block">
 			{tagPosts.map(post => (
 				<PostCard post={post} />
 			))}
 		</div>
-	</Section>
+	</LayoutContainer>
 </BaseLayout>
 
 <style>

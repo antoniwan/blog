@@ -3,10 +3,9 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import BaseHead from '../components/BaseHead.astro';
 import BackToTop from '../components/BackToTop.astro';
-import FormattedDate from '../components/FormattedDate.astro';
 import ReadingProgress from '../components/ReadingProgress.astro';
 import LayoutContainer from '../components/LayoutContainer.astro';
-import { SITE_TITLE, SITE_DESCRIPTION, CATEGORY_EMOJIS, AUTHOR } from '../consts';
+import { SITE_TITLE, SITE_DESCRIPTION, AUTHOR } from '../consts';
 import SpeedInsights from "@vercel/speed-insights/astro"
 import Analytics from '@vercel/analytics/astro';
 
@@ -20,8 +19,6 @@ interface Props {
   readingTime?: number;
   tags?: string[];
   category?: string[];
-  subcategory?: string;
-  language?: string[];
   // SEO fields
   canonicalUrl?: string;
   ogImage?: string;
@@ -33,20 +30,12 @@ interface Props {
     nosnippet?: boolean;
     noimageindex?: boolean;
   };
-  // Additional SEO fields
   author?: string;
   keywords?: string[];
-  locale?: string;
-  // Layout type
-  layoutType?: 'default' | 'blog' | 'home' | 'category';
-  // Content width
-  contentWidth?: 'narrow' | 'default' | 'wide';
-  // Spacing
+  // Layout options
+  layout?: 'default' | 'blog' | 'home';
+  container?: 'narrow' | 'default' | 'wide';
   spacing?: 'compact' | 'default' | 'comfortable';
-  // Additional layout options
-  showTitle?: boolean;
-  showDescription?: boolean;
-  showMeta?: boolean;
 }
 
 const { 
@@ -58,46 +47,16 @@ const {
   readingTime,
   tags,
   category = [],
-  language = ['en'],
   canonicalUrl,
   ogImage,
   ogImageAlt,
   robots,
   author = AUTHOR.name,
   keywords = tags,
-  locale = language[0] ? `${language[0]}_${language[0].toUpperCase()}` : 'en_US',
-  layoutType = 'default',
-  contentWidth = 'default',
-  spacing = 'default',
-  showTitle = true,
-  showDescription = true,
-  showMeta = true
+  layout = 'default',
+  container = 'default',
+  spacing = 'default'
 } = Astro.props;
-
-const languageEmojis: Record<string, string> = {
-  en: '🇺🇸',
-  es: '🇵🇷',
-  fr: '🇫🇷',
-  de: '🇩🇪',
-  it: '🇮🇹',
-  pt: '🇵🇹',
-  ru: '🇷🇺',
-  zh: '🇨🇳',
-  ja: '🇯🇵',
-  ko: '🇰🇷'
-};
-
-const categoryEmojis: Record<string, string> = {
-  'art-expression': '🎵',
-  'diy-creation': '🛠️',
-  'integration-growth': '🧘🏽‍♂️',
-  'learning-projects': '📚',
-  'metaspace': '🌀',
-  'parenting': '👨‍👩‍👧‍👦',
-  'politics': '⚖️',
-  'psychology': '🧠',
-  'systems-strategy': '💻'
-};
 
 // Map spacing to LayoutContainer padding
 const spacingMap = {
@@ -122,7 +81,6 @@ const spacingMap = {
       updatedDate={updatedDate}
       author={author}
       keywords={keywords}
-      locale={locale}
     />
     <SpeedInsights />
   </head>
@@ -144,24 +102,24 @@ const spacingMap = {
     >
       <LayoutContainer 
         type="container" 
-        size={contentWidth} 
+        size={container} 
         padding={spacingMap[spacing]}
       >
-        {layoutType === 'blog' && (
+        {layout === 'blog' && (
           <article class="animate-fade-in" transition:animate="fade">
             <div class="prose prose-lg dark:prose-invert max-w-none">
               <slot />
             </div>
           </article>
         )}
-        {layoutType === 'default' && (
+        {layout === 'default' && (
           <div class="animate-fade-in" transition:animate="fade">
             <div class="prose prose-lg dark:prose-invert max-w-none">
               <slot />
             </div>
           </div>
         )}
-        {(layoutType === 'home' || layoutType === 'category') && (
+        {layout === 'home' && (
           <div class="animate-fade-in" transition:animate="fade">
             <slot />
           </div>

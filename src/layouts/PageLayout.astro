@@ -1,13 +1,11 @@
 ---
 import BaseLayout from './BaseLayout.astro';
-import Section from '../components/Section.astro';
+import LayoutContainer from '../components/LayoutContainer.astro';
 
 interface Props {
   title: string;
   description?: string;
-  showTitle?: boolean;
-  showDescription?: boolean;
-  contentWidth?: 'narrow' | 'default' | 'wide';
+  container?: 'narrow' | 'default' | 'wide';
   spacing?: 'compact' | 'default' | 'comfortable';
   // SEO fields
   canonicalUrl?: string;
@@ -20,18 +18,14 @@ interface Props {
     nosnippet?: boolean;
     noimageindex?: boolean;
   };
-  // Additional SEO fields
   author?: string;
   keywords?: string[];
-  locale?: string;
 }
 
 const {
   title,
   description,
-  showTitle = true,
-  showDescription = true,
-  contentWidth = 'default',
+  container = 'default',
   spacing = 'default',
   canonicalUrl,
   ogImage,
@@ -39,7 +33,6 @@ const {
   robots,
   author,
   keywords,
-  locale,
   ...rest
 } = Astro.props;
 ---
@@ -47,21 +40,18 @@ const {
 <BaseLayout
   title={title}
   description={description}
-  layoutType="default"
-  contentWidth={contentWidth}
+  layout="default"
+  container={container}
   spacing={spacing}
-  showTitle={false}
-  showDescription={false}
   canonicalUrl={canonicalUrl}
   ogImage={ogImage}
   ogImageAlt={ogImageAlt}
   robots={robots}
   author={author}
   keywords={keywords}
-  locale={locale}
   {...rest}
 >
-  <Section padding="section">
+  <LayoutContainer type="section" padding="section">
     <h1 class="text-4xl md:text-5xl font-bold text-text dark:text-text-dark leading-tight tracking-tight mb-6">
       {title}
     </h1>
@@ -70,7 +60,7 @@ const {
         {description}
       </p>
     )}
-  </Section>
+  </LayoutContainer>
   
   <slot />
 </BaseLayout> 

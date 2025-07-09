@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import Section from '../../components/Section.astro';
+import LayoutContainer from '../../components/LayoutContainer.astro';
 import { categories } from '../../data/categories';
 import { getCollection } from 'astro:content';
 
@@ -19,20 +19,20 @@ const postCounts = categories.reduce((acc, category) => {
 <BaseLayout
   title="Categories"
   description="Browse posts by category"
-  layoutType="default"
-  contentWidth="default"
+  layout="default"
+  container="default"
   spacing="comfortable"
 >
-  <Section padding="section">
+  <LayoutContainer type="section" padding="section">
 		<h1 class="text-4xl md:text-5xl font-bold text-text dark:text-text-dark leading-tight tracking-tight mb-6">
       Categories
     </h1>
 		<p class="text-xl md:text-2xl text-neutral-600 dark:text-neutral-400 leading-relaxed">
       Browse posts by category
     </p>
-  </Section>
+  </LayoutContainer>
 
-  <Section padding="block">
+  <LayoutContainer type="section" padding="block">
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
       {categories.map(category => {
         const postCount = postCounts[category.id] || 0;
@@ -50,7 +50,7 @@ const postCounts = categories.reduce((acc, category) => {
         );
       })}
     </div>
-  </Section>
+  </LayoutContainer>
 </BaseLayout>
 
 <style>

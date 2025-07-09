@@ -1,7 +1,7 @@
 ---
 import { type CollectionEntry, getCollection } from 'astro:content';
 import BlogLayout from '../../layouts/BlogLayout.astro';
-import Section from '../../components/Section.astro';
+import LayoutContainer from '../../components/LayoutContainer.astro';
 import { render } from 'astro:content';
 
 export const prerender = true;
@@ -51,20 +51,17 @@ const tableOfContents = {
 	readingTime={post.data.readingTime}
 	tags={post.data.tags}
 	category={post.data.category}
-	subcategory={post.data.subcategory}
-	language={post.data.language}
 	canonicalUrl={post.data.canonicalUrl}
 	ogImage={shareImage}
 	ogImageAlt={shareImageAlt}
 	robots={post.data.robots}
 	author={post.data.author}
 	keywords={keywords}
-	locale={post.data.language?.[0] ? `${post.data.language[0]}_${post.data.language[0].toUpperCase()}` : 'en_US'}
 	tableOfContents={tableOfContents}
 >
-	<Section padding="none">
+	<LayoutContainer type="section" padding="none">
 		<article class="prose prose-lg dark:prose-invert max-w-none">
 			<Content />
 		</article>
-	</Section>
+	</LayoutContainer>
 </BlogLayout> 

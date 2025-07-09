@@ -1,6 +1,6 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
-import Section from '../components/Section.astro';
+import LayoutContainer from '../components/LayoutContainer.astro';
 import { categories } from '../data/categories';
 import { getCollection } from 'astro:content';
 
@@ -17,10 +17,10 @@ const popularCategories = categories.slice(0, 5);
 <PageLayout
   title="404 - Page Not Found"
   description="The page you're looking for doesn't exist or has been moved."
-  contentWidth="default"
+  container="default"
   spacing="comfortable"
 >
-  <Section padding="section">
+  <LayoutContainer type="section" padding="section">
 
     <div class="mt-element">
       <a
@@ -30,7 +30,7 @@ const popularCategories = categories.slice(0, 5);
         Return Home
       </a>
     </div>
-  </Section>
+  </LayoutContainer>
 </PageLayout>
 
 <style>

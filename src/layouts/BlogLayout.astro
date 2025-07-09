@@ -1,6 +1,6 @@
 ---
 import BaseLayout from './BaseLayout.astro';
-import Section from '../components/Section.astro';
+import LayoutContainer from '../components/LayoutContainer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 
 interface Props {
@@ -12,9 +12,7 @@ interface Props {
   readingTime?: number;
   tags?: string[];
   category?: string[];
-  subcategory?: string;
-  language?: string[];
-  contentWidth?: 'narrow' | 'default' | 'wide';
+  container?: 'narrow' | 'default' | 'wide';
   spacing?: 'compact' | 'default' | 'comfortable';
   // SEO fields
   canonicalUrl?: string;
@@ -27,10 +25,8 @@ interface Props {
     nosnippet?: boolean;
     noimageindex?: boolean;
   };
-  // Additional SEO fields
   author?: string;
   keywords?: string[];
-  locale?: string;
   // Structured data
   tableOfContents?: {
     items: Array<{
@@ -50,9 +46,7 @@ const {
   readingTime,
   tags,
   category,
-  subcategory,
-  language,
-  contentWidth = 'default',
+  container = 'default',
   spacing = 'default',
   canonicalUrl,
   ogImage,
@@ -60,7 +54,6 @@ const {
   robots,
   author,
   keywords,
-  locale,
   tableOfContents,
   ...rest
 } = Astro.props;
@@ -89,16 +82,14 @@ const structuredData = {
 <BaseLayout
   title={title}
   description={description}
-  layoutType="blog"
+  layout="blog"
   pubDate={pubDate}
   updatedDate={updatedDate}
   heroImage={heroImage}
   readingTime={readingTime}
   tags={tags}
   category={category}
-  subcategory={subcategory}
-  language={language}
-  contentWidth={contentWidth}
+  container={container}
   spacing={spacing}
   canonicalUrl={canonicalUrl}
   ogImage={ogImage}
@@ -106,13 +97,12 @@ const structuredData = {
   robots={robots}
   author={author}
   keywords={keywords}
-  locale={locale}
   {...rest}
 >
   <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
   
   {/* Hero Section */}
-  <Section padding="lg">
+  <LayoutContainer type="section" padding="lg">
     <div class="space-y-scale-4">
       <h1 class="text-scale-7 font-serif">
         {title}
@@ -175,10 +165,10 @@ const structuredData = {
         </div>
       )}
     </div>
-  </Section>
+  </LayoutContainer>
   
-  <Section padding="none">
+  <LayoutContainer type="section" padding="none">
     <slot />
-  </Section>
+  </LayoutContainer>
 
 </BaseLayout>
