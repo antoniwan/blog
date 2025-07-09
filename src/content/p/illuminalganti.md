@@ -3,7 +3,7 @@ title: "Did the Illuminati Try to Recruit Me?"
 description: "Someone slid into my Bluesky DMs claiming I was chosen. I answered like a god. Here's what really went down."
 pubDate: "2025-05-01T15:45:00.000Z"
 language: ["en"]
-category: ["psychology", "metaspace"]
+category: ["psychology", "metaspace", "art-expression"]
 subcategory: "Power & Myth"
 tags: ["illuminati", "psychology", "power", "scams", "truth"]
 readingTime: 3

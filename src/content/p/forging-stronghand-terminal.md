@@ -4,17 +4,7 @@ description: "A complete guide to building a powerful development terminal on Wi
 pubDate: "2025-04-28"
 language: ["en"]
 category: ["systems-strategy", "learning-projects"]
-tags:
-  [
-    "terminal",
-    "wezterm",
-    "powershell",
-    "productivity",
-    "development",
-    "windows",
-    "workflow",
-    "intentional-living",
-  ]
+tags: ["terminal", "productivity", "workflow", "systems", "learning"]
 readingTime: 12
 draft: false
 published: true

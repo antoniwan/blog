@@ -4,7 +4,7 @@ description: "Reflections on humility, personal growth, and the quiet lessons hi
 pubDate: "2024-07-15T16:45:00.000Z"
 heroImage: ""
 language: ["en"]
-category: ["psychology", "integration-growth"]
+category: ["psychology", "integration-growth", "metaspace"]
 subcategory: "Philosophy"
 tags:
   [
