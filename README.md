@@ -158,15 +158,6 @@ npm run dev
 | `npm run preview`   | Preview your build locally, before deploying     |
 | `npm run astro ...` | Run CLI commands like `astro add`, `astro check` |
 
-## 📚 Documentation
-
-- [Design System](./DESIGN_SYSTEM.md) - Visual design guidelines and typography system
-- [Recommendations](./RECOMMENDATIONS.md) - Future improvements and planned features
-- [Notes](./NOTES.md) - Development notes and guidelines
-- [Changelog](./CHANGELOG.md) - Version history and changes
-- [Media Report](./MEDIA_REPORT.md) - Media optimization and component documentation
-- [Layout System](./docs/LAYOUT_SYSTEM.md) - Layout architecture and component organization
-- [Vertical Rhythm](./docs/VERTICAL_RHYTHM.md) - Typography and spacing system
 
 ### Content Structure
 
