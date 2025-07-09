@@ -4,7 +4,7 @@ description: "A personal journey of transformation through therapy, self-reflect
 pubDate: "2024-04-28T00:00:00.000Z"
 heroImage: "/images/saitama-okay.webp"
 language: ["en"]
-category: ["psychology", "integration-growth", "metaspace"]
+category: ["psychology", "integration-growth", "metaspace", "parenting"]
 subcategory: "Personal Development"
 tags:
   [
@@ -123,4 +123,4 @@ Food for thought.
 
 ---
 
-*This article was originally published on [Medium](https://medium.com/@wizards777/transforming-my-life-through-the-application-of-what-i-value-aa000cad0312). I'm sharing it here as part of my journey of self-reflection and growth, hoping it might resonate with others on a similar path.* 
+_This article was originally published on [Medium](https://medium.com/@wizards777/transforming-my-life-through-the-application-of-what-i-value-aa000cad0312). I'm sharing it here as part of my journey of self-reflection and growth, hoping it might resonate with others on a similar path._
