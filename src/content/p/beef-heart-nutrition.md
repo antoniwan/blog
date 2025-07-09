@@ -4,7 +4,7 @@ description: "A nutritional deep dive comparing beef heart with common meats lik
 pubDate: "2025-05-01T16:45:00.000Z"
 heroImage: "/images/beef-heart-comparison-chart.png"
 language: ["en"]
-category: ["integration-growth", "learning-projects"]
+category: ["integration-growth", "learning-projects", "diy-creation"]
 subcategory: "Nutrition"
 tags:
   ["beef heart", "organ meats", "nutrition", "healthy eating", "micronutrients"]
