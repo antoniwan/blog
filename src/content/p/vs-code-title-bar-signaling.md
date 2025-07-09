@@ -3,11 +3,10 @@ title: "🖼️ VS Code Title Bar Signaling System"
 description: "A lightweight cognitive system to visually track project intent and mental context through color-coded VS Code title bars."
 pubDate: "2025-05-15"
 language: ["en"]
-category: ["systems-strategy", "learning-projects"]
+category: ["systems-strategy", "learning-projects", "integration-growth"]
 tags: ["VS Code", "context", "color", "focus", "workflow", "cognitive"]
 draft: false
 ---
-
 
 ## 🎯 PURPOSE
 
@@ -19,7 +18,6 @@ Modern developers multitask across systems, moods, and levels of importance. Thi
 - Bring emotional intelligence into your toolchain.
 
 By using title bar colors in VS Code as visual metaphors, we reinforce intentionality.
-
 
 ## 🛠️ HOW IT WORKS
 
@@ -37,20 +35,16 @@ Each project folder can contain a `.vscode/settings.json` file with a unique tit
 
 This is per-project and auto-applies when opening that folder in VS Code.
 
-
-
 ## 🔢 TITLE BAR LEVELS
 
-| Level       | Color Hex           | Purpose                                        |
-|-------------|---------------------|------------------------------------------------|
-| 🔴 CRITICAL | #8B0000 / #5A0000    | Production systems, finance, legal ops         |
-| 🟠 WORK     | #FF8C00 / #CC7000    | Focused development, job-related work          |
-| 🟡 SUPPORT  | #CCCC00 / #999900    | Utility tools, backups, API clients            |
-| 🟢 FUN      | #006400 / #004d00    | Creative and joyful projects                   |
-| 🔵 LEARNING | #1E90FF / #0B73D9    | Tutorials, sandbox, experimentation            |
-| 🟣 PERSONAL | #8A2BE2 / #6A1BA2    | Writing, rituals, personal growth              |
-
-
+| Level       | Color Hex         | Purpose                                |
+| ----------- | ----------------- | -------------------------------------- |
+| 🔴 CRITICAL | #8B0000 / #5A0000 | Production systems, finance, legal ops |
+| 🟠 WORK     | #FF8C00 / #CC7000 | Focused development, job-related work  |
+| 🟡 SUPPORT  | #CCCC00 / #999900 | Utility tools, backups, API clients    |
+| 🟢 FUN      | #006400 / #004d00 | Creative and joyful projects           |
+| 🔵 LEARNING | #1E90FF / #0B73D9 | Tutorials, sandbox, experimentation    |
+| 🟣 PERSONAL | #8A2BE2 / #6A1BA2 | Writing, rituals, personal growth      |
 
 ## 💡 CODE SNIPPETS FOR EACH LEVEL
 
@@ -146,7 +140,7 @@ This is per-project and auto-applies when opening that folder in VS Code.
 <strong>Presence</strong> — full awareness of the current context  
 <strong>Autonomy</strong> — control over your work rituals and pace  
 <strong>Symbolic UX</strong> — UI that encodes emotion, not just logic  
-<strong>Visual Metaphor</strong> — colors = meaning, aligned with mindset  
+<strong>Visual Metaphor</strong> — colors = meaning, aligned with mindset
 
 ---
 
@@ -175,14 +169,9 @@ Thank you for exploring these references!
 - Extend to terminal title bar colors (iTerm2, etc.)
 - CLI tool to switch project levels dynamically
 - Add icon and emoji indicators to VS Code explorer
-- Integrate this into STRONGHANDS setup (Windows)
 
 ---
 
 ## 🧭 SUMMARY
 
-You're not just working in a text editor.
-
-You're commanding a **cognitive control center** built for intention.
-
-Use this color-coded system to **own your presence**, guide your focus, and never forget who you are and where you are. 
+You're not just working in a text editor. You're commanding a **cognitive control center** built for intention. Use this color-coded system to **own your presence**, guide your focus, and never forget who you are and where you are.
