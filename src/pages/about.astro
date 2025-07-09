@@ -14,7 +14,7 @@ import Disclaimer from '../components/Disclaimer.astro';
 		noimageindex: false
 	}}
 >
-	<div class="animate-fade-in">
+	<div class="space-y-4 md:space-y-6">
 		<p class="animate-fade-up [animation-delay:0ms]">
 			I build systems — digital, emotional, spiritual, and physical.
 		</p>
@@ -31,29 +31,37 @@ import Disclaimer from '../components/Disclaimer.astro';
 			This blog documents:
 		</p>
 
-		<ul class="animate-fade-up [animation-delay:400ms] space-y-2 mt-4">
-			<li class="flex items-start gap-2">
-				<span class="text-primary-500 dark:text-primary-400 mt-1">•</span>
-				<span>My journey as a father and the lessons learned</span>
-			</li>
-			<li class="flex items-start gap-2">
-				<span class="text-primary-500 dark:text-primary-400 mt-1">•</span>
-				<span>Technical insights from building software systems</span>
-			</li>
-			<li class="flex items-start gap-2">
-				<span class="text-primary-500 dark:text-primary-400 mt-1">•</span>
-				<span>Personal development and self-mastery practices</span>
-			</li>
-			<li class="flex items-start gap-2">
-				<span class="text-primary-500 dark:text-primary-400 mt-1">•</span>
-				<span>Philosophical reflections on life and meaning</span>
-			</li>
+		<ul class="text-text dark:text-text-dark animate-fade-up [animation-delay:400ms] theme-transition">
+			<li><strong class="text-text dark:text-text-dark theme-transition">Art & Expression</strong> 🎵 — creative soul, aesthetic power, truth-telling</li>
+			<li><strong class="text-text dark:text-text-dark theme-transition">DIY & Creation</strong> 🛠️ — physical builds, handmade goods, crafting</li>
+			<li><strong class="text-text dark:text-text-dark theme-transition">Integration & Growth</strong> 🧘🏽‍♂️ — inner mastery, parenting, masculine leadership</li>
+			<li><strong class="text-text dark:text-text-dark theme-transition">Learning Projects</strong> 📚 — documentation of mastery in progress</li>
+			<li><strong class="text-text dark:text-text-dark theme-transition">Metaspace</strong> 🌀 — reflections on the journey itself</li>
+			<li><strong class="text-text dark:text-text-dark theme-transition">Parenting</strong> 👨‍👩‍👧‍👦 — raising resilient children, family dynamics, and personal growth</li>
+			<li><strong class="text-text dark:text-text-dark theme-transition">Politics</strong> ⚖️ — power dynamics, social structures, and collective healing</li>
+			<li><strong class="text-text dark:text-text-dark theme-transition">Psychology</strong> 🧠 — human behavior, social dynamics, and mental processes</li>
+			<li><strong class="text-text dark:text-text-dark theme-transition">Systems & Strategy</strong> 💻 — technical systems, organizational design, and strategic thinking</li>
 		</ul>
 
-		<p class="animate-fade-up [animation-delay:500ms] mt-8">
-			I believe in the power of systems thinking, intentional living, and the continuous pursuit of excellence in all areas of life. This space serves as both a personal archive and a resource for others on similar paths.
+		<h2 class="text-text dark:text-text-dark animate-fade-up [animation-delay:500ms] theme-transition">👇 Links</h2>
+
+		<ul class="text-text dark:text-text-dark animate-fade-up [animation-delay:600ms] theme-transition">
+			<li>🛠 <a href="https://builds.software" target="_blank" rel="noopener noreferrer" class="text-primary-500 dark:text-primary-400 hover:underline theme-transition">Builds.software</a> — my technical portfolio</li>
+			<li>💜 <a href="https://stronghandssoftheart.com" target="_blank" rel="noopener noreferrer" class="text-primary-500 dark:text-primary-400 hover:underline theme-transition">Strong Hands, Soft Heart</a> — my brand</li>
+			<li>🐙 <a href="https://github.com/antoniwan" target="_blank" rel="noopener noreferrer" class="text-primary-500 dark:text-primary-400 hover:underline theme-transition">GitHub</a> — open source & code</li>
+			<li>🌀 <a href="https://bsky.app/profile/antoniwan.online" target="_blank" rel="noopener noreferrer" class="text-primary-500 dark:text-primary-400 hover:underline theme-transition">BlueSky</a> — my social brain</li>
+		</ul>
+
+		<p class="text-text dark:text-text-dark animate-fade-up [animation-delay:700ms] theme-transition">
+			For collaboration or questions, get in touch!
 		</p>
 
-		<Disclaimer />
+		<div class="bg-background-alt/50 dark:bg-background-alt-dark/50 border-l-4 border-primary-500 dark:border-primary-400 p-element md:p-block my-block rounded-md shadow-sm theme-transition animate-fade-up [animation-delay:800ms]" role="complementary" aria-label="Disclaimer">
+			<div class="flex items-center gap-2 mb-2">
+				<span class="text-xl" aria-hidden="true">🌟</span>
+				<span class="font-semibold text-text dark:text-text-dark">Sacred Disclaimer</span>
+			</div>
+			<p class="text-neutral-600 dark:text-neutral-400 leading-relaxed m-0">The wisdom, practices, and digital alchemy shared here flow from personal experience and creative exploration. None of this constitutes medical, legal, psychological, or professional advice. Please consult qualified professionals for such guidance.</p>
+		</div>
 	</div>
 </PageLayout>
