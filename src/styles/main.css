@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@import './design-system.css';
+@import "./design-system.css";
 
 @layer base {
   :root {
@@ -33,25 +33,7 @@
 }
 
 @layer components {
-  .btn {
-    @apply inline-flex items-center justify-center px-4 py-2 rounded-md font-medium transition-colors focus-ring;
-  }
-
-  .btn-primary {
-    @apply bg-primary-500 text-white hover:bg-primary-600 dark:bg-primary-400 dark:hover:bg-primary-500;
-  }
-
-  .btn-secondary {
-    @apply bg-neutral-100 text-neutral-900 hover:bg-neutral-200 dark:bg-neutral-800 dark:text-neutral-100 dark:hover:bg-neutral-700;
-  }
-
-  .card {
-    @apply bg-background dark:bg-background-dark rounded-lg border border-border dark:border-border-dark p-6 elevation-md;
-  }
-
-  .input {
-    @apply w-full px-4 py-2 rounded-md border border-border dark:border-border-dark bg-background dark:bg-background-dark text-text dark:text-text-dark focus-ring;
-  }
+  /* Component styles can be added here as needed */
 }
 
 /* Global Styles */
@@ -97,7 +79,8 @@ a {
 }
 
 /* List Styles */
-ul, ol {
+ul,
+ol {
   @apply my-6;
 }
 
@@ -110,7 +93,8 @@ table {
   @apply w-full border-collapse;
 }
 
-th, td {
+th,
+td {
   @apply border border-border dark:border-border-dark p-4;
 }
 
@@ -166,4 +150,4 @@ blockquote::before {
   .prose p {
     @apply orphans-3 widows-3;
   }
-} 
+}

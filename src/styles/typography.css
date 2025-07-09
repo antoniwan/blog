@@ -76,118 +76,24 @@
     color: var(--tw-color-neutral-100);
   }
 
-  /* Typography scale */
+  /* Typography scale - keeping only used classes */
   .text-scale-1 {
     @apply text-sm leading-relaxed tracking-normal;
-  }
-  .text-scale-2 {
-    @apply text-base leading-relaxed tracking-normal;
   }
   .text-scale-3 {
     @apply text-lg leading-relaxed tracking-normal;
   }
-  .text-scale-4 {
-    @apply text-xl leading-snug tracking-tight;
-  }
-  .text-scale-5 {
-    @apply text-2xl leading-snug tracking-tight;
-  }
-  .text-scale-6 {
-    @apply text-3xl leading-tight tracking-tight;
-  }
   .text-scale-7 {
     @apply text-4xl leading-tight tracking-tighter;
   }
-  .text-scale-8 {
-    @apply text-5xl leading-none tracking-tighter;
-  }
-  .text-scale-9 {
-    @apply text-6xl leading-none tracking-tighter;
-  }
 
-  /* Vertical rhythm */
-  .space-y-scale-1 {
-    @apply space-y-2;
-  }
-  .space-y-scale-2 {
-    @apply space-y-4;
-  }
-  .space-y-scale-3 {
-    @apply space-y-6;
-  }
+  /* Vertical rhythm - keeping only used classes */
   .space-y-scale-4 {
     @apply space-y-8;
   }
-  .space-y-scale-5 {
-    @apply space-y-12;
-  }
-  .space-y-scale-6 {
-    @apply space-y-16;
-  }
-  .space-y-scale-7 {
-    @apply space-y-20;
-  }
-  .space-y-scale-8 {
-    @apply space-y-24;
-  }
-  .space-y-scale-9 {
-    @apply space-y-32;
-  }
 
-  /* Margin scales */
-  .mt-scale-1 {
-    @apply mt-2;
-  }
-  .mt-scale-2 {
-    @apply mt-4;
-  }
-  .mt-scale-3 {
-    @apply mt-6;
-  }
+  /* Margin scales - keeping only used classes */
   .mt-scale-4 {
     @apply mt-8;
-  }
-  .mt-scale-5 {
-    @apply mt-12;
-  }
-  .mt-scale-6 {
-    @apply mt-16;
-  }
-  .mt-scale-7 {
-    @apply mt-20;
-  }
-  .mt-scale-8 {
-    @apply mt-24;
-  }
-  .mt-scale-9 {
-    @apply mt-32;
-  }
-
-  .mb-scale-1 {
-    @apply mb-2;
-  }
-  .mb-scale-2 {
-    @apply mb-4;
-  }
-  .mb-scale-3 {
-    @apply mb-6;
-  }
-  .mb-scale-4 {
-    @apply mb-8;
-  }
-  .mb-scale-5 {
-    @apply mb-12;
-  }
-  .mb-scale-6 {
-    @apply mb-16;
-  }
-  .mb-scale-7 {
-    @apply mb-20;
-  }
-  .mb-scale-8 {
-    @apply mb-24;
-  }
-  .mb-scale-9 {
-    @apply mb-32;
   }
 }

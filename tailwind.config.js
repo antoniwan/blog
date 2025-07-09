@@ -18,19 +18,7 @@ export default {
           800: "#0018cc",
           900: "#000d99",
         },
-        // Accent colors
-        accent: {
-          50: "#fff5f5",
-          100: "#ffe3e3",
-          200: "#ffc9c9",
-          300: "#ffa8a8",
-          400: "#ff8787",
-          500: "#ff6b6b", // Complementary accent
-          600: "#fa5252",
-          700: "#f03e3e",
-          800: "#e03131",
-          900: "#c92a2a",
-        },
+
         // Neutral colors
         neutral: {
           50: "#f8f9fa",
@@ -71,36 +59,6 @@ export default {
             DEFAULT: "rgba(229, 233, 240, 0.3)",
             dark: "rgba(229, 233, 240, 0.05)",
           },
-        },
-        // Component-specific colors
-        "code-bg": {
-          DEFAULT: "#f8f9fa",
-          dark: "#1A1F2E",
-        },
-        "blockquote-bg": {
-          DEFAULT: "rgba(229, 233, 240, 0.2)",
-          dark: "rgba(229, 233, 240, 0.05)",
-        },
-        "blockquote-border": {
-          DEFAULT: "#2337ff",
-          dark: "#4d5eff",
-        },
-        // Status colors
-        success: {
-          DEFAULT: "rgb(var(--color-success))",
-          dark: "rgb(var(--color-success))",
-        },
-        warning: {
-          DEFAULT: "rgb(var(--color-warning))",
-          dark: "rgb(var(--color-warning))",
-        },
-        error: {
-          DEFAULT: "rgb(var(--color-error))",
-          dark: "rgb(var(--color-error))",
-        },
-        info: {
-          DEFAULT: "rgb(var(--color-info))",
-          dark: "rgb(var(--color-info))",
         },
       },
       fontFamily: {
@@ -357,10 +315,6 @@ export default {
           "fade-in var(--animation-duration-normal) var(--animation-easing-out)",
         "fade-up":
           "fade-up var(--animation-duration-normal) var(--animation-easing-out)",
-        "slide-up":
-          "slide-up var(--animation-duration-normal) var(--animation-easing-out)",
-        "slide-down":
-          "slide-down var(--animation-duration-normal) var(--animation-easing-out)",
       },
       keyframes: {
         "fade-in": {
@@ -371,26 +325,6 @@ export default {
           "0%": {
             opacity: "0",
             transform: "translateY(10px)",
-          },
-          "100%": {
-            opacity: "1",
-            transform: "translateY(0)",
-          },
-        },
-        "slide-up": {
-          "0%": {
-            opacity: "0",
-            transform: "translateY(20px)",
-          },
-          "100%": {
-            opacity: "1",
-            transform: "translateY(0)",
-          },
-        },
-        "slide-down": {
-          "0%": {
-            opacity: "0",
-            transform: "translateY(-20px)",
           },
           "100%": {
             opacity: "1",
