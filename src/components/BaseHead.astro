@@ -60,35 +60,42 @@ const finalOgImageAlt = ogImageAlt || title;
 // Format dates for meta tags
 const pubDateISO = pubDate?.toISOString();
 const updatedDateISO = updatedDate?.toISOString();
-
-// Create the full title for SEO purposes
-const fullTitleSEO = `${title} - ${SITE_TITLE}`;
 ---
 
-<!-- Global Metadata -->
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
+<!-- Character Set & Viewport -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="viewport-height" content="100vh" />
 <meta name="HandheldFriendly" content="true" />
 <meta name="apple-touch-fullscreen" content="yes" />
-<meta name="theme-color" content="var(--color-primary-500)" />
+
+<!-- Theme & Color -->
+<meta name="theme-color" content="var(--color-primary-500)" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#1a1a1a" media="(prefers-color-scheme: dark)" />
 <meta name="color-scheme" content="light dark" />
+
+<!-- Favicon & Icons -->
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 <link rel="apple-touch-icon" href="/favicon.svg" />
-<link rel="sitemap" href="/sitemap-index.xml" />
+<link rel="manifest" href="/site.webmanifest" />
+
+<!-- Language & Generator -->
+<meta http-equiv="content-language" content="en" />
+<meta name="generator" content={Astro.generator} />
+
+<!-- Canonical URL -->
+<link rel="canonical" href={canonical} />
+
+<!-- RSS Feed -->
 <link
 	rel="alternate"
 	type="application/rss+xml"
 	title={SITE_TITLE}
 	href={new URL('rss.xml', Astro.site)}
 />
-<meta name="generator" content={Astro.generator} />
 
-<!-- Alpine.js -->
-<script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
-
-<!-- Canonical URL -->
-<link rel="canonical" href={canonical} />
+<!-- Sitemap -->
+<link rel="sitemap" href="/sitemap-index.xml" />
 
 <!-- Primary Meta Tags -->
 <title>{fullTitle}</title>
@@ -102,8 +109,8 @@ const fullTitleSEO = `${title} - ${SITE_TITLE}`;
 <meta property="og:url" content={canonical} />
 <meta property="og:title" content={fullTitle} />
 <meta property="og:description" content={description} />
-{(ogImage || image) && <meta property="og:image" content={ogImage || image} />}
-{ogImageAlt && <meta property="og:image:alt" content={ogImageAlt} />}
+{finalOgImage && <meta property="og:image" content={finalOgImage} />}
+{finalOgImageAlt && <meta property="og:image:alt" content={finalOgImageAlt} />}
 <meta property="og:locale" content={locale} />
 {author && <meta property="og:site_name" content={author} />}
 
@@ -112,34 +119,16 @@ const fullTitleSEO = `${title} - ${SITE_TITLE}`;
 <meta property="twitter:url" content={canonical} />
 <meta property="twitter:title" content={fullTitle} />
 <meta property="twitter:description" content={description} />
-{(ogImage || image) && <meta property="twitter:image" content={ogImage || image} />}
-{ogImageAlt && <meta property="twitter:image:alt" content={ogImageAlt} />}
+{finalOgImage && <meta property="twitter:image" content={finalOgImage} />}
+{finalOgImageAlt && <meta property="twitter:image:alt" content={finalOgImageAlt} />}
 
 <!-- Article Specific Meta Tags -->
 {pubDateISO && <meta property="article:published_time" content={pubDateISO} />}
 {updatedDateISO && <meta property="article:modified_time" content={updatedDateISO} />}
 {author && <meta property="article:author" content={author} />}
 
-<!-- Canonical URL -->
-<link rel="canonical" href={canonical} />
-
-<!-- Favicon -->
-<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-<link rel="manifest" href="/site.webmanifest" />
-
-<!-- Theme Color -->
-<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
-<meta name="theme-color" content="#1a1a1a" media="(prefers-color-scheme: dark)" />
+<!-- Alpine.js -->
+<script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
 <!-- Theme initialization script -->
 <script is:inline src="/src/scripts/theme.ts"></script>
-
-<!-- Viewport -->
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-<!-- Character Set -->
-<meta charset="utf-8" />
-
-<!-- Language -->
-<meta http-equiv="content-language" content="en" />

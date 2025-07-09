@@ -15,13 +15,14 @@ const { class: className = '' } = Astro.props;
 	aria-label="Toggle theme"
 	id="theme-toggle"
 >
-	<!-- Sun icon -->
+	<!-- Sun icon for light mode -->
 	<svg
 		class="h-6 w-6 dark:hidden"
 		fill="none"
 		stroke="currentColor"
 		viewBox="0 0 24 24"
 		xmlns="http://www.w3.org/2000/svg"
+		aria-hidden="true"
 	>
 		<path
 			stroke-linecap="round"
@@ -31,13 +32,14 @@ const { class: className = '' } = Astro.props;
 		/>
 	</svg>
 	
-	<!-- Moon icon -->
+	<!-- Moon icon for dark mode -->
 	<svg
 		class="hidden h-6 w-6 dark:block"
 		fill="none"
 		stroke="currentColor"
 		viewBox="0 0 24 24"
 		xmlns="http://www.w3.org/2000/svg"
+		aria-hidden="true"
 	>
 		<path
 			stroke-linecap="round"

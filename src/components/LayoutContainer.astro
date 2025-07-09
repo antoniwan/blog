@@ -18,14 +18,14 @@ interface Props {
   /**
    * Additional classes to apply
    */
-  className?: string;
+  class?: string;
 }
 
 const { 
   type = 'container',
   size = 'default',
   padding = 'md',
-  className = ''
+  class: className = ''
 } = Astro.props;
 
 // Map container types to max-width classes
@@ -50,7 +50,7 @@ const maxWidthMap = {
 // Map padding sizes to Tailwind classes
 const paddingMap = {
   none: '',
-  sm: 'px-3 py-6 md:px-4 md:py-8',
+  sm: 'px-4 py-6 md:px-4 md:py-8',
   md: 'px-4 py-8 md:px-6 md:py-12',
   lg: 'px-6 py-12 md:px-8 md:py-16',
 };

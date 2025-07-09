@@ -11,16 +11,22 @@ const { class: className = '' } = Astro.props;
 		'fixed top-0 left-0 w-full h-1 bg-background-alt dark:bg-background-alt-dark z-50',
 		className
 	]}
+	role="progressbar"
+	aria-label="Reading progress"
+	aria-valuemin="0"
+	aria-valuemax="100"
+	aria-valuenow="0"
 >
 	<div
 		id="reading-progress"
-		class="h-full bg-primary-500 dark:bg-primary-400 transition-all duration-300"
+		class="h-full bg-primary-500 dark:bg-primary-400 theme-transition-all"
 		style="width: 0%"
 	></div>
 </div>
 
 <script>
 	const readingProgress = document.getElementById('reading-progress')!;
+	const progressBar = document.querySelector('[role="progressbar"]') as HTMLElement;
 	
 	function updateReadingProgress() {
 		const windowHeight = window.innerHeight;
@@ -29,6 +35,11 @@ const { class: className = '' } = Astro.props;
 		
 		const progress = (scrolled / documentHeight) * 100;
 		readingProgress.style.width = `${progress}%`;
+		
+		// Update ARIA attributes
+		if (progressBar) {
+			progressBar.setAttribute('aria-valuenow', Math.round(progress).toString());
+		}
 	}
 
 	window.addEventListener('scroll', updateReadingProgress);
@@ -41,8 +52,8 @@ const { class: className = '' } = Astro.props;
 <style>
 	/* Smooth transitions for dark mode */
 	#reading-progress {
-		transition: width 150ms cubic-bezier(0.4, 0, 0.2, 1),
-					background-color 150ms cubic-bezier(0.4, 0, 0.2, 1);
+		transition: width var(--animation-duration-fast) var(--animation-easing-default),
+					background-color var(--animation-duration-fast) var(--animation-easing-default);
 	}
 
 	/* Respect reduced motion preferences */

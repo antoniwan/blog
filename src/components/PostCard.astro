@@ -10,49 +10,58 @@ const { post } = Astro.props;
 const { data } = post;
 ---
 
-<article class="group bg-background dark:bg-background-dark rounded-lg border border-border/20 dark:border-border-dark/20 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
+<article 
+	class="group bg-background dark:bg-background-dark rounded-lg border border-border/20 dark:border-border-dark/20 shadow-sm hover:shadow-md theme-transition-all hover:-translate-y-1"
+	role="article"
+>
 	<div class="p-4 md:p-6">
 		<div class="space-y-3">
+			<!-- Header with metadata -->
 			<header class="space-y-2">
 				<div class="flex items-center gap-2 text-xs md:text-sm text-neutral-600 dark:text-neutral-400">
 					{data.pubDate && (
 						<time datetime={data.pubDate.toISOString()} class="flex items-center gap-1.5">
-							<span class="text-primary-500 dark:text-primary-400">📅</span>
+							<span class="text-primary-500 dark:text-primary-400" aria-hidden="true">📅</span>
 							<FormattedDate date={data.pubDate} format="long" />
 						</time>
 					)}
 					{data.category && data.category.length > 0 && (
 						<span class="flex items-center gap-1.5">
-							<span class="text-primary-500 dark:text-primary-400">📁</span>
+							<span class="text-primary-500 dark:text-primary-400" aria-hidden="true">📁</span>
 							<a 
 								href={`/category/${data.category[0]}/`}
-								class="hover:text-primary-500 dark:hover:text-primary-400 transition-colors"
+								class="hover:text-primary-500 dark:hover:text-primary-400 theme-transition"
 							>
 								{data.category[0]}
 							</a>
 						</span>
 					)}
 				</div>
-				<h2 class="text-lg md:text-xl font-bold text-text dark:text-text-dark group-hover:text-primary-500 dark:group-hover:text-primary-400 transition-colors">
-					<a href={`/p/${post.id}/`} class="hover:underline focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-background-dark">
+				<h2 class="text-lg md:text-xl font-bold text-text dark:text-text-dark group-hover:text-primary-500 dark:group-hover:text-primary-400 theme-transition">
+					<a 
+						href={`/p/${post.id}/`} 
+						class="hover:underline focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-background-dark"
+					>
 						{data.title}
 					</a>
 				</h2>
 			</header>
 			
+			<!-- Description -->
 			{data.description && (
 				<p class="text-sm md:text-base text-neutral-600 dark:text-neutral-400 line-clamp-2 md:line-clamp-3">
 					{data.description}
 				</p>
 			)}
 			
+			<!-- Tags -->
 			<footer class="flex flex-wrap gap-1.5">
 				{data.tags?.map(tag => (
 					<a
 						href={`/tag/${tag}/`}
 						class="inline-flex items-center gap-1 text-xs px-2 py-1 rounded-full bg-zinc-100 dark:bg-zinc-800 text-gray-700 dark:text-gray-300 hover:bg-zinc-200 dark:hover:bg-zinc-700 theme-transition"
 					>
-						<span>🏷️</span>
+						<span aria-hidden="true">🏷️</span>
 						<span>{tag}</span>
 					</a>
 				))}
@@ -64,10 +73,10 @@ const { data } = post;
 <style>
 	/* Smooth transitions for dark mode */
 	article {
-		transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1),
-					color 150ms cubic-bezier(0.4, 0, 0.2, 1),
-					transform 150ms cubic-bezier(0.4, 0, 0.2, 1),
-					box-shadow 150ms cubic-bezier(0.4, 0, 0.2, 1);
+		transition: background-color var(--animation-duration-fast) var(--animation-easing-default),
+					color var(--animation-duration-fast) var(--animation-easing-default),
+					transform var(--animation-duration-fast) var(--animation-easing-default),
+					box-shadow var(--animation-duration-fast) var(--animation-easing-default);
 	}
 
 	/* Respect reduced motion preferences */

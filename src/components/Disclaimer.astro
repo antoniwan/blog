@@ -18,16 +18,16 @@ const { text = DISCLAIMER_TEXT, class: className = '', style = '' } = Astro.prop
     'my-block',
     'rounded-md',
     'shadow-sm',
-    'transition-colors duration-300',
+    'theme-transition',
     className
   ]}
   role="complementary"
   aria-label="Disclaimer"
   style={style}
 >
-		<div>
-			<span class="text-xl">🌟</span>
-			<span>Sacred Disclaimer</span>
-    </div>
-		<p class="text-neutral-600 dark:text-neutral-400 leading-relaxed m-0" set:html={text} />
+	<div class="flex items-center gap-2 mb-2">
+		<span class="text-xl" aria-hidden="true">🌟</span>
+		<span class="font-semibold text-text dark:text-text-dark">Sacred Disclaimer</span>
+  </div>
+	<p class="text-neutral-600 dark:text-neutral-400 leading-relaxed m-0" set:html={text} />
 </div> 

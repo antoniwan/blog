@@ -10,30 +10,32 @@ import Search from './Search.astro';
   aria-label="Open menu"
   aria-expanded="false"
   aria-controls="mobile-menu"
-  class="inline-flex items-center justify-center p-2 rounded-lg text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 focus:outline-none focus:ring-2 focus:ring-primary-500 md:hidden"
+  class="inline-flex items-center justify-center p-2 rounded-lg text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 focus:outline-none focus:ring-2 focus:ring-primary-500 md:hidden theme-transition"
 >
-  <svg class="h-7 w-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+  <svg class="h-7 w-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
   </svg>
 </button>
 
-<!-- Overlay Menu -->
+<!-- Mobile Menu Overlay -->
 <div
   id="mobile-menu"
   class="fixed inset-0 z-50 hidden flex flex-col bg-white dark:bg-neutral-900 h-screen w-full transform transition-transform duration-300 ease-in-out md:hidden"
   tabindex="-1"
   aria-modal="true"
   role="dialog"
+  aria-label="Mobile navigation menu"
 >
+  <!-- Menu Header -->
   <div class="flex items-center justify-between p-4 border-b border-neutral-200 dark:border-neutral-800">
-    <span class="text-lg font-semibold">Menu</span>
+    <span class="text-lg font-semibold text-text dark:text-text-dark">Menu</span>
     <button
       type="button"
       aria-label="Close menu"
-      class="p-2 rounded-lg text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 focus:outline-none focus:ring-2 focus:ring-primary-500"
+      class="p-2 rounded-lg text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 focus:outline-none focus:ring-2 focus:ring-primary-500 theme-transition"
       id="close-mobile-menu"
     >
-      <svg class="h-7 w-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <svg class="h-7 w-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
       </svg>
     </button>
@@ -44,12 +46,14 @@ import Search from './Search.astro';
     <Search />
   </div>
 
-  <nav class="flex-1 overflow-y-auto p-4 space-y-4">
+  <!-- Navigation Links -->
+  <nav class="flex-1 overflow-y-auto p-4 space-y-4" aria-label="Mobile navigation">
     {mainNavigation.map((item) => (
       <div>
         <a
           href={item.href}
-          class="block text-lg font-medium text-neutral-800 dark:text-neutral-200 py-2 rounded hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
+          class="block text-lg font-medium text-neutral-800 dark:text-neutral-200 py-2 rounded hover:bg-neutral-100 dark:hover:bg-neutral-800 theme-transition"
+          aria-current={Astro.url.pathname === item.href ? 'page' : undefined}
         >
           {item.label}
         </a>
@@ -58,9 +62,9 @@ import Search from './Search.astro';
             {item.dropdown.items.map((dropdownItem) => (
               <a
                 href={dropdownItem.href}
-                class="flex items-center text-base text-neutral-700 dark:text-neutral-300 py-1 rounded hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
+                class="flex items-center text-base text-neutral-700 dark:text-neutral-300 py-1 rounded hover:bg-neutral-100 dark:hover:bg-neutral-800 theme-transition"
               >
-                {dropdownItem.icon && <span class="mr-2">{dropdownItem.icon}</span>}
+                {dropdownItem.icon && <span class="mr-2" aria-hidden="true">{dropdownItem.icon}</span>}
                 {dropdownItem.label}
               </a>
             ))}
@@ -83,6 +87,7 @@ import Search from './Search.astro';
     document.body.classList.add('overflow-hidden');
     menu.focus();
   }
+  
   function closeMenu() {
     if (!menu || !menuButton) return;
     menu.classList.add('hidden');
@@ -94,7 +99,7 @@ import Search from './Search.astro';
   menuButton?.addEventListener('click', openMenu);
   closeButton?.addEventListener('click', closeMenu);
 
-  // Close on overlay click (if you want, add a semi-transparent overlay div)
+  // Close on overlay click
   menu?.addEventListener('click', (e) => {
     if (e.target === menu) closeMenu();
   });
