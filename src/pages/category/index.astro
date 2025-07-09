@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeader from '../../components/PageHeader.astro';
 import { categories } from '../../data/categories';
 import { getCollection } from 'astro:content';
 
@@ -19,40 +20,40 @@ const postCounts = categories.reduce((acc, category) => {
   title="Categories"
   description="Browse posts by category"
 >
-  {/* Page Header */}
-  <div class="max-w-prose-wide mx-auto py-8 md:py-12 lg:py-16 mb-16">
-		<h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-text dark:text-text-dark leading-tight tracking-tight mb-6">
-      Categories
-    </h1>
-		<p class="text-xl md:text-2xl text-neutral-600 dark:text-neutral-400 leading-relaxed">
-      Browse posts by category
-    </p>
-  </div>
+  <div class="w-full px-4 md:px-6 lg:px-8 xl:px-12">
+    {/* Page Header */}
+    <div class="max-w-container mx-auto">
+      <PageHeader 
+        title="Categories"
+        description="Browse posts by category"
+      />
+    </div>
 
-  {/* Categories Grid */}
-  <div class="max-w-container mx-auto">
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {categories.map(category => {
-        const count = postCounts[category.id];
-        return (
-          <a
-            href={`/category/${category.id}/`}
-            class="group block p-6 rounded-lg border border-border/10 hover:border-border/20 bg-background hover:bg-background-alt dark:bg-background-dark dark:hover:bg-background-alt-dark transition-all duration-200"
-          >
-            <div class="flex items-center justify-between mb-3">
-              <h3 class="text-lg font-semibold text-text dark:text-text-dark group-hover:text-primary-500 dark:group-hover:text-primary-400 transition-colors">
-                {category.name}
-              </h3>
-              <span class="text-sm px-2 py-1 rounded-full bg-primary-100 dark:bg-primary-900 text-primary-700 dark:text-primary-300">
-                {count}
-              </span>
-            </div>
-            <p class="text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
-              {category.description}
-            </p>
-          </a>
-        );
-      })}
+    {/* Categories Grid */}
+    <div class="max-w-container mx-auto">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {categories.map(category => {
+          const count = postCounts[category.id];
+          return (
+            <a
+              href={`/category/${category.id}/`}
+              class="group block p-6 rounded-lg border border-border/10 hover:border-border/20 bg-background hover:bg-background-alt dark:bg-background-dark dark:hover:bg-background-alt-dark transition-all duration-200"
+            >
+              <div class="flex items-center justify-between mb-3">
+                <h3 class="text-lg font-semibold text-text dark:text-text-dark group-hover:text-primary-500 dark:group-hover:text-primary-400 transition-colors">
+                  {category.name}
+                </h3>
+                <span class="text-sm px-2 py-1 rounded-full bg-primary-100 dark:bg-primary-900 text-primary-700 dark:text-primary-300">
+                  {count}
+                </span>
+              </div>
+              <p class="text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
+                {category.description}
+              </p>
+            </a>
+          );
+        })}
+      </div>
     </div>
   </div>
 </BaseLayout>

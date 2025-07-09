@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeader from '../../components/PageHeader.astro';
 import { getCollection } from 'astro:content';
 
 // Get all posts
@@ -25,32 +26,32 @@ const sortedTags = Object.entries(tagCounts)
   title="Tags"
   description="Browse posts by tag"
 >
-  {/* Page Header */}
-  <div class="max-w-prose-wide mx-auto py-8 md:py-12 lg:py-16 mb-16">
-		<h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-text dark:text-text-dark leading-tight tracking-tight mb-6">
-      Tags
-    </h1>
-		<p class="text-xl md:text-2xl text-neutral-600 dark:text-neutral-400 leading-relaxed">
-      Browse posts by tag
-    </p>
-  </div>
+  <div class="w-full px-4 md:px-6 lg:px-8 xl:px-12">
+    {/* Page Header */}
+    <div class="max-w-container mx-auto">
+      <PageHeader 
+        title="Tags"
+        description="Browse posts by tag"
+      />
+    </div>
 
-  {/* Tags List */}
-  <div class="max-w-container mx-auto">
-    <div class="flex flex-wrap gap-2">
-      {sortedTags.map(tag => {
-        const count = tagCounts[tag];
-        return (
-          <a
-            href={`/tag/${tag}/`}
-            class="flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-full bg-zinc-100 dark:bg-zinc-800 text-gray-700 dark:text-gray-300 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors"
-          >
-            <span>🏷️</span>
-            <span>{tag}</span>
-            <span class="text-xs px-1.5 py-0.5 rounded-full bg-zinc-200 dark:bg-zinc-700 text-gray-600 dark:text-gray-400">{count}</span>
-          </a>
-        );
-      })}
+    {/* Tags List */}
+    <div class="max-w-container mx-auto">
+      <div class="flex flex-wrap gap-2">
+        {sortedTags.map(tag => {
+          const count = tagCounts[tag];
+          return (
+            <a
+              href={`/tag/${tag}/`}
+              class="flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-full bg-zinc-100 dark:bg-zinc-800 text-gray-700 dark:text-gray-300 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors"
+            >
+              <span>🏷️</span>
+              <span>{tag}</span>
+              <span class="text-xs px-1.5 py-0.5 rounded-full bg-zinc-200 dark:bg-zinc-700 text-gray-600 dark:text-gray-400">{count}</span>
+            </a>
+          );
+        })}
+      </div>
     </div>
   </div>
 </BaseLayout>

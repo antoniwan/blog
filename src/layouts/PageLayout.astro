@@ -1,5 +1,6 @@
 ---
 import BaseLayout from './BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
 
 interface Props {
   title: string;
@@ -43,22 +44,14 @@ const {
   keywords={keywords}
   {...rest}
 >
-  <div class="max-w-prose-wide mx-auto py-8 md:py-12 lg:py-16">
-    {/* Page Header */}
-    <div class="mb-12">
-      <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-text dark:text-text-dark leading-tight tracking-tight mb-6">
-        {title}
-      </h1>
-      {description && (
-        <p class="text-xl md:text-2xl text-neutral-600 dark:text-neutral-400 leading-relaxed">
-          {description}
-        </p>
-      )}
-    </div>
+  <div class="w-full px-4 md:px-6 lg:px-8 xl:px-12">
+    <PageHeader title={title} description={description} />
     
     {/* Page Content */}
-    <div class="prose prose-lg dark:prose-invert max-w-none">
-      <slot />
+    <div class="max-w-container mx-auto">
+      <div class="prose prose-lg dark:prose-invert max-w-none">
+        <slot />
+      </div>
     </div>
   </div>
 </BaseLayout> 

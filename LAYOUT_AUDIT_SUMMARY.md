@@ -1,119 +1,122 @@
-# Layout Audit Summary
+# Layout and Heading Standardization Audit Summary
 
-## Issues Found
+## Overview
+
+This audit standardized the layout structure and heading styles across the entire site to ensure consistency, remove complexity, and align all headings with the site's width constraints.
+
+## Issues Found and Resolved
 
 ### 1. Inconsistent Width Constraints
 
-- **Header and Footer**: Used `max-w-container` with `mx-auto`, creating constrained width
-- **Content areas**: Had various max-width settings (`prose`, `prose-wide`, `container`, etc.)
-- **Mixed approach**: Some content was full-width while headers were constrained
+**Problem**: Different layouts used different max-width classes (`max-w-prose-wide`, `max-w-container`)
+**Solution**: Standardized all layouts to use `max-w-container` (1400px) for consistent content width
 
-### 2. Complex Padding System
+### 2. Inconsistent Heading Styles
 
-- **Multiple padding options**: `none`, `sm`, `md`, `lg`, `xl` with complex responsive mappings
-- **Inconsistent usage**: Different pages used different padding combinations
-- **Redundant complexity**: LayoutContainer duplicated functionality already in BaseLayout
+**Problem**: Some headings used `font-bold`, others used `font-serif font-bold`
+**Solution**: Standardized all headings to use `font-bold` for consistency
 
-### 3. Redundant Layout Components
+### 3. Complex Layout Hierarchy
 
-- **LayoutContainer**: Duplicated functionality from BaseLayout
-- **Multiple layout options**: `fullWidth`, `containerPadding`, `contentMaxWidth` props
-- **Inconsistent patterns**: Some pages used LayoutContainer, others used direct layout props
+**Problem**: Multiple nested divs with different width constraints created unnecessary complexity
+**Solution**: Simplified layout structure with consistent container patterns
+
+### 4. Inconsistent Spacing
+
+**Problem**: Different padding and margin values across layouts
+**Solution**: Created standardized `PageHeader` component with consistent spacing
 
 ## Changes Made
 
-### 1. Standardized Full-Width Layout
+### Layout Files Updated
 
-- **BaseLayout**: Now uses consistent `px-4 md:px-6 lg:px-8 xl:px-12` padding
-- **Header**: Removed `max-w-container` constraint, now truly full-width
-- **Footer**: Removed `max-w-container` constraint, now truly full-width
-- **Content areas**: Use appropriate max-width constraints (`max-w-prose-wide`, `max-w-container`) within the full-width container
+#### 1. `src/layouts/BaseLayout.astro`
 
-### 2. Simplified Layout System
+- Removed redundant container div from main content area
+- Simplified structure to allow child layouts to control their own containers
 
-- **Removed complex props**: Eliminated `fullWidth`, `containerPadding`, `contentMaxWidth` from all layouts
-- **Consistent padding**: All layouts now use the same responsive padding system
-- **Standardized content constraints**:
-  - Blog posts: `max-w-prose-wide` for optimal reading
-  - Pages: `max-w-prose-wide` for content focus
-  - Lists/grids: `max-w-container` for wider content areas
+#### 2. `src/layouts/PageLayout.astro`
 
-### 3. Eliminated Redundancy
+- Added consistent width constraints with `max-w-container`
+- Integrated `PageHeader` component for standardized headings
+- Simplified content wrapper structure
 
-- **Deleted LayoutContainer**: Component was removed as it duplicated BaseLayout functionality
-- **Updated all pages**: Removed LayoutContainer usage from:
-  - Homepage (`src/pages/index.astro`)
-  - About page (`src/pages/about.astro`)
-  - 404 page (`src/pages/404.astro`)
-  - Category pages (`src/pages/category/`)
-  - Tag pages (`src/pages/tag/`)
+#### 3. `src/layouts/BlogLayout.astro`
 
-### 4. Consistent Responsive Design
+- Standardized width constraints with `max-w-container`
+- Removed `font-serif` inconsistency from headings
+- Integrated `PageHeader` component for title/description
+- Maintained metadata section separately
 
-- **Mobile-first approach**: `px-4` on mobile, scaling up to `xl:px-12` on large screens
-- **Proper content constraints**: Content is constrained for readability while containers are full-width
-- **Maintained visual hierarchy**: Headers and content areas have appropriate spacing
+#### 4. `src/layouts/HomeLayout.astro`
 
-## Layout Structure
+- Added consistent container wrapper
+- Simplified structure
 
-### BaseLayout (Foundation)
+### New Component Created
+
+#### `src/components/PageHeader.astro`
+
+- Standardized heading component with consistent styling
+- Responsive typography: `text-4xl md:text-5xl lg:text-6xl`
+- Consistent spacing: `py-8 md:py-12 lg:py-16 mb-16`
+- Standard colors and typography classes
+
+### Page Files Updated
+
+#### All pages now use consistent structure:
 
 ```astro
 <div class="w-full px-4 md:px-6 lg:px-8 xl:px-12">
-  <slot />
+  <div class="max-w-container mx-auto">
+    <PageHeader title="..." description="..." />
+    <!-- Content -->
+  </div>
 </div>
 ```
 
-### Content Areas
+#### Updated pages:
 
-- **Blog/Page content**: `max-w-prose-wide mx-auto py-8 md:py-12 lg:py-16`
-- **Lists/Grids**: `max-w-container mx-auto`
-- **Hero sections**: `max-w-prose-wide mx-auto py-8 md:py-12 lg:py-16`
+- `src/pages/index.astro`
+- `src/pages/category/index.astro`
+- `src/pages/category/[category].astro`
+- `src/pages/tag/index.astro`
+- `src/pages/tag/[tag].astro`
 
-### Header/Footer
+## Standardization Results
 
-- **Full-width**: `w-full px-4 md:px-6 lg:px-8 xl:px-12`
-- **No max-width constraints**: Truly full-width with consistent padding
+### Width Constraints
+
+- **Before**: Mixed `max-w-prose-wide` (85ch) and `max-w-container` (1400px)
+- **After**: Consistent `max-w-container` (1400px) across all pages
+
+### Heading Styles
+
+- **Before**: Mixed `font-bold` and `font-serif font-bold`
+- **After**: Consistent `font-bold` with standardized typography scale
+
+### Spacing
+
+- **Before**: Inconsistent padding and margins
+- **After**: Standardized spacing through `PageHeader` component
+
+### Layout Structure
+
+- **Before**: Complex nested divs with different constraints
+- **After**: Simplified, consistent container pattern
 
 ## Benefits
 
-1. **Simplified maintenance**: Single padding system across all layouts
-2. **Consistent experience**: All pages now follow the same layout patterns
-3. **Better responsive design**: Consistent breakpoints and spacing
-4. **Reduced complexity**: Fewer layout options and components to maintain
-5. **True full-width**: Headers and footers now span the full viewport width
-6. **Improved readability**: Content areas have appropriate constraints for optimal reading
+1. **Consistency**: All headings now align with the site's width and styling
+2. **Maintainability**: Single `PageHeader` component reduces code duplication
+3. **Performance**: Simplified DOM structure
+4. **Accessibility**: Consistent heading hierarchy and spacing
+5. **Responsive Design**: Standardized responsive behavior across all pages
 
-## Files Modified
+## Container Width Reference
 
-### Layouts
+- `max-w-container`: 1400px (main content width)
+- `max-w-prose-wide`: 85ch (wider content area - now deprecated)
+- `max-w-prose`: 65ch (optimal reading width - for article content)
 
-- `src/layouts/BaseLayout.astro` - Simplified to use consistent full-width layout
-- `src/layouts/BlogLayout.astro` - Removed complex layout options
-- `src/layouts/PageLayout.astro` - Removed complex layout options
-- `src/layouts/HomeLayout.astro` - Removed complex layout options
-
-### Components
-
-- `src/components/Header.astro` - Made truly full-width
-- `src/components/Footer.astro` - Made truly full-width
-- `src/components/LayoutContainer.astro` - **DELETED** (no longer needed)
-
-### Pages
-
-- `src/pages/index.astro` - Removed LayoutContainer usage
-- `src/pages/about.astro` - Removed LayoutContainer usage
-- `src/pages/404.astro` - Removed LayoutContainer usage
-- `src/pages/category/index.astro` - Removed LayoutContainer usage
-- `src/pages/category/[category].astro` - Removed LayoutContainer usage
-- `src/pages/tag/index.astro` - Removed LayoutContainer usage
-- `src/pages/tag/[tag].astro` - Removed LayoutContainer usage
-
-## Result
-
-The site now has a **standardized, simplified, and truly full-width layout system** with:
-
-- Consistent responsive padding across all components
-- Appropriate content constraints for readability
-- Eliminated complexity and redundancy
-- Better maintainability and consistency
+All page headers and main content now use `max-w-container` for consistent alignment with the site's overall width constraints.
