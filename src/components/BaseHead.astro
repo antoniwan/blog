@@ -127,12 +127,38 @@ const updatedDateISO = updatedDate?.toISOString();
 {updatedDateISO && <meta property="article:modified_time" content={updatedDateISO} />}
 {author && <meta property="article:author" content={author} />}
 
-<!-- Alpine.js - Load with integrity and preload -->
+<!-- Alpine.js - Load without integrity check for simplicity -->
 <link rel="preload" href="https://unpkg.com/alpinejs@3.13.5/dist/cdn.min.js" as="script" crossorigin="anonymous" />
-<script defer src="https://unpkg.com/alpinejs@3.13.5/dist/cdn.min.js" integrity="sha384-071A526E36C38552B09C2D547DC8EC344B8CBB183869FE485CE6928B522AE6B01243FF5AEEEB258445DB3FD508FDF5E8" crossorigin="anonymous"></script>
+<script defer src="https://unpkg.com/alpinejs@3.13.5/dist/cdn.min.js" crossorigin="anonymous"></script>
 
 <!-- Theme initialization script -->
-<script is:inline src="/src/scripts/theme.ts"></script>
+<script is:inline>
+// Theme initialization script
+function initializeTheme() {
+  // Check for saved theme preference
+  const savedTheme = localStorage.getItem('theme');
+  
+  // Check for system preference
+  const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  
+  // Set initial theme
+  if (savedTheme) {
+    document.documentElement.classList.toggle('dark', savedTheme === 'dark');
+  } else {
+    document.documentElement.classList.toggle('dark', systemPrefersDark);
+  }
+}
+
+// Run immediately
+initializeTheme();
+
+// Listen for system theme changes
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+  if (!localStorage.getItem('theme')) {
+    document.documentElement.classList.toggle('dark', e.matches);
+  }
+});
+</script>
 
 <!-- Resource hints for external domains -->
 <link rel="dns-prefetch" href="//unpkg.com" />
