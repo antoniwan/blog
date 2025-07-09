@@ -1,6 +1,5 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
-import LayoutContainer from '../components/LayoutContainer.astro';
 import { categories } from '../data/categories';
 import { getCollection } from 'astro:content';
 
@@ -18,7 +17,7 @@ const popularCategories = categories.slice(0, 5);
   title="404 - Page Not Found"
   description="The page you're looking for doesn't exist or has been moved."
 >
-  <LayoutContainer padding="none" maxWidth="none" class="text-center">
+  <div class="text-center">
     <div class="mb-8">
       <h2 class="text-2xl md:text-3xl font-bold text-text dark:text-text-dark mb-4">
         Page Not Found
@@ -36,7 +35,7 @@ const popularCategories = categories.slice(0, 5);
         Return Home
       </a>
     </div>
-  </LayoutContainer>
+  </div>
 </PageLayout>
 
 <style>

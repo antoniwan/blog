@@ -1,6 +1,5 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import LayoutContainer from '../../components/LayoutContainer.astro';
 import { categories } from '../../data/categories';
 import { getCollection } from 'astro:content';
 
@@ -21,17 +20,17 @@ const postCounts = categories.reduce((acc, category) => {
   description="Browse posts by category"
 >
   {/* Page Header */}
-  <LayoutContainer padding="none" maxWidth="prose-wide" class="mb-16">
+  <div class="max-w-prose-wide mx-auto py-8 md:py-12 lg:py-16 mb-16">
 		<h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-text dark:text-text-dark leading-tight tracking-tight mb-6">
       Categories
     </h1>
 		<p class="text-xl md:text-2xl text-neutral-600 dark:text-neutral-400 leading-relaxed">
       Browse posts by category
     </p>
-  </LayoutContainer>
+  </div>
 
   {/* Categories Grid */}
-  <LayoutContainer padding="none" maxWidth="container">
+  <div class="max-w-container mx-auto">
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {categories.map(category => {
         const count = postCounts[category.id];
@@ -55,7 +54,7 @@ const postCounts = categories.reduce((acc, category) => {
         );
       })}
     </div>
-  </LayoutContainer>
+  </div>
 </BaseLayout>
 
 <style>

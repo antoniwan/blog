@@ -1,6 +1,5 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import LayoutContainer from '../../components/LayoutContainer.astro';
 import { getCollection } from 'astro:content';
 
 // Get all posts
@@ -27,17 +26,17 @@ const sortedTags = Object.entries(tagCounts)
   description="Browse posts by tag"
 >
   {/* Page Header */}
-  <LayoutContainer padding="none" maxWidth="prose-wide" class="mb-16">
+  <div class="max-w-prose-wide mx-auto py-8 md:py-12 lg:py-16 mb-16">
 		<h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-text dark:text-text-dark leading-tight tracking-tight mb-6">
       Tags
     </h1>
 		<p class="text-xl md:text-2xl text-neutral-600 dark:text-neutral-400 leading-relaxed">
       Browse posts by tag
     </p>
-  </LayoutContainer>
+  </div>
 
   {/* Tags List */}
-  <LayoutContainer padding="none" maxWidth="container">
+  <div class="max-w-container mx-auto">
     <div class="flex flex-wrap gap-2">
       {sortedTags.map(tag => {
         const count = tagCounts[tag];
@@ -53,7 +52,7 @@ const sortedTags = Object.entries(tagCounts)
         );
       })}
     </div>
-  </LayoutContainer>
+  </div>
 </BaseLayout>
 
 <style>

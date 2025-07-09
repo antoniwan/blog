@@ -1,7 +1,6 @@
 ---
 import HomeLayout from '../layouts/HomeLayout.astro';
 import PostCard from '../components/PostCard.astro';
-import LayoutContainer from '../components/LayoutContainer.astro';
 import { getCollection } from 'astro:content';
 import { categories } from '../data/categories';
 
@@ -33,23 +32,23 @@ const tagCounts = posts.reduce((acc, post) => {
 	description="Notes on strength, clarity, ritual, and creation — one builder's journey through code, craft, and self-mastery."
 >
 	{/* Hero Section */}
-	<LayoutContainer padding="none" maxWidth="prose-wide" class="mb-16">
+	<div class="max-w-prose-wide mx-auto py-8 md:py-12 lg:py-16 mb-16">
 		<h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-text dark:text-text-dark leading-tight tracking-tight mb-6">
 			Welcome to the Strong Vault
 		</h1>
 		<p class="text-xl md:text-2xl text-neutral-600 dark:text-neutral-400 leading-relaxed">
 			Notes on strength, clarity, ritual, and creation — one builder's journey through code, craft, and self-mastery.
 		</p>
-	</LayoutContainer>
+	</div>
 
 	{/* Latest Posts Section */}
-	<LayoutContainer padding="none" maxWidth="container" hasBorder>
+	<div class="max-w-container mx-auto">
 		<div class="space-y-8">
 			{sortedPosts.map(post => (
 				<PostCard post={post} />
 			))}
 		</div>
-	</LayoutContainer>
+	</div>
 </HomeLayout>
 
 <style>

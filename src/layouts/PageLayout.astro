@@ -4,9 +4,6 @@ import BaseLayout from './BaseLayout.astro';
 interface Props {
   title: string;
   description?: string;
-  fullWidth?: boolean;
-  containerPadding?: 'none' | 'sm' | 'md' | 'lg' | 'xl';
-  contentMaxWidth?: 'none' | 'prose' | 'prose-wide' | 'container' | 'container-narrow';
   // SEO fields
   canonicalUrl?: string;
   ogImage?: string;
@@ -25,9 +22,6 @@ interface Props {
 const {
   title,
   description,
-  fullWidth = true, // Default to full-width
-  containerPadding = 'lg',
-  contentMaxWidth = 'prose-wide',
   canonicalUrl,
   ogImage,
   ogImageAlt,
@@ -41,9 +35,6 @@ const {
 <BaseLayout
   title={title}
   description={description}
-  fullWidth={fullWidth}
-  containerPadding={containerPadding}
-  contentMaxWidth={contentMaxWidth}
   canonicalUrl={canonicalUrl}
   ogImage={ogImage}
   ogImageAlt={ogImageAlt}
@@ -52,20 +43,22 @@ const {
   keywords={keywords}
   {...rest}
 >
-  {/* Page Header */}
-  <div class="mb-12">
-    <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-text dark:text-text-dark leading-tight tracking-tight mb-6">
-      {title}
-    </h1>
-    {description && (
-      <p class="text-xl md:text-2xl text-neutral-600 dark:text-neutral-400 leading-relaxed">
-        {description}
-      </p>
-    )}
-  </div>
-  
-  {/* Page Content */}
-  <div class="prose prose-lg dark:prose-invert max-w-none">
-    <slot />
+  <div class="max-w-prose-wide mx-auto py-8 md:py-12 lg:py-16">
+    {/* Page Header */}
+    <div class="mb-12">
+      <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-text dark:text-text-dark leading-tight tracking-tight mb-6">
+        {title}
+      </h1>
+      {description && (
+        <p class="text-xl md:text-2xl text-neutral-600 dark:text-neutral-400 leading-relaxed">
+          {description}
+        </p>
+      )}
+    </div>
+    
+    {/* Page Content */}
+    <div class="prose prose-lg dark:prose-invert max-w-none">
+      <slot />
+    </div>
   </div>
 </BaseLayout> 

@@ -1,6 +1,5 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
-import LayoutContainer from '../components/LayoutContainer.astro';
 import Disclaimer from '../components/Disclaimer.astro';
 ---
 
@@ -15,7 +14,7 @@ import Disclaimer from '../components/Disclaimer.astro';
 		noimageindex: false
 	}}
 >
-	<LayoutContainer padding="none" maxWidth="none" class="animate-fade-in">
+	<div class="animate-fade-in">
 		<p class="animate-fade-up [animation-delay:0ms]">
 			I build systems — digital, emotional, spiritual, and physical.
 		</p>
@@ -56,5 +55,5 @@ import Disclaimer from '../components/Disclaimer.astro';
 		</p>
 
 		<Disclaimer />
-	</LayoutContainer>
+	</div>
 </PageLayout>

@@ -1,7 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PostCard from '../../components/PostCard.astro';
-import LayoutContainer from '../../components/LayoutContainer.astro';
 import { getCollection } from 'astro:content';
 import { categories } from '../../data/categories';
 
@@ -30,23 +29,23 @@ const categoryPosts = posts
 	description={`Browse all posts in the ${category.name} category`}
 >
 	{/* Category Header */}
-	<LayoutContainer padding="none" maxWidth="prose-wide" class="mb-16">
+	<div class="max-w-prose-wide mx-auto py-8 md:py-12 lg:py-16 mb-16">
 		<h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-text dark:text-text-dark leading-tight tracking-tight">
 			{category.name}
 		</h1>
 		<p class="text-xl md:text-2xl text-neutral-600 dark:text-neutral-400 leading-relaxed max-w-2xl">
 			{category.description}
 		</p>
-	</LayoutContainer>
+	</div>
 
 	{/* Posts List */}
-	<LayoutContainer padding="none" maxWidth="container">
+	<div class="max-w-container mx-auto">
 		<div class="space-y-8">
 			{categoryPosts.map(post => (
 				<PostCard post={post} />
 			))}
 		</div>
-	</LayoutContainer>
+	</div>
 </BaseLayout>
 
 <style>

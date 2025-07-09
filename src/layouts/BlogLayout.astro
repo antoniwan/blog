@@ -11,9 +11,6 @@ interface Props {
   readingTime?: number;
   tags?: string[];
   category?: string[];
-  fullWidth?: boolean;
-  containerPadding?: 'none' | 'sm' | 'md' | 'lg' | 'xl';
-  contentMaxWidth?: 'none' | 'prose' | 'prose-wide' | 'container' | 'container-narrow';
   // SEO fields
   canonicalUrl?: string;
   ogImage?: string;
@@ -46,9 +43,6 @@ const {
   readingTime,
   tags,
   category,
-  fullWidth = true, // Default to full-width for blog posts
-  containerPadding = 'lg',
-  contentMaxWidth = 'prose-wide', // Keep prose-wide for better reading
   canonicalUrl,
   ogImage,
   ogImageAlt,
@@ -89,9 +83,6 @@ const structuredData = {
   readingTime={readingTime}
   tags={tags}
   category={category}
-  fullWidth={fullWidth}
-  containerPadding={containerPadding}
-  contentMaxWidth={contentMaxWidth}
   canonicalUrl={canonicalUrl}
   ogImage={ogImage}
   ogImageAlt={ogImageAlt}
@@ -102,73 +93,74 @@ const structuredData = {
 >
   <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
   
-  {/* Hero Section */}
-  <div class="space-y-6 mb-12">
-    <h1 class="text-4xl md:text-5xl lg:text-6xl font-serif font-bold text-text dark:text-text-dark leading-tight tracking-tight">
-      {title}
-    </h1>
-    {description && (
-      <p class="text-xl md:text-2xl text-neutral-600 dark:text-neutral-400 leading-relaxed">
-        {description}
-      </p>
-    )}
-    <div class="flex flex-wrap gap-4 text-sm text-neutral-600 dark:text-neutral-400">
-      {pubDate && (
-        <time datetime={pubDate.toISOString()} class="flex items-center gap-2">
-          <span class="text-primary-500 dark:text-primary-400">📅</span>
-          <FormattedDate date={pubDate} format="long" />
-        </time>
+  <div class="max-w-prose-wide mx-auto py-8 md:py-12 lg:py-16">
+    {/* Hero Section */}
+    <div class="space-y-6 mb-12">
+      <h1 class="text-4xl md:text-5xl lg:text-6xl font-serif font-bold text-text dark:text-text-dark leading-tight tracking-tight">
+        {title}
+      </h1>
+      {description && (
+        <p class="text-xl md:text-2xl text-neutral-600 dark:text-neutral-400 leading-relaxed">
+          {description}
+        </p>
       )}
-      
-      {readingTime && (
-        <span class="flex items-center gap-2">
-          <span class="text-primary-500 dark:text-primary-400">⏱️</span>
-          {readingTime} min read
-        </span>
-      )}
-      
-      {category && category.length > 0 && (
-        <span class="flex items-center gap-2">
-          <span class="text-primary-500 dark:text-primary-400">📁</span>
-          <a 
-            href={`/category/${category[0]}/`}
-            class="hover:text-primary-500 dark:hover:text-primary-400 transition-colors"
-          >
-            {category[0]}
-          </a>
-        </span>
-      )}
-      
-      {tags && tags.length > 0 && (
-        <div class="flex flex-wrap gap-2">
-          {tags.map(tag => (
-            <a
-              href={`/tag/${tag}/`}
-              class="inline-flex items-center gap-2 text-sm px-3 py-1.5 rounded-full bg-zinc-100 dark:bg-zinc-800 text-gray-700 dark:text-gray-300 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors"
+      <div class="flex flex-wrap gap-4 text-sm text-neutral-600 dark:text-neutral-400">
+        {pubDate && (
+          <time datetime={pubDate.toISOString()} class="flex items-center gap-2">
+            <span class="text-primary-500 dark:text-primary-400">📅</span>
+            <FormattedDate date={pubDate} format="long" />
+          </time>
+        )}
+        
+        {readingTime && (
+          <span class="flex items-center gap-2">
+            <span class="text-primary-500 dark:text-primary-400">⏱️</span>
+            {readingTime} min read
+          </span>
+        )}
+        
+        {category && category.length > 0 && (
+          <span class="flex items-center gap-2">
+            <span class="text-primary-500 dark:text-primary-400">📁</span>
+            <a 
+              href={`/category/${category[0]}/`}
+              class="hover:text-primary-500 dark:hover:text-primary-400 transition-colors"
             >
-              <span>🏷️</span>
-              <span>{tag}</span>
+              {category[0]}
             </a>
-          ))}
+          </span>
+        )}
+        
+        {tags && tags.length > 0 && (
+          <div class="flex flex-wrap gap-2">
+            {tags.map(tag => (
+              <a
+                href={`/tag/${tag}/`}
+                class="inline-flex items-center gap-2 text-sm px-3 py-1.5 rounded-full bg-zinc-100 dark:bg-zinc-800 text-gray-700 dark:text-gray-300 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors"
+              >
+                <span>🏷️</span>
+                <span>{tag}</span>
+              </a>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {heroImage && (
+        <div class="mt-8">
+          <img 
+            src={heroImage} 
+            alt={title}
+            class="w-full h-auto rounded-lg shadow-lg"
+            loading="eager"
+          />
         </div>
       )}
     </div>
-
-    {heroImage && (
-      <div class="mt-8">
-        <img 
-          src={heroImage} 
-          alt={title}
-          class="w-full h-auto rounded-lg shadow-lg"
-          loading="eager"
-        />
-      </div>
-    )}
+    
+    {/* Content */}
+    <article class="prose prose-lg dark:prose-invert max-w-none">
+      <slot />
+    </article>
   </div>
-  
-  {/* Content */}
-  <article class="prose prose-lg dark:prose-invert max-w-none">
-    <slot />
-  </article>
-
 </BaseLayout>
