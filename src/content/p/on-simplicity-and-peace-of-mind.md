@@ -1,6 +1,6 @@
 ---
 title: "On Simplicity and Peace of Mind"
-description: "Photo by 동석 김 on Unsplash"
+description: "A reflection on finding contentment and wholeness through simplicity, minimalism, and inner peace rather than material possessions"
 pubDate: "2024-10-04T18:40:28.388Z"
 language: ["en"]
 category: ["integration-growth", "parenting", "psychology"]
