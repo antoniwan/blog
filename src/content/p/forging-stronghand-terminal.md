@@ -151,5 +151,3 @@ Everything else follows.
 - Wez Furlong. (2024). [WezTerm Terminal Emulator](https://wezfurlong.org/wezterm/).
 - De Dobbeleer, J. (2024). [Oh My Posh](https://ohmyposh.dev/).
 - D'Souza, A. (2024). [zoxide](https://github.com/ajeetdsouza/zoxide). GitHub.
-
-_By Antonio R. M. on April 28, 2025._

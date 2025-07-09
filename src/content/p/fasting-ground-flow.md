@@ -4,7 +4,8 @@ description: "A detailed guide to breaking a fast with intention, combining prot
 pubDate: "2025-05-02T09:45:00.000Z"
 heroImage: "/images/u3632568553_a_ceremonial_warriors_feast_at_sunset_beautifully_437383ac-aefb-4b34-b88c-f073916a1810_0.png"
 language: ["en"]
-category: ["integration-growth", "learning-projects"]
+category:
+  ["integration-growth", "learning-projects", "diy-creation", "metaspace"]
 subcategory: "Health"
 tags: ["fasting", "nutrition", "ritual", "mindfulness"]
 readingTime: 5
@@ -69,6 +70,6 @@ Meal Approach: Slow, conscious eating. No screens. Deep breath before the first 
 ### After Eating:
 
 - Short 5–10 minute walk
-- Journaling Prompt: _"Right now, I feel _."
+- Journaling Prompt: _"Right now, I feel_."
 
 This meal isn't just about nourishment—it's an embodiment of intention, strength, and gratitude.
