@@ -134,7 +134,7 @@
 
   /* Links */
   a {
-    @apply text-primary-500 hover:text-primary-600 dark:hover:text-primary-400 transition-colors duration-300 no-underline;
+    @apply text-primary-700 hover:text-primary-800 dark:text-primary-600 dark:hover:text-primary-500 transition-colors duration-300 no-underline;
   }
 
   /* Navigation links should not have default underline */

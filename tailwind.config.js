@@ -154,7 +154,7 @@ export default {
             maxWidth: "65ch",
             color: "inherit",
             a: {
-              color: "inherit",
+              color: "rgb(0, 38, 255)" /* primary-700 */,
               textDecoration: "none",
               fontWeight: "500",
               transition: "color 0.3s ease",

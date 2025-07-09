@@ -75,7 +75,7 @@ img {
 
 /* Link Styles */
 a {
-  @apply text-primary-500 dark:text-primary-400 hover:underline focus-ring;
+  @apply text-primary-700 dark:text-primary-600 hover:underline focus-ring;
 }
 
 /* List Styles */
