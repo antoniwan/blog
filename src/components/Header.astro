@@ -3,6 +3,7 @@ import Logo from './Logo.astro';
 import Navigation from './Navigation.astro';
 import ThemeToggle from './ThemeToggle.astro';
 import MobileNav from './MobileNav.astro';
+import SearchBar from './SearchBar.astro';
 ---
 
 <header 
@@ -17,14 +18,63 @@ import MobileNav from './MobileNav.astro';
 				<Navigation class="hidden md:flex" />
 			</div>
 			
-			<!-- Search, Theme Toggle, and Mobile Nav -->
+			<!-- Search Bar (Desktop) -->
+			<div class="hidden md:block">
+				<SearchBar />
+			</div>
+			
+			<!-- Theme Toggle and Mobile Nav -->
 			<div class="flex items-center gap-3 md:gap-4">
+				<!-- Mobile Search Button -->
+				<button
+					id="mobile-search-toggle"
+					type="button"
+					aria-label="Open search"
+					class="md:hidden inline-flex items-center justify-center p-2 rounded-lg text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 focus:outline-none focus:ring-2 focus:ring-primary-500 theme-transition"
+				>
+					<svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+					</svg>
+				</button>
 				<ThemeToggle />
 				<MobileNav class="md:hidden" />
 			</div>
 		</div>
 	</div>
 </header>
+
+<script>
+	// Mobile search toggle functionality
+	let mobileSearchToggle: HTMLElement | null = null;
+	let mobileMenu: HTMLElement | null = null;
+	let mobileSearchInput: HTMLInputElement | null = null;
+
+	function initializeMobileSearch() {
+		mobileSearchToggle = document.getElementById('mobile-search-toggle');
+		mobileMenu = document.getElementById('mobile-menu');
+		mobileSearchInput = mobileMenu?.querySelector('#search-input') as HTMLInputElement;
+
+		if (mobileSearchToggle && mobileMenu && mobileSearchInput) {
+			mobileSearchToggle.addEventListener('click', () => {
+				// Open mobile menu and focus search
+				mobileMenu?.classList.remove('hidden');
+				document.body.classList.add('overflow-hidden');
+				
+				// Focus search input after a short delay to ensure menu is visible
+				setTimeout(() => {
+					mobileSearchInput?.focus();
+				}, 100);
+			});
+		}
+	}
+
+	// Initialize when DOM is ready
+	if (document.readyState === 'loading') {
+		document.addEventListener('DOMContentLoaded', initializeMobileSearch);
+	} else {
+		initializeMobileSearch();
+	}
+</script>
 
 <style>
 	/* Smooth transitions for dark mode */
