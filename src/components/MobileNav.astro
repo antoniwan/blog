@@ -76,16 +76,47 @@ import Search from './Search.astro';
 </div>
 
 <script>
-  const menuButton = document.getElementById('mobile-menu-button');
-  const menu = document.getElementById('mobile-menu');
-  const closeButton = document.getElementById('close-mobile-menu');
+  // Optimized mobile navigation with proper cleanup
+  let menuButton: HTMLElement | null = null;
+  let menu: HTMLElement | null = null;
+  let closeButton: HTMLElement | null = null;
+  let isInitialized = false;
+
+  function initializeMobileNav() {
+    if (isInitialized) return;
+    
+    menuButton = document.getElementById('mobile-menu-button');
+    menu = document.getElementById('mobile-menu');
+    closeButton = document.getElementById('close-mobile-menu');
+    
+    if (!menuButton || !menu || !closeButton) return;
+    
+    // Add event listeners
+    menuButton.addEventListener('click', openMenu);
+    closeButton.addEventListener('click', closeMenu);
+    menu.addEventListener('click', handleOverlayClick);
+    document.addEventListener('keydown', handleKeydown);
+    
+    // Add click listeners to all navigation links
+    const navLinks = menu.querySelectorAll('a');
+    navLinks.forEach(link => {
+      link.addEventListener('click', closeMenu);
+    });
+    
+    isInitialized = true;
+  }
 
   function openMenu() {
     if (!menu || !menuButton) return;
     menu.classList.remove('hidden');
     menuButton.setAttribute('aria-expanded', 'true');
     document.body.classList.add('overflow-hidden');
-    menu.focus();
+    
+    // Focus first focusable element in menu
+    const firstFocusable = menu.querySelector('a, button, input') as HTMLElement;
+    if (firstFocusable) {
+      firstFocusable.focus();
+    }
   }
   
   function closeMenu() {
@@ -96,27 +127,44 @@ import Search from './Search.astro';
     menuButton.focus();
   }
 
-  menuButton?.addEventListener('click', openMenu);
-  closeButton?.addEventListener('click', closeMenu);
+  function handleOverlayClick(e: Event) {
+    if (e.target === menu) {
+      closeMenu();
+    }
+  }
 
-  // Close on overlay click
-  menu?.addEventListener('click', (e) => {
-    if (e.target === menu) closeMenu();
-  });
-
-  // Close on Escape key
-  document.addEventListener('keydown', (e) => {
+  function handleKeydown(e: KeyboardEvent) {
     if (e.key === 'Escape' && menu && !menu.classList.contains('hidden')) {
       closeMenu();
     }
-  });
-
-  // Close on link click
-  if (menu) {
-    menu.querySelectorAll('a').forEach(link => {
-      link.addEventListener('click', closeMenu);
-    });
   }
+
+  function cleanup() {
+    if (!isInitialized) return;
+    
+    menuButton?.removeEventListener('click', openMenu);
+    closeButton?.removeEventListener('click', closeMenu);
+    menu?.removeEventListener('click', handleOverlayClick);
+    document.removeEventListener('keydown', handleKeydown);
+    
+    // Remove link click listeners
+    const navLinks = menu?.querySelectorAll('a');
+    navLinks?.forEach(link => {
+      link.removeEventListener('click', closeMenu);
+    });
+    
+    isInitialized = false;
+  }
+
+  // Initialize when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeMobileNav);
+  } else {
+    initializeMobileNav();
+  }
+
+  // Cleanup on page unload
+  window.addEventListener('beforeunload', cleanup);
 </script>
 
 <style>

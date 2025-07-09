@@ -127,8 +127,13 @@ const updatedDateISO = updatedDate?.toISOString();
 {updatedDateISO && <meta property="article:modified_time" content={updatedDateISO} />}
 {author && <meta property="article:author" content={author} />}
 
-<!-- Alpine.js -->
-<script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+<!-- Alpine.js - Load with integrity and preload -->
+<link rel="preload" href="https://unpkg.com/alpinejs@3.13.5/dist/cdn.min.js" as="script" crossorigin="anonymous" />
+<script defer src="https://unpkg.com/alpinejs@3.13.5/dist/cdn.min.js" integrity="sha384-5gOj7Sek9KqKtMcl3kVzJpRjfnQqZz3D/VjLTr8z5aXosvZr4r3bXwaM5Mp3/6Wz" crossorigin="anonymous"></script>
 
 <!-- Theme initialization script -->
 <script is:inline src="/src/scripts/theme.ts"></script>
+
+<!-- Resource hints for external domains -->
+<link rel="dns-prefetch" href="//unpkg.com" />
+<link rel="dns-prefetch" href="//blog.antoniwan.online" />

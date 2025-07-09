@@ -1,0 +1,137 @@
+---
+interface Props {
+  /**
+   * Whether to enable performance monitoring
+   */
+  enabled?: boolean;
+  
+  /**
+   * Whether to log metrics to console
+   */
+  debug?: boolean;
+}
+
+const { enabled = true, debug = false } = Astro.props;
+---
+
+{enabled && (
+  <script define:vars={{ debug }}>
+    // Performance monitoring for Core Web Vitals
+    if ('performance' in window) {
+      // Track Largest Contentful Paint (LCP)
+      if ('PerformanceObserver' in window) {
+        const lcpObserver = new PerformanceObserver((list) => {
+          const entries = list.getEntries();
+          const lastEntry = entries[entries.length - 1];
+          
+          if (debug) {
+            console.log('LCP:', lastEntry.startTime);
+          }
+          
+          // Send to analytics if needed
+          if (window.gtag) {
+            window.gtag('event', 'LCP', {
+              value: Math.round(lastEntry.startTime),
+              event_category: 'Web Vitals'
+            });
+          }
+        });
+        
+        lcpObserver.observe({ entryTypes: ['largest-contentful-paint'] });
+      }
+
+      // Track First Input Delay (FID)
+      if ('PerformanceObserver' in window) {
+        const fidObserver = new PerformanceObserver((list) => {
+          const entries = list.getEntries();
+          entries.forEach((entry) => {
+            if (debug) {
+              console.log('FID:', entry.processingStart - entry.startTime);
+            }
+            
+            if (window.gtag) {
+              window.gtag('event', 'FID', {
+                value: Math.round(entry.processingStart - entry.startTime),
+                event_category: 'Web Vitals'
+              });
+            }
+          });
+        });
+        
+        fidObserver.observe({ entryTypes: ['first-input'] });
+      }
+
+      // Track Cumulative Layout Shift (CLS)
+      if ('PerformanceObserver' in window) {
+        let clsValue = 0;
+        const clsObserver = new PerformanceObserver((list) => {
+          const entries = list.getEntries();
+          entries.forEach((entry) => {
+            if (!entry.hadRecentInput) {
+              clsValue += entry.value;
+            }
+          });
+        });
+        
+        clsObserver.observe({ entryTypes: ['layout-shift'] });
+        
+        // Report CLS on page unload
+        window.addEventListener('beforeunload', () => {
+          if (debug) {
+            console.log('CLS:', clsValue);
+          }
+          
+          if (window.gtag) {
+            window.gtag('event', 'CLS', {
+              value: Math.round(clsValue * 1000) / 1000,
+              event_category: 'Web Vitals'
+            });
+          }
+        });
+      }
+
+      // Track page load time
+      window.addEventListener('load', () => {
+        const loadTime = performance.timing.loadEventEnd - performance.timing.navigationStart;
+        
+        if (debug) {
+          console.log('Page Load Time:', loadTime);
+        }
+        
+        if (window.gtag) {
+          window.gtag('event', 'page_load_time', {
+            value: loadTime,
+            event_category: 'Performance'
+          });
+        }
+      });
+    }
+
+    // Track user interactions
+    let interactionCount = 0;
+    const trackInteraction = () => {
+      interactionCount++;
+      if (debug && interactionCount === 1) {
+        console.log('First user interaction detected');
+      }
+    };
+
+    document.addEventListener('click', trackInteraction, { passive: true });
+    document.addEventListener('keydown', trackInteraction, { passive: true });
+    document.addEventListener('scroll', trackInteraction, { passive: true });
+
+    // Track memory usage (if available)
+    if ('memory' in performance) {
+      setInterval(() => {
+        const memory = (performance as any).memory;
+        if (debug) {
+          console.log('Memory Usage:', {
+            used: Math.round(memory.usedJSHeapSize / 1024 / 1024) + 'MB',
+            total: Math.round(memory.totalJSHeapSize / 1024 / 1024) + 'MB',
+            limit: Math.round(memory.jsHeapSizeLimit / 1024 / 1024) + 'MB'
+          });
+        }
+      }, 30000); // Check every 30 seconds
+    }
+  </script>
+)} 

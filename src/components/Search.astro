@@ -5,6 +5,7 @@ interface SearchResult {
   title: string;
   url: string;
   tags: string[];
+  excerpt?: string;
 }
 
 // Get all posts for search
@@ -12,11 +13,12 @@ const posts = await getCollection('blog', ({ data }) => {
   return import.meta.env.PROD ? !data.draft : true;
 });
 
-// Create search index
+// Create optimized search index with excerpts
 const searchIndex: SearchResult[] = posts.map(post => ({
   title: post.data.title,
   url: `/p/${post.id}`,
-  tags: post.data.tags || []
+  tags: post.data.tags || [],
+  excerpt: post.data.description?.substring(0, 100) || ''
 }));
 ---
 
@@ -28,25 +30,81 @@ const searchIndex: SearchResult[] = posts.map(post => ({
 		results: [], 
 		isSearching: false,
 		isLoading: true,
+		selectedIndex: -1,
+		debounceTimer: null,
+		searchCache: new Map(),
 		init() {
 			this.isLoading = false;
 		},
+		debounceSearch() {
+			clearTimeout(this.debounceTimer);
+			this.debounceTimer = setTimeout(() => {
+				this.handleSearch();
+			}, 300);
+		},
 		handleSearch() {
-			if (this.query.length > 2) {
-				this.isSearching = true;
-				setTimeout(() => {
-					const searchResults = searchIndex.filter(item => 
-						item.title.toLowerCase().includes(this.query.toLowerCase()) ||
-						item.tags.some(tag => tag.toLowerCase().includes(this.query.toLowerCase()))
-					);
-					this.results = searchResults.slice(0, 5);
-					this.isSearching = false;
-					this.open = true;
-				}, 300);
-			} else {
+			if (this.query.length < 2) {
 				this.results = [];
 				this.open = false;
+				this.selectedIndex = -1;
+				return;
 			}
+
+			// Check cache first
+			const cacheKey = this.query.toLowerCase();
+			if (this.searchCache.has(cacheKey)) {
+				this.results = this.searchCache.get(cacheKey);
+				this.open = true;
+				return;
+			}
+
+			this.isSearching = true;
+			
+			// Use requestAnimationFrame for better performance
+			requestAnimationFrame(() => {
+				const searchResults = searchIndex.filter(item => {
+					const query = this.query.toLowerCase();
+					return item.title.toLowerCase().includes(query) ||
+						   item.tags.some(tag => tag.toLowerCase().includes(query)) ||
+						   (item.excerpt && item.excerpt.toLowerCase().includes(query));
+				});
+				
+				this.results = searchResults.slice(0, 8); // Increased results
+				this.searchCache.set(cacheKey, this.results);
+				this.isSearching = false;
+				this.open = true;
+				this.selectedIndex = -1;
+			});
+		},
+		handleKeydown(event) {
+			if (!this.open) return;
+			
+			switch(event.key) {
+				case 'ArrowDown':
+					event.preventDefault();
+					this.selectedIndex = Math.min(this.selectedIndex + 1, this.results.length - 1);
+					break;
+				case 'ArrowUp':
+					event.preventDefault();
+					this.selectedIndex = Math.max(this.selectedIndex - 1, -1);
+					break;
+				case 'Enter':
+					event.preventDefault();
+					if (this.selectedIndex >= 0 && this.results[this.selectedIndex]) {
+						window.location.href = this.results[this.selectedIndex].url;
+					}
+					break;
+				case 'Escape':
+					this.open = false;
+					this.selectedIndex = -1;
+					break;
+			}
+		},
+		clearSearch() {
+			this.query = '';
+			this.results = [];
+			this.open = false;
+			this.selectedIndex = -1;
 		}
 	}"
 	role="search"
@@ -56,15 +114,16 @@ const searchIndex: SearchResult[] = posts.map(post => ({
 		<input
 			type="search"
 			x-model="query"
-			@input="handleSearch()"
+			@input="debounceSearch()"
+			@keydown="handleKeydown($event)"
 			@click="open = true"
 			@click.away="open = false"
-			@keydown.escape.window="open = false"
 			placeholder="Search posts..."
-			class="w-full px-4 py-2 pl-10 text-sm bg-background dark:bg-background-dark border border-border dark:border-border-dark rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-transparent theme-transition"
+			class="w-full px-4 py-2 pl-10 pr-10 text-sm bg-background dark:bg-background-dark border border-border dark:border-border-dark rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-transparent theme-transition"
 			aria-label="Search posts"
 			aria-expanded="false"
 			aria-controls="search-results"
+			aria-autocomplete="list"
 		/>
 		<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
 			<svg 
@@ -82,6 +141,16 @@ const searchIndex: SearchResult[] = posts.map(post => ({
 				/>
 			</svg>
 		</div>
+		<button
+			x-show="query.length > 0"
+			@click="clearSearch()"
+			class="absolute inset-y-0 right-0 pr-3 flex items-center text-neutral-400 hover:text-neutral-600 dark:hover:text-neutral-300"
+			aria-label="Clear search"
+		>
+			<svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+			</svg>
+		</button>
 	</div>
 
 	<!-- Search Results Dropdown -->
@@ -94,7 +163,7 @@ const searchIndex: SearchResult[] = posts.map(post => ({
 		x-transition:leave="transition ease-in duration-150"
 		x-transition:leave-start="opacity-100 translate-y-0"
 		x-transition:leave-end="opacity-0 translate-y-1"
-		class="absolute z-50 mt-2 w-full bg-background dark:bg-background-dark border border-border dark:border-border-dark rounded-lg shadow-lg overflow-hidden"
+		class="absolute z-50 mt-2 w-full bg-background dark:bg-background-dark border border-border dark:border-border-dark rounded-lg shadow-lg overflow-hidden max-h-96 overflow-y-auto"
 		style="display: none;"
 		role="listbox"
 		aria-label="Search results"
@@ -124,7 +193,7 @@ const searchIndex: SearchResult[] = posts.map(post => ({
 		<!-- No Results State -->
 		<template x-if="!isLoading && !isSearching && query.length > 2 && results.length === 0">
 			<div class="p-4 text-sm text-neutral-500 dark:text-neutral-400">
-				No results found
+				No results found for "<span x-text="query"></span>"
 			</div>
 		</template>
 
@@ -134,16 +203,22 @@ const searchIndex: SearchResult[] = posts.map(post => ({
 				<template x-for="(result, index) in results" :key="result.url">
 					<a
 						:href="result.url"
-						class="block px-4 py-2 hover:bg-neutral-100 dark:hover:bg-neutral-800 theme-transition"
+						class="block px-4 py-3 hover:bg-neutral-100 dark:hover:bg-neutral-800 theme-transition"
+						:class="{ 'bg-primary-50 dark:bg-primary-900/20': index === selectedIndex }"
 						@click="open = false"
 						:aria-label="`${result.title} - ${result.tags.length > 0 ? result.tags[0] : 'No tags'}`"
 						role="option"
-						:aria-selected="index === 0"
+						:aria-selected="index === selectedIndex"
 					>
 						<div class="font-medium text-text dark:text-text-dark" x-text="result.title"></div>
+						<template x-if="result.excerpt">
+							<div class="mt-1 text-sm text-neutral-600 dark:text-neutral-400 line-clamp-1" x-text="result.excerpt"></div>
+						</template>
 						<template x-if="result.tags.length > 0">
-							<div class="mt-1">
-								<span class="text-xs px-2 py-0.5 rounded-full bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400" x-text="result.tags[0]"></span>
+							<div class="mt-2 flex flex-wrap gap-1">
+								<template x-for="tag in result.tags.slice(0, 2)" :key="tag">
+									<span class="text-xs px-2 py-0.5 rounded-full bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400" x-text="tag"></span>
+								</template>
 							</div>
 						</template>
 					</a>
@@ -174,5 +249,23 @@ const searchIndex: SearchResult[] = posts.map(post => ({
     .animate-spin {
       animation: none !important;
     }
+  }
+
+  /* Custom scrollbar for search results */
+  #search-results::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  #search-results::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  #search-results::-webkit-scrollbar-thumb {
+    background: rgb(var(--color-border));
+    border-radius: 3px;
+  }
+
+  #search-results::-webkit-scrollbar-thumb:hover {
+    background: rgb(var(--color-border-strong));
   }
 </style> 

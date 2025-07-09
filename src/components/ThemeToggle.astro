@@ -51,10 +51,28 @@ const { class: className = '' } = Astro.props;
 </button>
 
 <script>
-	// Function to set theme
+	// Function to set theme with transition handling
 	function setTheme(theme: 'dark' | 'light') {
-		document.documentElement.classList.toggle('dark', theme === 'dark');
+		const root = document.documentElement;
+		const isDark = theme === 'dark';
+		
+		// Add transition class temporarily
+		root.classList.add('theme-transitioning');
+		
+		// Set theme
+		root.classList.toggle('dark', isDark);
 		localStorage.setItem('theme', theme);
+		
+		// Update meta theme-color
+		const metaThemeColor = document.querySelector('meta[name="theme-color"]');
+		if (metaThemeColor) {
+			metaThemeColor.setAttribute('content', isDark ? '#1a1a1a' : '#fafafc');
+		}
+		
+		// Remove transition class after animation
+		setTimeout(() => {
+			root.classList.remove('theme-transitioning');
+		}, 300);
 	}
 
 	// Function to toggle theme
@@ -63,9 +81,19 @@ const { class: className = '' } = Astro.props;
 		setTheme(isDark ? 'light' : 'dark');
 	}
 
-	// Add click event listener
+	// Add click event listener with keyboard support
 	const themeToggle = document.getElementById('theme-toggle');
-	themeToggle?.addEventListener('click', toggleTheme);
+	if (themeToggle) {
+		themeToggle.addEventListener('click', toggleTheme);
+		
+		// Add keyboard support
+		themeToggle.addEventListener('keydown', (e) => {
+			if (e.key === 'Enter' || e.key === ' ') {
+				e.preventDefault();
+				toggleTheme();
+			}
+		});
+	}
 </script>
 
 <style>

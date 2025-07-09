@@ -35,27 +35,49 @@ const { class: className = '' } = Astro.props;
 
 <script>
 	const backToTop = document.getElementById('back-to-top');
+	let isVisible = false;
+	let ticking = false;
 	
 	function toggleBackToTop() {
 		if (!backToTop) return;
 		
-		if (window.scrollY > 300) {
-			backToTop.classList.remove('opacity-0', 'invisible', 'translate-y-4');
-			backToTop.classList.add('opacity-100', 'visible', 'translate-y-0');
-		} else {
-			backToTop.classList.add('opacity-0', 'invisible', 'translate-y-4');
-			backToTop.classList.remove('opacity-100', 'visible', 'translate-y-0');
+		const shouldBeVisible = window.scrollY > 300;
+		
+		if (shouldBeVisible !== isVisible) {
+			if (shouldBeVisible) {
+				backToTop.classList.remove('opacity-0', 'invisible', 'translate-y-4');
+				backToTop.classList.add('opacity-100', 'visible', 'translate-y-0');
+			} else {
+				backToTop.classList.add('opacity-0', 'invisible', 'translate-y-4');
+				backToTop.classList.remove('opacity-100', 'visible', 'translate-y-0');
+			}
+			isVisible = shouldBeVisible;
+		}
+		
+		ticking = false;
+	}
+	
+	function throttledToggle() {
+		if (!ticking) {
+			window.requestAnimationFrame(toggleBackToTop);
+			ticking = true;
 		}
 	}
 	
 	function scrollToTop() {
-		window.scrollTo({
-			top: 0,
-			behavior: 'smooth'
-		});
+		// Check if smooth scrolling is supported
+		if ('scrollBehavior' in document.documentElement.style) {
+			window.scrollTo({
+				top: 0,
+				behavior: 'smooth'
+			});
+		} else {
+			// Fallback for older browsers
+			window.scrollTo(0, 0);
+		}
 	}
 	
-	window.addEventListener('scroll', toggleBackToTop);
+	window.addEventListener('scroll', throttledToggle, { passive: true });
 	backToTop?.addEventListener('click', scrollToTop);
 </script>
 

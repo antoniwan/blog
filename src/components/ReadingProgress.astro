@@ -27,23 +27,39 @@ const { class: className = '' } = Astro.props;
 <script>
 	const readingProgress = document.getElementById('reading-progress')!;
 	const progressBar = document.querySelector('[role="progressbar"]') as HTMLElement;
+	let ticking = false;
+	let lastProgress = 0;
 	
 	function updateReadingProgress() {
 		const windowHeight = window.innerHeight;
 		const documentHeight = document.documentElement.scrollHeight - windowHeight;
 		const scrolled = window.scrollY;
 		
-		const progress = (scrolled / documentHeight) * 100;
-		readingProgress.style.width = `${progress}%`;
+		const progress = Math.min((scrolled / documentHeight) * 100, 100);
 		
-		// Update ARIA attributes
-		if (progressBar) {
-			progressBar.setAttribute('aria-valuenow', Math.round(progress).toString());
+		// Only update if progress changed significantly (performance optimization)
+		if (Math.abs(progress - lastProgress) > 0.5) {
+			readingProgress.style.width = `${progress}%`;
+			lastProgress = progress;
+			
+			// Update ARIA attributes
+			if (progressBar) {
+				progressBar.setAttribute('aria-valuenow', Math.round(progress).toString());
+			}
+		}
+		
+		ticking = false;
+	}
+
+	function throttledUpdate() {
+		if (!ticking) {
+			window.requestAnimationFrame(updateReadingProgress);
+			ticking = true;
 		}
 	}
 
-	window.addEventListener('scroll', updateReadingProgress);
-	window.addEventListener('resize', updateReadingProgress);
+	window.addEventListener('scroll', throttledUpdate, { passive: true });
+	window.addEventListener('resize', throttledUpdate, { passive: true });
 	
 	// Initial update
 	updateReadingProgress();
