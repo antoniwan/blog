@@ -19,9 +19,6 @@ const postCounts = categories.reduce((acc, category) => {
 <BaseLayout
   title="Categories"
   description="Browse posts by category"
-  fullWidth={true}
-  containerPadding="xl"
-  contentMaxWidth="container"
 >
   {/* Page Header */}
   <LayoutContainer padding="none" maxWidth="prose-wide" class="mb-16">
@@ -35,19 +32,25 @@ const postCounts = categories.reduce((acc, category) => {
 
   {/* Categories Grid */}
   <LayoutContainer padding="none" maxWidth="container">
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {categories.map(category => {
-        const postCount = postCounts[category.id] || 0;
+        const count = postCounts[category.id];
         return (
           <a
             href={`/category/${category.id}/`}
-            class="flex items-center justify-between p-4 rounded-lg bg-background-alt hover:bg-background-alt/80 transition-colors"
+            class="group block p-6 rounded-lg border border-border/10 hover:border-border/20 bg-background hover:bg-background-alt dark:bg-background-dark dark:hover:bg-background-alt-dark transition-all duration-200"
           >
-            <div class="flex items-center gap-3">
-              <span class="text-2xl" aria-hidden="true">{category.icon}</span>
-              <span class="font-medium text-text dark:text-text-dark">{category.name}</span>
+            <div class="flex items-center justify-between mb-3">
+              <h3 class="text-lg font-semibold text-text dark:text-text-dark group-hover:text-primary-500 dark:group-hover:text-primary-400 transition-colors">
+                {category.name}
+              </h3>
+              <span class="text-sm px-2 py-1 rounded-full bg-primary-100 dark:bg-primary-900 text-primary-700 dark:text-primary-300">
+                {count}
+              </span>
             </div>
-            <span class="text-sm text-text-muted">{postCount} {postCount === 1 ? 'post' : 'posts'}</span>
+            <p class="text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
+              {category.description}
+            </p>
           </a>
         );
       })}
@@ -59,7 +62,7 @@ const postCounts = categories.reduce((acc, category) => {
   /* Smooth transitions for dark mode */
   main {
     transition: background-color 300ms cubic-bezier(0.4, 0, 0.2, 1),
-                color 300ms cubic-bezier(0.4, 0, 0.2, 1);
+        color 300ms cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   /* Respect reduced motion preferences */

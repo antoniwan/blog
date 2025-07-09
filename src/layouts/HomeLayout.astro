@@ -12,9 +12,9 @@ interface Props {
 const {
   title,
   description,
-  fullWidth = true,
-  containerPadding = 'xl',
-  contentMaxWidth = 'container',
+  fullWidth = true, // Default to full-width for homepage
+  containerPadding = 'xl', // Extra padding for homepage
+  contentMaxWidth = 'container', // Full container width for homepage
   ...rest
 } = Astro.props;
 ---

@@ -122,10 +122,10 @@ export default {
         prose: "65ch", // Optimal reading width
         "prose-wide": "85ch", // Wider content area
 
-        // Layout containers
-        container: "1280px", // Default container
+        // Layout containers - optimized for full-width layouts
+        container: "1400px", // Increased from 1280px for better full-width experience
         "container-narrow": "1024px", // For focused content
-        "container-wide": "1536px", // For full-width layouts
+        "container-wide": "1600px", // For full-width layouts with max constraint
 
         // Component widths
         card: "400px",
