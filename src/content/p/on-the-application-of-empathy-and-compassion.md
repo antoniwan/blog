@@ -3,7 +3,7 @@ title: "On the application of empathy and compassion"
 description: "I used to react aggressively during conflicts for so long and have so many expectations from people. Ironically, I would keep these…"
 pubDate: "2024-09-15T14:11:07.796Z"
 language: ["en"]
-category: ["parenting", "psychology", "diy-creation", "metaspace"]
+category: ["psychology", "integration-growth", "metaspace"]
 tags: []
 readingTime: 6
 draft: false

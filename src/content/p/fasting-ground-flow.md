@@ -1,11 +1,10 @@
 ---
-title: "⚔️ Ritual Meal: Ground + Flow"
-description: "A detailed guide to breaking a fast with intention, combining protein-rich steak, energizing pasta, and a warrior's garden salad."
+title: "⚔️ Ground + Flow: Ritual Break-Fast Recipe"
+description: "A nourishing recipe for breaking a fast with intention—skirt steak, energizing pasta, and warrior's garden salad with mindful eating practices."
 pubDate: "2025-05-02T09:45:00.000Z"
 heroImage: "/images/u3632568553_a_ceremonial_warriors_feast_at_sunset_beautifully_437383ac-aefb-4b34-b88c-f073916a1810_0.png"
 language: ["en"]
-category:
-  ["integration-growth", "learning-projects", "diy-creation", "metaspace"]
+category: ["integration-growth", "diy-creation", "learning-projects"]
 subcategory: "Health"
 tags: ["fasting", "nutrition", "ritual", "mindfulness"]
 readingTime: 5

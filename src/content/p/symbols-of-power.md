@@ -4,14 +4,7 @@ description: "A reflection on the symbols—mythic, fictional, and personal—th
 pubDate: "2024-07-06T11:20:00.000Z"
 heroImage: "/symbols/lightsaber.avif"
 language: ["en"]
-category:
-  [
-    "metaspace",
-    "psychology",
-    "integration-growth",
-    "art-expression",
-    "learning-projects",
-  ]
+category: ["metaspace", "psychology", "art-expression"]
 subcategory: "Philosophy"
 tags:
   [
