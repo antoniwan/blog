@@ -2,11 +2,8 @@
 import HomeLayout from '../layouts/HomeLayout.astro';
 import PostCard from '../components/PostCard.astro';
 import PageHeader from '../components/PageHeader.astro';
-import StructuredData from '../components/StructuredData.astro';
 import { getCollection } from 'astro:content';
 import { categories } from '../data/categories';
-import { generateStructuredData } from '../utils/structuredData';
-import { generateKeywords } from '../utils/seo';
 
 // Get all posts
 const posts = await getCollection('blog', ({ data }) => {
@@ -29,31 +26,14 @@ const tagCounts = posts.reduce((acc, post) => {
 	});
 	return acc;
 }, {} as Record<string, number>);
-
-// Generate structured data for home page
-const structuredData = generateStructuredData({
-	title: 'Welcome to the Curious Chaos Journal',
-	description: 'Notes on strength, clarity, ritual, and creation — one builder\'s journey through code, craft, and self-mastery.',
-	path: '/',
-	type: 'website',
-	author: 'Antoniwan'
-});
-
-// Auto-generate keywords
-const allTags = Object.keys(tagCounts);
-const allCategories = categories.map(cat => cat.id);
-const keywords = generateKeywords(allTags, allCategories);
 ---
 
 <HomeLayout
 	title="Welcome to the Curious Chaos Journal"
 	description="Notes on strength, clarity, ritual, and creation — one builder's journey through code, craft, and self-mastery."
 	path="/"
-	keywords={keywords}
+	structuredDataType="website"
 >
-	<!-- Structured Data -->
-	<StructuredData data={structuredData} />
-
 	{/* Hero Section */}
 	<div class="max-w-container mx-auto">
 		<PageHeader 

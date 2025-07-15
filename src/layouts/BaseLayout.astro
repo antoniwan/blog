@@ -4,8 +4,10 @@ import Footer from '../components/Footer.astro';
 import BaseHead from '../components/BaseHead.astro';
 import BackToTop from '../components/BackToTop.astro';
 import ReadingProgress from '../components/ReadingProgress.astro';
+import StructuredData from '../components/StructuredData.astro';
 import { SITE_TITLE, SITE_DESCRIPTION, AUTHOR } from '../consts';
 import { generateKeywords, generateImageAlt } from '../utils/seo';
+import { generateStructuredData } from '../utils/structuredData';
 import SpeedInsights from "@vercel/speed-insights/astro"
 import Analytics from '@vercel/analytics/astro';
 
@@ -26,6 +28,10 @@ interface Props {
   author?: string;
   keywords?: string[];
   type?: "website" | "article" | "profile";
+  // Structured data specific
+  structuredDataType?: "website" | "blogpost" | "category" | "tag";
+  structuredDataIdentifier?: string;
+  posts?: any[]; // For category/tag pages
 }
 
 const { 
@@ -42,7 +48,10 @@ const {
   imageAlt,
   author = AUTHOR.name,
   keywords,
-  type
+  type,
+  structuredDataType = "website",
+  structuredDataIdentifier,
+  posts = []
 } = Astro.props;
 
 // Auto-generate keywords if not provided
@@ -50,6 +59,22 @@ const finalKeywords = keywords || generateKeywords(tags, category);
 
 // Auto-generate image alt text if not provided
 const finalImageAlt = imageAlt || generateImageAlt(title);
+
+// Auto-generate structured data
+const structuredData = generateStructuredData({
+  title,
+  description,
+  path: path || Astro.url.pathname,
+  posts,
+  type: structuredDataType,
+  identifier: structuredDataIdentifier,
+  author,
+  pubDate,
+  updatedDate,
+  heroImage: image || heroImage,
+  keywords: finalKeywords,
+  readingTime
+});
 ---
 
 <!doctype html>
@@ -85,6 +110,9 @@ const finalImageAlt = imageAlt || generateImageAlt(title);
       role="main" 
       class="flex-grow animate-fade-in"
     >
+      <!-- Structured Data -->
+      <StructuredData data={structuredData} />
+      
       <slot />
     </main>
     

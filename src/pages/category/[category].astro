@@ -2,11 +2,8 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PostCard from '../../components/PostCard.astro';
 import PageHeader from '../../components/PageHeader.astro';
-import StructuredData from '../../components/StructuredData.astro';
 import { getCollection } from 'astro:content';
 import { categories } from '../../data/categories';
-import { generateStructuredData } from '../../utils/structuredData';
-import { generateKeywords } from '../../utils/seo';
 
 export async function getStaticPaths() {
 	return categories.map(category => ({
@@ -26,31 +23,16 @@ const posts = await getCollection('blog', ({ data }) => {
 const categoryPosts = posts
 	.filter(post => post.data.category?.includes(category.id))
 	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
-
-// Generate structured data
-const structuredData = generateStructuredData({
-	title: `${category.name} - Category`,
-	description: `Browse all posts in the ${category.name} category`,
-	path: `/category/${category.id}`,
-	posts: categoryPosts,
-	type: 'category',
-	identifier: category.id,
-	author: 'Antoniwan'
-});
-
-// Auto-generate keywords
-const keywords = generateKeywords([], [category.id]);
 ---
 
 <BaseLayout
 	title={`${category.name} - Category`}
 	description={`Browse all posts in the ${category.name} category`}
 	path={`/category/${category.id}`}
-	keywords={keywords}
+	structuredDataType="category"
+	structuredDataIdentifier={category.id}
+	posts={categoryPosts}
 >
-	<!-- Structured Data -->
-	<StructuredData data={structuredData} />
-	
 	<div class="w-full px-4 md:px-6 lg:px-8 xl:px-12">
 		{/* Category Header */}
 		<div class="max-w-container mx-auto">

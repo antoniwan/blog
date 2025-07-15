@@ -1,11 +1,8 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHeader from '../../components/PageHeader.astro';
-import StructuredData from '../../components/StructuredData.astro';
 import { getCollection } from 'astro:content';
 import { categories } from '../../data/categories';
-import { generateStructuredData } from '../../utils/structuredData';
-import { generateKeywords } from '../../utils/seo';
 
 // Get all posts
 const posts = await getCollection('blog', ({ data }) => {
@@ -17,29 +14,14 @@ const postCounts = categories.reduce((acc, category) => {
   acc[category.id] = posts.filter(post => post.data.category?.includes(category.id)).length;
   return acc;
 }, {} as Record<string, number>);
-
-// Generate structured data
-const structuredData = generateStructuredData({
-  title: 'Categories',
-  description: 'Browse posts by category',
-  path: '/category',
-  type: 'website',
-  author: 'Antoniwan'
-});
-
-// Auto-generate keywords
-const keywords = generateKeywords([], categories.map(cat => cat.id));
 ---
 
 <BaseLayout
   title="Categories"
   description="Browse posts by category"
   path="/category"
-  keywords={keywords}
+  structuredDataType="website"
 >
-  <!-- Structured Data -->
-  <StructuredData data={structuredData} />
-  
   <div class="w-full px-4 md:px-6 lg:px-8 xl:px-12">
     <div class="max-w-container mx-auto">
       <PageHeader 

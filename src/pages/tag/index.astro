@@ -1,10 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHeader from '../../components/PageHeader.astro';
-import StructuredData from '../../components/StructuredData.astro';
 import { getCollection } from 'astro:content';
-import { generateStructuredData } from '../../utils/structuredData';
-import { generateKeywords } from '../../utils/seo';
 
 // Get all posts
 const posts = await getCollection('blog', ({ data }) => {
@@ -23,29 +20,14 @@ const tagCounts = posts.reduce((acc, post) => {
 const sortedTags = Object.entries(tagCounts)
   .sort(([, a], [, b]) => b - a)
   .map(([tag]) => tag);
-
-// Generate structured data for tags page
-const structuredData = generateStructuredData({
-  title: 'Tags',
-  description: 'Browse posts by tag',
-  path: '/tag',
-  type: 'website',
-  author: 'Antoniwan'
-});
-
-// Auto-generate keywords
-const keywords = generateKeywords(sortedTags, []);
 ---
 
 <BaseLayout
   title="Tags"
   description="Browse posts by tag"
   path="/tag"
-  keywords={keywords}
+  structuredDataType="website"
 >
-  <!-- Structured Data -->
-  <StructuredData data={structuredData} />
-  
   <div class="w-full px-4 md:px-6 lg:px-8 xl:px-12">
     <div class="max-w-container mx-auto">
       <PageHeader 

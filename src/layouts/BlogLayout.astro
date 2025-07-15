@@ -2,8 +2,6 @@
 import BaseLayout from './BaseLayout.astro';
 import PageHeader from '../components/PageHeader.astro';
 import FormattedDate from '../components/FormattedDate.astro';
-import StructuredData from '../components/StructuredData.astro';
-import { generateStructuredData } from '../utils/structuredData';
 import { generateCanonicalUrl } from '../utils/seo';
 
 interface Props {
@@ -51,20 +49,6 @@ const {
 
 // Generate canonical URL automatically
 const canonical = path || generateCanonicalUrl(Astro.url.pathname);
-
-// Generate structured data for blog post
-const structuredData = generateStructuredData({
-  title,
-  description: description || '',
-  path: canonical,
-  type: 'blogpost',
-  author,
-  pubDate,
-  updatedDate,
-  heroImage: image || heroImage,
-  keywords: keywords || [],
-  readingTime
-});
 ---
 
 <BaseLayout
@@ -82,11 +66,9 @@ const structuredData = generateStructuredData({
   author={author}
   keywords={keywords}
   type="article"
+  structuredDataType="blogpost"
   {...rest}
 >
-  <!-- Structured Data -->
-  <StructuredData data={structuredData} />
-  
   <div class="w-full px-4 md:px-6 lg:px-8 xl:px-12">
     <div class="max-w-container mx-auto py-8 md:py-12 lg:py-16">
       {/* Hero Section */}

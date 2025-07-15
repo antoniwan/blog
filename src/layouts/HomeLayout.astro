@@ -10,6 +10,10 @@ interface Props {
   imageAlt?: string;
   author?: string;
   keywords?: string[];
+  // Structured data specific
+  structuredDataType?: "website" | "blogpost" | "category" | "tag";
+  structuredDataIdentifier?: string;
+  posts?: any[]; // For category/tag pages
 }
 
 const {
@@ -20,6 +24,9 @@ const {
   imageAlt,
   author,
   keywords,
+  structuredDataType,
+  structuredDataIdentifier,
+  posts,
   ...rest
 } = Astro.props;
 ---
@@ -32,6 +39,9 @@ const {
   imageAlt={imageAlt}
   author={author}
   keywords={keywords}
+  structuredDataType={structuredDataType}
+  structuredDataIdentifier={structuredDataIdentifier}
+  posts={posts}
   {...rest}
 >
   <div class="w-full px-4 md:px-6 lg:px-8 xl:px-12">
