@@ -22,6 +22,7 @@ const { class: className = '' } = Astro.props;
         { 'text-primary-500 dark:text-primary-400': Astro.url.pathname === item.href }
       ]}
       aria-current={Astro.url.pathname === item.href ? 'page' : undefined}
+      transition:name={`nav-${item.href.replace('/', '').replace(/\/$/, '') || 'home'}`}
     >
       <span>{item.label}</span>
     </a>

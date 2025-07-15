@@ -74,7 +74,7 @@ const canonical = path || generateCanonicalUrl(Astro.url.pathname);
     <div class="max-w-container mx-auto py-6 md:py-8 lg:py-12">
       {/* Hero Section */}
       <div class="space-y-6 mb-8 md:mb-12">
-        <PageHeader title={title} description={description} className="!mb-6" />
+        <PageHeader title={title} description={description} className="!mb-6" transition:name="page-title" />
         
         <div class="flex flex-wrap gap-4 text-sm text-neutral-600 dark:text-neutral-400">
           {pubDate && (
@@ -140,7 +140,7 @@ const canonical = path || generateCanonicalUrl(Astro.url.pathname);
       )}
       
       {/* Content */}
-      <div class="prose prose-lg dark:prose-invert max-w-none prose-headings:scroll-mt-20">
+      <div class="prose prose-lg dark:prose-invert max-w-none prose-headings:scroll-mt-20" transition:name="page-content">
         <slot />
       </div>
     </div>

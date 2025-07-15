@@ -151,3 +151,49 @@ blockquote::before {
     @apply orphans-3 widows-3;
   }
 }
+
+/* View Transition Enhancements */
+@layer utilities {
+  /* Smooth transitions for view transitions */
+  .view-transition-smooth {
+    view-transition-name: smooth;
+  }
+
+  /* Fade transitions */
+  .view-transition-fade {
+    view-transition-name: fade;
+  }
+
+  /* Slide transitions */
+  .view-transition-slide {
+    view-transition-name: slide;
+  }
+}
+
+/* Enhanced view transition animations */
+::view-transition-old(main-content),
+::view-transition-new(main-content) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-old(main-content) {
+  z-index: 1;
+}
+
+::view-transition-new(main-content) {
+  z-index: 2;
+}
+
+/* Navigation transitions */
+::view-transition-old(nav-home),
+::view-transition-new(nav-home),
+::view-transition-old(nav-about),
+::view-transition-new(nav-about),
+::view-transition-old(nav-category),
+::view-transition-new(nav-category),
+::view-transition-old(nav-tag),
+::view-transition-new(nav-tag) {
+  animation: none;
+  mix-blend-mode: normal;
+}
