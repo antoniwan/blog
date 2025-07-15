@@ -3,6 +3,7 @@
 
 // Site Information
 export const SITE_TITLE = "Curious Chaos Journal";
+export const SHORT_SITE_TITLE = "The CCJ";
 export const SITE_DESCRIPTION =
   "A personal digital space exploring the intersection of food, health, technology, and parenting. Sharing recipes, insights, and experiences.";
 export const SITE_URL = "https://blog.antoniwan.online";

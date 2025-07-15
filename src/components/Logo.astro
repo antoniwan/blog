@@ -1,5 +1,5 @@
 ---
-import { SITE_TITLE } from '../consts';
+import { SITE_TITLE, SHORT_SITE_TITLE } from '../consts';
 
 interface Props {
   /**
@@ -32,7 +32,8 @@ const sizeClasses = {
   aria-label={`${SITE_TITLE} - Home`}
 >
   <span class="text-primary-500 dark:text-primary-400 logo-icon" aria-hidden="true">⚡</span>
-  <span>{SITE_TITLE}</span>
+  <span class="lg:hidden">{SHORT_SITE_TITLE}</span>
+  <span class="hidden lg:inline">{SITE_TITLE}</span>
 </a>
 
 <style>
