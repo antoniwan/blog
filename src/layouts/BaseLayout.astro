@@ -24,6 +24,7 @@ interface Props {
   ogImageAlt?: string;
   author?: string;
   keywords?: string[];
+  robots?: string;
 }
 
 const { 
@@ -39,7 +40,8 @@ const {
   ogImage,
   ogImageAlt,
   author = AUTHOR.name,
-  keywords = tags
+  keywords = tags,
+  robots
 } = Astro.props;
 ---
 
@@ -57,6 +59,7 @@ const {
       updatedDate={updatedDate}
       author={author}
       keywords={keywords}
+      robots={robots}
     />
     <SpeedInsights />
   </head>

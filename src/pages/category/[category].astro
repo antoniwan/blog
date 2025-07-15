@@ -5,6 +5,7 @@ import PageHeader from '../../components/PageHeader.astro';
 import { getCollection } from 'astro:content';
 import { categories } from '../../data/categories';
 import { generateStructuredData } from '../../utils/structuredData';
+import { generateCanonicalUrl } from '../../utils/seo';
 
 export async function getStaticPaths() {
 	return categories.map(category => ({
@@ -25,11 +26,14 @@ const categoryPosts = posts
 	.filter(post => post.data.category?.includes(category.id))
 	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
+// Generate canonical URL
+const canonical = generateCanonicalUrl(`/category/${category.id}`);
+
 // Generate structured data
 const structuredData = generateStructuredData({
 	title: `${category.name} - Category`,
 	description: `Browse all posts in the ${category.name} category`,
-	url: new URL(`/category/${category.id}`, Astro.site).href,
+	url: canonical,
 	posts: categoryPosts,
 	type: 'category',
 	identifier: category.id,
@@ -40,6 +44,7 @@ const structuredData = generateStructuredData({
 <BaseLayout
 	title={`${category.name} - Category`}
 	description={`Browse all posts in the ${category.name} category`}
+	canonicalUrl={canonical}
 >
 	<!-- Structured Data -->
 	{Array.isArray(structuredData) ? 
@@ -59,13 +64,21 @@ const structuredData = generateStructuredData({
 			/>
 		</div>
 
-		{/* Posts List */}
+		{/* Posts Grid */}
 		<div class="max-w-container mx-auto">
-			<div class="space-y-8">
-				{categoryPosts.map(post => (
-					<PostCard post={post} />
-				))}
-			</div>
+			{categoryPosts.length > 0 ? (
+				<div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+					{categoryPosts.map((post) => (
+						<PostCard post={post} />
+					))}
+				</div>
+			) : (
+				<div class="text-center py-12">
+					<p class="text-neutral-600 dark:text-neutral-400">
+						No posts found in this category yet.
+					</p>
+				</div>
+			)}
 		</div>
 	</div>
 </BaseLayout>

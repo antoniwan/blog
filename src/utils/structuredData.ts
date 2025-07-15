@@ -1,5 +1,12 @@
 import type { CollectionEntry } from "astro:content";
-import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
+import {
+  SITE_TITLE,
+  SITE_DESCRIPTION,
+  SITE_URL,
+  AUTHOR,
+  SOCIAL_LINKS,
+  SEO_CONFIG,
+} from "../consts";
 
 export interface StructuredDataOptions {
   title: string;
@@ -25,7 +32,7 @@ export function generateStructuredData(options: StructuredDataOptions) {
     posts = [],
     type = "website",
     identifier,
-    author = "Antoniwan",
+    author = AUTHOR.name,
     pubDate,
     updatedDate,
     heroImage,
@@ -41,17 +48,17 @@ export function generateStructuredData(options: StructuredDataOptions) {
     "@type": "WebSite",
     name: SITE_TITLE,
     description: SITE_DESCRIPTION,
-    url: url,
+    url: SITE_URL,
     publisher: {
       "@type": "Person",
       name: author,
-      url: "https://antoniwan.online",
+      url: AUTHOR.url,
     },
     potentialAction: {
       "@type": "SearchAction",
       target: {
         "@type": "EntryPoint",
-        urlTemplate: `${url}/search?q={search_term_string}`,
+        urlTemplate: `${SITE_URL}/search?q={search_term_string}`,
       },
       "query-input": "required name=search_term_string",
     },
@@ -61,15 +68,15 @@ export function generateStructuredData(options: StructuredDataOptions) {
   schemas.push({
     "@context": "https://schema.org",
     "@type": "Organization",
-    name: SITE_TITLE,
-    url: url,
+    name: SEO_CONFIG.organizationName,
+    url: SITE_URL,
     logo: {
       "@type": "ImageObject",
-      url: new URL("/sh-sh-logo.svg", url).href,
-      width: 512,
-      height: 512,
+      url: new URL(SEO_CONFIG.organizationLogo, SITE_URL).href,
+      width: SEO_CONFIG.organizationLogoWidth,
+      height: SEO_CONFIG.organizationLogoHeight,
     },
-    sameAs: ["https://antoniwan.online", "https://twitter.com/antoniwan"],
+    sameAs: Object.values(SOCIAL_LINKS),
   });
 
   // Person schema for author
@@ -77,12 +84,12 @@ export function generateStructuredData(options: StructuredDataOptions) {
     "@context": "https://schema.org",
     "@type": "Person",
     name: author,
-    url: "https://antoniwan.online",
-    sameAs: ["https://twitter.com/antoniwan"],
+    url: AUTHOR.url,
+    sameAs: [SOCIAL_LINKS.twitter, SOCIAL_LINKS.github, SOCIAL_LINKS.bluesky],
     jobTitle: "Software Engineer & Writer",
     worksFor: {
       "@type": "Organization",
-      name: SITE_TITLE,
+      name: SEO_CONFIG.organizationName,
     },
   });
 
@@ -93,25 +100,26 @@ export function generateStructuredData(options: StructuredDataOptions) {
       "@type": "BlogPosting",
       headline: title,
       description: description,
-      image: heroImage ? new URL(heroImage, url).href : undefined,
+      image: heroImage ? new URL(heroImage, SITE_URL).href : undefined,
       datePublished: pubDate.toISOString(),
       dateModified: updatedDate?.toISOString() || pubDate.toISOString(),
       author: {
         "@type": "Person",
         name: author,
-        url: "https://antoniwan.online",
+        url: AUTHOR.url,
       },
       publisher: {
         "@type": "Organization",
-        name: SITE_TITLE,
-        url: url,
+        name: SEO_CONFIG.organizationName,
+        url: SITE_URL,
         logo: {
           "@type": "ImageObject",
-          url: new URL("/sh-sh-logo.svg", url).href,
+          url: new URL(SEO_CONFIG.organizationLogo, SITE_URL).href,
         },
       },
       keywords: keywords.join(", "),
       timeRequired: readingTime ? `PT${readingTime}M` : undefined,
+      url: url,
     });
   } else if ((type === "category" || type === "tag") && posts.length > 0) {
     schemas.push({
@@ -130,7 +138,7 @@ export function generateStructuredData(options: StructuredDataOptions) {
             "@type": "BlogPosting",
             headline: post.data.title,
             description: post.data.description,
-            url: new URL(`/p/${post.id}`, url).href,
+            url: new URL(`/p/${post.id}`, SITE_URL).href,
             datePublished: post.data.pubDate.toISOString(),
             dateModified:
               post.data.updatedDate?.toISOString() ||
@@ -138,10 +146,10 @@ export function generateStructuredData(options: StructuredDataOptions) {
             author: {
               "@type": "Person",
               name: author,
-              url: "https://antoniwan.online",
+              url: AUTHOR.url,
             },
             image: post.data.heroImage
-              ? new URL(post.data.heroImage, url).href
+              ? new URL(post.data.heroImage, SITE_URL).href
               : undefined,
             keywords: post.data.tags?.join(", "),
             articleSection: post.data.category?.join(", "),
@@ -158,13 +166,14 @@ export function generateStructuredData(options: StructuredDataOptions) {
             "@type": "ListItem",
             position: 1,
             name: "Home",
-            item: url,
+            item: SITE_URL,
           },
           {
             "@type": "ListItem",
             position: 2,
             name: type === "category" ? "Categories" : "Tags",
-            item: new URL(type === "category" ? "/category" : "/tag", url).href,
+            item: new URL(type === "category" ? "/category" : "/tag", SITE_URL)
+              .href,
           },
           {
             "@type": "ListItem",
@@ -193,7 +202,7 @@ export function generateStructuredData(options: StructuredDataOptions) {
 }
 
 // Legacy function for backward compatibility
-export function generateWebSiteSchema(siteUrl: string, author = "Antoniwan") {
+export function generateWebSiteSchema(siteUrl: string, author = AUTHOR.name) {
   return generateStructuredData({
     title: SITE_TITLE,
     description: SITE_DESCRIPTION,

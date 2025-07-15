@@ -4,6 +4,7 @@ import PostCard from '../../components/PostCard.astro';
 import PageHeader from '../../components/PageHeader.astro';
 import { getCollection } from 'astro:content';
 import { generateStructuredData } from '../../utils/structuredData';
+import { generateCanonicalUrl } from '../../utils/seo';
 
 export async function getStaticPaths() {
 	const posts = await getCollection('blog');
@@ -31,11 +32,14 @@ const tagPosts = posts
 	.filter(post => post.data.tags?.includes(tag))
 	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
+// Generate canonical URL
+const canonical = generateCanonicalUrl(`/tag/${tag}`);
+
 // Generate structured data
 const structuredData = generateStructuredData({
 	title: `${tag} - Tag`,
 	description: `Browse all posts tagged with ${tag}`,
-	url: new URL(`/tag/${tag}`, Astro.site).href,
+	url: canonical,
 	posts: tagPosts,
 	type: 'tag',
 	identifier: tag,
@@ -46,6 +50,7 @@ const structuredData = generateStructuredData({
 <BaseLayout
 	title={`${tag} - Tag`}
 	description={`Browse all posts tagged with ${tag}`}
+	canonicalUrl={canonical}
 >
 	<!-- Structured Data -->
 	{Array.isArray(structuredData) ? 
@@ -65,13 +70,21 @@ const structuredData = generateStructuredData({
 			/>
 		</div>
 
-		{/* Posts List */}
+		{/* Posts Grid */}
 		<div class="max-w-container mx-auto">
-			<div class="space-y-8">
-				{tagPosts.map(post => (
-					<PostCard post={post} />
-				))}
-			</div>
+			{tagPosts.length > 0 ? (
+				<div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+					{tagPosts.map((post) => (
+						<PostCard post={post} />
+					))}
+				</div>
+			) : (
+				<div class="text-center py-12">
+					<p class="text-neutral-600 dark:text-neutral-400">
+						No posts found with this tag yet.
+					</p>
+				</div>
+			)}
 		</div>
 	</div>
 </BaseLayout>

@@ -279,50 +279,68 @@ This work is licensed under a [Creative Commons Attribution 4.0 International Li
 
 ## 🔍 SEO & Structured Data
 
-### Structured Data Implementation
+### Enhanced SEO Implementation
 
-The site implements comprehensive JSON-LD structured data for better search engine understanding:
+The site implements a comprehensive, centralized SEO system optimized for performance and maintainability:
 
-#### Collection Pages (Categories & Tags)
+#### Centralized Configuration
 
-- **CollectionPage Schema**: Defines category and tag pages as collections of blog posts
-- **ItemList Schema**: Lists all posts within each collection with proper ordering
-- **BlogPosting Schema**: Individual post metadata including author, dates, and content info
-- **BreadcrumbList Schema**: Navigation structure for search engines
-- **Organization Schema**: Site publisher information
-- **Person Schema**: Author information with social links
+- **SEO Constants**: All SEO settings centralized in `src/consts.ts`
+- **Social Media Links**: Comprehensive social media integration
+- **Organization Data**: Consistent brand and author information
+- **Default Values**: Standardized defaults for images, locales, and directives
 
-#### Key Features
+#### Structured Data System
 
-- **Automatic Generation**: Structured data is generated dynamically based on content
-- **Comprehensive Coverage**: All category and tag pages include full schema markup
-- **SEO Optimization**: Enhanced search engine visibility and rich snippets
-- **Type Safety**: Full TypeScript support for schema generation
+- **Unified Generation**: Single `generateStructuredData()` function for all schema types
+- **Enhanced Schemas**: WebSite, Organization, Person, BlogPosting, and CollectionPage schemas
+- **Social Integration**: Comprehensive social media links in structured data
+- **Type Safety**: Full TypeScript support with proper interfaces
 
-#### Implementation Details
+#### SEO Utilities
+
+- **Meta Tag Generation**: Centralized `generateMetaTags()` function
+- **URL Generation**: Consistent canonical and image URL generation
+- **Social Links**: Centralized social media link management
+- **Performance**: Optimized for speed and efficiency
+
+#### Implementation Example
 
 ```typescript
-// Example usage in category pages
-const structuredData = generateComprehensiveCollectionSchema({
+// Simplified structured data generation
+const structuredData = generateStructuredData({
   title: `${category.name} - Category`,
   description: `Browse all posts in the ${category.name} category`,
-  url: new URL(`/category/${category.id}`, Astro.site).href,
+  url: generateCanonicalUrl(`/category/${category.id}`),
   posts: categoryPosts,
   type: "category",
   identifier: category.id,
-  author: "Antoniwan",
+  author: AUTHOR.name,
+});
+
+// Optimized meta tag generation
+const metaTags = generateMetaTags({
+  title,
+  description,
+  url: canonical,
+  image: ogImage,
+  author,
+  keywords,
+  pubDate,
+  updatedDate,
 });
 ```
 
 ### SEO Features
 
-- **Meta Tags**: Comprehensive meta tag implementation
-- **Open Graph**: Social media sharing optimization
-- **Twitter Cards**: Enhanced Twitter sharing
-- **Canonical URLs**: Proper canonical URL handling
-- **Robots Meta**: Configurable search engine directives
+- **Meta Tags**: Optimized meta tag implementation with reduced redundancy
+- **Open Graph**: Enhanced social media sharing with consistent branding
+- **Twitter Cards**: Improved Twitter sharing with better image handling
+- **Canonical URLs**: Consistent canonical URL generation across all pages
+- **Robots Meta**: Simplified robots directive handling
 - **Sitemap**: Automatic XML sitemap generation
-- **RSS Feed**: Content syndication support
+- **RSS Feed**: Enhanced content syndication with better filtering
+- **Performance**: Reduced HTML output size and improved loading times
 
 ## 🆕 Recent Updates
 

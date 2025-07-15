@@ -2,7 +2,8 @@
 // Import the global.css file here so that it is included on
 // all pages through the use of the <BaseHead /> component.
 import '../styles/global.css';
-import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+import { SITE_TITLE, SITE_DESCRIPTION, AUTHOR, SEO_CONFIG } from '../consts';
+import { generateMetaTags, DEFAULT_ROBOTS, DEFAULT_LOCALE } from '../utils/seo';
 
 interface Props {
 	title: string;
@@ -11,13 +12,7 @@ interface Props {
 	canonicalUrl?: string;
 	ogImage?: string;
 	ogImageAlt?: string;
-	robots?: {
-		index?: boolean;
-		follow?: boolean;
-		noarchive?: boolean;
-		nosnippet?: boolean;
-		noimageindex?: boolean;
-	};
+	robots?: string;
 	pubDate?: Date;
 	updatedDate?: Date;
 	author?: string;
@@ -32,29 +27,28 @@ const {
 	canonicalUrl,
 	ogImage,
 	ogImageAlt,
-	robots = { index: true, follow: true },
+	robots = DEFAULT_ROBOTS,
 	pubDate,
 	updatedDate,
-	author,
+	author = AUTHOR.name,
 	keywords = [],
-	locale = 'en_US'
+	locale = DEFAULT_LOCALE
 } = Astro.props;
 
-// Construct the full title
-const fullTitle = `${title} | ${SITE_TITLE}`;
-
-// Construct the robots meta content
-const robotsContent = Object.entries(robots)
-	.filter(([, value]) => value !== undefined)
-	.map(([key, value]) => (value ? key : `no${key}`))
-	.join(', ');
-
-// Construct the canonical URL
-const canonical = canonicalUrl || Astro.url.href;
-
-// Use provided OG image or fallback to default image
-const finalOgImage = ogImage || image;
-const finalOgImageAlt = ogImageAlt || title;
+// Generate optimized meta tags
+const metaTags = generateMetaTags({
+	title,
+	description,
+	url: canonicalUrl || Astro.url.href,
+	image: ogImage || image,
+	imageAlt: ogImageAlt,
+	author,
+	keywords,
+	pubDate,
+	updatedDate,
+	locale,
+	robots
+});
 
 // Format dates for meta tags
 const pubDateISO = pubDate?.toISOString();
@@ -65,8 +59,6 @@ const updatedDateISO = updatedDate?.toISOString();
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="viewport-height" content="100vh" />
-<meta name="HandheldFriendly" content="true" />
-<meta name="apple-touch-fullscreen" content="yes" />
 
 <!-- Theme & Color -->
 <meta name="theme-color" content="var(--color-primary-500)" media="(prefers-color-scheme: light)" />
@@ -83,7 +75,7 @@ const updatedDateISO = updatedDate?.toISOString();
 <meta name="generator" content={Astro.generator} />
 
 <!-- Canonical URL -->
-<link rel="canonical" href={canonical} />
+<link rel="canonical" href={metaTags.canonical} />
 
 <!-- RSS Feed -->
 <link
@@ -93,53 +85,45 @@ const updatedDateISO = updatedDate?.toISOString();
 	href={new URL('rss.xml', Astro.site)}
 />
 
-<!-- JSON-LD Structured Data will be added by individual pages -->
-
 <!-- Sitemap -->
 <link rel="sitemap" href="/sitemap-index.xml" />
 
 <!-- Primary Meta Tags -->
-<title>{fullTitle}</title>
-<meta name="title" content={fullTitle} />
-<meta name="description" content={description} />
-<meta name="robots" content={robotsContent} />
-{keywords.length > 0 && <meta name="keywords" content={keywords.join(', ')} />}
-
-<!-- Author -->
-<meta name="author" content={author || 'Antoniwan'} />
+<title>{metaTags.title}</title>
+<meta name="description" content={metaTags.description} />
+<meta name="robots" content={metaTags.robots} />
+{metaTags.keywords && <meta name="keywords" content={metaTags.keywords} />}
+<meta name="author" content={metaTags.author} />
 
 <!-- Google Site Verification -->
-<meta name="google-site-verification" content="gUubXvBv6tFsaZTQd5vS1VUGHlaMTOyf110X3yn7jiY" />
+<meta name="google-site-verification" content={SEO_CONFIG.googleSiteVerification} />
 
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content="website" />
-<meta property="og:url" content={canonical} />
-<meta property="og:title" content={fullTitle} />
-<meta property="og:description" content={description} />
-{finalOgImage && <meta property="og:image" content={new URL(finalOgImage, Astro.site).href} />}
-{finalOgImageAlt && <meta property="og:image:alt" content={finalOgImageAlt} />}
-<meta property="og:locale" content={locale} />
+<meta property="og:url" content={metaTags.canonical} />
+<meta property="og:title" content={metaTags.title} />
+<meta property="og:description" content={metaTags.description} />
+<meta property="og:image" content={new URL(metaTags.ogImage, Astro.site).href} />
+<meta property="og:image:alt" content={metaTags.ogImageAlt} />
+<meta property="og:locale" content={metaTags.locale} />
 <meta property="og:site_name" content={SITE_TITLE} />
-{author && <meta property="og:author" content={author} />}
 
 <!-- Twitter -->
 <meta property="twitter:card" content="summary_large_image" />
-<meta property="twitter:url" content={canonical} />
-<meta property="twitter:title" content={fullTitle} />
-<meta property="twitter:description" content={description} />
-{finalOgImage && <meta property="twitter:image" content={new URL(finalOgImage, Astro.site).href} />}
-{finalOgImageAlt && <meta property="twitter:image:alt" content={finalOgImageAlt} />}
+<meta property="twitter:url" content={metaTags.canonical} />
+<meta property="twitter:title" content={metaTags.title} />
+<meta property="twitter:description" content={metaTags.description} />
+<meta property="twitter:image" content={new URL(metaTags.ogImage, Astro.site).href} />
+<meta property="twitter:image:alt" content={metaTags.ogImageAlt} />
+<meta name="twitter:creator" content={SEO_CONFIG.twitterHandle} />
+<meta name="twitter:site" content={SEO_CONFIG.twitterHandle} />
 
 <!-- Article Specific Meta Tags -->
 {pubDateISO && <meta property="article:published_time" content={pubDateISO} />}
 {updatedDateISO && <meta property="article:modified_time" content={updatedDateISO} />}
 {author && <meta property="article:author" content={author} />}
 
-<!-- Twitter -->
-<meta name="twitter:creator" content="@antoniwan" />
-<meta name="twitter:site" content="@antoniwan" />
-
-<!-- Alpine.js - Load without integrity check for simplicity -->
+<!-- Alpine.js -->
 <link rel="preload" href="https://unpkg.com/alpinejs@3.13.5/dist/cdn.min.js" as="script" crossorigin="anonymous" />
 <script defer src="https://unpkg.com/alpinejs@3.13.5/dist/cdn.min.js" crossorigin="anonymous"></script>
 
@@ -147,13 +131,9 @@ const updatedDateISO = updatedDate?.toISOString();
 <script is:inline>
 // Theme initialization script
 function initializeTheme() {
-  // Check for saved theme preference
   const savedTheme = localStorage.getItem('theme');
-  
-  // Check for system preference
   const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
   
-  // Set initial theme
   if (savedTheme) {
     document.documentElement.classList.toggle('dark', savedTheme === 'dark');
   } else {
@@ -161,10 +141,8 @@ function initializeTheme() {
   }
 }
 
-// Run immediately
 initializeTheme();
 
-// Listen for system theme changes
 window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
   if (!localStorage.getItem('theme')) {
     document.documentElement.classList.toggle('dark', e.matches);
@@ -172,6 +150,6 @@ window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e)
 });
 </script>
 
-<!-- Resource hints for external domains -->
+<!-- Resource hints -->
 <link rel="dns-prefetch" href="//unpkg.com" />
 <link rel="dns-prefetch" href="//blog.antoniwan.online" />

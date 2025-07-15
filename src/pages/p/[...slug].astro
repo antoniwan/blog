@@ -2,6 +2,7 @@
 import { type CollectionEntry, getCollection } from 'astro:content';
 import BlogLayout from '../../layouts/BlogLayout.astro';
 import { render } from 'astro:content';
+import { generateCanonicalUrl, generateImageUrl } from '../../utils/seo';
 
 export const prerender = true;
 
@@ -24,6 +25,9 @@ const keywords = [
 	post.data.subcategory,
 	...(post.data.language || [])
 ].filter((value): value is string => typeof value === 'string');
+
+// Generate canonical URL
+const canonical = generateCanonicalUrl(`/p/${post.id}`);
 
 // Ensure we have a valid image for social sharing
 const shareImage = post.data.ogImage || post.data.heroImage || '/share-image.png';
@@ -50,6 +54,7 @@ const tableOfContents = {
 	readingTime={post.data.readingTime}
 	tags={post.data.tags}
 	category={post.data.category}
+	canonicalUrl={canonical}
 	ogImage={shareImage}
 	ogImageAlt={shareImageAlt}
 	author={post.data.author}

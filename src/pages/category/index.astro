@@ -3,7 +3,8 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHeader from '../../components/PageHeader.astro';
 import { categories } from '../../data/categories';
 import { getCollection } from 'astro:content';
-import { generateWebSiteSchema } from '../../utils/structuredData';
+import { generateStructuredData } from '../../utils/structuredData';
+import { generateCanonicalUrl } from '../../utils/seo';
 
 // Get all posts
 const posts = await getCollection('blog', ({ data }) => {
@@ -16,13 +17,23 @@ const postCounts = categories.reduce((acc, category) => {
   return acc;
 }, {} as Record<string, number>);
 
+// Generate canonical URL
+const canonical = generateCanonicalUrl('/category');
+
 // Generate structured data for categories page
-const structuredData = generateWebSiteSchema(Astro.site?.href || 'https://strongvault.dev');
+const structuredData = generateStructuredData({
+  title: 'Categories',
+  description: 'Browse posts by category',
+  url: canonical,
+  type: 'website',
+  author: 'Antoniwan'
+});
 ---
 
 <BaseLayout
   title="Categories"
   description="Browse posts by category"
+  canonicalUrl={canonical}
 >
   <!-- Structured Data -->
   <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
@@ -38,28 +49,26 @@ const structuredData = generateWebSiteSchema(Astro.site?.href || 'https://strong
 
     {/* Categories Grid */}
     <div class="max-w-container mx-auto">
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {categories.map(category => {
-          const count = postCounts[category.id];
-          return (
-            <a
-              href={`/category/${category.id}/`}
-              class="group block p-6 rounded-lg border border-border/10 hover:border-border/20 bg-background hover:bg-background-alt dark:bg-background-dark dark:hover:bg-background-alt-dark transition-all duration-200"
-            >
-              <div class="flex items-center justify-between mb-3">
-                <h3 class="text-lg font-semibold text-text dark:text-text-dark group-hover:text-primary-500 dark:group-hover:text-primary-400 transition-colors">
-                  {category.name}
-                </h3>
-                <span class="text-sm px-2 py-1 rounded-full bg-primary-100 dark:bg-primary-900 text-primary-700 dark:text-primary-300">
-                  {count}
-                </span>
-              </div>
-              <p class="text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
-                {category.description}
-              </p>
-            </a>
-          );
-        })}
+      <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {categories.map((category) => (
+          <a
+            href={`/category/${category.id}/`}
+            class="group block p-6 rounded-lg border border-neutral-200 dark:border-neutral-700 hover:border-primary-300 dark:hover:border-primary-600 transition-colors"
+          >
+            <div class="flex items-center gap-3 mb-3">
+              <span class="text-2xl">{category.icon}</span>
+              <h3 class="text-lg font-semibold text-text dark:text-text-dark group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
+                {category.name}
+              </h3>
+            </div>
+            <p class="text-sm text-neutral-600 dark:text-neutral-400 mb-3">
+              {category.description}
+            </p>
+            <div class="text-xs text-neutral-500 dark:text-neutral-500">
+              {postCounts[category.id] || 0} {postCounts[category.id] === 1 ? 'post' : 'posts'}
+            </div>
+          </a>
+        ))}
       </div>
     </div>
   </div>

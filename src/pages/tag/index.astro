@@ -2,7 +2,8 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHeader from '../../components/PageHeader.astro';
 import { getCollection } from 'astro:content';
-import { generateWebSiteSchema } from '../../utils/structuredData';
+import { generateStructuredData } from '../../utils/structuredData';
+import { generateCanonicalUrl } from '../../utils/seo';
 
 // Get all posts
 const posts = await getCollection('blog', ({ data }) => {
@@ -22,13 +23,23 @@ const sortedTags = Object.entries(tagCounts)
   .sort(([, a], [, b]) => b - a)
   .map(([tag]) => tag);
 
+// Generate canonical URL
+const canonical = generateCanonicalUrl('/tag');
+
 // Generate structured data for tags page
-const structuredData = generateWebSiteSchema(Astro.site?.href || 'https://strongvault.dev');
+const structuredData = generateStructuredData({
+  title: 'Tags',
+  description: 'Browse posts by tag',
+  url: canonical,
+  type: 'website',
+  author: 'Antoniwan'
+});
 ---
 
 <BaseLayout
   title="Tags"
   description="Browse posts by tag"
+  canonicalUrl={canonical}
 >
   <!-- Structured Data -->
   <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
@@ -42,22 +53,24 @@ const structuredData = generateWebSiteSchema(Astro.site?.href || 'https://strong
       />
     </div>
 
-    {/* Tags List */}
+    {/* Tags Grid */}
     <div class="max-w-container mx-auto">
-      <div class="flex flex-wrap gap-2">
-        {sortedTags.map(tag => {
-          const count = tagCounts[tag];
-          return (
-            <a
-              href={`/tag/${tag}/`}
-              class="flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-full bg-zinc-100 dark:bg-zinc-800 text-gray-700 dark:text-gray-300 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors"
-            >
-              <span>🏷️</span>
-              <span>{tag}</span>
-              <span class="text-xs px-1.5 py-0.5 rounded-full bg-zinc-200 dark:bg-zinc-700 text-gray-600 dark:text-gray-400">{count}</span>
-            </a>
-          );
-        })}
+      <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        {sortedTags.map((tag) => (
+          <a
+            href={`/tag/${tag}/`}
+            class="group block p-4 rounded-lg border border-neutral-200 dark:border-neutral-700 hover:border-primary-300 dark:hover:border-primary-600 transition-colors"
+          >
+            <div class="flex items-center justify-between">
+              <span class="font-medium text-text dark:text-text-dark group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
+                #{tag}
+              </span>
+              <span class="text-sm text-neutral-500 dark:text-neutral-500">
+                {tagCounts[tag]}
+              </span>
+            </div>
+          </a>
+        ))}
       </div>
     </div>
   </div>

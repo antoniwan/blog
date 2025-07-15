@@ -7,10 +7,6 @@ Sitemap: https://blog.antoniwan.online/sitemap-index.xml
 # Crawl-delay for respectful crawling
 Crawl-delay: 1
 
-# Disallow admin or private areas (if any exist in the future)
-# Disallow: /admin/
-# Disallow: /private/
-
 # Allow all content types
 Allow: /*.html$
 Allow: /*.xml$
@@ -22,4 +18,19 @@ Allow: /*.jpeg$
 Allow: /*.gif$
 Allow: /*.svg$
 Allow: /*.webp$
-Allow: /*.avif$ 
+Allow: /*.avif$
+
+# Disallow admin or private areas (if any exist in the future)
+# Disallow: /admin/
+# Disallow: /private/
+
+# Disallow temporary or development files
+Disallow: /temp/
+Disallow: /dev/
+Disallow: /test/
+
+# Allow RSS feed
+Allow: /rss.xml
+
+# Allow sitemap
+Allow: /sitemap-index.xml 

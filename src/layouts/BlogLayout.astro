@@ -2,6 +2,8 @@
 import BaseLayout from './BaseLayout.astro';
 import PageHeader from '../components/PageHeader.astro';
 import FormattedDate from '../components/FormattedDate.astro';
+import { generateStructuredData } from '../utils/structuredData';
+import { generateCanonicalUrl } from '../utils/seo';
 
 interface Props {
   title: string;
@@ -46,13 +48,14 @@ const {
   ...rest
 } = Astro.props;
 
-// Generate structured data for blog post
-import { generateStructuredData } from '../utils/structuredData';
+// Generate canonical URL
+const canonical = canonicalUrl || generateCanonicalUrl(Astro.url.pathname);
 
+// Generate structured data for blog post
 const structuredData = generateStructuredData({
   title,
   description: description || '',
-  url: canonicalUrl || Astro.url.href,
+  url: canonical,
   type: 'blogpost',
   author,
   pubDate,
@@ -72,7 +75,7 @@ const structuredData = generateStructuredData({
   readingTime={readingTime}
   tags={tags}
   category={category}
-  canonicalUrl={canonicalUrl}
+  canonicalUrl={canonical}
   ogImage={ogImage}
   ogImageAlt={ogImageAlt}
   author={author}
@@ -115,34 +118,25 @@ const structuredData = generateStructuredData({
           )}
           
           {tags && tags.length > 0 && (
-            <div class="flex flex-wrap gap-2">
-              {tags.map(tag => (
-                <a
-                  href={`/tag/${tag}/`}
-                  class="inline-flex items-center gap-2 text-sm px-3 py-1.5 rounded-full bg-zinc-100 dark:bg-zinc-800 text-gray-700 dark:text-gray-300 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors"
-                >
-                  <span>🏷️</span>
-                  <span>{tag}</span>
-                </a>
-              ))}
-            </div>
+            <span class="flex items-center gap-2">
+              <span class="text-primary-500 dark:text-primary-400">🏷️</span>
+              <div class="flex flex-wrap gap-1">
+                {tags.map(tag => (
+                  <a 
+                    href={`/tag/${tag}/`}
+                    class="hover:text-primary-500 dark:hover:text-primary-400 transition-colors"
+                  >
+                    #{tag}
+                  </a>
+                ))}
+              </div>
+            </span>
           )}
         </div>
-
-        {heroImage && (
-          <div class="mt-8">
-            <img 
-              src={heroImage} 
-              alt={title}
-              class="w-full h-auto rounded-lg shadow-lg"
-              loading="eager"
-            />
-          </div>
-        )}
       </div>
-      
+
       {/* Content */}
-      <article class="prose prose-lg dark:prose-invert max-w-none">
+      <article class="prose prose-lg dark:prose-invert prose-headings:scroll-mt-20 max-w-none">
         <slot />
       </article>
     </div>
