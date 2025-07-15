@@ -6,11 +6,16 @@ language: ["en"]
 category: ["psychology", "metaspace", "integration-growth"]
 tags:
   [
-    "self-awareness",
-    "emotional-growth",
-    "vulnerability",
-    "learning",
+    "self-reflection",
+    "consciousness",
     "personal-growth",
+    "healing",
+    "therapy",
+    "emotional-regulation",
+    "self-improvement",
+    "mindfulness",
+    "metaspace",
+    "transformation",
   ]
 readingTime: 4
 draft: false

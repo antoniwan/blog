@@ -5,7 +5,18 @@ pubDate: "2025-04-30T18:11:38.423Z"
 language: ["en"]
 category: ["systems-strategy", "learning-projects", "diy-creation"]
 tags:
-  ["software", "motivation", "systems", "intentional-creation", "reflection"]
+  [
+    "software",
+    "technology",
+    "systems-strategy",
+    "learning-projects",
+    "diy-creation",
+    "productivity",
+    "development",
+    "consciousness",
+    "personal-growth",
+    "workflow",
+  ]
 readingTime: 2
 draft: false
 featured: false

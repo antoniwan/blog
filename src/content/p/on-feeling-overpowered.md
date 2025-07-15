@@ -6,26 +6,16 @@ language: ["en"]
 category: ["integration-growth", "psychology"]
 tags:
   [
-    "personal-growth",
-    "self-mastery",
-    "habits",
-    "wellness",
-    "fitness",
-    "mindfulness",
-    "emotional-regulation",
-    "self-improvement",
-    "discipline",
     "mental-health",
-    "physical-health",
-    "consistency",
-    "transformation",
-    "self-care",
-    "empowerment",
-    "resilience",
-    "growth-mindset",
+    "emotional-regulation",
+    "consciousness",
+    "personal-growth",
     "self-reflection",
     "healing",
     "therapy",
+    "mindfulness",
+    "resilience",
+    "self-improvement",
   ]
 readingTime: 3
 draft: false

@@ -7,25 +7,15 @@ category: ["psychology", "systems-strategy"]
 tags:
   [
     "analysis-paralysis",
-    "decision-making",
-    "overthinking",
-    "productivity",
-    "action",
-    "mindfulness",
-    "breathing",
-    "emotional-regulation",
-    "self-improvement",
     "mental-health",
-    "procrastination",
-    "focus",
-    "clarity",
-    "movement",
-    "nervous-system",
-    "therapy",
-    "healing",
+    "consciousness",
     "personal-growth",
-    "self-mastery",
-    "habits",
+    "decision-making",
+    "mindfulness",
+    "self-improvement",
+    "healing",
+    "therapy",
+    "emotional-regulation",
   ]
 readingTime: 5
 draft: false

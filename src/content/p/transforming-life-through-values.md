@@ -8,16 +8,16 @@ category: ["psychology", "integration-growth", "metaspace"]
 subcategory: "Personal Development"
 tags:
   [
-    "self-improvement",
-    "therapy",
     "values",
-    "personal growth",
-    "mental health",
+    "therapy",
+    "personal-growth",
+    "mental-health",
     "family",
     "habits",
     "accountability",
     "authenticity",
     "responsibility",
+    "transformation",
   ]
 readingTime: 14
 draft: false

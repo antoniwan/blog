@@ -8,14 +8,16 @@ category: ["psychology", "integration-growth"]
 subcategory: "Personal Development"
 tags:
   [
+    "transformation",
+    "personal-growth",
+    "consciousness",
     "self-reflection",
-    "personal growth",
+    "authenticity",
     "values",
-    "life statement",
-    "accountability",
-    "family",
-    "identity",
-    "self-awareness",
+    "healing",
+    "self-improvement",
+    "metaspace",
+    "purpose",
   ]
 readingTime: 3
 draft: false
@@ -38,8 +40,8 @@ A simple text document, "Mission Statement," changed my life. This document expl
 
 In creating and updating this document, I self-reflect on my actions and, whenever appropriate, identify values and paradigms I wanted but wasn't implementing via action. And this creates further action. For example, if I want to be a family man, which tactics do I have to commit to, how many hours, and what activities? The same goes for a statement like "I am love for those around me. Especially my wife". How are my actions supporting this statement?
 
-Again, this document is not meant to be shared. Instead, it's a document for self-reflection and accountability for yourself. For clarification. For goal setting. So that I can stop lying or manipulating myself and become active; action is, thoughts aren't. It's a call to action! 
+Again, this document is not meant to be shared. Instead, it's a document for self-reflection and accountability for yourself. For clarification. For goal setting. So that I can stop lying or manipulating myself and become active; action is, thoughts aren't. It's a call to action!
 
 ---
 
-*This article was originally published on [Medium](https://medium.com/@wizards777/why-creating-a-life-statement-has-helped-me-so-much-7077afc34f18). I'm sharing it here as part of my journey of self-reflection and growth, hoping it might resonate with others on a similar path.* 
+_This article was originally published on [Medium](https://medium.com/@wizards777/why-creating-a-life-statement-has-helped-me-so-much-7077afc34f18). I'm sharing it here as part of my journey of self-reflection and growth, hoping it might resonate with others on a similar path._

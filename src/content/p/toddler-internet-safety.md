@@ -7,31 +7,16 @@ category: ["parenting", "systems-strategy"]
 subcategory: "Digital Safety"
 tags:
   [
-    "parents",
-    "children",
-    "internet",
-    "safety",
-    "education",
     "parenting",
+    "children",
     "digital-safety",
-    "screen-time",
-    "mental-health",
-    "child-development",
-    "conscious-parenting",
-    "emotional-health",
-    "wellness",
+    "technology",
     "family",
-    "protection",
-    "boundaries",
-    "consciousness",
-    "digital-wellness",
-    "parental-controls",
-    "emotional-regulation",
-    "self-care",
-    "healing",
-    "therapy",
-    "growth",
-    "responsibility",
+    "conscious-parenting",
+    "child-development",
+    "social-issues",
+    "family-dynamics",
+    "education",
   ]
 readingTime: 8
 draft: false

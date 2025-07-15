@@ -7,26 +7,15 @@ category: ["integration-growth", "parenting", "psychology"]
 tags:
   [
     "simplicity",
-    "minimalism",
-    "peace",
-    "contentment",
+    "mindfulness",
+    "mental-health",
     "wellness",
     "self-care",
-    "mental-health",
-    "fitness",
-    "discipline",
     "personal-growth",
-    "self-reflection",
-    "gratitude",
-    "mindfulness",
-    "healing",
-    "therapy",
-    "self-acceptance",
     "inner-peace",
-    "wellbeing",
-    "lifestyle",
+    "contentment",
     "consciousness",
-    "self-improvement",
+    "healing",
   ]
 readingTime: 4
 draft: false

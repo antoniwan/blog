@@ -9,13 +9,15 @@ subcategory: "Philosophy"
 tags:
   [
     "symbols",
-    "tattoos",
-    "power",
     "mythology",
-    "fiction",
+    "power",
     "psychology",
-    "healing",
+    "art-expression",
     "identity",
+    "healing",
+    "consciousness",
+    "self-expression",
+    "metaspace",
   ]
 readingTime: 12
 draft: false

@@ -7,20 +7,15 @@ category: ["integration-growth", "psychology", "metaspace"]
 tags:
   [
     "imposter-syndrome",
-    "journaling",
-    "evidence-based",
-    "self-confidence",
-    "professional-development",
     "mental-health",
-    "self-reflection",
-    "emotional-regulation",
-    "personal-growth",
     "therapy",
-    "healing",
-    "self-worth",
+    "self-reflection",
+    "personal-growth",
+    "emotional-regulation",
+    "professional-development",
     "confidence-building",
-    "professional-identity",
     "self-improvement",
+    "healing",
   ]
 readingTime: 2
 draft: false

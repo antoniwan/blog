@@ -7,7 +7,18 @@ language: ["en"]
 category: ["integration-growth", "learning-projects", "diy-creation"]
 subcategory: "Nutrition"
 tags:
-  ["beef heart", "organ meats", "nutrition", "healthy eating", "micronutrients"]
+  [
+    "nutrition",
+    "health",
+    "wellness",
+    "cooking",
+    "self-care",
+    "learning-projects",
+    "integration-growth",
+    "fitness",
+    "healthy-eating",
+    "micronutrients",
+  ]
 readingTime: 7
 draft: false
 featured: true

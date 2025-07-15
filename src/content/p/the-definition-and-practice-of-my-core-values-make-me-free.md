@@ -6,28 +6,16 @@ language: ["en"]
 category: ["psychology", "metaspace", "integration-growth"]
 tags:
   [
-    "core-values",
-    "integrity",
-    "morality",
-    "truthfulness",
-    "mental-health",
-    "emotional-health",
-    "self-awareness",
+    "values",
+    "consciousness",
     "personal-growth",
     "authenticity",
     "freedom",
-    "joy",
-    "self-improvement",
-    "values",
-    "consciousness",
     "self-reflection",
     "healing",
-    "therapy",
-    "wellness",
-    "self-mastery",
-    "discipline",
-    "purpose",
-    "meaning",
+    "transformation",
+    "self-improvement",
+    "metaspace",
   ]
 readingTime: 1
 draft: false

@@ -7,11 +7,15 @@ category: ["integration-growth", "learning-projects"]
 tags:
   [
     "breathing",
-    "meditation",
-    "focus",
     "mindfulness",
-    "nervous-system",
+    "mental-health",
+    "consciousness",
     "wellness",
+    "self-care",
+    "meditation",
+    "personal-growth",
+    "healing",
+    "self-improvement",
   ]
 readingTime: 5
 draft: false

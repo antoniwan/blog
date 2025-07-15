@@ -6,26 +6,14 @@ language: ["en"]
 category: ["integration-growth", "parenting", "psychology"]
 tags:
   [
-    "parenting",
     "childhood",
     "family",
+    "consciousness",
     "personal-growth",
-    "reflection",
+    "self-reflection",
     "healing",
     "therapy",
     "trauma",
-    "self-reflection",
-    "emotional-healing",
-    "consciousness",
-    "growth",
-    "transformation",
-    "self-awareness",
-    "mental-health",
-    "emotional-health",
-    "authenticity",
-    "self-improvement",
-    "healing",
-    "resilience",
     "identity",
     "self-discovery",
   ]

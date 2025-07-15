@@ -6,11 +6,16 @@ language: ["en"]
 category: ["integration-growth", "parenting", "psychology"]
 tags:
   [
+    "inner-work",
+    "consciousness",
     "personal-growth",
-    "self-awareness",
+    "self-reflection",
+    "healing",
+    "transformation",
     "therapy",
-    "emotional-intelligence",
     "self-improvement",
+    "mindfulness",
+    "metaspace",
   ]
 readingTime: 4
 draft: false

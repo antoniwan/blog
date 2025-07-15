@@ -8,13 +8,16 @@ category: ["parenting", "systems-strategy"]
 subcategory: "Tecnología y Crianza"
 tags:
   [
-    "ipad",
-    "niños",
-    "control parental",
-    "Puerto Rico",
-    "familia",
-    "tecnología",
-    "crianza consciente",
+    "technology",
+    "parenting",
+    "children",
+    "education",
+    "family",
+    "digital-safety",
+    "conscious-parenting",
+    "tools",
+    "learning",
+    "family-dynamics",
   ]
 readingTime: 8
 draft: false

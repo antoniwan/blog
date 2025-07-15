@@ -5,7 +5,18 @@ pubDate: "2024-05-24"
 language: ["en"]
 category: ["learning-projects", "integration-growth", "psychology"]
 tags:
-  ["books", "reading", "self-improvement", "personal-growth", "recommendations"]
+  [
+    "books",
+    "self-transcendence",
+    "consciousness",
+    "personal-growth",
+    "learning",
+    "philosophy",
+    "spirituality",
+    "transformation",
+    "healing",
+    "metaspace",
+  ]
 readingTime: 3
 draft: false
 featured: false

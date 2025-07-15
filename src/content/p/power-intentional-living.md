@@ -8,14 +8,16 @@ category: ["psychology", "integration-growth"]
 subcategory: "Personal Development"
 tags:
   [
-    "self-awareness",
-    "personal growth",
-    "mindfulness",
-    "value-based living",
-    "self-reflection",
-    "mental health",
-    "intentional living",
-    "emotional intelligence",
+    "power",
+    "intentional-living",
+    "consciousness",
+    "personal-growth",
+    "self-mastery",
+    "authenticity",
+    "transformation",
+    "purpose",
+    "healing",
+    "self-improvement",
   ]
 readingTime: 4
 draft: false

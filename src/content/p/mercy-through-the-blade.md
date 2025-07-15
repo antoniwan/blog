@@ -11,13 +11,13 @@ tags:
     "leadership",
     "authenticity",
     "truth",
-    "personal growth",
+    "personal-growth",
     "values",
-    "warrior mindset",
     "responsibility",
-    "mercy",
     "discipline",
     "self-mastery",
+    "power",
+    "consciousness",
   ]
 readingTime: 8
 draft: false

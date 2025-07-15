@@ -2,39 +2,46 @@ import type { CollectionEntry } from "astro:content";
 
 // Tag importance weights - higher numbers = more important
 const TAG_WEIGHTS: Record<string, number> = {
-  // Core topics
+  // Core topics (highest priority)
+  consciousness: 10,
   "personal-growth": 10,
-  "self-mastery": 10,
-  "mental-health": 9,
-  psychology: 9,
-  "integration-growth": 9,
-  metaspace: 8,
+  "mental-health": 10,
+  healing: 9,
+  therapy: 9,
+  "self-reflection": 9,
+  parenting: 8,
+  technology: 8,
   "systems-strategy": 8,
+  politics: 8,
 
   // Specific skills/areas
-  cooking: 7,
-  nutrition: 7,
-  fitness: 7,
-  mindfulness: 7,
   "emotional-regulation": 7,
-  therapy: 7,
-  healing: 7,
+  mindfulness: 7,
+  authenticity: 7,
+  values: 7,
+  "conscious-parenting": 7,
+  "software-development": 7,
+  productivity: 7,
+
+  // Health & wellness
+  nutrition: 6,
+  fitness: 6,
+  wellness: 6,
+  "self-care": 6,
+  cooking: 6,
 
   // Professional/technical
-  "software-development": 6,
-  productivity: 6,
-  "decision-making": 6,
-  focus: 6,
-  clarity: 6,
+  efficiency: 5,
+  workflow: 5,
+  tools: 5,
+  "learning-projects": 5,
 
   // General concepts
-  "self-improvement": 5,
-  habits: 5,
-  discipline: 5,
-  consistency: 5,
-  transformation: 5,
-  growth: 5,
-  wellness: 5,
+  transformation: 4,
+  "self-improvement": 4,
+  resilience: 4,
+  discipline: 4,
+  responsibility: 4,
 
   // Default weight for unlisted tags
   default: 1,

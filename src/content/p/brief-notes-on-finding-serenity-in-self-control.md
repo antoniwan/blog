@@ -7,10 +7,15 @@ category: ["psychology", "metaspace", "integration-growth"]
 tags:
   [
     "self-control",
-    "serenity",
     "mindfulness",
+    "mental-health",
+    "serenity",
+    "consciousness",
+    "self-mastery",
     "emotional-regulation",
     "personal-growth",
+    "discipline",
+    "healing",
   ]
 readingTime: 1
 draft: false

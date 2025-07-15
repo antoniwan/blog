@@ -6,32 +6,16 @@ language: ["en"]
 category: ["diy-creation", "metaspace", "integration-growth"]
 tags:
   [
-    "digital-detox",
-    "creativity",
-    "presence",
-    "intentional-living",
-    "focus",
+    "technology",
+    "consciousness",
     "social-media",
     "mental-health",
-    "wellness",
-    "self-care",
-    "productivity",
     "mindfulness",
-    "emotional-regulation",
-    "consciousness",
     "personal-growth",
-    "self-improvement",
-    "authenticity",
-    "clarity",
-    "time-management",
-    "digital-wellness",
-    "mental-clarity",
-    "emotional-clarity",
-    "relationships",
-    "connection",
-    "disconnection",
+    "self-reflection",
     "healing",
-    "therapy",
+    "social-issues",
+    "self-improvement",
   ]
 readingTime: 1
 draft: false

@@ -8,13 +8,16 @@ category: ["psychology", "integration-growth", "metaspace"]
 subcategory: "Philosophy"
 tags:
   [
+    "personal-growth",
+    "self-construction",
     "learning",
+    "consciousness",
+    "transformation",
     "self-reflection",
-    "humility",
-    "personal growth",
-    "relationships",
-    "sadness",
-    "emotional intelligence",
+    "healing",
+    "authenticity",
+    "self-improvement",
+    "metaspace",
   ]
 readingTime: 2
 draft: false

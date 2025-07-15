@@ -6,26 +6,16 @@ language: ["en"]
 category: ["metaspace", "integration-growth"]
 tags:
   [
-    "parenting",
-    "co-parenting",
-    "healing",
-    "empathy",
-    "compassion",
-    "family",
-    "emotional-healing",
-    "trauma",
-    "inner-child",
-    "self-compassion",
-    "relationships",
     "consciousness",
-    "growth",
-    "therapy",
+    "inner-child",
     "healing",
     "personal-growth",
-    "emotional-intelligence",
     "self-reflection",
-    "resilience",
     "authenticity",
+    "therapy",
+    "emotional-regulation",
+    "self-improvement",
+    "transformation",
   ]
 readingTime: 1
 draft: false

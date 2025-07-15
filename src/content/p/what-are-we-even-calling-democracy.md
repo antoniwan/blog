@@ -8,11 +8,16 @@ category: ["politics", "metaspace"]
 subcategory: "Social Commentary"
 tags:
   [
-    "democracy",
     "politics",
-    "systemic change",
-    "power dynamics",
-    "social commentary",
+    "democracy",
+    "social-issues",
+    "consciousness",
+    "social-justice",
+    "collective-healing",
+    "philosophy",
+    "power",
+    "responsibility",
+    "metaspace",
   ]
 readingTime: 3
 draft: false

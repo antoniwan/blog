@@ -8,19 +8,16 @@ category: ["integration-growth", "psychology"]
 subcategory: "Personal Transformation"
 tags:
   [
-    "personal growth",
-    "flexibility",
-    "vulnerability",
-    "parenting",
-    "emotional healing",
-    "self-reflection",
     "resilience",
-    "authenticity",
-    "flow",
+    "personal-growth",
+    "mental-health",
+    "mindfulness",
+    "emotional-regulation",
+    "consciousness",
+    "healing",
+    "self-improvement",
+    "adaptability",
     "transformation",
-    "divorce",
-    "co-parenting",
-    "emotional intelligence",
   ]
 readingTime: 8
 draft: false
