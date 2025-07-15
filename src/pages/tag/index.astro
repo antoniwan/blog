@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHeader from '../../components/PageHeader.astro';
+import TagCloud from '../../components/TagCloud.astro';
 import { getCollection } from 'astro:content';
 
 // Get all posts
@@ -20,6 +21,23 @@ const tagCounts = posts.reduce((acc, post) => {
 const sortedTags = Object.entries(tagCounts)
   .sort(([, a], [, b]) => b - a)
   .map(([tag]) => tag);
+
+// Calculate tag sizes for cloud view
+const maxCount = Math.max(...Object.values(tagCounts));
+const minCount = Math.min(...Object.values(tagCounts));
+const tagSizes = Object.entries(tagCounts).reduce((acc, [tag, count]) => {
+  // Scale font size between 0.875rem (14px) and 2.5rem (40px)
+  const size = 0.875 + (count - minCount) / (maxCount - minCount) * 1.625;
+  acc[tag] = Math.max(0.875, Math.min(2.5, size));
+  return acc;
+}, {} as Record<string, number>);
+
+// Prepare tags data for TagCloud component
+const tagsData = sortedTags.map(tag => ({
+  tag,
+  count: tagCounts[tag],
+  size: tagSizes[tag]
+}));
 ---
 
 <BaseLayout
@@ -35,22 +53,9 @@ const sortedTags = Object.entries(tagCounts)
         description="Browse posts by tag"
       />
       
-      {/* Tags Grid */}
-      <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3 mt-12">
-        {sortedTags.map(tag => (
-          <a 
-            href={`/tag/${tag}/`}
-            class="block p-4 bg-neutral-50 dark:bg-neutral-900 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
-          >
-            <h3 class="text-lg font-semibold mb-2">#{tag}</h3>
-            <div class="flex items-center justify-between">
-              <span class="text-sm text-neutral-500 dark:text-neutral-500">
-                {tagCounts[tag]} posts
-              </span>
-              <span class="text-primary-500 dark:text-primary-400">→</span>
-            </div>
-          </a>
-        ))}
+      {/* Tag Cloud */}
+      <div class="mt-12">
+        <TagCloud tags={tagsData} />
       </div>
       
       {/* Empty State */}

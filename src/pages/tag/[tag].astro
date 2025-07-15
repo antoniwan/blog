@@ -29,6 +29,31 @@ const posts = await getCollection('blog', ({ data }) => {
 const tagPosts = posts
 	.filter(post => post.data.tags?.includes(tag))
 	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+// Get all tags for related tags section
+const allPosts = await getCollection('blog', ({ data }) => {
+	return import.meta.env.PROD ? !data.draft : true;
+});
+
+const tagCounts = allPosts.reduce((acc, post) => {
+	post.data.tags?.forEach(t => {
+		acc[t] = (acc[t] || 0) + 1;
+	});
+	return acc;
+}, {} as Record<string, number>);
+
+// Get related tags (tags that appear with this tag)
+const relatedTags = new Set<string>();
+tagPosts.forEach(post => {
+	post.data.tags?.forEach(t => {
+		if (t !== tag) relatedTags.add(t);
+	});
+});
+
+const relatedTagsWithCounts = Array.from(relatedTags)
+	.map(t => ({ tag: t, count: tagCounts[t] }))
+	.sort((a, b) => b.count - a.count)
+	.slice(0, 8); // Show top 8 related tags
 ---
 
 <BaseLayout
@@ -40,26 +65,94 @@ const tagPosts = posts
 	posts={tagPosts}
 >
 	<div class="w-full px-4 md:px-6 lg:px-8 xl:px-12">
-		{/* Tag Header */}
 		<div class="max-w-container mx-auto">
-			<PageHeader 
-				title={`#${tag}`}
-				description={`Browse all posts tagged with ${tag}`}
-			/>
+			{/* Tag Header with Stats */}
+			<div class="mb-8">
+				<PageHeader 
+					title={`#${tag}`}
+					description={`Browse all posts tagged with ${tag}`}
+				/>
+				
+				{/* Tag Statistics */}
+				<div class="mt-6 flex flex-wrap gap-4 items-center">
+					<div class="flex items-center gap-2 px-4 py-2 bg-primary-50 dark:bg-primary-900/20 border border-primary-200 dark:border-primary-800 rounded-lg">
+						<span class="text-primary-600 dark:text-primary-400" aria-hidden="true">📊</span>
+						<span class="text-sm font-medium text-primary-700 dark:text-primary-300">
+							{tagPosts.length} {tagPosts.length === 1 ? 'post' : 'posts'}
+						</span>
+					</div>
+					
+					{relatedTagsWithCounts.length > 0 && (
+						<div class="flex items-center gap-2 px-4 py-2 bg-background-alt dark:bg-background-alt-dark border border-border dark:border-border-dark rounded-lg">
+							<span class="text-neutral-600 dark:text-neutral-400" aria-hidden="true">🔗</span>
+							<span class="text-sm font-medium text-neutral-700 dark:text-neutral-300">
+								{relatedTagsWithCounts.length} related tags
+							</span>
+						</div>
+					)}
+				</div>
+			</div>
+			
+			{/* Related Tags */}
+			{relatedTagsWithCounts.length > 0 && (
+				<div class="mb-8">
+					<h3 class="text-lg font-semibold mb-4 text-text dark:text-text-dark">
+						Related Tags
+					</h3>
+					<div class="flex flex-wrap gap-2">
+						{relatedTagsWithCounts.map(({ tag: relatedTag, count }) => (
+							<a
+								href={`/tag/${relatedTag}/`}
+								class="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm bg-background-alt dark:bg-background-alt-dark border border-border/30 dark:border-border-dark/30 rounded-full text-text dark:text-text-dark hover:bg-primary-50 dark:hover:bg-primary-900/20 hover:border-primary-300 dark:hover:border-primary-700 hover:text-primary-600 dark:hover:text-primary-400 transition-all duration-200"
+							>
+								<span aria-hidden="true">🏷️</span>
+								<span>#{relatedTag}</span>
+								<span class="text-xs text-neutral-500 dark:text-neutral-400">({count})</span>
+							</a>
+						))}
+					</div>
+				</div>
+			)}
 			
 			{/* Tag Posts */}
-			<div class="space-y-8 mt-12">
-				{tagPosts.map(post => (
-					<PostCard post={post} />
-				))}
+			<div class="space-y-6">
+				{tagPosts.length > 0 && (
+					<div class="flex items-center justify-between mb-6">
+						<h2 class="text-xl font-semibold text-text dark:text-text-dark">
+							Posts tagged with #{tag}
+						</h2>
+						<div class="text-sm text-neutral-500 dark:text-neutral-400">
+							Sorted by date
+						</div>
+					</div>
+				)}
+				
+				<div class="space-y-6">
+					{tagPosts.map(post => (
+						<PostCard post={post} />
+					))}
+				</div>
 			</div>
 			
 			{/* Empty State */}
 			{tagPosts.length === 0 && (
 				<div class="text-center py-12">
-					<p class="text-neutral-600 dark:text-neutral-400">
-						No posts found with this tag yet.
-					</p>
+					<div class="max-w-md mx-auto">
+						<div class="text-4xl mb-4" aria-hidden="true">🏷️</div>
+						<h3 class="text-lg font-semibold mb-2 text-text dark:text-text-dark">
+							No posts found
+						</h3>
+						<p class="text-neutral-600 dark:text-neutral-400 mb-6">
+							No posts have been tagged with "#{tag}" yet.
+						</p>
+						<a 
+							href="/tag/"
+							class="inline-flex items-center gap-2 px-4 py-2 bg-primary-600 dark:bg-primary-500 text-white rounded-lg hover:bg-primary-700 dark:hover:bg-primary-600 transition-colors"
+						>
+							<span>←</span>
+							<span>Browse all tags</span>
+						</a>
+					</div>
 				</div>
 			)}
 		</div>
