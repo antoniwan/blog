@@ -5,6 +5,7 @@ import BaseHead from '../components/BaseHead.astro';
 import BackToTop from '../components/BackToTop.astro';
 import ReadingProgress from '../components/ReadingProgress.astro';
 import { SITE_TITLE, SITE_DESCRIPTION, AUTHOR } from '../consts';
+import { generateKeywords, generateImageAlt } from '../utils/seo';
 import SpeedInsights from "@vercel/speed-insights/astro"
 import Analytics from '@vercel/analytics/astro';
 
@@ -19,12 +20,11 @@ interface Props {
   tags?: string[];
   category?: string[];
   // SEO fields
-  canonicalUrl?: string;
-  ogImage?: string;
-  ogImageAlt?: string;
+  path?: string;
+  image?: string;
+  imageAlt?: string;
   author?: string;
   keywords?: string[];
-  robots?: string;
 }
 
 const { 
@@ -36,13 +36,18 @@ const {
   readingTime,
   tags,
   category = [],
-  canonicalUrl,
-  ogImage,
-  ogImageAlt,
+  path,
+  image,
+  imageAlt,
   author = AUTHOR.name,
-  keywords = tags,
-  robots
+  keywords
 } = Astro.props;
+
+// Auto-generate keywords if not provided
+const finalKeywords = keywords || generateKeywords(tags, category);
+
+// Auto-generate image alt text if not provided
+const finalImageAlt = imageAlt || generateImageAlt(title);
 ---
 
 <!doctype html>
@@ -51,15 +56,13 @@ const {
     <BaseHead 
       title={title} 
       description={description}
-      image={heroImage}
-      canonicalUrl={canonicalUrl}
-      ogImage={ogImage}
-      ogImageAlt={ogImageAlt}
+      path={path}
+      image={image || heroImage}
+      imageAlt={finalImageAlt}
       pubDate={pubDate}
       updatedDate={updatedDate}
       author={author}
-      keywords={keywords}
-      robots={robots}
+      keywords={finalKeywords}
     />
     <SpeedInsights />
   </head>

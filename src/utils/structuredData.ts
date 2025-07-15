@@ -7,11 +7,12 @@ import {
   SOCIAL_LINKS,
   SEO_CONFIG,
 } from "../consts";
+import { generateCanonicalUrl, generateImageUrl } from "./seo";
 
 export interface StructuredDataOptions {
   title: string;
   description: string;
-  url: string;
+  path: string; // Simplified: just the path, URL will be auto-generated
   posts?: CollectionEntry<"blog">[];
   type?: "category" | "tag" | "website" | "blogpost";
   identifier?: string;
@@ -28,7 +29,7 @@ export function generateStructuredData(options: StructuredDataOptions) {
   const {
     title,
     description,
-    url,
+    path,
     posts = [],
     type = "website",
     identifier,
@@ -40,6 +41,7 @@ export function generateStructuredData(options: StructuredDataOptions) {
     readingTime,
   } = options;
 
+  const url = generateCanonicalUrl(path);
   const schemas: any[] = [];
 
   // Base WebSite schema for all pages
@@ -72,7 +74,7 @@ export function generateStructuredData(options: StructuredDataOptions) {
     url: SITE_URL,
     logo: {
       "@type": "ImageObject",
-      url: new URL(SEO_CONFIG.organizationLogo, SITE_URL).href,
+      url: generateImageUrl(SEO_CONFIG.organizationLogo),
       width: SEO_CONFIG.organizationLogoWidth,
       height: SEO_CONFIG.organizationLogoHeight,
     },
@@ -100,7 +102,7 @@ export function generateStructuredData(options: StructuredDataOptions) {
       "@type": "BlogPosting",
       headline: title,
       description: description,
-      image: heroImage ? new URL(heroImage, SITE_URL).href : undefined,
+      image: heroImage ? generateImageUrl(heroImage) : undefined,
       datePublished: pubDate.toISOString(),
       dateModified: updatedDate?.toISOString() || pubDate.toISOString(),
       author: {
@@ -114,7 +116,7 @@ export function generateStructuredData(options: StructuredDataOptions) {
         url: SITE_URL,
         logo: {
           "@type": "ImageObject",
-          url: new URL(SEO_CONFIG.organizationLogo, SITE_URL).href,
+          url: generateImageUrl(SEO_CONFIG.organizationLogo),
         },
       },
       keywords: keywords.join(", "),
@@ -138,7 +140,7 @@ export function generateStructuredData(options: StructuredDataOptions) {
             "@type": "BlogPosting",
             headline: post.data.title,
             description: post.data.description,
-            url: new URL(`/p/${post.id}`, SITE_URL).href,
+            url: generateCanonicalUrl(`/p/${post.id}`),
             datePublished: post.data.pubDate.toISOString(),
             dateModified:
               post.data.updatedDate?.toISOString() ||
@@ -149,7 +151,7 @@ export function generateStructuredData(options: StructuredDataOptions) {
               url: AUTHOR.url,
             },
             image: post.data.heroImage
-              ? new URL(post.data.heroImage, SITE_URL).href
+              ? generateImageUrl(post.data.heroImage)
               : undefined,
             keywords: post.data.tags?.join(", "),
             articleSection: post.data.category?.join(", "),
@@ -172,8 +174,9 @@ export function generateStructuredData(options: StructuredDataOptions) {
             "@type": "ListItem",
             position: 2,
             name: type === "category" ? "Categories" : "Tags",
-            item: new URL(type === "category" ? "/category" : "/tag", SITE_URL)
-              .href,
+            item: generateCanonicalUrl(
+              type === "category" ? "/category" : "/tag"
+            ),
           },
           {
             "@type": "ListItem",
@@ -206,7 +209,7 @@ export function generateWebSiteSchema(siteUrl: string, author = AUTHOR.name) {
   return generateStructuredData({
     title: SITE_TITLE,
     description: SITE_DESCRIPTION,
-    url: siteUrl,
+    path: "/",
     type: "website",
     author,
   });

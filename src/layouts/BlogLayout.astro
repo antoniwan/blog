@@ -15,9 +15,9 @@ interface Props {
   tags?: string[];
   category?: string[];
   // SEO fields
-  canonicalUrl?: string;
-  ogImage?: string;
-  ogImageAlt?: string;
+  path?: string;
+  image?: string;
+  imageAlt?: string;
   author?: string;
   keywords?: string[];
   // Structured data
@@ -39,28 +39,28 @@ const {
   readingTime,
   tags,
   category,
-  canonicalUrl,
-  ogImage,
-  ogImageAlt,
+  path,
+  image,
+  imageAlt,
   author,
   keywords,
   tableOfContents,
   ...rest
 } = Astro.props;
 
-// Generate canonical URL
-const canonical = canonicalUrl || generateCanonicalUrl(Astro.url.pathname);
+// Generate canonical URL automatically
+const canonical = path || generateCanonicalUrl(Astro.url.pathname);
 
 // Generate structured data for blog post
 const structuredData = generateStructuredData({
   title,
   description: description || '',
-  url: canonical,
+  path: canonical,
   type: 'blogpost',
   author,
   pubDate,
   updatedDate,
-  heroImage: heroImage || ogImage,
+  heroImage: image || heroImage,
   keywords: keywords || [],
   readingTime
 });
@@ -75,9 +75,9 @@ const structuredData = generateStructuredData({
   readingTime={readingTime}
   tags={tags}
   category={category}
-  canonicalUrl={canonical}
-  ogImage={ogImage}
-  ogImageAlt={ogImageAlt}
+  path={canonical}
+  image={image}
+  imageAlt={imageAlt}
   author={author}
   keywords={keywords}
   {...rest}
@@ -118,9 +118,9 @@ const structuredData = generateStructuredData({
           )}
           
           {tags && tags.length > 0 && (
-            <span class="flex items-center gap-2">
+            <div class="flex items-center gap-2">
               <span class="text-primary-500 dark:text-primary-400">🏷️</span>
-              <div class="flex flex-wrap gap-1">
+              <div class="flex flex-wrap gap-2">
                 {tags.map(tag => (
                   <a 
                     href={`/tag/${tag}/`}
@@ -130,15 +130,38 @@ const structuredData = generateStructuredData({
                   </a>
                 ))}
               </div>
-            </span>
+            </div>
           )}
         </div>
       </div>
-
-      {/* Content */}
-      <article class="prose prose-lg dark:prose-invert prose-headings:scroll-mt-20 max-w-none">
+      
+      {/* Article Content */}
+      <article class="prose prose-lg dark:prose-invert max-w-none">
         <slot />
       </article>
+      
+      {/* Table of Contents */}
+      {tableOfContents && tableOfContents.items.length > 0 && (
+        <aside class="mt-12 p-6 bg-neutral-50 dark:bg-neutral-900 rounded-lg">
+          <h3 class="text-lg font-semibold mb-4">Table of Contents</h3>
+          <nav>
+            <ul class="space-y-2">
+              {tableOfContents.items.map(item => (
+                <li>
+                  <a 
+                    href={`#${item.slug}`}
+                    class={`block hover:text-primary-500 dark:hover:text-primary-400 transition-colors ${
+                      item.depth === 3 ? 'ml-4' : ''
+                    }`}
+                  >
+                    {item.text}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        </aside>
+      )}
     </div>
   </div>
 </BaseLayout>

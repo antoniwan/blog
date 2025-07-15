@@ -3,7 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHeader from '../../components/PageHeader.astro';
 import { getCollection } from 'astro:content';
 import { generateStructuredData } from '../../utils/structuredData';
-import { generateCanonicalUrl } from '../../utils/seo';
+import { generateKeywords } from '../../utils/seo';
 
 // Get all posts
 const posts = await getCollection('blog', ({ data }) => {
@@ -23,55 +23,67 @@ const sortedTags = Object.entries(tagCounts)
   .sort(([, a], [, b]) => b - a)
   .map(([tag]) => tag);
 
-// Generate canonical URL
-const canonical = generateCanonicalUrl('/tag');
-
 // Generate structured data for tags page
 const structuredData = generateStructuredData({
   title: 'Tags',
   description: 'Browse posts by tag',
-  url: canonical,
+  path: '/tag',
   type: 'website',
   author: 'Antoniwan'
 });
+
+// Auto-generate keywords
+const keywords = generateKeywords(sortedTags, []);
 ---
 
 <BaseLayout
   title="Tags"
   description="Browse posts by tag"
-  canonicalUrl={canonical}
+  path="/tag"
+  keywords={keywords}
 >
   <!-- Structured Data -->
-  <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+  {Array.isArray(structuredData) ? 
+    structuredData.map((schema, index) => (
+      <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+    ))
+    :
+    <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+  }
   
   <div class="w-full px-4 md:px-6 lg:px-8 xl:px-12">
-    {/* Page Header */}
     <div class="max-w-container mx-auto">
       <PageHeader 
         title="Tags"
         description="Browse posts by tag"
       />
-    </div>
-
-    {/* Tags Grid */}
-    <div class="max-w-container mx-auto">
-      <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {sortedTags.map((tag) => (
-          <a
+      
+      {/* Tags Grid */}
+      <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3 mt-12">
+        {sortedTags.map(tag => (
+          <a 
             href={`/tag/${tag}/`}
-            class="group block p-4 rounded-lg border border-neutral-200 dark:border-neutral-700 hover:border-primary-300 dark:hover:border-primary-600 transition-colors"
+            class="block p-4 bg-neutral-50 dark:bg-neutral-900 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
           >
+            <h3 class="text-lg font-semibold mb-2">#{tag}</h3>
             <div class="flex items-center justify-between">
-              <span class="font-medium text-text dark:text-text-dark group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
-                #{tag}
-              </span>
               <span class="text-sm text-neutral-500 dark:text-neutral-500">
-                {tagCounts[tag]}
+                {tagCounts[tag]} posts
               </span>
+              <span class="text-primary-500 dark:text-primary-400">→</span>
             </div>
           </a>
         ))}
       </div>
+      
+      {/* Empty State */}
+      {sortedTags.length === 0 && (
+        <div class="text-center py-12">
+          <p class="text-neutral-600 dark:text-neutral-400">
+            No tags found yet.
+          </p>
+        </div>
+      )}
     </div>
   </div>
 </BaseLayout>

@@ -8,11 +8,9 @@ import { generateMetaTags, DEFAULT_ROBOTS, DEFAULT_LOCALE } from '../utils/seo';
 interface Props {
 	title: string;
 	description?: string;
+	path?: string; // Simplified: just the path, URL will be auto-generated
 	image?: string;
-	canonicalUrl?: string;
-	ogImage?: string;
-	ogImageAlt?: string;
-	robots?: string;
+	imageAlt?: string;
 	pubDate?: Date;
 	updatedDate?: Date;
 	author?: string;
@@ -23,11 +21,9 @@ interface Props {
 const {
 	title,
 	description = SITE_DESCRIPTION,
+	path,
 	image,
-	canonicalUrl,
-	ogImage,
-	ogImageAlt,
-	robots = DEFAULT_ROBOTS,
+	imageAlt,
 	pubDate,
 	updatedDate,
 	author = AUTHOR.name,
@@ -35,19 +31,18 @@ const {
 	locale = DEFAULT_LOCALE
 } = Astro.props;
 
-// Generate optimized meta tags
+// Generate optimized meta tags with automatic URL handling
 const metaTags = generateMetaTags({
 	title,
 	description,
-	url: canonicalUrl || Astro.url.href,
-	image: ogImage || image,
-	imageAlt: ogImageAlt,
+	path: path || Astro.url.pathname,
+	image,
+	imageAlt,
 	author,
 	keywords,
 	pubDate,
 	updatedDate,
-	locale,
-	robots
+	locale
 });
 
 // Format dates for meta tags
@@ -103,7 +98,7 @@ const updatedDateISO = updatedDate?.toISOString();
 <meta property="og:url" content={metaTags.canonical} />
 <meta property="og:title" content={metaTags.title} />
 <meta property="og:description" content={metaTags.description} />
-<meta property="og:image" content={new URL(metaTags.ogImage, Astro.site).href} />
+<meta property="og:image" content={metaTags.ogImage} />
 <meta property="og:image:alt" content={metaTags.ogImageAlt} />
 <meta property="og:locale" content={metaTags.locale} />
 <meta property="og:site_name" content={SITE_TITLE} />
@@ -113,7 +108,7 @@ const updatedDateISO = updatedDate?.toISOString();
 <meta property="twitter:url" content={metaTags.canonical} />
 <meta property="twitter:title" content={metaTags.title} />
 <meta property="twitter:description" content={metaTags.description} />
-<meta property="twitter:image" content={new URL(metaTags.ogImage, Astro.site).href} />
+<meta property="twitter:image" content={metaTags.ogImage} />
 <meta property="twitter:image:alt" content={metaTags.ogImageAlt} />
 <meta name="twitter:creator" content={SEO_CONFIG.twitterHandle} />
 <meta name="twitter:site" content={SEO_CONFIG.twitterHandle} />

@@ -4,7 +4,7 @@ import PostCard from '../../components/PostCard.astro';
 import PageHeader from '../../components/PageHeader.astro';
 import { getCollection } from 'astro:content';
 import { generateStructuredData } from '../../utils/structuredData';
-import { generateCanonicalUrl } from '../../utils/seo';
+import { generateKeywords } from '../../utils/seo';
 
 export async function getStaticPaths() {
 	const posts = await getCollection('blog');
@@ -32,25 +32,26 @@ const tagPosts = posts
 	.filter(post => post.data.tags?.includes(tag))
 	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
-// Generate canonical URL
-const canonical = generateCanonicalUrl(`/tag/${tag}`);
-
 // Generate structured data
 const structuredData = generateStructuredData({
 	title: `${tag} - Tag`,
 	description: `Browse all posts tagged with ${tag}`,
-	url: canonical,
+	path: `/tag/${tag}`,
 	posts: tagPosts,
 	type: 'tag',
 	identifier: tag,
 	author: 'Antoniwan'
 });
+
+// Auto-generate keywords
+const keywords = generateKeywords([tag], []);
 ---
 
 <BaseLayout
 	title={`${tag} - Tag`}
 	description={`Browse all posts tagged with ${tag}`}
-	canonicalUrl={canonical}
+	path={`/tag/${tag}`}
+	keywords={keywords}
 >
 	<!-- Structured Data -->
 	{Array.isArray(structuredData) ? 
@@ -65,20 +66,19 @@ const structuredData = generateStructuredData({
 		{/* Tag Header */}
 		<div class="max-w-container mx-auto">
 			<PageHeader 
-				title={tag}
-				description={`${tagPosts.length} ${tagPosts.length === 1 ? 'post' : 'posts'} tagged with ${tag}`}
+				title={`#${tag}`}
+				description={`Browse all posts tagged with ${tag}`}
 			/>
-		</div>
-
-		{/* Posts Grid */}
-		<div class="max-w-container mx-auto">
-			{tagPosts.length > 0 ? (
-				<div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-					{tagPosts.map((post) => (
-						<PostCard post={post} />
-					))}
-				</div>
-			) : (
+			
+			{/* Tag Posts */}
+			<div class="space-y-8 mt-12">
+				{tagPosts.map(post => (
+					<PostCard post={post} />
+				))}
+			</div>
+			
+			{/* Empty State */}
+			{tagPosts.length === 0 && (
 				<div class="text-center py-12">
 					<p class="text-neutral-600 dark:text-neutral-400">
 						No posts found with this tag yet.
