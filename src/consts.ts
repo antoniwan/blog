@@ -2,7 +2,7 @@
 // You can import this data from anywhere in your site by using the `import` keyword.
 
 // Site Information
-export const SITE_TITLE = "StrongVault";
+export const SITE_TITLE = "Curious Chaos Journal";
 export const SITE_DESCRIPTION =
   "A personal digital space exploring the intersection of food, health, technology, and parenting. Sharing recipes, insights, and experiences.";
 export const SITE_URL = "https://blog.antoniwan.online";
@@ -30,12 +30,12 @@ export const SOCIAL_LINKS = {
 // SEO Configuration
 export const SEO_CONFIG = {
   defaultImage: "/share-image.png",
-  defaultImageAlt: "StrongVault - Personal Digital Space",
+  defaultImageAlt: "Curious Chaos Journal - Personal Digital Space",
   defaultLocale: "en_US",
   defaultRobots: "index, follow",
   googleSiteVerification: "gUubXvBv6tFsaZTQd5vS1VUGHlaMTOyf110X3yn7jiY",
   twitterHandle: "@antoniwan",
-  organizationName: "StrongVault",
+  organizationName: "Curious Chaos Journal",
   organizationLogo: "/sh-sh-logo.svg",
   organizationLogoWidth: 512,
   organizationLogoHeight: 512,

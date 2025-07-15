@@ -1,8 +1,8 @@
 @import "./fonts.css";
 
 /*
-  StrongVault CSS Architecture
-  ===========================
+  Curious Chaos Journal CSS Architecture
+  =====================================
   
   This stylesheet follows a BEM-like naming convention:
   - Block: Standalone component (e.g., .header)
@@ -28,9 +28,9 @@
     /* Font families */
     --font-sans:
       "Open Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-      Roboto, Oxygen, Ubuntu, Cantarell, "Helvetica Neue",
-      sans-serif;
-    --font-serif: "Source Serif Pro", Georgia, Cambria, "Times New Roman", Times, serif;
+      Roboto, Oxygen, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+    --font-serif:
+      "Source Serif Pro", Georgia, Cambria, "Times New Roman", Times, serif;
 
     /* Typography */
     --smart-quote-open: '"';

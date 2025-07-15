@@ -1,6 +1,6 @@
 {
-  "name": "StrongVault",
-  "short_name": "StrongVault",
+  "name": "Curious Chaos Journal",
+  "short_name": "The CCJ",
   "description": "A personal digital space exploring the intersection of food, health, technology, and parenting. Sharing recipes, insights, and experiences.",
   "start_url": "/",
   "display": "standalone",
@@ -53,7 +53,7 @@
     {
       "name": "About",
       "short_name": "About",
-      "description": "Learn more about StrongVault",
+      "description": "Learn more about the Curious Chaos Journal",
       "url": "/about",
       "icons": [
         {

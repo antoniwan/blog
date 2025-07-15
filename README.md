@@ -1,4 +1,4 @@
-# StrongVault
+# Curious Chaos Journal
 
 A personal digital space where I document my journey of building systems — digital, emotional, spiritual, and physical. This is more than just a blog; it's a living document of my exploration, creation, and growth.
 

@@ -32,7 +32,7 @@ const tagCounts = posts.reduce((acc, post) => {
 
 // Generate structured data for home page
 const structuredData = generateStructuredData({
-	title: 'Welcome to the Strong Vault',
+	title: 'Welcome to the Curious Chaos Journal',
 	description: 'Notes on strength, clarity, ritual, and creation — one builder\'s journey through code, craft, and self-mastery.',
 	path: '/',
 	type: 'website',
@@ -46,7 +46,7 @@ const keywords = generateKeywords(allTags, allCategories);
 ---
 
 <HomeLayout
-	title="Welcome to the Strong Vault"
+	title="Welcome to the Curious Chaos Journal"
 	description="Notes on strength, clarity, ritual, and creation — one builder's journey through code, craft, and self-mastery."
 	path="/"
 	keywords={keywords}
@@ -57,7 +57,7 @@ const keywords = generateKeywords(allTags, allCategories);
 	{/* Hero Section */}
 	<div class="max-w-container mx-auto">
 		<PageHeader 
-			title="Welcome to the Strong Vault"
+			title="Welcome to the Curious Chaos Journal"
 			description="Notes on strength, clarity, ritual, and creation — one builder's journey through code, craft, and self-mastery."
 		/>
 	</div>
