@@ -107,8 +107,8 @@ const canonical = path || generateCanonicalUrl(Astro.url.pathname);
             <div class="flex flex-wrap gap-2">
               <TagDisplay 
                 tags={tags} 
-                maxVisible={8} 
-                showMoreIndicator={true}
+                maxVisible={tags.length} 
+                showMoreIndicator={false}
                 compact={false}
               />
             </div>
