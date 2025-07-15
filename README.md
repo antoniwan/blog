@@ -156,7 +156,34 @@ Deployed on Vercel with:
 
 ## 📄 License
 
-This project is personal and not licensed for public use.
+### Content License
+
+Content is licensed under [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-nc-sa/4.0/) (CC BY-NC-SA 4.0).
+
+This means you can:
+
+- **Share** — copy and redistribute the material in any medium or format
+- **Adapt** — remix, transform, and build upon the material
+
+Under the following terms:
+
+- **Attribution** — You must give appropriate credit, provide a link to the license, and indicate if changes were made
+- **NonCommercial** — You may not use the material for commercial purposes
+- **ShareAlike** — If you remix, transform, or build upon the material, you must distribute your contributions under the same license
+
+### Code License
+
+Code is licensed under the [MIT License](https://opensource.org/licenses/MIT).
+
+This means you can:
+
+- Use the code for commercial purposes
+- Modify the code
+- Distribute the code
+- Use it privately
+- Sublicense it
+
+The only requirement is that the original license and copyright notice be included in any substantial portions of the software.
 
 ---
 
