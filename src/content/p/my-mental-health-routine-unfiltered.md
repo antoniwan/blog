@@ -3,7 +3,7 @@ title: "🧠 My Mental Health Routine (Unfiltered)"
 description: "I’ve spent the last 14 days rebuilding my nervous system from the ground up after completing assessing and reviewing my intelligence and…"
 pubDate: "2025-04-21T00:26:07.406Z"
 language: ["en"]
-category: ["parenting", "psychology", "art-expression"]
+category: ["integration-growth", "psychology", "art-expression"]
 tags: []
 readingTime: 2
 draft: false

@@ -3,7 +3,7 @@ title: "On Feeling Overpowered"
 description: "Note-to-self!"
 pubDate: "2024-05-29T14:41:25.408Z"
 language: ["en"]
-category: ["parenting", "psychology"]
+category: ["integration-growth", "psychology"]
 tags: []
 readingTime: 3
 draft: false
