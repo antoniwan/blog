@@ -2,46 +2,163 @@ import type { CollectionEntry } from "astro:content";
 
 // Tag importance weights - higher numbers = more important
 const TAG_WEIGHTS: Record<string, number> = {
-  // Core topics (highest priority)
+  // Core themes (highest priority) - foundational topics
   consciousness: 10,
   "personal-growth": 10,
   "mental-health": 10,
-  healing: 9,
+  healing: 10,
   therapy: 9,
   "self-reflection": 9,
+  transformation: 9,
+  authenticity: 9,
+  values: 9,
+
+  // Major life areas
   parenting: 8,
+  "conscious-parenting": 8,
   technology: 8,
   "systems-strategy": 8,
   politics: 8,
+  spirituality: 8,
+  philosophy: 8,
+  psychology: 8,
 
-  // Specific skills/areas
+  // Health & wellness (high priority)
+  wellness: 7,
+  "self-care": 7,
+  nutrition: 7,
+  fitness: 7,
   "emotional-regulation": 7,
   mindfulness: 7,
-  authenticity: 7,
-  values: 7,
-  "conscious-parenting": 7,
-  "software-development": 7,
-  productivity: 7,
+  "emotional-health": 7,
+  fasting: 7,
+  health: 7,
 
-  // Health & wellness
-  nutrition: 6,
-  fitness: 6,
-  wellness: 6,
-  "self-care": 6,
-  cooking: 6,
+  // Professional & technical
+  productivity: 6,
+  "software-development": 6,
+  development: 6,
+  efficiency: 6,
+  workflow: 6,
+  tools: 6,
+  "learning-projects": 6,
+  customization: 6,
 
-  // Professional/technical
-  efficiency: 5,
-  workflow: 5,
-  tools: 5,
-  "learning-projects": 5,
+  // Personal development skills
+  resilience: 6,
+  discipline: 6,
+  responsibility: 6,
+  "self-improvement": 6,
+  "self-mastery": 6,
+  "emotional-intelligence": 6,
+  "self-awareness": 6,
 
-  // General concepts
-  transformation: 4,
-  "self-improvement": 4,
-  resilience: 4,
-  discipline: 4,
-  responsibility: 4,
+  // Content themes
+  meaning: 5,
+  purpose: 5,
+  identity: 5,
+  power: 5,
+  truth: 5,
+  freedom: 5,
+  "intentional-living": 5,
+  "self-discovery": 5,
+
+  // Family & relationships
+  family: 5,
+  children: 5,
+  "child-development": 5,
+  "family-dynamics": 5,
+
+  // Social & cultural
+  "social-issues": 5,
+  "social-justice": 5,
+  "collective-healing": 5,
+  fear: 5,
+  control: 5,
+
+  // Creative & expressive
+  "art-expression": 4,
+  creativity: 4,
+  expression: 4,
+  symbols: 4,
+  mythology: 4,
+
+  // Practical skills
+  cooking: 4,
+  "diy-creation": 4,
+  "healthy-eating": 4,
+  micronutrients: 4,
+
+  // Technical topics
+  terminal: 4,
+  wezterm: 4,
+  powershell: 4,
+  "oh-my-posh": 4,
+  zoxide: 4,
+  windows: 4,
+  nvm: 4,
+  fzf: 4,
+
+  // Mental health specific
+  "analysis-paralysis": 4,
+  "emotional-pain": 4,
+  trauma: 4,
+  "imposter-syndrome": 4,
+  journaling: 4,
+  "evidence-based": 4,
+
+  // Lifestyle & habits
+  routine: 4,
+  habits: 4,
+  simplicity: 4,
+  minimalism: 4,
+  "inner-peace": 4,
+  contentment: 4,
+  gratitude: 4,
+
+  // Spiritual & philosophical
+  atheism: 4,
+  humanism: 4,
+  existentialism: 4,
+  reflection: 4,
+  meditation: 4,
+  ritual: 4,
+
+  // Learning & education
+  learning: 4,
+  books: 4,
+  "self-transcendence": 4,
+  education: 4,
+
+  // Communication & empathy
+  empathy: 4,
+  compassion: 4,
+  communication: 4,
+  respect: 4,
+
+  // Digital & safety
+  "digital-safety": 4,
+  internet: 4,
+  safety: 4,
+
+  // Specific topics
+  "beef-heart": 3,
+  "organ-meats": 3,
+  "total-concentration-breathing": 3,
+  breathwork: 3,
+  "stronghand-terminal": 3,
+  illuminati: 3,
+  "builds-software": 3,
+
+  // General concepts (lower priority)
+  growth: 3,
+  change: 3,
+  evolution: 3,
+  progress: 3,
+  improvement: 3,
+  development: 3,
+  mastery: 3,
+  excellence: 3,
 
   // Default weight for unlisted tags
   default: 1,
