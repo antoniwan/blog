@@ -51,6 +51,7 @@ export function generateStructuredData(options: StructuredDataOptions) {
     name: SITE_TITLE,
     description: SITE_DESCRIPTION,
     url: SITE_URL,
+    inLanguage: "en-US",
     publisher: {
       "@type": "Person",
       name: author,
@@ -64,6 +65,7 @@ export function generateStructuredData(options: StructuredDataOptions) {
       },
       "query-input": "required name=search_term_string",
     },
+    dateModified: new Date().toISOString(),
   });
 
   // Organization schema
@@ -72,6 +74,7 @@ export function generateStructuredData(options: StructuredDataOptions) {
     "@type": "Organization",
     name: SEO_CONFIG.organizationName,
     url: SITE_URL,
+    inLanguage: "en-US",
     logo: {
       "@type": "ImageObject",
       url: generateImageUrl(SEO_CONFIG.organizationLogo),
@@ -79,6 +82,7 @@ export function generateStructuredData(options: StructuredDataOptions) {
       height: SEO_CONFIG.organizationLogoHeight,
     },
     sameAs: Object.values(SOCIAL_LINKS),
+    dateModified: new Date().toISOString(),
   });
 
   // Person schema for author
@@ -87,12 +91,20 @@ export function generateStructuredData(options: StructuredDataOptions) {
     "@type": "Person",
     name: author,
     url: AUTHOR.url,
+    inLanguage: "en-US",
     sameAs: [SOCIAL_LINKS.twitter, SOCIAL_LINKS.github, SOCIAL_LINKS.bluesky],
     jobTitle: "Software Engineer & Writer",
     worksFor: {
       "@type": "Organization",
       name: SEO_CONFIG.organizationName,
     },
+    knowsAbout: [
+      "Software Development",
+      "Personal Growth",
+      "Mental Health",
+      "Parenting",
+      "Technology",
+    ],
   });
 
   // Type-specific schemas
@@ -122,6 +134,10 @@ export function generateStructuredData(options: StructuredDataOptions) {
       keywords: keywords.join(", "),
       timeRequired: readingTime ? `PT${readingTime}M` : undefined,
       url: url,
+      inLanguage: "en-US",
+      articleSection: keywords.length > 0 ? keywords[0] : undefined,
+      wordCount:
+        description.split(" ").length + keywords.join(" ").split(" ").length,
     });
   } else if ((type === "category" || type === "tag") && posts.length > 0) {
     schemas.push({

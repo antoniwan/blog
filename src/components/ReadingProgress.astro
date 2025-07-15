@@ -29,16 +29,24 @@ const { class: className = '' } = Astro.props;
 	const progressBar = document.querySelector('[role="progressbar"]') as HTMLElement;
 	let ticking = false;
 	let lastProgress = 0;
+	let lastScrollY = 0;
+	let lastWindowHeight = 0;
 	
 	function updateReadingProgress() {
 		const windowHeight = window.innerHeight;
 		const documentHeight = document.documentElement.scrollHeight - windowHeight;
 		const scrolled = window.scrollY;
 		
+		// Skip update if scroll position and window size haven't changed significantly
+		if (Math.abs(scrolled - lastScrollY) < 10 && Math.abs(windowHeight - lastWindowHeight) < 10) {
+			ticking = false;
+			return;
+		}
+		
 		const progress = Math.min((scrolled / documentHeight) * 100, 100);
 		
 		// Only update if progress changed significantly (performance optimization)
-		if (Math.abs(progress - lastProgress) > 0.5) {
+		if (Math.abs(progress - lastProgress) > 1.0) {
 			readingProgress.style.width = `${progress}%`;
 			lastProgress = progress;
 			
@@ -48,6 +56,8 @@ const { class: className = '' } = Astro.props;
 			}
 		}
 		
+		lastScrollY = scrolled;
+		lastWindowHeight = windowHeight;
 		ticking = false;
 	}
 
@@ -58,6 +68,7 @@ const { class: className = '' } = Astro.props;
 		}
 	}
 
+	// Use passive listeners for better performance
 	window.addEventListener('scroll', throttledUpdate, { passive: true });
 	window.addEventListener('resize', throttledUpdate, { passive: true });
 	

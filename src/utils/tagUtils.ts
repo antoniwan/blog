@@ -37,7 +37,6 @@ const TAG_WEIGHTS: Record<string, number> = {
   // Professional & technical
   productivity: 6,
   "software-development": 6,
-  development: 6,
   efficiency: 6,
   workflow: 6,
   tools: 6,

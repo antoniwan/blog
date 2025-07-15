@@ -98,6 +98,8 @@ const searchData = posts.map(post => ({
     private noResultsEl: HTMLElement | null;
     private resultsListEl: HTMLElement | null;
     private searchQueryEl: HTMLElement | null;
+    private searchTimeout!: ReturnType<typeof setTimeout> | null;
+    private searchCache!: Map<string, any[]>;
 
     constructor() {
       this.query = '';
@@ -113,6 +115,8 @@ const searchData = posts.map(post => ({
       this.noResultsEl = null;
       this.resultsListEl = null;
       this.searchQueryEl = null;
+      this.searchTimeout = null;
+      this.searchCache = new Map();
       
       this.init();
     }
@@ -152,7 +156,16 @@ const searchData = posts.map(post => ({
       const target = e.target as HTMLInputElement;
       this.query = target.value;
       this.updateClearButton();
-      this.search();
+      
+      // Clear previous timeout
+      if (this.searchTimeout) {
+        clearTimeout(this.searchTimeout);
+      }
+      
+      // Debounce search for better performance
+      this.searchTimeout = setTimeout(() => {
+        this.search();
+      }, 100);
     }
     
     handleKeydown(e: KeyboardEvent) {
@@ -189,21 +202,49 @@ const searchData = posts.map(post => ({
         return;
       }
       
+      // Check cache first
+      const cacheKey = this.query.toLowerCase();
+      if (this.searchCache.has(cacheKey)) {
+        this.results = this.searchCache.get(cacheKey)!;
+        this.selectedIndex = -1;
+        this.showResults();
+        this.renderResults();
+        return;
+      }
+      
       this.showLoading();
       
-      // Simulate search delay for better UX
-      setTimeout(() => {
+      // Use requestAnimationFrame for better performance
+      requestAnimationFrame(() => {
         const searchTerm = this.query.toLowerCase();
         const filtered = this.posts.filter(post => {
           const searchableText = `${post.title} ${post.description} ${post.tags?.join(' ') || ''}`.toLowerCase();
-          return searchableText.includes(searchTerm);
+          
+          // Exact match gets highest priority
+          if (searchableText.includes(searchTerm)) {
+            return true;
+          }
+          
+          // Fuzzy matching for better results
+          const words = searchTerm.split(' ').filter(word => word && word.length > 1);
+          return words.some(word => searchableText.includes(word));
         });
         
         this.results = filtered.slice(0, 8); // Limit to 8 results
         this.selectedIndex = -1;
+        
+        // Cache the results
+        this.searchCache.set(cacheKey, this.results);
+        
+        // Limit cache size
+        if (this.searchCache.size > 50) {
+          const firstKey = this.searchCache.keys().next().value;
+          this.searchCache.delete(firstKey);
+        }
+        
         this.showResults();
         this.renderResults();
-      }, 150);
+      });
     }
     
     selectNext() {
@@ -332,15 +373,32 @@ const searchData = posts.map(post => ({
       this.updateClearButton();
       this.hideResults();
       this.input?.focus();
+      
+      // Clear search timeout to prevent memory leaks
+      if (this.searchTimeout) {
+        clearTimeout(this.searchTimeout);
+        this.searchTimeout = null;
+      }
     }
   }
   
   // Initialize search when DOM is ready
+  let searchComponent: SearchComponent;
+  
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => new SearchComponent());
+    document.addEventListener('DOMContentLoaded', () => {
+      searchComponent = new SearchComponent();
+    });
   } else {
-    new SearchComponent();
+    searchComponent = new SearchComponent();
   }
+  
+  // Cleanup on page unload to prevent memory leaks
+  window.addEventListener('beforeunload', () => {
+    if (searchComponent && searchComponent.searchTimeout) {
+      clearTimeout(searchComponent.searchTimeout);
+    }
+  });
 </script>
 
 <style>

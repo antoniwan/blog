@@ -1,6 +1,38 @@
 // Place any global data in this file.
 // You can import this data from anywhere in your site by using the `import` keyword.
 
+// TypeScript interfaces for better type safety
+export interface Author {
+  name: string;
+  email: string;
+  url: string;
+  twitter: string;
+  github: string;
+  linkedin: string;
+}
+
+export interface SocialLinks {
+  twitter: string;
+  github: string;
+  linkedin: string;
+  bluesky: string;
+  buildsSoftware: string;
+  strongHands: string;
+}
+
+export interface SEOConfig {
+  defaultImage: string;
+  defaultImageAlt: string;
+  defaultLocale: string;
+  defaultRobots: string;
+  googleSiteVerification: string;
+  twitterHandle: string;
+  organizationName: string;
+  organizationLogo: string;
+  organizationLogoWidth: number;
+  organizationLogoHeight: number;
+}
+
 // Site Information
 export const SITE_TITLE = "Curious Chaos Journal";
 export const SHORT_SITE_TITLE = "The CCJ";
@@ -9,7 +41,7 @@ export const SITE_DESCRIPTION =
 export const SITE_URL = "https://blog.antoniwan.online";
 
 // Author Information
-export const AUTHOR = {
+export const AUTHOR: Author = {
   name: "Antoniwan",
   email: "antoniwan@antoniwan.online",
   url: "https://antoniwan.online",
@@ -19,7 +51,7 @@ export const AUTHOR = {
 };
 
 // Social Media Links
-export const SOCIAL_LINKS = {
+export const SOCIAL_LINKS: SocialLinks = {
   twitter: "https://twitter.com/antoniwan",
   github: "https://github.com/antoniwan",
   linkedin: "https://linkedin.com/in/antoniwan",
@@ -29,7 +61,7 @@ export const SOCIAL_LINKS = {
 };
 
 // SEO Configuration
-export const SEO_CONFIG = {
+export const SEO_CONFIG: SEOConfig = {
   defaultImage: "/share-image.png",
   defaultImageAlt: "Curious Chaos Journal - Personal Digital Space",
   defaultLocale: "en_US",
