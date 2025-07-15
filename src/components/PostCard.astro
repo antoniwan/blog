@@ -1,6 +1,7 @@
 ---
 import type { CollectionEntry } from 'astro:content';
 import FormattedDate from './FormattedDate.astro';
+import TagDisplay from './TagDisplay.astro';
 
 interface Props {
 	post: CollectionEntry<'blog'>;
@@ -55,17 +56,16 @@ const { data } = post;
 			)}
 			
 			<!-- Tags -->
-			<footer class="flex flex-wrap gap-1.5">
-				{data.tags?.map(tag => (
-					<a
-						href={`/tag/${tag}/`}
-						class="inline-flex items-center gap-1 text-xs px-2 py-1 rounded-full bg-zinc-100 dark:bg-zinc-800 text-gray-700 dark:text-gray-300 hover:bg-zinc-200 dark:hover:bg-zinc-700 theme-transition"
-					>
-						<span aria-hidden="true">🏷️</span>
-						<span>{tag}</span>
-					</a>
-				))}
-			</footer>
+			{data.tags && data.tags.length > 0 && (
+				<footer>
+					<TagDisplay 
+						tags={data.tags} 
+						maxVisible={3} 
+						showMoreIndicator={true}
+						compact={true}
+					/>
+				</footer>
+			)}
 		</div>
 	</div>
 </article>

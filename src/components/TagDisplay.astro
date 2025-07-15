@@ -1,0 +1,89 @@
+---
+import { getImportantTags, sortTagsByImportance } from '../utils/tagUtils';
+
+interface Props {
+	tags: string[];
+	maxVisible?: number;
+	showCount?: boolean;
+	showMoreIndicator?: boolean;
+	className?: string;
+	compact?: boolean;
+}
+
+const { 
+	tags, 
+	maxVisible = 3, 
+	showCount = false, 
+	showMoreIndicator = true,
+	className = '',
+	compact = false
+} = Astro.props;
+
+const sortedTags = sortTagsByImportance(tags);
+const visibleTags = sortedTags.slice(0, maxVisible);
+const hasMoreTags = showMoreIndicator && tags.length > maxVisible;
+const remainingCount = tags.length - maxVisible;
+
+// Generate subtle color variations based on tag name
+const getTagColor = (tag: string) => {
+	const colors = [
+		'bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300',
+		'bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800 text-green-700 dark:text-green-300',
+		'bg-purple-50 dark:bg-purple-900/20 border-purple-200 dark:border-purple-800 text-purple-700 dark:text-purple-300',
+		'bg-orange-50 dark:bg-orange-900/20 border-orange-200 dark:border-orange-800 text-orange-700 dark:text-orange-300',
+		'bg-pink-50 dark:bg-pink-900/20 border-pink-200 dark:border-pink-800 text-pink-700 dark:text-pink-300',
+		'bg-indigo-50 dark:bg-indigo-900/20 border-indigo-200 dark:border-indigo-800 text-indigo-700 dark:text-indigo-300',
+		'bg-teal-50 dark:bg-teal-900/20 border-teal-200 dark:border-teal-800 text-teal-700 dark:text-teal-300',
+		'bg-amber-50 dark:bg-amber-900/20 border-amber-200 dark:border-amber-800 text-amber-700 dark:text-amber-300',
+	];
+	
+	// Use tag name to consistently assign colors
+	const hash = tag.split('').reduce((a, b) => {
+		a = ((a << 5) - a) + b.charCodeAt(0);
+		return a & a;
+	}, 0);
+	
+	return colors[Math.abs(hash) % colors.length];
+};
+---
+
+<div class={`flex flex-wrap items-center gap-1.5 ${className}`}>
+	{visibleTags.map(tag => (
+		<a
+			href={`/tag/${tag}/`}
+			class={`inline-flex items-center gap-1 ${compact ? 'text-xs px-2 py-1' : 'text-sm px-2.5 py-1.5'} rounded-full border transition-all duration-200 hover:scale-105 ${getTagColor(tag)}`}
+		>
+			<span aria-hidden="true">🏷️</span>
+			<span class="font-medium">#{tag}</span>
+			{showCount && (
+				<span class="text-xs opacity-75">({tags.filter(t => t === tag).length})</span>
+			)}
+		</a>
+	))}
+	{hasMoreTags && (
+		<span class={`inline-flex items-center gap-1 ${compact ? 'text-xs px-2 py-1' : 'text-sm px-2.5 py-1.5'} rounded-full bg-neutral-50 dark:bg-neutral-800 text-neutral-500 dark:text-neutral-400 border border-neutral-200 dark:border-neutral-700`}>
+			<span aria-hidden="true">⋯</span>
+			<span>+{remainingCount} more</span>
+		</span>
+	)}
+</div>
+
+<style>
+	/* Smooth transitions */
+	.tag-display a {
+		transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+	}
+
+	/* Focus styles for accessibility */
+	.tag-display a:focus {
+		outline: 2px solid rgb(var(--color-primary));
+		outline-offset: 2px;
+	}
+
+	/* Respect reduced motion preferences */
+	@media (prefers-reduced-motion: reduce) {
+		.tag-display a {
+			transition: none !important;
+		}
+	}
+</style> 

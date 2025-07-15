@@ -1,0 +1,201 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import TagDisplay from '../components/TagDisplay.astro';
+import { getCollection } from 'astro:content';
+import { calculateTagStats, sortTagsByImportance } from '../utils/tagUtils';
+
+// Get all posts
+const posts = await getCollection('blog', ({ data }) => {
+  return import.meta.env.PROD ? !data.draft : true;
+});
+
+// Calculate tag statistics
+const { tagCounts, tagWeights, totalTags, totalTagInstances } = calculateTagStats(posts);
+
+// Sort tags by importance and frequency
+const sortedTags = Object.entries(tagCounts)
+  .sort(([tagA, countA], [tagB, countB]) => {
+    const weightA = tagWeights[tagA];
+    const weightB = tagWeights[tagB];
+    // Sort by weight first, then by count
+    if (weightA !== weightB) {
+      return weightB - weightA;
+    }
+    return countB - countA;
+  });
+
+// Calculate statistics
+const avgTagsPerPost = totalTagInstances / posts.length;
+const postsWithManyTags = posts.filter(post => (post.data.tags?.length || 0) > 10).length;
+const postsWithFewTags = posts.filter(post => (post.data.tags?.length || 0) <= 3).length;
+
+// Get top tags by frequency
+const topTags = sortedTags.slice(0, 20);
+const lowFrequencyTags = sortedTags.filter(([, count]) => count <= 2);
+---
+
+<BaseLayout
+  title="Tag Management"
+  description="Tag usage statistics and management insights"
+  path="/tag-management"
+  structuredDataType="website"
+>
+  <div class="w-full px-4 md:px-6 lg:px-8 xl:px-12">
+    <div class="max-w-container mx-auto">
+      <PageHeader 
+        title="Tag Management"
+        description="Insights into tag usage and organization"
+      />
+      
+      {/* Statistics Overview */}
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        <div class="p-4 bg-background-alt dark:bg-background-alt-dark rounded-lg border border-border dark:border-border-dark">
+          <div class="text-2xl font-bold text-primary-600 dark:text-primary-400">{totalTags}</div>
+          <div class="text-sm text-neutral-600 dark:text-neutral-400">Total Tags</div>
+        </div>
+        <div class="p-4 bg-background-alt dark:bg-background-alt-dark rounded-lg border border-border dark:border-border-dark">
+          <div class="text-2xl font-bold text-primary-600 dark:text-primary-400">{totalTagInstances}</div>
+          <div class="text-sm text-neutral-600 dark:text-neutral-400">Tag Instances</div>
+        </div>
+        <div class="p-4 bg-background-alt dark:bg-background-alt-dark rounded-lg border border-border dark:border-border-dark">
+          <div class="text-2xl font-bold text-primary-600 dark:text-primary-400">{avgTagsPerPost.toFixed(1)}</div>
+          <div class="text-sm text-neutral-600 dark:text-neutral-400">Avg Tags/Post</div>
+        </div>
+        <div class="p-4 bg-background-alt dark:bg-background-alt-dark rounded-lg border border-border dark:border-border-dark">
+          <div class="text-2xl font-bold text-primary-600 dark:text-primary-400">{postsWithManyTags}</div>
+          <div class="text-sm text-neutral-600 dark:text-neutral-400">Posts with 10+ Tags</div>
+        </div>
+      </div>
+
+      {/* Tag Distribution */}
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+        {/* Top Tags */}
+        <div class="bg-background-alt dark:bg-background-alt-dark rounded-lg border border-border dark:border-border-dark p-6">
+          <h3 class="text-lg font-semibold mb-4 text-text dark:text-text-dark">
+            Top Tags by Frequency
+          </h3>
+          <div class="space-y-3">
+            {topTags.map(([tag, count]) => (
+              <div class="flex items-center justify-between p-3 bg-background dark:bg-background-dark rounded border border-border/30 dark:border-border-dark/30">
+                <div class="flex items-center gap-2">
+                  <a 
+                    href={`/tag/${tag}/`}
+                    class="text-primary-600 dark:text-primary-400 hover:underline font-medium"
+                  >
+                    #{tag}
+                  </a>
+                  <span class="text-xs text-neutral-500 dark:text-neutral-400">
+                    (weight: {tagWeights[tag]})
+                  </span>
+                </div>
+                <span class="text-sm font-medium text-neutral-700 dark:text-neutral-300">
+                  {count} posts
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Posts with Many Tags */}
+        <div class="bg-background-alt dark:bg-background-alt-dark rounded-lg border border-border dark:border-border-dark p-6">
+          <h3 class="text-lg font-semibold mb-4 text-text dark:text-text-dark">
+            Posts with Many Tags (10+)
+          </h3>
+          <div class="space-y-3">
+            {posts
+              .filter(post => (post.data.tags?.length || 0) > 10)
+              .sort((a, b) => (b.data.tags?.length || 0) - (a.data.tags?.length || 0))
+              .slice(0, 10)
+              .map(post => (
+                <div class="p-3 bg-background dark:bg-background-dark rounded border border-border/30 dark:border-border-dark/30">
+                  <div class="flex items-center justify-between mb-2">
+                    <a 
+                      href={`/p/${post.id}/`}
+                      class="text-primary-600 dark:text-primary-400 hover:underline font-medium line-clamp-1"
+                    >
+                      {post.data.title}
+                    </a>
+                    <span class="text-sm font-medium text-neutral-700 dark:text-neutral-300">
+                      {post.data.tags?.length} tags
+                    </span>
+                  </div>
+                  <TagDisplay 
+                    tags={post.data.tags || []} 
+                    maxVisible={5} 
+                    showMoreIndicator={true}
+                    compact={true}
+                  />
+                </div>
+              ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Recommendations */}
+      <div class="bg-background-alt dark:bg-background-alt-dark rounded-lg border border-border dark:border-border-dark p-6 mb-8">
+        <h3 class="text-lg font-semibold mb-4 text-text dark:text-text-dark">
+          Tag Management Recommendations
+        </h3>
+        <div class="space-y-4 text-sm text-neutral-700 dark:text-neutral-300">
+          <div class="flex items-start gap-3">
+            <span class="text-primary-500 dark:text-primary-400 mt-0.5">💡</span>
+            <div>
+              <strong>Limit tags per post:</strong> Consider reducing posts with more than 10 tags to improve readability and focus.
+            </div>
+          </div>
+          <div class="flex items-start gap-3">
+            <span class="text-primary-500 dark:text-primary-400 mt-0.5">🏷️</span>
+            <div>
+              <strong>Use consistent tagging:</strong> Standardize tag names and avoid similar tags (e.g., "self-improvement" vs "self-improvement").
+            </div>
+          </div>
+          <div class="flex items-start gap-3">
+            <span class="text-primary-500 dark:text-primary-400 mt-0.5">📊</span>
+            <div>
+              <strong>Focus on high-weight tags:</strong> Prioritize tags with higher importance weights for better categorization.
+            </div>
+          </div>
+          <div class="flex items-start gap-3">
+            <span class="text-primary-500 dark:text-primary-400 mt-0.5">🎯</span>
+            <div>
+              <strong>Consider tag consolidation:</strong> Merge low-frequency tags with similar meanings to reduce tag sprawl.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Low Frequency Tags */}
+      {lowFrequencyTags.length > 0 && (
+        <div class="bg-background-alt dark:bg-background-alt-dark rounded-lg border border-border dark:border-border-dark p-6">
+          <h3 class="text-lg font-semibold mb-4 text-text dark:text-text-dark">
+            Low Frequency Tags (≤2 posts)
+          </h3>
+          <div class="flex flex-wrap gap-2">
+            {lowFrequencyTags.map(([tag, count]) => (
+              <div class="flex items-center gap-1 px-3 py-1 bg-background dark:bg-background-dark rounded-full border border-border/30 dark:border-border-dark/30">
+                <span class="text-sm text-neutral-600 dark:text-neutral-400">#{tag}</span>
+                <span class="text-xs text-neutral-500 dark:text-neutral-400">({count})</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  /* Smooth transitions for dark mode */
+  main {
+    transition: background-color 300ms cubic-bezier(0.4, 0, 0.2, 1),
+        color 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Respect reduced motion preferences */
+  @media (prefers-reduced-motion: reduce) {
+    main {
+      transition: none !important;
+    }
+  }
+</style> 
