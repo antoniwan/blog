@@ -15,19 +15,19 @@ const { data } = post;
 	class="group bg-background dark:bg-background-dark rounded-lg border border-border/20 dark:border-border-dark/20 shadow-sm hover:shadow-md theme-transition-all hover:-translate-y-1"
 	role="article"
 >
-	<div class="p-5 md:p-6">
-		<div class="space-y-4">
+	<div class="p-6 md:p-8">
+		<div class="space-y-5 md:space-y-6">
 			<!-- Header with metadata -->
-			<header class="space-y-2">
-				<div class="flex items-center gap-2 text-xs md:text-sm text-neutral-600 dark:text-neutral-400">
+			<header class="space-y-3">
+				<div class="flex items-center gap-3 text-sm md:text-base text-neutral-600 dark:text-neutral-400">
 					{data.pubDate && (
-						<time datetime={data.pubDate.toISOString()} class="flex items-center gap-1.5">
+						<time datetime={data.pubDate.toISOString()} class="flex items-center gap-2">
 							<span class="text-primary-500 dark:text-primary-400" aria-hidden="true">📅</span>
 							<FormattedDate date={data.pubDate} format="long" />
 						</time>
 					)}
 					{data.category && data.category.length > 0 && (
-						<span class="flex items-center gap-1.5">
+						<span class="flex items-center gap-2">
 							<span class="text-primary-500 dark:text-primary-400" aria-hidden="true">📁</span>
 							<a 
 								href={`/category/${data.category[0]}/`}
@@ -38,7 +38,7 @@ const { data } = post;
 						</span>
 					)}
 				</div>
-				<h2 class="text-xl md:text-2xl font-bold text-text dark:text-text-dark group-hover:text-primary-500 dark:group-hover:text-primary-400 theme-transition">
+				<h2 class="text-xl md:text-2xl lg:text-3xl font-bold text-text dark:text-text-dark group-hover:text-primary-500 dark:group-hover:text-primary-400 theme-transition leading-tight">
 					<a 
 						href={`/p/${post.id}/`} 
 						class="hover:underline focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-background-dark"
@@ -57,7 +57,7 @@ const { data } = post;
 			
 			<!-- Tags -->
 			{data.tags && data.tags.length > 0 && (
-				<footer>
+				<footer class="pt-2">
 					<TagDisplay 
 						tags={data.tags} 
 						maxVisible={3} 
@@ -71,7 +71,7 @@ const { data } = post;
 </article>
 
 <style>
-	/* Smooth transitions for dark mode */
+	/* Enhanced spacing and typography */
 	article {
 		transition: background-color var(--animation-duration-fast) var(--animation-easing-default),
 					color var(--animation-duration-fast) var(--animation-easing-default),
@@ -79,10 +79,71 @@ const { data } = post;
 					box-shadow var(--animation-duration-fast) var(--animation-easing-default);
 	}
 
+	/* Improved line heights for better readability */
+	.text-xl {
+		line-height: 1.4;
+	}
+
+	.text-2xl {
+		line-height: 1.3;
+	}
+
+	.text-3xl {
+		line-height: 1.2;
+	}
+
+	/* Enhanced spacing between elements */
+	.space-y-5 > * + * {
+		margin-top: 1.25rem;
+	}
+
+	.space-y-6 > * + * {
+		margin-top: 1.5rem;
+	}
+
+	/* Better hover effects */
+	.group:hover {
+		transform: translateY(-4px);
+		box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 10px 10px -5px rgb(0 0 0 / 0.04);
+	}
+
+	/* Dark mode shadow adjustments */
+	.dark .group:hover {
+		box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.25), 0 10px 10px -5px rgb(0 0 0 / 0.1);
+	}
+
+	/* Enhanced focus states */
+	.group:focus-within {
+		outline: 2px solid rgb(var(--color-primary));
+		outline-offset: 2px;
+		border-radius: 0.5rem;
+	}
+
 	/* Respect reduced motion preferences */
 	@media (prefers-reduced-motion: reduce) {
 		article {
 			transition: none !important;
+		}
+
+		.group:hover {
+			transform: none;
+		}
+	}
+
+	/* Responsive adjustments */
+	@media (max-width: 768px) {
+		/* Tighter spacing on mobile */
+		.space-y-5 > * + * {
+			margin-top: 1rem;
+		}
+
+		.space-y-6 > * + * {
+			margin-top: 1.25rem;
+		}
+
+		/* Smaller hover effect on mobile */
+		.group:hover {
+			transform: translateY(-2px);
 		}
 	}
 </style> 

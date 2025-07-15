@@ -13,6 +13,12 @@ const posts = await getCollection('blog', ({ data }) => {
 // Sort posts by date
 const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
+// Get featured posts (first 3)
+const featuredPosts = sortedPosts.slice(0, 3);
+
+// Get remaining posts
+const remainingPosts = sortedPosts.slice(3);
+
 // Get post counts by category
 const postCounts = categories.reduce((acc, category) => {
 	acc[category.id] = posts.filter(post => post.data.category?.includes(category.id)).length;
@@ -26,6 +32,12 @@ const tagCounts = posts.reduce((acc, post) => {
 	});
 	return acc;
 }, {} as Record<string, number>);
+
+// Get top categories (with most posts)
+const topCategories = categories
+	.filter(category => postCounts[category.id] > 0)
+	.sort((a, b) => postCounts[b.id] - postCounts[a.id])
+	.slice(0, 6);
 ---
 
 <HomeLayout
@@ -42,21 +54,145 @@ const tagCounts = posts.reduce((acc, post) => {
 		/>
 	</div>
 
-	{/* Latest Posts Section */}
-	<div class="max-w-container mx-auto">
-		<div class="space-y-6 md:space-y-8">
-			{sortedPosts.map(post => (
-				<PostCard post={post} />
-			))}
+	{/* Featured Posts Section */}
+	{featuredPosts.length > 0 && (
+		<div class="max-w-container mx-auto mb-16 md:mb-20">
+			<div class="grid gap-8 md:gap-10">
+				{featuredPosts.map(post => (
+					<PostCard post={post} />
+				))}
+			</div>
 		</div>
-	</div>
+	)}
+
+	{/* Category Highlights */}
+	{topCategories.length > 0 && (
+		<div class="max-w-container mx-auto mb-16 md:mb-20">
+			<div class="mb-8 md:mb-12">
+				<h2 class="text-2xl md:text-3xl font-bold text-text dark:text-text-dark mb-4">
+					Explore by Category
+				</h2>
+				<p class="text-lg text-neutral-600 dark:text-neutral-400 leading-relaxed">
+					Dive deeper into specific themes and topics
+				</p>
+			</div>
+			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+				{topCategories.map(category => (
+					<a 
+						href={`/category/${category.id}/`}
+						class="group block bg-background dark:bg-background-dark rounded-lg border border-border/20 dark:border-border-dark/20 p-6 md:p-8 hover:shadow-lg hover:-translate-y-2 theme-transition-all"
+					>
+						<div class="flex items-start gap-4">
+							<div class="text-2xl md:text-3xl flex-shrink-0">
+								{category.icon}
+							</div>
+							<div class="flex-1 min-w-0">
+								<h3 class="text-lg md:text-xl font-semibold text-text dark:text-text-dark group-hover:text-primary-500 dark:group-hover:text-primary-400 theme-transition mb-2">
+									{category.name}
+								</h3>
+								<p class="text-sm md:text-base text-neutral-600 dark:text-neutral-400 leading-relaxed mb-3">
+									{category.description}
+								</p>
+								<div class="flex items-center gap-2 text-sm text-neutral-500 dark:text-neutral-500">
+									<span>{postCounts[category.id]} posts</span>
+									<span class="text-primary-500 dark:text-primary-400 group-hover:translate-x-1 theme-transition">→</span>
+								</div>
+							</div>
+						</div>
+					</a>
+				))}
+			</div>
+		</div>
+	)}
+
+	{/* All Posts Section */}
+	{remainingPosts.length > 0 && (
+		<div class="max-w-container mx-auto">
+			<div class="mb-8 md:mb-12">
+				<h2 class="text-2xl md:text-3xl font-bold text-text dark:text-text-dark mb-4">
+					All Posts
+				</h2>
+				<p class="text-lg text-neutral-600 dark:text-neutral-400 leading-relaxed">
+					Complete archive of thoughts, experiments, and discoveries
+				</p>
+			</div>
+			<div class="space-y-8 md:space-y-10">
+				{remainingPosts.map(post => (
+					<PostCard post={post} />
+				))}
+			</div>
+		</div>
+	)}
+
+	{/* Empty State */}
+	{posts.length === 0 && (
+		<div class="max-w-container mx-auto text-center py-16 md:py-20">
+			<div class="max-w-md mx-auto">
+				<div class="text-6xl mb-6">📝</div>
+				<h2 class="text-2xl md:text-3xl font-bold text-text dark:text-text-dark mb-4">
+					No posts yet
+				</h2>
+				<p class="text-lg text-neutral-600 dark:text-neutral-400 leading-relaxed">
+					The first post is coming soon. Stay tuned for thoughts on strength, clarity, ritual, and creation.
+				</p>
+			</div>
+		</div>
+	)}
 </HomeLayout>
 
 <style>
-	/* Smooth transitions for dark mode */
+	/* Enhanced spacing and typography */
 	main {
 		transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1),
 					color 150ms cubic-bezier(0.4, 0, 0.2, 1);
+	}
+
+	/* Improved line height for better readability */
+	.text-lg {
+		line-height: 1.7;
+	}
+
+	.text-xl {
+		line-height: 1.6;
+	}
+
+	.text-2xl {
+		line-height: 1.5;
+	}
+
+	.text-3xl {
+		line-height: 1.4;
+	}
+
+	/* Enhanced spacing for better visual hierarchy */
+	.space-y-8 > * + * {
+		margin-top: 2rem;
+	}
+
+	.space-y-10 > * + * {
+		margin-top: 2.5rem;
+	}
+
+	/* Smooth hover transitions */
+	.group:hover {
+		transform: translateY(-2px);
+		box-shadow: 0 10px 25px -3px rgb(0 0 0 / 0.1), 0 4px 6px -2px rgb(0 0 0 / 0.05);
+	}
+
+	/* Dark mode shadow adjustments */
+	.dark .group:hover {
+		box-shadow: 0 10px 25px -3px rgb(0 0 0 / 0.3), 0 4px 6px -2px rgb(0 0 0 / 0.2);
+	}
+
+	/* Category card enhancements */
+	.group:hover .text-primary-500 {
+		transform: scale(1.05);
+	}
+
+	/* Smooth icon transitions */
+	.group .text-2xl,
+	.group .text-3xl {
+		transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1);
 	}
 
 	/* Respect reduced motion preferences */
@@ -64,8 +200,13 @@ const tagCounts = posts.reduce((acc, post) => {
 		main {
 			transition: none !important;
 		}
+		
+		* {
+			transition: none !important;
+		}
 	}
 
+	/* Responsive typography adjustments */
 	@media (max-width: 768px) {
 		.hero-section h1 {
 			font-size: var(--font-size-3xl);
@@ -73,6 +214,29 @@ const tagCounts = posts.reduce((acc, post) => {
 
 		.subtitle {
 			font-size: var(--font-size-lg);
+		}
+
+		/* Tighter spacing on mobile */
+		.space-y-8 > * + * {
+			margin-top: 1.5rem;
+		}
+
+		.space-y-10 > * + * {
+			margin-top: 2rem;
+		}
+
+		/* Mobile-specific spacing */
+		.mb-16 {
+			margin-bottom: 3rem;
+		}
+
+		.mb-20 {
+			margin-bottom: 4rem;
+		}
+
+		/* Tighter category grid on mobile */
+		.grid-cols-1 > * {
+			margin-bottom: 1rem;
 		}
 	}
 </style>
