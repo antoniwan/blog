@@ -3,6 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHeader from '../../components/PageHeader.astro';
 import { categories } from '../../data/categories';
 import { getCollection } from 'astro:content';
+import { generateWebSiteSchema } from '../../utils/structuredData';
 
 // Get all posts
 const posts = await getCollection('blog', ({ data }) => {
@@ -14,12 +15,18 @@ const postCounts = categories.reduce((acc, category) => {
   acc[category.id] = posts.filter(post => post.data.category?.includes(category.id)).length;
   return acc;
 }, {} as Record<string, number>);
+
+// Generate structured data for categories page
+const structuredData = generateWebSiteSchema(Astro.site?.href || 'https://strongvault.dev');
 ---
 
 <BaseLayout
   title="Categories"
   description="Browse posts by category"
 >
+  <!-- Structured Data -->
+  <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+  
   <div class="w-full px-4 md:px-6 lg:px-8 xl:px-12">
     {/* Page Header */}
     <div class="max-w-container mx-auto">

@@ -22,13 +22,6 @@ interface Props {
   canonicalUrl?: string;
   ogImage?: string;
   ogImageAlt?: string;
-  robots?: {
-    index?: boolean;
-    follow?: boolean;
-    noarchive?: boolean;
-    nosnippet?: boolean;
-    noimageindex?: boolean;
-  };
   author?: string;
   keywords?: string[];
 }
@@ -45,7 +38,6 @@ const {
   canonicalUrl,
   ogImage,
   ogImageAlt,
-  robots,
   author = AUTHOR.name,
   keywords = tags
 } = Astro.props;
@@ -61,7 +53,6 @@ const {
       canonicalUrl={canonicalUrl}
       ogImage={ogImage}
       ogImageAlt={ogImageAlt}
-      robots={robots}
       pubDate={pubDate}
       updatedDate={updatedDate}
       author={author}

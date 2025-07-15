@@ -16,13 +16,6 @@ interface Props {
   canonicalUrl?: string;
   ogImage?: string;
   ogImageAlt?: string;
-  robots?: {
-    index?: boolean;
-    follow?: boolean;
-    noarchive?: boolean;
-    nosnippet?: boolean;
-    noimageindex?: boolean;
-  };
   author?: string;
   keywords?: string[];
   // Structured data
@@ -47,7 +40,6 @@ const {
   canonicalUrl,
   ogImage,
   ogImageAlt,
-  robots,
   author,
   keywords,
   tableOfContents,
@@ -55,24 +47,20 @@ const {
 } = Astro.props;
 
 // Generate structured data for blog post
-const structuredData = {
-  '@context': 'https://schema.org',
-  '@type': 'BlogPosting',
-  headline: title,
-  description: description,
-  image: heroImage || ogImage,
-  datePublished: pubDate?.toISOString(),
-  dateModified: updatedDate?.toISOString(),
-  author: {
-    '@type': 'Person',
-    name: author
-  },
-  keywords: keywords?.join(', '),
-  articleSection: category?.[0],
-  articleBody: tableOfContents?.items.map(item => item.text).join(' '),
-  wordCount: tableOfContents?.items.reduce((acc, item) => acc + item.text.length, 0),
-  timeRequired: readingTime ? `PT${readingTime}M` : undefined
-};
+import { generateStructuredData } from '../utils/structuredData';
+
+const structuredData = generateStructuredData({
+  title,
+  description: description || '',
+  url: canonicalUrl || Astro.url.href,
+  type: 'blogpost',
+  author,
+  pubDate,
+  updatedDate,
+  heroImage: heroImage || ogImage,
+  keywords: keywords || [],
+  readingTime
+});
 ---
 
 <BaseLayout
@@ -87,7 +75,6 @@ const structuredData = {
   canonicalUrl={canonicalUrl}
   ogImage={ogImage}
   ogImageAlt={ogImageAlt}
-  robots={robots}
   author={author}
   keywords={keywords}
   {...rest}

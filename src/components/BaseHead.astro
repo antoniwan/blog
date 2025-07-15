@@ -18,7 +18,6 @@ interface Props {
 		nosnippet?: boolean;
 		noimageindex?: boolean;
 	};
-	// New props for enhanced SEO
 	pubDate?: Date;
 	updatedDate?: Date;
 	author?: string;
@@ -94,27 +93,7 @@ const updatedDateISO = updatedDate?.toISOString();
 	href={new URL('rss.xml', Astro.site)}
 />
 
-<!-- JSON-LD Structured Data -->
-<script type="application/ld+json" set:html={JSON.stringify({
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  "name": SITE_TITLE,
-  "description": SITE_DESCRIPTION,
-  "url": Astro.site,
-  "publisher": {
-    "@type": "Person",
-    "name": author || "Antoniwan",
-    "url": "https://antoniwan.online"
-  },
-  "potentialAction": {
-    "@type": "SearchAction",
-    "target": {
-      "@type": "EntryPoint",
-      "urlTemplate": `${Astro.site}/search?q={search_term_string}`
-    },
-    "query-input": "required name=search_term_string"
-  }
-})} />
+<!-- JSON-LD Structured Data will be added by individual pages -->
 
 <!-- Sitemap -->
 <link rel="sitemap" href="/sitemap-index.xml" />
@@ -126,13 +105,8 @@ const updatedDateISO = updatedDate?.toISOString();
 <meta name="robots" content={robotsContent} />
 {keywords.length > 0 && <meta name="keywords" content={keywords.join(', ')} />}
 
-<!-- Additional SEO Meta Tags -->
-<meta name="author" content={author || 'antoniwan'} />
-<meta name="copyright" content={SITE_TITLE} />
-<meta name="coverage" content="Worldwide" />
-<meta name="distribution" content="Global" />
-<meta name="rating" content="General" />
-<meta name="revisit-after" content="7 days" />
+<!-- Author -->
+<meta name="author" content={author || 'Antoniwan'} />
 
 <!-- Google Site Verification -->
 <meta name="google-site-verification" content="gUubXvBv6tFsaZTQd5vS1VUGHlaMTOyf110X3yn7jiY" />
@@ -161,10 +135,7 @@ const updatedDateISO = updatedDate?.toISOString();
 {updatedDateISO && <meta property="article:modified_time" content={updatedDateISO} />}
 {author && <meta property="article:author" content={author} />}
 
-<!-- Additional Social Media Meta Tags -->
-<meta property="og:image:width" content="1200" />
-<meta property="og:image:height" content="630" />
-<meta property="og:image:type" content="image/png" />
+<!-- Twitter -->
 <meta name="twitter:creator" content="@antoniwan" />
 <meta name="twitter:site" content="@antoniwan" />
 

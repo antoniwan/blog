@@ -9,13 +9,6 @@ interface Props {
   canonicalUrl?: string;
   ogImage?: string;
   ogImageAlt?: string;
-  robots?: {
-    index?: boolean;
-    follow?: boolean;
-    noarchive?: boolean;
-    nosnippet?: boolean;
-    noimageindex?: boolean;
-  };
   author?: string;
   keywords?: string[];
 }
@@ -26,7 +19,6 @@ const {
   canonicalUrl,
   ogImage,
   ogImageAlt,
-  robots,
   author,
   keywords,
   ...rest
@@ -39,7 +31,6 @@ const {
   canonicalUrl={canonicalUrl}
   ogImage={ogImage}
   ogImageAlt={ogImageAlt}
-  robots={robots}
   author={author}
   keywords={keywords}
   {...rest}

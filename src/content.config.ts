@@ -56,18 +56,8 @@ const blog = defineCollection({
     translationGroup: z.string().optional(),
 
     // SEO fields
-    canonicalUrl: z.string().url().optional(),
     ogImage: z.string().optional(),
     ogImageAlt: z.string().optional(),
-    robots: z
-      .object({
-        index: z.boolean().optional(),
-        follow: z.boolean().optional(),
-        noarchive: z.boolean().optional(),
-        nosnippet: z.boolean().optional(),
-        noimageindex: z.boolean().optional(),
-      })
-      .optional(),
     keywords: z.array(z.string()).optional(),
   }),
 });

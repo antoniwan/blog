@@ -42,6 +42,7 @@ A personal digital space where I document my journey of building systems — dig
 - ✅ **Back to Top** - Smooth scroll to top functionality
 - ✅ **Accessibility** - WCAG compliant with skip links and ARIA support
 - ✅ **SEO Optimized** - Meta tags, structured data, and Open Graph support
+- ✅ **Structured Data** - JSON-LD schema markup for categories and tags
 
 ### Content Management
 
@@ -126,6 +127,8 @@ strongvault/
 │   │   ├── PostCard.astro
 │   │   ├── ReadingProgress.astro
 │   │   └── ThemeToggle.astro
+│   ├── utils/            # Utility functions
+│   │   └── structuredData.ts # Structured data generation
 │   ├── content/          # Content collections
 │   │   └── p/           # Blog posts (Markdown/MDX)
 │   ├── data/            # Static data and configurations
@@ -157,13 +160,13 @@ strongvault/
 
 ## 🧞 Available Scripts
 
-| Command             | Action                                           |
-| :------------------ | :----------------------------------------------- |
-| `npm install`       | Installs project dependencies                    |
-| `npm run dev`       | Starts development server at `localhost:4321`    |
-| `npm run build`     | Builds production site to `./dist/`              |
-| `npm run preview`   | Previews production build locally                |
-| `npm run astro`     | Runs Astro CLI commands                          |
+| Command           | Action                                        |
+| :---------------- | :-------------------------------------------- |
+| `npm install`     | Installs project dependencies                 |
+| `npm run dev`     | Starts development server at `localhost:4321` |
+| `npm run build`   | Builds production site to `./dist/`           |
+| `npm run preview` | Previews production build locally             |
+| `npm run astro`   | Runs Astro CLI commands                       |
 
 ## 📝 Content Structure
 
@@ -274,6 +277,53 @@ This work is licensed under a [Creative Commons Attribution 4.0 International Li
 
 > "If you're building something good, or trying to become someone better, I'm probably down to help. Get in touch." — Antonio Rodríguez Martínez
 
+## 🔍 SEO & Structured Data
+
+### Structured Data Implementation
+
+The site implements comprehensive JSON-LD structured data for better search engine understanding:
+
+#### Collection Pages (Categories & Tags)
+
+- **CollectionPage Schema**: Defines category and tag pages as collections of blog posts
+- **ItemList Schema**: Lists all posts within each collection with proper ordering
+- **BlogPosting Schema**: Individual post metadata including author, dates, and content info
+- **BreadcrumbList Schema**: Navigation structure for search engines
+- **Organization Schema**: Site publisher information
+- **Person Schema**: Author information with social links
+
+#### Key Features
+
+- **Automatic Generation**: Structured data is generated dynamically based on content
+- **Comprehensive Coverage**: All category and tag pages include full schema markup
+- **SEO Optimization**: Enhanced search engine visibility and rich snippets
+- **Type Safety**: Full TypeScript support for schema generation
+
+#### Implementation Details
+
+```typescript
+// Example usage in category pages
+const structuredData = generateComprehensiveCollectionSchema({
+  title: `${category.name} - Category`,
+  description: `Browse all posts in the ${category.name} category`,
+  url: new URL(`/category/${category.id}`, Astro.site).href,
+  posts: categoryPosts,
+  type: "category",
+  identifier: category.id,
+  author: "Antoniwan",
+});
+```
+
+### SEO Features
+
+- **Meta Tags**: Comprehensive meta tag implementation
+- **Open Graph**: Social media sharing optimization
+- **Twitter Cards**: Enhanced Twitter sharing
+- **Canonical URLs**: Proper canonical URL handling
+- **Robots Meta**: Configurable search engine directives
+- **Sitemap**: Automatic XML sitemap generation
+- **RSS Feed**: Content syndication support
+
 ## 🆕 Recent Updates
 
 - **v2.0.0**: Complete redesign with enhanced design system
@@ -284,3 +334,4 @@ This work is licensed under a [Creative Commons Attribution 4.0 International Li
 - **Performance**: Optimized bundle sizes and loading strategies
 - **Content Organization**: Structured content with 9 main categories
 - **Multi-language Support**: English and Spanish content support
+- **Structured Data**: Added comprehensive JSON-LD schema markup for SEO

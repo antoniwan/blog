@@ -3,6 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import PostCard from '../../components/PostCard.astro';
 import PageHeader from '../../components/PageHeader.astro';
 import { getCollection } from 'astro:content';
+import { generateStructuredData } from '../../utils/structuredData';
 
 export async function getStaticPaths() {
 	const posts = await getCollection('blog');
@@ -29,12 +30,32 @@ const posts = await getCollection('blog', ({ data }) => {
 const tagPosts = posts
 	.filter(post => post.data.tags?.includes(tag))
 	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+// Generate structured data
+const structuredData = generateStructuredData({
+	title: `${tag} - Tag`,
+	description: `Browse all posts tagged with ${tag}`,
+	url: new URL(`/tag/${tag}`, Astro.site).href,
+	posts: tagPosts,
+	type: 'tag',
+	identifier: tag,
+	author: 'Antoniwan'
+});
 ---
 
 <BaseLayout
 	title={`${tag} - Tag`}
 	description={`Browse all posts tagged with ${tag}`}
 >
+	<!-- Structured Data -->
+	{Array.isArray(structuredData) ? 
+		structuredData.map((schema, index) => (
+			<script type="application/ld+json" set:html={JSON.stringify(schema)} />
+		))
+		:
+		<script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+	}
+	
 	<div class="w-full px-4 md:px-6 lg:px-8 xl:px-12">
 		{/* Tag Header */}
 		<div class="max-w-container mx-auto">
