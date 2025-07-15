@@ -8,12 +8,12 @@ interface Props {
 const { title, description, className = "" } = Astro.props;
 ---
 
-<div class={`max-w-container mx-auto py-8 md:py-12 lg:py-16 mb-16 ${className}`}>
-  <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-text dark:text-text-dark leading-tight tracking-tight mb-6">
+<div class={`max-w-container mx-auto py-6 md:py-8 lg:py-12 mb-8 md:mb-12 ${className}`}>
+  <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-text dark:text-text-dark leading-tight tracking-tight mb-4 md:mb-6">
     {title}
   </h1>
   {description && (
-    <p class="text-xl md:text-2xl text-neutral-600 dark:text-neutral-400 leading-relaxed">
+    <p class="text-lg md:text-xl text-neutral-600 dark:text-neutral-400 leading-relaxed">
       {description}
     </p>
   )}

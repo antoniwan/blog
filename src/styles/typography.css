@@ -17,6 +17,33 @@
     --tw-prose-pre-bg: var(--tw-color-background);
     --tw-prose-th-borders: var(--tw-color-border);
     --tw-prose-td-borders: var(--tw-color-border);
+
+    /* Improved vertical rhythm */
+    line-height: 1.75;
+    letter-spacing: 0.01em;
+  }
+
+  /* Better paragraph spacing */
+  .prose p {
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  /* Improved heading spacing */
+  .prose h1,
+  .prose h2,
+  .prose h3,
+  .prose h4,
+  .prose h5,
+  .prose h6 {
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .prose h1:first-child,
+  .prose h2:first-child,
+  .prose h3:first-child {
+    margin-top: 0;
   }
 
   /* Drop cap for first paragraph */
