@@ -25,6 +25,7 @@ interface Props {
   imageAlt?: string;
   author?: string;
   keywords?: string[];
+  type?: "website" | "article" | "profile";
 }
 
 const { 
@@ -40,7 +41,8 @@ const {
   image,
   imageAlt,
   author = AUTHOR.name,
-  keywords
+  keywords,
+  type
 } = Astro.props;
 
 // Auto-generate keywords if not provided
@@ -63,6 +65,7 @@ const finalImageAlt = imageAlt || generateImageAlt(title);
       updatedDate={updatedDate}
       author={author}
       keywords={finalKeywords}
+      type={type}
     />
     <SpeedInsights />
   </head>

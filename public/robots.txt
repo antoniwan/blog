@@ -20,17 +20,14 @@ Allow: /*.svg$
 Allow: /*.webp$
 Allow: /*.avif$
 
-# Disallow admin or private areas (if any exist in the future)
-# Disallow: /admin/
-# Disallow: /private/
+# Allow RSS feed and sitemap
+Allow: /rss.xml
+Allow: /sitemap-index.xml
 
 # Disallow temporary or development files
 Disallow: /temp/
 Disallow: /dev/
 Disallow: /test/
-
-# Allow RSS feed
-Allow: /rss.xml
-
-# Allow sitemap
-Allow: /sitemap-index.xml 
+Disallow: /.env
+Disallow: /package.json
+Disallow: /package-lock.json 

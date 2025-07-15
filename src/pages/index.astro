@@ -2,6 +2,7 @@
 import HomeLayout from '../layouts/HomeLayout.astro';
 import PostCard from '../components/PostCard.astro';
 import PageHeader from '../components/PageHeader.astro';
+import StructuredData from '../components/StructuredData.astro';
 import { getCollection } from 'astro:content';
 import { categories } from '../data/categories';
 import { generateStructuredData } from '../utils/structuredData';
@@ -51,13 +52,7 @@ const keywords = generateKeywords(allTags, allCategories);
 	keywords={keywords}
 >
 	<!-- Structured Data -->
-	{Array.isArray(structuredData) ? 
-		structuredData.map((schema, index) => (
-			<script type="application/ld+json" set:html={JSON.stringify(schema)} />
-		))
-		:
-		<script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
-	}
+	<StructuredData data={structuredData} />
 
 	{/* Hero Section */}
 	<div class="max-w-container mx-auto">

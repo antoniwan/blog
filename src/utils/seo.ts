@@ -34,6 +34,7 @@ export interface MetaTags {
   updatedDate?: string;
   robots: string;
   locale: string;
+  ogType: string;
 }
 
 // Enhanced URL generation with automatic fallbacks
@@ -50,6 +51,15 @@ export function generateImageUrl(
   return new URL(imagePath, baseUrl).href;
 }
 
+// Automatic Open Graph type detection
+export function detectOGType(
+  pubDate?: Date,
+  type?: string
+): "article" | "website" {
+  if (pubDate || type === "article") return "article";
+  return "website";
+}
+
 // Simplified meta tag generation with automatic URL handling
 export function generateMetaTags(config: SEOConfig): MetaTags {
   const {
@@ -62,7 +72,7 @@ export function generateMetaTags(config: SEOConfig): MetaTags {
     keywords = [],
     pubDate,
     updatedDate,
-    type = "website",
+    type,
     locale = SEO_CONFIG.defaultLocale,
     robots = SEO_CONFIG.defaultRobots,
   } = config;
@@ -71,6 +81,7 @@ export function generateMetaTags(config: SEOConfig): MetaTags {
   const canonical = path ? generateCanonicalUrl(path) : "";
   const ogImage = generateImageUrl(image || SEO_CONFIG.defaultImage);
   const ogImageAlt = imageAlt || title;
+  const ogType = detectOGType(pubDate, type);
 
   return {
     title: fullTitle,
@@ -84,6 +95,7 @@ export function generateMetaTags(config: SEOConfig): MetaTags {
     updatedDate: updatedDate?.toISOString(),
     robots,
     locale,
+    ogType,
   };
 }
 
@@ -123,4 +135,13 @@ export function generateKeywords(
 // Utility for automatic image alt text generation
 export function generateImageAlt(title: string, customAlt?: string): string {
   return customAlt || `${title} - ${SITE_TITLE}`;
+}
+
+// Enhanced URL utilities for better consistency
+export function ensureTrailingSlash(path: string): string {
+  return path.endsWith("/") ? path : `${path}/`;
+}
+
+export function removeTrailingSlash(path: string): string {
+  return path.endsWith("/") && path !== "/" ? path.slice(0, -1) : path;
 }
