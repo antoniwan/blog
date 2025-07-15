@@ -5,6 +5,7 @@ import {
   AUTHOR,
   SOCIAL_LINKS,
   SEO_CONFIG,
+  SEO_KEYWORDS,
 } from "../consts";
 
 export interface SEOConfig {
@@ -120,14 +121,7 @@ export function generateKeywords(
   if (categories) keywords.push(...categories);
 
   // Add site-wide keywords
-  keywords.push(
-    "blog",
-    "personal",
-    "technology",
-    "health",
-    "food",
-    "parenting"
-  );
+  keywords.push(...SEO_KEYWORDS);
 
   return [...new Set(keywords)]; // Remove duplicates
 }

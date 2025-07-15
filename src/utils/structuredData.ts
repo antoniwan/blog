@@ -104,6 +104,13 @@ export function generateStructuredData(options: StructuredDataOptions) {
       "Mental Health",
       "Parenting",
       "Technology",
+      "Thinking",
+      "Fatherhood",
+      "Masculinity",
+      "Culture",
+      "Modern Collapse",
+      "Philosophy",
+      "Cultural Navigation",
     ],
   });
 
