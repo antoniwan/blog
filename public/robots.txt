@@ -1,8 +1,18 @@
 User-agent: *
 Allow: /
 
-# Sitemap location
+# Sitemap locations - comprehensive coverage for all sitemap files
 Sitemap: https://blog.antoniwan.online/sitemap-index.xml
+Sitemap: https://blog.antoniwan.online/sitemap-0.xml
+Sitemap: https://blog.antoniwan.online/sitemap-1.xml
+Sitemap: https://blog.antoniwan.online/sitemap-2.xml
+Sitemap: https://blog.antoniwan.online/sitemap-3.xml
+Sitemap: https://blog.antoniwan.online/sitemap-4.xml
+Sitemap: https://blog.antoniwan.online/sitemap-5.xml
+Sitemap: https://blog.antoniwan.online/sitemap-6.xml
+Sitemap: https://blog.antoniwan.online/sitemap-7.xml
+Sitemap: https://blog.antoniwan.online/sitemap-8.xml
+Sitemap: https://blog.antoniwan.online/sitemap-9.xml
 
 # Crawl-delay for respectful crawling
 Crawl-delay: 1
@@ -20,9 +30,9 @@ Allow: /*.svg$
 Allow: /*.webp$
 Allow: /*.avif$
 
-# Allow RSS feed and sitemap
+# Allow RSS feed and sitemaps
 Allow: /rss.xml
-Allow: /sitemap-index.xml
+Allow: /sitemap*.xml
 
 # Disallow temporary or development files
 Disallow: /temp/
