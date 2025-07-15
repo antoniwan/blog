@@ -1,6 +1,7 @@
 ---
 import HomeLayout from '../layouts/HomeLayout.astro';
 import PostCard from '../components/PostCard.astro';
+import CategoryCard from '../components/CategoryCard.astro';
 import PageHeader from '../components/PageHeader.astro';
 import { getCollection } from 'astro:content';
 import { categories } from '../data/categories';
@@ -79,29 +80,12 @@ const topCategories = categories
 				</p>
 			</div>
 			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-				{topCategories.map(category => (
-					<a 
-						href={`/category/${category.id}/`}
-						class="group block bg-background dark:bg-background-dark rounded-lg border border-border/20 dark:border-border-dark/20 p-6 md:p-8 hover:shadow-lg hover:-translate-y-2 theme-transition-all"
-					>
-						<div class="flex items-start gap-4">
-							<div class="text-2xl md:text-3xl flex-shrink-0">
-								{category.icon}
-							</div>
-							<div class="flex-1 min-w-0">
-								<h3 class="text-lg md:text-xl font-semibold text-text dark:text-text-dark group-hover:text-primary-500 dark:group-hover:text-primary-400 theme-transition mb-2">
-									{category.name}
-								</h3>
-								<p class="text-sm md:text-base text-neutral-600 dark:text-neutral-400 leading-relaxed mb-3">
-									{category.description}
-								</p>
-								<div class="flex items-center gap-2 text-sm text-neutral-500 dark:text-neutral-500">
-									<span>{postCounts[category.id]} posts</span>
-									<span class="text-primary-500 dark:text-primary-400 group-hover:translate-x-1 theme-transition">→</span>
-								</div>
-							</div>
-						</div>
-					</a>
+				{topCategories.map((category, index) => (
+					<CategoryCard 
+						category={category}
+						postCount={postCounts[category.id]}
+						featured={index < 3}
+					/>
 				))}
 			</div>
 		</div>

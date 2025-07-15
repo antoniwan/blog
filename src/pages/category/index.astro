@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHeader from '../../components/PageHeader.astro';
+import CategoryCard from '../../components/CategoryCard.astro';
 import { getCollection } from 'astro:content';
 import { categories } from '../../data/categories';
 
@@ -14,6 +15,11 @@ const postCounts = categories.reduce((acc, category) => {
   acc[category.id] = posts.filter(post => post.data.category?.includes(category.id)).length;
   return acc;
 }, {} as Record<string, number>);
+
+// Sort categories by post count (most popular first)
+const sortedCategories = categories
+  .filter(category => postCounts[category.id] > 0)
+  .sort((a, b) => postCounts[b.id] - postCounts[a.id]);
 ---
 
 <BaseLayout
@@ -30,32 +36,28 @@ const postCounts = categories.reduce((acc, category) => {
       />
       
       {/* Categories Grid */}
-      <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3 mt-12">
-        {categories.map(category => (
-          <a 
-            href={`/category/${category.id}/`}
-            class="block p-4 bg-neutral-50 dark:bg-neutral-900 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
-          >
-            <h3 class="text-lg font-semibold mb-2 flex items-center gap-2">
-              <span>{category.icon}</span>
-              {category.name}
-            </h3>
-            <div class="flex items-center justify-between">
-              <span class="text-sm text-neutral-500 dark:text-neutral-500">
-                {postCounts[category.id]} posts
-              </span>
-              <span class="text-primary-500 dark:text-primary-400">→</span>
-            </div>
-          </a>
+      <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3 mt-12">
+        {sortedCategories.map((category, index) => (
+          <CategoryCard 
+            category={category}
+            postCount={postCounts[category.id]}
+            featured={index < 3}
+          />
         ))}
       </div>
       
       {/* Empty State */}
-      {categories.length === 0 && (
-        <div class="text-center py-12">
-          <p class="text-neutral-600 dark:text-neutral-400">
-            No categories found yet.
-          </p>
+      {sortedCategories.length === 0 && (
+        <div class="text-center py-16">
+          <div class="max-w-md mx-auto">
+            <div class="text-4xl mb-4">📁</div>
+            <h3 class="text-xl font-semibold text-text dark:text-text-dark mb-2">
+              No categories found
+            </h3>
+            <p class="text-neutral-600 dark:text-neutral-400">
+              Categories will appear here once posts are published.
+            </p>
+          </div>
         </div>
       )}
     </div>

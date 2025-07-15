@@ -1,30 +1,21 @@
 ---
-import { getImportantTags, sortTagsByImportance } from '../utils/tagUtils';
-
 interface Props {
-	tags: string[];
-	maxVisible?: number;
-	showCount?: boolean;
-	showMoreIndicator?: boolean;
-	className?: string;
-	compact?: boolean;
+	tag: string;
+	count: number;
+	size?: 'sm' | 'md' | 'lg';
 	variant?: 'default' | 'subtle' | 'bordered';
+	showCount?: boolean;
+	className?: string;
 }
 
 const { 
-	tags, 
-	maxVisible = 3, 
-	showCount = false, 
-	showMoreIndicator = true,
-	className = '',
-	compact = false,
-	variant = 'default'
+	tag, 
+	count, 
+	size = 'md', 
+	variant = 'default',
+	showCount = true,
+	className = ''
 } = Astro.props;
-
-const sortedTags = sortTagsByImportance(tags);
-const visibleTags = sortedTags.slice(0, maxVisible);
-const hasMoreTags = showMoreIndicator && tags.length > maxVisible;
-const remainingCount = tags.length - maxVisible;
 
 // Enhanced color system with better contrast and accessibility
 const getTagColor = (tag: string, variant: string) => {
@@ -69,38 +60,31 @@ const getTagColor = (tag: string, variant: string) => {
 	
 	return baseColors[variant as keyof typeof baseColors][Math.abs(hash) % 8];
 };
+
+// Size classes
+const sizeClasses = {
+	sm: 'text-xs px-2.5 py-1',
+	md: 'text-sm px-3 py-1.5',
+	lg: 'text-base px-4 py-2'
+};
 ---
 
-<div class={`tag-display flex flex-wrap items-center gap-2 ${className}`}>
-	{visibleTags.map(tag => (
-		<a
-			href={`/tag/${tag}/`}
-			class={`tag-item inline-flex items-center gap-1.5 ${compact ? 'text-xs px-2.5 py-1' : 'text-sm px-3 py-1.5'} rounded-full border font-medium transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-1 dark:focus:ring-offset-background-dark ${getTagColor(tag, variant)}`}
-		>
-			<span class="tag-icon" aria-hidden="true">🏷️</span>
-			<span class="tag-text">#{tag}</span>
-			{showCount && (
-				<span class="tag-count text-xs opacity-75 font-normal">
-					({tags.filter(t => t === tag).length})
-				</span>
-			)}
-		</a>
-	))}
-	{hasMoreTags && (
-		<span class={`more-indicator inline-flex items-center gap-1.5 ${compact ? 'text-xs px-2.5 py-1' : 'text-sm px-3 py-1.5'} rounded-full bg-neutral-50 dark:bg-neutral-800 text-neutral-500 dark:text-neutral-400 border border-neutral-200 dark:border-neutral-700 font-medium`}>
-			<span aria-hidden="true">⋯</span>
-			<span>+{remainingCount} more</span>
+<a
+	href={`/tag/${tag}/`}
+	class={`tag-card group inline-flex items-center gap-2 ${sizeClasses[size]} rounded-full border font-medium transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-1 dark:focus:ring-offset-background-dark ${getTagColor(tag, variant)} ${className}`}
+>
+	<span class="tag-icon" aria-hidden="true">🏷️</span>
+	<span class="tag-text">#{tag}</span>
+	{showCount && (
+		<span class="tag-count text-xs opacity-75 font-normal">
+			{count}
 		</span>
 	)}
-</div>
+</a>
 
 <style>
-	/* Enhanced tag styling */
-	.tag-display {
-		/* Container styles */
-	}
-
-	.tag-item {
+	/* Enhanced tag card styling */
+	.tag-card {
 		transition: all var(--animation-duration-normal) var(--animation-easing-default);
 		backdrop-filter: blur(4px);
 	}
@@ -123,51 +107,36 @@ const getTagColor = (tag: string, variant: string) => {
 		opacity: 0.75;
 	}
 
-	/* More indicator styling */
-	.more-indicator {
-		transition: all var(--animation-duration-normal) var(--animation-easing-default);
-	}
-
 	/* Enhanced hover effects */
-	.tag-item:hover {
+	.tag-card:hover {
 		transform: translateY(-1px);
 		box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -1px rgb(0 0 0 / 0.06);
 	}
 
-	.dark .tag-item:hover {
+	.dark .tag-card:hover {
 		box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.25), 0 2px 4px -1px rgb(0 0 0 / 0.1);
 	}
 
 	/* Focus styles for accessibility */
-	.tag-item:focus {
+	.tag-card:focus {
 		outline: 2px solid rgb(var(--color-primary));
 		outline-offset: 2px;
 	}
 
 	/* Respect reduced motion preferences */
 	@media (prefers-reduced-motion: reduce) {
-		.tag-item,
-		.more-indicator {
+		.tag-card {
 			transition: none !important;
 		}
 
-		.tag-item:hover {
+		.tag-card:hover {
 			transform: none;
 		}
 	}
 
 	/* Responsive adjustments */
 	@media (max-width: 768px) {
-		.tag-display {
-			gap: 0.375rem;
-		}
-
-		.tag-item {
-			font-size: 0.75rem;
-			padding: 0.25rem 0.5rem;
-		}
-
-		.more-indicator {
+		.tag-card {
 			font-size: 0.75rem;
 			padding: 0.25rem 0.5rem;
 		}
