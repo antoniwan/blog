@@ -4,7 +4,24 @@ description: "Overcoming imposter syndrome is an ongoing process. I have adopted
 pubDate: "2024-07-24T16:21:33.037Z"
 language: ["en"]
 category: ["integration-growth", "psychology", "metaspace"]
-tags: []
+tags:
+  [
+    "imposter-syndrome",
+    "journaling",
+    "evidence-based",
+    "self-confidence",
+    "professional-development",
+    "mental-health",
+    "self-reflection",
+    "emotional-regulation",
+    "personal-growth",
+    "therapy",
+    "healing",
+    "self-worth",
+    "confidence-building",
+    "professional-identity",
+    "self-improvement",
+  ]
 readingTime: 2
 draft: false
 featured: false

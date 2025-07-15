@@ -4,7 +4,40 @@ description: "A complete guide to building a powerful development terminal on Wi
 pubDate: "2025-04-28"
 language: ["en"]
 category: ["systems-strategy", "learning-projects"]
-tags: ["terminal", "productivity", "workflow", "systems", "learning"]
+tags:
+  [
+    "terminal",
+    "productivity",
+    "workflow",
+    "systems",
+    "learning",
+    "technology",
+    "development",
+    "tools",
+    "efficiency",
+    "customization",
+    "wezterm",
+    "powershell",
+    "oh-my-posh",
+    "zoxide",
+    "windows",
+    "development-environment",
+    "self-improvement",
+    "mastery",
+    "discipline",
+    "intentional-living",
+    "focus",
+    "clarity",
+    "organization",
+    "skill-development",
+    "professional-development",
+    "workflow-optimization",
+    "time-management",
+    "consciousness",
+    "growth",
+    "transformation",
+    "authenticity",
+  ]
 readingTime: 12
 draft: false
 published: true

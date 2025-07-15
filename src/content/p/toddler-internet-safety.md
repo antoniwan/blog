@@ -5,7 +5,34 @@ pubDate: 2025-05-01T00:00:00.000Z
 language: ["en"]
 category: ["parenting", "systems-strategy"]
 subcategory: "Digital Safety"
-tags: ["parents", "children", "internet", "safety", "education"]
+tags:
+  [
+    "parents",
+    "children",
+    "internet",
+    "safety",
+    "education",
+    "parenting",
+    "digital-safety",
+    "screen-time",
+    "mental-health",
+    "child-development",
+    "conscious-parenting",
+    "emotional-health",
+    "wellness",
+    "family",
+    "protection",
+    "boundaries",
+    "consciousness",
+    "digital-wellness",
+    "parental-controls",
+    "emotional-regulation",
+    "self-care",
+    "healing",
+    "therapy",
+    "growth",
+    "responsibility",
+  ]
 readingTime: 8
 draft: false
 featured: true

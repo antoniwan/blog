@@ -4,7 +4,30 @@ description: "A reflection on finding contentment and wholeness through simplici
 pubDate: "2024-10-04T18:40:28.388Z"
 language: ["en"]
 category: ["integration-growth", "parenting", "psychology"]
-tags: []
+tags:
+  [
+    "simplicity",
+    "minimalism",
+    "peace",
+    "contentment",
+    "wellness",
+    "self-care",
+    "mental-health",
+    "fitness",
+    "discipline",
+    "personal-growth",
+    "self-reflection",
+    "gratitude",
+    "mindfulness",
+    "healing",
+    "therapy",
+    "self-acceptance",
+    "inner-peace",
+    "wellbeing",
+    "lifestyle",
+    "consciousness",
+    "self-improvement",
+  ]
 readingTime: 4
 draft: false
 featured: false

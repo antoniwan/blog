@@ -4,7 +4,29 @@ description: "Practice makes perfect, and overcoming paralysis is no different t
 pubDate: "2024-12-04T15:25:09.221Z"
 language: ["en"]
 category: ["psychology", "systems-strategy"]
-tags: []
+tags:
+  [
+    "analysis-paralysis",
+    "decision-making",
+    "overthinking",
+    "productivity",
+    "action",
+    "mindfulness",
+    "breathing",
+    "emotional-regulation",
+    "self-improvement",
+    "mental-health",
+    "procrastination",
+    "focus",
+    "clarity",
+    "movement",
+    "nervous-system",
+    "therapy",
+    "healing",
+    "personal-growth",
+    "self-mastery",
+    "habits",
+  ]
 readingTime: 5
 draft: false
 featured: false

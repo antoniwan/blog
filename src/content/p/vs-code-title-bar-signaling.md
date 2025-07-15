@@ -4,7 +4,43 @@ description: "A lightweight cognitive system to visually track project intent an
 pubDate: "2025-05-15"
 language: ["en"]
 category: ["systems-strategy", "learning-projects", "integration-growth"]
-tags: ["VS Code", "context", "color", "focus", "workflow", "cognitive"]
+tags:
+  [
+    "VS Code",
+    "context",
+    "color",
+    "focus",
+    "workflow",
+    "cognitive",
+    "technology",
+    "productivity",
+    "development",
+    "tools",
+    "efficiency",
+    "customization",
+    "self-improvement",
+    "mastery",
+    "discipline",
+    "intentional-living",
+    "clarity",
+    "organization",
+    "skill-development",
+    "professional-development",
+    "workflow-optimization",
+    "time-management",
+    "consciousness",
+    "growth",
+    "transformation",
+    "authenticity",
+    "wellness",
+    "healing",
+    "therapy",
+    "mindfulness",
+    "emotional-regulation",
+    "self-reflection",
+    "resilience",
+    "self-care",
+  ]
 draft: false
 ---
 

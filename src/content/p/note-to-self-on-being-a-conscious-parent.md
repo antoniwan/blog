@@ -4,7 +4,35 @@ description: "A personal reflection on conscious parenting, modeling behaviors, 
 pubDate: "2024-05-05"
 language: ["en"]
 category: ["parenting", "integration-growth", "psychology"]
-tags: ["parenting", "consciousness", "personal-growth", "self-improvement", "essay"]
+tags:
+  [
+    "parenting",
+    "conscious-parenting",
+    "modeling-behavior",
+    "leadership",
+    "personal-growth",
+    "self-improvement",
+    "discipline",
+    "emotional-regulation",
+    "self-reflection",
+    "healing",
+    "therapy",
+    "trauma",
+    "family",
+    "children",
+    "development",
+    "consciousness",
+    "authenticity",
+    "vulnerability",
+    "ego",
+    "self-mastery",
+    "values",
+    "core-values",
+    "work-ethic",
+    "habits",
+    "influence",
+    "responsibility",
+  ]
 readingTime: 3
 author: "wizards777"
 canonicalUrl: "https://medium.com/@wizards777/note-to-self-on-being-a-conscious-parent-a1c0e429f5fb"
@@ -32,4 +60,4 @@ Food for thought.
 
 ---
 
-*This post was originally published on [Medium](https://medium.com/@wizards777/note-to-self-on-being-a-conscious-parent-a1c0e429f5fb).* 
+_This post was originally published on [Medium](https://medium.com/@wizards777/note-to-self-on-being-a-conscious-parent-a1c0e429f5fb)._

@@ -5,7 +5,36 @@ pubDate: "2025-05-02"
 language: ["en"]
 category: ["diy-creation", "learning-projects", "integration-growth"]
 subcategory: "Recipes"
-tags: ["chicken", "recipes", "cooking", "meal prep"]
+tags:
+  [
+    "chicken",
+    "recipes",
+    "cooking",
+    "meal-prep",
+    "nutrition",
+    "food",
+    "wellness",
+    "health",
+    "diy",
+    "homemade",
+    "healthy-eating",
+    "meal-planning",
+    "self-care",
+    "discipline",
+    "consciousness",
+    "intentional-living",
+    "growth",
+    "transformation",
+    "authenticity",
+    "wellness",
+    "healing",
+    "therapy",
+    "self-improvement",
+    "personal-growth",
+    "mindfulness",
+    "emotional-regulation",
+    "self-reflection",
+  ]
 readingTime: 5
 draft: false
 featured: true

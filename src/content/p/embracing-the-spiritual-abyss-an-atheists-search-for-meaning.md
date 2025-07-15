@@ -4,7 +4,40 @@ description: "I’ve chosen to be an atheist most of my life, and the older I ge
 pubDate: "2024-06-03T17:27:29.382Z"
 language: ["en"]
 category: ["metaspace", "psychology", "parenting"]
-tags: ["spirituality", "atheism", "meaning", "reflection", "personal-growth"]
+tags:
+  [
+    "spirituality",
+    "atheism",
+    "meaning",
+    "reflection",
+    "personal-growth",
+    "humanism",
+    "philosophy",
+    "consciousness",
+    "self-reflection",
+    "identity",
+    "values",
+    "purpose",
+    "existentialism",
+    "mental-health",
+    "emotional-health",
+    "healing",
+    "therapy",
+    "wellness",
+    "self-improvement",
+    "growth",
+    "transformation",
+    "authenticity",
+    "truth",
+    "power",
+    "responsibility",
+    "emotional-intelligence",
+    "self-awareness",
+    "consciousness",
+    "healing",
+    "resilience",
+    "self-discovery",
+  ]
 readingTime: 4
 draft: false
 featured: false

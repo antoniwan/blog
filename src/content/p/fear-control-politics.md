@@ -5,7 +5,40 @@ pubDate: 2025-04-01T00:00:00.000Z
 language: ["en"]
 category: ["politics", "psychology", "metaspace"]
 subcategory: "Psychology"
-tags: ["politics", "fear", "control", "healing", "threads", "astro"]
+tags:
+  [
+    "politics",
+    "fear",
+    "control",
+    "healing",
+    "threads",
+    "astro",
+    "trauma",
+    "mental-health",
+    "emotional-health",
+    "social-issues",
+    "collective-healing",
+    "consciousness",
+    "personal-growth",
+    "self-reflection",
+    "therapy",
+    "wellness",
+    "emotional-regulation",
+    "boundaries",
+    "self-care",
+    "resilience",
+    "authenticity",
+    "truth",
+    "power",
+    "responsibility",
+    "growth",
+    "transformation",
+    "social-justice",
+    "emotional-intelligence",
+    "self-improvement",
+    "healing",
+    "consciousness-raising",
+  ]
 readingTime: 7
 draft: false
 featured: true

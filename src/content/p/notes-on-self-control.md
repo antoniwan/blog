@@ -4,7 +4,41 @@ description: "A reflection on the power of self-control, curiosity, and value-ba
 pubDate: "2024-05-06"
 language: ["en"]
 category: ["integration-growth"]
-tags: ["self-awareness", "self-control", "personal-growth", "emotional-regulation", "decision-making"]
+tags:
+  [
+    "self-awareness",
+    "self-control",
+    "personal-growth",
+    "emotional-regulation",
+    "decision-making",
+    "discipline",
+    "mindfulness",
+    "self-mastery",
+    "willpower",
+    "habits",
+    "consistency",
+    "self-improvement",
+    "growth",
+    "transformation",
+    "authenticity",
+    "consciousness",
+    "intentional-living",
+    "wellness",
+    "healing",
+    "therapy",
+    "focus",
+    "clarity",
+    "organization",
+    "skill-development",
+    "professional-development",
+    "workflow-optimization",
+    "time-management",
+    "resilience",
+    "self-reflection",
+    "emotional-intelligence",
+    "boundaries",
+    "self-care",
+  ]
 readingTime: 2
 author: "wizards777"
 canonicalUrl: "https://medium.com/@wizards777/notes-on-self-control-48f01e1f21ff"
@@ -23,4 +57,4 @@ Surprisingly (is it?), value-based decision-making makes me feel free, happy, jo
 
 ---
 
-*This post was originally published on [Medium](https://medium.com/@wizards777/notes-on-self-control-48f01e1f21ff).* 
+_This post was originally published on [Medium](https://medium.com/@wizards777/notes-on-self-control-48f01e1f21ff)._

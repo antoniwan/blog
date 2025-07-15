@@ -4,7 +4,34 @@ description: "Empathy is such a double-edged sword — the death of a friend
 pubDate: "2024-07-29T17:12:19.944Z"
 language: ["en"]
 category: ["metaspace", "integration-growth"]
-tags: []
+tags:
+  [
+    "empathy",
+    "compassion",
+    "emotional-regulation",
+    "boundaries",
+    "self-care",
+    "mental-health",
+    "emotional-health",
+    "social-issues",
+    "injustice",
+    "responsibility",
+    "desensitization",
+    "emotional-overwhelm",
+    "consciousness",
+    "personal-growth",
+    "self-reflection",
+    "healing",
+    "therapy",
+    "wellness",
+    "emotional-intelligence",
+    "resilience",
+    "self-protection",
+    "balance",
+    "growth",
+    "transformation",
+    "authenticity",
+  ]
 readingTime: 1
 draft: false
 featured: false

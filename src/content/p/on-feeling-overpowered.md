@@ -4,7 +4,29 @@ description: "Note-to-self!"
 pubDate: "2024-05-29T14:41:25.408Z"
 language: ["en"]
 category: ["integration-growth", "psychology"]
-tags: []
+tags:
+  [
+    "personal-growth",
+    "self-mastery",
+    "habits",
+    "wellness",
+    "fitness",
+    "mindfulness",
+    "emotional-regulation",
+    "self-improvement",
+    "discipline",
+    "mental-health",
+    "physical-health",
+    "consistency",
+    "transformation",
+    "self-care",
+    "empowerment",
+    "resilience",
+    "growth-mindset",
+    "self-reflection",
+    "healing",
+    "therapy",
+  ]
 readingTime: 3
 draft: false
 featured: false

@@ -4,7 +4,43 @@ description: "A raw and honest reflection on processing emotional pain, self-hea
 pubDate: "2024-05-14"
 language: ["en"]
 category: ["integration-growth", "psychology"]
-tags: ["emotional-wellbeing", "thoughts-and-feelings", "affirmations", "reflections", "emotional-intelligence"]
+tags:
+  [
+    "emotional-wellbeing",
+    "thoughts-and-feelings",
+    "affirmations",
+    "reflections",
+    "emotional-intelligence",
+    "mental-health",
+    "emotional-health",
+    "self-reflection",
+    "healing",
+    "therapy",
+    "wellness",
+    "self-care",
+    "personal-growth",
+    "self-improvement",
+    "growth",
+    "transformation",
+    "authenticity",
+    "consciousness",
+    "intentional-living",
+    "mindfulness",
+    "emotional-regulation",
+    "resilience",
+    "discipline",
+    "focus",
+    "clarity",
+    "organization",
+    "skill-development",
+    "professional-development",
+    "workflow-optimization",
+    "time-management",
+    "self-mastery",
+    "willpower",
+    "habits",
+    "consistency",
+  ]
 readingTime: 2
 author: "wizards777"
 canonicalUrl: "https://medium.com/@wizards777/reflections-from-a-tough-weekend-154e8c2a13b7"
@@ -32,4 +68,4 @@ You got this. One day at a time.
 
 ---
 
-*This post was originally published on [Medium](https://medium.com/@wizards777/reflections-from-a-tough-weekend-154e8c2a13b7).* 
+_This post was originally published on [Medium](https://medium.com/@wizards777/reflections-from-a-tough-weekend-154e8c2a13b7)._

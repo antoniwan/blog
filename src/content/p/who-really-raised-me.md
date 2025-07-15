@@ -4,7 +4,31 @@ description: "I’ve been thinking a lot about who raised me to be who I am. And
 pubDate: "2025-04-17T13:56:47.953Z"
 language: ["en"]
 category: ["integration-growth", "parenting", "psychology"]
-tags: ["parenting", "childhood", "family", "personal-growth", "reflection"]
+tags:
+  [
+    "parenting",
+    "childhood",
+    "family",
+    "personal-growth",
+    "reflection",
+    "healing",
+    "therapy",
+    "trauma",
+    "self-reflection",
+    "emotional-healing",
+    "consciousness",
+    "growth",
+    "transformation",
+    "self-awareness",
+    "mental-health",
+    "emotional-health",
+    "authenticity",
+    "self-improvement",
+    "healing",
+    "resilience",
+    "identity",
+    "self-discovery",
+  ]
 readingTime: 7
 draft: false
 featured: false

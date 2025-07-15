@@ -4,7 +4,35 @@ description: "To be negative, I must assume negativity; to be resentful, I must 
 pubDate: "2024-05-31T15:55:06.032Z"
 language: ["en"]
 category: ["metaspace", "integration-growth"]
-tags: []
+tags:
+  [
+    "self-awareness",
+    "consciousness",
+    "personal-growth",
+    "emotional-regulation",
+    "mindfulness",
+    "positivity",
+    "kindness",
+    "love",
+    "values",
+    "authenticity",
+    "power",
+    "clarity",
+    "self-mastery",
+    "emotional-health",
+    "mental-health",
+    "self-improvement",
+    "healing",
+    "therapy",
+    "resilience",
+    "self-reflection",
+    "growth",
+    "transformation",
+    "wellness",
+    "self-care",
+    "discipline",
+    "purpose",
+  ]
 readingTime: 1
 draft: false
 featured: false

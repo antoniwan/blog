@@ -4,7 +4,29 @@ description: "Desde la paz, el respeto, y la crianza compartida"
 pubDate: "2025-04-21T12:21:28.540Z"
 language: ["en"]
 category: ["metaspace", "integration-growth"]
-tags: []
+tags:
+  [
+    "parenting",
+    "co-parenting",
+    "healing",
+    "empathy",
+    "compassion",
+    "family",
+    "emotional-healing",
+    "trauma",
+    "inner-child",
+    "self-compassion",
+    "relationships",
+    "consciousness",
+    "growth",
+    "therapy",
+    "healing",
+    "personal-growth",
+    "emotional-intelligence",
+    "self-reflection",
+    "resilience",
+    "authenticity",
+  ]
 readingTime: 1
 draft: false
 featured: false

@@ -4,7 +4,35 @@ description: "Leaving Meta. Reclaiming time, clarity, and creativity."
 pubDate: "2025-04-30T12:52:40.726Z"
 language: ["en"]
 category: ["diy-creation", "metaspace", "integration-growth"]
-tags: ["digital-detox", "creativity", "presence", "intentional-living", "focus"]
+tags:
+  [
+    "digital-detox",
+    "creativity",
+    "presence",
+    "intentional-living",
+    "focus",
+    "social-media",
+    "mental-health",
+    "wellness",
+    "self-care",
+    "productivity",
+    "mindfulness",
+    "emotional-regulation",
+    "consciousness",
+    "personal-growth",
+    "self-improvement",
+    "authenticity",
+    "clarity",
+    "time-management",
+    "digital-wellness",
+    "mental-clarity",
+    "emotional-clarity",
+    "relationships",
+    "connection",
+    "disconnection",
+    "healing",
+    "therapy",
+  ]
 readingTime: 1
 draft: false
 featured: false
