@@ -27,12 +27,12 @@ const { data } = post;
 	<div class="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-primary-50/5 dark:to-primary-900/5 opacity-0 group-hover:opacity-100 theme-transition pointer-events-none"></div>
 	
 	<!-- Card content -->
-	<div class="relative p-6 md:p-8">
-		<div class="space-y-4 md:space-y-5">
+	<div class="relative p-4 sm:p-6 md:p-8">
+		<div class="space-y-3 sm:space-y-4 md:space-y-5">
 			<!-- Header with metadata -->
-			<header class="space-y-3">
-				<!-- Metadata row -->
-				<div class="flex items-center gap-4 text-sm text-neutral-600 dark:text-neutral-400">
+			<header class="space-y-2 sm:space-y-3">
+				<!-- Metadata row - mobile-first: stack vertically on small screens -->
+				<div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-sm text-neutral-600 dark:text-neutral-400">
 					{data.pubDate && (
 						<time datetime={data.pubDate.toISOString()} class="flex items-center gap-2 hover:text-primary-500 dark:hover:text-primary-400 theme-transition">
 							<span class="text-primary-500 dark:text-primary-400" aria-hidden="true">📅</span>
@@ -51,7 +51,7 @@ const { data } = post;
 				</div>
 				
 				<!-- Title -->
-				<h2 class="text-xl md:text-2xl lg:text-3xl font-bold text-text dark:text-text-dark group-hover:text-primary-500 dark:group-hover:text-primary-400 theme-transition leading-tight">
+				<h2 class="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-text dark:text-text-dark group-hover:text-primary-500 dark:group-hover:text-primary-400 theme-transition leading-tight">
 					<a 
 						href={`/p/${post.id}/`} 
 						class="hover:underline focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-background-dark rounded"
@@ -63,14 +63,14 @@ const { data } = post;
 			
 			<!-- Description -->
 			{data.description && (
-				<p class="text-base md:text-lg text-neutral-600 dark:text-neutral-400 line-clamp-2 md:line-clamp-3 leading-relaxed">
+				<p class="text-sm sm:text-base md:text-lg text-neutral-600 dark:text-neutral-400 line-clamp-2 md:line-clamp-3 leading-relaxed">
 					{data.description}
 				</p>
 			)}
 			
 			<!-- Tags -->
 			{data.tags && data.tags.length > 0 && (
-				<footer class="pt-2">
+				<footer class="pt-1 sm:pt-2">
 					<TagDisplay 
 						tags={data.tags} 
 						maxVisible={3} 
@@ -109,7 +109,11 @@ const { data } = post;
 
 	/* Compact card styling */
 	.compact-card {
-		@apply p-4 md:p-6;
+		@apply p-3 sm:p-4 md:p-6;
+	}
+
+	.compact-card .space-y-3 > * + * {
+		margin-top: 0.75rem;
 	}
 
 	.compact-card .space-y-4 > * + * {
@@ -139,6 +143,10 @@ const { data } = post;
 	}
 
 	/* Improved line heights for better readability */
+	.text-lg {
+		line-height: 1.4;
+	}
+
 	.text-xl {
 		line-height: 1.4;
 	}
@@ -152,6 +160,10 @@ const { data } = post;
 	}
 
 	/* Enhanced spacing between elements */
+	.space-y-3 > * + * {
+		margin-top: 0.75rem;
+	}
+
 	.space-y-4 > * + * {
 		margin-top: 1rem;
 	}
@@ -175,20 +187,29 @@ const { data } = post;
 		}
 	}
 
-	/* Responsive adjustments */
-	@media (max-width: 768px) {
+	/* Mobile-first responsive adjustments */
+	@media (max-width: 640px) {
 		/* Tighter spacing on mobile */
+		.space-y-3 > * + * {
+			margin-top: 0.625rem;
+		}
+
 		.space-y-4 > * + * {
-			margin-top: 0.875rem;
+			margin-top: 0.75rem;
 		}
 
 		.space-y-5 > * + * {
-			margin-top: 1rem;
+			margin-top: 0.875rem;
 		}
 
 		/* Smaller hover effect on mobile */
 		.group:hover {
 			transform: translateY(-1px);
+		}
+
+		/* Ensure metadata items don't wrap awkwardly */
+		.flex-col > * {
+			min-width: 0;
 		}
 	}
 </style> 

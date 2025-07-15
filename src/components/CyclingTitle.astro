@@ -1,0 +1,98 @@
+---
+// Philosophical phrases that hurt but are important
+const phrases = [
+  "Thinking hurts.",
+  "Feeling hurts.",
+  "Shadow work hurts.",
+  "Growth hurts.",
+  "Truth hurts.",
+  "Change hurts.",
+  "Healing hurts.",
+  "Discipline hurts.",
+  "Love hurts.",
+  "Courage hurts."
+];
+---
+
+<div class="cycling-title-container">
+  <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-text dark:text-text-dark leading-tight tracking-tight mb-4 md:mb-6" transition:name="page-title">
+    <span class="cycling-text" data-phrases={JSON.stringify(phrases)}>
+      {phrases[0]}
+    </span>
+    <span class="ml-2">I do it anyway.</span>
+  </h1>
+</div>
+
+<style>
+  .cycling-text {
+    display: inline-block;
+    min-width: 200px;
+    transition: opacity 0.3s ease-in-out;
+  }
+
+  .cycling-text.fade-out {
+    opacity: 0;
+  }
+
+  .cycling-text.fade-in {
+    opacity: 1;
+  }
+
+  /* Respect reduced motion preferences */
+  @media (prefers-reduced-motion: reduce) {
+    .cycling-text {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  // Smooth cycling animation
+  function initCyclingTitle() {
+    const cyclingElement = document.querySelector('.cycling-text');
+    if (!cyclingElement) return;
+
+    const phrases = JSON.parse(cyclingElement.getAttribute('data-phrases') || '[]');
+    if (phrases.length === 0) return;
+
+    let currentIndex = 0;
+    
+    function cycleText() {
+      const element = document.querySelector('.cycling-text');
+      if (!element) return;
+      
+      // Fade out
+      element.classList.add('fade-out');
+      
+      setTimeout(() => {
+        const element = document.querySelector('.cycling-text');
+        if (!element) return;
+        
+        // Change text
+        currentIndex = (currentIndex + 1) % phrases.length;
+        element.textContent = phrases[currentIndex];
+        
+        // Fade in
+        element.classList.remove('fade-out');
+        element.classList.add('fade-in');
+        
+        setTimeout(() => {
+          const element = document.querySelector('.cycling-text');
+          if (element) {
+            element.classList.remove('fade-in');
+          }
+        }, 300);
+      }, 150);
+    }
+    
+    // Start cycling every 2.5 seconds
+    setInterval(cycleText, 2500);
+  }
+
+  // Initialize when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initCyclingTitle);
+  } else {
+    initCyclingTitle();
+  }
+</script> 

@@ -2,7 +2,7 @@
 import HomeLayout from '../layouts/HomeLayout.astro';
 import PostCard from '../components/PostCard.astro';
 import CategoryCard from '../components/CategoryCard.astro';
-import PageHeader from '../components/PageHeader.astro';
+import CyclingTitle from '../components/CyclingTitle.astro';
 import { getCollection } from 'astro:content';
 import { categories } from '../data/categories';
 
@@ -49,11 +49,11 @@ const topCategories = categories
 >
 	{/* Hero Section */}
 	<div class="max-w-container mx-auto">
-		<PageHeader 
-			title="Thinking hurts. I do it anyway."
-			description="Dispatches from a fractured mind navigating fatherhood, masculinity, cultura, and modern collapse — one burning question at a time."
-			transition:name="page-title"
-		/>
+		<div class="max-w-container mx-auto py-6 md:py-8 lg:py-12 mb-8 md:mb-12">
+			<CyclingTitle />
+			<p class="text-lg md:text-xl text-neutral-600 dark:text-neutral-400 leading-relaxed" transition:name="page-description">
+				Dispatches from a fractured mind navigating fatherhood, masculinity, cultura, and modern collapse — one burning question at a time.
+			</p>
 		</div>
 	</div>
 
