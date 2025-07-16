@@ -121,7 +121,7 @@ export function generateStructuredData(options: StructuredDataOptions) {
       "@type": "BlogPosting",
       headline: title,
       description: description,
-      image: heroImage ? generateImageUrl(heroImage) : undefined,
+      image: generateImageUrl(heroImage),
       datePublished: pubDate.toISOString(),
       dateModified: updatedDate?.toISOString() || pubDate.toISOString(),
       author: {
@@ -173,9 +173,7 @@ export function generateStructuredData(options: StructuredDataOptions) {
               name: author,
               url: AUTHOR.url,
             },
-            image: post.data.heroImage
-              ? generateImageUrl(post.data.heroImage)
-              : undefined,
+            image: generateImageUrl(post.data.heroImage),
             keywords: post.data.tags?.join(", "),
             articleSection: post.data.category?.join(", "),
             timeRequired: post.data.readingTime
