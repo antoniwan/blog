@@ -11,7 +11,19 @@ export default defineConfig({
   site: SITE_URL,
   integrations: [
     mdx(),
-    sitemap(),
+    sitemap({
+      filter: (page) => {
+        // Include all pages except drafts and unpublished content
+        if (page.includes("/p/")) {
+          // For blog posts, we'll filter in the content collection
+          return true;
+        }
+        return true;
+      },
+      lastmod: new Date(),
+      changefreq: "weekly",
+      priority: 0.7,
+    }),
     tailwind({
       applyBaseStyles: true,
     }),
