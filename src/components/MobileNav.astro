@@ -1,6 +1,5 @@
 ---
 import { mainNavigation } from '../data/navigation';
-import SearchBar from './SearchBar.astro';
 ---
 
 <!-- Hamburger Button -->
@@ -41,10 +40,7 @@ import SearchBar from './SearchBar.astro';
     </button>
   </div>
 
-  <!-- Search Bar (Mobile) -->
-  <div class="p-4 border-b border-neutral-200 dark:border-neutral-800">
-    <SearchBar />
-  </div>
+
 
   <!-- Navigation Links -->
   <nav class="flex-1 overflow-y-auto p-4 space-y-4" aria-label="Mobile navigation">
@@ -103,32 +99,7 @@ import SearchBar from './SearchBar.astro';
       link.addEventListener('click', closeMenu);
     });
     
-    // Close menu when search results are clicked
-    const searchResultItems = menu.querySelectorAll('.search-result-item');
-    searchResultItems.forEach(item => {
-      item.addEventListener('click', closeMenu);
-    });
-    
-    // Watch for dynamically added search results
-    const observer = new MutationObserver((mutations) => {
-      mutations.forEach((mutation) => {
-        mutation.addedNodes.forEach((node) => {
-          if (node.nodeType === Node.ELEMENT_NODE) {
-            const element = node as Element;
-            if (element.classList?.contains('search-result-item')) {
-              element.addEventListener('click', closeMenu);
-            }
-            // Also check child elements
-            const childResults = element.querySelectorAll?.('.search-result-item');
-            childResults?.forEach(item => {
-              item.addEventListener('click', closeMenu);
-            });
-          }
-        });
-      });
-    });
-    
-    observer.observe(menu, { childList: true, subtree: true });
+
     
     isInitialized = true;
   }
@@ -139,12 +110,9 @@ import SearchBar from './SearchBar.astro';
     menuButton.setAttribute('aria-expanded', 'true');
     document.body.classList.add('overflow-hidden');
     
-    // Focus search input if it exists, otherwise first focusable element
-    const searchInput = menu.querySelector('#search-input') as HTMLElement;
+    // Focus first focusable element
     const firstFocusable = menu.querySelector('a, button, input') as HTMLElement;
-    if (searchInput) {
-      searchInput.focus();
-    } else if (firstFocusable) {
+    if (firstFocusable) {
       firstFocusable.focus();
     }
   }
