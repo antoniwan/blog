@@ -35,7 +35,7 @@ export interface SEOConfig {
 
 // Site Information
 export const SITE_TITLE = "Curious Chaos Journal";
-export const SHORT_SITE_TITLE = "The CCJ";
+export const SHORT_SITE_TITLE = "Curious Chaos Journal";
 export const SITE_DESCRIPTION =
   "Dispatches from a fractured mind navigating fatherhood, masculinity, cultura, and modern collapse. Raw reflections on thinking, culture, and the soft heart inside the hard world.";
 export const SITE_URL = "https://blog.antoniwan.online";
