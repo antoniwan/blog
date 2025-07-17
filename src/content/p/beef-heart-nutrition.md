@@ -19,7 +19,7 @@ tags:
     "healthy-eating",
     "micronutrients",
   ]
-readingTime: 7
+readingTime: 3
 draft: false
 featured: true
 ---

@@ -17,7 +17,7 @@ tags:
     "identity",
     "self-discovery",
   ]
-readingTime: 7
+readingTime: 6
 draft: false
 featured: false
 published: true

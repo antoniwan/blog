@@ -18,7 +18,7 @@ tags:
     "therapy",
     "healing",
   ]
-readingTime: 7
+readingTime: 3
 draft: false
 featured: true
 ---

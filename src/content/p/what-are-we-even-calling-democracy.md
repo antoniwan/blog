@@ -19,7 +19,7 @@ tags:
     "responsibility",
     "metaspace",
   ]
-readingTime: 3
+readingTime: 1
 draft: false
 featured: true
 ---

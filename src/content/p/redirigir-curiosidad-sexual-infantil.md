@@ -19,7 +19,7 @@ tags:
     "family-dynamics",
     "consciousness",
   ]
-readingTime: 9
+readingTime: 6
 draft: false
 featured: false
 ---

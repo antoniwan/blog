@@ -17,7 +17,7 @@ tags:
     "healing",
     "self-improvement",
   ]
-readingTime: 5
+readingTime: 2
 draft: false
 published: true
 ---

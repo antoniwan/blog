@@ -18,7 +18,7 @@ tags:
     "diy-creation",
     "food",
   ]
-readingTime: 5
+readingTime: 2
 draft: false
 featured: true
 ---

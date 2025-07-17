@@ -17,7 +17,7 @@ tags:
     "personal-growth",
     "workflow",
   ]
-readingTime: 2
+readingTime: 1
 draft: false
 featured: false
 published: true

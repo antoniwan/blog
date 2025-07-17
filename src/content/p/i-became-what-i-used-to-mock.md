@@ -22,7 +22,7 @@ tags:
     "feedback",
     "metaspace",
   ]
-readingTime: 12
+readingTime: 6
 draft: false
 featured: false
 published: true

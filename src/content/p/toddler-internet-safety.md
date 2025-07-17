@@ -18,7 +18,7 @@ tags:
     "family-dynamics",
     "education",
   ]
-readingTime: 8
+readingTime: 3
 draft: false
 featured: true
 translationGroup: "toddler-internet-safety"

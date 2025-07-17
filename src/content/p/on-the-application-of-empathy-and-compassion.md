@@ -17,7 +17,7 @@ tags:
     "self-reflection",
     "authenticity",
   ]
-readingTime: 6
+readingTime: 5
 draft: false
 featured: false
 published: true

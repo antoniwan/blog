@@ -19,7 +19,7 @@ tags:
     "adaptability",
     "transformation",
   ]
-readingTime: 8
+readingTime: 2
 draft: false
 featured: false
 published: true

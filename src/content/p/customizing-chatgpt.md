@@ -18,7 +18,7 @@ tags:
     "workflow",
     "customization",
   ]
-readingTime: 4
+readingTime: 2
 draft: false
 featured: true
 ---

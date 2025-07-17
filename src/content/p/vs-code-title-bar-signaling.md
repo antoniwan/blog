@@ -1,3 +1,4 @@
+readingTime: 3
 ---
 title: "🖼️ VS Code Title Bar Signaling System"
 description: "A lightweight cognitive system to visually track project intent and mental context through color-coded VS Code title bars."

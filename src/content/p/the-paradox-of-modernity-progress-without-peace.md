@@ -19,7 +19,7 @@ tags:
     "self-reflection",
     "philosophy",
   ]
-readingTime: 8
+readingTime: 4
 draft: false
 featured: true
 ---

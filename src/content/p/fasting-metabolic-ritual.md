@@ -19,7 +19,7 @@ tags:
     "self-care",
     "personal-growth",
   ]
-readingTime: 7
+readingTime: 2
 draft: false
 featured: true
 ---

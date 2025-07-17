@@ -19,7 +19,7 @@ tags:
     "healing",
     "self-improvement",
   ]
-readingTime: 4
+readingTime: 2
 draft: false
 featured: false
 ---

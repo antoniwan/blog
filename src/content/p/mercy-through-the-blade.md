@@ -19,7 +19,7 @@ tags:
     "power",
     "consciousness",
   ]
-readingTime: 8
+readingTime: 5
 draft: false
 featured: false
 published: true

@@ -17,7 +17,7 @@ tags:
     "software-development",
     "customization",
   ]
-readingTime: 12
+readingTime: 3
 draft: false
 published: true
 canonicalUrl: "https://medium.com/@wizards777/forging-the-stronghand-terminal-from-chaos-to-command-c4e4df4d290c"

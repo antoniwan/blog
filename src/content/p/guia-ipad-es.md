@@ -19,7 +19,7 @@ tags:
     "learning",
     "family-dynamics",
   ]
-readingTime: 8
+readingTime: 2
 draft: false
 featured: false
 ogImage: "/images/guia-padres.jpg"

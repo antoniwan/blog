@@ -19,7 +19,7 @@ tags:
     "responsibility",
     "transformation",
   ]
-readingTime: 14
+readingTime: 15
 draft: false
 featured: false
 published: true

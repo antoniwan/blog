@@ -17,7 +17,7 @@ tags:
     "consciousness",
     "healing",
   ]
-readingTime: 4
+readingTime: 3
 draft: false
 featured: false
 published: true

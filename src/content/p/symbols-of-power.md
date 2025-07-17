@@ -19,7 +19,7 @@ tags:
     "self-expression",
     "metaspace",
   ]
-readingTime: 12
+readingTime: 7
 draft: false
 featured: false
 ---

@@ -17,7 +17,7 @@ tags:
     "therapy",
     "emotional-regulation",
   ]
-readingTime: 5
+readingTime: 4
 draft: false
 featured: false
 published: true
