@@ -1,6 +1,6 @@
 ---
 title: "Customizing ChatGPT: Crafting a Mirror, Not a Mirrorball"
-description: "On turning AI into a sacred tool, not a shallow assistant."
+description: "Approach to AI customization focused on integrity and reflection rather than productivity. Shows how to configure ChatGPT based on personal values for authentic self-expression."
 pubDate: "2025-05-01T18:16:00.000Z"
 language: ["en"]
 category: ["systems-strategy", "integration-growth", "learning-projects"]

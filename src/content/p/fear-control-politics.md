@@ -1,6 +1,6 @@
 ---
 title: "If Your Politics Obsess Over Control, You're Not Well"
-description: "An honest breakdown of how fear masquerades as morality in right-wing ideology — and how healing begins with courage, not control."
+description: "Analysis of how fear and trauma manifest in control-based political ideologies. Explores the relationship between personal insecurity and authoritarian policy positions."
 pubDate: 2025-04-01T00:00:00.000Z
 language: ["en"]
 category: ["politics", "psychology", "metaspace"]

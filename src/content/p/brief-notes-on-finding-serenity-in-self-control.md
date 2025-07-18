@@ -1,6 +1,6 @@
 ---
 title: "Brief Notes on Finding Serenity in Self-Control"
-description: "Photo by Joshua Earle on Unsplash"
+description: "Reflection on self-control as a path to serenity. Explores the balance between natural desires and conscious restraint in the context of personal values."
 pubDate: "2024-07-29T17:08:22.762Z"
 language: ["en"]
 category: ["psychology", "metaspace", "integration-growth"]

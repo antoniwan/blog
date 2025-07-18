@@ -1,6 +1,6 @@
 ---
 title: "Forging the 'Stronghand' Terminal: From Chaos to Command"
-description: "A complete guide to building a powerful development terminal on Windows 11 using WezTerm, PowerShell 7, Oh-My-Posh, and Zoxide for maximum productivity and intentional workflow."
+description: "Guide to building a development terminal on Windows 11 using WezTerm, PowerShell 7, Oh-My-Posh, and Zoxide. Includes setup steps and configuration examples."
 pubDate: "2025-04-28"
 language: ["en"]
 category: ["systems-strategy", "learning-projects"]

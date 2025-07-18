@@ -1,6 +1,6 @@
 ---
 title: "Briefly on Empathy as a Double-Edged Sword"
-description: "Empathy is such a double-edged sword — the death of a friend’s parent or relative. Relationship struggles can cause harm to someone you…"
+description: "Discussion of empathy's challenges, including how sensitivity to suffering can lead to overwhelm. Explores the tension between compassion and self-preservation."
 pubDate: "2024-07-29T17:12:19.944Z"
 language: ["en"]
 category: ["metaspace", "integration-growth"]

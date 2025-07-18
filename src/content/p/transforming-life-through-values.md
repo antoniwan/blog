@@ -1,6 +1,6 @@
 ---
 title: "Transforming My Life Through the Application of What I Value"
-description: "A personal journey of transformation through therapy, self-reflection, and aligning actions with core values, leading to profound personal growth and improved relationships."
+description: "Personal story of four years of therapy and habit changes. Shows how aligning daily actions with core values led to improved mental health and relationships."
 pubDate: "2024-04-28T00:00:00.000Z"
 heroImage: "/images/saitama-okay.webp"
 language: ["en"]

@@ -1,6 +1,6 @@
 ---
-title: "Embracing the Spiritual Abyss: An Atheist’s Search for Meaning"
-description: "I’ve chosen to be an atheist most of my life, and the older I get, the more I feel a subliminal appetite to believe in a god or some higher…"
+title: "Embracing the Spiritual Abyss: An Atheist's Search for Meaning"
+description: "Exploration of atheism and secular humanism in the search for meaning. Examines the tension between rationality and emotional longing for spiritual connection."
 pubDate: "2024-06-03T17:27:29.382Z"
 language: ["en"]
 category: ["metaspace", "psychology", "parenting"]
