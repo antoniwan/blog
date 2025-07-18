@@ -1,6 +1,6 @@
 ---
 title: "Who, really, raised me?"
-description: "I’ve been thinking a lot about who raised me to be who I am. And I’m preparing an essay about that. But this one is not about that. This…"
+description: "A deep dive into the fictional characters that shaped my values, from childhood cartoons to adult anime. Discover how Samurai X, Dragon Ball Z, Berserk, and especially One Punch Man's Saitama became my true mentors, teaching me about discipline, brotherhood, pain as power, and the loneliness of mastery."
 pubDate: "2025-04-17T13:56:47.953Z"
 language: ["en"]
 category: ["integration-growth", "parenting", "psychology"]
@@ -16,12 +16,24 @@ tags:
     "trauma",
     "identity",
     "self-discovery",
+    "anime",
+    "cartoons",
+    "fictional-characters",
+    "mentorship",
+    "values",
+    "one-punch-man",
+    "saitama",
+    "dragon-ball",
+    "berserk",
+    "samurai-x"
   ]
 readingTime: 6
 draft: false
 featured: false
 published: true
 canonicalUrl: "https://medium.com/@wizards777/who-really-raised-me-b22766a8a48f"
+heroImage: "/images/mia-y-yo-anime.avif"
+image: "/images/mia-y-yo-anime.avif"
 ---
 
 I’ve been thinking a lot about who raised me to be who I am. And I’m preparing an essay about that. _But this one is not about that._ This one is about the **CARTOONS** and **TV** that raised me.
