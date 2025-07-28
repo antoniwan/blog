@@ -24,7 +24,7 @@ featured: true
 translationGroup: "toddler-internet-safety"
 ---
 
-# Nuestra responsabilidad digital como padres y madres
+## Nuestra responsabilidad digital como padres y madres
 
 En Puerto Rico —y en el mundo entero— vivimos en una era donde el Internet está en todos lados. Pero **el hecho de que algo sea común, no lo hace seguro.**  
 El Internet NO es un lugar hecho para niños. Es un campo abierto con belleza, pero también con basura, violencia, sexualidad extrema, y contenidos que un niño no está emocionalmente preparado para ver.

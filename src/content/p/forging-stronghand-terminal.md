@@ -98,7 +98,7 @@ Invoke-Expression (& { (zoxide init powershell | Out-String) })
 Plus a few battle-tested aliases like `gs` (git status), `gp` (git push), `serve` (launch local servers). See my full list of aliases here (not exhaustive, just some to get your creative juices flowing):
 
 ```powershell
-# Custom Aliases
+## Custom Aliases
 Set-Alias gs git status
 Set-Alias gc git commit
 Set-Alias gp git push
@@ -107,7 +107,7 @@ Set-Alias gco git checkout
 Set-Alias gb git branch
 Set-Alias serve npx serve
 
-# Quick Directory Shortcuts (Optional)
+## Quick Directory Shortcuts (Optional)
 Set-Alias dev "cd F:\Dev"
 Set-Alias pers "cd F:\Dev\Personal"
 Set-Alias work "cd F:\Dev\Work"
