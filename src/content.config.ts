@@ -59,6 +59,13 @@ const blog = defineCollection({
     ogImage: z.string().optional(),
     ogImageAlt: z.string().optional(),
     keywords: z.array(z.string()).optional(),
+
+    // Comments
+    showComments: z
+      .boolean()
+      .optional()
+      .default(true)
+      .describe("Whether to show comments on this post"),
   }),
 });
 

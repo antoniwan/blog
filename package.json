@@ -7,7 +7,8 @@
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "setup-comments": "node scripts/setup-comments.js"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.2.6",

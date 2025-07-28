@@ -44,12 +44,13 @@ Visit `http://localhost:4321` to see the site.
 
 ## 📦 Available Scripts
 
-| Command           | Action                   |
-| ----------------- | ------------------------ |
-| `npm run dev`     | Start development server |
-| `npm run build`   | Build for production     |
-| `npm run preview` | Preview production build |
-| `npm run astro`   | Run Astro CLI commands   |
+| Command                  | Action                      |
+| ------------------------ | --------------------------- |
+| `npm run dev`            | Start development server    |
+| `npm run build`          | Build for production        |
+| `npm run preview`        | Preview production build    |
+| `npm run astro`          | Run Astro CLI commands      |
+| `npm run setup-comments` | Setup Giscus comment system |
 
 ## 🏗️ Project Structure
 
@@ -123,10 +124,35 @@ featured: true
 - ✅ **Accessibility** - WCAG compliant with ARIA support
 - ✅ **Reading Progress** - Visual progress indicator
 - ✅ **Search Functionality** - Content discovery
+  ✅ **Comments System** - Privacy-focused Giscus integration
+
+## 💬 Comments System
+
+This blog uses [Giscus](https://giscus.app) for privacy-focused commenting. Comments are powered by GitHub Discussions, ensuring:
+
+- 🔒 **Privacy**: No tracking, no ads, no third-party data collection
+- 🆓 **Free**: No hosting costs beyond your GitHub account
+- 🛠️ **Maintainable**: You control all data through GitHub
+- 🎨 **Customizable**: Supports themes, reactions, and markdown
+
+### Setup
+
+1. **Enable GitHub Discussions** in your repository settings
+2. **Create a "Comments" category** in Discussions
+3. **Get configuration values** from [giscus.app](https://giscus.app)
+4. **Run setup script**: `npm run setup-comments`
+5. **Test locally**: `npm run dev`
+
+For detailed setup instructions, see [docs/COMMENTS_SETUP.md](docs/COMMENTS_SETUP.md).
+
+### Usage
+
+- Comments appear automatically on all blog posts
+- Disable comments on specific posts by adding `showComments: false` to frontmatter
+- Comments are loaded lazily for optimal performance
+- Theme automatically matches your site's dark/light mode
 
 ## 🔧 Configuration
-
-### Astro Configuration
 
 - **Site URL**: `https://blog.antoniwan.online`
 - **Image Optimization**: Sharp service with WebP conversion
