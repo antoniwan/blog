@@ -5,6 +5,30 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.2.0] - 2025-01-XX
+
+### Fixed
+
+- **404 Page Layout**: Resolved double header issue and simplified page structure
+  - Removed duplicate title/description content that was displayed twice
+  - Switched from `PageLayout` to `BaseLayout` to eliminate redundant `PageHeader` component
+  - Streamlined layout with cleaner visual hierarchy and better spacing
+  - Added helpful navigation links to categories and tags pages
+
+### Technical Details
+
+- **Layout Change**: Updated `src/pages/404.astro` to use `BaseLayout` instead of `PageLayout`
+- **Content Cleanup**: Removed unused imports and redundant CSS styles
+- **Improved UX**: Added large "404" number for visual impact and better user guidance
+- **Navigation Enhancement**: Included links to browse categories and explore tags
+
+### User Experience
+
+- 🎯 **Cleaner Design**: Single, focused header without duplication
+- 🧭 **Better Navigation**: Helpful links to guide users back to content
+- 📱 **Responsive**: Maintains mobile-friendly layout across all devices
+- ⚡ **Performance**: Reduced redundant code and improved loading
+
 ## [2.1.0] - 2025-01-XX
 
 ### Added
@@ -57,6 +81,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Version History
 
+- **2.2.0**: Fixed 404 page layout and removed duplicate content
 - **2.1.0**: Added Giscus comments system
 - **2.0.0**: Initial stable release with core blog functionality
 
