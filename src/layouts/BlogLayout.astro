@@ -3,7 +3,9 @@ import BaseLayout from './BaseLayout.astro';
 import PageHeader from '../components/PageHeader.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import TagDisplay from '../components/TagDisplay.astro';
+import Comments from '../components/Comments.astro';
 import { generateCanonicalUrl } from '../utils/seo';
+import { giscusConfig } from '../config/giscus';
 
 interface Props {
   title: string;
@@ -28,6 +30,8 @@ interface Props {
       depth: number;
     }>;
   };
+  // Comments
+  showComments?: boolean;
 }
 
 const {
@@ -45,6 +49,7 @@ const {
   author,
   keywords,
   tableOfContents,
+  showComments = true,
   ...rest
 } = Astro.props;
 
@@ -143,6 +148,24 @@ const canonical = path || generateCanonicalUrl(Astro.url.pathname);
       <div class="prose prose-lg dark:prose-invert max-w-none prose-headings:scroll-mt-20" transition:name="page-content">
         <slot />
       </div>
+      
+      {/* Comments Section */}
+      {showComments && (
+        <Comments
+          repo={giscusConfig.repo}
+          repoId={giscusConfig.repoId}
+          category={giscusConfig.category}
+          categoryId={giscusConfig.categoryId}
+          mapping={giscusConfig.mapping}
+          strict={giscusConfig.strict}
+          reactionsEnabled={giscusConfig.reactionsEnabled}
+          emitMetadata={giscusConfig.emitMetadata}
+          inputPosition={giscusConfig.inputPosition}
+          lang={giscusConfig.lang}
+          loading={giscusConfig.loading}
+          theme={giscusConfig.theme}
+        />
+      )}
     </div>
   </div>
 </BaseLayout>
