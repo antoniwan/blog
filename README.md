@@ -1,5 +1,7 @@
 # Curious Chaos Journal
 
+[![Version](https://img.shields.io/badge/version-2.1.0-blue.svg)](https://github.com/antoniwan/curious-chaos-journal/releases)
+
 A personal digital space documenting the journey of building systems — digital, emotional, spiritual, and physical. Raw reflections on thinking, culture, and the soft heart inside the hard world.
 
 > **"Thinking hurts. I do it anyway."**
@@ -23,6 +25,7 @@ A personal digital space documenting the journey of building systems — digital
 - **[Tailwind CSS 3.4.0](https://tailwindcss.com/)** - Utility-first CSS framework
 - **[MDX](https://mdxjs.com/)** - Markdown with JSX support
 - **[Sharp 0.33.5](https://sharp.pixelplumbing.com/)** - Image optimization
+- **[Giscus](https://giscus.app)** - Privacy-focused comments system
 - **[Vercel](https://vercel.com/)** - Deployment and analytics
 
 ## 🚀 Quick Start
