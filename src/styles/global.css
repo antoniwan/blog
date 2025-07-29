@@ -413,6 +413,72 @@
   .status-error {
     @apply text-[rgb(var(--color-error))] font-semibold;
   }
+
+  /* Search results enhancements */
+  .search-result-item {
+    @apply transition-colors hover:bg-[rgb(var(--color-bg-alt))] focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:ring-offset-2;
+  }
+
+  .search-result-item:last-child {
+    @apply border-b-0;
+  }
+
+  /* Search dropdown enhancements */
+  .search-dropdown {
+    @apply backdrop-blur-sm border-[rgb(var(--color-border))] shadow-xl;
+  }
+
+  .search-dropdown-item {
+    @apply border-b border-[rgb(var(--color-border))]/30 last:border-b-0;
+  }
+
+  /* Focus states for search results */
+  .search-result-item:focus-within {
+    @apply bg-[rgb(var(--color-bg-alt))] ring-2 ring-[rgb(var(--color-accent))] ring-offset-2;
+  }
+
+  /* Enhanced search result alignment */
+  .search-result-content {
+    @apply flex items-start gap-5;
+  }
+
+  .search-result-image {
+    @apply flex-shrink-0 w-16 h-16 bg-[rgb(var(--color-bg-alt))] rounded-lg overflow-hidden border border-[rgb(var(--color-border))]/50;
+  }
+
+  .search-result-text {
+    @apply flex-1 min-w-0 pt-1;
+  }
+
+  .search-result-title {
+    @apply text-sm font-semibold text-[rgb(var(--color-text))] leading-tight mb-1.5 mt-0;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+
+  .search-result-description {
+    @apply text-xs text-[rgb(var(--color-text-muted))] leading-relaxed mb-2.5 mt-0;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+
+  .search-result-category {
+    @apply text-xs bg-[rgb(var(--color-bg-alt))] text-[rgb(var(--color-text-muted))] px-2 py-1 rounded-md border border-[rgb(var(--color-border))]/50 inline-block font-medium;
+  }
+
+  /* Remove default h3 margins in search results */
+  .search-result-item h3 {
+    @apply mt-0;
+  }
+
+  /* Remove default p margins in search results */
+  .search-result-item p {
+    @apply mt-0 mb-0;
+  }
 }
 
 /* Animation keyframes */
