@@ -22,21 +22,21 @@ const { category, postCount, featured = false, compact = false } = Astro.props;
 	}}
 >
 	<!-- Subtle gradient overlay -->
-					<div class="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-[rgb(var(--color-primary))]/5 opacity-0 group-hover:opacity-100 transition-normal pointer-events-none"></div>
+					<div class="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-[rgb(var(--color-accent))]/5 opacity-0 group-hover:opacity-100 transition-normal pointer-events-none"></div>
 	
 	<!-- Card content -->
 	<div class="relative p-6 md:p-8">
 		<div class="flex items-start gap-4">
 			<!-- Icon -->
 			<div class="flex-shrink-0">
-				<div class="w-12 h-12 md:w-14 md:h-14 bg-gradient-to-br from-[rgb(var(--color-primary))]/10 to-[rgb(var(--color-primary))]/10 rounded-xl flex items-center justify-center text-2xl md:text-3xl group-hover:scale-110 theme-transition">
+				<div class="w-12 h-12 md:w-14 md:h-14 bg-gradient-to-br from-[rgb(var(--color-accent))]/10 to-[rgb(var(--color-accent))]/10 rounded-xl flex items-center justify-center text-2xl md:text-3xl group-hover:scale-110 theme-transition">
 					{category.icon}
 				</div>
 			</div>
 			
 			<!-- Content -->
 			<div class="flex-1 min-w-0">
-				<h3 class="text-lg md:text-xl font-semibold text-[rgb(var(--color-text))] group-hover:text-[rgb(var(--color-primary))] transition-normal mb-2 leading-tight">
+				<h3 class="text-lg md:text-xl font-semibold text-[rgb(var(--color-text))] group-hover:text-[rgb(var(--color-accent))] transition-normal mb-2 leading-tight">
 					{category.name}
 				</h3>
 				
@@ -50,7 +50,7 @@ const { category, postCount, featured = false, compact = false } = Astro.props;
 					<span class="text-sm text-body-muted font-medium">
 						{postCount} {postCount === 1 ? 'post' : 'posts'}
 					</span>
-					<span class="text-[rgb(var(--color-primary))] group-hover:translate-x-1 transition-normal font-semibold">
+					<span class="text-[rgb(var(--color-accent))] group-hover:translate-x-1 transition-normal font-semibold">
 						→
 					</span>
 				</div>
@@ -59,7 +59,7 @@ const { category, postCount, featured = false, compact = false } = Astro.props;
 	</div>
 	
 	<!-- Hover indicator -->
-	<div class="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-[rgb(var(--color-primary))] to-[rgb(var(--color-primary))] transform scale-x-0 group-hover:scale-x-100 transition-normal origin-left"></div>
+	<div class="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-[rgb(var(--color-accent))] to-[rgb(var(--color-accent))] transform scale-x-0 group-hover:scale-x-100 transition-normal origin-left"></div>
 </a>
 
 <style>
@@ -71,7 +71,7 @@ const { category, postCount, featured = false, compact = false } = Astro.props;
 
 	/* Featured category styling */
 	.featured-category {
-		border-color: rgb(var(--color-primary) / 0.2);
+		border-color: rgb(var(--color-accent) / 0.2);
 		box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
 		background: linear-gradient(135deg, 
 			rgb(var(--color-bg)) 0%, 
@@ -90,12 +90,12 @@ const { category, postCount, featured = false, compact = false } = Astro.props;
 	/* Enhanced hover effects */
 	.group:hover {
 		box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 10px 10px -5px rgb(0 0 0 / 0.04);
-		border-color: rgb(var(--color-primary) / 0.2);
+		border-color: rgb(var(--color-accent) / 0.2);
 	}
 
 	/* Enhanced focus states */
 	.group:focus {
-		outline: 2px solid rgb(var(--color-primary));
+		outline: 2px solid rgb(var(--color-accent));
 		outline-offset: 2px;
 		border-radius: 0.75rem;
 	}

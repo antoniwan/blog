@@ -76,7 +76,7 @@ const paddingClasses = {
 <a
   href="/"
   class:list={[
-    'group inline-flex items-center gap-2.5 font-serif font-bold tracking-tight text-[rgb(var(--color-text))] hover:text-[rgb(var(--color-primary))] transition-all duration-300 ease-out focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-primary))] focus:ring-offset-2 focus:ring-offset-[rgb(var(--color-bg))] rounded-lg',
+    'group inline-flex items-center gap-2.5 font-serif font-bold tracking-tight text-[rgb(var(--color-text))] hover:text-[rgb(var(--color-accent))] transition-all duration-300 ease-out focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:ring-offset-2 focus:ring-offset-[rgb(var(--color-bg))] rounded-lg',
     showHoverBg && 'hover:bg-[rgb(var(--color-bg-alt))]',
     showHoverBg && paddingClasses[size],
     sizeClasses[size],
@@ -87,7 +87,7 @@ const paddingClasses = {
   <!-- Icon Section -->
   <span 
     class:list={[
-      'text-[rgb(var(--color-primary))] transition-all duration-300 ease-out group-hover:scale-110 group-hover:rotate-3 group-hover:drop-shadow-sm',
+      'text-[rgb(var(--color-accent))] transition-all duration-300 ease-out group-hover:scale-110 group-hover:rotate-3 group-hover:drop-shadow-sm',
       iconSizeClasses[size],
       useSvg && 'flex items-center justify-center'
     ]} 
@@ -148,7 +148,7 @@ const paddingClasses = {
   
   /* Focus styles for better accessibility */
   a:focus-visible {
-    outline: 2px solid rgb(var(--color-primary));
+    outline: 2px solid rgb(var(--color-accent));
     outline-offset: 2px;
   }
 </style> 

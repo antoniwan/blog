@@ -48,7 +48,7 @@ console.log(`SearchBar: ${posts.length} posts available for search`);
 		<input
 			type="text"
 			id={searchId}
-			class="w-full md:w-64 lg:w-80 px-4 py-2 pl-10 pr-10 md:pr-4 text-sm bg-[rgb(var(--color-bg))] border border-[rgb(var(--color-border))] rounded-lg focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-primary))] focus:border-transparent text-[rgb(var(--color-text))] placeholder-[rgb(var(--color-text-muted))] theme-transition"
+			class="w-full md:w-64 lg:w-80 px-4 py-2 pl-10 pr-10 md:pr-4 text-sm bg-[rgb(var(--color-bg))] border border-[rgb(var(--color-border))] rounded-lg focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:border-transparent text-[rgb(var(--color-text))] placeholder-[rgb(var(--color-text-muted))] theme-transition"
 			placeholder={placeholder}
 			aria-label="Search posts"
 		/>
@@ -56,7 +56,7 @@ console.log(`SearchBar: ${posts.length} posts available for search`);
 		<!-- Clear Button -->
 		<button
 			id={`${searchId}-clear`}
-			class="absolute inset-y-0 right-0 pr-3 flex items-center text-[rgb(var(--color-text-muted))] hover:text-[rgb(var(--color-primary))] hidden"
+			class="absolute inset-y-0 right-0 pr-3 flex items-center text-[rgb(var(--color-text-muted))] hover:text-[rgb(var(--color-accent))] hidden"
 			aria-label="Clear search"
 		>
 			<svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -358,7 +358,7 @@ console.log(`SearchBar: ${posts.length} posts available for search`);
 	
 	/* Focus styles */
 	.search-result-item:focus {
-		outline: 2px solid rgb(var(--color-primary));
+		outline: 2px solid rgb(var(--color-accent));
 		outline-offset: -2px;
 	}
 	

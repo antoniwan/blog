@@ -25,9 +25,9 @@ const remainingCount = tags.length - maxVisible;
 // Simplified color system
 const getTagColor = (tag: string, variant: string) => {
 	const colors = {
-		default: 'bg-[rgb(var(--color-primary))]/10 border-[rgb(var(--color-primary))]/20 text-[rgb(var(--color-primary))] hover:bg-[rgb(var(--color-primary))]/20',
+		default: 'bg-[rgb(var(--color-accent))]/10 border-[rgb(var(--color-accent))]/20 text-[rgb(var(--color-accent))] hover:bg-[rgb(var(--color-accent))]/20',
 		subtle: 'bg-[rgb(var(--color-bg-alt))] border-[rgb(var(--color-border))] text-[rgb(var(--color-text-muted))] hover:bg-[rgb(var(--color-bg-alt))]/80',
-		bordered: 'bg-transparent border-[rgb(var(--color-primary))]/30 text-[rgb(var(--color-primary))] hover:bg-[rgb(var(--color-primary))]/10'
+		bordered: 'bg-transparent border-[rgb(var(--color-accent))]/30 text-[rgb(var(--color-accent))] hover:bg-[rgb(var(--color-accent))]/10'
 	};
 	
 	// Use tag name to consistently assign colors
@@ -44,7 +44,7 @@ const getTagColor = (tag: string, variant: string) => {
 	{visibleTags.map(tag => (
 		<a
 			href={`/tag/${tag}/`}
-			class={`tag-item inline-flex items-center gap-2 px-3 py-1.5 rounded-full border font-medium interactive-button focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-primary))] focus:ring-offset-1 ${getTagColor(tag, variant)}`}
+			class={`tag-item inline-flex items-center gap-2 px-3 py-1.5 rounded-full border font-medium interactive-button focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:ring-offset-1 ${getTagColor(tag, variant)}`}
 		>
 			<span class="tag-icon" aria-hidden="true">🏷️</span>
 			<span class="tag-text">#{tag}</span>

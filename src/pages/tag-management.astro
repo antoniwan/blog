@@ -82,7 +82,7 @@ const lowFrequencyTags = sortedTags.filter(([, count]) => count <= 2);
                 <div class="flex items-center gap-2">
                   <a 
                     href={`/tag/${tag}/`}
-                    class="text-[rgb(var(--color-primary))] hover:underline font-medium"
+                    class="text-[rgb(var(--color-accent))] hover:underline font-medium"
                   >
                     #{tag}
                   </a>
@@ -113,7 +113,7 @@ const lowFrequencyTags = sortedTags.filter(([, count]) => count <= 2);
                   <div class="flex items-center justify-between mb-2">
                     <a 
                       href={`/p/${post.id}/`}
-                      class="text-[rgb(var(--color-primary))] hover:underline font-medium line-clamp-1"
+                      class="text-[rgb(var(--color-accent))] hover:underline font-medium line-clamp-1"
                     >
                       {post.data.title}
                     </a>
@@ -140,25 +140,25 @@ const lowFrequencyTags = sortedTags.filter(([, count]) => count <= 2);
         </h3>
         <div class="space-y-4 text-sm text-[rgb(var(--color-text))]">
           <div class="flex items-start gap-3">
-            <span class="text-[rgb(var(--color-primary))] mt-0.5">💡</span>
+            <span class="text-[rgb(var(--color-accent))] mt-0.5">💡</span>
             <div>
               <strong>Limit tags per post:</strong> Consider reducing posts with more than 10 tags to improve readability and focus.
             </div>
           </div>
           <div class="flex items-start gap-3">
-            <span class="text-[rgb(var(--color-primary))] mt-0.5">🏷️</span>
+            <span class="text-[rgb(var(--color-accent))] mt-0.5">🏷️</span>
             <div>
               <strong>Use consistent tagging:</strong> Standardize tag names and avoid similar tags (e.g., "self-improvement" vs "self-improvement").
             </div>
           </div>
           <div class="flex items-start gap-3">
-            <span class="text-[rgb(var(--color-primary))] mt-0.5">📊</span>
+            <span class="text-[rgb(var(--color-accent))] mt-0.5">📊</span>
             <div>
               <strong>Focus on high-weight tags:</strong> Prioritize tags with higher importance weights for better categorization.
             </div>
           </div>
           <div class="flex items-start gap-3">
-            <span class="text-[rgb(var(--color-primary))] mt-0.5">🎯</span>
+            <span class="text-[rgb(var(--color-accent))] mt-0.5">🎯</span>
             <div>
               <strong>Consider tag consolidation:</strong> Merge low-frequency tags with similar meanings to reduce tag sprawl.
             </div>

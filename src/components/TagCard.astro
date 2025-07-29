@@ -20,9 +20,9 @@ const {
 // Simplified color system
 const getTagColor = (tag: string, variant: string) => {
 	const colors = {
-		default: 'bg-[rgb(var(--color-primary))]/10 border-[rgb(var(--color-primary))]/20 text-[rgb(var(--color-primary))] hover:bg-[rgb(var(--color-primary))]/20',
+		default: 'bg-[rgb(var(--color-accent))]/10 border-[rgb(var(--color-accent))]/20 text-[rgb(var(--color-accent))] hover:bg-[rgb(var(--color-accent))]/20',
 		subtle: 'bg-[rgb(var(--color-bg-alt))] border-[rgb(var(--color-border))] text-[rgb(var(--color-text-muted))] hover:bg-[rgb(var(--color-bg-alt))]/80',
-		bordered: 'bg-transparent border-[rgb(var(--color-primary))]/30 text-[rgb(var(--color-primary))] hover:bg-[rgb(var(--color-primary))]/10'
+		bordered: 'bg-transparent border-[rgb(var(--color-accent))]/30 text-[rgb(var(--color-accent))] hover:bg-[rgb(var(--color-accent))]/10'
 	};
 	
 	return colors[variant as keyof typeof colors];
@@ -38,7 +38,7 @@ const sizeClasses = {
 
 <a
 	href={`/tag/${tag}/`}
-			class={`tag-card group inline-flex items-center gap-2 ${sizeClasses[size]} rounded-full border font-medium interactive-button focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-primary))] focus:ring-offset-1 ${getTagColor(tag, variant)} ${className}`}
+			class={`tag-card group inline-flex items-center gap-2 ${sizeClasses[size]} rounded-full border font-medium interactive-button focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:ring-offset-1 ${getTagColor(tag, variant)} ${className}`}
 >
 	<span class="tag-icon" aria-hidden="true">🏷️</span>
 	<span class="tag-text">#{tag}</span>
@@ -82,7 +82,7 @@ const sizeClasses = {
 
 	/* Focus styles for accessibility */
 	.tag-card:focus {
-		outline: 2px solid rgb(var(--color-primary));
+		outline: 2px solid rgb(var(--color-accent));
 		outline-offset: 2px;
 	}
 
