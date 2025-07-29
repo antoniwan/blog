@@ -18,6 +18,7 @@ tags:
     "purpose",
   ]
 readingTime: 2
+author: "wizards777"
 canonicalUrl: "https://medium.com/@wizards777/on-limits-growth-and-the-meaning-of-my-life-77b24178018c"
 draft: false
 published: true

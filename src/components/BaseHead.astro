@@ -4,6 +4,7 @@
 import '../styles/global.css';
 import { SITE_TITLE, SITE_DESCRIPTION, AUTHOR, SEO_CONFIG } from '../consts';
 import { generateMetaTags, DEFAULT_ROBOTS, DEFAULT_LOCALE } from '../utils/seo';
+import { assetConfig } from '../config/assets';
 
 interface Props {
 	title: string;
@@ -66,9 +67,9 @@ const updatedDateISO = updatedDate?.toISOString();
 <meta name="color-scheme" content="light dark" />
 
 <!-- Favicon & Icons -->
-<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-<link rel="apple-touch-icon" href="/favicon.svg" />
-<link rel="manifest" href="/site.webmanifest" />
+<link rel="icon" type="image/svg+xml" href={assetConfig.images.favicon} />
+<link rel="apple-touch-icon" href={assetConfig.images.favicon} />
+<link rel="manifest" href={assetConfig.manifest} />
 
 <!-- Language & Generator -->
 <meta http-equiv="content-language" content="en" />

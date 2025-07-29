@@ -3,6 +3,7 @@ import { type CollectionEntry, getCollection } from 'astro:content';
 import BlogLayout from '../../layouts/BlogLayout.astro';
 import { render } from 'astro:content';
 import { generateKeywords, generateImageAlt } from '../../utils/seo';
+import { AUTHOR } from '../../consts';
 
 export const prerender = true;
 
@@ -30,6 +31,9 @@ const imageAlt = generateImageAlt(post.data.title, post.data.ogImageAlt);
 // Ensure we have a valid image for social sharing
 const shareImage = post.data.ogImage || post.data.heroImage;
 
+// Use author from post data or fall back to default author from consts
+const author = post.data.author || AUTHOR.name;
+
 // Generate table of contents from headings
 const headings = post.body?.match(/<h[2-3][^>]*>.*?<\/h[2-3]>/g) || [];
 const tableOfContents = {
@@ -54,7 +58,7 @@ const tableOfContents = {
 	path={`/p/${post.id}`}
 	image={shareImage}
 	imageAlt={imageAlt}
-	author={post.data.author}
+	author={author}
 	keywords={keywords}
 	tableOfContents={tableOfContents}
 >

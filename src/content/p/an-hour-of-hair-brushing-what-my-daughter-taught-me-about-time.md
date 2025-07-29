@@ -4,6 +4,7 @@ description: "Sometimes the most radical thing you can do is sit still with your
 pubDate: "2025-07-28T10:14:00.000-04:00"
 language: ["en"]
 category: ["parenting", "integration-growth"]
+heroImage: "/images/mia-long-hair.webp"
 tags:
   [
     "parenting",

@@ -1,6 +1,8 @@
 // Place any global data in this file.
 // You can import this data from anywhere in your site by using the `import` keyword.
 
+import { assetConfig } from "./config/assets";
+
 // TypeScript interfaces for better type safety
 export interface Author {
   name: string;
@@ -23,6 +25,7 @@ export interface SocialLinks {
 export interface SEOConfig {
   defaultImage: string;
   defaultImageAlt: string;
+  defaultHeroImage: string;
   defaultLocale: string;
   defaultRobots: string;
   googleSiteVerification: string;
@@ -62,15 +65,16 @@ export const SOCIAL_LINKS: SocialLinks = {
 
 // SEO Configuration
 export const SEO_CONFIG: SEOConfig = {
-  defaultImage: "/share-image.png",
+  defaultImage: assetConfig.images.defaultSocial,
   defaultImageAlt:
     "Curious Chaos Journal - Thinking hurts. I do it anyway. Raw reflections on fatherhood, masculinity, culture, and modern collapse.",
+  defaultHeroImage: assetConfig.images.defaultHero,
   defaultLocale: "en_US",
   defaultRobots: "index, follow",
   googleSiteVerification: "gUubXvBv6tFsaZTQd5vS1VUGHlaMTOyf110X3yn7jiY",
   twitterHandle: "@antoniwan",
   organizationName: "Curious Chaos Journal",
-  organizationLogo: "/sh-sh-logo.svg",
+  organizationLogo: assetConfig.images.logo,
   organizationLogoWidth: 512,
   organizationLogoHeight: 512,
 };

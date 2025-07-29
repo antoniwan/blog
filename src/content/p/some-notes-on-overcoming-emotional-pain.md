@@ -18,6 +18,7 @@ tags:
     "mindfulness",
   ]
 readingTime: 3
+author: "wizards777"
 canonicalUrl: "https://medium.com/@wizards777/some-notes-on-overcoming-emotional-pain-1e0315607456"
 ---
 
