@@ -156,31 +156,110 @@
     @apply bg-[rgb(var(--color-bg-alt))] text-[rgb(var(--color-text))] border border-[rgb(var(--color-border))] rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))]/50;
   }
 
-  /* Tables */
+  /* Enhanced Tables */
   table {
     @apply w-full border-collapse text-base leading-relaxed;
     margin: 2rem 0;
+    border-radius: 0.75rem;
+    overflow: hidden;
+    box-shadow:
+      0 4px 6px -1px rgb(0 0 0 / 0.1),
+      0 2px 4px -1px rgb(0 0 0 / 0.06);
+    border: 1px solid rgb(var(--color-border));
   }
 
   th,
   td {
-    @apply border border-[rgb(var(--color-border))] px-4 py-3 md:px-6 md:py-4;
+    @apply border-b border-[rgb(var(--color-border))] px-4 py-3 md:px-6 md:py-4;
+    vertical-align: top;
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
 
   th {
-    @apply bg-[rgb(var(--color-bg-alt))] font-semibold text-[rgb(var(--color-text))] text-left;
+    @apply bg-[rgb(var(--color-bg-alt))] font-bold text-[rgb(var(--color-text))] text-left;
+    font-size: 0.95rem;
+    letter-spacing: 0.025em;
+    text-transform: uppercase;
+    color: rgb(var(--color-text));
+    border-bottom: 2px solid rgb(var(--color-border));
+    position: relative;
+  }
+
+  th:first-child {
+    border-left: none;
+    padding-left: 1.5rem;
+  }
+
+  th:last-child {
+    border-right: none;
+    padding-right: 1.5rem;
   }
 
   td {
-    @apply text-[rgb(var(--color-text-muted))];
+    @apply text-[rgb(var(--color-text))];
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  td:first-child {
+    border-left: none;
+    font-weight: 600;
+    color: rgb(var(--color-text));
+    padding-left: 1.5rem;
+  }
+
+  td:last-child {
+    border-right: none;
+    padding-right: 1.5rem;
+  }
+
+  tr {
+    transition: background-color 0.2s ease;
   }
 
   tr:nth-child(even) {
-    @apply bg-[rgb(var(--color-bg-alt))]/30;
+    background-color: rgb(var(--color-bg-alt) / 0.4);
+  }
+
+  tr:nth-child(odd) {
+    background-color: rgb(var(--color-bg));
   }
 
   tr:hover {
-    @apply bg-[rgb(var(--color-bg-alt))]/50;
+    background-color: rgb(var(--color-bg-alt) / 0.7);
+  }
+
+  tr:last-child td {
+    border-bottom: none;
+  }
+
+  /* Table header accent */
+  th::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(
+      90deg,
+      rgb(var(--color-primary)),
+      rgb(var(--color-accent))
+    );
+  }
+
+  /* Responsive table improvements */
+  @media (max-width: 768px) {
+    table {
+      font-size: 0.875rem;
+      margin: 1.5rem 0;
+    }
+
+    th,
+    td {
+      @apply px-3 py-2;
+    }
   }
 
   /* Code blocks */
