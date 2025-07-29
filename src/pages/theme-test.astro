@@ -1,0 +1,358 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Container from '../components/Container.astro';
+import PageHeader from '../components/PageHeader.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import PostCard from '../components/PostCard.astro';
+import CategoryCard from '../components/CategoryCard.astro';
+import SearchBar from '../components/SearchBar.astro';
+import TagDisplay from '../components/TagDisplay.astro';
+import TagCloud from '../components/TagCloud.astro';
+import TagCard from '../components/TagCard.astro';
+import ThemeToggle from '../components/ThemeToggle.astro';
+import Disclaimer from '../components/Disclaimer.astro';
+import Comments from '../components/Comments.astro';
+import { categories } from '../data/categories';
+
+// Mock data for testing
+const mockPost = {
+  id: 'test-post',
+  collection: 'blog' as const,
+  data: {
+    title: 'Test Post: A Comprehensive Guide to Theme Testing',
+    description: 'This is a test post to showcase all the components and their various states. It includes different text lengths and formatting to test responsive design.',
+    pubDate: new Date('2024-01-15'),
+    updatedDate: new Date('2024-01-20'),
+    readingTime: 8,
+    tags: ['testing', 'components', 'design', 'theme', 'development'],
+    category: ['systems-strategy'],
+    heroImage: '/images/default.avif',
+    language: ['en' as const],
+    draft: false,
+    published: true,
+    featured: false,
+    showComments: true
+  }
+};
+
+const mockTags = [
+  { tag: 'testing', count: 15 },
+  { tag: 'components', count: 23 },
+  { tag: 'design', count: 8 },
+  { tag: 'theme', count: 12 },
+  { tag: 'development', count: 31 },
+  { tag: 'astro', count: 19 },
+  { tag: 'typescript', count: 27 },
+  { tag: 'tailwind', count: 14 }
+];
+
+const breadcrumbItems = [
+  { label: 'Home', href: '/' },
+  { label: 'Theme Test', href: '/theme-test' }
+];
+---
+
+<BaseLayout 
+  title="Theme Test - Component Showcase"
+  description="A comprehensive test page showcasing all components, themes, colors, and interactions."
+  path="/theme-test"
+>
+  <Container>
+    <!-- Breadcrumbs -->
+    <div class="mb-6">
+      <Breadcrumbs items={breadcrumbItems} />
+    </div>
+
+    <!-- Page Header -->
+    <PageHeader 
+      title="Theme Test & Component Showcase"
+      description="A comprehensive test page to verify all components, themes, colors, and interactions work correctly across different states and configurations."
+    />
+
+    <!-- Theme Toggle Section -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-bold mb-6 text-[rgb(var(--color-text))]">🎨 Theme Controls</h2>
+      <div class="flex items-center gap-4 p-6 bg-[rgb(var(--color-bg-alt))] rounded-lg border border-[rgb(var(--color-border))]">
+        <span class="text-[rgb(var(--color-text))] font-medium">Toggle Theme:</span>
+        <ThemeToggle />
+        <span class="text-[rgb(var(--color-text-muted))] text-sm">Click to switch between light and dark modes</span>
+      </div>
+    </section>
+
+
+
+    <!-- Search Bar Section -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-bold mb-6 text-[rgb(var(--color-text))]">🔍 Search Components</h2>
+      <div class="space-y-4">
+        <div>
+          <h3 class="text-lg font-semibold mb-3 text-[rgb(var(--color-text))]">Default Search</h3>
+          <SearchBar placeholder="Search posts..." />
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold mb-3 text-[rgb(var(--color-text))]">Custom Search</h3>
+          <SearchBar placeholder="Search anything..." class="w-full max-w-md" />
+        </div>
+      </div>
+    </section>
+
+    <!-- Post Cards Section -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-bold mb-6 text-[rgb(var(--color-text))]">📝 Post Cards</h2>
+      <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <PostCard post={mockPost} featured={true} />
+        <PostCard post={mockPost} />
+        <PostCard post={mockPost} compact={true} />
+      </div>
+    </section>
+
+    <!-- Category Cards Section -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-bold mb-6 text-[rgb(var(--color-text))]">📂 Category Cards</h2>
+      <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {categories.slice(0, 3).map(category => (
+          <CategoryCard category={category} postCount={Math.floor(Math.random() * 20) + 5} featured={category.id === 'integration-growth'} />
+        ))}
+        {categories.slice(3, 6).map(category => (
+          <CategoryCard category={category} postCount={Math.floor(Math.random() * 20) + 5} compact={true} />
+        ))}
+      </div>
+    </section>
+
+    <!-- Tag Components Section -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-bold mb-6 text-[rgb(var(--color-text))]">🏷️ Tag Components</h2>
+      
+      <!-- Tag Display Variants -->
+      <div class="space-y-6 mb-8">
+        <div>
+          <h3 class="text-lg font-semibold mb-3 text-[rgb(var(--color-text))]">Tag Display Variants</h3>
+          <div class="space-y-4">
+            <div>
+              <span class="text-sm text-[rgb(var(--color-text-muted))] mb-2 block">Default:</span>
+              <TagDisplay tags={mockPost.data.tags} />
+            </div>
+            <div>
+              <span class="text-sm text-[rgb(var(--color-text-muted))] mb-2 block">Subtle:</span>
+              <TagDisplay tags={mockPost.data.tags} variant="subtle" />
+            </div>
+            <div>
+              <span class="text-sm text-[rgb(var(--color-text-muted))] mb-2 block">Bordered:</span>
+              <TagDisplay tags={mockPost.data.tags} variant="bordered" />
+            </div>
+            <div>
+              <span class="text-sm text-[rgb(var(--color-text-muted))] mb-2 block">Compact with More Indicator:</span>
+              <TagDisplay tags={mockPost.data.tags} maxVisible={2} showMoreIndicator={true} compact={true} />
+            </div>
+          </div>
+        </div>
+
+        <!-- Tag Cloud -->
+        <div>
+          <h3 class="text-lg font-semibold mb-3 text-[rgb(var(--color-text))]">Tag Cloud</h3>
+          <TagCloud tags={mockTags} />
+        </div>
+
+        <!-- Individual Tag Cards -->
+        <div>
+          <h3 class="text-lg font-semibold mb-3 text-[rgb(var(--color-text))]">Individual Tag Cards</h3>
+          <div class="flex flex-wrap gap-3">
+            <TagCard tag="testing" count={15} size="sm" />
+            <TagCard tag="components" count={23} size="md" />
+            <TagCard tag="design" count={8} size="lg" />
+            <TagCard tag="theme" count={12} variant="subtle" />
+            <TagCard tag="development" count={31} variant="bordered" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Disclaimer Section -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-bold mb-6 text-[rgb(var(--color-text))]">⚠️ Disclaimer Component</h2>
+      <Disclaimer />
+    </section>
+
+    <!-- Color Palette Section -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-bold mb-6 text-[rgb(var(--color-text))]">🎨 Color Palette</h2>
+      <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <div class="p-4 bg-[rgb(var(--color-bg))] border border-[rgb(var(--color-border))] rounded-lg">
+          <div class="w-full h-16 bg-[rgb(var(--color-bg))] rounded mb-2 border border-[rgb(var(--color-border))]"></div>
+          <span class="text-sm font-medium text-[rgb(var(--color-text))]">Background</span>
+        </div>
+        <div class="p-4 bg-[rgb(var(--color-bg))] border border-[rgb(var(--color-border))] rounded-lg">
+          <div class="w-full h-16 bg-[rgb(var(--color-bg-alt))] rounded mb-2 border border-[rgb(var(--color-border))]"></div>
+          <span class="text-sm font-medium text-[rgb(var(--color-text))]">Background Alt</span>
+        </div>
+        <div class="p-4 bg-[rgb(var(--color-bg))] border border-[rgb(var(--color-border))] rounded-lg">
+          <div class="w-full h-16 bg-[rgb(var(--color-primary))] rounded mb-2"></div>
+          <span class="text-sm font-medium text-[rgb(var(--color-text))]">Primary</span>
+        </div>
+        <div class="p-4 bg-[rgb(var(--color-bg))] border border-[rgb(var(--color-border))] rounded-lg">
+          <div class="w-full h-16 bg-[rgb(var(--color-border))] rounded mb-2"></div>
+          <span class="text-sm font-medium text-[rgb(var(--color-text))]">Border</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Typography Section -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-bold mb-6 text-[rgb(var(--color-text))]">📝 Typography</h2>
+      <div class="space-y-4 p-6 bg-[rgb(var(--color-bg-alt))] rounded-lg border border-[rgb(var(--color-border))]">
+        <h1 class="text-4xl font-bold text-[rgb(var(--color-text))]">Heading 1 - Main Title</h1>
+        <h2 class="text-3xl font-bold text-[rgb(var(--color-text))]">Heading 2 - Section Title</h2>
+        <h3 class="text-2xl font-semibold text-[rgb(var(--color-text))]">Heading 3 - Subsection</h3>
+        <h4 class="text-xl font-semibold text-[rgb(var(--color-text))]">Heading 4 - Minor Section</h4>
+        <p class="text-base text-[rgb(var(--color-text))]">This is regular body text with normal weight and size. It should be easily readable and provide good contrast against the background.</p>
+        <p class="text-sm text-[rgb(var(--color-text-muted))]">This is muted text, typically used for secondary information, metadata, or less important content.</p>
+        <p class="text-lg text-[rgb(var(--color-primary))]">This is primary colored text, used for links, highlights, and important callouts.</p>
+      </div>
+    </section>
+
+    <!-- Interactive Elements Section -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-bold mb-6 text-[rgb(var(--color-text))]">🖱️ Interactive Elements</h2>
+      <div class="space-y-4 p-6 bg-[rgb(var(--color-bg-alt))] rounded-lg border border-[rgb(var(--color-border))]">
+        <div class="flex flex-wrap gap-4">
+          <button class="px-4 py-2 bg-[rgb(var(--color-primary))] text-white rounded-lg hover:bg-[rgb(var(--color-primary))]/90 transition-colors">
+            Primary Button
+          </button>
+          <button class="px-4 py-2 bg-[rgb(var(--color-bg))] border border-[rgb(var(--color-border))] text-[rgb(var(--color-text))] rounded-lg hover:bg-[rgb(var(--color-bg-alt))] transition-colors">
+            Secondary Button
+          </button>
+          <button class="px-4 py-2 bg-transparent border border-[rgb(var(--color-primary))] text-[rgb(var(--color-primary))] rounded-lg hover:bg-[rgb(var(--color-primary))]/10 transition-colors">
+            Outline Button
+          </button>
+        </div>
+        
+        <div class="flex flex-wrap gap-4">
+          <a href="#" class="link">Regular Link</a>
+          <a href="#" class="link-muted">Muted Link</a>
+          <a href="#" class="text-[rgb(var(--color-primary))] hover:underline">Primary Link</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Form Elements Section -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-bold mb-6 text-[rgb(var(--color-text))]">📋 Form Elements</h2>
+      <div class="space-y-4 p-6 bg-[rgb(var(--color-bg-alt))] rounded-lg border border-[rgb(var(--color-border))]">
+        <div>
+          <label class="block text-sm font-medium text-[rgb(var(--color-text))] mb-2">Text Input</label>
+          <input 
+            type="text" 
+            placeholder="Enter some text..."
+            class="w-full px-4 py-2 bg-[rgb(var(--color-bg))] border border-[rgb(var(--color-border))] rounded-lg focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-primary))] focus:border-transparent text-[rgb(var(--color-text))] placeholder-[rgb(var(--color-text-muted))]"
+          />
+        </div>
+        
+        <div>
+          <label class="block text-sm font-medium text-[rgb(var(--color-text))] mb-2">Textarea</label>
+          <textarea 
+            placeholder="Enter longer text..."
+            rows="3"
+            class="w-full px-4 py-2 bg-[rgb(var(--color-bg))] border border-[rgb(var(--color-border))] rounded-lg focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-primary))] focus:border-transparent text-[rgb(var(--color-text))] placeholder-[rgb(var(--color-text-muted))] resize-vertical"
+          ></textarea>
+        </div>
+        
+        <div>
+          <label class="block text-sm font-medium text-[rgb(var(--color-text))] mb-2">Select</label>
+          <select class="w-full px-4 py-2 bg-[rgb(var(--color-bg))] border border-[rgb(var(--color-border))] rounded-lg focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-primary))] focus:border-transparent text-[rgb(var(--color-text))]">
+            <option>Option 1</option>
+            <option>Option 2</option>
+            <option>Option 3</option>
+          </select>
+        </div>
+      </div>
+    </section>
+
+    <!-- Comments Section -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-bold mb-6 text-[rgb(var(--color-text))]">💬 Comments Component</h2>
+      <Comments 
+        repo="your-username/your-repo"
+        repoId="your-repo-id"
+        category="Announcements"
+        categoryId="your-category-id"
+      />
+    </section>
+
+    <!-- Accessibility Section -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-bold mb-6 text-[rgb(var(--color-text))]">♿ Accessibility Features</h2>
+      <div class="space-y-4 p-6 bg-[rgb(var(--color-bg-alt))] rounded-lg border border-[rgb(var(--color-border))]">
+        <div>
+          <h3 class="text-lg font-semibold mb-3 text-[rgb(var(--color-text))]">Focus Indicators</h3>
+          <p class="text-[rgb(var(--color-text-muted))] mb-4">Tab through these elements to see focus indicators:</p>
+          <div class="flex flex-wrap gap-4">
+            <button class="px-4 py-2 bg-[rgb(var(--color-primary))] text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-primary))] focus:ring-offset-2">
+              Focusable Button
+            </button>
+            <a href="#" class="px-4 py-2 bg-[rgb(var(--color-bg))] border border-[rgb(var(--color-border))] text-[rgb(var(--color-text))] rounded-lg focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-primary))] focus:ring-offset-2">
+              Focusable Link
+            </a>
+            <input 
+              type="text" 
+              placeholder="Focusable input"
+              class="px-4 py-2 bg-[rgb(var(--color-bg))] border border-[rgb(var(--color-border))] rounded-lg focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-primary))] focus:ring-offset-2 text-[rgb(var(--color-text))] placeholder-[rgb(var(--color-text-muted))]"
+            />
+          </div>
+        </div>
+        
+        <div>
+          <h3 class="text-lg font-semibold mb-3 text-[rgb(var(--color-text))]">Screen Reader Support</h3>
+          <p class="text-[rgb(var(--color-text-muted))]">All interactive elements include proper ARIA labels and roles for screen reader compatibility.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Responsive Design Section -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-bold mb-6 text-[rgb(var(--color-text))]">📱 Responsive Design</h2>
+      <div class="space-y-4 p-6 bg-[rgb(var(--color-bg-alt))] rounded-lg border border-[rgb(var(--color-border))]">
+        <p class="text-[rgb(var(--color-text-muted))]">This page is fully responsive. Try resizing your browser window to see how components adapt to different screen sizes.</p>
+        
+        <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          <div class="p-4 bg-[rgb(var(--color-bg))] border border-[rgb(var(--color-border))] rounded-lg">
+            <h4 class="font-semibold text-[rgb(var(--color-text))] mb-2">Mobile</h4>
+            <p class="text-sm text-[rgb(var(--color-text-muted))]">Single column layout, optimized for touch interactions</p>
+          </div>
+          <div class="p-4 bg-[rgb(var(--color-bg))] border border-[rgb(var(--color-border))] rounded-lg">
+            <h4 class="font-semibold text-[rgb(var(--color-text))] mb-2">Tablet</h4>
+            <p class="text-sm text-[rgb(var(--color-text-muted))]">Two-column layout, balanced spacing</p>
+          </div>
+          <div class="p-4 bg-[rgb(var(--color-bg))] border border-[rgb(var(--color-border))] rounded-lg">
+            <h4 class="font-semibold text-[rgb(var(--color-text))] mb-2">Desktop</h4>
+            <p class="text-sm text-[rgb(var(--color-text-muted))]">Multi-column layout, full feature set</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Performance Section -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-bold mb-6 text-[rgb(var(--color-text))]">⚡ Performance Features</h2>
+      <div class="space-y-4 p-6 bg-[rgb(var(--color-bg-alt))] rounded-lg border border-[rgb(var(--color-border))]">
+        <div class="grid gap-4 md:grid-cols-2">
+          <div>
+            <h4 class="font-semibold text-[rgb(var(--color-text))] mb-2">Reduced Motion</h4>
+            <p class="text-sm text-[rgb(var(--color-text-muted))]">All animations respect the user's motion preferences</p>
+          </div>
+          <div>
+            <h4 class="font-semibold text-[rgb(var(--color-text))] mb-2">Lazy Loading</h4>
+            <p class="text-sm text-[rgb(var(--color-text-muted))]">Images and heavy components load only when needed</p>
+          </div>
+          <div>
+            <h4 class="font-semibold text-[rgb(var(--color-text))] mb-2">Optimized CSS</h4>
+            <p class="text-sm text-[rgb(var(--color-text-muted))]">Minimal CSS with efficient selectors and properties</p>
+          </div>
+          <div>
+            <h4 class="font-semibold text-[rgb(var(--color-text))] mb-2">Semantic HTML</h4>
+            <p class="text-sm text-[rgb(var(--color-text-muted))]">Proper HTML structure for better performance and SEO</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </Container>
+</BaseLayout> 
