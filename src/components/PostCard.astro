@@ -2,6 +2,7 @@
 import type { CollectionEntry } from 'astro:content';
 import FormattedDate from './FormattedDate.astro';
 import TagDisplay from './TagDisplay.astro';
+import { SEO_CONFIG } from '../consts';
 
 interface Props {
 	post: CollectionEntry<'blog'>;
@@ -27,18 +28,16 @@ const { data } = post;
 	<div class="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-[rgb(var(--color-primary))]/5 opacity-0 group-hover:opacity-100 transition-normal pointer-events-none"></div>
 	
 	<!-- Hero Image -->
-	{data.heroImage && (
-		<div class="relative overflow-hidden">
-			<img 
-				src={data.heroImage} 
-				alt={data.title}
-				class="w-full h-48 md:h-56 object-cover group-hover:scale-105 transition-transform duration-300"
-				loading="lazy"
-			/>
-			<!-- Image overlay gradient -->
-			<div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-		</div>
-	)}
+	<div class="relative overflow-hidden">
+		<img 
+			src={data.heroImage || SEO_CONFIG.defaultHeroImage} 
+			alt={data.title}
+			class="w-full h-48 md:h-56 object-cover group-hover:scale-105 transition-transform duration-300"
+			loading="lazy"
+		/>
+		<!-- Image overlay gradient -->
+		<div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+	</div>
 	
 	<!-- Card content -->
 	<div class="relative p-4 sm:p-6 md:p-8">
