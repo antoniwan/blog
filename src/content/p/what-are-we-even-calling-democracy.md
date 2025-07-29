@@ -21,7 +21,7 @@ tags:
   ]
 readingTime: 1
 draft: false
-featured: true
+featured: false
 ---
 
 They keep calling it democracy.

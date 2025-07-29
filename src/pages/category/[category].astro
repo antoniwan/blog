@@ -52,7 +52,7 @@ const secondaryCategoryPosts = categoryPosts
 			{/* Primary Category Posts Section */}
 			{primaryCategoryPosts.length > 0 && (
 				<div class="mb-16 md:mb-20">
-					<div class="space-y-8 md:space-y-10">
+					<div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
 						{primaryCategoryPosts.map((post) => (
 							<PostCard post={post} featured={post.data.featured} />
 						))}
@@ -71,7 +71,7 @@ const secondaryCategoryPosts = categoryPosts
 							Posts that touch on {category.name} as a secondary topic
 						</p>
 					</div>
-					<div class="space-y-8 md:space-y-10">
+					<div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
 						{secondaryCategoryPosts.map((post) => (
 							<PostCard post={post} featured={post.data.featured} />
 						))}

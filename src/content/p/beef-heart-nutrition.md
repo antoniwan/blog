@@ -21,7 +21,7 @@ tags:
   ]
 readingTime: 3
 draft: false
-featured: true
+featured: false
 ---
 
 ## Introduction

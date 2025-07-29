@@ -15,7 +15,7 @@ const posts = await getCollection('blog', ({ data }) => {
 const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
 // Get featured posts (posts marked as featured in frontmatter)
-const featuredPosts = sortedPosts.filter(post => post.data.featured).slice(0, 3);
+const featuredPosts = sortedPosts.filter(post => post.data.featured).slice(0, 4);
 
 // Get remaining posts (non-featured)
 const remainingPosts = sortedPosts.filter(post => !post.data.featured);
@@ -70,7 +70,7 @@ const topCategories = categories
 					Highlighted thoughts and reflections
 				</p>
 			</div>
-			<div class="grid gap-8 md:gap-10">
+			<div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
 				{featuredPosts.map(post => (
 					<PostCard post={post} featured={true} />
 				))}
@@ -112,7 +112,7 @@ const topCategories = categories
 					Every thought, question, and reflection from the journey through thinking, fatherhood, and cultural navigation
 				</p>
 			</div>
-			<div class="space-y-8 md:space-y-10">
+			<div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
 				{remainingPosts.map(post => (
 					<PostCard post={post} />
 				))}

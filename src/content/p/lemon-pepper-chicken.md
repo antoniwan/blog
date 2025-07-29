@@ -20,7 +20,7 @@ tags:
   ]
 readingTime: 2
 draft: false
-featured: true
+featured: false
 ---
 
 _Created by Antonio. Logged by Beastiex._  

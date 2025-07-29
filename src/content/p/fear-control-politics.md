@@ -20,7 +20,7 @@ tags:
   ]
 readingTime: 3
 draft: false
-featured: true
+featured: false
 ---
 
 ## 🧠 If Your Politics Obsess Over Control, You're Not Well

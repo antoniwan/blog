@@ -20,7 +20,7 @@ tags:
   ]
 readingTime: 2
 draft: false
-featured: true
+featured: false
 ---
 
 Some people use ChatGPT like a vending machine.  

@@ -20,7 +20,7 @@ tags:
   ]
 readingTime: 3
 draft: false
-featured: true
+featured: false
 translationGroup: "toddler-internet-safety"
 ---
 

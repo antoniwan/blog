@@ -21,7 +21,7 @@ tags:
   ]
 readingTime: 15
 draft: false
-featured: false
+featured: true
 published: true
 ---
 

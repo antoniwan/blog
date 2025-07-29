@@ -21,7 +21,7 @@ tags:
   ]
 readingTime: 2
 draft: false
-featured: true
+featured: false
 ---
 
 ## 🌄 From Hunger to Power: Fasting as a Metabolic Reset

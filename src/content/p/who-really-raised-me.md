@@ -25,11 +25,11 @@ tags:
     "saitama",
     "dragon-ball",
     "berserk",
-    "samurai-x"
+    "samurai-x",
   ]
 readingTime: 6
 draft: false
-featured: false
+featured: true
 published: true
 canonicalUrl: "https://medium.com/@wizards777/who-really-raised-me-b22766a8a48f"
 heroImage: "/images/mia-y-yo-anime.avif"

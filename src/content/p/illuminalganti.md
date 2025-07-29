@@ -20,7 +20,7 @@ tags:
   ]
 readingTime: 1
 draft: false
-featured: true
+featured: false
 ---
 
 Someone DMed me on Bluesky claiming I was "chosen to join the Illuminati."
