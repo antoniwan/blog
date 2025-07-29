@@ -5,55 +5,150 @@ interface Props {
   /**
    * The size variant of the logo
    */
-  size?: 'sm' | 'md' | 'lg';
+  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   
   /**
    * Additional classes to apply
    */
   class?: string;
+  
+  /**
+   * Custom icon to use (emoji or text)
+   */
+  icon?: string;
+  
+  /**
+   * Whether to show the full title on all screen sizes
+   */
+  alwaysFull?: boolean;
+  
+  /**
+   * Whether to show only the icon (no text)
+   */
+  iconOnly?: boolean;
+  
+  /**
+   * Whether to use the SVG logo instead of emoji
+   */
+  useSvg?: boolean;
+  
+  /**
+   * Whether to show a subtle background on hover
+   */
+  showHoverBg?: boolean;
 }
 
-const { size = 'md', class: className = '' } = Astro.props;
+const { 
+  size = 'md', 
+  class: className = '', 
+  icon = '⚡',
+  alwaysFull = false,
+  iconOnly = false,
+  useSvg = true,
+  showHoverBg = false
+} = Astro.props;
 
 const sizeClasses = {
+  xs: 'text-sm sm:text-base',
   sm: 'text-base sm:text-lg',
   md: 'text-lg sm:text-xl',
-  lg: 'text-xl sm:text-2xl'
+  lg: 'text-xl sm:text-2xl',
+  xl: 'text-2xl sm:text-3xl'
+};
+
+const iconSizeClasses = {
+  xs: 'text-base',
+  sm: 'text-lg',
+  md: 'text-xl',
+  lg: 'text-2xl',
+  xl: 'text-3xl'
+};
+
+const paddingClasses = {
+  xs: 'p-1',
+  sm: 'p-1.5',
+  md: 'p-2',
+  lg: 'p-2.5',
+  xl: 'p-3'
 };
 ---
 
 <a
   href="/"
   class:list={[
-    'inline-flex items-center gap-2 font-serif font-bold tracking-tight text-[rgb(var(--color-text))] hover:text-[rgb(var(--color-primary))] theme-transition',
+    'group inline-flex items-center gap-2.5 font-serif font-bold tracking-tight text-[rgb(var(--color-text))] hover:text-[rgb(var(--color-primary))] transition-all duration-300 ease-out focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-primary))] focus:ring-offset-2 focus:ring-offset-[rgb(var(--color-bg))] rounded-lg',
+    showHoverBg && 'hover:bg-[rgb(var(--color-bg-alt))]',
+    showHoverBg && paddingClasses[size],
     sizeClasses[size],
     className
   ]}
   aria-label={`${SITE_TITLE} - Home`}
 >
-  <span class="text-[rgb(var(--color-primary))] logo-icon" aria-hidden="true">⚡</span>
-  <span class="lg:hidden">{SHORT_SITE_TITLE}</span>
-  <span class="hidden lg:inline">{SITE_TITLE}</span>
+  <!-- Icon Section -->
+  <span 
+    class:list={[
+      'text-[rgb(var(--color-primary))] transition-all duration-300 ease-out group-hover:scale-110 group-hover:rotate-3 group-hover:drop-shadow-sm',
+      iconSizeClasses[size],
+      useSvg && 'flex items-center justify-center'
+    ]} 
+    aria-hidden="true"
+  >
+    {useSvg ? (
+      <svg 
+        width="1em" 
+        height="1em" 
+        viewBox="0 0 100 100" 
+        xmlns="http://www.w3.org/2000/svg"
+        class="fill-current"
+      >
+        <polygon points="50,0 100,50 50,100 0,50" fill="none" stroke="currentColor" stroke-width="5"/>
+        <line x1="0" y1="50" x2="100" y2="50" stroke="currentColor" stroke-width="5"/>
+      </svg>
+    ) : (
+      icon
+    )}
+  </span>
+  
+  <!-- Text Section -->
+  {!iconOnly && (
+    <span class="flex flex-col">
+      {alwaysFull ? (
+        <span class="leading-tight">{SITE_TITLE}</span>
+      ) : (
+        <>
+          <span class="lg:hidden leading-tight">{SHORT_SITE_TITLE}</span>
+          <span class="hidden lg:inline leading-tight">{SITE_TITLE}</span>
+        </>
+      )}
+    </span>
+  )}
 </a>
 
 <style>
-  .logo-icon {
-    transform-origin: center;
-    transition: transform 0.2s ease;
+  /* Enhanced hover effects */
+  .group:hover {
+    transform: translateY(-1px);
   }
-
-  /* Simple hover animation */
-  a:hover .logo-icon {
-    transform: scale(1.1) rotate(5deg);
-  }
-
+  
   /* Respect reduced motion preferences */
   @media (prefers-reduced-motion: reduce) {
-    .logo-icon {
+    a {
       transition: none !important;
     }
-    a:hover .logo-icon {
+    span {
+      transition: none !important;
+    }
+    .group:hover {
       transform: none !important;
     }
+    .group:hover span {
+      transform: none !important;
+    }
+  }
+  
+  /* Focus styles for better accessibility */
+  a:focus-visible {
+    outline: 2px solid rgb(var(--color-primary));
+    outline-offset: 2px;
   }
 </style> 
