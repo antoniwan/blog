@@ -3,6 +3,7 @@ title: "I Became What I Used to Mock"
 description: "When an AI mirror shows you who you've become - a raw reflection on transformation, humility, and the unconscious arrogance of growth"
 pubDate: 2025-07-17T15:00:00.000Z
 language: ["en"]
+heroImage: "/images/unclean-one.avif"
 category: ["psychology", "metaspace", "integration-growth"]
 tags:
   [

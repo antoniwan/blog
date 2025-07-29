@@ -100,5 +100,60 @@ const structuredData = generateStructuredData({
     <Footer />
     <BackToTop />
     <Analytics />
+    
+    <!-- Image Modal -->
+    <div id="imageModal" class="image-modal">
+      <button class="close-btn" onclick="closeImageModal()">&times;</button>
+      <img id="modalImage" src="" alt="" />
+    </div>
+    
+    <script is:inline>
+      // Image modal functionality
+      function openImageModal(imgSrc, imgAlt) {
+        const modal = document.getElementById('imageModal');
+        const modalImg = document.getElementById('modalImage');
+        if (modal && modalImg) {
+          modalImg.src = imgSrc;
+          modalImg.alt = imgAlt;
+          modal.classList.add('active');
+          document.body.style.overflow = 'hidden';
+        }
+      }
+      
+      function closeImageModal() {
+        const modal = document.getElementById('imageModal');
+        if (modal) {
+          modal.classList.remove('active');
+          document.body.style.overflow = '';
+        }
+      }
+      
+      // Close modal when clicking outside the image
+      const imageModal = document.getElementById('imageModal');
+      if (imageModal) {
+        imageModal.addEventListener('click', function(e) {
+          if (e.target === this) {
+            closeImageModal();
+          }
+        });
+      }
+      
+      // Close modal with Escape key
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+          closeImageModal();
+        }
+      });
+      
+      // Add click handlers to all images in prose content
+      document.addEventListener('DOMContentLoaded', function() {
+        const images = document.querySelectorAll('.prose img');
+        images.forEach(function(img) {
+          img.addEventListener('click', function() {
+            openImageModal(this.src, this.alt);
+          });
+        });
+      });
+    </script>
   </body>
 </html> 

@@ -32,13 +32,12 @@ draft: false
 featured: true
 published: true
 canonicalUrl: "https://medium.com/@wizards777/who-really-raised-me-b22766a8a48f"
-heroImage: "/images/mia-y-yo-anime.avif"
-image: "/images/mia-y-yo-anime.avif"
+heroImage: "/images/anime-souls.avif"
 ---
 
 I’ve been thinking a lot about who raised me to be who I am. And I’m preparing an essay about that. _But this one is not about that._ This one is about the **CARTOONS** and **TV** that raised me.
 
-![](https://cdn-images-1.medium.com/max/1200/1*pU5c93Z_pU6IA-iedftLFg.png)
+![](/images/mia-y-yo-anime.avif)
 
 <small>My daughter and I. Talking about magic fruit. Wink.</small>
 

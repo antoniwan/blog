@@ -324,10 +324,16 @@ export default {
               marginTop: "2rem",
               marginBottom: "2rem",
               borderRadius: "0.5rem",
+              width: "100%",
+              height: "auto",
+              maxHeight: "400px",
+              objectFit: "contain",
+              objectPosition: "center",
             },
             figure: {
               marginTop: "2rem",
               marginBottom: "2rem",
+              width: "100%",
             },
             figcaption: {
               color: "rgb(var(--color-text-muted))",
