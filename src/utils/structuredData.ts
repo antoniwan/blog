@@ -224,14 +224,3 @@ export function generateStructuredData(options: StructuredDataOptions) {
 
   return schemas.length === 1 ? schemas[0] : schemas;
 }
-
-// Legacy function for backward compatibility
-export function generateWebSiteSchema(siteUrl: string, author = AUTHOR.name) {
-  return generateStructuredData({
-    title: SITE_TITLE,
-    description: SITE_DESCRIPTION,
-    path: "/",
-    type: "website",
-    author,
-  });
-}

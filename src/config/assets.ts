@@ -29,10 +29,5 @@ export const assetConfig = {
   robots: "/robots.txt",
 };
 
-// Helper function to get asset configuration with optional overrides
-export function getAssetConfig(overrides: Partial<typeof assetConfig> = {}) {
-  return { ...assetConfig, ...overrides };
-}
-
 // Type for asset configuration
 export type AssetConfig = typeof assetConfig;

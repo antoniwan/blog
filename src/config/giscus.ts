@@ -40,8 +40,3 @@ export const giscusConfig = {
   // Theme - will automatically follow your site's theme
   theme: "auto" as const,
 };
-
-// Helper function to get Giscus configuration with optional overrides
-export function getGiscusConfig(overrides: Partial<typeof giscusConfig> = {}) {
-  return { ...giscusConfig, ...overrides };
-}

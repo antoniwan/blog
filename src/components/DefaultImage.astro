@@ -24,15 +24,9 @@ try {
     .filter(file => /\.(avif|webp|jpg|jpeg|png)$/i.test(file))
     .map(file => `/images/default_covers/${file}`);
 } catch (error) {
-  // Fallback to hardcoded list if directory doesn't exist
-  console.warn('Default covers directory not found, using fallback images');
-  defaultImages = [
-    "/images/default_covers/default-1.avif",
-    "/images/default_covers/default-3.avif",
-    "/images/default_covers/default-4.avif",
-    "/images/default_covers/default-5.avif",
-    "/images/default_covers/default-6.avif",
-  ];
+  // Fallback to single default image if directory doesn't exist
+  console.warn('Default covers directory not found, using fallback image');
+  defaultImages = ["/images/default.avif"];
 }
 
 // Select a random image from the array
