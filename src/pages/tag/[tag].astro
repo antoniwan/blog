@@ -100,11 +100,11 @@ const relatedTagsWithCounts = Array.from(relatedTags)
 					<h3 class="text-lg font-semibold mb-4 text-[rgb(var(--color-text))]">
 						Related Tags
 					</h3>
-					<div class="flex flex-wrap gap-2">
+					<div class="flex flex-wrap gap-1.5">
 						{relatedTagsWithCounts.map(({ tag: relatedTag, count }) => (
 							<a
 								href={`/tag/${relatedTag}/`}
-								class="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm bg-[rgb(var(--color-bg-alt))] border border-[rgb(var(--color-border))]/30 rounded-full text-[rgb(var(--color-text))] hover:bg-[rgb(var(--color-accent))]/10 hover:border-[rgb(var(--color-accent))]/30 hover:text-[rgb(var(--color-accent))] theme-transition"
+								class="inline-flex items-center gap-1.5 px-2.5 py-1 text-sm bg-[rgb(var(--color-bg-alt))] border border-[rgb(var(--color-border))]/30 rounded-full text-[rgb(var(--color-text))] hover:bg-[rgb(var(--color-accent))]/10 hover:border-[rgb(var(--color-accent))]/30 hover:text-[rgb(var(--color-accent))] theme-transition"
 							>
 								<span aria-hidden="true">🏷️</span>
 								<span>#{relatedTag}</span>
