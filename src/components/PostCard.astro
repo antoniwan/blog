@@ -33,12 +33,6 @@ const { data } = post;
 			<header class="space-y-2">
 				<div class="flex items-center gap-2 text-sm text-body-muted">
 					<FormattedDate date={data.pubDate} />
-					{data.updatedDate && data.updatedDate > data.pubDate && (
-						<>
-							<span aria-hidden="true">•</span>
-							<span>Updated <FormattedDate date={data.updatedDate} /></span>
-						</>
-					)}
 					{data.readingTime && (
 						<>
 							<span aria-hidden="true">•</span>

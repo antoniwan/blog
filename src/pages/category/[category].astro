@@ -53,8 +53,8 @@ const secondaryCategoryPosts = categoryPosts
 			{primaryCategoryPosts.length > 0 && (
 				<div class="mb-16 md:mb-20">
 					<div class="space-y-8 md:space-y-10">
-						{primaryCategoryPosts.map(post => (
-							<PostCard post={post} />
+						{primaryCategoryPosts.map((post) => (
+							<PostCard post={post} featured={post.data.featured} />
 						))}
 					</div>
 				</div>
@@ -72,8 +72,8 @@ const secondaryCategoryPosts = categoryPosts
 						</p>
 					</div>
 					<div class="space-y-8 md:space-y-10">
-						{secondaryCategoryPosts.map(post => (
-							<PostCard post={post} />
+						{secondaryCategoryPosts.map((post) => (
+							<PostCard post={post} featured={post.data.featured} />
 						))}
 					</div>
 				</div>

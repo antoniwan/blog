@@ -14,11 +14,11 @@ const posts = await getCollection('blog', ({ data }) => {
 // Sort posts by date
 const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
-// Get featured posts (first 3)
-const featuredPosts = sortedPosts.slice(0, 3);
+// Get featured posts (posts marked as featured in frontmatter)
+const featuredPosts = sortedPosts.filter(post => post.data.featured).slice(0, 3);
 
-// Get remaining posts
-const remainingPosts = sortedPosts.slice(3);
+// Get remaining posts (non-featured)
+const remainingPosts = sortedPosts.filter(post => !post.data.featured);
 
 // Get post counts by category
 const postCounts = categories.reduce((acc, category) => {
@@ -62,9 +62,17 @@ const topCategories = categories
 	{/* Featured Posts Section */}
 	{featuredPosts.length > 0 && (
 		<Container maxWidth="container" padding="none" class="mb-16 md:mb-20">
+			<div class="mb-8 md:mb-12">
+				<h2 class="text-2xl md:text-3xl font-bold text-[rgb(var(--color-text))] mb-4">
+					Featured Posts
+				</h2>
+				<p class="text-body-lg-muted">
+					Highlighted thoughts and reflections
+				</p>
+			</div>
 			<div class="grid gap-8 md:gap-10">
 				{featuredPosts.map(post => (
-					<PostCard post={post} />
+					<PostCard post={post} featured={true} />
 				))}
 			</div>
 		</Container>

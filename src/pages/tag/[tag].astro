@@ -129,8 +129,8 @@ const relatedTagsWithCounts = Array.from(relatedTags)
 				)}
 				
 				<div class="space-y-6">
-					{tagPosts.map(post => (
-						<PostCard post={post} />
+					{tagPosts.map((post) => (
+						<PostCard post={post} featured={post.data.featured} />
 					))}
 				</div>
 			</div>
