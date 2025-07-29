@@ -34,7 +34,7 @@ const currentUrl = Astro.url.href;
 const currentPath = Astro.url.pathname;
 ---
 
-<div class="comments-section mt-12 pt-8 border-t border-[rgb(var(--color-border))]">
+<div class="comments-section mt-12 pt-8">
   <h2 class="text-2xl font-bold mb-6 text-[rgb(var(--color-text))]">
     💬 Join the Conversation
   </h2>
@@ -43,7 +43,7 @@ const currentPath = Astro.url.pathname;
     I read and respond to every comment personally.
   </p>
   
-  <div class="giscus-container bg-[rgb(var(--color-bg))] rounded-lg border border-[rgb(var(--color-border))] overflow-hidden">
+  <div class="giscus-container bg-[rgb(var(--color-bg))] rounded-lg overflow-hidden">
       <script 
         src="https://giscus.app/client.js"
         data-repo={repo}
@@ -87,6 +87,42 @@ const currentPath = Astro.url.pathname;
   </div>
 </div>
 
+<script>
+  // Theme detection and Giscus theme synchronization
+  function updateGiscusTheme() {
+    const isDark = document.documentElement.classList.contains('dark');
+    const giscusFrame = document.querySelector('iframe[src*="giscus.app"]') as HTMLIFrameElement;
+    
+    if (giscusFrame && giscusFrame.contentWindow) {
+      giscusFrame.contentWindow.postMessage(
+        { giscus: { setConfig: { theme: isDark ? 'dark' : 'light' } } },
+        'https://giscus.app'
+      );
+    }
+  }
+
+  // Initialize theme on load
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', updateGiscusTheme);
+  } else {
+    updateGiscusTheme();
+  }
+
+  // Listen for theme changes
+  const observer = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+        updateGiscusTheme();
+      }
+    });
+  });
+
+  observer.observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ['class']
+  });
+</script>
+
 <style>
   .giscus-container {
     min-height: 400px;
@@ -97,12 +133,12 @@ const currentPath = Astro.url.pathname;
     background: transparent !important;
   }
   
-  /* Dark mode adjustments */
-  :global([data-theme="dark"] .giscus) {
+  /* Dark mode adjustments - using the site's dark class system */
+  :global(.dark .giscus) {
     color-scheme: dark;
   }
   
-  :global([data-theme="light"] .giscus) {
+  :global(.giscus:not(.dark)) {
     color-scheme: light;
   }
 </style> 
