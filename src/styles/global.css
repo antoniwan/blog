@@ -567,3 +567,64 @@
   ring-color: rgb(var(--color-accent));
   ring-offset: 2px;
 }
+
+/* Blog post image styling - full width, centered, proportional */
+.prose img {
+  width: 100% !important;
+  height: auto !important;
+  display: block !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+  max-width: 100% !important;
+  object-fit: contain !important;
+  object-position: center !important;
+  cursor: pointer !important;
+}
+
+.prose img:hover {
+  transform: scale(1.02);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+/* Ensure figures also take full width */
+.prose figure {
+  width: 100% !important;
+  margin: 2rem auto !important;
+  text-align: center !important;
+}
+
+.prose figure img {
+  width: 100% !important;
+  height: auto !important;
+  display: block !important;
+  margin: 0 auto !important;
+  max-width: 100% !important;
+  object-fit: contain !important;
+  object-position: center !important;
+}
+
+/* Responsive image handling for different screen sizes */
+@media (max-width: 768px) {
+  .prose img,
+  .prose figure img {
+    border-radius: 0.375rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .prose img:hover,
+  .prose figure img:hover {
+    transform: scale(1.01);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  }
+}
+
+/* Ensure images don't overflow their containers */
+.prose img,
+.prose figure img {
+  overflow: hidden !important;
+}

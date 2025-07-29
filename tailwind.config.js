@@ -326,9 +326,9 @@ export default {
               borderRadius: "0.5rem",
               width: "100%",
               height: "auto",
-              maxHeight: "400px",
-              objectFit: "contain",
-              objectPosition: "center",
+              display: "block",
+              marginLeft: "auto",
+              marginRight: "auto",
             },
             figure: {
               marginTop: "2rem",

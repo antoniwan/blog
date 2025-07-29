@@ -136,6 +136,16 @@ const structuredData = generateStructuredData({
           closeImageModal();
         }
       });
+      
+      // Make blog post images clickable for modal
+      document.addEventListener('DOMContentLoaded', function() {
+        const proseImages = document.querySelectorAll('.prose img');
+        proseImages.forEach(function(img) {
+          img.addEventListener('click', function() {
+            openImageModal(this.src, this.alt);
+          });
+        });
+      });
     </script>
   </body>
 </html> 
