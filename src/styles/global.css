@@ -9,6 +9,7 @@
   - Optimized transitions
   - Focus on legibility and performance
   - Reduced motion support
+  - Consolidated typography system
 */
 
 @tailwind base;
@@ -24,6 +25,9 @@
       Roboto, Oxygen, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
     --font-serif:
       "Source Serif Pro", Georgia, Cambria, "Times New Roman", Times, serif;
+    --font-mono:
+      "Fira Code", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+      "Liberation Mono", "Courier New", monospace;
 
     /* Light theme colors */
     --color-bg: 255 255 255;
@@ -33,6 +37,33 @@
     --color-border: 206 212 218;
     --color-primary: 59 130 246;
     --color-primary-hover: 37 99 235;
+
+    /* Typography scale */
+    --text-xs: 0.875rem;
+    --text-sm: 1rem;
+    --text-base: 1.125rem;
+    --text-lg: 1.25rem;
+    --text-xl: 1.5rem;
+    --text-2xl: 1.875rem;
+    --text-3xl: 2.25rem;
+    --text-4xl: 2.75rem;
+    --text-5xl: 3.5rem;
+
+    /* Spacing scale */
+    --space-xs: 0.25rem;
+    --space-sm: 0.5rem;
+    --space-md: 1rem;
+    --space-lg: 1.5rem;
+    --space-xl: 2rem;
+    --space-2xl: 3rem;
+    --space-3xl: 4rem;
+
+    /* Line heights */
+    --leading-tight: 1.25;
+    --leading-snug: 1.375;
+    --leading-normal: 1.5;
+    --leading-relaxed: 1.75;
+    --leading-loose: 2;
   }
 
   .dark {
@@ -82,6 +113,18 @@
   }
   h6 {
     @apply text-base md:text-lg font-semibold;
+  }
+
+  /* Global paragraph styles */
+  p {
+    @apply text-[rgb(var(--color-text))] leading-relaxed;
+    margin-top: var(--space-lg);
+    margin-bottom: var(--space-lg);
+  }
+
+  /* Muted text utility */
+  .text-muted {
+    @apply text-[rgb(var(--color-text-muted))];
   }
 
   /* Links */
@@ -197,12 +240,38 @@
     @apply prose prose-lg max-w-none;
   }
 
-  /* Theme transition utility */
+  /* Transition utilities */
+  .transition-fast {
+    transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .transition-normal {
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .transition-slow {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Theme-specific transitions */
   .theme-transition {
     transition:
-      background-color 0.2s ease,
-      color 0.2s ease,
-      border-color 0.2s ease;
+      background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+      color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+      border-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Interactive element transitions */
+  .interactive {
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .interactive:hover {
+    transform: translateY(-1px);
+  }
+
+  .interactive:active {
+    transform: translateY(0);
   }
 
   /* Respect reduced motion preferences */
@@ -211,5 +280,114 @@
       transition: none !important;
       animation: none !important;
     }
+  }
+}
+
+/* Component layer for reusable patterns */
+@layer components {
+  /* Text utilities */
+  .text-body {
+    @apply text-[rgb(var(--color-text))] leading-relaxed;
+  }
+
+  .text-body-muted {
+    @apply text-[rgb(var(--color-text-muted))] leading-relaxed;
+  }
+
+  .text-body-lg {
+    @apply text-lg text-[rgb(var(--color-text))] leading-relaxed;
+  }
+
+  .text-body-lg-muted {
+    @apply text-lg text-[rgb(var(--color-text-muted))] leading-relaxed;
+  }
+
+  /* Animation utilities */
+  .animate-fade-up {
+    animation: fade-up 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+
+  .animate-fade-up-delay-1 {
+    animation-delay: 0.1s;
+  }
+
+  .animate-fade-up-delay-2 {
+    animation-delay: 0.2s;
+  }
+
+  .animate-fade-up-delay-3 {
+    animation-delay: 0.3s;
+  }
+
+  .animate-fade-up-delay-4 {
+    animation-delay: 0.4s;
+  }
+
+  .animate-fade-up-delay-5 {
+    animation-delay: 0.5s;
+  }
+
+  .animate-fade-up-delay-6 {
+    animation-delay: 0.6s;
+  }
+
+  .animate-fade-up-delay-7 {
+    animation-delay: 0.7s;
+  }
+
+  .animate-fade-up-delay-8 {
+    animation-delay: 0.8s;
+  }
+
+  /* Card utilities */
+  .card {
+    @apply bg-[rgb(var(--color-bg))] rounded-xl border border-[rgb(var(--color-border))]/30 shadow-sm hover:shadow-lg overflow-hidden transition-normal;
+  }
+
+  .card-alt {
+    @apply bg-[rgb(var(--color-bg-alt))] rounded-lg border border-[rgb(var(--color-border))] transition-normal;
+  }
+
+  /* Button utilities */
+  .btn-primary {
+    @apply inline-flex items-center gap-2 px-4 py-2 bg-[rgb(var(--color-primary))] text-white rounded-lg hover:bg-[rgb(var(--color-primary-hover))] transition-normal;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center gap-2 px-4 py-2 bg-[rgb(var(--color-bg-alt))] text-[rgb(var(--color-text))] border border-[rgb(var(--color-border))] rounded-lg hover:bg-[rgb(var(--color-bg-alt))]/80 transition-normal;
+  }
+
+  /* Link utilities */
+  .link {
+    @apply text-[rgb(var(--color-primary))] hover:text-[rgb(var(--color-primary-hover))] transition-normal;
+  }
+
+  .link-muted {
+    @apply text-[rgb(var(--color-text-muted))] hover:text-[rgb(var(--color-primary))] transition-normal;
+  }
+
+  /* Interactive utilities */
+  .interactive-card {
+    @apply transition-normal hover:shadow-lg hover:-translate-y-1;
+  }
+
+  .interactive-button {
+    @apply transition-normal hover:scale-105 active:scale-95;
+  }
+
+  .interactive-link {
+    @apply transition-normal hover:underline;
+  }
+}
+
+/* Animation keyframes */
+@keyframes fade-up {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
   }
 }

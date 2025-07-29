@@ -13,7 +13,7 @@ const { category, postCount, featured = false, compact = false } = Astro.props;
 
 <a 
 	href={`/category/${category.id}/`}
-	class="group relative block bg-[rgb(var(--color-bg))] rounded-xl border border-[rgb(var(--color-border))]/30 shadow-sm hover:shadow-lg theme-transition overflow-hidden"
+	class="group relative block interactive-card overflow-hidden"
 	class:list={{
 		'featured-category': featured,
 		'compact-category': compact,
@@ -22,7 +22,7 @@ const { category, postCount, featured = false, compact = false } = Astro.props;
 	}}
 >
 	<!-- Subtle gradient overlay -->
-	<div class="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-[rgb(var(--color-primary))]/5 opacity-0 group-hover:opacity-100 theme-transition pointer-events-none"></div>
+					<div class="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-[rgb(var(--color-primary))]/5 opacity-0 group-hover:opacity-100 transition-normal pointer-events-none"></div>
 	
 	<!-- Card content -->
 	<div class="relative p-6 md:p-8">
@@ -36,21 +36,21 @@ const { category, postCount, featured = false, compact = false } = Astro.props;
 			
 			<!-- Content -->
 			<div class="flex-1 min-w-0">
-				<h3 class="text-lg md:text-xl font-semibold text-[rgb(var(--color-text))] group-hover:text-[rgb(var(--color-primary))] theme-transition mb-2 leading-tight">
+				<h3 class="text-lg md:text-xl font-semibold text-[rgb(var(--color-text))] group-hover:text-[rgb(var(--color-primary))] transition-normal mb-2 leading-tight">
 					{category.name}
 				</h3>
 				
 				{!compact && (
-					<p class="text-sm md:text-base text-[rgb(var(--color-text-muted))] leading-relaxed mb-3 line-clamp-2">
+					<p class="text-sm md:text-base text-body-muted mb-3 line-clamp-2">
 						{category.description}
 					</p>
 				)}
 				
 				<div class="flex items-center justify-between">
-					<span class="text-sm text-[rgb(var(--color-text-muted))] font-medium">
+					<span class="text-sm text-body-muted font-medium">
 						{postCount} {postCount === 1 ? 'post' : 'posts'}
 					</span>
-					<span class="text-[rgb(var(--color-primary))] group-hover:translate-x-1 theme-transition font-semibold">
+					<span class="text-[rgb(var(--color-primary))] group-hover:translate-x-1 transition-normal font-semibold">
 						→
 					</span>
 				</div>
@@ -59,7 +59,7 @@ const { category, postCount, featured = false, compact = false } = Astro.props;
 	</div>
 	
 	<!-- Hover indicator -->
-	<div class="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-[rgb(var(--color-primary))] to-[rgb(var(--color-primary))] transform scale-x-0 group-hover:scale-x-100 theme-transition origin-left"></div>
+	<div class="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-[rgb(var(--color-primary))] to-[rgb(var(--color-primary))] transform scale-x-0 group-hover:scale-x-100 transition-normal origin-left"></div>
 </a>
 
 <style>

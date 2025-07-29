@@ -26,7 +26,7 @@ const { items, class: className = '' } = Astro.props;
         {item.href ? (
           <a
             href={item.href}
-            class="text-[rgb(var(--color-text-muted))] hover:text-[rgb(var(--color-primary))] theme-transition"
+            		class="link-muted"
             aria-current={index === items.length - 1 ? 'page' : undefined}
           >
             {item.label}

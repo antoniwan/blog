@@ -1,52 +1,13 @@
-/* Base typography styles */
+/* Enhanced typography for longform content */
 @layer base {
-  /* Enhanced typography for longform content */
+  /* Prose content styling - simplified to avoid conflicts with Tailwind typography */
   .prose {
-    --tw-prose-body: rgb(var(--color-text));
-    --tw-prose-headings: rgb(var(--color-text));
-    --tw-prose-links: rgb(var(--color-primary));
-    --tw-prose-bold: rgb(var(--color-text));
-    --tw-prose-counters: rgb(var(--color-text));
-    --tw-prose-bullets: rgb(var(--color-text));
-    --tw-prose-hr: rgb(var(--color-border));
-    --tw-prose-quotes: rgb(var(--color-text));
-    --tw-prose-quote-borders: rgb(var(--color-primary));
-    --tw-prose-captions: rgb(var(--color-text));
-    --tw-prose-code: rgb(var(--color-text));
-    --tw-prose-pre-code: rgb(var(--color-text));
-    --tw-prose-pre-bg: rgb(var(--color-bg));
-    --tw-prose-th-borders: rgb(var(--color-border));
-    --tw-prose-td-borders: rgb(var(--color-border));
-
     /* Improved vertical rhythm */
     line-height: 1.75;
     letter-spacing: 0.01em;
   }
 
-  /* Better paragraph spacing */
-  .prose p {
-    margin-top: 1.5rem;
-    margin-bottom: 1.5rem;
-  }
-
-  /* Improved heading spacing */
-  .prose h1,
-  .prose h2,
-  .prose h3,
-  .prose h4,
-  .prose h5,
-  .prose h6 {
-    margin-top: 2.5rem;
-    margin-bottom: 1rem;
-  }
-
-  .prose h1:first-child,
-  .prose h2:first-child,
-  .prose h3:first-child {
-    margin-top: 0;
-  }
-
-  /* Drop cap for first paragraph */
+  /* Drop cap for first paragraph - unique enhancement */
   .prose > p:first-of-type::first-letter {
     float: left;
     font-size: 4.5em;
@@ -57,7 +18,7 @@
     color: rgb(var(--color-primary));
   }
 
-  /* Enhanced blockquote styling */
+  /* Enhanced blockquote styling - unique enhancement */
   .prose blockquote {
     border-left-width: 4px;
     border-left-color: rgb(var(--color-primary));
@@ -80,25 +41,7 @@
     opacity: 0.2;
   }
 
-  /* Code block enhancement */
-  .prose pre {
-    background-color: rgb(var(--color-bg-alt));
-    border-radius: 0.5rem;
-    padding: 1rem;
-    border: 1px solid rgb(var(--color-border));
-    overflow-x: auto;
-  }
-
-  .prose code {
-    font-family: var(--font-mono);
-    font-size: 0.875em;
-    background-color: rgb(var(--color-bg-alt));
-    padding: 0.2em 0.4em;
-    border-radius: 0.25rem;
-    color: rgb(var(--color-text));
-  }
-
-  /* Typography scale - keeping only used classes */
+  /* Typography scale utilities - keeping only used classes */
   .text-scale-1 {
     @apply text-sm leading-relaxed tracking-normal;
   }
@@ -109,12 +52,12 @@
     @apply text-4xl leading-tight tracking-tighter;
   }
 
-  /* Vertical rhythm - keeping only used classes */
+  /* Vertical rhythm utilities - keeping only used classes */
   .space-y-scale-4 {
     @apply space-y-8;
   }
 
-  /* Margin scales - keeping only used classes */
+  /* Margin utilities - keeping only used classes */
   .mt-scale-4 {
     @apply mt-8;
   }

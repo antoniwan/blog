@@ -17,7 +17,7 @@ import Container from './Container.astro';
 			<!-- Brand Section -->
 			<div class="lg:col-span-1">
 				<Logo size="lg" />
-				<p class="mt-4 text-sm md:text-base text-[rgb(var(--color-text-muted))] leading-relaxed">
+				<p class="mt-4 text-sm md:text-base text-body-muted">
 					{SITE_DESCRIPTION}
 				</p>
 			</div>
@@ -26,10 +26,10 @@ import Container from './Container.astro';
 			<div>
 				<h3 class="text-base md:text-lg font-semibold mb-4 text-[rgb(var(--color-text))]">Quick Links</h3>
 				<nav class="space-y-2" aria-label="Quick navigation">
-					<a href="/" class="block text-sm md:text-base text-[rgb(var(--color-text-muted))] hover:text-[rgb(var(--color-primary))] theme-transition">Home</a>
-					<a href="/category/" class="block text-sm md:text-base text-[rgb(var(--color-text-muted))] hover:text-[rgb(var(--color-primary))] theme-transition">Categories</a>
-					<a href="/tag/" class="block text-sm md:text-base text-[rgb(var(--color-text-muted))] hover:text-[rgb(var(--color-primary))] theme-transition">Tags</a>
-					<a href="/about" class="block text-sm md:text-base text-[rgb(var(--color-text-muted))] hover:text-[rgb(var(--color-primary))] theme-transition">About</a>
+					<a href="/" class="block text-sm md:text-base link-muted">Home</a>
+					<a href="/category/" class="block text-sm md:text-base link-muted">Categories</a>
+					<a href="/tag/" class="block text-sm md:text-base link-muted">Tags</a>
+					<a href="/about" class="block text-sm md:text-base link-muted">About</a>
 				</nav>
 			</div>
 			
@@ -37,10 +37,10 @@ import Container from './Container.astro';
 			<div>
 				<h3 class="text-base md:text-lg font-semibold mb-4 text-[rgb(var(--color-text))]">Categories</h3>
 				<nav class="space-y-2" aria-label="Category navigation">
-					<a href="/category/parenting/" class="block text-sm md:text-base text-[rgb(var(--color-text-muted))] hover:text-[rgb(var(--color-primary))] theme-transition">👨‍👩‍👧‍👦 Parenting</a>
-					<a href="/category/psychology/" class="block text-sm md:text-base text-[rgb(var(--color-text-muted))] hover:text-[rgb(var(--color-primary))] theme-transition">🧠 Psychology</a>
-					<a href="/category/systems-strategy/" class="block text-sm md:text-base text-[rgb(var(--color-text-muted))] hover:text-[rgb(var(--color-primary))] theme-transition">💻 Systems & Strategy</a>
-					<a href="/category/integration-growth/" class="block text-sm md:text-base text-[rgb(var(--color-text-muted))] hover:text-[rgb(var(--color-primary))] theme-transition">🧘🏽‍♂️ Integration & Growth</a>
+					<a href="/category/parenting/" class="block text-sm md:text-base link-muted">👨‍👩‍👧‍👦 Parenting</a>
+					<a href="/category/psychology/" class="block text-sm md:text-base link-muted">🧠 Psychology</a>
+					<a href="/category/systems-strategy/" class="block text-sm md:text-base link-muted">💻 Systems & Strategy</a>
+					<a href="/category/integration-growth/" class="block text-sm md:text-base link-muted">🧘🏽‍♂️ Integration & Growth</a>
 				</nav>
 			</div>
 			
@@ -48,19 +48,19 @@ import Container from './Container.astro';
 			<div>
 				<h3 class="text-base md:text-lg font-semibold mb-4 text-[rgb(var(--color-text))]">Connect</h3>
 				<nav class="space-y-2" aria-label="Social media links">
-					<a href={SOCIAL_LINKS.bluesky} target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 text-sm md:text-base text-[rgb(var(--color-text-muted))] hover:text-[rgb(var(--color-primary))] theme-transition">
+					<a href={SOCIAL_LINKS.bluesky} target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 text-sm md:text-base link-muted">
 						<span class="text-lg">🌀</span>
 						<span>BlueSky</span>
 					</a>
-					<a href={SOCIAL_LINKS.github} target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 text-sm md:text-base text-[rgb(var(--color-text-muted))] hover:text-[rgb(var(--color-primary))] theme-transition">
+					<a href={SOCIAL_LINKS.github} target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 text-sm md:text-base link-muted">
 						<span class="text-lg">🐙</span>
 						<span>GitHub</span>
 					</a>
-					<a href="https://www.youtube.com/@Antoniwan777" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 text-sm md:text-base text-[rgb(var(--color-text-muted))] hover:text-[rgb(var(--color-primary))] theme-transition">
+					<a href="https://www.youtube.com/@Antoniwan777" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 text-sm md:text-base link-muted">
 						<span class="text-lg">📺</span>
 						<span>YouTube</span>
 					</a>
-					<a href={SOCIAL_LINKS.buildsSoftware} target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 text-sm md:text-base text-[rgb(var(--color-text-muted))] hover:text-[rgb(var(--color-primary))] theme-transition">
+					<a href={SOCIAL_LINKS.buildsSoftware} target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 text-sm md:text-base link-muted">
 						<span class="text-lg">💻</span>
 						<span>Builds Software</span>
 					</a>
@@ -73,14 +73,14 @@ import Container from './Container.astro';
 			<div class="flex flex-col md:flex-row justify-between items-center gap-4">
 				<div class="text-xs md:text-sm text-[rgb(var(--color-text-muted))] text-center md:text-left">
 					<p>© {new Date().getFullYear()} {SITE_TITLE}. All rights reserved.</p>
-					<p class="mt-1">Content licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer" class="hover:text-[rgb(var(--color-primary))] theme-transition">CC BY-NC-SA 4.0</a></p>
-					<p class="mt-1">Code licensed under <a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener noreferrer" class="hover:text-[rgb(var(--color-primary))] theme-transition">MIT License</a></p>
+					<p class="mt-1">Content licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer">CC BY-NC-SA 4.0</a></p>
+					<p class="mt-1">Code licensed under <a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener noreferrer">MIT License</a></p>
 				</div>
 				
 				<!-- Additional Links -->
 				<div class="flex flex-wrap justify-center md:justify-end gap-4 text-xs text-[rgb(var(--color-text-muted))]">
-					<a href="/sitemap.xml" class="hover:text-[rgb(var(--color-primary))] theme-transition">Sitemap</a>
-					<a href="/rss.xml" class="hover:text-[rgb(var(--color-primary))] theme-transition">RSS</a>
+					<a href="/sitemap.xml" class="link-muted">Sitemap</a>
+					<a href="/rss.xml" class="link-muted">RSS</a>
 				</div>
 			</div>
 		</div>

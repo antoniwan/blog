@@ -15,7 +15,7 @@ const { title, description, className = "" } = Astro.props;
     {title}
   </h1>
   {description && (
-    <p class="text-lg md:text-xl text-[rgb(var(--color-text-muted))] leading-relaxed" transition:name="page-description">
+    		<p class="text-body-lg-muted" transition:name="page-description">
       {description}
     </p>
   )}

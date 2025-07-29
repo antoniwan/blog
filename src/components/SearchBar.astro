@@ -262,7 +262,7 @@ console.log(`SearchBar: ${posts.length} posts available for search`);
 			this.resultsList.innerHTML = results.map(result => `
 				<a
 					href="${result.url}"
-					class="search-result-item block px-4 py-3 hover:bg-[rgb(var(--color-bg-alt))] theme-transition duration-150"
+					class="search-result-item block px-4 py-3 hover:bg-[rgb(var(--color-bg-alt))] transition-fast"
 				>
 					<div class="flex items-start gap-3">
 						<div class="flex-shrink-0 w-12 h-12 bg-[rgb(var(--color-bg-alt))] rounded-lg overflow-hidden">
@@ -277,9 +277,9 @@ console.log(`SearchBar: ${posts.length} posts available for search`);
 						</div>
 						<div class="flex-1 min-w-0">
 							<h3 class="text-sm font-medium text-[rgb(var(--color-text))] line-clamp-2">${result.title}</h3>
-							<p class="text-xs text-[rgb(var(--color-text-muted))] mt-1 line-clamp-2">${result.description}</p>
+							<p class="text-xs text-body-muted mt-1 line-clamp-2">${result.description}</p>
 							${result.category ? 
-								`<span class="text-xs bg-[rgb(var(--color-bg-alt))] text-[rgb(var(--color-text-muted))] px-2 py-1 rounded mt-2 inline-block">${result.category[0]}</span>` :
+								`<span class="text-xs bg-[rgb(var(--color-bg-alt))] text-body-muted px-2 py-1 rounded mt-2 inline-block">${result.category[0]}</span>` :
 								''
 							}
 						</div>
