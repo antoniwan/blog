@@ -3,6 +3,7 @@ import HomeLayout from '../layouts/HomeLayout.astro';
 import PostCard from '../components/PostCard.astro';
 import CategoryCard from '../components/CategoryCard.astro';
 import Container from '../components/Container.astro';
+import LazyPosts from '../components/LazyPosts.astro';
 import { getCollection } from 'astro:content';
 import { categories } from '../data/categories';
 
@@ -112,11 +113,11 @@ const topCategories = categories
 					Every thought, question, and reflection from the journey through thinking, fatherhood, and cultural navigation
 				</p>
 			</div>
-			<div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
-				{remainingPosts.map(post => (
-					<PostCard post={post} />
-				))}
-			</div>
+			<LazyPosts 
+				posts={remainingPosts} 
+				initialCount={6} 
+				loadMoreCount={6} 
+			/>
 		</Container>
 	)}
 
