@@ -17,7 +17,7 @@ const { class: className = '' } = Astro.props;
     <div class="relative group">
       <a
         href={item.href}
-        class="relative px-3 py-2 text-sm font-medium rounded-lg transition-all duration-200 ease-in-out"
+        class="relative px-3 py-2 text-sm font-medium rounded-lg theme-transition duration-200 ease-in-out"
         class:list={[
           'text-[rgb(var(--color-text-muted))] hover:text-[rgb(var(--color-primary))] hover:bg-[rgb(var(--color-bg-alt))]',
           { 
@@ -45,7 +45,7 @@ const { class: className = '' } = Astro.props;
               {item.dropdown.items.map((dropdownItem) => (
                 <a
                   href={dropdownItem.href}
-                  class="flex items-center gap-3 px-3 py-2 text-sm text-[rgb(var(--color-text-muted))] rounded-md hover:bg-[rgb(var(--color-bg-alt))] hover:text-[rgb(var(--color-primary))] transition-colors duration-150"
+                  class="flex items-center gap-3 px-3 py-2 text-sm text-[rgb(var(--color-text-muted))] rounded-md hover:bg-[rgb(var(--color-bg-alt))] hover:text-[rgb(var(--color-primary))] theme-transition duration-150"
                 >
                   {dropdownItem.icon && (
                     <span class="text-lg" aria-hidden="true">{dropdownItem.icon}</span>

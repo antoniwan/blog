@@ -9,10 +9,9 @@ interface Props {
 const { class: className = '', placeholder = 'Search posts...' } = Astro.props;
 
 // Get all blog posts for search
-const allPosts = await getCollection('blog');
-const posts = allPosts
-  .filter(post => !post.data.draft && post.data.published)
-  .sort((a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime());
+const posts = await getCollection('blog', ({ data }) => {
+	return import.meta.env.PROD ? !data.draft : true;
+});
 
 // Prepare search data
 const searchData = posts.map(post => ({
@@ -27,6 +26,12 @@ const searchData = posts.map(post => ({
 
 // Generate unique ID for this search instance
 const searchId = `search-${Math.random().toString(36).substr(2, 9)}`;
+
+// Serialize search data for client-side use
+const searchDataJson = JSON.stringify(searchData);
+
+// Debug: Log search data info
+console.log(`SearchBar: ${posts.length} posts available for search`);
 ---
 
 <div class={`search-container relative ${className}`}>
@@ -83,6 +88,11 @@ const searchId = `search-${Math.random().toString(36).substr(2, 9)}`;
 		<div id={`${searchId}-results-list`} class="py-2"></div>
 	</div>
 </div>
+
+<script define:vars={{ searchDataJson }}>
+	// Make search data globally available
+	window.searchData = JSON.parse(searchDataJson);
+</script>
 
 <script>
 	// Search functionality
@@ -189,9 +199,53 @@ const searchId = `search-${Math.random().toString(36).substr(2, 9)}`;
 		}
 		
 		async searchPosts(query: string) {
-			// This is a placeholder - replace with actual search implementation
-			// For now, return empty results
-			return [];
+			// Get the search data from the global variable
+			const searchData = (window as any).searchData || [];
+			
+			console.log(`Searching for "${query}" with ${searchData.length} posts available`);
+			
+			if (!searchData || searchData.length === 0) {
+				console.warn('No search data available');
+				return [];
+			}
+			
+			const normalizedQuery = query.toLowerCase().trim();
+			
+			// Perform search across title, description, category, and tags
+			const results = searchData.filter((post: any) => {
+				const titleMatch = post.title?.toLowerCase().includes(normalizedQuery);
+				const descriptionMatch = post.description?.toLowerCase().includes(normalizedQuery);
+				const categoryMatch = post.category?.some((cat: string) => 
+					cat.toLowerCase().includes(normalizedQuery)
+				);
+				const tagsMatch = post.tags?.some((tag: string) => 
+					tag.toLowerCase().includes(normalizedQuery)
+				);
+				
+				return titleMatch || descriptionMatch || categoryMatch || tagsMatch;
+			});
+			
+			// Sort results by relevance (title matches first, then description, etc.)
+			const sortedResults = results.sort((a: any, b: any) => {
+				const aTitleMatch = a.title?.toLowerCase().includes(normalizedQuery);
+				const bTitleMatch = b.title?.toLowerCase().includes(normalizedQuery);
+				
+				// Title matches get priority
+				if (aTitleMatch && !bTitleMatch) return -1;
+				if (!aTitleMatch && bTitleMatch) return 1;
+				
+				// If both or neither have title matches, sort by title length (shorter = more relevant)
+				return a.title.length - b.title.length;
+			});
+			
+			// Return top 10 results
+			return sortedResults.slice(0, 10).map((post: any) => ({
+				title: post.title,
+				description: post.description,
+				url: post.url,
+				image: post.heroImage,
+				category: post.category
+			}));
 		}
 		
 		displayResults(results: any[]) {
@@ -208,7 +262,7 @@ const searchId = `search-${Math.random().toString(36).substr(2, 9)}`;
 			this.resultsList.innerHTML = results.map(result => `
 				<a
 					href="${result.url}"
-					class="search-result-item block px-4 py-3 hover:bg-[rgb(var(--color-bg-alt))] transition-colors duration-150"
+					class="search-result-item block px-4 py-3 hover:bg-[rgb(var(--color-bg-alt))] theme-transition duration-150"
 				>
 					<div class="flex items-start gap-3">
 						<div class="flex-shrink-0 w-12 h-12 bg-[rgb(var(--color-bg-alt))] rounded-lg overflow-hidden">
