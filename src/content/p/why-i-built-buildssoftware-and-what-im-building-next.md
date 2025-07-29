@@ -1,27 +1,31 @@
 ---
-title: "Why I Built builds.software — and What I’m Building Next"
-description: "Built my own space: no ads, no feed, just soul + software. A digital forge for legacy, code, and craft. Welcome to builds.software."
-pubDate: "2025-04-30T18:11:38.423Z"
-language: ["en"]
-category: ["systems-strategy", "learning-projects", "diy-creation"]
+title: Why I Built builds.software — and What I’m Building Next
+description: >-
+  Built my own space: no ads, no feed, just soul + software. A digital forge for
+  legacy, code, and craft. Welcome to builds.software.
+pubDate: '2025-04-30T18:11:38.423Z'
+language:
+  - en
+category:
+  - systems-strategy
+  - learning-projects
+  - diy-creation
 tags:
-  [
-    "software",
-    "technology",
-    "systems-strategy",
-    "learning-projects",
-    "diy-creation",
-    "productivity",
-    "development",
-    "consciousness",
-    "personal-growth",
-    "workflow",
-  ]
+  - software
+  - technology
+  - systems-strategy
+  - learning-projects
+  - diy-creation
+  - productivity
+  - development
+  - consciousness
+  - personal-growth
+  - workflow
 readingTime: 1
 draft: false
 featured: false
 published: true
-canonicalUrl: "https://medium.com/@wizards777/why-i-built-builds-software-and-what-im-building-next-8e9cda2c5043"
+showComments: true
 ---
 
 ![](https://cdn-images-1.medium.com/max/800/0*U4TRECnXiDzuJhe4)

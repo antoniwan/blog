@@ -1,27 +1,31 @@
 ---
-title: "On Limits, Growth, and the Meaning of My Life"
-description: "A personal reflection on personal growth, self-discovery, and finding meaning in life through continuous learning and emotional development."
-pubDate: "2024-05-14"
-language: ["en"]
-category: ["integration-growth", "psychology"]
+title: On Limits, Growth, and the Meaning of My Life
+description: >-
+  A personal reflection on personal growth, self-discovery, and finding meaning
+  in life through continuous learning and emotional development.
+pubDate: '2024-05-14'
+language:
+  - en
+category:
+  - integration-growth
+  - psychology
 tags:
-  [
-    "personal-growth",
-    "meaning",
-    "consciousness",
-    "limits",
-    "self-reflection",
-    "philosophy",
-    "metaspace",
-    "transformation",
-    "healing",
-    "purpose",
-  ]
+  - personal-growth
+  - meaning
+  - consciousness
+  - limits
+  - self-reflection
+  - philosophy
+  - metaspace
+  - transformation
+  - healing
+  - purpose
 readingTime: 2
-author: "wizards777"
-canonicalUrl: "https://medium.com/@wizards777/on-limits-growth-and-the-meaning-of-my-life-77b24178018c"
 draft: false
+featured: false
 published: true
+showComments: true
+author: wizards777
 ---
 
 I notice I can keep tearing and rebuilding muscle and mass. Mentally, I can keep reading, learning, letting go, and creating new ideas and paradigm shifts. Disciplined and through practice, I kill my ego to love more and be kinder and compassionate more fully. I practice feeling and connecting with my understandings and biases to feel more profound feelings, lately sadness, joy, intention, desire, grief, whatever I need to feel.

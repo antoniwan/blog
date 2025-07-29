@@ -1,26 +1,33 @@
 ---
-title: "Customizing ChatGPT: Crafting a Mirror, Not a Mirrorball"
-description: "Approach to AI customization focused on integrity and reflection rather than productivity. Shows how to configure ChatGPT based on personal values for authentic self-expression."
-pubDate: "2025-05-01T18:16:00.000Z"
-language: ["en"]
-category: ["systems-strategy", "integration-growth", "learning-projects"]
-subcategory: "AI"
+title: 'Customizing ChatGPT: Crafting a Mirror, Not a Mirrorball'
+description: >-
+  Approach to AI customization focused on integrity and reflection rather than
+  productivity. Shows how to configure ChatGPT based on personal values for
+  authentic self-expression.
+pubDate: '2025-05-01T18:16:00.000Z'
+language:
+  - en
+category:
+  - systems-strategy
+  - integration-growth
+  - learning-projects
+subcategory: AI
 tags:
-  [
-    "technology",
-    "ai",
-    "productivity",
-    "tools",
-    "systems-strategy",
-    "learning-projects",
-    "efficiency",
-    "software-development",
-    "workflow",
-    "customization",
-  ]
+  - technology
+  - ai
+  - productivity
+  - tools
+  - systems-strategy
+  - learning-projects
+  - efficiency
+  - software-development
+  - workflow
+  - customization
 readingTime: 2
 draft: false
 featured: false
+published: true
+showComments: true
 ---
 
 Some people use ChatGPT like a vending machine.  

@@ -1,27 +1,30 @@
 ---
-title: "Note to Self: To Be or What Not to Be"
-description: "To be negative, I must assume negativity; to be resentful, I must bear affliction; to be hateful, I must bring hate into my life. To be…"
-pubDate: "2024-05-31T15:55:06.032Z"
-language: ["en"]
-category: ["metaspace", "integration-growth"]
+title: 'Note to Self: To Be or What Not to Be'
+description: >-
+  To be negative, I must assume negativity; to be resentful, I must bear
+  affliction; to be hateful, I must bring hate into my life. To be…
+pubDate: '2024-05-31T15:55:06.032Z'
+language:
+  - en
+category:
+  - metaspace
+  - integration-growth
 tags:
-  [
-    "self-reflection",
-    "consciousness",
-    "personal-growth",
-    "authenticity",
-    "self-improvement",
-    "healing",
-    "mindfulness",
-    "transformation",
-    "metaspace",
-    "purpose",
-  ]
+  - self-reflection
+  - consciousness
+  - personal-growth
+  - authenticity
+  - self-improvement
+  - healing
+  - mindfulness
+  - transformation
+  - metaspace
+  - purpose
 readingTime: 1
 draft: false
 featured: false
 published: true
-canonicalUrl: "https://medium.com/@wizards777/note-to-self-to-be-or-what-not-to-be-aeff3569b5f2"
+showComments: true
 ---
 
 To be negative, I must assume negativity; to be resentful, I must bear affliction; to be hateful, I must bring hate into my life. To be petty, I must force myself to behave inconsequentially.

@@ -1,27 +1,30 @@
 ---
-title: "On Overcoming Analysis Paralysis"
-description: "Practice makes perfect, and overcoming paralysis is no different than any other skill that you could learn and develop by practice."
-pubDate: "2024-12-04T15:25:09.221Z"
-language: ["en"]
-category: ["psychology", "systems-strategy"]
+title: On Overcoming Analysis Paralysis
+description: >-
+  Practice makes perfect, and overcoming paralysis is no different than any
+  other skill that you could learn and develop by practice.
+pubDate: '2024-12-04T15:25:09.221Z'
+language:
+  - en
+category:
+  - psychology
+  - systems-strategy
 tags:
-  [
-    "analysis-paralysis",
-    "mental-health",
-    "consciousness",
-    "personal-growth",
-    "decision-making",
-    "mindfulness",
-    "self-improvement",
-    "healing",
-    "therapy",
-    "emotional-regulation",
-  ]
+  - analysis-paralysis
+  - mental-health
+  - consciousness
+  - personal-growth
+  - decision-making
+  - mindfulness
+  - self-improvement
+  - healing
+  - therapy
+  - emotional-regulation
 readingTime: 4
 draft: false
 featured: false
 published: true
-canonicalUrl: "https://medium.com/@wizards777/on-overcoming-analysis-paralysis-d9281a526dc8"
+showComments: true
 ---
 
 I may not be a behavioral expert, but I’m an expert on overthinking and becoming paralyzed. Over time, and with much practice, I’m also slowly becoming adept at snapping out of this emotional and physical paralysis using a few simple steps — with what I think are very low-effort ideas.

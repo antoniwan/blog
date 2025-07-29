@@ -1,27 +1,29 @@
 ---
-title: "What Happens When You Leave the Algorithm Behind"
-description: "Leaving Meta. Reclaiming time, clarity, and creativity."
-pubDate: "2025-04-30T12:52:40.726Z"
-language: ["en"]
-category: ["diy-creation", "metaspace", "integration-growth"]
+title: What Happens When You Leave the Algorithm Behind
+description: Leaving Meta. Reclaiming time, clarity, and creativity.
+pubDate: '2025-04-30T12:52:40.726Z'
+language:
+  - en
+category:
+  - diy-creation
+  - metaspace
+  - integration-growth
 tags:
-  [
-    "technology",
-    "consciousness",
-    "social-media",
-    "mental-health",
-    "mindfulness",
-    "personal-growth",
-    "self-reflection",
-    "healing",
-    "social-issues",
-    "self-improvement",
-  ]
+  - technology
+  - consciousness
+  - social-media
+  - mental-health
+  - mindfulness
+  - personal-growth
+  - self-reflection
+  - healing
+  - social-issues
+  - self-improvement
 readingTime: 1
 draft: false
 featured: false
 published: true
-canonicalUrl: "https://medium.com/@wizards777/what-happens-when-you-leave-the-algorithm-behind-4b606eb54cc0"
+showComments: true
 ---
 
 ![](https://cdn-images-1.medium.com/max/2560/0*WZdrSeBiQJUenlXR)

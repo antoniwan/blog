@@ -24,7 +24,6 @@ const {
   tags,
   category = [],
   path,
-  image,
   imageAlt,
   author = AUTHOR.name,
   keywords,
@@ -48,10 +47,9 @@ const structuredData = generateStructuredData({
   posts,
   type: structuredDataType,
   identifier: structuredDataIdentifier,
-  author,
   pubDate,
   updatedDate,
-  heroImage: heroImage,
+  heroImage,
   keywords: finalKeywords,
   readingTime
 });
@@ -64,7 +62,6 @@ const structuredData = generateStructuredData({
       title={title} 
       description={description}
       path={path}
-      image={image}
       heroImage={heroImage}
       imageAlt={finalImageAlt}
       pubDate={pubDate}
@@ -110,50 +107,34 @@ const structuredData = generateStructuredData({
     
     <script is:inline>
       // Image modal functionality
-      function openImageModal(imgSrc, imgAlt) {
+      function openImageModal(imageSrc, imageAlt) {
         const modal = document.getElementById('imageModal');
-        const modalImg = document.getElementById('modalImage');
-        if (modal && modalImg) {
-          modalImg.src = imgSrc;
-          modalImg.alt = imgAlt;
-          modal.classList.add('active');
-          document.body.style.overflow = 'hidden';
-        }
+        const modalImage = document.getElementById('modalImage');
+        
+        modalImage.src = imageSrc;
+        modalImage.alt = imageAlt;
+        modal.classList.add('show');
+        document.body.style.overflow = 'hidden';
       }
       
       function closeImageModal() {
         const modal = document.getElementById('imageModal');
-        if (modal) {
-          modal.classList.remove('active');
-          document.body.style.overflow = '';
-        }
+        modal.classList.remove('show');
+        document.body.style.overflow = 'auto';
       }
       
       // Close modal when clicking outside the image
-      const imageModal = document.getElementById('imageModal');
-      if (imageModal) {
-        imageModal.addEventListener('click', function(e) {
-          if (e.target === this) {
-            closeImageModal();
-          }
-        });
-      }
+      document.getElementById('imageModal').addEventListener('click', function(e) {
+        if (e.target === this) {
+          closeImageModal();
+        }
+      });
       
       // Close modal with Escape key
       document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') {
           closeImageModal();
         }
-      });
-      
-      // Add click handlers to all images in prose content
-      document.addEventListener('DOMContentLoaded', function() {
-        const images = document.querySelectorAll('.prose img');
-        images.forEach(function(img) {
-          img.addEventListener('click', function() {
-            openImageModal(this.src, this.alt);
-          });
-        });
       });
     </script>
   </body>

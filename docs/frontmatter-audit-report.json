@@ -1,0 +1,983 @@
+{
+  "summary": {
+    "total": 51,
+    "ok": 51,
+    "issues": 0,
+    "errors": 0
+  },
+  "results": [
+    {
+      "file": "an-hour-of-hair-brushing-what-my-daughter-taught-me-about-time.md",
+      "status": "OK",
+      "issues": [],
+      "frontmatter": [
+        "title",
+        "description",
+        "pubDate",
+        "language",
+        "heroImage",
+        "category",
+        "tags",
+        "readingTime",
+        "draft",
+        "featured",
+        "published",
+        "showComments"
+      ]
+    },
+    {
+      "file": "beef-heart-nutrition.md",
+      "status": "OK",
+      "issues": [],
+      "frontmatter": [
+        "title",
+        "description",
+        "pubDate",
+        "language",
+        "heroImage",
+        "category",
+        "subcategory",
+        "tags",
+        "readingTime",
+        "draft",
+        "featured",
+        "published",
+        "showComments"
+      ]
+    },
+    {
+      "file": "bend-dont-break-learning-to-flow-again.md",
+      "status": "OK",
+      "issues": [],
+      "frontmatter": [
+        "title",
+        "description",
+        "pubDate",
+        "language",
+        "heroImage",
+        "category",
+        "subcategory",
+        "tags",
+        "readingTime",
+        "draft",
+        "featured",
+        "published",
+        "showComments"
+      ]
+    },
+    {
+      "file": "brief-notes-on-finding-serenity-in-self-control.md",
+      "status": "OK",
+      "issues": [],
+      "frontmatter": [
+        "title",
+        "description",
+        "pubDate",
+        "language",
+        "category",
+        "tags",
+        "readingTime",
+        "draft",
+        "featured",
+        "published",
+        "showComments"
+      ]
+    },
+    {
+      "file": "briefly-on-empathy-as-a-double-edged-sword.md",
+      "status": "OK",
+      "issues": [],
+      "frontmatter": [
+        "title",
+        "description",
+        "pubDate",
+        "language",
+        "category",
+        "tags",
+        "readingTime",
+        "draft",
+        "featured",
+        "published",
+        "showComments"
+      ]
+    },
+    {
+      "file": "como-proteger-ninos-digital.md",
+      "status": "OK",
+      "issues": [],
+      "frontmatter": [
+        "title",
+        "description",
+        "pubDate",
+        "language",
+        "category",
+        "subcategory",
+        "tags",
+        "readingTime",
+        "draft",
+        "featured",
+        "published",
+        "showComments",
+        "translationGroup"
+      ]
+    },
+    {
+      "file": "conquering-imposter-syndrome-with-evidence-based-journaling.md",
+      "status": "OK",
+      "issues": [],
+      "frontmatter": [
+        "title",
+        "description",
+        "pubDate",
+        "language",
+        "category",
+        "tags",
+        "readingTime",
+        "draft",
+        "featured",
+        "published",
+        "showComments"
+      ]
+    },
+    {
+      "file": "customizing-chatgpt.md",
+      "status": "OK",
+      "issues": [],
+      "frontmatter": [
+        "title",
+        "description",
+        "pubDate",
+        "language",
+        "category",
+        "subcategory",
+        "tags",
+        "readingTime",
+        "draft",
+        "featured",
+        "published",
+        "showComments"
+      ]
+    },
+    {
+      "file": "embracing-the-spiritual-abyss-an-atheists-search-for-meaning.md",
+      "status": "OK",
+      "issues": [],
+      "frontmatter": [
+        "title",
+        "description",
+        "pubDate",
+        "language",
+        "category",
+        "tags",
+        "readingTime",
+        "draft",
+        "featured",
+        "published",
+        "showComments"
+      ]
+    },
+    {
+      "file": "fasting-metabolic-ritual.md",
+      "status": "OK",
+      "issues": [],
+      "frontmatter": [
+        "title",
+        "description",
+        "pubDate",
+        "language",
+        "category",
+        "subcategory",
+        "tags",
+        "readingTime",
+        "draft",
+        "featured",
+        "published",
+        "showComments"
+      ]
+    },
+    {
+      "file": "fear-control-politics.md",
+      "status": "OK",
+      "issues": [],
+      "frontmatter": [
+        "title",
+        "description",
+        "pubDate",
+        "language",
+        "category",
+        "subcategory",
+        "tags",
+        "readingTime",
+        "draft",
+        "featured",
+        "published",
+        "showComments"
+      ]
+    },
+    {
+      "file": "forging-stronghand-terminal.md",
+      "status": "OK",
+      "issues": [],
+      "frontmatter": [
+        "title",
+        "description",
+        "pubDate",
+        "language",
+        "category",
+        "tags",
+        "readingTime",
+        "draft",
+        "featured",
+        "published",
+        "showComments"
+      ]
+    },
+    {
+      "file": "guia-ipad-es.md",
+      "status": "OK",
+      "issues": [],
+      "frontmatter": [
+        "title",
+        "description",
+        "pubDate",
+        "language",
+        "heroImage",
+        "category",
+        "subcategory",
+        "tags",
+        "readingTime",
+        "draft",
+        "featured",
+        "published",
+        "showComments"
+      ]
+    },
+    {
+      "file": "i-became-what-i-used-to-mock.md",
+      "status": "OK",
+      "issues": [],
+      "frontmatter": [
+        "title",
+        "description",
+        "pubDate",
+        "language",
+        "heroImage",
+        "category",
+        "tags",
+        "readingTime",
+        "draft",
+        "featured",
+        "published",
+        "showComments"
+      ]
+    },
+    {
+      "file": "illuminalganti.md",
+      "status": "OK",
+      "issues": [],
+      "frontmatter": [
+        "title",
+        "description",
+        "pubDate",
+        "language",
+        "category",
+        "subcategory",
+        "tags",
+        "readingTime",
+        "draft",
+        "featured",
+        "published",
+        "showComments"
+      ]
+    },
+    {
+      "file": "learning-construction-self.md",
+      "status": "OK",
+      "issues": [],
+      "frontmatter": [
+        "title",
+        "description",
+        "pubDate",
+        "language",
+        "heroImage",
+        "category",
+        "subcategory",
+        "tags",
+        "readingTime",
+        "draft",
+        "featured",
+        "published",
+        "showComments"
+      ]
+    },
+    {
+      "file": "lemon-pepper-chicken.md",
+      "status": "OK",
+      "issues": [],
+      "frontmatter": [
+        "title",
+        "description",
+        "pubDate",
+        "language",
+        "category",
+        "subcategory",
+        "tags",
+        "readingTime",
+        "draft",
+        "featured",
+        "published",
+        "showComments"
+      ]
+    },
+    {
+      "file": "life-statement-transformation.md",
+      "status": "OK",
+      "issues": [],
+      "frontmatter": [
+        "title",
+        "description",
+        "pubDate",
+        "language",
+        "heroImage",
+        "category",
+        "subcategory",
+        "tags",
+        "readingTime",
+        "draft",
+        "featured",
+        "published",
+        "showComments"
+      ]
+    },
+    {
+      "file": "mercy-through-the-blade.md",
+      "status": "OK",
+      "issues": [],
+      "frontmatter": [
+        "title",
+        "description",
+        "pubDate",
+        "language",
+        "heroImage",
+        "category",
+        "subcategory",
+        "tags",
+        "readingTime",
+        "draft",
+        "featured",
+        "published",
+        "showComments"
+      ]
+    },
+    {
+      "file": "my-mental-health-routine-unfiltered.md",
+      "status": "OK",
+      "issues": [],
+      "frontmatter": [
+        "title",
+        "description",
+        "pubDate",
+        "language",
+        "category",
+        "tags",
+        "readingTime",
+        "draft",
+        "featured",
+        "published",
+        "showComments"
+      ]
+    },
+    {
+      "file": "note-to-self-on-being-a-conscious-parent.md",
+      "status": "OK",
+      "issues": [],
+      "frontmatter": [
+        "title",
+        "description",
+        "pubDate",
+        "language",
+        "category",
+        "tags",
+        "readingTime",
+        "draft",
+        "featured",
+        "published",
+        "showComments"
+      ]
+    },
+    {
+      "file": "note-to-self-to-be-or-what-not-to-be.md",
+      "status": "OK",
+      "issues": [],
+      "frontmatter": [
+        "title",
+        "description",
+        "pubDate",
+        "language",
+        "category",
+        "tags",
+        "readingTime",
+        "draft",
+        "featured",
+        "published",
+        "showComments"
+      ]
+    },
+    {
+      "file": "notes-on-respect.md",
+      "status": "OK",
+      "issues": [],
+      "frontmatter": [
+        "title",
+        "description",
+        "pubDate",
+        "language",
+        "category",
+        "tags",
+        "readingTime",
+        "draft",
+        "featured",
+        "published",
+        "showComments"
+      ]
+    },
+    {
+      "file": "notes-on-self-control.md",
+      "status": "OK",
+      "issues": [],
+      "frontmatter": [
+        "title",
+        "description",
+        "pubDate",
+        "language",
+        "category",
+        "tags",
+        "readingTime",
+        "draft",
+        "featured",
+        "published",
+        "showComments"
+      ]
+    },
+    {
+      "file": "on-cooking-on-everything-and-foundations.md",
+      "status": "OK",
+      "issues": [],
+      "frontmatter": [
+        "title",
+        "description",
+        "pubDate",
+        "language",
+        "category",
+        "tags",
+        "readingTime",
+        "draft",
+        "featured",
+        "published",
+        "showComments"
+      ]
+    },
+    {
+      "file": "on-feeling-overpowered.md",
+      "status": "OK",
+      "issues": [],
+      "frontmatter": [
+        "title",
+        "description",
+        "pubDate",
+        "language",
+        "category",
+        "tags",
+        "readingTime",
+        "draft",
+        "featured",
+        "published",
+        "showComments"
+      ]
+    },
+    {
+      "file": "on-limits-growth-and-the-meaning-of-my-life.md",
+      "status": "OK",
+      "issues": [],
+      "frontmatter": [
+        "title",
+        "description",
+        "pubDate",
+        "language",
+        "category",
+        "tags",
+        "readingTime",
+        "draft",
+        "featured",
+        "published",
+        "showComments",
+        "author"
+      ]
+    },
+    {
+      "file": "on-overcoming-analysis-paralysis.md",
+      "status": "OK",
+      "issues": [],
+      "frontmatter": [
+        "title",
+        "description",
+        "pubDate",
+        "language",
+        "category",
+        "tags",
+        "readingTime",
+        "draft",
+        "featured",
+        "published",
+        "showComments"
+      ]
+    },
+    {
+      "file": "on-simplicity-and-peace-of-mind.md",
+      "status": "OK",
+      "issues": [],
+      "frontmatter": [
+        "title",
+        "description",
+        "pubDate",
+        "language",
+        "category",
+        "tags",
+        "readingTime",
+        "draft",
+        "featured",
+        "published",
+        "showComments"
+      ]
+    },
+    {
+      "file": "on-the-application-of-empathy-and-compassion.md",
+      "status": "OK",
+      "issues": [],
+      "frontmatter": [
+        "title",
+        "description",
+        "pubDate",
+        "language",
+        "category",
+        "tags",
+        "readingTime",
+        "draft",
+        "featured",
+        "published",
+        "showComments"
+      ]
+    },
+    {
+      "file": "pa-la-nena-que-vive-en-ti.md",
+      "status": "OK",
+      "issues": [],
+      "frontmatter": [
+        "title",
+        "description",
+        "pubDate",
+        "language",
+        "category",
+        "tags",
+        "readingTime",
+        "draft",
+        "featured",
+        "published",
+        "showComments"
+      ]
+    },
+    {
+      "file": "power-intentional-living.md",
+      "status": "OK",
+      "issues": [],
+      "frontmatter": [
+        "title",
+        "description",
+        "pubDate",
+        "language",
+        "heroImage",
+        "category",
+        "subcategory",
+        "tags",
+        "readingTime",
+        "draft",
+        "featured",
+        "published",
+        "showComments"
+      ]
+    },
+    {
+      "file": "redirigir-curiosidad-sexual-infantil.md",
+      "status": "OK",
+      "issues": [],
+      "frontmatter": [
+        "title",
+        "description",
+        "pubDate",
+        "language",
+        "heroImage",
+        "category",
+        "subcategory",
+        "tags",
+        "readingTime",
+        "draft",
+        "featured",
+        "published",
+        "showComments"
+      ]
+    },
+    {
+      "file": "reflections-from-a-tough-weekend.md",
+      "status": "OK",
+      "issues": [],
+      "frontmatter": [
+        "title",
+        "description",
+        "pubDate",
+        "language",
+        "category",
+        "tags",
+        "readingTime",
+        "draft",
+        "featured",
+        "published",
+        "showComments",
+        "author"
+      ]
+    },
+    {
+      "file": "sharpen-your-tools.md",
+      "status": "OK",
+      "issues": [],
+      "frontmatter": [
+        "title",
+        "description",
+        "pubDate",
+        "language",
+        "category",
+        "tags",
+        "readingTime",
+        "draft",
+        "featured",
+        "published",
+        "showComments"
+      ]
+    },
+    {
+      "file": "some-books-for-self-transcendence.md",
+      "status": "OK",
+      "issues": [],
+      "frontmatter": [
+        "title",
+        "description",
+        "pubDate",
+        "language",
+        "category",
+        "tags",
+        "readingTime",
+        "draft",
+        "featured",
+        "published",
+        "showComments"
+      ]
+    },
+    {
+      "file": "some-notes-on-overcoming-emotional-pain.md",
+      "status": "OK",
+      "issues": [],
+      "frontmatter": [
+        "title",
+        "description",
+        "pubDate",
+        "language",
+        "category",
+        "tags",
+        "readingTime",
+        "draft",
+        "featured",
+        "published",
+        "showComments",
+        "author"
+      ]
+    },
+    {
+      "file": "symbols-of-power.md",
+      "status": "OK",
+      "issues": [],
+      "frontmatter": [
+        "title",
+        "description",
+        "pubDate",
+        "language",
+        "heroImage",
+        "category",
+        "subcategory",
+        "tags",
+        "readingTime",
+        "draft",
+        "featured",
+        "published",
+        "showComments"
+      ]
+    },
+    {
+      "file": "the-definition-and-practice-of-my-core-values-make-me-free.md",
+      "status": "OK",
+      "issues": [],
+      "frontmatter": [
+        "title",
+        "description",
+        "pubDate",
+        "language",
+        "category",
+        "tags",
+        "readingTime",
+        "draft",
+        "featured",
+        "published",
+        "showComments"
+      ]
+    },
+    {
+      "file": "the-inner-work-truly-never-ends.md",
+      "status": "OK",
+      "issues": [],
+      "frontmatter": [
+        "title",
+        "description",
+        "pubDate",
+        "language",
+        "category",
+        "tags",
+        "readingTime",
+        "draft",
+        "featured",
+        "published",
+        "showComments"
+      ]
+    },
+    {
+      "file": "the-paradox-of-modernity-progress-without-peace.md",
+      "status": "OK",
+      "issues": [],
+      "frontmatter": [
+        "title",
+        "description",
+        "pubDate",
+        "language",
+        "category",
+        "tags",
+        "readingTime",
+        "draft",
+        "featured",
+        "published",
+        "showComments"
+      ]
+    },
+    {
+      "file": "things-i-have-learned-this-week-regarding-a-4-year-olds-long-curly-hair.md",
+      "status": "OK",
+      "issues": [],
+      "frontmatter": [
+        "title",
+        "description",
+        "pubDate",
+        "language",
+        "category",
+        "tags",
+        "readingTime",
+        "draft",
+        "featured",
+        "published",
+        "showComments"
+      ]
+    },
+    {
+      "file": "toddler-internet-safety.md",
+      "status": "OK",
+      "issues": [],
+      "frontmatter": [
+        "title",
+        "description",
+        "pubDate",
+        "language",
+        "category",
+        "subcategory",
+        "tags",
+        "readingTime",
+        "draft",
+        "featured",
+        "published",
+        "showComments",
+        "translationGroup"
+      ]
+    },
+    {
+      "file": "total-concentration-breathing.md",
+      "status": "OK",
+      "issues": [],
+      "frontmatter": [
+        "title",
+        "description",
+        "pubDate",
+        "language",
+        "heroImage",
+        "category",
+        "tags",
+        "readingTime",
+        "draft",
+        "featured",
+        "published",
+        "showComments"
+      ]
+    },
+    {
+      "file": "transforming-life-through-values.md",
+      "status": "OK",
+      "issues": [],
+      "frontmatter": [
+        "title",
+        "description",
+        "pubDate",
+        "language",
+        "heroImage",
+        "category",
+        "subcategory",
+        "tags",
+        "readingTime",
+        "draft",
+        "featured",
+        "published",
+        "showComments"
+      ]
+    },
+    {
+      "file": "vs-code-title-bar-signaling.md",
+      "status": "OK",
+      "issues": [],
+      "frontmatter": [
+        "title",
+        "description",
+        "pubDate",
+        "language",
+        "category",
+        "tags",
+        "readingTime",
+        "draft",
+        "featured",
+        "published",
+        "showComments"
+      ]
+    },
+    {
+      "file": "what-are-we-even-calling-democracy.md",
+      "status": "OK",
+      "issues": [],
+      "frontmatter": [
+        "title",
+        "description",
+        "pubDate",
+        "language",
+        "heroImage",
+        "category",
+        "subcategory",
+        "tags",
+        "readingTime",
+        "draft",
+        "featured",
+        "published",
+        "showComments"
+      ]
+    },
+    {
+      "file": "what-happens-when-you-leave-the-algorithm-behind.md",
+      "status": "OK",
+      "issues": [],
+      "frontmatter": [
+        "title",
+        "description",
+        "pubDate",
+        "language",
+        "category",
+        "tags",
+        "readingTime",
+        "draft",
+        "featured",
+        "published",
+        "showComments"
+      ]
+    },
+    {
+      "file": "who-really-raised-me.md",
+      "status": "OK",
+      "issues": [],
+      "frontmatter": [
+        "title",
+        "description",
+        "pubDate",
+        "language",
+        "heroImage",
+        "category",
+        "tags",
+        "readingTime",
+        "draft",
+        "featured",
+        "published",
+        "showComments"
+      ]
+    },
+    {
+      "file": "why-i-built-buildssoftware-and-what-im-building-next.md",
+      "status": "OK",
+      "issues": [],
+      "frontmatter": [
+        "title",
+        "description",
+        "pubDate",
+        "language",
+        "category",
+        "tags",
+        "readingTime",
+        "draft",
+        "featured",
+        "published",
+        "showComments"
+      ]
+    },
+    {
+      "file": "you-are-joking-right.md",
+      "status": "OK",
+      "issues": [],
+      "frontmatter": [
+        "title",
+        "description",
+        "pubDate",
+        "language",
+        "category",
+        "tags",
+        "readingTime",
+        "draft",
+        "featured",
+        "published",
+        "showComments"
+      ]
+    }
+  ],
+  "fieldUsage": {
+    "author": 3,
+    "category": 51,
+    "description": 51,
+    "draft": 51,
+    "featured": 51,
+    "heroImage": 15,
+    "language": 51,
+    "pubDate": 51,
+    "published": 51,
+    "readingTime": 51,
+    "showComments": 51,
+    "subcategory": 18,
+    "tags": 51,
+    "title": 51,
+    "translationGroup": 2
+  }
+}

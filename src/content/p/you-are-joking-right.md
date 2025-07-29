@@ -1,27 +1,31 @@
 ---
-title: "You are Joking, Right?"
-description: "Inner work is an ongoing process, and there’s some shame involved. Still, the focus should be on awareness, acceptance, and improvement…"
-pubDate: "2025-04-08T13:20:17.106Z"
-language: ["en"]
-category: ["psychology", "metaspace", "integration-growth"]
+title: You are Joking, Right?
+description: >-
+  Inner work is an ongoing process, and there’s some shame involved. Still, the
+  focus should be on awareness, acceptance, and improvement…
+pubDate: '2025-04-08T13:20:17.106Z'
+language:
+  - en
+category:
+  - psychology
+  - metaspace
+  - integration-growth
 tags:
-  [
-    "self-reflection",
-    "consciousness",
-    "personal-growth",
-    "healing",
-    "therapy",
-    "emotional-regulation",
-    "self-improvement",
-    "mindfulness",
-    "metaspace",
-    "transformation",
-  ]
+  - self-reflection
+  - consciousness
+  - personal-growth
+  - healing
+  - therapy
+  - emotional-regulation
+  - self-improvement
+  - mindfulness
+  - metaspace
+  - transformation
 readingTime: 4
 draft: false
 featured: false
 published: true
-canonicalUrl: "https://medium.com/@wizards777/you-are-joking-right-69d482f85875"
+showComments: true
 ---
 
 ![](https://cdn-images-1.medium.com/max/2560/0*BQJenuJis7weGzho)

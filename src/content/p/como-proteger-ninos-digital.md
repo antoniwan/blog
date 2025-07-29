@@ -1,27 +1,34 @@
 ---
-title: "Cómo Proteger a Nuestros Niños del Peligro Digital: Guía para Padres Boricuas en la Era del Internet"
-description: "Una guía sencilla y poderosa para cuidar el corazón y la mente de nuestros toddlers en el mundo digital moderno."
+title: >-
+  Cómo Proteger a Nuestros Niños del Peligro Digital: Guía para Padres Boricuas
+  en la Era del Internet
+description: >-
+  Una guía sencilla y poderosa para cuidar el corazón y la mente de nuestros
+  toddlers en el mundo digital moderno.
 pubDate: 2025-05-01T00:00:00.000Z
-language: ["es"]
-category: ["parenting", "systems-strategy"]
-subcategory: "Seguridad Digital"
+language:
+  - es
+category:
+  - parenting
+  - systems-strategy
+subcategory: Seguridad Digital
 tags:
-  [
-    "parenting",
-    "children",
-    "digital-safety",
-    "technology",
-    "family",
-    "conscious-parenting",
-    "child-development",
-    "social-issues",
-    "education",
-    "family-dynamics",
-  ]
+  - parenting
+  - children
+  - digital-safety
+  - technology
+  - family
+  - conscious-parenting
+  - child-development
+  - social-issues
+  - education
+  - family-dynamics
 readingTime: 3
 draft: false
 featured: false
-translationGroup: "toddler-internet-safety"
+published: true
+showComments: true
+translationGroup: toddler-internet-safety
 ---
 
 ## Nuestra responsabilidad digital como padres y madres

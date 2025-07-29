@@ -1,28 +1,34 @@
 ---
-title: "Transforming My Life Through the Application of What I Value"
-description: "Personal story of four years of therapy and habit changes. Shows how aligning daily actions with core values led to improved mental health and relationships."
-pubDate: "2024-04-28T00:00:00.000Z"
-heroImage: "/images/saitama-okay.webp"
-language: ["en"]
-category: ["psychology", "integration-growth", "metaspace"]
-subcategory: "Personal Development"
+title: Transforming My Life Through the Application of What I Value
+description: >-
+  Personal story of four years of therapy and habit changes. Shows how aligning
+  daily actions with core values led to improved mental health and
+  relationships.
+pubDate: '2024-04-28T00:00:00.000Z'
+language:
+  - en
+heroImage: /images/saitama-okay.webp
+category:
+  - psychology
+  - integration-growth
+  - metaspace
+subcategory: Personal Development
 tags:
-  [
-    "values",
-    "therapy",
-    "personal-growth",
-    "mental-health",
-    "family",
-    "habits",
-    "accountability",
-    "authenticity",
-    "responsibility",
-    "transformation",
-  ]
+  - values
+  - therapy
+  - personal-growth
+  - mental-health
+  - family
+  - habits
+  - accountability
+  - authenticity
+  - responsibility
+  - transformation
 readingTime: 15
 draft: false
 featured: true
 published: true
+showComments: true
 ---
 
 > Warning: The following essay is a lengthy humblebrag! Close your browser tab now if you are unable to experience freudenfreude. Close your browser tab now if you do not want to take responsibility for your life and are hurt when others can do so.

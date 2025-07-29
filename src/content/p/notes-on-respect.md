@@ -1,26 +1,29 @@
 ---
-title: "Notes on Respect"
-description: "A personal reflection on the transformative power of respect, self-worth, and healthy boundaries in personal growth and relationships."
-pubDate: "2024-05-07"
-language: ["en"]
-category: ["integration-growth"]
+title: Notes on Respect
+description: >-
+  A personal reflection on the transformative power of respect, self-worth, and
+  healthy boundaries in personal growth and relationships.
+pubDate: '2024-05-07'
+language:
+  - en
+category:
+  - integration-growth
 tags:
-  [
-    "respect",
-    "relationships",
-    "consciousness",
-    "personal-growth",
-    "psychology",
-    "emotional-regulation",
-    "boundaries",
-    "self-reflection",
-    "healing",
-    "authenticity",
-  ]
+  - respect
+  - relationships
+  - consciousness
+  - personal-growth
+  - psychology
+  - emotional-regulation
+  - boundaries
+  - self-reflection
+  - healing
+  - authenticity
 readingTime: 3
-canonicalUrl: "https://medium.com/@wizards777/notes-on-respect-0ff922fedccf"
 draft: false
+featured: false
 published: true
+showComments: true
 ---
 
 The respect people have treated me since becoming healthy is staggering to me. I feel that I went from being a ghost, somebody who just coasted through life behind the scenes, eyes glued to the ground, always smiling to appear content, docile, and pleasing, to be truthful to my wants and needs and recognized and respected by the people who interact around and with me, whether they like me or not. Respect, to me, is this mutual energy or aura that says, hey, I will treat you with consideration and kindness, even if I disagree with you, and be treated with reciprocity. That energy says, "I will give this my best, whatever it is," in every interaction. Even in conflict, beware; people will be aware and act accordingly. People understand this and reciprocate in form. It's beautiful and inspiring. Look for any dictionary definition of 'respect' and see how powerful this concept is!

@@ -1,48 +1,53 @@
 ---
-title: "Embracing the Spiritual Abyss: An Atheist's Search for Meaning"
-description: "Exploration of atheism and secular humanism in the search for meaning. Examines the tension between rationality and emotional longing for spiritual connection."
-pubDate: "2024-06-03T17:27:29.382Z"
-language: ["en"]
-category: ["metaspace", "psychology", "parenting"]
+title: 'Embracing the Spiritual Abyss: An Atheist''s Search for Meaning'
+description: >-
+  Exploration of atheism and secular humanism in the search for meaning.
+  Examines the tension between rationality and emotional longing for spiritual
+  connection.
+pubDate: '2024-06-03T17:27:29.382Z'
+language:
+  - en
+category:
+  - metaspace
+  - psychology
+  - parenting
 tags:
-  [
-    "spirituality",
-    "atheism",
-    "meaning",
-    "reflection",
-    "personal-growth",
-    "humanism",
-    "philosophy",
-    "consciousness",
-    "self-reflection",
-    "identity",
-    "values",
-    "purpose",
-    "existentialism",
-    "mental-health",
-    "emotional-health",
-    "healing",
-    "therapy",
-    "wellness",
-    "self-improvement",
-    "growth",
-    "transformation",
-    "authenticity",
-    "truth",
-    "power",
-    "responsibility",
-    "emotional-intelligence",
-    "self-awareness",
-    "consciousness",
-    "healing",
-    "resilience",
-    "self-discovery",
-  ]
+  - spirituality
+  - atheism
+  - meaning
+  - reflection
+  - personal-growth
+  - humanism
+  - philosophy
+  - consciousness
+  - self-reflection
+  - identity
+  - values
+  - purpose
+  - existentialism
+  - mental-health
+  - emotional-health
+  - healing
+  - therapy
+  - wellness
+  - self-improvement
+  - growth
+  - transformation
+  - authenticity
+  - truth
+  - power
+  - responsibility
+  - emotional-intelligence
+  - self-awareness
+  - consciousness
+  - healing
+  - resilience
+  - self-discovery
 readingTime: 4
 draft: false
 featured: false
 published: true
-canonicalUrl: "https://medium.com/@wizards777/embracing-the-spiritual-abyss-an-atheists-search-for-meaning-ceff0465263b"
+showComments: true
 ---
 
 I’ve chosen to be an atheist most of my life, and the older I get, the more I feel a subliminal appetite to believe in a god or some higher power. This deep urge feels almost animalistic or savage — I don’t think my intellect is asking for this; my intuition, spirit, or mind wants to let go and leave everything in something else’s hands. Bluntly said, it feels like my ego, a savage animal — does not want to take the brunt responsibility of living my own life — somebody else- “Oh, dear god,” please take the wheel. Today, I look into the Universe and its energy, shared by all things, but something deep within me keeps thinking about God or gods. My intellect intends to build upon a foundation of humanism, but my soul wants to let go of that work. It’s the same part of me that wants to feel lonely and impotent about the cruelty of this World, seeking gods and the partial delegation of my personal responsibility. “God chose it this way”. My spirit is conflicted — It’s a fancy of powerlessness and hopefulness, like an impulse working to rationalize and defend itself against the bleakness of the World news and the macro-socio-political situations that one learns about studying history or watching the news. It’s a savage urge — lazy, violent, and rudimentary; religion is kind of for savages, isn’t it?

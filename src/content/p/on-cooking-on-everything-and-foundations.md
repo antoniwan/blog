@@ -1,27 +1,30 @@
 ---
-title: "On cooking… on everything… and foundations!"
-description: "I used to require recipes whenever I cooked anything. About 16 years later, now that I understand some of the cooking components (heating…"
-pubDate: "2024-09-15T13:06:14.100Z"
-language: ["en"]
-category: ["metaspace", "integration-growth"]
+title: On cooking… on everything… and foundations!
+description: >-
+  I used to require recipes whenever I cooked anything. About 16 years later,
+  now that I understand some of the cooking components (heating…
+pubDate: '2024-09-15T13:06:14.100Z'
+language:
+  - en
+category:
+  - metaspace
+  - integration-growth
 tags:
-  [
-    "cooking",
-    "nutrition",
-    "health",
-    "wellness",
-    "foundations",
-    "self-care",
-    "learning-projects",
-    "diy-creation",
-    "consciousness",
-    "personal-growth",
-  ]
+  - cooking
+  - nutrition
+  - health
+  - wellness
+  - foundations
+  - self-care
+  - learning-projects
+  - diy-creation
+  - consciousness
+  - personal-growth
 readingTime: 1
 draft: false
 featured: false
 published: true
-canonicalUrl: "https://medium.com/@wizards777/on-cooking-on-everything-and-foundations-0ee089f3f238"
+showComments: true
 ---
 
 ![](https://cdn-images-1.medium.com/max/800/0*5OwYe53tLWY_GA_g)

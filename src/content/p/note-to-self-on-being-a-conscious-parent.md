@@ -1,24 +1,31 @@
 ---
-title: "Note to Self: On Being a Conscious Parent"
-description: "A personal reflection on conscious parenting, modeling behaviors, and the importance of leading by example."
-pubDate: "2024-05-05"
-language: ["en"]
-category: ["parenting", "integration-growth", "psychology"]
+title: 'Note to Self: On Being a Conscious Parent'
+description: >-
+  A personal reflection on conscious parenting, modeling behaviors, and the
+  importance of leading by example.
+pubDate: '2024-05-05'
+language:
+  - en
+category:
+  - parenting
+  - integration-growth
+  - psychology
 tags:
-  [
-    "parenting",
-    "conscious-parenting",
-    "family",
-    "children",
-    "personal-growth",
-    "self-reflection",
-    "family-dynamics",
-    "consciousness",
-    "responsibility",
-    "healing",
-  ]
+  - parenting
+  - conscious-parenting
+  - family
+  - children
+  - personal-growth
+  - self-reflection
+  - family-dynamics
+  - consciousness
+  - responsibility
+  - healing
 readingTime: 3
-canonicalUrl: "https://medium.com/@wizards777/note-to-self-on-being-a-conscious-parent-a1c0e429f5fb"
+draft: false
+featured: false
+published: true
+showComments: true
 ---
 
 It finally clicked for me that being a mindful parent implies I have to model the behaviors I want my offspring to possess. Suppose I want my children to be excellent and happy. In that case, I must practice excellence and work to be a balanced and fulfilled individual. We set the tone! It's not the other way around — children learn everything from scratch!

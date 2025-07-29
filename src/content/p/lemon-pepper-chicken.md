@@ -1,26 +1,32 @@
 ---
-title: "Lemon-Pepper Chicken Thighs with Post-Bake Raw Honey Finish"
-description: "Recipe for crispy chicken thighs baked on a wire rack with lemon-pepper seasoning and honey glaze. Includes cooking steps and storage tips."
-pubDate: "2025-05-02"
-language: ["en"]
-category: ["diy-creation", "learning-projects", "integration-growth"]
-subcategory: "Recipes"
+title: Lemon-Pepper Chicken Thighs with Post-Bake Raw Honey Finish
+description: >-
+  Recipe for crispy chicken thighs baked on a wire rack with lemon-pepper
+  seasoning and honey glaze. Includes cooking steps and storage tips.
+pubDate: '2025-05-02'
+language:
+  - en
+category:
+  - diy-creation
+  - learning-projects
+  - integration-growth
+subcategory: Recipes
 tags:
-  [
-    "cooking",
-    "nutrition",
-    "health",
-    "wellness",
-    "recipes",
-    "self-care",
-    "family",
-    "learning-projects",
-    "diy-creation",
-    "food",
-  ]
+  - cooking
+  - nutrition
+  - health
+  - wellness
+  - recipes
+  - self-care
+  - family
+  - learning-projects
+  - diy-creation
+  - food
 readingTime: 2
 draft: false
 featured: false
+published: true
+showComments: true
 ---
 
 _Created by Antonio. Logged by Beastiex._  

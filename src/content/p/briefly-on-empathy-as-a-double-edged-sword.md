@@ -1,27 +1,31 @@
 ---
-title: "Briefly on Empathy as a Double-Edged Sword"
-description: "Discussion of empathy's challenges, including how sensitivity to suffering can lead to overwhelm. Explores the tension between compassion and self-preservation."
-pubDate: "2024-07-29T17:12:19.944Z"
-language: ["en"]
-category: ["metaspace", "integration-growth"]
+title: Briefly on Empathy as a Double-Edged Sword
+description: >-
+  Discussion of empathy's challenges, including how sensitivity to suffering can
+  lead to overwhelm. Explores the tension between compassion and
+  self-preservation.
+pubDate: '2024-07-29T17:12:19.944Z'
+language:
+  - en
+category:
+  - metaspace
+  - integration-growth
 tags:
-  [
-    "empathy",
-    "psychology",
-    "mental-health",
-    "consciousness",
-    "emotional-regulation",
-    "boundaries",
-    "personal-growth",
-    "self-reflection",
-    "healing",
-    "relationships",
-  ]
+  - empathy
+  - psychology
+  - mental-health
+  - consciousness
+  - emotional-regulation
+  - boundaries
+  - personal-growth
+  - self-reflection
+  - healing
+  - relationships
 readingTime: 1
 draft: false
 featured: false
 published: true
-canonicalUrl: "https://medium.com/@wizards777/briefly-on-empathy-as-a-double-edged-sword-360276a9b2b9"
+showComments: true
 ---
 
 ![](https://cdn-images-1.medium.com/max/800/0*yMfO0G6jNApkcPJY)

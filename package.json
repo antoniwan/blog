@@ -20,6 +20,7 @@
     "@vercel/speed-insights": "^1.2.0",
     "astro": "^5.11.0",
     "date-fns": "^4.1.0",
+    "js-yaml": "^4.1.0",
     "sharp": "^0.33.5"
   },
   "devDependencies": {

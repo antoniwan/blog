@@ -3,27 +3,27 @@ import {
   SITE_DESCRIPTION,
   SITE_URL,
   AUTHOR,
-  SOCIAL_LINKS,
   SEO_CONFIG,
   SEO_KEYWORDS,
 } from "../consts";
 
+// Simplified SEO configuration interface
 export interface SEOConfig {
   title: string;
   description?: string;
   path?: string;
-  image?: string;
-  heroImage?: string;
+  heroImage?: string; // Primary image for social sharing
   imageAlt?: string;
   author?: string;
   keywords?: string[];
   pubDate?: Date;
   updatedDate?: Date;
-  type?: "website" | "article" | "profile";
+  type?: "website" | "article";
   locale?: string;
   robots?: string;
 }
 
+// Simplified meta tags interface
 export interface MetaTags {
   title: string;
   description: string;
@@ -36,41 +36,32 @@ export interface MetaTags {
   updatedDate?: string;
   robots: string;
   locale: string;
-  ogType: string;
+  ogType: "website" | "article";
 }
 
-// Simplified URL generation
-export function generateCanonicalUrl(path: string, baseUrl = SITE_URL): string {
-  return new URL(path, baseUrl).href;
+// Generate canonical URL
+export function generateCanonicalUrl(path: string): string {
+  return new URL(path, SITE_URL).href;
 }
 
-// Enhanced image URL generation with proper prioritization
-export function generateImageUrl(
-  imagePath?: string,
-  heroImage?: string,
-  baseUrl = SITE_URL
-): string {
-  // Priority: image > heroImage > default
-  const finalImage = imagePath || heroImage || SEO_CONFIG.defaultImage;
-  return new URL(finalImage, baseUrl).href;
+// Generate image URL with proper heroImage prioritization
+export function generateImageUrl(heroImage?: string): string {
+  // Priority: heroImage > default social image
+  const imagePath = heroImage || SEO_CONFIG.defaultImage;
+  return new URL(imagePath, SITE_URL).href;
 }
 
-// Automatic Open Graph type detection
-export function detectOGType(
-  pubDate?: Date,
-  type?: string
-): "article" | "website" {
-  if (pubDate || type === "article") return "article";
-  return "website";
+// Detect Open Graph type
+export function detectOGType(pubDate?: Date, type?: string): "article" | "website" {
+  return (pubDate || type === "article") ? "article" : "website";
 }
 
-// Simplified meta tag generation with improved image handling
+// Generate optimized meta tags
 export function generateMetaTags(config: SEOConfig): MetaTags {
   const {
     title,
     description = SITE_DESCRIPTION,
     path,
-    image,
     heroImage,
     imageAlt,
     author = AUTHOR.name,
@@ -84,8 +75,8 @@ export function generateMetaTags(config: SEOConfig): MetaTags {
 
   const fullTitle = `${title} | ${SITE_TITLE}`;
   const canonical = path ? generateCanonicalUrl(path) : "";
-  const ogImage = generateImageUrl(image, heroImage);
-  const ogImageAlt = imageAlt || title;
+  const ogImage = generateImageUrl(heroImage);
+  const ogImageAlt = imageAlt || `${title} - ${SITE_TITLE}`;
   const ogType = detectOGType(pubDate, type);
 
   return {
@@ -104,42 +95,22 @@ export function generateMetaTags(config: SEOConfig): MetaTags {
   };
 }
 
-// Enhanced social links generation
-export function generateSocialLinks() {
-  return Object.values(SOCIAL_LINKS);
+// Generate keywords from tags and categories
+export function generateKeywords(tags?: string[], categories?: string[]): string[] {
+  const keywords: string[] = [];
+  
+  if (tags) keywords.push(...tags);
+  if (categories) keywords.push(...categories);
+  keywords.push(...SEO_KEYWORDS);
+  
+  return [...new Set(keywords)]; // Remove duplicates
+}
+
+// Generate image alt text
+export function generateImageAlt(title: string, customAlt?: string): string {
+  return customAlt || `${title} - ${SITE_TITLE}`;
 }
 
 // Constants for consistent usage
 export const DEFAULT_ROBOTS = SEO_CONFIG.defaultRobots;
 export const DEFAULT_LOCALE = SEO_CONFIG.defaultLocale;
-export const DEFAULT_IMAGE = SEO_CONFIG.defaultImage;
-
-// Utility for automatic keyword generation from tags and categories
-export function generateKeywords(
-  tags?: string[],
-  categories?: string[]
-): string[] {
-  const keywords: string[] = [];
-
-  if (tags) keywords.push(...tags);
-  if (categories) keywords.push(...categories);
-
-  // Add site-wide keywords
-  keywords.push(...SEO_KEYWORDS);
-
-  return [...new Set(keywords)]; // Remove duplicates
-}
-
-// Utility for automatic image alt text generation
-export function generateImageAlt(title: string, customAlt?: string): string {
-  return customAlt || `${title} - ${SITE_TITLE}`;
-}
-
-// Enhanced URL utilities for better consistency
-export function ensureTrailingSlash(path: string): string {
-  return path.endsWith("/") ? path : `${path}/`;
-}
-
-export function removeTrailingSlash(path: string): string {
-  return path.endsWith("/") && path !== "/" ? path.slice(0, -1) : path;
-}

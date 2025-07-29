@@ -56,8 +56,6 @@ const blog = defineCollection({
     translationGroup: z.string().optional(),
 
     // SEO fields (simplified)
-    ogImage: z.string().optional(),
-    ogImageAlt: z.string().optional(),
     keywords: z.array(z.string()).optional(),
 
     // Comments

@@ -1,27 +1,31 @@
 ---
-title: "Reflections From a Tough Weekend"
-description: "A raw and honest reflection on processing emotional pain, self-healing, and the journey towards emotional wellbeing."
-pubDate: "2024-05-14"
-language: ["en"]
-category: ["integration-growth", "psychology"]
+title: Reflections From a Tough Weekend
+description: >-
+  A raw and honest reflection on processing emotional pain, self-healing, and
+  the journey towards emotional wellbeing.
+pubDate: '2024-05-14'
+language:
+  - en
+category:
+  - integration-growth
+  - psychology
 tags:
-  [
-    "self-reflection",
-    "mental-health",
-    "consciousness",
-    "personal-growth",
-    "healing",
-    "emotional-regulation",
-    "therapy",
-    "resilience",
-    "self-improvement",
-    "mindfulness",
-  ]
+  - self-reflection
+  - mental-health
+  - consciousness
+  - personal-growth
+  - healing
+  - emotional-regulation
+  - therapy
+  - resilience
+  - self-improvement
+  - mindfulness
 readingTime: 2
-author: "wizards777"
-canonicalUrl: "https://medium.com/@wizards777/reflections-from-a-tough-weekend-154e8c2a13b7"
 draft: false
+featured: false
 published: true
+showComments: true
+author: wizards777
 ---
 
 I wrote this on April 10, 2023, to regulate painful emotions.

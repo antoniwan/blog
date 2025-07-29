@@ -1,27 +1,31 @@
 ---
-title: "The Definition and Practice of My Core Values Make Me Free"
-description: "Only after defining my core values was I able to understand my morality and how truthful I was with myself."
-pubDate: "2024-04-29T13:22:16.829Z"
-language: ["en"]
-category: ["psychology", "metaspace", "integration-growth"]
+title: The Definition and Practice of My Core Values Make Me Free
+description: >-
+  Only after defining my core values was I able to understand my morality and
+  how truthful I was with myself.
+pubDate: '2024-04-29T13:22:16.829Z'
+language:
+  - en
+category:
+  - psychology
+  - metaspace
+  - integration-growth
 tags:
-  [
-    "values",
-    "consciousness",
-    "personal-growth",
-    "authenticity",
-    "freedom",
-    "self-reflection",
-    "healing",
-    "transformation",
-    "self-improvement",
-    "metaspace",
-  ]
+  - values
+  - consciousness
+  - personal-growth
+  - authenticity
+  - freedom
+  - self-reflection
+  - healing
+  - transformation
+  - self-improvement
+  - metaspace
 readingTime: 1
 draft: false
 featured: false
 published: true
-canonicalUrl: "https://medium.com/@wizards777/the-definition-and-practice-of-my-core-values-make-me-free-a11ea789fc72"
+showComments: true
 ---
 
 ![](https://cdn-images-1.medium.com/max/800/0*6dDSTG1cwLOiPA8h)

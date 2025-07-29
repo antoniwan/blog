@@ -1,27 +1,34 @@
 ---
-title: "The Underrated Superfood: Why Beef Heart Should Be on Your Plate"
-description: "Nutritional comparison of beef heart with common meats, showing its iron, B12, zinc, and CoQ10 content. Includes cooking methods and ways to add it to your diet."
-pubDate: "2025-05-01T16:45:00.000Z"
-heroImage: "/images/beef-heart-comparison-chart.png"
-language: ["en"]
-category: ["integration-growth", "learning-projects", "diy-creation"]
-subcategory: "Nutrition"
+title: 'The Underrated Superfood: Why Beef Heart Should Be on Your Plate'
+description: >-
+  Nutritional comparison of beef heart with common meats, showing its iron, B12,
+  zinc, and CoQ10 content. Includes cooking methods and ways to add it to your
+  diet.
+pubDate: '2025-05-01T16:45:00.000Z'
+language:
+  - en
+heroImage: /images/beef-heart-comparison-chart.png
+category:
+  - integration-growth
+  - learning-projects
+  - diy-creation
+subcategory: Nutrition
 tags:
-  [
-    "nutrition",
-    "health",
-    "wellness",
-    "cooking",
-    "self-care",
-    "learning-projects",
-    "integration-growth",
-    "fitness",
-    "healthy-eating",
-    "micronutrients",
-  ]
+  - nutrition
+  - health
+  - wellness
+  - cooking
+  - self-care
+  - learning-projects
+  - integration-growth
+  - fitness
+  - healthy-eating
+  - micronutrients
 readingTime: 3
 draft: false
 featured: false
+published: true
+showComments: true
 ---
 
 ## Introduction

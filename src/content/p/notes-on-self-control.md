@@ -1,24 +1,29 @@
 ---
-title: "Notes On Self-Control"
-description: "A reflection on the power of self-control, curiosity, and value-based decision making in personal growth and emotional regulation."
-pubDate: "2024-05-06"
-language: ["en"]
-category: ["integration-growth"]
+title: Notes On Self-Control
+description: >-
+  A reflection on the power of self-control, curiosity, and value-based decision
+  making in personal growth and emotional regulation.
+pubDate: '2024-05-06'
+language:
+  - en
+category:
+  - integration-growth
 tags:
-  [
-    "self-control",
-    "discipline",
-    "mental-health",
-    "consciousness",
-    "personal-growth",
-    "self-mastery",
-    "emotional-regulation",
-    "self-improvement",
-    "mindfulness",
-    "healing",
-  ]
+  - self-control
+  - discipline
+  - mental-health
+  - consciousness
+  - personal-growth
+  - self-mastery
+  - emotional-regulation
+  - self-improvement
+  - mindfulness
+  - healing
 readingTime: 2
-canonicalUrl: "https://medium.com/@wizards777/notes-on-self-control-48f01e1f21ff"
+draft: false
+featured: false
+published: true
+showComments: true
 ---
 
 Self-control and curiosity are vessels for growth and peace. This world wants everything from us: our health, our attention, our wealth, and our time. It's such a hassle, and it's hard.

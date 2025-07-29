@@ -1,32 +1,37 @@
 ---
-title: "I Became What I Used to Mock"
-description: "When an AI mirror shows you who you've become - a raw reflection on transformation, humility, and the unconscious arrogance of growth"
+title: I Became What I Used to Mock
+description: >-
+  When an AI mirror shows you who you've become - a raw reflection on
+  transformation, humility, and the unconscious arrogance of growth
 pubDate: 2025-07-17T15:00:00.000Z
-language: ["en"]
-heroImage: "/images/unclean-one.avif"
-category: ["psychology", "metaspace", "integration-growth"]
+language:
+  - en
+heroImage: /images/unclean-one.avif
+category:
+  - psychology
+  - metaspace
+  - integration-growth
 tags:
-  [
-    "self-reflection",
-    "transformation",
-    "humility",
-    "therapy",
-    "personal-growth",
-    "consciousness",
-    "ego",
-    "blind-spots",
-    "growth",
-    "authenticity",
-    "vulnerability",
-    "self-awareness",
-    "writing",
-    "feedback",
-    "metaspace",
-  ]
+  - self-reflection
+  - transformation
+  - humility
+  - therapy
+  - personal-growth
+  - consciousness
+  - ego
+  - blind-spots
+  - growth
+  - authenticity
+  - vulnerability
+  - self-awareness
+  - writing
+  - feedback
+  - metaspace
 readingTime: 6
 draft: false
 featured: true
 published: true
+showComments: true
 ---
 
 I asked an AI to look at my writing and tell me what it saw. Four years of posts — 47 pieces about therapy, boundaries, conscious parenting, all that shit. Roughly 150,000 words documenting my journey from unconscious living to... whatever this is. Just wanted some feedback, you know?

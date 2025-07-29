@@ -4,19 +4,18 @@ export interface BaseLayoutProps {
   // Blog-specific props
   pubDate?: Date;
   updatedDate?: Date;
-  heroImage?: string;
+  heroImage?: string; // Primary image for social sharing
   readingTime?: number;
   tags?: string[];
   category?: string[];
   // SEO fields
   path?: string;
-  image?: string;
   imageAlt?: string;
   author?: string;
   keywords?: string[];
-  type?: "website" | "article" | "profile";
+  type?: "website" | "article";
   // Structured data specific
-  structuredDataType?: "website" | "blogpost" | "category" | "tag";
+  structuredDataType?: "website" | "article" | "category" | "tag";
   structuredDataIdentifier?: string;
   posts?: any[]; // For category/tag pages
 }
@@ -24,11 +23,9 @@ export interface BaseLayoutProps {
 export interface BlogLayoutProps extends BaseLayoutProps {
   // Blog-specific additional props
   tableOfContents?: {
-    items: Array<{
-      text: string;
-      slug: string;
-      depth: number;
-    }>;
-  };
+    level: number;
+    text: string;
+    slug: string;
+  }[];
   showComments?: boolean;
 }

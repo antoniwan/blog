@@ -1,27 +1,31 @@
 ---
-title: "On the application of empathy and compassion"
-description: "I used to react aggressively during conflicts for so long and have so many expectations from people. Ironically, I would keep these…"
-pubDate: "2024-09-15T14:11:07.796Z"
-language: ["en"]
-category: ["psychology", "integration-growth", "metaspace"]
+title: On the application of empathy and compassion
+description: >-
+  I used to react aggressively during conflicts for so long and have so many
+  expectations from people. Ironically, I would keep these…
+pubDate: '2024-09-15T14:11:07.796Z'
+language:
+  - en
+category:
+  - psychology
+  - integration-growth
+  - metaspace
 tags:
-  [
-    "empathy",
-    "compassion",
-    "consciousness",
-    "personal-growth",
-    "psychology",
-    "emotional-regulation",
-    "relationships",
-    "healing",
-    "self-reflection",
-    "authenticity",
-  ]
+  - empathy
+  - compassion
+  - consciousness
+  - personal-growth
+  - psychology
+  - emotional-regulation
+  - relationships
+  - healing
+  - self-reflection
+  - authenticity
 readingTime: 5
 draft: false
 featured: false
 published: true
-canonicalUrl: "https://medium.com/@wizards777/on-the-application-of-empathy-and-compassion-4da4330c0698"
+showComments: true
 ---
 
 ![](https://cdn-images-1.medium.com/max/800/0*LGUj3QSKtde1imkk)

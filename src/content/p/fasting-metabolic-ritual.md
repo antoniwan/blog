@@ -1,26 +1,31 @@
 ---
-title: "Fasting from Dawn to Dusk: A Metabolic Ritual"
-description: "A 10.5-hour intentional fast and the ritualistic, physiological, and psychological shifts it unlocks."
-pubDate: "2025-05-02T08:00:00.000Z"
-language: ["en"]
-category: ["integration-growth", "learning-projects"]
-subcategory: "Health"
+title: 'Fasting from Dawn to Dusk: A Metabolic Ritual'
+description: >-
+  A 10.5-hour intentional fast and the ritualistic, physiological, and
+  psychological shifts it unlocks.
+pubDate: '2025-05-02T08:00:00.000Z'
+language:
+  - en
+category:
+  - integration-growth
+  - learning-projects
+subcategory: Health
 tags:
-  [
-    "fasting",
-    "health",
-    "wellness",
-    "nutrition",
-    "self-discipline",
-    "fitness",
-    "consciousness",
-    "ritual",
-    "self-care",
-    "personal-growth",
-  ]
+  - fasting
+  - health
+  - wellness
+  - nutrition
+  - self-discipline
+  - fitness
+  - consciousness
+  - ritual
+  - self-care
+  - personal-growth
 readingTime: 2
 draft: false
 featured: false
+published: true
+showComments: true
 ---
 
 ## 🌄 From Hunger to Power: Fasting as a Metabolic Reset

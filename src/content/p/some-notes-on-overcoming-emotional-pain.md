@@ -1,25 +1,31 @@
 ---
-title: "Some Notes on Overcoming Emotional Pain"
-description: "A personal reflection on dealing with emotional pain, accountability, and personal growth through challenging times."
-pubDate: "2024-05-01"
-language: ["en"]
-category: ["integration-growth", "parenting"]
+title: Some Notes on Overcoming Emotional Pain
+description: >-
+  A personal reflection on dealing with emotional pain, accountability, and
+  personal growth through challenging times.
+pubDate: '2024-05-01'
+language:
+  - en
+category:
+  - integration-growth
+  - parenting
 tags:
-  [
-    "emotional-pain",
-    "mental-health",
-    "healing",
-    "consciousness",
-    "personal-growth",
-    "therapy",
-    "emotional-regulation",
-    "self-improvement",
-    "resilience",
-    "mindfulness",
-  ]
+  - emotional-pain
+  - mental-health
+  - healing
+  - consciousness
+  - personal-growth
+  - therapy
+  - emotional-regulation
+  - self-improvement
+  - resilience
+  - mindfulness
 readingTime: 3
-author: "wizards777"
-canonicalUrl: "https://medium.com/@wizards777/some-notes-on-overcoming-emotional-pain-1e0315607456"
+draft: false
+featured: false
+published: true
+showComments: true
+author: wizards777
 ---
 
 I've been through tons of emotional and physical pain this last weekend. Being away from my daughter physically hurts my chest, it seems. Somatization? Possibly. I had to accept — which was the source of my hurt — that this is my responsibility, this is the result of my actions and my inactions, and I'm accountable for what is my life today. So I radically accept it and make myself responsible for what happens right in this instant and next. Let's get it. These are challenges we will surpass; I tell myself this every day. I have that power, and I'm making it happen — so far.

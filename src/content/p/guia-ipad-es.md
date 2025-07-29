@@ -1,35 +1,35 @@
 ---
-title: "Guía para Padres y Madres de Puerto Rico: Cómo Configurar un iPad Seguro para Niños"
-description: "Esta guía te acompaña paso a paso en la elección, configuración y supervisión consciente de un iPad para niños, con valores boricuas y responsabilidad adulta al centro."
-pubDate: "2025-05-01T10:30:00.000Z"
-heroImage: "/images/guia-padres.jpg"
-language: ["es"]
-category: ["parenting", "systems-strategy"]
-subcategory: "Tecnología y Crianza"
+title: >-
+  Guía para Padres y Madres de Puerto Rico: Cómo Configurar un iPad Seguro para
+  Niños
+description: >-
+  Esta guía te acompaña paso a paso en la elección, configuración y supervisión
+  consciente de un iPad para niños, con valores boricuas y responsabilidad
+  adulta al centro.
+pubDate: '2025-05-01T10:30:00.000Z'
+language:
+  - es
+heroImage: /images/guia-padres.jpg
+category:
+  - parenting
+  - systems-strategy
+subcategory: Tecnología y Crianza
 tags:
-  [
-    "technology",
-    "parenting",
-    "children",
-    "education",
-    "family",
-    "digital-safety",
-    "conscious-parenting",
-    "tools",
-    "learning",
-    "family-dynamics",
-  ]
+  - technology
+  - parenting
+  - children
+  - education
+  - family
+  - digital-safety
+  - conscious-parenting
+  - tools
+  - learning
+  - family-dynamics
 readingTime: 2
 draft: false
 featured: false
-ogImage: "/images/guia-padres.jpg"
-ogImageAlt: "iPad con controles parentales para niños"
-robots:
-  index: true
-  follow: true
-  noarchive: false
-  nosnippet: false
-  noimageindex: false
+published: true
+showComments: true
 ---
 
 ## Introducción: Nuestra Responsabilidad, No la de Ellos

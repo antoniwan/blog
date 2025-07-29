@@ -1,27 +1,34 @@
 ---
-title: "My Favorite Symbols of Power"
-description: "A reflection on the symbols—mythic, fictional, and personal—that remind me of resilience, willpower, and transformation. These are the icons I'd etch into my skin if I ever choose to."
-pubDate: "2024-07-06T11:20:00.000Z"
-heroImage: "/symbols/lightsaber.avif"
-language: ["en"]
-category: ["metaspace", "psychology", "art-expression"]
-subcategory: "Philosophy"
+title: My Favorite Symbols of Power
+description: >-
+  A reflection on the symbols—mythic, fictional, and personal—that remind me of
+  resilience, willpower, and transformation. These are the icons I'd etch into
+  my skin if I ever choose to.
+pubDate: '2024-07-06T11:20:00.000Z'
+language:
+  - en
+heroImage: /symbols/lightsaber.avif
+category:
+  - metaspace
+  - psychology
+  - art-expression
+subcategory: Philosophy
 tags:
-  [
-    "symbols",
-    "mythology",
-    "power",
-    "psychology",
-    "art-expression",
-    "identity",
-    "healing",
-    "consciousness",
-    "self-expression",
-    "metaspace",
-  ]
+  - symbols
+  - mythology
+  - power
+  - psychology
+  - art-expression
+  - identity
+  - healing
+  - consciousness
+  - self-expression
+  - metaspace
 readingTime: 7
 draft: false
 featured: true
+published: true
+showComments: true
 ---
 
 I've been thinking about getting a tattoo—or many—but I can't pull the trigger. There's something about having a "clean" body that feels sacred. Still, the idea of _customizing_ it, of turning my body into a living archive of meaning, also deeply appeals to me.

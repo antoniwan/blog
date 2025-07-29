@@ -1,24 +1,31 @@
 ---
-title: "🖼️ VS Code Title Bar Signaling System"
-description: "A lightweight cognitive system to visually track project intent and mental context through color-coded VS Code title bars."
-pubDate: "2025-05-15T00:00:00.000Z"
-language: ["en"]
-category: ["systems-strategy", "learning-projects", "integration-growth"]
+title: 🖼️ VS Code Title Bar Signaling System
+description: >-
+  A lightweight cognitive system to visually track project intent and mental
+  context through color-coded VS Code title bars.
+pubDate: '2025-05-15T00:00:00.000Z'
+language:
+  - en
+category:
+  - systems-strategy
+  - learning-projects
+  - integration-growth
 tags:
-  [
-    "technology",
-    "productivity",
-    "systems-strategy",
-    "development",
-    "tools",
-    "efficiency",
-    "software-development",
-    "workflow",
-    "customization",
-    "learning-projects",
-  ]
+  - technology
+  - productivity
+  - systems-strategy
+  - development
+  - tools
+  - efficiency
+  - software-development
+  - workflow
+  - customization
+  - learning-projects
 readingTime: 3
 draft: false
+featured: false
+published: true
+showComments: true
 ---
 
 ## 🎯 PURPOSE

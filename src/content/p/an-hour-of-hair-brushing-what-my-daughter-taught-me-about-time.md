@@ -1,31 +1,37 @@
 ---
-title: "An Hour of Hair Brushing: What My Daughter Taught Me About Time"
-description: "Sometimes the most radical thing you can do is sit still with your daughter and brush her hair for an hour."
-pubDate: "2025-07-28T10:14:00.000-04:00"
-language: ["en"]
-category: ["parenting", "integration-growth"]
-heroImage: "/images/mia-long-hair.webp"
+title: 'An Hour of Hair Brushing: What My Daughter Taught Me About Time'
+description: >-
+  Sometimes the most radical thing you can do is sit still with your daughter
+  and brush her hair for an hour.
+pubDate: '2025-07-28T10:14:00.000-04:00'
+language:
+  - en
+heroImage: /images/mia-long-hair.webp
+category:
+  - parenting
+  - integration-growth
 tags:
-  [
-    "parenting",
-    "fatherhood",
-    "presence",
-    "time",
-    "mindfulness",
-    "connection",
-    "patience",
-    "family-dynamics",
-    "personal-growth",
-    "conscious-parenting",
-    "social-media",
-    "technology",
-    "authenticity",
-    "digital-detox",
-    "slow-living",
-    "ritual",
-  ]
+  - parenting
+  - fatherhood
+  - presence
+  - time
+  - mindfulness
+  - connection
+  - patience
+  - family-dynamics
+  - personal-growth
+  - conscious-parenting
+  - social-media
+  - technology
+  - authenticity
+  - digital-detox
+  - slow-living
+  - ritual
 readingTime: 5
+draft: false
 featured: true
+published: true
+showComments: true
 ---
 
 My daughter has never cut her hair. She's five now, and it covers her entire back. When she stays with me, she refuses to brush it herself, so I do it for her. It takes about an hour every day.

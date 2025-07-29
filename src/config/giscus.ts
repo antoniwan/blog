@@ -17,10 +17,10 @@ export const giscusConfig = {
 
   // Mapping between pages and discussions
   // Options: "pathname", "url", "title", "og:title"
-  mapping: "pathname",
+  mapping: "title",
 
   // Strict mapping - only create discussions for pages with explicit frontmatter
-  strict: false,
+  strict: false, // Set to false to allow automatic discussion creation
 
   // Enable reactions
   reactionsEnabled: true,
@@ -38,5 +38,5 @@ export const giscusConfig = {
   loading: "lazy" as const,
 
   // Theme - will automatically follow your site's theme
-  theme: "auto" as const,
+  theme: "light" as const, // Will be dynamically updated by JavaScript
 };

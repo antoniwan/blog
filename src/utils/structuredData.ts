@@ -9,36 +9,37 @@ import {
 } from "../consts";
 import { generateCanonicalUrl, generateImageUrl } from "./seo";
 
+// Simplified structured data options
 export interface StructuredDataOptions {
   title: string;
   description: string;
-  path: string; // Simplified: just the path, URL will be auto-generated
-  posts?: CollectionEntry<"blog">[];
-  type?: "category" | "tag" | "website" | "blogpost";
-  identifier?: string;
-  author?: string;
-  // Blog post specific
+  path: string;
+  type?: "website" | "article" | "category" | "tag";
+  // Article-specific fields
   pubDate?: Date;
   updatedDate?: Date;
   heroImage?: string;
   keywords?: string[];
   readingTime?: number;
+  // Collection-specific fields
+  posts?: CollectionEntry<"blog">[];
+  identifier?: string;
 }
 
+// Generate structured data with simplified logic
 export function generateStructuredData(options: StructuredDataOptions) {
   const {
     title,
     description,
     path,
-    posts = [],
     type = "website",
-    identifier,
-    author = AUTHOR.name,
     pubDate,
     updatedDate,
     heroImage,
     keywords = [],
     readingTime,
+    posts = [],
+    identifier,
   } = options;
 
   const url = generateCanonicalUrl(path);
@@ -54,7 +55,7 @@ export function generateStructuredData(options: StructuredDataOptions) {
     inLanguage: "en-US",
     publisher: {
       "@type": "Person",
-      name: author,
+      name: AUTHOR.name,
       url: AUTHOR.url,
     },
     potentialAction: {
@@ -89,7 +90,7 @@ export function generateStructuredData(options: StructuredDataOptions) {
   schemas.push({
     "@context": "https://schema.org",
     "@type": "Person",
-    name: author,
+    name: AUTHOR.name,
     url: AUTHOR.url,
     inLanguage: "en-US",
     sameAs: [SOCIAL_LINKS.twitter, SOCIAL_LINKS.github, SOCIAL_LINKS.bluesky],
@@ -115,18 +116,18 @@ export function generateStructuredData(options: StructuredDataOptions) {
   });
 
   // Type-specific schemas
-  if (type === "blogpost" && pubDate) {
+  if (type === "article" && pubDate) {
     schemas.push({
       "@context": "https://schema.org",
       "@type": "BlogPosting",
       headline: title,
       description: description,
-      image: generateImageUrl(undefined, heroImage),
+      image: generateImageUrl(heroImage),
       datePublished: pubDate.toISOString(),
       dateModified: updatedDate?.toISOString() || pubDate.toISOString(),
       author: {
         "@type": "Person",
-        name: author,
+        name: AUTHOR.name,
         url: AUTHOR.url,
       },
       publisher: {
@@ -143,8 +144,7 @@ export function generateStructuredData(options: StructuredDataOptions) {
       url: url,
       inLanguage: "en-US",
       articleSection: keywords.length > 0 ? keywords[0] : undefined,
-      wordCount:
-        description.split(" ").length + keywords.join(" ").split(" ").length,
+      wordCount: description.split(" ").length + keywords.join(" ").split(" ").length,
     });
   } else if ((type === "category" || type === "tag") && posts.length > 0) {
     schemas.push({
@@ -165,20 +165,16 @@ export function generateStructuredData(options: StructuredDataOptions) {
             description: post.data.description,
             url: generateCanonicalUrl(`/p/${post.id}`),
             datePublished: post.data.pubDate.toISOString(),
-            dateModified:
-              post.data.updatedDate?.toISOString() ||
-              post.data.pubDate.toISOString(),
+            dateModified: post.data.updatedDate?.toISOString() || post.data.pubDate.toISOString(),
             author: {
               "@type": "Person",
-              name: author,
+              name: AUTHOR.name,
               url: AUTHOR.url,
             },
-            image: generateImageUrl(undefined, post.data.heroImage),
+            image: generateImageUrl(post.data.heroImage),
             keywords: post.data.tags?.join(", "),
             articleSection: post.data.category?.join(", "),
-            timeRequired: post.data.readingTime
-              ? `PT${post.data.readingTime}M`
-              : undefined,
+            timeRequired: post.data.readingTime ? `PT${post.data.readingTime}M` : undefined,
           },
         })),
       },
@@ -195,9 +191,7 @@ export function generateStructuredData(options: StructuredDataOptions) {
             "@type": "ListItem",
             position: 2,
             name: type === "category" ? "Categories" : "Tags",
-            item: generateCanonicalUrl(
-              type === "category" ? "/category" : "/tag"
-            ),
+            item: generateCanonicalUrl(type === "category" ? "/category" : "/tag"),
           },
           {
             "@type": "ListItem",

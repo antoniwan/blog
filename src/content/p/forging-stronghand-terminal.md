@@ -1,26 +1,31 @@
 ---
-title: "Forging the 'Stronghand' Terminal: From Chaos to Command"
-description: "Guide to building a development terminal on Windows 11 using WezTerm, PowerShell 7, Oh-My-Posh, and Zoxide. Includes setup steps and configuration examples."
-pubDate: "2025-04-28"
-language: ["en"]
-category: ["systems-strategy", "learning-projects"]
+title: 'Forging the ''Stronghand'' Terminal: From Chaos to Command'
+description: >-
+  Guide to building a development terminal on Windows 11 using WezTerm,
+  PowerShell 7, Oh-My-Posh, and Zoxide. Includes setup steps and configuration
+  examples.
+pubDate: '2025-04-28'
+language:
+  - en
+category:
+  - systems-strategy
+  - learning-projects
 tags:
-  [
-    "systems-strategy",
-    "productivity",
-    "technology",
-    "development",
-    "tools",
-    "efficiency",
-    "workflow",
-    "learning-projects",
-    "software-development",
-    "customization",
-  ]
+  - systems-strategy
+  - productivity
+  - technology
+  - development
+  - tools
+  - efficiency
+  - workflow
+  - learning-projects
+  - software-development
+  - customization
 readingTime: 3
 draft: false
+featured: false
 published: true
-canonicalUrl: "https://medium.com/@wizards777/forging-the-stronghand-terminal-from-chaos-to-command-c4e4df4d290c"
+showComments: true
 ---
 
 "Stronghand" is the name I gave my computer after the latest reformat. I destroyed **EVERYTHING** across all my drives — four disks totaling over 10TB — wiping them clean to zero.

@@ -1,27 +1,31 @@
 ---
-title: "On Simplicity and Peace of Mind"
-description: "A reflection on finding contentment and wholeness through simplicity, minimalism, and inner peace rather than material possessions"
-pubDate: "2024-10-04T18:40:28.388Z"
-language: ["en"]
-category: ["integration-growth", "parenting", "psychology"]
+title: On Simplicity and Peace of Mind
+description: >-
+  A reflection on finding contentment and wholeness through simplicity,
+  minimalism, and inner peace rather than material possessions
+pubDate: '2024-10-04T18:40:28.388Z'
+language:
+  - en
+category:
+  - integration-growth
+  - parenting
+  - psychology
 tags:
-  [
-    "simplicity",
-    "mindfulness",
-    "mental-health",
-    "wellness",
-    "self-care",
-    "personal-growth",
-    "inner-peace",
-    "contentment",
-    "consciousness",
-    "healing",
-  ]
+  - simplicity
+  - mindfulness
+  - mental-health
+  - wellness
+  - self-care
+  - personal-growth
+  - inner-peace
+  - contentment
+  - consciousness
+  - healing
 readingTime: 3
 draft: false
 featured: false
 published: true
-canonicalUrl: "https://medium.com/@wizards777/on-simplicity-and-peace-of-mind-885086031fe9"
+showComments: true
 ---
 
 On Feeling Whole Without Owning Much<br>Or, _On Simplicity and Peace of Mind…_

@@ -1,28 +1,33 @@
 ---
-title: "Mercy Through the Blade: The Silent Law of Leadership"
-description: "A deep exploration of authentic leadership, the warrior's dilemma between truth and comfort, and the sacred responsibility of wielding power with grace and ferocity."
-pubDate: "2025-04-26T00:00:00.000Z"
-heroImage: "/images/0_uLjrPcjl6O6biWBM.jpg"
-language: ["en"]
-category: ["integration-growth", "psychology"]
-subcategory: "Leadership"
+title: 'Mercy Through the Blade: The Silent Law of Leadership'
+description: >-
+  A deep exploration of authentic leadership, the warrior's dilemma between
+  truth and comfort, and the sacred responsibility of wielding power with grace
+  and ferocity.
+pubDate: '2025-04-26T00:00:00.000Z'
+language:
+  - en
+heroImage: /images/0_uLjrPcjl6O6biWBM.jpg
+category:
+  - integration-growth
+  - psychology
+subcategory: Leadership
 tags:
-  [
-    "leadership",
-    "authenticity",
-    "truth",
-    "personal-growth",
-    "values",
-    "responsibility",
-    "discipline",
-    "self-mastery",
-    "power",
-    "consciousness",
-  ]
+  - leadership
+  - authenticity
+  - truth
+  - personal-growth
+  - values
+  - responsibility
+  - discipline
+  - self-mastery
+  - power
+  - consciousness
 readingTime: 5
 draft: false
 featured: true
 published: true
+showComments: true
 ---
 
 > This is a silent topic. Nobody really wants to talk about it. I think because it's uncomfortable. It exposes things most people would rather keep hidden. But here we go — no ego, no drama, just truth. If this resonates, or if it challenges you, leave a comment below. I'll reply to every comment personally. Let's sharpen each other the way warriors are supposed to — with presence, respect, and real conversation. ¡Gracias por leer!

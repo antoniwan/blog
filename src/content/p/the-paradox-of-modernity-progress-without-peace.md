@@ -1,27 +1,34 @@
 ---
-title: "The Paradox of Modernity: Progress Without Peace"
-description: "We are living in the most advanced moment in human history. And yet, we are also arguably the most confused, alienated, addicted, manipulated, and emotionally starved generation ever to exist. This is the paradox I cannot stop thinking about."
-pubDate: "2025-07-16T20:00:00.000Z"
-language: ["en"]
-category: ["metaspace", "psychology"]
+title: 'The Paradox of Modernity: Progress Without Peace'
+description: >-
+  We are living in the most advanced moment in human history. And yet, we are
+  also arguably the most confused, alienated, addicted, manipulated, and
+  emotionally starved generation ever to exist. This is the paradox I cannot
+  stop thinking about.
+pubDate: '2025-07-16T20:00:00.000Z'
+language:
+  - en
+category:
+  - metaspace
+  - psychology
 tags:
-  [
-    "consciousness",
-    "technology",
-    "social-issues",
-    "mental-health",
-    "meaning",
-    "purpose",
-    "truth",
-    "freedom",
-    "collective-healing",
-    "emotional-health",
-    "self-reflection",
-    "philosophy",
-  ]
+  - consciousness
+  - technology
+  - social-issues
+  - mental-health
+  - meaning
+  - purpose
+  - truth
+  - freedom
+  - collective-healing
+  - emotional-health
+  - self-reflection
+  - philosophy
 readingTime: 4
 draft: false
 featured: false
+published: true
+showComments: true
 ---
 
 We are living in the most advanced moment in human history. That statement is fact, not fantasy. By nearly every measurable indicator — lifespan, access to education, reduction in absolute poverty, technological capability, global connectivity — humanity has reached its peak.

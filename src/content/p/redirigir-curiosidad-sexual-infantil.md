@@ -1,27 +1,35 @@
 ---
-title: "Cómo Redirigir la Curiosidad Sexual Infantil con Amor, Liderazgo y Claridad (Edades 4–8)"
-description: "Guide for parents on handling childhood sexual curiosity through age-appropriate responses and protective language. Based on attachment theory and developmental psychology."
-pubDate: "2025-05-06T16:30:00.000Z"
-heroImage: "/images/guia-practica-padres-conscientes.avif"
-language: ["es"]
-category: ["parenting", "psychology"]
-subcategory: "Emotional Education"
+title: >-
+  Cómo Redirigir la Curiosidad Sexual Infantil con Amor, Liderazgo y Claridad
+  (Edades 4–8)
+description: >-
+  Guide for parents on handling childhood sexual curiosity through
+  age-appropriate responses and protective language. Based on attachment theory
+  and developmental psychology.
+pubDate: '2025-05-06T16:30:00.000Z'
+language:
+  - es
+heroImage: /images/guia-practica-padres-conscientes.avif
+category:
+  - parenting
+  - psychology
+subcategory: Emotional Education
 tags:
-  [
-    "parenting",
-    "children",
-    "sexuality",
-    "education",
-    "family",
-    "conscious-parenting",
-    "child-development",
-    "social-issues",
-    "family-dynamics",
-    "consciousness",
-  ]
+  - parenting
+  - children
+  - sexuality
+  - education
+  - family
+  - conscious-parenting
+  - child-development
+  - social-issues
+  - family-dynamics
+  - consciousness
 readingTime: 6
 draft: false
 featured: false
+published: true
+showComments: true
 ---
 
 Tengo una hija de 5 años y un hijastro que crié desde los 7 — hoy tiene 20. He criado con mucha curiosidad, observando, equivocándome, aprendiendo. Además, tengo sobrines con quienes he compartido desde juegos corporales hasta preguntas existenciales.

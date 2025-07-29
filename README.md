@@ -55,6 +55,13 @@ Visit `http://localhost:4321` to see the site.
 | `npm run astro`          | Run Astro CLI commands      |
 | `npm run setup-comments` | Setup Giscus comment system |
 
+### Frontmatter Management
+
+| Command                                   | Action                                     |
+| ----------------------------------------- | ------------------------------------------ |
+| `node scripts/audit-frontmatter.js`       | Audit all posts for frontmatter compliance |
+| `node scripts/standardize-frontmatter.js` | Standardize all posts automatically        |
+
 ## 🏗️ Project Structure
 
 ```
@@ -79,22 +86,39 @@ strongvault/
 
 ### Blog Posts
 
-Posts use Markdown/MDX with structured frontmatter:
+All blog posts follow the **Official Frontmatter Specification** for consistency and SEO optimization. See [docs/OFFICIAL_FRONTMATTER_SPECIFICATION.md](docs/OFFICIAL_FRONTMATTER_SPECIFICATION.md) for complete details.
+
+#### Quick Example
 
 ```yaml
 ---
 title: "Post Title"
-description: "Post description"
+description: "Post description for SEO and social sharing"
 pubDate: "2025-01-01T00:00:00.000Z"
+language:
+  - en
 heroImage: "/images/hero-image.jpg"
-language: ["en", "es"]
-category: ["integration-growth"]
-tags: ["tag1", "tag2"]
+category:
+  - integration-growth
+  - learning-projects
+subcategory: "Personal Development"
+tags:
+  - tag1
+  - tag2
+  - tag3
 readingTime: 5
 draft: false
-featured: true
+featured: false
+published: true
+showComments: true
 ---
 ```
+
+#### Frontmatter Management
+
+- **Audit**: `node scripts/audit-frontmatter.js` - Check compliance
+- **Standardize**: `node scripts/standardize-frontmatter.js` - Fix issues automatically
+- **Validation**: Automatic validation during build process
 
 ### Categories & Tags
 

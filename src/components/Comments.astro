@@ -1,5 +1,6 @@
 ---
 interface Props {
+  title?: string;
   theme?: 'light' | 'dark' | 'auto';
   repo: string;
   repoId: string;
@@ -15,12 +16,13 @@ interface Props {
 }
 
 const {
+  title,
   theme = 'auto',
   repo,
   repoId,
   category,
   categoryId,
-  mapping = 'pathname',
+  mapping = 'title',
   strict = false,
   reactionsEnabled = true,
   emitMetadata = false,
@@ -29,9 +31,10 @@ const {
   loading = 'lazy'
 } = Astro.props;
 
-// Get the current page URL for mapping
+// Get the current page URL and title for mapping
 const currentUrl = Astro.url.href;
 const currentPath = Astro.url.pathname;
+const currentTitle = Astro.props.title || 'Untitled';
 ---
 
 <div class="comments-section mt-12 pt-8">
@@ -44,6 +47,21 @@ const currentPath = Astro.url.pathname;
   </p>
   
   <div class="giscus-container bg-[rgb(var(--color-bg))] rounded-lg overflow-hidden">
+      <div id="giscus-fallback" class="hidden p-8 text-center text-[rgb(var(--color-text-muted))]">
+        <p>Comments are loading...</p>
+        <p class="text-sm mt-2">
+          If comments don't appear, you can 
+          <a href="https://github.com/antoniwan/curious-chaos-journal/discussions" 
+             target="_blank" 
+             rel="noopener noreferrer"
+             class="link">
+            join the discussion on GitHub
+          </a>
+        </p>
+        <p class="text-xs mt-4 text-[rgb(var(--color-text-muted))]">
+          First-time visitors: A discussion thread will be created automatically when you comment.
+        </p>
+      </div>
       <script 
         src="https://giscus.app/client.js"
         data-repo={repo}
@@ -57,9 +75,23 @@ const currentPath = Astro.url.pathname;
         data-input-position={inputPosition}
         data-lang={lang}
         data-loading={loading}
+        data-theme={theme}
         crossorigin="anonymous"
         async
+        onerror="document.getElementById('giscus-fallback').classList.remove('hidden')"
       >
+      </script>
+      
+      <!-- Debug info (remove in production) -->
+      <script>
+        console.log('Giscus Debug Info:', {
+          repo: '{repo}',
+          category: '{category}',
+          mapping: '{mapping}',
+          title: '{title}',
+          pathname: '{currentPath}',
+          url: '{currentUrl}'
+        });
       </script>
   </div>
   
@@ -94,25 +126,40 @@ const currentPath = Astro.url.pathname;
     const giscusFrame = document.querySelector('iframe[src*="giscus.app"]') as HTMLIFrameElement;
     
     if (giscusFrame && giscusFrame.contentWindow) {
-      giscusFrame.contentWindow.postMessage(
-        { giscus: { setConfig: { theme: isDark ? 'dark' : 'light' } } },
-        'https://giscus.app'
-      );
+      try {
+        giscusFrame.contentWindow.postMessage(
+          { giscus: { setConfig: { theme: isDark ? 'dark' : 'light' } } },
+          'https://giscus.app'
+        );
+      } catch (error) {
+        console.warn('Failed to update Giscus theme:', error);
+      }
+    }
+  }
+
+  // Wait for Giscus to load before trying to update theme
+  function waitForGiscus() {
+    const giscusFrame = document.querySelector('iframe[src*="giscus.app"]') as HTMLIFrameElement;
+    if (giscusFrame) {
+      updateGiscusTheme();
+    } else {
+      // Retry after a short delay
+      setTimeout(waitForGiscus, 100);
     }
   }
 
   // Initialize theme on load
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', updateGiscusTheme);
+    document.addEventListener('DOMContentLoaded', waitForGiscus);
   } else {
-    updateGiscusTheme();
+    waitForGiscus();
   }
 
   // Listen for theme changes
   const observer = new MutationObserver((mutations) => {
     mutations.forEach((mutation) => {
       if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
-        updateGiscusTheme();
+        setTimeout(updateGiscusTheme, 100); // Small delay to ensure DOM is updated
       }
     });
   });

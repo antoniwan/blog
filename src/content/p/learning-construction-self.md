@@ -1,27 +1,33 @@
 ---
-title: "Learning is a Construction of the Self"
-description: "Reflections on humility, personal growth, and the quiet lessons hidden in relationships, silence, and life's daily rituals."
-pubDate: "2024-07-15T16:45:00.000Z"
-heroImage: ""
-language: ["en"]
-category: ["psychology", "integration-growth", "metaspace"]
-subcategory: "Philosophy"
+title: Learning is a Construction of the Self
+description: >-
+  Reflections on humility, personal growth, and the quiet lessons hidden in
+  relationships, silence, and life's daily rituals.
+pubDate: '2024-07-15T16:45:00.000Z'
+language:
+  - en
+heroImage: ''
+category:
+  - psychology
+  - integration-growth
+  - metaspace
+subcategory: Philosophy
 tags:
-  [
-    "personal-growth",
-    "self-construction",
-    "learning",
-    "consciousness",
-    "transformation",
-    "self-reflection",
-    "healing",
-    "authenticity",
-    "self-improvement",
-    "metaspace",
-  ]
+  - personal-growth
+  - self-construction
+  - learning
+  - consciousness
+  - transformation
+  - self-reflection
+  - healing
+  - authenticity
+  - self-improvement
+  - metaspace
 readingTime: 2
 draft: false
 featured: false
+published: true
+showComments: true
 ---
 
 In only four years, my daughter has taught me the language of wonder—  

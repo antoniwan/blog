@@ -1,27 +1,33 @@
 ---
-title: "On Self-Discovery, Self-Awareness, Value-Based Living"
-description: "A journey through self-awareness, challenging negative self-talk, and discovering the transformative power of value-based decision making in everyday life."
-pubDate: "2024-03-25T14:15:00.000Z"
-heroImage: ""
-language: ["en"]
-category: ["psychology", "integration-growth"]
-subcategory: "Personal Development"
+title: On Self-Discovery, Self-Awareness, Value-Based Living
+description: >-
+  A journey through self-awareness, challenging negative self-talk, and
+  discovering the transformative power of value-based decision making in
+  everyday life.
+pubDate: '2024-03-25T14:15:00.000Z'
+language:
+  - en
+heroImage: ''
+category:
+  - psychology
+  - integration-growth
+subcategory: Personal Development
 tags:
-  [
-    "power",
-    "intentional-living",
-    "consciousness",
-    "personal-growth",
-    "self-mastery",
-    "authenticity",
-    "transformation",
-    "purpose",
-    "healing",
-    "self-improvement",
-  ]
+  - power
+  - intentional-living
+  - consciousness
+  - personal-growth
+  - self-mastery
+  - authenticity
+  - transformation
+  - purpose
+  - healing
+  - self-improvement
 readingTime: 2
 draft: false
 featured: false
+published: true
+showComments: true
 ---
 
 At the end of March, an intrusive thought hit me hard: "Wow, you're such a loser; you have no pictures to share." This moment wasn't just startling—it was a sobering reminder of how quickly negative self-talk can undermine years of intentional inner work. Four years of therapy, countless hours of reflection, and a commitment to healthier mental paradigms hadn't prevented this destructive thought from appearing. It humbled me profoundly, reminding me that the journey of self-awareness and integration never truly ends. Confronting the ego is an ongoing battle; nourishing the soul, a daily necessity.

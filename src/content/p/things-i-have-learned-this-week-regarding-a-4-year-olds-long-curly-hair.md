@@ -1,27 +1,31 @@
 ---
-title: "Things I have learned this week regarding a 4-year old’s long curly hair"
-description: "One does not brush curly hair because it becomes Mufasa-like. I tried different brush styles before I noticed this."
-pubDate: "2024-05-29T18:01:30.848Z"
-language: ["en"]
-category: ["metaspace", "integration-growth", "parenting"]
+title: Things I have learned this week regarding a 4-year old’s long curly hair
+description: >-
+  One does not brush curly hair because it becomes Mufasa-like. I tried
+  different brush styles before I noticed this.
+pubDate: '2024-05-29T18:01:30.848Z'
+language:
+  - en
+category:
+  - metaspace
+  - integration-growth
+  - parenting
 tags:
-  [
-    "parenting",
-    "children",
-    "family",
-    "learning",
-    "conscious-parenting",
-    "child-development",
-    "self-care",
-    "wellness",
-    "tips",
-    "family-dynamics",
-  ]
+  - parenting
+  - children
+  - family
+  - learning
+  - conscious-parenting
+  - child-development
+  - self-care
+  - wellness
+  - tips
+  - family-dynamics
 readingTime: 2
 draft: false
 featured: false
 published: true
-canonicalUrl: "https://medium.com/@wizards777/things-i-have-learned-this-week-regarding-a-4-year-olds-long-curly-hair-813db24e002e"
+showComments: true
 ---
 
 ![](https://cdn-images-1.medium.com/max/800/0*aXqmLg3o-62nSyLQ)

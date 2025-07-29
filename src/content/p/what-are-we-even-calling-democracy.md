@@ -1,27 +1,32 @@
 ---
-title: "What Are We Even Calling Democracy Anymore?"
-description: "A raw reflection on the state of democracy, the gap between rhetoric and reality, and the need for genuine systemic change."
-pubDate: "2025-07-02T13:07:00.000Z"
-heroImage: "/images/saitama-okay.webp"
-language: ["en"]
-category: ["politics", "metaspace"]
-subcategory: "Social Commentary"
+title: What Are We Even Calling Democracy Anymore?
+description: >-
+  A raw reflection on the state of democracy, the gap between rhetoric and
+  reality, and the need for genuine systemic change.
+pubDate: '2025-07-02T13:07:00.000Z'
+language:
+  - en
+heroImage: /images/saitama-okay.webp
+category:
+  - politics
+  - metaspace
+subcategory: Social Commentary
 tags:
-  [
-    "politics",
-    "democracy",
-    "social-issues",
-    "consciousness",
-    "social-justice",
-    "collective-healing",
-    "philosophy",
-    "power",
-    "responsibility",
-    "metaspace",
-  ]
+  - politics
+  - democracy
+  - social-issues
+  - consciousness
+  - social-justice
+  - collective-healing
+  - philosophy
+  - power
+  - responsibility
+  - metaspace
 readingTime: 1
 draft: false
 featured: false
+published: true
+showComments: true
 ---
 
 They keep calling it democracy.

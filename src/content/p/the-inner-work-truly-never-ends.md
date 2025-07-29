@@ -1,27 +1,31 @@
 ---
-title: "The inner work truly never ends."
-description: "At the end of March, I thought, “Wow, you are such a loser; you have no pictures to share,” that idea stunned me. Not only do I again…"
-pubDate: "2024-06-01T13:36:42.676Z"
-language: ["en"]
-category: ["integration-growth", "parenting", "psychology"]
+title: The inner work truly never ends.
+description: >-
+  At the end of March, I thought, “Wow, you are such a loser; you have no
+  pictures to share,” that idea stunned me. Not only do I again…
+pubDate: '2024-06-01T13:36:42.676Z'
+language:
+  - en
+category:
+  - integration-growth
+  - parenting
+  - psychology
 tags:
-  [
-    "inner-work",
-    "consciousness",
-    "personal-growth",
-    "self-reflection",
-    "healing",
-    "transformation",
-    "therapy",
-    "self-improvement",
-    "mindfulness",
-    "metaspace",
-  ]
+  - inner-work
+  - consciousness
+  - personal-growth
+  - self-reflection
+  - healing
+  - transformation
+  - therapy
+  - self-improvement
+  - mindfulness
+  - metaspace
 readingTime: 3
 draft: false
 featured: false
 published: true
-canonicalUrl: "https://medium.com/@wizards777/the-inner-work-truly-never-ends-6e88a81d6b33"
+showComments: true
 ---
 
 ![](https://cdn-images-1.medium.com/max/800/0*oA98rX80LnOrfXPm)

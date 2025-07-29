@@ -1,27 +1,31 @@
 ---
-title: "Brief Notes on Finding Serenity in Self-Control"
-description: "Reflection on self-control as a path to serenity. Explores the balance between natural desires and conscious restraint in the context of personal values."
-pubDate: "2024-07-29T17:08:22.762Z"
-language: ["en"]
-category: ["psychology", "metaspace", "integration-growth"]
+title: Brief Notes on Finding Serenity in Self-Control
+description: >-
+  Reflection on self-control as a path to serenity. Explores the balance between
+  natural desires and conscious restraint in the context of personal values.
+pubDate: '2024-07-29T17:08:22.762Z'
+language:
+  - en
+category:
+  - psychology
+  - metaspace
+  - integration-growth
 tags:
-  [
-    "self-control",
-    "mindfulness",
-    "mental-health",
-    "serenity",
-    "consciousness",
-    "self-mastery",
-    "emotional-regulation",
-    "personal-growth",
-    "discipline",
-    "healing",
-  ]
+  - self-control
+  - mindfulness
+  - mental-health
+  - serenity
+  - consciousness
+  - self-mastery
+  - emotional-regulation
+  - personal-growth
+  - discipline
+  - healing
 readingTime: 1
 draft: false
 featured: false
 published: true
-canonicalUrl: "https://medium.com/@wizards777/brief-notes-on-finding-serenity-in-self-control-e2e489677baa"
+showComments: true
 ---
 
 ![](https://cdn-images-1.medium.com/max/800/0*C5b_lUwsLZ12xFSD)

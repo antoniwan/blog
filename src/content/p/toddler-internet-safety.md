@@ -1,27 +1,34 @@
 ---
-title: "How to Protect Our Children in the Digital Age: A Conscious Parent's Guide to Internet Safety"
-description: "A clear, powerful guide for safeguarding the hearts and minds of toddlers and young children in today's online world."
+title: >-
+  How to Protect Our Children in the Digital Age: A Conscious Parent's Guide to
+  Internet Safety
+description: >-
+  A clear, powerful guide for safeguarding the hearts and minds of toddlers and
+  young children in today's online world.
 pubDate: 2025-05-01T00:00:00.000Z
-language: ["en"]
-category: ["parenting", "systems-strategy"]
-subcategory: "Digital Safety"
+language:
+  - en
+category:
+  - parenting
+  - systems-strategy
+subcategory: Digital Safety
 tags:
-  [
-    "parenting",
-    "children",
-    "digital-safety",
-    "technology",
-    "family",
-    "conscious-parenting",
-    "child-development",
-    "social-issues",
-    "family-dynamics",
-    "education",
-  ]
+  - parenting
+  - children
+  - digital-safety
+  - technology
+  - family
+  - conscious-parenting
+  - child-development
+  - social-issues
+  - family-dynamics
+  - education
 readingTime: 3
 draft: false
 featured: false
-translationGroup: "toddler-internet-safety"
+published: true
+showComments: true
+translationGroup: toddler-internet-safety
 ---
 
 ## Our Digital Responsibility as Parents

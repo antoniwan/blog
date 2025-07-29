@@ -1,27 +1,32 @@
 ---
-title: "Conquering Imposter Syndrome with Evidence-Based Journaling"
-description: "Method for managing imposter syndrome through structured self-reflection. Shows how documenting professional achievements can build authentic confidence."
-pubDate: "2024-07-24T16:21:33.037Z"
-language: ["en"]
-category: ["integration-growth", "psychology", "metaspace"]
+title: Conquering Imposter Syndrome with Evidence-Based Journaling
+description: >-
+  Method for managing imposter syndrome through structured self-reflection.
+  Shows how documenting professional achievements can build authentic
+  confidence.
+pubDate: '2024-07-24T16:21:33.037Z'
+language:
+  - en
+category:
+  - integration-growth
+  - psychology
+  - metaspace
 tags:
-  [
-    "imposter-syndrome",
-    "mental-health",
-    "therapy",
-    "self-reflection",
-    "personal-growth",
-    "emotional-regulation",
-    "professional-development",
-    "confidence-building",
-    "self-improvement",
-    "healing",
-  ]
+  - imposter-syndrome
+  - mental-health
+  - therapy
+  - self-reflection
+  - personal-growth
+  - emotional-regulation
+  - professional-development
+  - confidence-building
+  - self-improvement
+  - healing
 readingTime: 2
 draft: false
 featured: false
 published: true
-canonicalUrl: "https://medium.com/@wizards777/conquering-imposter-syndrome-with-evidence-based-journaling-2dcb62f64e3a"
+showComments: true
 ---
 
 ![](https://cdn-images-1.medium.com/max/1200/0*Qr5UWzrPHtajO6PM)

@@ -1,27 +1,28 @@
 ---
-title: "☀️ Pa’ la nena que vive en ti"
-description: "Desde la paz, el respeto, y la crianza compartida"
-pubDate: "2025-04-21T12:21:28.540Z"
-language: ["en"]
-category: ["metaspace", "integration-growth"]
+title: ☀️ Pa’ la nena que vive en ti
+description: Desde la paz, el respeto, y la crianza compartida
+pubDate: '2025-04-21T12:21:28.540Z'
+language:
+  - en
+category:
+  - metaspace
+  - integration-growth
 tags:
-  [
-    "consciousness",
-    "inner-child",
-    "healing",
-    "personal-growth",
-    "self-reflection",
-    "authenticity",
-    "therapy",
-    "emotional-regulation",
-    "self-improvement",
-    "transformation",
-  ]
+  - consciousness
+  - inner-child
+  - healing
+  - personal-growth
+  - self-reflection
+  - authenticity
+  - therapy
+  - emotional-regulation
+  - self-improvement
+  - transformation
 readingTime: 1
 draft: false
 featured: false
 published: true
-canonicalUrl: "https://medium.com/@wizards777/%EF%B8%8F-pa-la-nena-que-vive-en-ti-511949b6c3c0"
+showComments: true
 ---
 
 _Desde la paz, el respeto, y la crianza compartida_

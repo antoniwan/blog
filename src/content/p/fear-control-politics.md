@@ -1,26 +1,33 @@
 ---
-title: "If Your Politics Obsess Over Control, You're Not Well"
-description: "Analysis of how fear and trauma manifest in control-based political ideologies. Explores the relationship between personal insecurity and authoritarian policy positions."
+title: If Your Politics Obsess Over Control, You're Not Well
+description: >-
+  Analysis of how fear and trauma manifest in control-based political
+  ideologies. Explores the relationship between personal insecurity and
+  authoritarian policy positions.
 pubDate: 2025-04-01T00:00:00.000Z
-language: ["en"]
-category: ["politics", "psychology", "metaspace"]
-subcategory: "Psychology"
+language:
+  - en
+category:
+  - politics
+  - psychology
+  - metaspace
+subcategory: Psychology
 tags:
-  [
-    "politics",
-    "fear",
-    "control",
-    "mental-health",
-    "social-issues",
-    "collective-healing",
-    "consciousness",
-    "social-justice",
-    "therapy",
-    "healing",
-  ]
+  - politics
+  - fear
+  - control
+  - mental-health
+  - social-issues
+  - collective-healing
+  - consciousness
+  - social-justice
+  - therapy
+  - healing
 readingTime: 3
 draft: false
 featured: false
+published: true
+showComments: true
 ---
 
 ## 🧠 If Your Politics Obsess Over Control, You're Not Well

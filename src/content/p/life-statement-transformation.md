@@ -1,28 +1,33 @@
 ---
-title: "Why Creating a Life Statement Has Helped Me So Much"
-description: "A personal journey of self-discovery through creating a life statement, exploring the gap between values and actions, and finding clarity in personal identity."
-pubDate: "2024-04-27T08:50:00.000Z"
-heroImage: "/images/life-statement.webp"
-language: ["en"]
-category: ["psychology", "integration-growth"]
-subcategory: "Personal Development"
+title: Why Creating a Life Statement Has Helped Me So Much
+description: >-
+  A personal journey of self-discovery through creating a life statement,
+  exploring the gap between values and actions, and finding clarity in personal
+  identity.
+pubDate: '2024-04-27T08:50:00.000Z'
+language:
+  - en
+heroImage: /images/life-statement.webp
+category:
+  - psychology
+  - integration-growth
+subcategory: Personal Development
 tags:
-  [
-    "transformation",
-    "personal-growth",
-    "consciousness",
-    "self-reflection",
-    "authenticity",
-    "values",
-    "healing",
-    "self-improvement",
-    "metaspace",
-    "purpose",
-  ]
+  - transformation
+  - personal-growth
+  - consciousness
+  - self-reflection
+  - authenticity
+  - values
+  - healing
+  - self-improvement
+  - metaspace
+  - purpose
 readingTime: 3
 draft: false
 featured: false
 published: true
+showComments: true
 ---
 
 Found this interesting note in my archives:

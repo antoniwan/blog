@@ -1,27 +1,31 @@
 ---
-title: "Sharpen Your Tools"
-description: "Maintaining and honing your tools to maximize efficiency and practice excellence is critical- and elemental. Once one integrates this…"
-pubDate: "2024-07-31T13:49:32.330Z"
-language: ["en"]
-category: ["integration-growth", "psychology", "art-expression"]
+title: Sharpen Your Tools
+description: >-
+  Maintaining and honing your tools to maximize efficiency and practice
+  excellence is critical- and elemental. Once one integrates this…
+pubDate: '2024-07-31T13:49:32.330Z'
+language:
+  - en
+category:
+  - integration-growth
+  - psychology
+  - art-expression
 tags:
-  [
-    "tools",
-    "productivity",
-    "systems-strategy",
-    "learning-projects",
-    "efficiency",
-    "self-improvement",
-    "consciousness",
-    "personal-growth",
-    "mastery",
-    "workflow",
-  ]
+  - tools
+  - productivity
+  - systems-strategy
+  - learning-projects
+  - efficiency
+  - self-improvement
+  - consciousness
+  - personal-growth
+  - mastery
+  - workflow
 readingTime: 2
 draft: false
 featured: false
 published: true
-canonicalUrl: "https://medium.com/@wizards777/sharpen-your-tools-ab027a02e0a5"
+showComments: true
 ---
 
 ![](https://cdn-images-1.medium.com/max/800/0*Mh3TRGWhAXK-E0_c)

@@ -1,28 +1,33 @@
 ---
-title: "Bend, Don't Break: Learning to Flow Again"
-description: "A personal reflection on the transformation from rigid control to flexible flow, embracing vulnerability and finding strength in adaptability during life's challenges."
-pubDate: "2025-07-09T00:00:00.000Z"
-heroImage: "/images/saitama-okay.webp"
-language: ["en"]
-category: ["integration-growth", "psychology"]
-subcategory: "Personal Transformation"
+title: 'Bend, Don''t Break: Learning to Flow Again'
+description: >-
+  A personal reflection on the transformation from rigid control to flexible
+  flow, embracing vulnerability and finding strength in adaptability during
+  life's challenges.
+pubDate: '2025-07-09T00:00:00.000Z'
+language:
+  - en
+heroImage: /images/saitama-okay.webp
+category:
+  - integration-growth
+  - psychology
+subcategory: Personal Transformation
 tags:
-  [
-    "resilience",
-    "personal-growth",
-    "mental-health",
-    "mindfulness",
-    "emotional-regulation",
-    "consciousness",
-    "healing",
-    "self-improvement",
-    "adaptability",
-    "transformation",
-  ]
+  - resilience
+  - personal-growth
+  - mental-health
+  - mindfulness
+  - emotional-regulation
+  - consciousness
+  - healing
+  - self-improvement
+  - adaptability
+  - transformation
 readingTime: 2
 draft: false
 featured: false
 published: true
+showComments: true
 ---
 
 There was a time — _not long ago_ — when I thought I had to hold everything together by sheer will. My thoughts were tightly wound, my morals sharpened like swords, my identity built like a fortress. I wasn't living — _I was defending_. But from what?! I still don't know to this day. From my past trauma? Deep sigh.

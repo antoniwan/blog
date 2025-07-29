@@ -1,27 +1,28 @@
 ---
-title: "On Feeling Overpowered"
-description: "Note-to-self!"
-pubDate: "2024-05-29T14:41:25.408Z"
-language: ["en"]
-category: ["integration-growth", "psychology"]
+title: On Feeling Overpowered
+description: Note-to-self!
+pubDate: '2024-05-29T14:41:25.408Z'
+language:
+  - en
+category:
+  - integration-growth
+  - psychology
 tags:
-  [
-    "mental-health",
-    "emotional-regulation",
-    "consciousness",
-    "personal-growth",
-    "self-reflection",
-    "healing",
-    "therapy",
-    "mindfulness",
-    "resilience",
-    "self-improvement",
-  ]
+  - mental-health
+  - emotional-regulation
+  - consciousness
+  - personal-growth
+  - self-reflection
+  - healing
+  - therapy
+  - mindfulness
+  - resilience
+  - self-improvement
 readingTime: 3
 draft: false
 featured: false
 published: true
-canonicalUrl: "https://medium.com/@wizards777/on-feeling-overpowered-d964cc32480a"
+showComments: true
 ---
 
 Note-to-self!

@@ -1,27 +1,31 @@
 ---
-title: "🧠 My Mental Health Routine (Unfiltered)"
-description: "I’ve spent the last 14 days rebuilding my nervous system from the ground up after completing assessing and reviewing my intelligence and…"
-pubDate: "2025-04-21T00:26:07.406Z"
-language: ["en"]
-category: ["integration-growth", "psychology", "art-expression"]
+title: 🧠 My Mental Health Routine (Unfiltered)
+description: >-
+  I’ve spent the last 14 days rebuilding my nervous system from the ground up
+  after completing assessing and reviewing my intelligence and…
+pubDate: '2025-04-21T00:26:07.406Z'
+language:
+  - en
+category:
+  - integration-growth
+  - psychology
+  - art-expression
 tags:
-  [
-    "mental-health",
-    "therapy",
-    "self-care",
-    "wellness",
-    "personal-growth",
-    "healing",
-    "consciousness",
-    "emotional-regulation",
-    "self-improvement",
-    "routine",
-  ]
+  - mental-health
+  - therapy
+  - self-care
+  - wellness
+  - personal-growth
+  - healing
+  - consciousness
+  - emotional-regulation
+  - self-improvement
+  - routine
 readingTime: 2
 draft: false
 featured: false
 published: true
-canonicalUrl: "https://medium.com/@wizards777/my-mental-health-routine-unfiltered-1ebfc2b1bde9"
+showComments: true
 ---
 
 I’ve spent the last 14 days rebuilding my nervous system from the ground up after completing assessing and reviewing my intelligence and medical health, bloodwork, sexual health, cholesterol, prostate, who knows, I got so many things done on myself; I even got myself a vasectomy appointment in the process. LOL
