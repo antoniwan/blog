@@ -10,29 +10,9 @@ import { generateKeywords, generateImageAlt } from '../utils/seo';
 import { generateStructuredData } from '../utils/structuredData';
 import SpeedInsights from "@vercel/speed-insights/astro"
 import Analytics from '@vercel/analytics/astro';
+import type { BaseLayoutProps } from '../types/layout';
 
-interface Props {
-  title: string;
-  description?: string;
-  // Blog-specific props
-  pubDate?: Date;
-  updatedDate?: Date;
-  heroImage?: string;
-  readingTime?: number;
-  tags?: string[];
-  category?: string[];
-  // SEO fields
-  path?: string;
-  image?: string;
-  imageAlt?: string;
-  author?: string;
-  keywords?: string[];
-  type?: "website" | "article" | "profile";
-  // Structured data specific
-  structuredDataType?: "website" | "blogpost" | "category" | "tag";
-  structuredDataIdentifier?: string;
-  posts?: any[]; // For category/tag pages
-}
+interface Props extends BaseLayoutProps {}
 
 const { 
   title, 

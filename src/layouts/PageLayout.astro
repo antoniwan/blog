@@ -1,21 +1,10 @@
 ---
 import BaseLayout from './BaseLayout.astro';
 import PageHeader from '../components/PageHeader.astro';
+import Container from '../components/Container.astro';
+import type { BaseLayoutProps } from '../types/layout';
 
-interface Props {
-  title: string;
-  description?: string;
-  // SEO fields
-  path?: string;
-  image?: string;
-  imageAlt?: string;
-  author?: string;
-  keywords?: string[];
-  // Structured data specific
-  structuredDataType?: "website" | "blogpost" | "category" | "tag";
-  structuredDataIdentifier?: string;
-  posts?: any[]; // For category/tag pages
-}
+interface Props extends BaseLayoutProps {}
 
 const {
   title,
@@ -45,14 +34,14 @@ const {
   posts={posts}
   {...rest}
 >
-  <div class="w-full px-4 md:px-6 lg:px-8 xl:px-12">
+  <Container>
     <PageHeader title={title} description={description} />
     
     {/* Page Content */}
-    <div class="max-w-container mx-auto">
+    <Container maxWidth="container" padding="none">
       <div class="prose prose-lg dark:prose-invert max-w-none">
         <slot />
       </div>
-    </div>
-  </div>
+    </Container>
+  </Container>
 </BaseLayout> 

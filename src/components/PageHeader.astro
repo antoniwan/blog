@@ -1,4 +1,6 @@
 ---
+import Container from './Container.astro';
+
 interface Props {
   title: string;
   description?: string;
@@ -8,7 +10,7 @@ interface Props {
 const { title, description, className = "" } = Astro.props;
 ---
 
-<div class={`max-w-container mx-auto py-6 md:py-8 lg:py-12 mb-8 md:mb-12 ${className}`}>
+<Container maxWidth="container" padding="none" class={`py-6 md:py-8 lg:py-12 mb-8 md:mb-12 ${className}`}>
   <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-text dark:text-text-dark leading-tight tracking-tight mb-4 md:mb-6" transition:name="page-title">
     {title}
   </h1>
@@ -17,4 +19,4 @@ const { title, description, className = "" } = Astro.props;
       {description}
     </p>
   )}
-</div> 
+</Container> 

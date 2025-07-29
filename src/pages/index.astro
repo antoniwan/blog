@@ -2,6 +2,7 @@
 import HomeLayout from '../layouts/HomeLayout.astro';
 import PostCard from '../components/PostCard.astro';
 import CategoryCard from '../components/CategoryCard.astro';
+import Container from '../components/Container.astro';
 import { getCollection } from 'astro:content';
 import { categories } from '../data/categories';
 
@@ -47,8 +48,8 @@ const topCategories = categories
 	structuredDataType="website"
 >
 	{/* Hero Section */}
-	<div class="max-w-container mx-auto">
-		<div class="max-w-container mx-auto py-6 md:py-8 lg:py-12 mb-8 md:mb-12">
+	<Container maxWidth="container" padding="none">
+		<div class="py-6 md:py-8 lg:py-12 mb-8 md:mb-12">
 			<h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-text dark:text-text-dark leading-tight tracking-tight mb-4 md:mb-6" transition:name="page-title">
 				Welcome to the Curious Chaos Journal.
 			</h1>
@@ -56,22 +57,22 @@ const topCategories = categories
 				Dispatches from a fractured mind navigating fatherhood, masculinity, cultura, and modern collapse — one burning question at a time.
 			</p>
 		</div>
-	</div>
+	</Container>
 
 	{/* Featured Posts Section */}
 	{featuredPosts.length > 0 && (
-		<div class="max-w-container mx-auto mb-16 md:mb-20">
+		<Container maxWidth="container" padding="none" class="mb-16 md:mb-20">
 			<div class="grid gap-8 md:gap-10">
 				{featuredPosts.map(post => (
 					<PostCard post={post} />
 				))}
 			</div>
-		</div>
+		</Container>
 	)}
 
 	{/* Category Highlights */}
 	{topCategories.length > 0 && (
-		<div class="max-w-container mx-auto mb-16 md:mb-20">
+		<Container maxWidth="container" padding="none" class="mb-16 md:mb-20">
 			<div class="mb-8 md:mb-12">
 				<h2 class="text-2xl md:text-3xl font-bold text-text dark:text-text-dark mb-4">
 					Explore by Category
@@ -89,12 +90,12 @@ const topCategories = categories
 					/>
 				))}
 			</div>
-		</div>
+		</Container>
 	)}
 
 	{/* All Posts Section */}
 	{remainingPosts.length > 0 && (
-		<div class="max-w-container mx-auto">
+		<Container maxWidth="container" padding="none">
 			<div class="mb-8 md:mb-12">
 				<h2 class="text-2xl md:text-3xl font-bold text-text dark:text-text-dark mb-4">
 					Complete Archive
@@ -108,12 +109,12 @@ const topCategories = categories
 					<PostCard post={post} />
 				))}
 			</div>
-		</div>
+		</Container>
 	)}
 
 	{/* Empty State */}
 	{posts.length === 0 && (
-		<div class="max-w-container mx-auto text-center py-16 md:py-20">
+		<Container maxWidth="container" padding="none" class="text-center py-16 md:py-20">
 			<div class="max-w-md mx-auto">
 				<div class="text-6xl mb-6">🧠</div>
 				<h2 class="text-2xl md:text-3xl font-bold text-text dark:text-text-dark mb-4">
@@ -123,7 +124,7 @@ const topCategories = categories
 					Raw reflections on fatherhood, masculinity, cultura, and modern collapse are coming. The mind is at work.
 				</p>
 			</div>
-		</div>
+		</Container>
 	)}
 </HomeLayout>
 

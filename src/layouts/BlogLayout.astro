@@ -4,36 +4,13 @@ import PageHeader from '../components/PageHeader.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import TagDisplay from '../components/TagDisplay.astro';
 import Comments from '../components/Comments.astro';
+import Container from '../components/Container.astro';
 import { generateCanonicalUrl } from '../utils/seo';
 import { giscusConfig } from '../config/giscus';
 import { SEO_CONFIG } from '../consts';
+import type { BlogLayoutProps } from '../types/layout';
 
-interface Props {
-  title: string;
-  description?: string;
-  pubDate?: Date;
-  updatedDate?: Date;
-  heroImage?: string;
-  readingTime?: number;
-  tags?: string[];
-  category?: string[];
-  // SEO fields
-  path?: string;
-  image?: string;
-  imageAlt?: string;
-  author?: string;
-  keywords?: string[];
-  // Structured data
-  tableOfContents?: {
-    items: Array<{
-      text: string;
-      slug: string;
-      depth: number;
-    }>;
-  };
-  // Comments
-  showComments?: boolean;
-}
+interface Props extends BlogLayoutProps {}
 
 const {
   title,
@@ -76,8 +53,8 @@ const canonical = path || generateCanonicalUrl(Astro.url.pathname);
   structuredDataType="blogpost"
   {...rest}
 >
-  <div class="w-full px-4 md:px-6 lg:px-8 xl:px-12">
-    <div class="max-w-container mx-auto py-6 md:py-8 lg:py-12">
+  <Container>
+    <div class="py-6 md:py-8 lg:py-12">
       {/* Hero Section - Full width on mobile, moves to sidebar on desktop */}
       <div class="mb-8 md:mb-12 lg:hidden">
         <PageHeader title={title} description={description} className="!mb-6" transition:name="page-title" />

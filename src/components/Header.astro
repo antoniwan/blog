@@ -4,13 +4,14 @@ import Navigation from './Navigation.astro';
 import ThemeToggle from './ThemeToggle.astro';
 import MobileNav from './MobileNav.astro';
 import SearchBar from './SearchBar.astro';
+import Container from './Container.astro';
 ---
 
 <header 
 	class="sticky top-0 z-40 w-full bg-background/95 dark:bg-background-dark/95 backdrop-blur-md border-b border-border/30 dark:border-border-dark/30 shadow-[0_2px_8px_0_rgba(0,0,0,0.08)] dark:shadow-[0_2px_8px_0_rgba(0,0,0,0.3)] theme-transition"
 	role="banner"
 >
-	<div class="w-full px-4 md:px-6 lg:px-8 xl:px-12">
+	<Container padding="none">
 		<div class="flex h-16 md:h-18 items-center justify-between">
 			<!-- Logo and Primary Navigation -->
 			<div class="flex items-center gap-6 md:gap-8">
@@ -47,7 +48,7 @@ import SearchBar from './SearchBar.astro';
 		<div id="mobile-search-container" class="md:hidden hidden pb-4">
 			<SearchBar />
 		</div>
-	</div>
+	</Container>
 </header>
 
 <script>
