@@ -9,28 +9,38 @@ const { class: className = '' } = Astro.props;
 <button
 	type="button"
 	class:list={[
-		'fixed bottom-8 right-8 z-40 inline-flex items-center justify-center p-2 rounded-lg bg-[rgb(var(--color-bg))] text-body-muted hover:text-[rgb(var(--color-accent))] hover:bg-[rgb(var(--color-bg-alt))] shadow-lg transition-normal opacity-0 translate-y-4 invisible',
-		'hover:translate-y-0 focus:translate-y-0',
+		'fixed bottom-8 right-8 z-40 inline-flex items-center justify-center p-3 rounded-full bg-gradient-to-br from-[rgb(var(--color-primary))] to-[rgb(var(--color-accent))] text-white hover:from-[rgb(var(--color-primary-hover))] hover:to-[rgb(var(--color-accent-hover))] shadow-2xl transition-all duration-300 opacity-0 translate-y-4 invisible group',
+		'hover:scale-110 hover:shadow-[0_0_30px_rgba(var(--color-primary),0.4)] focus:scale-110 focus:shadow-[0_0_30px_rgba(var(--color-primary),0.4)]',
+		'backdrop-blur-sm border border-white/20',
 		className
 	]}
 	aria-label="Back to top"
 	id="back-to-top"
 >
-	<svg
-		class="h-6 w-6"
-		fill="none"
-		stroke="currentColor"
-		viewBox="0 0 24 24"
-		xmlns="http://www.w3.org/2000/svg"
-		aria-hidden="true"
-	>
-		<path
-			stroke-linecap="round"
-			stroke-linejoin="round"
-			stroke-width="2"
-			d="M5 10l7-7m0 0l7 7m-7-7v18"
-		/>
-	</svg>
+	<div class="relative">
+		<!-- Pulsing ring effect -->
+		<div class="absolute inset-0 rounded-full bg-[rgb(var(--color-primary))] animate-pulse-shock opacity-30"></div>
+		
+		<!-- Main icon -->
+		<svg
+			class="h-6 w-6 relative z-10 transition-transform duration-300 group-hover:-translate-y-1"
+			fill="none"
+			stroke="currentColor"
+			viewBox="0 0 24 24"
+			xmlns="http://www.w3.org/2000/svg"
+			aria-hidden="true"
+		>
+			<path
+				stroke-linecap="round"
+				stroke-linejoin="round"
+				stroke-width="2.5"
+				d="M5 10l7-7m0 0l7 7m-7-7v18"
+			/>
+		</svg>
+		
+		<!-- Sparkle effect -->
+		<div class="absolute -top-1 -right-1 w-2 h-2 bg-[rgb(var(--color-highlight))] rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 animate-pulse"></div>
+	</div>
 </button>
 
 <script>
@@ -47,9 +57,12 @@ const { class: className = '' } = Astro.props;
 			if (shouldBeVisible) {
 				backToTop.classList.remove('opacity-0', 'invisible', 'translate-y-4');
 				backToTop.classList.add('opacity-100', 'visible', 'translate-y-0');
+				// Add entrance animation
+				backToTop.style.animation = 'bounce-in 0.6s ease-out';
 			} else {
 				backToTop.classList.add('opacity-0', 'invisible', 'translate-y-4');
 				backToTop.classList.remove('opacity-100', 'visible', 'translate-y-0');
+				backToTop.style.animation = '';
 			}
 			isVisible = shouldBeVisible;
 		}
@@ -65,6 +78,14 @@ const { class: className = '' } = Astro.props;
 	}
 	
 	function scrollToTop() {
+		// Add click feedback
+		if (backToTop) {
+			backToTop.style.transform = 'scale(0.95)';
+			setTimeout(() => {
+				backToTop.style.transform = '';
+			}, 150);
+		}
+		
 		// Check if smooth scrolling is supported
 		if ('scrollBehavior' in document.documentElement.style) {
 			window.scrollTo({
@@ -83,17 +104,57 @@ const { class: className = '' } = Astro.props;
 
 <style>
 	#back-to-top {
-		transition: opacity 0.2s ease, transform 0.2s ease;
+		transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 	}
 
 	#back-to-top:hover {
-		transform: translateY(-2px);
+		transform: translateY(-4px) scale(1.1);
+	}
+
+	@keyframes bounce-in {
+		0% {
+			transform: scale(0.3) translateY(20px);
+			opacity: 0;
+		}
+		50% {
+			transform: scale(1.05) translateY(-5px);
+		}
+		70% {
+			transform: scale(0.9) translateY(0);
+		}
+		100% {
+			transform: scale(1) translateY(0);
+			opacity: 1;
+		}
+	}
+
+	@keyframes pulse-shock {
+		0%, 100% {
+			transform: scale(1);
+			opacity: 0.3;
+		}
+		50% {
+			transform: scale(1.2);
+			opacity: 0.1;
+		}
+	}
+
+	.animate-pulse-shock {
+		animation: pulse-shock 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 	}
 
 	@media (prefers-reduced-motion: reduce) {
 		#back-to-top {
 			animation: none !important;
 			transition: none !important;
+		}
+		
+		#back-to-top .animate-pulse-shock {
+			animation: none !important;
+		}
+		
+		#back-to-top:hover {
+			transform: none !important;
 		}
 	}
 </style> 
