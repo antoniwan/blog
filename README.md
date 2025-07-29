@@ -6,6 +6,14 @@ A personal digital space documenting the journey of building systems — digital
 
 > **"Thinking hurts. I do it anyway."**
 
+## 📊 Project Status
+
+- **51 blog posts** with 100% frontmatter compliance
+- **207 pages** generated successfully
+- **9 content categories** with comprehensive tagging
+- **Multi-language support** (English/Spanish)
+- **Complete documentation** suite available
+
 ## 🌟 Content Categories
 
 - 🎵 **Art & Expression** — Creative soul, aesthetic power, truth-telling
@@ -20,7 +28,7 @@ A personal digital space documenting the journey of building systems — digital
 
 ## 🛠️ Tech Stack
 
-- **[Astro 5.12.5](https://astro.build)** - Modern static site builder
+- **[Astro 5.11.0](https://astro.build)** - Modern static site builder
 - **[TypeScript 5.8.3](https://www.typescriptlang.org/)** - Type-safe development
 - **[Tailwind CSS 3.4.17](https://tailwindcss.com/)** - Utility-first CSS framework
 - **[MDX](https://mdxjs.com/)** - Markdown with JSX support
@@ -32,8 +40,8 @@ A personal digital space documenting the journey of building systems — digital
 
 ```bash
 # Clone and install
-git clone https://github.com/antoniwan/strongvault.git
-cd strongvault
+git clone https://github.com/antoniwan/curious-chaos-journal.git
+cd curious-chaos-journal
 npm install
 
 # Start development
@@ -55,7 +63,7 @@ Visit `http://localhost:4321` to see the site.
 | `npm run astro`          | Run Astro CLI commands      |
 | `npm run setup-comments` | Setup Giscus comment system |
 
-### Frontmatter Management
+### Content Management
 
 | Command                                   | Action                                     |
 | ----------------------------------------- | ------------------------------------------ |
@@ -65,7 +73,7 @@ Visit `http://localhost:4321` to see the site.
 ## 🏗️ Project Structure
 
 ```
-strongvault/
+curious-chaos-journal/
 ├── public/                 # Static assets
 │   ├── images/            # Optimized images
 │   └── symbols/           # Icon assets
@@ -77,6 +85,8 @@ strongvault/
 │   ├── pages/            # Route components
 │   ├── styles/           # Global styles and CSS
 │   └── utils/            # Utility functions
+├── scripts/              # Automation tools
+├── docs/                 # Comprehensive documentation
 ├── astro.config.mjs      # Astro configuration
 ├── content.config.ts     # Content schemas
 └── tailwind.config.js    # Tailwind configuration
@@ -151,7 +161,7 @@ showComments: true
 - ✅ **Accessibility** - WCAG compliant with ARIA support
 - ✅ **Reading Progress** - Visual progress indicator
 - ✅ **Search Functionality** - Content discovery
-  ✅ **Comments System** - Privacy-focused Giscus integration
+- ✅ **Comments System** - Privacy-focused Giscus integration
 
 ## 💬 Comments System
 
@@ -203,9 +213,21 @@ Deployed on Vercel with:
 - **Analytics** - Performance monitoring and insights
 - **Speed Insights** - Real-time performance metrics
 
+## 📚 Documentation
+
+Comprehensive documentation is available in the `docs/` directory:
+
+- **[Official Frontmatter Specification](docs/OFFICIAL_FRONTMATTER_SPECIFICATION.md)** - Complete frontmatter guide
+- **[Comments Setup Guide](docs/COMMENTS_SETUP.md)** - Giscus integration instructions
+- **[Frontmatter Audit Summary](docs/FRONTMATTER_AUDIT_AND_STANDARDIZATION_SUMMARY.md)** - Audit results and statistics
+- **[SEO Audit & Improvements](docs/SEO_AUDIT_AND_IMPROVEMENTS.md)** - SEO optimization details
+- **[Markdown Cleanup Verification](docs/MARKDOWN_CLEANUP_VERIFICATION.md)** - Content quality assurance
+
 ## 🔒 Security Note
 
 ⚠️ **Security Vulnerabilities**: There are currently 3 high severity vulnerabilities in dependencies related to `path-to-regexp`. These are in the `@astrojs/vercel` adapter dependency chain and will be resolved when the upstream packages are updated. The vulnerabilities are in `@vercel/routing-utils` and affect path-to-regexp versions 4.0.0 - 6.2.2.
+
+**Status**: These vulnerabilities are documented and monitored. They do not affect the security of the deployed site as they are in the build-time dependency chain only.
 
 ## 📄 License
 
