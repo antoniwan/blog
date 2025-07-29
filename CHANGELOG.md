@@ -5,6 +5,41 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.3.0] - 2025-01-30
+
+### Added
+
+- **Enhanced Image Handling**: Improved blog post image display with full-width, centered styling and clickable modal functionality
+- **Hero Image Support**: Added hero image support to SEO and structured data generation with improved meta tag prioritization
+- **Frontmatter Management**: Enhanced content management with js-yaml dependency and improved metadata structure
+- **Search Experience**: Enhanced search result styles for better user experience
+
+### Changed
+
+- **About Page Layout**: Refactored About page layout by removing unnecessary container for hero image, enhancing image styling with shadow effects, and updating global CSS for improved responsiveness and visual appeal
+- **Global CSS Improvements**: Updated global CSS for improved responsiveness and visual effects across the site
+- **Component Styling**: Refactored CategoryCard and PostCard components for improved styling with better margins for headings and paragraphs, and updated featured post display with an icon for better visual appeal
+
+### Fixed
+
+- **Structured Data Validation**: Fixed Open Graph `article:author` property to use proper profile URL instead of author name string, resolving validation errors
+
+### Technical Details
+
+- **Dependencies**: Added js-yaml dependency for enhanced frontmatter management
+- **SEO Enhancement**: Improved image prioritization in meta tags and structured data
+- **Responsive Design**: Better mobile and desktop experience with improved CSS
+- **Visual Consistency**: Enhanced shadow effects and visual hierarchy
+- **Meta Tags**: Fixed article:author to use AUTHOR.url for proper Open Graph compliance
+
+### User Experience
+
+- 🎨 **Visual Improvements**: Better image display, shadows, and visual hierarchy
+- 📱 **Responsive Design**: Enhanced mobile and desktop experience
+- 🔍 **Search Enhancement**: Improved search result presentation
+- 📝 **Content Management**: Better frontmatter and metadata handling
+- 🔧 **SEO Compliance**: Fixed structured data validation for better search engine understanding
+
 ## [2.2.2] - 2025-01-29
 
 ### Security & Dependencies
@@ -129,6 +164,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Version History
 
+- **2.3.0**: Enhanced image handling, hero image support, and improved user experience
 - **2.2.2**: Dependency updates and security monitoring
 - **2.2.1**: Layout improvements and content cleanup
 - **2.2.0**: Fixed 404 page layout and removed duplicate content
