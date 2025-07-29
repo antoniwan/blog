@@ -17,50 +17,50 @@ import Container from './Container.astro';
 			<!-- Brand Section -->
 			<div class="lg:col-span-1">
 				<Logo size="xs" />
-				<p class="mt-4 text-sm md:text-base text-body-muted">
+				<p class="mt-4 text-base md:text-lg text-body-muted leading-relaxed">
 					{SITE_DESCRIPTION}
 				</p>
 			</div>
 			
 			<!-- Quick Links -->
 			<div>
-				<h3 class="text-base md:text-lg font-semibold mb-4 text-[rgb(var(--color-text))]">Quick Links</h3>
+				<h3 class="text-lg md:text-xl font-semibold mb-4 text-[rgb(var(--color-text))] leading-tight">Quick Links</h3>
 				<nav class="space-y-2" aria-label="Quick navigation">
-					<a href="/" class="block text-sm md:text-base link-muted">Home</a>
-					<a href="/category/" class="block text-sm md:text-base link-muted">Categories</a>
-					<a href="/tag/" class="block text-sm md:text-base link-muted">Tags</a>
-					<a href="/about" class="block text-sm md:text-base link-muted">About</a>
+					<a href="/" class="block text-base md:text-lg link-muted leading-relaxed">Home</a>
+					<a href="/category/" class="block text-base md:text-lg link-muted leading-relaxed">Categories</a>
+					<a href="/tag/" class="block text-base md:text-lg link-muted leading-relaxed">Tags</a>
+					<a href="/about" class="block text-base md:text-lg link-muted leading-relaxed">About</a>
 				</nav>
 			</div>
 			
 			<!-- Categories -->
 			<div>
-				<h3 class="text-base md:text-lg font-semibold mb-4 text-[rgb(var(--color-text))]">Categories</h3>
+				<h3 class="text-lg md:text-xl font-semibold mb-4 text-[rgb(var(--color-text))] leading-tight">Categories</h3>
 				<nav class="space-y-2" aria-label="Category navigation">
-					<a href="/category/parenting/" class="block text-sm md:text-base link-muted">👨‍👩‍👧‍👦 Parenting</a>
-					<a href="/category/psychology/" class="block text-sm md:text-base link-muted">🧠 Psychology</a>
-					<a href="/category/systems-strategy/" class="block text-sm md:text-base link-muted">💻 Systems & Strategy</a>
-					<a href="/category/integration-growth/" class="block text-sm md:text-base link-muted">🧘🏽‍♂️ Integration & Growth</a>
+					<a href="/category/parenting/" class="block text-base md:text-lg link-muted leading-relaxed">👨‍👩‍👧‍👦 Parenting</a>
+					<a href="/category/psychology/" class="block text-base md:text-lg link-muted leading-relaxed">🧠 Psychology</a>
+					<a href="/category/systems-strategy/" class="block text-base md:text-lg link-muted leading-relaxed">💻 Systems & Strategy</a>
+					<a href="/category/integration-growth/" class="block text-base md:text-lg link-muted leading-relaxed">🧘🏽‍♂️ Integration & Growth</a>
 				</nav>
 			</div>
 			
 			<!-- Connect Section -->
 			<div>
-				<h3 class="text-base md:text-lg font-semibold mb-4 text-[rgb(var(--color-text))]">Connect</h3>
+				<h3 class="text-lg md:text-xl font-semibold mb-4 text-[rgb(var(--color-text))] leading-tight">Connect</h3>
 				<nav class="space-y-2" aria-label="Social media links">
-					<a href={SOCIAL_LINKS.bluesky} target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 text-sm md:text-base link-muted">
+					<a href={SOCIAL_LINKS.bluesky} target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 text-base md:text-lg link-muted leading-relaxed">
 						<span class="text-lg">🌀</span>
 						<span>BlueSky</span>
 					</a>
-					<a href={SOCIAL_LINKS.github} target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 text-sm md:text-base link-muted">
+					<a href={SOCIAL_LINKS.github} target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 text-base md:text-lg link-muted leading-relaxed">
 						<span class="text-lg">🐙</span>
 						<span>GitHub</span>
 					</a>
-					<a href="https://www.youtube.com/@Antoniwan777" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 text-sm md:text-base link-muted">
+					<a href="https://www.youtube.com/@Antoniwan777" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 text-base md:text-lg link-muted leading-relaxed">
 						<span class="text-lg">📺</span>
 						<span>YouTube</span>
 					</a>
-					<a href={SOCIAL_LINKS.buildsSoftware} target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 text-sm md:text-base link-muted">
+					<a href={SOCIAL_LINKS.buildsSoftware} target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 text-base md:text-lg link-muted leading-relaxed">
 						<span class="text-lg">💻</span>
 						<span>Builds Software</span>
 					</a>
@@ -71,12 +71,12 @@ import Container from './Container.astro';
 		<!-- Copyright Section -->
 		<div class="mt-8 md:mt-12 pt-8 md:pt-12 border-t border-[rgb(var(--color-border))]/30">
 			<div class="flex flex-col md:flex-row justify-between items-center gap-4">
-				<div class="text-xs text-[rgb(var(--color-text-muted))] text-center md:text-left opacity-75">
+				<div class="text-sm text-[rgb(var(--color-text-muted))] text-center md:text-left opacity-75 leading-relaxed">
 					<p>© {new Date().getFullYear()} {SITE_TITLE}. All rights reserved. Content: <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer">CC BY-NC-SA 4.0</a> Code: <a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener noreferrer">MIT</a></p>
 				</div>
 				
 				<!-- Additional Links -->
-				<div class="flex flex-wrap justify-center md:justify-end gap-4 text-xs text-[rgb(var(--color-text-muted))]">
+				<div class="flex flex-wrap justify-center md:justify-end gap-4 text-sm text-[rgb(var(--color-text-muted))] leading-relaxed">
 					<a href="/sitemap.xml" class="link-muted">Sitemap</a>
 					<a href="/rss.xml" class="link-muted">RSS</a>
 				</div>

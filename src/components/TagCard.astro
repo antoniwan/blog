@@ -30,9 +30,9 @@ const getTagColor = (tag: string, variant: string) => {
 
 // Size classes
 const sizeClasses = {
-	sm: 'text-xs px-2 py-0.5',
-	md: 'text-sm px-2.5 py-1',
-	lg: 'text-base px-3 py-1.5'
+	sm: 'text-sm px-2.5 py-1',
+	md: 'text-base px-3 py-1.5',
+	lg: 'text-lg px-4 py-2'
 };
 ---
 
@@ -43,7 +43,7 @@ const sizeClasses = {
 	<span class="tag-icon" aria-hidden="true">🏷️</span>
 	<span class="tag-text">#{tag}</span>
 	{showCount && (
-		<span class="tag-count text-xs opacity-75 font-normal">
+		<span class="tag-count text-sm opacity-75 font-normal leading-relaxed">
 			{count}
 		</span>
 	)}

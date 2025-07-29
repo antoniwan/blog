@@ -11,7 +11,7 @@ const { items, class: className = '' } = Astro.props;
 ---
 
 <nav 
-  class:list={['flex items-center space-x-2 text-sm', className]}
+  class:list={['flex items-center space-x-2 text-base leading-relaxed', className]}
   aria-label="Breadcrumb"
 >
   <ol class="flex items-center space-x-2">
@@ -26,14 +26,14 @@ const { items, class: className = '' } = Astro.props;
         {item.href ? (
           <a
             href={item.href}
-            		class="link-muted"
+            		class="link-muted leading-relaxed"
             aria-current={index === items.length - 1 ? 'page' : undefined}
           >
             {item.label}
           </a>
         ) : (
           <span 
-            class="text-[rgb(var(--color-text))] font-medium"
+            class="text-[rgb(var(--color-text))] font-medium leading-relaxed"
             aria-current="page"
           >
             {item.label}

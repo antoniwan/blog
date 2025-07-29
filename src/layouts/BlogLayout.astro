@@ -72,7 +72,7 @@ const canonical = path || generateCanonicalUrl(Astro.url.pathname);
                 {title}
               </h1>
               {description && (
-                		<p class="text-body-muted text-sm">
+                		<p class="text-body-muted text-base leading-relaxed">
                   {description}
                 </p>
               )}
@@ -86,7 +86,7 @@ const canonical = path || generateCanonicalUrl(Astro.url.pathname);
                   <h3 class="text-xs font-semibold text-[rgb(var(--color-text-muted))] uppercase tracking-wider">
                     Published
                   </h3>
-                  <time datetime={pubDate.toISOString()} class="flex items-center gap-2 text-sm text-[rgb(var(--color-text))]">
+                  <time datetime={pubDate.toISOString()} class="flex items-center gap-2 text-base text-[rgb(var(--color-text))] leading-relaxed">
                     <span class="text-[rgb(var(--color-accent))]">📅</span>
                     <FormattedDate date={pubDate} format="long" />
                   </time>
@@ -99,7 +99,7 @@ const canonical = path || generateCanonicalUrl(Astro.url.pathname);
                   <h3 class="text-xs font-semibold text-[rgb(var(--color-text-muted))] uppercase tracking-wider">
                     Updated
                   </h3>
-                  <time datetime={updatedDate.toISOString()} class="flex items-center gap-2 text-sm text-[rgb(var(--color-text))]">
+                  <time datetime={updatedDate.toISOString()} class="flex items-center gap-2 text-base text-[rgb(var(--color-text))] leading-relaxed">
                     <span class="text-[rgb(var(--color-accent))]">🔄</span>
                     <FormattedDate date={updatedDate} format="long" />
                   </time>
@@ -112,7 +112,7 @@ const canonical = path || generateCanonicalUrl(Astro.url.pathname);
                   <h3 class="text-xs font-semibold text-[rgb(var(--color-text-muted))] uppercase tracking-wider">
                     Reading Time
                   </h3>
-                  <div class="flex items-center gap-2 text-sm text-[rgb(var(--color-text))]">
+                  <div class="flex items-center gap-2 text-base text-[rgb(var(--color-text))] leading-relaxed">
                     <span class="text-[rgb(var(--color-accent))]">⏱️</span>
                     <span>{readingTime} min read</span>
                   </div>
@@ -125,7 +125,7 @@ const canonical = path || generateCanonicalUrl(Astro.url.pathname);
                   <h3 class="text-xs font-semibold text-[rgb(var(--color-text-muted))] uppercase tracking-wider">
                     Category
                   </h3>
-                  <div class="flex items-center gap-2 text-sm">
+                  <div class="flex items-center gap-2 text-base leading-relaxed">
                     <span class="text-[rgb(var(--color-accent))]">📁</span>
                     <a 
                       href={`/category/${category[0]}/`}
@@ -160,7 +160,7 @@ const canonical = path || generateCanonicalUrl(Astro.url.pathname);
                   <h3 class="text-xs font-semibold text-[rgb(var(--color-text-muted))] uppercase tracking-wider">
                     Author
                   </h3>
-                  <div class="flex items-center gap-2 text-sm text-[rgb(var(--color-text))]">
+                  <div class="flex items-center gap-2 text-base text-[rgb(var(--color-text))] leading-relaxed">
                     <span class="text-[rgb(var(--color-accent))]">✍️</span>
                     <span>{author}</span>
                   </div>
@@ -180,8 +180,8 @@ const canonical = path || generateCanonicalUrl(Astro.url.pathname);
                       <li>
                         <a 
                           href={`#${item.slug}`}
-                          class={`block text-sm hover:text-[rgb(var(--color-accent))] theme-transition ${
-                            item.depth === 3 ? 'ml-3 text-xs' : ''
+                          class={`block text-base hover:text-[rgb(var(--color-accent))] theme-transition leading-relaxed ${
+                            item.depth === 3 ? 'ml-3 text-sm' : ''
                           }`}
                         >
                           {item.text}

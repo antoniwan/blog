@@ -27,7 +27,7 @@ const { text = DISCLAIMER_TEXT, class: className = '', style = '' } = Astro.prop
 >
 	<div class="flex items-center gap-2 mb-2">
 		<span class="text-xl" aria-hidden="true">🌟</span>
-		<span class="font-semibold text-[rgb(var(--color-text))]">Sacred Disclaimer</span>
+		<span class="font-semibold text-[rgb(var(--color-text))] text-lg leading-tight">Sacred Disclaimer</span>
   </div>
-			<p class="text-body-muted m-0" set:html={text} />
+			<p class="text-body-muted m-0 leading-relaxed" set:html={text} />
 </div> 

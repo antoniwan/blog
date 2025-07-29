@@ -78,7 +78,7 @@ const relatedTagsWithCounts = Array.from(relatedTags)
 				<div class="mt-6 flex flex-wrap gap-4 items-center">
 					<div class="flex items-center gap-2 px-4 py-2 bg-[rgb(var(--color-accent))]/10 border border-[rgb(var(--color-accent))]/20 rounded-lg">
   <span class="text-[rgb(var(--color-accent))]" aria-hidden="true">📊</span>
-  <span class="text-sm font-medium text-[rgb(var(--color-accent))]">
+  <span class="text-base font-medium text-[rgb(var(--color-accent))] leading-relaxed">
 							{tagPosts.length} {tagPosts.length === 1 ? 'post' : 'posts'}
 						</span>
 					</div>
@@ -86,7 +86,7 @@ const relatedTagsWithCounts = Array.from(relatedTags)
 					{relatedTagsWithCounts.length > 0 && (
 						<div class="flex items-center gap-2 px-4 py-2 bg-[rgb(var(--color-bg-alt))] border border-[rgb(var(--color-border))] rounded-lg">
 							<span class="text-[rgb(var(--color-text-muted))]" aria-hidden="true">🔗</span>
-							<span class="text-sm font-medium text-[rgb(var(--color-text))]">
+							<span class="text-base font-medium text-[rgb(var(--color-text))] leading-relaxed">
 								{relatedTagsWithCounts.length} related tags
 							</span>
 						</div>
@@ -97,7 +97,7 @@ const relatedTagsWithCounts = Array.from(relatedTags)
 			{/* Related Tags */}
 			{relatedTagsWithCounts.length > 0 && (
 				<div class="mb-8">
-					<h3 class="text-lg font-semibold mb-4 text-[rgb(var(--color-text))]">
+					<h3 class="text-subheading text-[rgb(var(--color-text))] mb-4">
 						Related Tags
 					</h3>
 					<div class="flex flex-wrap gap-1.5">
@@ -119,10 +119,10 @@ const relatedTagsWithCounts = Array.from(relatedTags)
 			<div class="space-y-6">
 				{tagPosts.length > 0 && (
 					<div class="flex items-center justify-between mb-6">
-						<h2 class="text-xl font-semibold text-[rgb(var(--color-text))]">
+						<h2 class="text-heading text-[rgb(var(--color-text))]">
 							Posts tagged with #{tag}
 						</h2>
-						<div class="text-sm text-[rgb(var(--color-text-muted))]">
+						<div class="text-base text-[rgb(var(--color-text-muted))] leading-relaxed">
 							Sorted by date
 						</div>
 					</div>
@@ -140,15 +140,15 @@ const relatedTagsWithCounts = Array.from(relatedTags)
 				<div class="text-center py-12">
 					<div class="max-w-md mx-auto">
 						<div class="text-4xl mb-4" aria-hidden="true">🏷️</div>
-						<h3 class="text-lg font-semibold mb-2 text-[rgb(var(--color-text))]">
+						<h3 class="text-subheading text-[rgb(var(--color-text))] mb-2">
 							No posts found
 						</h3>
-						<p class="text-[rgb(var(--color-text-muted))] mb-6">
+						<p class="text-body-large text-[rgb(var(--color-text-muted))] leading-relaxed mb-6">
 							No posts have been tagged with "#{tag}" yet.
 						</p>
 						<a 
 							href="/tag/"
-							class="inline-flex items-center gap-2 px-4 py-2 bg-[rgb(var(--color-accent))] text-white rounded-lg hover:bg-[rgb(var(--color-accent-hover))] theme-transition"
+							class="inline-flex items-center gap-2 px-4 py-2 bg-[rgb(var(--color-accent))] text-white rounded-lg hover:bg-[rgb(var(--color-accent-hover))] theme-transition text-base leading-relaxed"
 						>
 							<span>←</span>
 							<span>Browse all tags</span>

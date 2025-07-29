@@ -111,28 +111,77 @@
 
   h1 {
     @apply text-4xl md:text-5xl font-black tracking-tight;
+    line-height: 1.2;
+    margin-top: 2.5rem;
+    margin-bottom: 1.5rem;
   }
   h2 {
     @apply text-3xl md:text-4xl font-bold tracking-tight;
+    line-height: 1.3;
+    margin-top: 2rem;
+    margin-bottom: 1.25rem;
   }
   h3 {
     @apply text-2xl md:text-3xl font-semibold tracking-tight;
+    line-height: 1.4;
+    margin-top: 1.75rem;
+    margin-bottom: 1rem;
   }
   h4 {
     @apply text-xl md:text-2xl font-semibold tracking-tight;
+    line-height: 1.5;
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
   }
   h5 {
     @apply text-lg md:text-xl font-semibold;
+    line-height: 1.6;
+    margin-top: 1.25rem;
+    margin-bottom: 0.5rem;
   }
   h6 {
     @apply text-base md:text-lg font-semibold;
+    line-height: 1.6;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
   }
 
-  /* Global paragraph styles */
+  /* Global paragraph styles - optimized for readability */
   p {
-    @apply text-[rgb(var(--color-text))] leading-relaxed;
-    margin-top: var(--space-lg);
-    margin-bottom: var(--space-lg);
+    @apply text-[rgb(var(--color-text))];
+    line-height: 1.8;
+    margin-top: 1.75rem;
+    margin-bottom: 1.75rem;
+    font-size: 1.125rem; /* 18px for better readability */
+  }
+
+  /* Enhanced blockquote paragraph styles - matching disclaimer and blockquote styling */
+  blockquote p {
+    @apply text-[rgb(var(--color-text-muted))] leading-relaxed m-0;
+    font-style: italic;
+  }
+
+  /* Blockquote paragraph with enhanced styling for better visual hierarchy */
+  .prose blockquote p {
+    @apply text-[rgb(var(--color-text-muted))] leading-relaxed;
+    font-style: italic;
+    margin: 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Additional blockquote paragraph enhancements for better readability */
+  blockquote p:first-child {
+    @apply mt-0;
+  }
+
+  blockquote p:last-child {
+    @apply mb-0;
+  }
+
+  /* Blockquote paragraph with subtle text shadow for better contrast */
+  .prose blockquote p {
+    text-shadow: 0 1px 2px rgb(var(--color-bg) / 0.1);
   }
 
   /* Muted text utility */
@@ -449,6 +498,35 @@
     @apply text-lg text-[rgb(var(--color-text-muted))] leading-relaxed;
   }
 
+  /* Enhanced typography utilities for better hierarchy */
+  .text-display {
+    @apply text-4xl md:text-5xl lg:text-6xl font-black leading-tight tracking-tight;
+  }
+
+  .text-heading {
+    @apply text-2xl md:text-3xl lg:text-4xl font-bold leading-tight tracking-tight;
+  }
+
+  .text-subheading {
+    @apply text-xl md:text-2xl font-semibold leading-snug tracking-tight;
+  }
+
+  .text-body-large {
+    @apply text-lg md:text-xl leading-relaxed;
+  }
+
+  .text-body-medium {
+    @apply text-base md:text-lg leading-relaxed;
+  }
+
+  .text-body-small {
+    @apply text-sm md:text-base leading-relaxed;
+  }
+
+  .text-caption {
+    @apply text-xs md:text-sm leading-relaxed;
+  }
+
   /* Animation utilities */
   .animate-fade-up {
     animation: fade-up 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
@@ -562,6 +640,19 @@
 
   .status-error {
     @apply text-[rgb(var(--color-error))] font-semibold;
+  }
+
+  /* Blockquote paragraph utilities */
+  .blockquote-text {
+    @apply text-[rgb(var(--color-text-muted))] leading-relaxed italic;
+  }
+
+  .blockquote-text-emphasized {
+    @apply text-[rgb(var(--color-text))] leading-relaxed italic font-semibold;
+  }
+
+  .blockquote-text-primary {
+    @apply text-[rgb(var(--color-primary))] leading-relaxed italic font-semibold;
   }
 }
 

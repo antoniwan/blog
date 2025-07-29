@@ -27,7 +27,7 @@ import { mainNavigation } from '../data/navigation';
 >
   <!-- Menu Header -->
   <div class="flex items-center justify-between p-4 border-b border-[rgb(var(--color-border))]">
-    <span class="text-lg font-semibold text-[rgb(var(--color-text))]">Menu</span>
+    <span class="text-xl font-semibold text-[rgb(var(--color-text))] leading-tight">Menu</span>
     <button
       type="button"
       aria-label="Close menu"
@@ -48,7 +48,7 @@ import { mainNavigation } from '../data/navigation';
         <div>
           <a
             href={item.href}
-            class="flex items-center justify-between text-lg font-medium text-[rgb(var(--color-text))] py-3 px-4 rounded-lg hover:bg-[rgb(var(--color-bg-alt))] theme-transition"
+            class="flex items-center justify-between text-xl font-medium text-[rgb(var(--color-text))] py-3 px-4 rounded-lg hover:bg-[rgb(var(--color-bg-alt))] theme-transition leading-relaxed"
             aria-current={Astro.url.pathname === item.href ? 'page' : undefined}
           >
             <span>{item.label}</span>
@@ -63,7 +63,7 @@ import { mainNavigation } from '../data/navigation';
               {item.dropdown.items.map((dropdownItem) => (
                 <a
                   href={dropdownItem.href}
-                  class="flex items-center gap-3 text-base text-[rgb(var(--color-text-muted))] py-2 px-4 rounded-md hover:bg-[rgb(var(--color-bg-alt))] theme-transition"
+                  class="flex items-center gap-3 text-lg text-[rgb(var(--color-text-muted))] py-2 px-4 rounded-md hover:bg-[rgb(var(--color-bg-alt))] theme-transition leading-relaxed"
                 >
                   {dropdownItem.icon && <span class="text-lg" aria-hidden="true">{dropdownItem.icon}</span>}
                   <span>{dropdownItem.label}</span>
