@@ -628,3 +628,35 @@
 .prose figure img {
   overflow: hidden !important;
 }
+
+/* About page hero image styling */
+.prose > div:first-child img {
+  width: 100% !important;
+  height: auto !important;
+  display: block !important;
+  border-radius: 0.5rem !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease !important;
+  max-width: 100% !important;
+  object-fit: cover !important;
+  object-position: center !important;
+}
+
+.prose > div:first-child img:hover {
+  transform: scale(1.02) !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Ensure about page content is properly contained */
+.prose {
+  overflow: hidden !important;
+  max-width: 100% !important;
+}
+
+/* Ensure all images in prose content are properly contained */
+.prose * {
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}

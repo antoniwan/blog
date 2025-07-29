@@ -36,10 +36,8 @@ const {
     <PageHeader title={title} description={description} />
     
     {/* Page Content */}
-    <Container maxWidth="container" padding="none">
-      <div class="prose prose-lg max-w-none">
-        <slot />
-      </div>
-    </Container>
+    <div class="prose prose-lg max-w-none">
+      <slot />
+    </div>
   </Container>
 </BaseLayout> 
