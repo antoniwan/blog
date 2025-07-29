@@ -5,6 +5,31 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.2.2] - 2025-01-29
+
+### Security & Dependencies
+
+- **Dependency Updates**: Updated all packages to latest compatible versions
+  - Astro: 5.11.0 → 5.12.5
+  - @astrojs/mdx: 4.3.0 → 4.3.1
+  - @astrojs/sitemap: 3.4.1 → 3.4.2
+  - @astrojs/vercel: 8.2.2 → 8.2.3
+  - Tailwind CSS: 3.4.0 → 3.4.17
+- **Security Monitoring**: Documented ongoing path-to-regexp vulnerabilities in @astrojs/vercel dependency chain
+- **Lock File**: Regenerated package-lock.json with latest dependency resolutions
+
+### Technical Details
+
+- **Package Updates**: All dependencies updated to latest stable versions
+- **Security Note**: 3 high severity vulnerabilities remain in path-to-regexp (4.0.0 - 6.2.2) via @vercel/routing-utils
+- **Build System**: Improved dependency resolution and package management
+
+### Maintenance
+
+- 🔒 **Security Awareness**: Documented known vulnerabilities for transparency
+- 📦 **Dependency Health**: Updated all packages to latest compatible versions
+- 🔧 **Build Optimization**: Improved package lock file and dependency resolution
+
 ## [2.2.1] - 2025-01-29
 
 ### Fixed
@@ -104,6 +129,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Version History
 
+- **2.2.2**: Dependency updates and security monitoring
 - **2.2.1**: Layout improvements and content cleanup
 - **2.2.0**: Fixed 404 page layout and removed duplicate content
 - **2.1.0**: Added Giscus comments system

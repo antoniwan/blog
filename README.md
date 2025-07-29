@@ -1,6 +1,6 @@
 # Curious Chaos Journal
 
-[![Version](https://img.shields.io/badge/version-2.2.1-blue.svg)](https://github.com/antoniwan/curious-chaos-journal/releases)
+[![Version](https://img.shields.io/badge/version-2.2.2-blue.svg)](https://github.com/antoniwan/curious-chaos-journal/releases)
 
 A personal digital space documenting the journey of building systems — digital, emotional, spiritual, and physical. Raw reflections on thinking, culture, and the soft heart inside the hard world.
 
@@ -20,9 +20,9 @@ A personal digital space documenting the journey of building systems — digital
 
 ## 🛠️ Tech Stack
 
-- **[Astro 5.11.0](https://astro.build)** - Modern static site builder
+- **[Astro 5.12.5](https://astro.build)** - Modern static site builder
 - **[TypeScript 5.8.3](https://www.typescriptlang.org/)** - Type-safe development
-- **[Tailwind CSS 3.4.0](https://tailwindcss.com/)** - Utility-first CSS framework
+- **[Tailwind CSS 3.4.17](https://tailwindcss.com/)** - Utility-first CSS framework
 - **[MDX](https://mdxjs.com/)** - Markdown with JSX support
 - **[Sharp 0.33.5](https://sharp.pixelplumbing.com/)** - Image optimization
 - **[Giscus](https://giscus.app)** - Privacy-focused comments system
@@ -181,7 +181,7 @@ Deployed on Vercel with:
 
 ## 🔒 Security Note
 
-⚠️ **Security Vulnerabilities**: There are currently 3 high severity vulnerabilities in dependencies related to `path-to-regexp`. These are in the `@astrojs/vercel` adapter and will be resolved when the upstream packages are updated.
+⚠️ **Security Vulnerabilities**: There are currently 3 high severity vulnerabilities in dependencies related to `path-to-regexp`. These are in the `@astrojs/vercel` adapter dependency chain and will be resolved when the upstream packages are updated. The vulnerabilities are in `@vercel/routing-utils` and affect path-to-regexp versions 4.0.0 - 6.2.2.
 
 ## 📄 License
 
