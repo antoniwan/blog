@@ -42,7 +42,7 @@ export const SITE_URL = "https://blog.antoniwan.online";
 
 // Author Information
 export const AUTHOR: Author = {
-  name: "Antoniwan",
+  name: "Antonio Rodriguez Martinez",
   email: "antoniwan@antoniwan.online",
   url: "https://antoniwan.online",
   twitter: "@antoniwan",
