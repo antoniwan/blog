@@ -105,6 +105,7 @@ const breadcrumbItems = [
 const sections = [
   { id: 'components', title: 'Components', emoji: '🔧' },
   { id: 'design-system', title: 'Design System', emoji: '🎨' },
+  { id: 'tables', title: 'Tables', emoji: '📊' },
   { id: 'examples', title: 'Examples', emoji: '🎯' },
   { id: 'accessibility', title: 'Accessibility', emoji: '♿' }
 ];
@@ -451,6 +452,357 @@ const sections = [
               <p class="text-lg">This larger text shows how different sizes affect readability and visual hierarchy.</p>
             </div>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tables Section -->
+    <section id="tables" class="mb-12">
+      <h2 class="text-2xl font-bold mb-6 text-[rgb(var(--color-text))]">📊 Tables & Data Display</h2>
+      
+      <!-- Basic Table -->
+      <div class="mb-8">
+        <h3 class="text-lg font-semibold mb-4 text-[rgb(var(--color-text))]">Basic Table</h3>
+        <div class="overflow-x-auto">
+          <table class="w-full border-collapse bg-[rgb(var(--color-bg))] border border-[rgb(var(--color-border))] rounded-lg overflow-hidden">
+            <thead>
+              <tr class="bg-[rgb(var(--color-bg-alt))]">
+                <th class="px-6 py-4 text-left font-semibold text-[rgb(var(--color-text))] border-b border-[rgb(var(--color-border))]">Name</th>
+                <th class="px-6 py-4 text-left font-semibold text-[rgb(var(--color-text))] border-b border-[rgb(var(--color-border))]">Role</th>
+                <th class="px-6 py-4 text-left font-semibold text-[rgb(var(--color-text))] border-b border-[rgb(var(--color-border))]">Status</th>
+                <th class="px-6 py-4 text-left font-semibold text-[rgb(var(--color-text))] border-b border-[rgb(var(--color-border))]">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="hover:bg-[rgb(var(--color-bg-alt))] transition-colors">
+                <td class="px-6 py-4 text-[rgb(var(--color-text))] border-b border-[rgb(var(--color-border))]">John Doe</td>
+                <td class="px-6 py-4 text-[rgb(var(--color-text))] border-b border-[rgb(var(--color-border))]">Developer</td>
+                <td class="px-6 py-4 border-b border-[rgb(var(--color-border))]">
+                  <span class="status-success">Active</span>
+                </td>
+                <td class="px-6 py-4 border-b border-[rgb(var(--color-border))]">
+                  <button class="btn-primary text-sm">Edit</button>
+                </td>
+              </tr>
+              <tr class="hover:bg-[rgb(var(--color-bg-alt))] transition-colors">
+                <td class="px-6 py-4 text-[rgb(var(--color-text))] border-b border-[rgb(var(--color-border))]">Jane Smith</td>
+                <td class="px-6 py-4 text-[rgb(var(--color-text))] border-b border-[rgb(var(--color-border))]">Designer</td>
+                <td class="px-6 py-4 border-b border-[rgb(var(--color-border))]">
+                  <span class="status-warning">Pending</span>
+                </td>
+                <td class="px-6 py-4 border-b border-[rgb(var(--color-border))]">
+                  <button class="btn-secondary text-sm">View</button>
+                </td>
+              </tr>
+              <tr class="hover:bg-[rgb(var(--color-bg-alt))] transition-colors">
+                <td class="px-6 py-4 text-[rgb(var(--color-text))] border-b border-[rgb(var(--color-border))]">Bob Johnson</td>
+                <td class="px-6 py-4 text-[rgb(var(--color-text))] border-b border-[rgb(var(--color-border))]">Manager</td>
+                <td class="px-6 py-4 border-b border-[rgb(var(--color-border))]">
+                  <span class="status-error">Inactive</span>
+                </td>
+                <td class="px-6 py-4 border-b border-[rgb(var(--color-border))]">
+                  <button class="btn-accent text-sm">Delete</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Enhanced Table with Shocking Highlights -->
+      <div class="mb-8">
+        <h3 class="text-lg font-semibold mb-4 text-[rgb(var(--color-text))]">Enhanced Table with <span class="highlight-shock">Shocking Highlights</span></h3>
+        <div class="overflow-x-auto">
+          <table class="w-full border-collapse bg-[rgb(var(--color-bg))] border border-[rgb(var(--color-border))] rounded-lg overflow-hidden shadow-lg">
+            <thead>
+              <tr class="bg-gradient-to-r from-[rgb(var(--color-primary))] to-[rgb(var(--color-accent))]">
+                <th class="px-6 py-4 text-left font-bold text-white border-b border-white/20">
+                  <span class="flex items-center gap-2">
+                    <span>📊</span>
+                    <span>Metric</span>
+                  </span>
+                </th>
+                <th class="px-6 py-4 text-left font-bold text-white border-b border-white/20">
+                  <span class="flex items-center gap-2">
+                    <span>📈</span>
+                    <span>Current</span>
+                  </span>
+                </th>
+                <th class="px-6 py-4 text-left font-bold text-white border-b border-white/20">
+                  <span class="flex items-center gap-2">
+                    <span>🎯</span>
+                    <span>Target</span>
+                  </span>
+                </th>
+                <th class="px-6 py-4 text-left font-bold text-white border-b border-white/20">
+                  <span class="flex items-center gap-2">
+                    <span>⚡</span>
+                    <span>Status</span>
+                  </span>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="hover:bg-[rgb(var(--color-bg-alt))] transition-colors group">
+                <td class="px-6 py-4 text-[rgb(var(--color-text))] border-b border-[rgb(var(--color-border))] font-semibold">
+                  <span class="highlight-primary">Revenue Growth</span>
+                </td>
+                <td class="px-6 py-4 text-[rgb(var(--color-text))] border-b border-[rgb(var(--color-border))]">
+                  <span class="text-2xl font-bold text-[rgb(var(--color-success))]">+23.5%</span>
+                </td>
+                <td class="px-6 py-4 text-[rgb(var(--color-text-muted))] border-b border-[rgb(var(--color-border))]">+20%</td>
+                <td class="px-6 py-4 border-b border-[rgb(var(--color-border))]">
+                  <span class="highlight-shock animate-pulse-shock font-bold">EXCEEDED!</span>
+                </td>
+              </tr>
+              <tr class="hover:bg-[rgb(var(--color-bg-alt))] transition-colors group">
+                <td class="px-6 py-4 text-[rgb(var(--color-text))] border-b border-[rgb(var(--color-border))] font-semibold">
+                  <span class="highlight-accent">User Engagement</span>
+                </td>
+                <td class="px-6 py-4 text-[rgb(var(--color-text))] border-b border-[rgb(var(--color-border))]">
+                  <span class="text-2xl font-bold text-[rgb(var(--color-warning))]">78.2%</span>
+                </td>
+                <td class="px-6 py-4 text-[rgb(var(--color-text-muted))] border-b border-[rgb(var(--color-border))]">80%</td>
+                <td class="px-6 py-4 border-b border-[rgb(var(--color-border))]">
+                  <span class="status-warning">CLOSE</span>
+                </td>
+              </tr>
+              <tr class="hover:bg-[rgb(var(--color-bg-alt))] transition-colors group">
+                <td class="px-6 py-4 text-[rgb(var(--color-text))] border-b border-[rgb(var(--color-border))] font-semibold">
+                  <span class="text-[rgb(var(--color-highlight))]">Conversion Rate</span>
+                </td>
+                <td class="px-6 py-4 text-[rgb(var(--color-text))] border-b border-[rgb(var(--color-border))]">
+                  <span class="text-2xl font-bold text-[rgb(var(--color-error))]">2.1%</span>
+                </td>
+                <td class="px-6 py-4 text-[rgb(var(--color-text-muted))] border-b border-[rgb(var(--color-border))]">5%</td>
+                <td class="px-6 py-4 border-b border-[rgb(var(--color-border))]">
+                  <span class="status-error">CRITICAL</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Data Comparison Table -->
+      <div class="mb-8">
+        <h3 class="text-lg font-semibold mb-4 text-[rgb(var(--color-text))]">Data Comparison Table</h3>
+        <div class="overflow-x-auto">
+          <table class="w-full border-collapse bg-[rgb(var(--color-bg))] border border-[rgb(var(--color-border))] rounded-lg overflow-hidden">
+            <thead>
+              <tr class="bg-[rgb(var(--color-bg-alt))]">
+                <th class="px-4 py-3 text-left font-semibold text-[rgb(var(--color-text))] border-b border-[rgb(var(--color-border))]">Feature</th>
+                <th class="px-4 py-3 text-center font-semibold text-[rgb(var(--color-text))] border-b border-[rgb(var(--color-border))]">Free Plan</th>
+                <th class="px-4 py-3 text-center font-semibold text-[rgb(var(--color-text))] border-b border-[rgb(var(--color-border))]">Pro Plan</th>
+                <th class="px-4 py-3 text-center font-semibold text-[rgb(var(--color-text))] border-b border-[rgb(var(--color-border))]">Enterprise</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="hover:bg-[rgb(var(--color-bg-alt))] transition-colors">
+                <td class="px-4 py-3 text-[rgb(var(--color-text))] border-b border-[rgb(var(--color-border))] font-medium">Storage</td>
+                <td class="px-4 py-3 text-center text-[rgb(var(--color-text))] border-b border-[rgb(var(--color-border))]">5 GB</td>
+                <td class="px-4 py-3 text-center text-[rgb(var(--color-text))] border-b border-[rgb(var(--color-border))]">
+                  <span class="highlight-accent font-semibold">100 GB</span>
+                </td>
+                <td class="px-4 py-3 text-center text-[rgb(var(--color-text))] border-b border-[rgb(var(--color-border))]">
+                  <span class="highlight-shock font-bold">Unlimited</span>
+                </td>
+              </tr>
+              <tr class="hover:bg-[rgb(var(--color-bg-alt))] transition-colors">
+                <td class="px-4 py-3 text-[rgb(var(--color-text))] border-b border-[rgb(var(--color-border))] font-medium">Users</td>
+                <td class="px-4 py-3 text-center text-[rgb(var(--color-text))] border-b border-[rgb(var(--color-border))]">1</td>
+                <td class="px-4 py-3 text-center text-[rgb(var(--color-text))] border-b border-[rgb(var(--color-border))]">10</td>
+                <td class="px-4 py-3 text-center text-[rgb(var(--color-text))] border-b border-[rgb(var(--color-border))]">
+                  <span class="highlight-primary font-bold">Unlimited</span>
+                </td>
+              </tr>
+              <tr class="hover:bg-[rgb(var(--color-bg-alt))] transition-colors">
+                <td class="px-4 py-3 text-[rgb(var(--color-text))] border-b border-[rgb(var(--color-border))] font-medium">Support</td>
+                <td class="px-4 py-3 text-center text-[rgb(var(--color-text-muted))] border-b border-[rgb(var(--color-border))]">Email</td>
+                <td class="px-4 py-3 text-center text-[rgb(var(--color-text))] border-b border-[rgb(var(--color-border))]">Priority</td>
+                <td class="px-4 py-3 text-center text-[rgb(var(--color-text))] border-b border-[rgb(var(--color-border))]">
+                  <span class="highlight-shock font-bold">24/7 Phone</span>
+                </td>
+              </tr>
+              <tr class="hover:bg-[rgb(var(--color-bg-alt))] transition-colors">
+                <td class="px-4 py-3 text-[rgb(var(--color-text))] border-b border-[rgb(var(--color-border))] font-medium">Price</td>
+                <td class="px-4 py-3 text-center text-[rgb(var(--color-text))] border-b border-[rgb(var(--color-border))]">
+                  <span class="text-2xl font-bold text-[rgb(var(--color-success))]">$0</span>
+                </td>
+                <td class="px-4 py-3 text-center text-[rgb(var(--color-text))] border-b border-[rgb(var(--color-border))]">
+                  <span class="text-2xl font-bold text-[rgb(var(--color-accent))]">$29</span>
+                  <span class="text-sm text-[rgb(var(--color-text-muted))]">/month</span>
+                </td>
+                <td class="px-4 py-3 text-center text-[rgb(var(--color-text))] border-b border-[rgb(var(--color-border))]">
+                  <span class="text-2xl font-bold text-[rgb(var(--color-primary))]">$99</span>
+                  <span class="text-sm text-[rgb(var(--color-text-muted))]">/month</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Responsive Table Example -->
+      <div class="mb-8">
+        <h3 class="text-lg font-semibold mb-4 text-[rgb(var(--color-text))]">Responsive Table (Mobile-Friendly)</h3>
+        <div class="overflow-x-auto">
+          <table class="w-full border-collapse bg-[rgb(var(--color-bg))] border border-[rgb(var(--color-border))] rounded-lg overflow-hidden">
+            <thead>
+              <tr class="bg-[rgb(var(--color-bg-alt))]">
+                <th class="px-4 py-3 text-left font-semibold text-[rgb(var(--color-text))] border-b border-[rgb(var(--color-border))]">Product</th>
+                <th class="px-4 py-3 text-left font-semibold text-[rgb(var(--color-text))] border-b border-[rgb(var(--color-border))]">Category</th>
+                <th class="px-4 py-3 text-left font-semibold text-[rgb(var(--color-text))] border-b border-[rgb(var(--color-border))]">Price</th>
+                <th class="px-4 py-3 text-left font-semibold text-[rgb(var(--color-text))] border-b border-[rgb(var(--color-border))]">Stock</th>
+                <th class="px-4 py-3 text-left font-semibold text-[rgb(var(--color-text))] border-b border-[rgb(var(--color-border))]">Rating</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="hover:bg-[rgb(var(--color-bg-alt))] transition-colors">
+                <td class="px-4 py-3 text-[rgb(var(--color-text))] border-b border-[rgb(var(--color-border))]">
+                  <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 bg-[rgb(var(--color-primary))] rounded"></div>
+                    <span class="font-medium">Premium Widget</span>
+                  </div>
+                </td>
+                <td class="px-4 py-3 text-[rgb(var(--color-text))] border-b border-[rgb(var(--color-border))]">
+                  <span class="px-2 py-1 bg-[rgb(var(--color-accent))]/10 text-[rgb(var(--color-accent))] rounded text-sm">Electronics</span>
+                </td>
+                <td class="px-4 py-3 text-[rgb(var(--color-text))] border-b border-[rgb(var(--color-border))]">
+                  <span class="font-bold text-[rgb(var(--color-success))]">$299</span>
+                </td>
+                <td class="px-4 py-3 border-b border-[rgb(var(--color-border))]">
+                  <span class="status-success">In Stock</span>
+                </td>
+                <td class="px-4 py-3 text-[rgb(var(--color-text))] border-b border-[rgb(var(--color-border))]">
+                  <div class="flex items-center gap-1">
+                    <span class="text-[rgb(var(--color-highlight))]">★★★★★</span>
+                    <span class="text-sm text-[rgb(var(--color-text-muted))]">(127)</span>
+                  </div>
+                </td>
+              </tr>
+              <tr class="hover:bg-[rgb(var(--color-bg-alt))] transition-colors">
+                <td class="px-4 py-3 text-[rgb(var(--color-text))] border-b border-[rgb(var(--color-border))]">
+                  <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 bg-[rgb(var(--color-accent))] rounded"></div>
+                    <span class="font-medium">Smart Gadget</span>
+                  </div>
+                </td>
+                <td class="px-4 py-3 text-[rgb(var(--color-text))] border-b border-[rgb(var(--color-border))]">
+                  <span class="px-2 py-1 bg-[rgb(var(--color-primary))]/10 text-[rgb(var(--color-primary))] rounded text-sm">Tech</span>
+                </td>
+                <td class="px-4 py-3 text-[rgb(var(--color-text))] border-b border-[rgb(var(--color-border))]">
+                  <span class="font-bold text-[rgb(var(--color-warning))]">$199</span>
+                </td>
+                <td class="px-4 py-3 border-b border-[rgb(var(--color-border))]">
+                  <span class="status-warning">Low Stock</span>
+                </td>
+                <td class="px-4 py-3 text-[rgb(var(--color-text))] border-b border-[rgb(var(--color-border))]">
+                  <div class="flex items-center gap-1">
+                    <span class="text-[rgb(var(--color-highlight))]">★★★★☆</span>
+                    <span class="text-sm text-[rgb(var(--color-text-muted))]">(89)</span>
+                  </div>
+                </td>
+              </tr>
+              <tr class="hover:bg-[rgb(var(--color-bg-alt))] transition-colors">
+                <td class="px-4 py-3 text-[rgb(var(--color-text))] border-b border-[rgb(var(--color-border))]">
+                  <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 bg-[rgb(var(--color-highlight))] rounded"></div>
+                    <span class="font-medium">Basic Tool</span>
+                  </div>
+                </td>
+                <td class="px-4 py-3 text-[rgb(var(--color-text))] border-b border-[rgb(var(--color-border))]">
+                  <span class="px-2 py-1 bg-[rgb(var(--color-highlight))]/20 text-[rgb(var(--color-text))] rounded text-sm">Tools</span>
+                </td>
+                <td class="px-4 py-3 text-[rgb(var(--color-text))] border-b border-[rgb(var(--color-border))]">
+                  <span class="font-bold text-[rgb(var(--color-error))]">$49</span>
+                </td>
+                <td class="px-4 py-3 border-b border-[rgb(var(--color-border))]">
+                  <span class="status-error">Out of Stock</span>
+                </td>
+                <td class="px-4 py-3 text-[rgb(var(--color-text))] border-b border-[rgb(var(--color-border))]">
+                  <div class="flex items-center gap-1">
+                    <span class="text-[rgb(var(--color-highlight))]">★★★☆☆</span>
+                    <span class="text-sm text-[rgb(var(--color-text-muted))]">(42)</span>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Table with Actions -->
+      <div class="mb-8">
+        <h3 class="text-lg font-semibold mb-4 text-[rgb(var(--color-text))]">Table with Interactive Actions</h3>
+        <div class="overflow-x-auto">
+          <table class="w-full border-collapse bg-[rgb(var(--color-bg))] border border-[rgb(var(--color-border))] rounded-lg overflow-hidden">
+            <thead>
+              <tr class="bg-[rgb(var(--color-bg-alt))]">
+                <th class="px-6 py-4 text-left font-semibold text-[rgb(var(--color-text))] border-b border-[rgb(var(--color-border))]">Task</th>
+                <th class="px-6 py-4 text-left font-semibold text-[rgb(var(--color-text))] border-b border-[rgb(var(--color-border))]">Priority</th>
+                <th class="px-6 py-4 text-left font-semibold text-[rgb(var(--color-text))] border-b border-[rgb(var(--color-border))]">Due Date</th>
+                <th class="px-6 py-4 text-left font-semibold text-[rgb(var(--color-text))] border-b border-[rgb(var(--color-border))]">Status</th>
+                <th class="px-6 py-4 text-left font-semibold text-[rgb(var(--color-text))] border-b border-[rgb(var(--color-border))]">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="hover:bg-[rgb(var(--color-bg-alt))] transition-colors">
+                <td class="px-6 py-4 text-[rgb(var(--color-text))] border-b border-[rgb(var(--color-border))]">
+                  <span class="highlight-shock font-semibold">Critical Bug Fix</span>
+                </td>
+                <td class="px-6 py-4 border-b border-[rgb(var(--color-border))]">
+                  <span class="px-3 py-1 bg-[rgb(var(--color-error))] text-white rounded-full text-sm font-bold">High</span>
+                </td>
+                <td class="px-6 py-4 text-[rgb(var(--color-text))] border-b border-[rgb(var(--color-border))]">Today</td>
+                <td class="px-6 py-4 border-b border-[rgb(var(--color-border))]">
+                  <span class="status-error">Urgent</span>
+                </td>
+                <td class="px-6 py-4 border-b border-[rgb(var(--color-border))]">
+                  <div class="flex gap-2">
+                    <button class="btn-primary text-sm">Fix</button>
+                    <button class="btn-secondary text-sm">Details</button>
+                  </div>
+                </td>
+              </tr>
+              <tr class="hover:bg-[rgb(var(--color-bg-alt))] transition-colors">
+                <td class="px-6 py-4 text-[rgb(var(--color-text))] border-b border-[rgb(var(--color-border))]">
+                  <span class="highlight-accent font-semibold">Feature Implementation</span>
+                </td>
+                <td class="px-6 py-4 border-b border-[rgb(var(--color-border))]">
+                  <span class="px-3 py-1 bg-[rgb(var(--color-warning))] text-white rounded-full text-sm font-bold">Medium</span>
+                </td>
+                <td class="px-6 py-4 text-[rgb(var(--color-text))] border-b border-[rgb(var(--color-border))]">Tomorrow</td>
+                <td class="px-6 py-4 border-b border-[rgb(var(--color-border))]">
+                  <span class="status-warning">In Progress</span>
+                </td>
+                <td class="px-6 py-4 border-b border-[rgb(var(--color-border))]">
+                  <div class="flex gap-2">
+                    <button class="btn-accent text-sm">Update</button>
+                    <button class="btn-secondary text-sm">View</button>
+                  </div>
+                </td>
+              </tr>
+              <tr class="hover:bg-[rgb(var(--color-bg-alt))] transition-colors">
+                <td class="px-6 py-4 text-[rgb(var(--color-text))] border-b border-[rgb(var(--color-border))]">
+                  <span class="text-[rgb(var(--color-highlight))] font-semibold">Code Review</span>
+                </td>
+                <td class="px-6 py-4 border-b border-[rgb(var(--color-border))]">
+                  <span class="px-3 py-1 bg-[rgb(var(--color-success))] text-white rounded-full text-sm font-bold">Low</span>
+                </td>
+                <td class="px-6 py-4 text-[rgb(var(--color-text))] border-b border-[rgb(var(--color-border))]">Next Week</td>
+                <td class="px-6 py-4 border-b border-[rgb(var(--color-border))]">
+                  <span class="status-success">Pending</span>
+                </td>
+                <td class="px-6 py-4 border-b border-[rgb(var(--color-border))]">
+                  <div class="flex gap-2">
+                    <button class="btn-highlight text-sm">Review</button>
+                    <button class="btn-secondary text-sm">Schedule</button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </section>
