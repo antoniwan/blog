@@ -25,8 +25,8 @@ const { data } = post;
 	}}
 	role="article"
 >
-	<!-- Subtle gradient overlay -->
-	<div class="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-[rgb(var(--color-primary))]/5 opacity-0 group-hover:opacity-100 transition-normal pointer-events-none"></div>
+	<!-- Enhanced gradient overlay with shocking highlights -->
+	<div class="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-[rgb(var(--color-primary))]/10 opacity-0 group-hover:opacity-100 transition-normal pointer-events-none"></div>
 	
 	<!-- Hero Image -->
 	<div class="relative overflow-hidden">
@@ -59,6 +59,12 @@ const { data } = post;
 						<>
 							<span aria-hidden="true">•</span>
 							<span>{data.readingTime} min read</span>
+						</>
+					)}
+					{featured && (
+						<>
+							<span aria-hidden="true">•</span>
+							<span class="highlight-shock text-xs">FEATURED</span>
 						</>
 					)}
 				</div>
