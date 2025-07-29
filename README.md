@@ -1,6 +1,6 @@
 # Curious Chaos Journal
 
-[![Version](https://img.shields.io/badge/version-2.1.0-blue.svg)](https://github.com/antoniwan/curious-chaos-journal/releases)
+[![Version](https://img.shields.io/badge/version-2.2.1-blue.svg)](https://github.com/antoniwan/curious-chaos-journal/releases)
 
 A personal digital space documenting the journey of building systems — digital, emotional, spiritual, and physical. Raw reflections on thinking, culture, and the soft heart inside the hard world.
 

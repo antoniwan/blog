@@ -5,6 +5,29 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.2.1] - 2025-01-29
+
+### Fixed
+
+- **Layout Improvements**: Enhanced blog layout with better image handling and visual consistency
+  - Added default divider image for better visual separation
+  - Adjusted BlogLayout image height for improved proportions
+  - Removed author frontmatter value to clean up content structure
+  - Updated author name for consistency across the site
+
+### Technical Details
+
+- **Image Assets**: Added `default-divider.avif` for consistent visual dividers
+- **Layout Updates**: Improved `BlogLayout.astro` component with better image sizing
+- **Content Cleanup**: Removed unused author field from frontmatter
+- **Author Consistency**: Updated author name across the site
+
+### User Experience
+
+- 🎨 **Visual Consistency**: Better image proportions and divider usage
+- 📝 **Cleaner Content**: Removed redundant author information
+- 🔧 **Maintenance**: Improved code organization and consistency
+
 ## [2.2.0] - 2025-01-XX
 
 ### Fixed
@@ -81,6 +104,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Version History
 
+- **2.2.1**: Layout improvements and content cleanup
 - **2.2.0**: Fixed 404 page layout and removed duplicate content
 - **2.1.0**: Added Giscus comments system
 - **2.0.0**: Initial stable release with core blog functionality
