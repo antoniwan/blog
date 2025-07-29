@@ -1,64 +1,33 @@
 ---
-import { getImportantTags, sortTagsByImportance } from '../utils/tagUtils';
-
 interface Props {
 	tags: string[];
 	maxVisible?: number;
-	showCount?: boolean;
 	showMoreIndicator?: boolean;
-	className?: string;
 	compact?: boolean;
 	variant?: 'default' | 'subtle' | 'bordered';
+	className?: string;
 }
 
 const { 
 	tags, 
-	maxVisible = 3, 
-	showCount = false, 
-	showMoreIndicator = true,
-	className = '',
+	maxVisible = 5, 
+	showMoreIndicator = false,
 	compact = false,
-	variant = 'default'
+	variant = 'default',
+	className = ''
 } = Astro.props;
 
-const sortedTags = sortTagsByImportance(tags);
-const visibleTags = sortedTags.slice(0, maxVisible);
+// Calculate visible tags and remaining count
+const visibleTags = tags.slice(0, maxVisible);
 const hasMoreTags = showMoreIndicator && tags.length > maxVisible;
 const remainingCount = tags.length - maxVisible;
 
-// Enhanced color system with better contrast and accessibility
+// Simplified color system
 const getTagColor = (tag: string, variant: string) => {
-	const baseColors = {
-		default: [
-			'bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300 hover:bg-blue-100 dark:hover:bg-blue-900/30',
-			'bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800 text-green-700 dark:text-green-300 hover:bg-green-100 dark:hover:bg-green-900/30',
-			'bg-purple-50 dark:bg-purple-900/20 border-purple-200 dark:border-purple-800 text-purple-700 dark:text-purple-300 hover:bg-purple-100 dark:hover:bg-purple-900/30',
-			'bg-orange-50 dark:bg-orange-900/20 border-orange-200 dark:border-orange-800 text-orange-700 dark:text-orange-300 hover:bg-orange-100 dark:hover:bg-orange-900/30',
-			'bg-pink-50 dark:bg-pink-900/20 border-pink-200 dark:border-pink-800 text-pink-700 dark:text-pink-300 hover:bg-pink-100 dark:hover:bg-pink-900/30',
-			'bg-indigo-50 dark:bg-indigo-900/20 border-indigo-200 dark:border-indigo-800 text-indigo-700 dark:text-indigo-300 hover:bg-indigo-100 dark:hover:bg-indigo-900/30',
-			'bg-teal-50 dark:bg-teal-900/20 border-teal-200 dark:border-teal-800 text-teal-700 dark:text-teal-300 hover:bg-teal-100 dark:hover:bg-teal-900/30',
-			'bg-amber-50 dark:bg-amber-900/20 border-amber-200 dark:border-amber-800 text-amber-700 dark:text-amber-300 hover:bg-amber-100 dark:hover:bg-amber-900/30',
-		],
-		subtle: [
-			'bg-neutral-50 dark:bg-neutral-800 border-neutral-200 dark:border-neutral-700 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-700',
-			'bg-neutral-50 dark:bg-neutral-800 border-neutral-200 dark:border-neutral-700 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-700',
-			'bg-neutral-50 dark:bg-neutral-800 border-neutral-200 dark:border-neutral-700 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-700',
-			'bg-neutral-50 dark:bg-neutral-800 border-neutral-200 dark:border-neutral-700 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-700',
-			'bg-neutral-50 dark:bg-neutral-800 border-neutral-200 dark:border-neutral-700 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-700',
-			'bg-neutral-50 dark:bg-neutral-800 border-neutral-200 dark:border-neutral-700 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-700',
-			'bg-neutral-50 dark:bg-neutral-800 border-neutral-200 dark:border-neutral-700 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-700',
-			'bg-neutral-50 dark:bg-neutral-800 border-neutral-200 dark:border-neutral-700 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-700',
-		],
-		bordered: [
-			'bg-transparent border-blue-300 dark:border-blue-600 text-blue-700 dark:text-blue-300 hover:bg-blue-50 dark:hover:bg-blue-900/20',
-			'bg-transparent border-green-300 dark:border-green-600 text-green-700 dark:text-green-300 hover:bg-green-50 dark:hover:bg-green-900/20',
-			'bg-transparent border-purple-300 dark:border-purple-600 text-purple-700 dark:text-purple-300 hover:bg-purple-50 dark:hover:bg-purple-900/20',
-			'bg-transparent border-orange-300 dark:border-orange-600 text-orange-700 dark:text-orange-300 hover:bg-orange-50 dark:hover:bg-orange-900/20',
-			'bg-transparent border-pink-300 dark:border-pink-600 text-pink-700 dark:text-pink-300 hover:bg-pink-50 dark:hover:bg-pink-900/20',
-			'bg-transparent border-indigo-300 dark:border-indigo-600 text-indigo-700 dark:text-indigo-300 hover:bg-indigo-50 dark:hover:bg-indigo-900/20',
-			'bg-transparent border-teal-300 dark:border-teal-600 text-teal-700 dark:text-teal-300 hover:bg-teal-50 dark:hover:bg-teal-900/20',
-			'bg-transparent border-amber-300 dark:border-amber-600 text-amber-700 dark:text-amber-300 hover:bg-amber-50 dark:hover:bg-amber-900/20',
-		]
+	const colors = {
+		default: 'bg-[rgb(var(--color-primary))]/10 border-[rgb(var(--color-primary))]/20 text-[rgb(var(--color-primary))] hover:bg-[rgb(var(--color-primary))]/20',
+		subtle: 'bg-[rgb(var(--color-bg-alt))] border-[rgb(var(--color-border))] text-[rgb(var(--color-text-muted))] hover:bg-[rgb(var(--color-bg-alt))]/80',
+		bordered: 'bg-transparent border-[rgb(var(--color-primary))]/30 text-[rgb(var(--color-primary))] hover:bg-[rgb(var(--color-primary))]/10'
 	};
 	
 	// Use tag name to consistently assign colors
@@ -67,7 +36,7 @@ const getTagColor = (tag: string, variant: string) => {
 		return a & a;
 	}, 0);
 	
-	return baseColors[variant as keyof typeof baseColors][Math.abs(hash) % 8];
+	return colors[variant as keyof typeof colors];
 };
 ---
 
@@ -75,19 +44,14 @@ const getTagColor = (tag: string, variant: string) => {
 	{visibleTags.map(tag => (
 		<a
 			href={`/tag/${tag}/`}
-			class={`tag-item inline-flex items-center gap-1.5 ${compact ? 'text-xs px-2.5 py-1' : 'text-sm px-3 py-1.5'} rounded-full border font-medium transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-1 dark:focus:ring-offset-background-dark ${getTagColor(tag, variant)}`}
+			class={`tag-item inline-flex items-center gap-1.5 ${compact ? 'text-xs px-2.5 py-1' : 'text-sm px-3 py-1.5'} rounded-full border font-medium transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-primary))] focus:ring-offset-1 ${getTagColor(tag, variant)}`}
 		>
 			<span class="tag-icon" aria-hidden="true">🏷️</span>
 			<span class="tag-text">#{tag}</span>
-			{showCount && (
-				<span class="tag-count text-xs opacity-75 font-normal">
-					({tags.filter(t => t === tag).length})
-				</span>
-			)}
 		</a>
 	))}
 	{hasMoreTags && (
-		<span class={`more-indicator inline-flex items-center gap-1.5 ${compact ? 'text-xs px-2.5 py-1' : 'text-sm px-3 py-1.5'} rounded-full bg-neutral-50 dark:bg-neutral-800 text-neutral-500 dark:text-neutral-400 border border-neutral-200 dark:border-neutral-700 font-medium`}>
+		<span class={`more-indicator inline-flex items-center gap-1.5 ${compact ? 'text-xs px-2.5 py-1' : 'text-sm px-3 py-1.5'} rounded-full bg-[rgb(var(--color-bg-alt))] text-[rgb(var(--color-text-muted))] border border-[rgb(var(--color-border))] font-medium`}>
 			<span aria-hidden="true">⋯</span>
 			<span>+{remainingCount} more</span>
 		</span>
@@ -101,7 +65,7 @@ const getTagColor = (tag: string, variant: string) => {
 	}
 
 	.tag-item {
-		transition: all var(--animation-duration-normal) var(--animation-easing-default);
+		transition: all 0.2s ease;
 		backdrop-filter: blur(4px);
 	}
 
@@ -125,23 +89,13 @@ const getTagColor = (tag: string, variant: string) => {
 
 	/* More indicator styling */
 	.more-indicator {
-		transition: all var(--animation-duration-normal) var(--animation-easing-default);
+		transition: all 0.2s ease;
 	}
 
 	/* Enhanced hover effects */
 	.tag-item:hover {
 		transform: translateY(-1px);
 		box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -1px rgb(0 0 0 / 0.06);
-	}
-
-	.dark .tag-item:hover {
-		box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.25), 0 2px 4px -1px rgb(0 0 0 / 0.1);
-	}
-
-	/* Focus styles for accessibility */
-	.tag-item:focus {
-		outline: 2px solid rgb(var(--color-primary));
-		outline-offset: 2px;
 	}
 
 	/* Respect reduced motion preferences */
@@ -153,23 +107,6 @@ const getTagColor = (tag: string, variant: string) => {
 
 		.tag-item:hover {
 			transform: none;
-		}
-	}
-
-	/* Responsive adjustments */
-	@media (max-width: 768px) {
-		.tag-display {
-			gap: 0.375rem;
-		}
-
-		.tag-item {
-			font-size: 0.75rem;
-			padding: 0.25rem 0.5rem;
-		}
-
-		.more-indicator {
-			font-size: 0.75rem;
-			padding: 0.25rem 0.5rem;
 		}
 	}
 </style> 

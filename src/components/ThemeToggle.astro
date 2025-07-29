@@ -9,7 +9,7 @@ const { class: className = '' } = Astro.props;
 <button
 	type="button"
 	class:list={[
-		'inline-flex items-center justify-center p-2 rounded-lg text-neutral-600 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400 hover:bg-background-alt dark:hover:bg-background-alt-dark theme-transition',
+		'inline-flex items-center justify-center p-2 rounded-lg text-[rgb(var(--color-text-muted))] hover:text-[rgb(var(--color-primary))] hover:bg-[rgb(var(--color-bg-alt))] theme-transition',
 		className
 	]}
 	aria-label="Toggle theme"
@@ -51,42 +51,31 @@ const { class: className = '' } = Astro.props;
 </button>
 
 <script>
-	// Function to set theme with transition handling
+	// Simplified theme toggle function
 	function setTheme(theme: 'dark' | 'light') {
 		const root = document.documentElement;
-		const isDark = theme === 'dark';
-		
-		// Add transition class temporarily
-		root.classList.add('theme-transitioning');
-		
-		// Set theme
-		root.classList.toggle('dark', isDark);
+		root.classList.toggle('dark', theme === 'dark');
 		localStorage.setItem('theme', theme);
 		
 		// Update meta theme-color
 		const metaThemeColor = document.querySelector('meta[name="theme-color"]');
 		if (metaThemeColor) {
-			metaThemeColor.setAttribute('content', isDark ? '#1a1a1a' : '#fafafc');
+			metaThemeColor.setAttribute('content', theme === 'dark' ? '#0f172a' : '#ffffff');
 		}
-		
-		// Remove transition class after animation
-		setTimeout(() => {
-			root.classList.remove('theme-transitioning');
-		}, 300);
 	}
 
-	// Function to toggle theme
+	// Toggle theme function
 	function toggleTheme() {
 		const isDark = document.documentElement.classList.contains('dark');
 		setTheme(isDark ? 'light' : 'dark');
 	}
 
-	// Add click event listener with keyboard support
+	// Add event listeners
 	const themeToggle = document.getElementById('theme-toggle');
 	if (themeToggle) {
 		themeToggle.addEventListener('click', toggleTheme);
 		
-		// Add keyboard support
+		// Keyboard support
 		themeToggle.addEventListener('keydown', (e) => {
 			if (e.key === 'Enter' || e.key === ' ') {
 				e.preventDefault();

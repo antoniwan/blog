@@ -9,7 +9,7 @@ const { class: className = '' } = Astro.props;
 <button
 	type="button"
 	class:list={[
-		'fixed bottom-8 right-8 z-40 inline-flex items-center justify-center p-2 rounded-lg bg-background dark:bg-background-dark text-neutral-600 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400 hover:bg-background-alt dark:hover:bg-background-alt-dark shadow-lg theme-transition-all opacity-0 translate-y-4 invisible',
+		'fixed bottom-8 right-8 z-40 inline-flex items-center justify-center p-2 rounded-lg bg-[rgb(var(--color-bg))] text-[rgb(var(--color-text-muted))] hover:text-[rgb(var(--color-primary))] hover:bg-[rgb(var(--color-bg-alt))] shadow-lg theme-transition opacity-0 translate-y-4 invisible',
 		'hover:translate-y-0 focus:translate-y-0',
 		className
 	]}
@@ -83,8 +83,7 @@ const { class: className = '' } = Astro.props;
 
 <style>
 	#back-to-top {
-		transition: opacity var(--animation-duration-fast) var(--animation-easing-default),
-					transform var(--animation-duration-fast) var(--animation-easing-default);
+		transition: opacity 0.2s ease, transform 0.2s ease;
 	}
 
 	#back-to-top:hover {

@@ -25,13 +25,13 @@ const sizeClasses = {
 <a
   href="/"
   class:list={[
-    'inline-flex items-center gap-2 font-serif font-bold tracking-tight text-text dark:text-text-dark hover:text-primary-500 dark:hover:text-primary-400 theme-transition',
+    'inline-flex items-center gap-2 font-serif font-bold tracking-tight text-[rgb(var(--color-text))] hover:text-[rgb(var(--color-primary))] theme-transition',
     sizeClasses[size],
     className
   ]}
   aria-label={`${SITE_TITLE} - Home`}
 >
-  <span class="text-primary-500 dark:text-primary-400 logo-icon" aria-hidden="true">⚡</span>
+  <span class="text-[rgb(var(--color-primary))] logo-icon" aria-hidden="true">⚡</span>
   <span class="lg:hidden">{SHORT_SITE_TITLE}</span>
   <span class="hidden lg:inline">{SITE_TITLE}</span>
 </a>
@@ -39,7 +39,7 @@ const sizeClasses = {
 <style>
   .logo-icon {
     transform-origin: center;
-    transition: transform var(--animation-duration-fast) var(--animation-easing-default);
+    transition: transform 0.2s ease;
   }
 
   /* Simple hover animation */

@@ -18,7 +18,7 @@ const { items, class: className = '' } = Astro.props;
     {items.map((item, index) => (
       <li class="flex items-center">
         {index > 0 && (
-          <svg class="h-4 w-4 text-neutral-400 dark:text-neutral-500 mx-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="h-4 w-4 text-[rgb(var(--color-text-muted))] mx-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
           </svg>
         )}
@@ -26,14 +26,14 @@ const { items, class: className = '' } = Astro.props;
         {item.href ? (
           <a
             href={item.href}
-            class="text-neutral-600 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400 transition-colors duration-200"
+            class="text-[rgb(var(--color-text-muted))] hover:text-[rgb(var(--color-primary))] theme-transition"
             aria-current={index === items.length - 1 ? 'page' : undefined}
           >
             {item.label}
           </a>
         ) : (
           <span 
-            class="text-neutral-900 dark:text-neutral-100 font-medium"
+            class="text-[rgb(var(--color-text))] font-medium"
             aria-current="page"
           >
             {item.label}

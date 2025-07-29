@@ -14,7 +14,7 @@ const { data } = post;
 ---
 
 <article 
-	class="group relative bg-background dark:bg-background-dark rounded-xl border border-border/30 dark:border-border-dark/30 shadow-sm hover:shadow-lg theme-transition-all overflow-hidden"
+	class="group relative bg-[rgb(var(--color-bg))] rounded-xl border border-[rgb(var(--color-border))]/30 shadow-sm hover:shadow-lg theme-transition overflow-hidden"
 	class:list={{
 		'featured-card': featured,
 		'compact-card': compact,
@@ -24,38 +24,31 @@ const { data } = post;
 	role="article"
 >
 	<!-- Subtle gradient overlay -->
-	<div class="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-primary-50/5 dark:to-primary-900/5 opacity-0 group-hover:opacity-100 theme-transition pointer-events-none"></div>
+	<div class="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-[rgb(var(--color-primary))]/5 opacity-0 group-hover:opacity-100 theme-transition pointer-events-none"></div>
 	
 	<!-- Card content -->
 	<div class="relative p-4 sm:p-6 md:p-8">
 		<div class="space-y-3 sm:space-y-4 md:space-y-5">
 			<!-- Header with metadata -->
-			<header class="space-y-2 sm:space-y-3">
-				<!-- Metadata row - mobile-first: stack vertically on small screens -->
-				<div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-sm text-neutral-600 dark:text-neutral-400">
-					{data.pubDate && (
-						<time datetime={data.pubDate.toISOString()} class="flex items-center gap-2 hover:text-primary-500 dark:hover:text-primary-400 theme-transition">
-							<span class="text-primary-500 dark:text-primary-400" aria-hidden="true">📅</span>
-							<FormattedDate date={data.pubDate} format="long" />
-						</time>
+			<header class="space-y-2">
+				<div class="flex items-center gap-2 text-sm text-[rgb(var(--color-text-muted))]">
+					<FormattedDate date={data.pubDate} />
+					{data.updatedDate && data.updatedDate > data.pubDate && (
+						<>
+							<span aria-hidden="true">•</span>
+							<span>Updated <FormattedDate date={data.updatedDate} /></span>
+						</>
 					)}
-					{data.category && data.category.length > 0 && (
-						<a 
-							href={`/category/${data.category[0]}/`}
-							class="flex items-center gap-2 hover:text-primary-500 dark:hover:text-primary-400 theme-transition"
-						>
-							<span class="text-primary-500 dark:text-primary-400" aria-hidden="true">📁</span>
-							<span class="font-medium">{data.category[0]}</span>
-						</a>
+					{data.readingTime && (
+						<>
+							<span aria-hidden="true">•</span>
+							<span>{data.readingTime} min read</span>
+						</>
 					)}
 				</div>
 				
-				<!-- Title -->
-				<h2 class="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-text dark:text-text-dark group-hover:text-primary-500 dark:group-hover:text-primary-400 theme-transition leading-tight">
-					<a 
-						href={`/p/${post.id}/`} 
-						class="hover:underline focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-background-dark rounded"
-					>
+				<h2 class="text-lg sm:text-xl md:text-2xl font-bold text-[rgb(var(--color-text))] group-hover:text-[rgb(var(--color-primary))] theme-transition leading-tight">
+					<a href={`/p/${post.id}/`} class="block">
 						{data.title}
 					</a>
 				</h2>
@@ -63,7 +56,7 @@ const { data } = post;
 			
 			<!-- Description -->
 			{data.description && (
-				<p class="text-sm sm:text-base md:text-lg text-neutral-600 dark:text-neutral-400 line-clamp-2 md:line-clamp-3 leading-relaxed">
+				<p class="text-sm sm:text-base md:text-lg text-[rgb(var(--color-text-muted))] line-clamp-2 md:line-clamp-3 leading-relaxed">
 					{data.description}
 				</p>
 			)}
@@ -83,28 +76,23 @@ const { data } = post;
 	</div>
 	
 	<!-- Hover indicator -->
-	<div class="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-primary-500 to-accent-500 transform scale-x-0 group-hover:scale-x-100 theme-transition origin-left"></div>
+	<div class="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-[rgb(var(--color-primary))] to-[rgb(var(--color-primary))] transform scale-x-0 group-hover:scale-x-100 theme-transition origin-left"></div>
 </article>
 
 <style>
 	/* Enhanced card styling */
 	article {
-		transition: all var(--animation-duration-normal) var(--animation-easing-default);
+		transition: all 0.2s ease;
 		backdrop-filter: blur(8px);
 	}
 
 	/* Featured card styling */
 	.featured-card {
-		@apply border-primary-500/20 dark:border-primary-400/20 shadow-md;
+		border-color: rgb(var(--color-primary) / 0.2);
+		box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
 		background: linear-gradient(135deg, 
-			rgb(var(--color-background)) 0%, 
-			rgb(var(--color-background-alt)) 100%);
-	}
-
-	.dark .featured-card {
-		background: linear-gradient(135deg, 
-			rgb(var(--color-background)) 0%, 
-			rgb(var(--color-background-elevated)) 100%);
+			rgb(var(--color-bg)) 0%, 
+			rgb(var(--color-bg-alt)) 100%);
 	}
 
 	/* Compact card styling */
@@ -128,11 +116,6 @@ const { data } = post;
 	.group:hover {
 		box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 10px 10px -5px rgb(0 0 0 / 0.04);
 		border-color: rgb(var(--color-primary) / 0.2);
-	}
-
-	.dark .group:hover {
-		box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.25), 0 10px 10px -5px rgb(0 0 0 / 0.1);
-		border-color: rgb(var(--color-primary) / 0.3);
 	}
 
 	/* Enhanced focus states */
@@ -180,36 +163,6 @@ const { data } = post;
 
 		.group:hover {
 			transform: none;
-		}
-		
-		.group:hover .scale-x-100 {
-			transform: none;
-		}
-	}
-
-	/* Mobile-first responsive adjustments */
-	@media (max-width: 640px) {
-		/* Tighter spacing on mobile */
-		.space-y-3 > * + * {
-			margin-top: 0.625rem;
-		}
-
-		.space-y-4 > * + * {
-			margin-top: 0.75rem;
-		}
-
-		.space-y-5 > * + * {
-			margin-top: 0.875rem;
-		}
-
-		/* Smaller hover effect on mobile */
-		.group:hover {
-			transform: translateY(-1px);
-		}
-
-		/* Ensure metadata items don't wrap awkwardly */
-		.flex-col > * {
-			min-width: 0;
 		}
 	}
 </style> 

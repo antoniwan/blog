@@ -62,8 +62,8 @@ const updatedDateISO = updatedDate?.toISOString();
 
 
 <!-- Theme & Color -->
-<meta name="theme-color" content="var(--color-primary-500)" media="(prefers-color-scheme: light)" />
-<meta name="theme-color" content="#1a1a1a" media="(prefers-color-scheme: dark)" />
+<meta name="theme-color" content="#3b82f6" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: dark)" />
 <meta name="color-scheme" content="light dark" />
 
 <!-- Favicon & Icons -->
@@ -132,7 +132,7 @@ const updatedDateISO = updatedDate?.toISOString();
 
 <!-- Theme initialization script -->
 <script is:inline>
-// Theme initialization script
+// Simple theme initialization
 function initializeTheme() {
   const savedTheme = localStorage.getItem('theme');
   const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -146,6 +146,7 @@ function initializeTheme() {
 
 initializeTheme();
 
+// Listen for system theme changes
 window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
   if (!localStorage.getItem('theme')) {
     document.documentElement.classList.toggle('dark', e.matches);

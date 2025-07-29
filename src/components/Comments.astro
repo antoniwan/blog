@@ -34,16 +34,16 @@ const currentUrl = Astro.url.href;
 const currentPath = Astro.url.pathname;
 ---
 
-<div class="comments-section mt-12 pt-8 border-t border-neutral-200 dark:border-neutral-800">
-  <h2 class="text-2xl font-bold mb-6 text-neutral-900 dark:text-neutral-100">
+<div class="comments-section mt-12 pt-8 border-t border-[rgb(var(--color-border))]">
+  <h2 class="text-2xl font-bold mb-6 text-[rgb(var(--color-text))]">
     💬 Join the Conversation
   </h2>
-  <p class="text-neutral-600 dark:text-neutral-400 mb-8">
+  <p class="text-[rgb(var(--color-text-muted))] mb-8">
     Share your thoughts, ask questions, or simply let me know what resonated with you. 
     I read and respond to every comment personally.
   </p>
   
-  <div class="giscus-container bg-white dark:bg-neutral-900 rounded-lg border border-neutral-200 dark:border-neutral-700 overflow-hidden">
+  <div class="giscus-container bg-[rgb(var(--color-bg))] rounded-lg border border-[rgb(var(--color-border))] overflow-hidden">
       <script 
         src="https://giscus.app/client.js"
         data-repo={repo}
@@ -63,14 +63,14 @@ const currentPath = Astro.url.pathname;
       </script>
   </div>
   
-  <div class="mt-6 text-xs text-neutral-500 dark:text-neutral-500 text-center">
+  <div class="mt-6 text-xs text-[rgb(var(--color-text-muted))] text-center">
     <p>
       Comments powered by 
       <a 
         href="https://giscus.app" 
         target="_blank" 
         rel="noopener noreferrer"
-        class="text-primary-500 hover:text-primary-600 dark:text-primary-400 dark:hover:text-primary-300 transition-colors"
+        class="text-[rgb(var(--color-primary))] hover:text-[rgb(var(--color-primary-hover))] theme-transition"
       >
         Giscus
       </a>
@@ -79,7 +79,7 @@ const currentPath = Astro.url.pathname;
         href="https://github.com/giscus/giscus" 
         target="_blank" 
         rel="noopener noreferrer"
-        class="text-primary-500 hover:text-primary-600 dark:text-primary-400 dark:hover:text-primary-300 transition-colors"
+        class="text-[rgb(var(--color-primary))] hover:text-[rgb(var(--color-primary-hover))] theme-transition"
       >
         Open Source
       </a>

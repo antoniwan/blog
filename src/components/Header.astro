@@ -8,7 +8,7 @@ import Container from './Container.astro';
 ---
 
 <header 
-	class="sticky top-0 z-40 w-full bg-background/95 dark:bg-background-dark/95 backdrop-blur-md border-b border-border/30 dark:border-border-dark/30 shadow-[0_2px_8px_0_rgba(0,0,0,0.08)] dark:shadow-[0_2px_8px_0_rgba(0,0,0,0.3)] theme-transition"
+	class="sticky top-0 z-40 w-full bg-[rgb(var(--color-bg))]/95 backdrop-blur-md border-b border-[rgb(var(--color-border))]/30 shadow-sm theme-transition"
 	role="banner"
 >
 	<Container padding="none">
@@ -31,7 +31,7 @@ import Container from './Container.astro';
 				<!-- Search Toggle for Mobile -->
 				<button
 					id="mobile-search-toggle"
-					class="md:hidden p-2 rounded-lg text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 focus:outline-none focus:ring-2 focus:ring-primary-500 theme-transition"
+					class="md:hidden p-2 rounded-lg text-[rgb(var(--color-text-muted))] hover:text-[rgb(var(--color-primary))] hover:bg-[rgb(var(--color-bg-alt))] focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-primary))] theme-transition"
 					aria-label="Toggle search"
 				>
 					<svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

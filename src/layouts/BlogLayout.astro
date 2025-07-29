@@ -67,11 +67,11 @@ const canonical = path || generateCanonicalUrl(Astro.url.pathname);
           <div class="sticky top-8 space-y-8 pt-12">
             {/* Post Title & Description - Only shown in sidebar on desktop */}
             <div class="space-y-4">
-              <h1 class="text-2xl font-bold text-text dark:text-text-dark leading-tight" transition:name="page-title">
+              <h1 class="text-2xl font-bold text-[rgb(var(--color-text))] leading-tight" transition:name="page-title">
                 {title}
               </h1>
               {description && (
-                <p class="text-text-muted dark:text-text-muted text-sm leading-relaxed">
+                <p class="text-[rgb(var(--color-text-muted))] text-sm leading-relaxed">
                   {description}
                 </p>
               )}
@@ -82,11 +82,11 @@ const canonical = path || generateCanonicalUrl(Astro.url.pathname);
               {/* Publication Date */}
               {pubDate && (
                 <div class="space-y-2">
-                  <h3 class="text-xs font-semibold text-text-subtle dark:text-text-subtle uppercase tracking-wider">
+                  <h3 class="text-xs font-semibold text-[rgb(var(--color-text-muted))] uppercase tracking-wider">
                     Published
                   </h3>
-                  <time datetime={pubDate.toISOString()} class="flex items-center gap-2 text-sm text-text dark:text-text-dark">
-                    <span class="text-primary-500 dark:text-primary-400">📅</span>
+                  <time datetime={pubDate.toISOString()} class="flex items-center gap-2 text-sm text-[rgb(var(--color-text))]">
+                    <span class="text-[rgb(var(--color-primary))]">📅</span>
                     <FormattedDate date={pubDate} format="long" />
                   </time>
                 </div>
@@ -95,11 +95,11 @@ const canonical = path || generateCanonicalUrl(Astro.url.pathname);
               {/* Updated Date */}
               {updatedDate && updatedDate.getTime() !== pubDate?.getTime() && (
                 <div class="space-y-2">
-                  <h3 class="text-xs font-semibold text-text-subtle dark:text-text-subtle uppercase tracking-wider">
+                  <h3 class="text-xs font-semibold text-[rgb(var(--color-text-muted))] uppercase tracking-wider">
                     Updated
                   </h3>
-                  <time datetime={updatedDate.toISOString()} class="flex items-center gap-2 text-sm text-text dark:text-text-dark">
-                    <span class="text-primary-500 dark:text-primary-400">🔄</span>
+                  <time datetime={updatedDate.toISOString()} class="flex items-center gap-2 text-sm text-[rgb(var(--color-text))]">
+                    <span class="text-[rgb(var(--color-primary))]">🔄</span>
                     <FormattedDate date={updatedDate} format="long" />
                   </time>
                 </div>
@@ -108,11 +108,11 @@ const canonical = path || generateCanonicalUrl(Astro.url.pathname);
               {/* Reading Time */}
               {readingTime && (
                 <div class="space-y-2">
-                  <h3 class="text-xs font-semibold text-text-subtle dark:text-text-subtle uppercase tracking-wider">
+                  <h3 class="text-xs font-semibold text-[rgb(var(--color-text-muted))] uppercase tracking-wider">
                     Reading Time
                   </h3>
-                  <div class="flex items-center gap-2 text-sm text-text dark:text-text-dark">
-                    <span class="text-primary-500 dark:text-primary-400">⏱️</span>
+                  <div class="flex items-center gap-2 text-sm text-[rgb(var(--color-text))]">
+                    <span class="text-[rgb(var(--color-primary))]">⏱️</span>
                     <span>{readingTime} min read</span>
                   </div>
                 </div>
@@ -121,14 +121,14 @@ const canonical = path || generateCanonicalUrl(Astro.url.pathname);
               {/* Category */}
               {category && category.length > 0 && (
                 <div class="space-y-2">
-                  <h3 class="text-xs font-semibold text-text-subtle dark:text-text-subtle uppercase tracking-wider">
+                  <h3 class="text-xs font-semibold text-[rgb(var(--color-text-muted))] uppercase tracking-wider">
                     Category
                   </h3>
                   <div class="flex items-center gap-2 text-sm">
-                    <span class="text-primary-500 dark:text-primary-400">📁</span>
+                    <span class="text-[rgb(var(--color-primary))]">📁</span>
                     <a 
                       href={`/category/${category[0]}/`}
-                      class="text-text dark:text-text-dark hover:text-primary-500 dark:hover:text-primary-400 transition-colors"
+                      class="text-[rgb(var(--color-text))] hover:text-[rgb(var(--color-primary))] theme-transition"
                     >
                       {category[0]}
                     </a>
@@ -139,7 +139,7 @@ const canonical = path || generateCanonicalUrl(Astro.url.pathname);
               {/* Tags */}
               {tags && tags.length > 0 && (
                 <div class="space-y-2">
-                  <h3 class="text-xs font-semibold text-text-subtle dark:text-text-subtle uppercase tracking-wider">
+                  <h3 class="text-xs font-semibold text-[rgb(var(--color-text-muted))] uppercase tracking-wider">
                     Tags
                   </h3>
                   <div class="flex flex-wrap gap-1">
@@ -156,11 +156,11 @@ const canonical = path || generateCanonicalUrl(Astro.url.pathname);
               {/* Author */}
               {author && (
                 <div class="space-y-2">
-                  <h3 class="text-xs font-semibold text-text-subtle dark:text-text-subtle uppercase tracking-wider">
+                  <h3 class="text-xs font-semibold text-[rgb(var(--color-text-muted))] uppercase tracking-wider">
                     Author
                   </h3>
-                  <div class="flex items-center gap-2 text-sm text-text dark:text-text-dark">
-                    <span class="text-primary-500 dark:text-primary-400">✍️</span>
+                  <div class="flex items-center gap-2 text-sm text-[rgb(var(--color-text))]">
+                    <span class="text-[rgb(var(--color-primary))]">✍️</span>
                     <span>{author}</span>
                   </div>
                 </div>
@@ -170,7 +170,7 @@ const canonical = path || generateCanonicalUrl(Astro.url.pathname);
             {/* Table of Contents - Only in sidebar on desktop */}
             {tableOfContents && tableOfContents.items.length > 0 && (
               <div class="space-y-3">
-                <h3 class="text-xs font-semibold text-text-subtle dark:text-text-subtle uppercase tracking-wider">
+                <h3 class="text-xs font-semibold text-[rgb(var(--color-text-muted))] uppercase tracking-wider">
                   Table of Contents
                 </h3>
                 <nav>
@@ -179,7 +179,7 @@ const canonical = path || generateCanonicalUrl(Astro.url.pathname);
                       <li>
                         <a 
                           href={`#${item.slug}`}
-                          class={`block text-sm hover:text-primary-500 dark:hover:text-primary-400 transition-colors ${
+                          class={`block text-sm hover:text-[rgb(var(--color-primary))] theme-transition ${
                             item.depth === 3 ? 'ml-3 text-xs' : ''
                           }`}
                         >
@@ -198,27 +198,27 @@ const canonical = path || generateCanonicalUrl(Astro.url.pathname);
         <main class="lg:col-span-3">
           {/* Mobile-only metadata - shown above content on mobile */}
           <div class="lg:hidden space-y-4 mb-8">
-            <div class="flex flex-wrap gap-4 text-sm text-neutral-600 dark:text-neutral-400">
+            <div class="flex flex-wrap gap-4 text-sm text-[rgb(var(--color-text-muted))]">
               {pubDate && (
                 <time datetime={pubDate.toISOString()} class="flex items-center gap-2">
-                  <span class="text-primary-500 dark:text-primary-400">📅</span>
+                  <span class="text-[rgb(var(--color-primary))]">📅</span>
                   <FormattedDate date={pubDate} format="long" />
                 </time>
               )}
               
               {readingTime && (
                 <span class="flex items-center gap-2">
-                  <span class="text-primary-500 dark:text-primary-400">⏱️</span>
+                  <span class="text-[rgb(var(--color-primary))]">⏱️</span>
                   {readingTime} min read
                 </span>
               )}
               
               {category && category.length > 0 && (
                 <span class="flex items-center gap-2">
-                  <span class="text-primary-500 dark:text-primary-400">📁</span>
+                  <span class="text-[rgb(var(--color-primary))]">📁</span>
                   <a 
                     href={`/category/${category[0]}/`}
-                    class="hover:text-primary-500 dark:hover:text-primary-400 transition-colors"
+                    class="hover:text-[rgb(var(--color-primary))] theme-transition"
                   >
                     {category[0]}
                   </a>
@@ -239,7 +239,7 @@ const canonical = path || generateCanonicalUrl(Astro.url.pathname);
             
             {/* Mobile-only Table of Contents */}
             {tableOfContents && tableOfContents.items.length > 0 && (
-              <div class="p-4 bg-neutral-50 dark:bg-neutral-900 rounded-lg">
+              <div class="p-4 bg-[rgb(var(--color-bg-alt))] rounded-lg">
                 <h2 class="text-lg font-semibold mb-4">Table of Contents</h2>
                 <nav>
                   <ul class="space-y-2">
@@ -247,7 +247,7 @@ const canonical = path || generateCanonicalUrl(Astro.url.pathname);
                       <li>
                         <a 
                           href={`#${item.slug}`}
-                          class={`block hover:text-primary-500 dark:hover:text-primary-400 transition-colors ${
+                          class={`block hover:text-[rgb(var(--color-primary))] theme-transition ${
                             item.depth === 3 ? 'ml-4 text-sm' : ''
                           }`}
                         >
@@ -272,7 +272,7 @@ const canonical = path || generateCanonicalUrl(Astro.url.pathname);
           </div>
           
           {/* Content */}
-          <div class="prose prose-lg dark:prose-invert max-w-none prose-headings:scroll-mt-20" transition:name="page-content">
+          <div class="prose prose-lg max-w-none prose-headings:scroll-mt-20" transition:name="page-content">
             <slot />
           </div>
           

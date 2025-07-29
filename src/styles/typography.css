@@ -2,21 +2,21 @@
 @layer base {
   /* Enhanced typography for longform content */
   .prose {
-    --tw-prose-body: var(--tw-color-text);
-    --tw-prose-headings: var(--tw-color-text);
-    --tw-prose-links: rgb(0, 38, 255); /* primary-700 */
-    --tw-prose-bold: var(--tw-color-text);
-    --tw-prose-counters: var(--tw-color-text);
-    --tw-prose-bullets: var(--tw-color-text);
-    --tw-prose-hr: var(--tw-color-border);
-    --tw-prose-quotes: var(--tw-color-text);
-    --tw-prose-quote-borders: rgb(0, 38, 255); /* primary-700 */
-    --tw-prose-captions: var(--tw-color-text);
-    --tw-prose-code: var(--tw-color-text);
-    --tw-prose-pre-code: var(--tw-color-text);
-    --tw-prose-pre-bg: var(--tw-color-background);
-    --tw-prose-th-borders: var(--tw-color-border);
-    --tw-prose-td-borders: var(--tw-color-border);
+    --tw-prose-body: rgb(var(--color-text));
+    --tw-prose-headings: rgb(var(--color-text));
+    --tw-prose-links: rgb(var(--color-primary));
+    --tw-prose-bold: rgb(var(--color-text));
+    --tw-prose-counters: rgb(var(--color-text));
+    --tw-prose-bullets: rgb(var(--color-text));
+    --tw-prose-hr: rgb(var(--color-border));
+    --tw-prose-quotes: rgb(var(--color-text));
+    --tw-prose-quote-borders: rgb(var(--color-primary));
+    --tw-prose-captions: rgb(var(--color-text));
+    --tw-prose-code: rgb(var(--color-text));
+    --tw-prose-pre-code: rgb(var(--color-text));
+    --tw-prose-pre-bg: rgb(var(--color-bg));
+    --tw-prose-th-borders: rgb(var(--color-border));
+    --tw-prose-td-borders: rgb(var(--color-border));
 
     /* Improved vertical rhythm */
     line-height: 1.75;
@@ -54,16 +54,16 @@
     margin-right: 0.1em;
     margin-bottom: 0.1em;
     font-family: var(--font-serif);
-    color: var(--tw-color-primary-500);
+    color: rgb(var(--color-primary));
   }
 
   /* Enhanced blockquote styling */
   .prose blockquote {
     border-left-width: 4px;
-    border-left-color: var(--tw-color-primary-500);
+    border-left-color: rgb(var(--color-primary));
     padding-left: 1.5rem;
     font-style: italic;
-    background-color: var(--tw-color-neutral-100);
+    background-color: rgb(var(--color-bg-alt));
     padding: 1.5rem;
     border-radius: 0 0.5rem 0.5rem 0;
     position: relative;
@@ -75,32 +75,27 @@
     position: absolute;
     left: 0.5rem;
     top: -0.5rem;
-    color: var(--tw-color-primary-500);
+    color: rgb(var(--color-primary));
     font-family: var(--font-serif);
     opacity: 0.2;
   }
 
   /* Code block enhancement */
   .prose pre {
-    background-color: var(--tw-color-neutral-900);
+    background-color: rgb(var(--color-bg-alt));
     border-radius: 0.5rem;
     padding: 1rem;
-    border: 1px solid var(--tw-color-neutral-200);
+    border: 1px solid rgb(var(--color-border));
     overflow-x: auto;
   }
 
   .prose code {
     font-family: var(--font-mono);
     font-size: 0.875em;
-    background-color: var(--tw-color-neutral-100);
+    background-color: rgb(var(--color-bg-alt));
     padding: 0.2em 0.4em;
     border-radius: 0.25rem;
-    color: var(--tw-color-neutral-900);
-  }
-
-  .dark .prose code {
-    background-color: var(--tw-color-neutral-800);
-    color: var(--tw-color-neutral-100);
+    color: rgb(var(--color-text));
   }
 
   /* Typography scale - keeping only used classes */

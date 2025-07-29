@@ -62,7 +62,7 @@ const tagsData = sortedTags.map(tag => ({
       {/* Empty State */}
       {sortedTags.length === 0 && (
         <div class="text-center py-12">
-          <p class="text-neutral-600 dark:text-neutral-400">
+          <p class="text-[rgb(var(--color-text-muted))]">
             No tags found yet.
           </p>
         </div>
@@ -74,8 +74,7 @@ const tagsData = sortedTags.map(tag => ({
 <style>
   /* Smooth transitions for dark mode */
   main {
-    transition: background-color 300ms cubic-bezier(0.4, 0, 0.2, 1),
-        color 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    transition: background-color 0.2s ease, color 0.2s ease;
   }
 
   /* Respect reduced motion preferences */

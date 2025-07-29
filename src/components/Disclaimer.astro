@@ -12,8 +12,8 @@ const { text = DISCLAIMER_TEXT, class: className = '', style = '' } = Astro.prop
 
 <div 
   class:list={[
-    'bg-background-alt/50 dark:bg-background-alt-dark/50',
-    'border-l-4 border-primary-500 dark:border-primary-400',
+    'bg-[rgb(var(--color-bg-alt))]/50',
+    'border-l-4 border-[rgb(var(--color-primary))]',
     'p-element md:p-block',
     'my-block',
     'rounded-md',
@@ -27,7 +27,7 @@ const { text = DISCLAIMER_TEXT, class: className = '', style = '' } = Astro.prop
 >
 	<div class="flex items-center gap-2 mb-2">
 		<span class="text-xl" aria-hidden="true">🌟</span>
-		<span class="font-semibold text-text dark:text-text-dark">Sacred Disclaimer</span>
+		<span class="font-semibold text-[rgb(var(--color-text))]">Sacred Disclaimer</span>
   </div>
-	<p class="text-neutral-600 dark:text-neutral-400 leading-relaxed m-0" set:html={text} />
+	<p class="text-[rgb(var(--color-text-muted))] leading-relaxed m-0" set:html={text} />
 </div> 

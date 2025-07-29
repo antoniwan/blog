@@ -7,58 +7,47 @@ export default {
       colors: {
         // Primary colors
         primary: {
-          50: "#f0f4ff",
-          100: "#dbe4ff",
-          200: "#b8c7ff",
-          300: "#8fa3ff",
-          400: "#6179ff",
-          500: "#3d5afe", // More vibrant primary
-          600: "#1a3bff",
-          700: "#0026ff",
-          800: "#0018cc",
-          900: "#000d99",
+          50: "#eff6ff",
+          100: "#dbeafe",
+          200: "#bfdbfe",
+          300: "#93c5fd",
+          400: "#60a5fa",
+          500: "#3b82f6",
+          600: "#2563eb",
+          700: "#1d4ed8",
+          800: "#1e40af",
+          900: "#1e3a8a",
         },
 
         // Neutral colors
         neutral: {
-          50: "#f8f9fa",
-          100: "#f1f3f5",
-          200: "#e9ecef",
-          300: "#dee2e6",
-          400: "#ced4da",
-          500: "#adb5bd",
-          600: "#868e96",
-          700: "#495057",
-          800: "#343a40",
-          900: "#212529",
+          50: "#f8fafc",
+          100: "#f1f5f9",
+          200: "#e2e8f0",
+          300: "#cbd5e1",
+          400: "#94a3b8",
+          500: "#64748b",
+          600: "#475569",
+          700: "#334155",
+          800: "#1e293b",
+          900: "#0f172a",
         },
-        // Background colors
+
+        // Background colors using CSS variables
         background: {
-          DEFAULT: "rgb(var(--color-background))",
-          dark: "rgb(var(--color-background))",
-          alt: "rgb(var(--color-background-alt))",
-          elevated: "rgb(var(--color-background-elevated))",
-          subtle: {
-            DEFAULT: "#f8f9fa",
-            dark: "#1A1F2E",
-          },
+          DEFAULT: "rgb(var(--color-bg))",
+          alt: "rgb(var(--color-bg-alt))",
         },
-        // Text colors
+
+        // Text colors using CSS variables
         text: {
           DEFAULT: "rgb(var(--color-text))",
-          dark: "rgb(var(--color-text))",
           muted: "rgb(var(--color-text-muted))",
-          subtle: "rgb(var(--color-text-subtle))",
         },
-        // Border colors
+
+        // Border colors using CSS variables
         border: {
           DEFAULT: "rgb(var(--color-border))",
-          dark: "rgb(var(--color-border))",
-          strong: "rgb(var(--color-border-strong))",
-          subtle: {
-            DEFAULT: "rgba(229, 233, 240, 0.3)",
-            dark: "rgba(229, 233, 240, 0.05)",
-          },
         },
       },
       fontFamily: {
@@ -154,10 +143,10 @@ export default {
             maxWidth: "65ch",
             color: "inherit",
             a: {
-              color: "rgb(0, 38, 255)" /* primary-700 */,
+              color: "rgb(var(--color-primary))",
               textDecoration: "none",
               fontWeight: "500",
-              transition: "color 0.3s ease",
+              transition: "color 0.2s ease",
             },
             strong: {
               color: "inherit",
@@ -166,14 +155,14 @@ export default {
             code: {
               color: "inherit",
               fontWeight: "400",
-              backgroundColor: "rgb(var(--color-background-alt))",
+              backgroundColor: "rgb(var(--color-bg-alt))",
               borderRadius: "0.25rem",
               padding: "0.25rem 0.5rem",
               fontSize: "0.875em",
             },
             pre: {
               color: "inherit",
-              backgroundColor: "rgb(var(--color-background-alt))",
+              backgroundColor: "rgb(var(--color-bg-alt))",
               borderRadius: "0.5rem",
               padding: "1rem",
               overflowX: "auto",
@@ -186,7 +175,7 @@ export default {
             blockquote: {
               color: "inherit",
               borderLeftColor: "rgb(var(--color-primary))",
-              backgroundColor: "rgb(var(--color-background-alt))",
+              backgroundColor: "rgb(var(--color-bg-alt))",
               padding: "1.5rem",
               borderRadius: "0 0.5rem 0.5rem 0",
               position: "relative",
@@ -272,7 +261,7 @@ export default {
             th: {
               color: "inherit",
               fontWeight: "600",
-              backgroundColor: "rgb(var(--color-background-alt))",
+              backgroundColor: "rgb(var(--color-bg-alt))",
               padding: "0.75rem 1rem",
               borderBottom: "1px solid rgb(var(--color-border))",
             },
@@ -300,21 +289,19 @@ export default {
         },
       },
       transitionDuration: {
-        fast: "var(--animation-duration-fast)",
-        normal: "var(--animation-duration-normal)",
-        slow: "var(--animation-duration-slow)",
+        fast: "150ms",
+        normal: "200ms",
+        slow: "300ms",
       },
       transitionTimingFunction: {
-        default: "var(--animation-easing-default)",
-        in: "var(--animation-easing-in)",
-        out: "var(--animation-easing-out)",
-        "in-out": "var(--animation-easing-in-out)",
+        default: "cubic-bezier(0.4, 0, 0.2, 1)",
+        in: "cubic-bezier(0.4, 0, 1, 1)",
+        out: "cubic-bezier(0, 0, 0.2, 1)",
+        "in-out": "cubic-bezier(0.4, 0, 0.2, 1)",
       },
       animation: {
-        "fade-in":
-          "fade-in var(--animation-duration-normal) var(--animation-easing-out)",
-        "fade-up":
-          "fade-up var(--animation-duration-normal) var(--animation-easing-out)",
+        "fade-in": "fade-in 200ms cubic-bezier(0, 0, 0.2, 1)",
+        "fade-up": "fade-up 200ms cubic-bezier(0, 0, 0.2, 1)",
       },
       keyframes: {
         "fade-in": {
