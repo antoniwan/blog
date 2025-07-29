@@ -1,5 +1,5 @@
 ---
-import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+import { SITE_TITLE, SITE_DESCRIPTION, SOCIAL_LINKS } from '../consts';
 import Logo from './Logo.astro';
 ---
 
@@ -10,45 +10,76 @@ import Logo from './Logo.astro';
 	<!-- Subtle overlay for additional contrast -->
 	<div class="absolute inset-0 bg-gradient-to-t from-black/[0.02] to-transparent dark:from-white/[0.02] dark:to-transparent pointer-events-none"></div>
 	
-	<div class="relative w-full px-4 md:px-6 lg:px-8 xl:px-12 py-10 md:py-14">
-		<div class="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8">
+	<div class="relative w-full px-4 md:px-6 lg:px-8 xl:px-12 py-12 md:py-16">
+		<!-- Main Footer Content -->
+		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
 			<!-- Brand Section -->
-			<div class="md:col-span-4">
-				<Logo size="md" />
-				<p class="mt-3 text-sm md:text-base text-neutral-600 dark:text-neutral-400">
+			<div class="lg:col-span-1">
+				<Logo size="lg" />
+				<p class="mt-4 text-sm md:text-base text-neutral-600 dark:text-neutral-400 leading-relaxed">
 					{SITE_DESCRIPTION}
 				</p>
 			</div>
 			
 			<!-- Quick Links -->
-			<div class="md:col-span-4">
-				<h3 class="text-base md:text-lg font-semibold mb-3 text-text dark:text-text-dark">Quick Links</h3>
-				<nav class="space-y-1.5" aria-label="Quick navigation">
-					<a href="/" class="block text-sm md:text-base text-neutral-600 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400 theme-transition">Home</a>
-					<a href="/category/" class="block text-sm md:text-base text-neutral-600 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400 theme-transition">Categories</a>
-					<a href="/tag/" class="block text-sm md:text-base text-neutral-600 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400 theme-transition">Tags</a>
-					<a href="/about" class="block text-sm md:text-base text-neutral-600 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400 theme-transition">About</a>
+			<div>
+				<h3 class="text-base md:text-lg font-semibold mb-4 text-text dark:text-text-dark">Quick Links</h3>
+				<nav class="space-y-2" aria-label="Quick navigation">
+					<a href="/" class="block text-sm md:text-base text-neutral-600 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400 transition-colors duration-200">Home</a>
+					<a href="/category/" class="block text-sm md:text-base text-neutral-600 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400 transition-colors duration-200">Categories</a>
+					<a href="/tag/" class="block text-sm md:text-base text-neutral-600 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400 transition-colors duration-200">Tags</a>
+					<a href="/about" class="block text-sm md:text-base text-neutral-600 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400 transition-colors duration-200">About</a>
+				</nav>
+			</div>
+			
+			<!-- Categories -->
+			<div>
+				<h3 class="text-base md:text-lg font-semibold mb-4 text-text dark:text-text-dark">Categories</h3>
+				<nav class="space-y-2" aria-label="Category navigation">
+					<a href="/category/parenting/" class="block text-sm md:text-base text-neutral-600 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400 transition-colors duration-200">👨‍👩‍👧‍👦 Parenting</a>
+					<a href="/category/psychology/" class="block text-sm md:text-base text-neutral-600 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400 transition-colors duration-200">🧠 Psychology</a>
+					<a href="/category/systems-strategy/" class="block text-sm md:text-base text-neutral-600 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400 transition-colors duration-200">💻 Systems & Strategy</a>
+					<a href="/category/integration-growth/" class="block text-sm md:text-base text-neutral-600 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400 transition-colors duration-200">🧘🏽‍♂️ Integration & Growth</a>
 				</nav>
 			</div>
 			
 			<!-- Connect Section -->
-			<div class="md:col-span-4">
-				<h3 class="text-base md:text-lg font-semibold mb-3 text-text dark:text-text-dark">Connect</h3>
-				<nav class="space-y-1.5" aria-label="Social media links">
-					<a href="https://bsky.app/profile/antoniwan.online" target="_blank" rel="noopener noreferrer" class="block text-sm md:text-base text-neutral-600 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400 theme-transition">🌀 BlueSky</a>
-					<a href="https://github.com/antoniwan/strongvault" target="_blank" rel="noopener noreferrer" class="block text-sm md:text-base text-neutral-600 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400 theme-transition">🐙 GitHub</a>
-					<a href="https://www.youtube.com/@Antoniwan777" target="_blank" rel="noopener noreferrer" class="block text-sm md:text-base text-neutral-600 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400 theme-transition">📺 YouTube</a>
+			<div>
+				<h3 class="text-base md:text-lg font-semibold mb-4 text-text dark:text-text-dark">Connect</h3>
+				<nav class="space-y-2" aria-label="Social media links">
+					<a href={SOCIAL_LINKS.bluesky} target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 text-sm md:text-base text-neutral-600 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400 transition-colors duration-200">
+						<span class="text-lg">🌀</span>
+						<span>BlueSky</span>
+					</a>
+					<a href={SOCIAL_LINKS.github} target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 text-sm md:text-base text-neutral-600 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400 transition-colors duration-200">
+						<span class="text-lg">🐙</span>
+						<span>GitHub</span>
+					</a>
+					<a href="https://www.youtube.com/@Antoniwan777" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 text-sm md:text-base text-neutral-600 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400 transition-colors duration-200">
+						<span class="text-lg">📺</span>
+						<span>YouTube</span>
+					</a>
+					<a href={SOCIAL_LINKS.buildsSoftware} target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 text-sm md:text-base text-neutral-600 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400 transition-colors duration-200">
+						<span class="text-lg">💻</span>
+						<span>Builds Software</span>
+					</a>
 				</nav>
 			</div>
 		</div>
 		
 		<!-- Copyright Section -->
-		<div class="mt-6 md:mt-8 pt-6 md:pt-8 border-t border-border/30 dark:border-border-dark/30">
-			<div class="flex flex-col md:flex-row justify-between items-center gap-3">
-				<div class="text-xs md:text-sm text-neutral-500 dark:text-neutral-400">
+		<div class="mt-8 md:mt-12 pt-8 md:pt-12 border-t border-border/30 dark:border-border-dark/30">
+			<div class="flex flex-col md:flex-row justify-between items-center gap-4">
+				<div class="text-xs md:text-sm text-neutral-500 dark:text-neutral-400 text-center md:text-left">
 					<p>© {new Date().getFullYear()} {SITE_TITLE}. All rights reserved.</p>
-					<p class="mt-1">Content licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer" class="hover:text-primary-500 dark:hover:text-primary-400 theme-transition">CC BY-NC-SA 4.0</a></p>
-					<p class="mt-1">Code licensed under <a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener noreferrer" class="hover:text-primary-500 dark:hover:text-primary-400 theme-transition">MIT License</a></p>
+					<p class="mt-1">Content licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer" class="hover:text-primary-500 dark:hover:text-primary-400 transition-colors duration-200">CC BY-NC-SA 4.0</a></p>
+					<p class="mt-1">Code licensed under <a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener noreferrer" class="hover:text-primary-500 dark:hover:text-primary-400 transition-colors duration-200">MIT License</a></p>
+				</div>
+				
+				<!-- Additional Links -->
+				<div class="flex flex-wrap justify-center md:justify-end gap-4 text-xs text-neutral-500 dark:text-neutral-400">
+					<a href="/sitemap.xml" class="hover:text-primary-500 dark:hover:text-primary-400 transition-colors duration-200">Sitemap</a>
+					<a href="/rss.xml" class="hover:text-primary-500 dark:hover:text-primary-400 transition-colors duration-200">RSS</a>
 				</div>
 			</div>
 		</div>

@@ -17,16 +17,19 @@ const searchData = posts.map(post => ({
   heroImage: post.data.heroImage,
   url: `/p/${post.id}/`
 }));
+
+// Generate unique ID for this search instance
+const searchId = `search-${Math.random().toString(36).substr(2, 9)}`;
 ---
 
-<div class="relative" id="search-container">
+<div class="relative" id={searchId}>
   <!-- Search Input -->
   <div class="relative">
     <input
       type="text"
       placeholder="Search posts..."
-      id="search-input"
-      class="w-full md:w-64 lg:w-80 px-4 py-2 pl-10 pr-4 text-sm bg-white dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent dark:text-white placeholder-neutral-500 dark:placeholder-neutral-400 theme-transition"
+      id={`${searchId}-input`}
+      class="w-full md:w-64 lg:w-80 px-4 py-2 pl-10 pr-10 md:pr-4 text-sm bg-white dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent dark:text-white placeholder-neutral-500 dark:placeholder-neutral-400 theme-transition"
       aria-label="Search posts"
     />
     
@@ -39,7 +42,7 @@ const searchData = posts.map(post => ({
     
     <!-- Clear Button -->
     <button
-      id="clear-search"
+      id={`${searchId}-clear`}
       class="absolute inset-y-0 right-0 pr-3 flex items-center text-neutral-400 hover:text-neutral-600 dark:hover:text-neutral-300 hidden"
       aria-label="Clear search"
     >
@@ -51,11 +54,11 @@ const searchData = posts.map(post => ({
 
   <!-- Search Results Dropdown -->
   <div
-    id="search-results"
+    id={`${searchId}-results`}
     class="absolute top-full left-0 right-0 mt-2 bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-lg shadow-lg z-50 max-h-96 overflow-y-auto hidden"
   >
     <!-- Loading State -->
-    <div id="search-loading" class="p-4 text-center text-neutral-500 dark:text-neutral-400 hidden">
+    <div id={`${searchId}-loading`} class="p-4 text-center text-neutral-500 dark:text-neutral-400 hidden">
       <svg class="animate-spin h-5 w-5 mx-auto" fill="none" viewBox="0 0 24 24">
         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
         <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
@@ -64,24 +67,22 @@ const searchData = posts.map(post => ({
     </div>
 
     <!-- No Results -->
-    <div id="no-results" class="p-4 text-center text-neutral-500 dark:text-neutral-400 hidden">
+    <div id={`${searchId}-no-results`} class="p-4 text-center text-neutral-500 dark:text-neutral-400 hidden">
       <svg class="h-8 w-8 mx-auto mb-2 text-neutral-300 dark:text-neutral-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 12h6m-6-4h6m2 5.291A7.962 7.962 0 0112 15c-2.34 0-4.47-.881-6.08-2.33"/>
       </svg>
-      <p>No posts found for "<span id="search-query"></span>"</p>
+      <p>No posts found for "<span id={`${searchId}-query`}"></span>"</p>
     </div>
 
     <!-- Results List -->
-    <div id="results-list" class="py-2 hidden">
+    <div id={`${searchId}-results-list`} class="py-2 hidden">
       <!-- Results will be populated by JavaScript -->
     </div>
-
-
   </div>
 </div>
 
 <!-- Hidden data for search -->
-<script id="search-posts-data" type="application/json" set:html={JSON.stringify(searchData)}></script>
+<script id={`${searchId}-data`} type="application/json" set:html={JSON.stringify(searchData)}></script>
 
 <script>
   class SearchComponent {
@@ -100,8 +101,9 @@ const searchData = posts.map(post => ({
     private searchQueryEl: HTMLElement | null;
     private searchTimeout!: ReturnType<typeof setTimeout> | null;
     private searchCache!: Map<string, any[]>;
+    private searchId: string;
 
-    constructor() {
+    constructor(searchId: string) {
       this.query = '';
       this.results = [];
       this.selectedIndex = -1;
@@ -117,6 +119,7 @@ const searchData = posts.map(post => ({
       this.searchQueryEl = null;
       this.searchTimeout = null;
       this.searchCache = new Map();
+      this.searchId = searchId;
       
       this.init();
     }
@@ -124,18 +127,18 @@ const searchData = posts.map(post => ({
     init() {
       if (this.isInitialized) return;
       
-      // Get DOM elements
-      this.container = document.getElementById('search-container');
-      this.input = document.getElementById('search-input') as HTMLInputElement;
-      this.clearBtn = document.getElementById('clear-search') as HTMLButtonElement;
-      this.resultsContainer = document.getElementById('search-results');
-      this.loadingEl = document.getElementById('search-loading');
-      this.noResultsEl = document.getElementById('no-results');
-      this.resultsListEl = document.getElementById('results-list');
-      this.searchQueryEl = document.getElementById('search-query');
+      // Get DOM elements with unique IDs
+      this.container = document.getElementById(this.searchId);
+      this.input = document.getElementById(`${this.searchId}-input`) as HTMLInputElement;
+      this.clearBtn = document.getElementById(`${this.searchId}-clear`) as HTMLButtonElement;
+      this.resultsContainer = document.getElementById(`${this.searchId}-results`);
+      this.loadingEl = document.getElementById(`${this.searchId}-loading`);
+      this.noResultsEl = document.getElementById(`${this.searchId}-no-results`);
+      this.resultsListEl = document.getElementById(`${this.searchId}-results-list`);
+      this.searchQueryEl = document.getElementById(`${this.searchId}-query`);
       
       // Load posts data
-      const dataEl = document.getElementById('search-posts-data');
+      const dataEl = document.getElementById(`${this.searchId}-data`);
       if (dataEl) {
         this.posts = JSON.parse(dataEl.textContent || '[]');
       }
@@ -380,24 +383,42 @@ const searchData = posts.map(post => ({
         this.searchTimeout = null;
       }
     }
+
+    // Public method to access searchTimeout for cleanup
+    cleanup() {
+      if (this.searchTimeout) {
+        clearTimeout(this.searchTimeout);
+        this.searchTimeout = null;
+      }
+    }
   }
   
   // Initialize search when DOM is ready
-  let searchComponent: SearchComponent;
+  let searchComponents: SearchComponent[] = [];
+  
+  function initializeSearch() {
+    // Find all search containers
+    const searchContainers = document.querySelectorAll('[id^="search-"]');
+    searchContainers.forEach(container => {
+      const searchId = container.id;
+      if (searchId && searchId.length > 0 && !searchId.includes('-input') && !searchId.includes('-results') && !searchId.includes('-data')) {
+        const searchComponent = new SearchComponent(searchId);
+        searchComponents.push(searchComponent);
+      }
+    });
+  }
   
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
-      searchComponent = new SearchComponent();
-    });
+    document.addEventListener('DOMContentLoaded', initializeSearch);
   } else {
-    searchComponent = new SearchComponent();
+    initializeSearch();
   }
   
   // Cleanup on page unload to prevent memory leaks
   window.addEventListener('beforeunload', () => {
-    if (searchComponent && searchComponent.searchTimeout) {
-      clearTimeout(searchComponent.searchTimeout);
-    }
+    searchComponents.forEach(component => {
+      component.cleanup();
+    });
   });
 </script>
 
@@ -411,7 +432,7 @@ const searchData = posts.map(post => ({
   
   /* Mobile optimizations */
   @media (max-width: 768px) {
-    #search-container {
+    [id^="search-"] {
       width: 100%;
     }
   }
