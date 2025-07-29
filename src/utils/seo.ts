@@ -11,8 +11,9 @@ import {
 export interface SEOConfig {
   title: string;
   description?: string;
-  path?: string; // Simplified: just the path, URL will be auto-generated
+  path?: string;
   image?: string;
+  heroImage?: string;
   imageAlt?: string;
   author?: string;
   keywords?: string[];
@@ -38,18 +39,20 @@ export interface MetaTags {
   ogType: string;
 }
 
-// Enhanced URL generation with automatic fallbacks
+// Simplified URL generation
 export function generateCanonicalUrl(path: string, baseUrl = SITE_URL): string {
   return new URL(path, baseUrl).href;
 }
 
-// Enhanced image URL generation with optimization
+// Enhanced image URL generation with proper prioritization
 export function generateImageUrl(
-  imagePath: string,
+  imagePath?: string,
+  heroImage?: string,
   baseUrl = SITE_URL
 ): string {
-  if (!imagePath) return new URL(SEO_CONFIG.defaultImage, baseUrl).href;
-  return new URL(imagePath, baseUrl).href;
+  // Priority: image > heroImage > default
+  const finalImage = imagePath || heroImage || SEO_CONFIG.defaultImage;
+  return new URL(finalImage, baseUrl).href;
 }
 
 // Automatic Open Graph type detection
@@ -61,13 +64,14 @@ export function detectOGType(
   return "website";
 }
 
-// Simplified meta tag generation with automatic URL handling
+// Simplified meta tag generation with improved image handling
 export function generateMetaTags(config: SEOConfig): MetaTags {
   const {
     title,
     description = SITE_DESCRIPTION,
     path,
     image,
+    heroImage,
     imageAlt,
     author = AUTHOR.name,
     keywords = [],
@@ -80,7 +84,7 @@ export function generateMetaTags(config: SEOConfig): MetaTags {
 
   const fullTitle = `${title} | ${SITE_TITLE}`;
   const canonical = path ? generateCanonicalUrl(path) : "";
-  const ogImage = generateImageUrl(image || SEO_CONFIG.defaultImage);
+  const ogImage = generateImageUrl(image, heroImage);
   const ogImageAlt = imageAlt || title;
   const ogType = detectOGType(pubDate, type);
 

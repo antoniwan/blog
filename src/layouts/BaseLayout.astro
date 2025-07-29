@@ -51,7 +51,7 @@ const structuredData = generateStructuredData({
   author,
   pubDate,
   updatedDate,
-  heroImage: image || heroImage,
+  heroImage: heroImage,
   keywords: finalKeywords,
   readingTime
 });
@@ -64,7 +64,8 @@ const structuredData = generateStructuredData({
       title={title} 
       description={description}
       path={path}
-      image={image || heroImage}
+      image={image}
+      heroImage={heroImage}
       imageAlt={finalImageAlt}
       pubDate={pubDate}
       updatedDate={updatedDate}

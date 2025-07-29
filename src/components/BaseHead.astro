@@ -11,6 +11,7 @@ interface Props {
 	description?: string;
 	path?: string; // Simplified: just the path, URL will be auto-generated
 	image?: string;
+	heroImage?: string;
 	imageAlt?: string;
 	pubDate?: Date;
 	updatedDate?: Date;
@@ -25,6 +26,7 @@ const {
 	description = SITE_DESCRIPTION,
 	path,
 	image,
+	heroImage,
 	imageAlt,
 	pubDate,
 	updatedDate,
@@ -34,12 +36,13 @@ const {
 	type
 } = Astro.props;
 
-// Generate optimized meta tags with automatic URL handling
+// Generate optimized meta tags with proper image prioritization
 const metaTags = generateMetaTags({
 	title,
 	description,
 	path: path || Astro.url.pathname,
 	image,
+	heroImage,
 	imageAlt,
 	author,
 	keywords,
