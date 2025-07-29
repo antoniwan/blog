@@ -5,6 +5,7 @@ import FormattedDate from '../components/FormattedDate.astro';
 import TagDisplay from '../components/TagDisplay.astro';
 import Comments from '../components/Comments.astro';
 import Container from '../components/Container.astro';
+import DefaultImage from '../components/DefaultImage.astro';
 import { generateCanonicalUrl } from '../utils/seo';
 import { giscusConfig } from '../config/giscus';
 import { SEO_CONFIG } from '../consts';
@@ -263,12 +264,20 @@ const canonical = path || generateCanonicalUrl(Astro.url.pathname);
           
           {/* Hero Image - First thing in main content */}
           <div class="mb-8 md:mb-12">
-            <img 
-              src={heroImage || SEO_CONFIG.defaultHeroImage} 
-              alt={imageAlt || title}
-              class="w-full h-[450px] object-cover rounded-lg shadow-lg md:rounded-xl"
-              loading="eager"
-            />
+            {heroImage ? (
+              <img 
+                src={heroImage} 
+                alt={imageAlt || title}
+                class="w-full h-[450px] object-cover rounded-lg shadow-lg md:rounded-xl"
+                loading="eager"
+              />
+            ) : (
+              <DefaultImage 
+                alt={imageAlt || title}
+                className="w-full h-[450px] object-cover rounded-lg shadow-lg md:rounded-xl"
+                loading="eager"
+              />
+            )}
           </div>
           
           {/* Content */}

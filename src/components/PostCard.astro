@@ -2,6 +2,7 @@
 import type { CollectionEntry } from 'astro:content';
 import FormattedDate from './FormattedDate.astro';
 import TagDisplay from './TagDisplay.astro';
+import DefaultImage from './DefaultImage.astro';
 import { SEO_CONFIG } from '../consts';
 
 interface Props {
@@ -29,12 +30,20 @@ const { data } = post;
 	
 	<!-- Hero Image -->
 	<div class="relative overflow-hidden">
-		<img 
-			src={data.heroImage || SEO_CONFIG.defaultHeroImage} 
-			alt={data.title}
-			class="w-full h-48 md:h-56 object-cover group-hover:scale-105 transition-transform duration-300"
-			loading="lazy"
-		/>
+		{data.heroImage ? (
+			<img 
+				src={data.heroImage} 
+				alt={data.title}
+				class="w-full h-48 md:h-56 object-cover group-hover:scale-105 transition-transform duration-300"
+				loading="lazy"
+			/>
+		) : (
+			<DefaultImage 
+				alt={data.title}
+				className="w-full h-48 md:h-56 object-cover group-hover:scale-105 transition-transform duration-300"
+				loading="lazy"
+			/>
+		)}
 		<!-- Image overlay gradient -->
 		<div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 	</div>

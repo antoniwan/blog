@@ -1,0 +1,62 @@
+---
+// DefaultImage component that randomly selects from default cover images
+// This provides variety for posts without specific hero images
+
+import { readdirSync } from 'fs';
+import { join } from 'path';
+
+interface Props {
+  alt?: string;
+  className?: string;
+  loading?: 'lazy' | 'eager';
+  seed?: string; // Optional seed for consistent randomization
+}
+
+const { alt = "Default cover image", className = "", loading = "lazy", seed } = Astro.props;
+
+// Dynamically read default cover images from the directory
+const defaultCoversDir = join(process.cwd(), 'public', 'images', 'default_covers');
+let defaultImages: string[] = [];
+
+try {
+  const files = readdirSync(defaultCoversDir);
+  defaultImages = files
+    .filter(file => /\.(avif|webp|jpg|jpeg|png)$/i.test(file))
+    .map(file => `/images/default_covers/${file}`);
+} catch (error) {
+  // Fallback to hardcoded list if directory doesn't exist
+  console.warn('Default covers directory not found, using fallback images');
+  defaultImages = [
+    "/images/default_covers/default-1.avif",
+    "/images/default_covers/default-3.avif",
+    "/images/default_covers/default-4.avif",
+    "/images/default_covers/default-5.avif",
+    "/images/default_covers/default-6.avif",
+  ];
+}
+
+// Select a random image from the array
+// If a seed is provided, use it for consistent randomization
+// Otherwise, use the alt text as a seed for per-usage variety
+let hashInput;
+if (seed) {
+  hashInput = seed;
+} else {
+  // Use the alt text as a seed - this will be different for each post
+  // and provide consistent results for the same post
+  hashInput = alt || "default";
+}
+
+const hash = hashInput.split('').reduce((a, b) => {
+  a = ((a << 5) - a) + b.charCodeAt(0);
+  return a & a;
+}, 0);
+const selectedImage = defaultImages[Math.abs(hash) % defaultImages.length];
+---
+
+<img 
+  src={selectedImage}
+  alt={alt}
+  class={className}
+  loading={loading}
+/> 
