@@ -18,7 +18,6 @@ tags:
     "healing",
   ]
 readingTime: 2
-author: "wizards777"
 canonicalUrl: "https://medium.com/@wizards777/notes-on-self-control-48f01e1f21ff"
 ---
 

@@ -18,7 +18,6 @@ tags:
     "healing",
   ]
 readingTime: 3
-author: "wizards777"
 canonicalUrl: "https://medium.com/@wizards777/note-to-self-on-being-a-conscious-parent-a1c0e429f5fb"
 ---
 

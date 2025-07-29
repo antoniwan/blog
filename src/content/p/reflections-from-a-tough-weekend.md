@@ -18,7 +18,6 @@ tags:
     "mindfulness",
   ]
 readingTime: 2
-author: "wizards777"
 canonicalUrl: "https://medium.com/@wizards777/reflections-from-a-tough-weekend-154e8c2a13b7"
 draft: false
 published: true

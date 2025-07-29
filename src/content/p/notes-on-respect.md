@@ -18,7 +18,6 @@ tags:
     "authenticity",
   ]
 readingTime: 3
-author: "wizards777"
 canonicalUrl: "https://medium.com/@wizards777/notes-on-respect-0ff922fedccf"
 draft: false
 published: true
