@@ -4,88 +4,15 @@ import PageHeader from '../../components/PageHeader.astro';
 import TagCloud from '../../components/TagCloud.astro';
 import Container from '../../components/Container.astro';
 import { getCollection } from 'astro:content';
+import { calculateTagStats, categorizeTags } from '../../utils/tagProcessing';
 
 // Get all posts and calculate tag counts
 const posts = await getCollection('blog', ({ data }) => {
   return import.meta.env.PROD ? !data.draft : true;
 });
 
-const tagCounts = posts.reduce((acc, post) => {
-  post.data.tags?.forEach(tag => {
-    acc[tag] = (acc[tag] || 0) + 1;
-  });
-  return acc;
-}, {} as Record<string, number>);
-
-// Maslow's Hierarchy of Needs categorization
-const maslowCategories = [
-  {
-    key: 'physiological',
-    title: "Physiological Needs",
-    description: "Basic survival needs for food, health, and physical well-being",
-    icon: "🍽️",
-    tags: ['nutrition', 'health', 'wellness', 'cooking', 'food', 'healthy-eating', 'micronutrients', 'fasting', 'breathing', 'fitness', 'recipes', 'self-care']
-  },
-  {
-    key: 'safety',
-    title: "Safety & Security",
-    description: "Protection, stability, and creating safe environments",
-    icon: "🛡️",
-    tags: ['digital-safety', 'boundaries', 'control', 'discipline', 'self-control', 'emotional-regulation', 'mental-health', 'therapy', 'trauma', 'fear', 'emotional-health', 'emotional-pain', 'emotional-intelligence']
-  },
-  {
-    key: 'belonging',
-    title: "Love & Belonging",
-    description: "Relationships, family, and social connections",
-    icon: "💝",
-    tags: ['family', 'family-dynamics', 'children', 'parenting', 'conscious-parenting', 'fatherhood', 'relationships', 'connection', 'empathy', 'compassion', 'collective-healing', 'social-issues', 'social-justice', 'child-development', 'childhood', 'vulnerability']
-  },
-  {
-    key: 'esteem',
-    title: "Esteem & Achievement",
-    description: "Confidence, mastery, and recognition",
-    icon: "🏆",
-    tags: ['confidence-building', 'mastery', 'achievement', 'respect', 'responsibility', 'accountability', 'leadership', 'professional-development', 'imposter-syndrome', 'self-discipline', 'self-mastery', 'power', 'authority', 'feedback', 'self-awareness', 'humility', 'ego']
-  },
-  {
-    key: 'actualization',
-    title: "Self-Actualization",
-    description: "Personal growth, creativity, and fulfilling potential",
-    icon: "🌱",
-    tags: ['personal-growth', 'self-improvement', 'growth', 'learning', 'learning-projects', 'self-discovery', 'self-expression', 'art-expression', 'creativity', 'diy-creation', 'craftsmanship', 'development', 'transformation', 'intentional-living', 'purpose', 'meaning', 'authenticity', 'adaptability', 'decision-making', 'efficiency', 'habits', 'limits', 'patience', 'productivity', 'self-construction', 'self-reflection', 'simplicity', 'slow-living', 'time', 'tips', 'tools', 'workflow', 'writing', 'digital-art', 'customization']
-  },
-  {
-    key: 'transcendence',
-    title: "Transcendence",
-    description: "Spiritual growth, helping others, and meaning beyond self",
-    icon: "✨",
-    tags: ['self-transcendence', 'spirituality', 'consciousness', 'existentialism', 'philosophy', 'humanism', 'atheism', 'mythology', 'symbols', 'inner-work', 'inner-peace', 'serenity', 'contentment', 'meditation', 'mindfulness', 'presence', 'truth', 'healing', 'inner-child', 'reflection', 'resilience', 'ritual', 'routine']
-  }
-];
-
-// Helper function to create tag data with size calculation
-const createTagData = (tag: string, count: number, maxCount: number, minCount: number) => ({
-  tag,
-  count,
-  size: Math.max(0.875, Math.min(2.5, 0.875 + (count - minCount) / (maxCount - minCount) * 1.625))
-});
-
-// Categorize tags
-const maxCount = Math.max(...Object.values(tagCounts));
-const minCount = Math.min(...Object.values(tagCounts));
-
-const categorizedTags = maslowCategories.map(category => ({
-  ...category,
-  tags: Object.entries(tagCounts)
-    .filter(([tag]) => category.tags.includes(tag))
-    .map(([tag, count]) => createTagData(tag, count, maxCount, minCount))
-    .sort((a, b) => b.count - a.count)
-}));
-
-const uncategorizedTags = Object.entries(tagCounts)
-  .filter(([tag]) => !maslowCategories.some(cat => cat.tags.includes(tag)))
-  .map(([tag, count]) => createTagData(tag, count, maxCount, minCount))
-  .sort((a, b) => b.count - a.count);
+const { tagCounts } = calculateTagStats(posts);
+const { categorized, uncategorized } = categorizeTags(tagCounts);
 ---
 
 <BaseLayout
@@ -103,7 +30,7 @@ const uncategorizedTags = Object.entries(tagCounts)
       
       {/* Maslow's Hierarchy Sections */}
       <div class="space-y-20">
-        {categorizedTags.map((category, index) => {
+        {categorized.map((category: any, index: number) => {
           if (category.tags.length === 0) return null;
           
           return (
@@ -133,7 +60,7 @@ const uncategorizedTags = Object.entries(tagCounts)
         })}
         
         {/* Uncategorized Tags */}
-        {uncategorizedTags.length > 0 && (
+        {uncategorized.length > 0 && (
           <section class="relative bg-gradient-to-br from-[rgb(var(--color-accent))]/5 to-[rgb(var(--color-accent))]/10 rounded-2xl p-8 -mx-4">
             <div class="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
               {/* Icon and Header */}
@@ -146,13 +73,13 @@ const uncategorizedTags = Object.entries(tagCounts)
                   Additional tags that don't fit neatly into the hierarchy but are still important to explore.
                 </p>
                 <div class="mt-4 text-sm text-[rgb(var(--color-text-muted))]">
-                  {uncategorizedTags.length} tag{uncategorizedTags.length !== 1 ? 's' : ''}
+                  {uncategorized.length} tag{uncategorized.length !== 1 ? 's' : ''}
                 </div>
               </div>
               
               {/* Tag Cloud */}
               <div class="flex-1 w-full">
-                <TagCloud tags={uncategorizedTags} />
+                <TagCloud tags={uncategorized} />
               </div>
             </div>
           </section>

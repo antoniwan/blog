@@ -4,16 +4,13 @@ import PostCard from '../../components/PostCard.astro';
 import PageHeader from '../../components/PageHeader.astro';
 import Container from '../../components/Container.astro';
 import { getCollection } from 'astro:content';
+import { getAllUniqueTags, getTagStatistics } from '../../utils/tagProcessing';
 
 export async function getStaticPaths() {
 	const posts = await getCollection('blog');
-	const tags = new Set<string>();
-	
-	posts.forEach(post => {
-		post.data.tags?.forEach(tag => tags.add(tag));
-	});
+	const tags = getAllUniqueTags(posts);
 
-	return Array.from(tags).map(tag => ({
+	return tags.map(tag => ({
 		params: { tag },
 		props: { tag },
 	}));
@@ -21,40 +18,18 @@ export async function getStaticPaths() {
 
 const { tag } = Astro.props;
 
-// Get all posts with this tag
+// Get all posts
 const posts = await getCollection('blog', ({ data }) => {
 	return import.meta.env.PROD ? !data.draft : true;
 });
 
-// Filter posts by tag
+// Get tag statistics
+const { totalPosts, relatedTags, category } = getTagStatistics(tag, posts);
+
+// Filter posts by tag and sort by date
 const tagPosts = posts
 	.filter(post => post.data.tags?.includes(tag))
 	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
-
-// Get all tags for related tags section
-const allPosts = await getCollection('blog', ({ data }) => {
-	return import.meta.env.PROD ? !data.draft : true;
-});
-
-const tagCounts = allPosts.reduce((acc, post) => {
-	post.data.tags?.forEach(t => {
-		acc[t] = (acc[t] || 0) + 1;
-	});
-	return acc;
-}, {} as Record<string, number>);
-
-// Get related tags (tags that appear with this tag)
-const relatedTags = new Set<string>();
-tagPosts.forEach(post => {
-	post.data.tags?.forEach(t => {
-		if (t !== tag) relatedTags.add(t);
-	});
-});
-
-const relatedTagsWithCounts = Array.from(relatedTags)
-	.map(t => ({ tag: t, count: tagCounts[t] }))
-	.sort((a, b) => b.count - a.count)
-	.slice(0, 8); // Show top 8 related tags
 ---
 
 <BaseLayout
@@ -79,15 +54,15 @@ const relatedTagsWithCounts = Array.from(relatedTags)
 					<div class="flex items-center gap-2 px-4 py-2 bg-[rgb(var(--color-accent))]/10 border border-[rgb(var(--color-accent))]/20 rounded-lg">
   <span class="text-[rgb(var(--color-accent))]" aria-hidden="true">📊</span>
   <span class="text-base font-medium text-[rgb(var(--color-accent))] leading-relaxed">
-							{tagPosts.length} {tagPosts.length === 1 ? 'post' : 'posts'}
+							{totalPosts} {totalPosts === 1 ? 'post' : 'posts'}
 						</span>
 					</div>
 					
-					{relatedTagsWithCounts.length > 0 && (
+					{relatedTags.length > 0 && (
 						<div class="flex items-center gap-2 px-4 py-2 bg-[rgb(var(--color-bg-alt))] border border-[rgb(var(--color-border))] rounded-lg">
 							<span class="text-[rgb(var(--color-text-muted))]" aria-hidden="true">🔗</span>
 							<span class="text-base font-medium text-[rgb(var(--color-text))] leading-relaxed">
-								{relatedTagsWithCounts.length} related tags
+								{relatedTags.length} related tags
 							</span>
 						</div>
 					)}
@@ -95,13 +70,13 @@ const relatedTagsWithCounts = Array.from(relatedTags)
 			</div>
 			
 			{/* Related Tags */}
-			{relatedTagsWithCounts.length > 0 && (
+			{relatedTags.length > 0 && (
 				<div class="mb-8">
 					<h3 class="text-subheading text-[rgb(var(--color-text))] mb-4">
 						Related Tags
 					</h3>
 					<div class="flex flex-wrap gap-1.5">
-						{relatedTagsWithCounts.map(({ tag: relatedTag, count }) => (
+						{relatedTags.map(({ tag: relatedTag, count }: { tag: string; count: number }) => (
 							<a
 								href={`/tag/${relatedTag}/`}
 								class="inline-flex items-center gap-1.5 px-2.5 py-1 text-sm bg-[rgb(var(--color-bg-alt))] border border-[rgb(var(--color-border))]/30 rounded-full text-[rgb(var(--color-text))] hover:bg-[rgb(var(--color-accent))]/10 hover:border-[rgb(var(--color-accent))]/30 hover:text-[rgb(var(--color-accent))] theme-transition"
