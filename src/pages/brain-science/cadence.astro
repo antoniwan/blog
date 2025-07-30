@@ -223,22 +223,22 @@ const { insights, summary } = generateDynamicInsights(insightData, 'cadence');
 			{/* Key Metrics with Balanced Indicators */}
 			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
 				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
-					<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2">{longestStreak}</div>
+					<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Longest consecutive streak of posts published within 7 days of each other">{longestStreak}</div>
 					<div class="text-sm text-[rgb(var(--color-text-muted))]">Longest Streak</div>
 					<div class="text-xs text-green-500 mt-1">🏆 Peak Performance</div>
 				</div>
 				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
-					<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2">{currentStreak}</div>
+					<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Current active streak of posts published within 7 days of each other">{currentStreak}</div>
 					<div class="text-sm text-[rgb(var(--color-text-muted))]">Current Streak</div>
 					<div class="text-xs text-blue-500 mt-1">🔥 Active Momentum</div>
 				</div>
 				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
-					<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2">{sortedDrySpells[0]?.days || 0}</div>
+					<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Longest gap between consecutive posts (days without publishing)">{sortedDrySpells[0]?.days || 0}</div>
 					<div class="text-sm text-[rgb(var(--color-text-muted))]">Longest Dry Spell</div>
 					<div class="text-xs text-red-500 mt-1">⚠️ Biggest Challenge</div>
 				</div>
 				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
-					<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2">{recentPosts.length}</div>
+					<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Number of posts published in the last 30 days">{recentPosts.length}</div>
 					<div class="text-sm text-[rgb(var(--color-text-muted))]">Posts (30 days)</div>
 					<div class={`text-xs mt-1 ${recentPosts.length > avgPostsPerMonth ? 'text-green-500' : recentPosts.length < avgPostsPerMonth * 0.5 ? 'text-red-500' : 'text-yellow-500'}`}>
 						{recentPosts.length > avgPostsPerMonth ? '📈 Above Average' : recentPosts.length < avgPostsPerMonth * 0.5 ? '📉 Below Average' : '➡️ On Track'}
@@ -251,14 +251,14 @@ const { insights, summary } = generateDynamicInsights(insightData, 'cadence');
 				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-4">📊 Productivity Health Score</h3>
 				<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 					<div class="text-center">
-						<div class="text-3xl font-bold text-green-500 mb-2">{Math.round(consistencyScore * 100)}%</div>
+						<div class="text-3xl font-bold text-green-500 mb-2" title="Consistency score calculated as: (number of writing streaks) / (total streaks + dry spells)">{Math.round(consistencyScore * 100)}%</div>
 						<div class="text-sm text-[rgb(var(--color-text-muted))]">Consistency Score</div>
 						<div class="text-xs text-[rgb(var(--color-text-muted))] mt-1">
 							{consistencyScore > 0.7 ? 'Excellent' : consistencyScore > 0.4 ? 'Good' : 'Needs Improvement'}
 						</div>
 					</div>
 					<div class="text-center">
-						<div class="text-3xl font-bold text-blue-500 mb-2">{avgPostsPerMonth}</div>
+						<div class="text-3xl font-bold text-blue-500 mb-2" title="Average posts per month calculated as: total posts / (days since first post / 30)">{avgPostsPerMonth}</div>
 						<div class="text-sm text-[rgb(var(--color-text-muted))]">Avg Posts/Month</div>
 						<div class="text-xs text-[rgb(var(--color-text-muted))] mt-1">
 							{avgPostsPerMonth > 4 ? 'High Output' : avgPostsPerMonth > 2 ? 'Moderate' : 'Low Output'}
@@ -326,7 +326,7 @@ const { insights, summary } = generateDynamicInsights(insightData, 'cadence');
 
 			{/* Day of Week Analysis */}
 			<div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
+				<div>
 					<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">Day of Week Preferences</h3>
 					<div class="space-y-4">
 						{dayOfWeekStats.map(day => (
@@ -343,14 +343,14 @@ const { insights, summary } = generateDynamicInsights(insightData, 'cadence');
 											style={`width: ${(day.count / Math.max(...dayOfWeekStats.map(d => d.count))) * 100}%`}
 										></div>
 									</div>
-									<span class="text-xs text-[rgb(var(--color-text-muted))] w-8 text-right">{day.count}</span>
+									<span class="text-xs text-[rgb(var(--color-text-muted))] w-8 text-right" title={`${day.count} posts (${day.percentage}% of total) published on ${day.name}`}>{day.count}</span>
 								</div>
 							</div>
 						))}
 					</div>
 				</div>
 
-				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
+				<div>
 					<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">Seasonal Patterns</h3>
 					<div class="space-y-4">
 						{monthOfYearStats.map(month => (
@@ -367,7 +367,7 @@ const { insights, summary } = generateDynamicInsights(insightData, 'cadence');
 											style={`width: ${(month.count / Math.max(...monthOfYearStats.map(m => m.count))) * 100}%`}
 										></div>
 									</div>
-									<span class="text-xs text-[rgb(var(--color-text-muted))] w-8 text-right">{month.count}</span>
+									<span class="text-xs text-[rgb(var(--color-text-muted))] w-8 text-right" title={`${month.count} posts (${month.percentage}% of total) published in ${month.name}`}>{month.count}</span>
 								</div>
 							</div>
 						))}
@@ -376,7 +376,7 @@ const { insights, summary } = generateDynamicInsights(insightData, 'cadence');
 			</div>
 
 			{/* Writing Streaks */}
-			<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))] mb-8">
+			<div class="mb-8">
 				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">🏃‍♂️ Writing Streaks (Creative Bursts)</h3>
 				<div class="space-y-4">
 					{sortedStreaks.slice(0, 10).map((streak, index) => (
@@ -399,7 +399,7 @@ const { insights, summary } = generateDynamicInsights(insightData, 'cadence');
 								</div>
 							</div>
 							<div class="text-right">
-								<div class="text-sm font-medium text-[rgb(var(--color-text))]">
+								<div class="text-sm font-medium text-[rgb(var(--color-text))]" title="Average posts per day during this streak">
 									{Math.round((streak.length / streak.days) * 100) / 100} posts/day
 								</div>
 								<div class="text-xs text-[rgb(var(--color-text-muted))]">
@@ -412,7 +412,7 @@ const { insights, summary } = generateDynamicInsights(insightData, 'cadence');
 			</div>
 
 			{/* Dry Spells */}
-			<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))] mb-8">
+			<div class="mb-8">
 				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">🌵 Longest Dry Spells (Challenges)</h3>
 				<div class="space-y-4">
 					{sortedDrySpells.slice(0, 5).map((spell, index) => (
@@ -429,7 +429,7 @@ const { insights, summary } = generateDynamicInsights(insightData, 'cadence');
 								</div>
 							</div>
 							<div class="text-right">
-								<div class="text-sm text-[rgb(var(--color-text-muted))]">
+								<div class="text-sm text-[rgb(var(--color-text-muted))]" title="Duration converted to weeks">
 									{Math.round(spell.days / 7)} weeks
 								</div>
 								<div class="text-xs text-[rgb(var(--color-text-muted))]">
@@ -442,7 +442,7 @@ const { insights, summary } = generateDynamicInsights(insightData, 'cadence');
 			</div>
 
 			{/* Most Productive Months */}
-			<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))] mb-8">
+			<div class="mb-8">
 				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">📈 Most Productive Months</h3>
 				<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
 					{productiveMonths.map((month, index) => (
@@ -457,7 +457,7 @@ const { insights, summary } = generateDynamicInsights(insightData, 'cadence');
 									{index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : `#${index + 1}`}
 								</span>
 							</div>
-							<div class="text-2xl font-bold text-[rgb(var(--color-text))]">{month.count}</div>
+							<div class="text-2xl font-bold text-[rgb(var(--color-text))]" title={`${month.count} posts published in ${month.label}`}>{month.count}</div>
 							<div class="text-xs text-[rgb(var(--color-text-muted))]">posts</div>
 						</div>
 					))}
