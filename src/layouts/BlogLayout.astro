@@ -194,71 +194,6 @@ const canonical = path || generateCanonicalUrl(Astro.url.pathname);
         
         {/* Main Content Area - Full width on mobile, 75% on desktop */}
         <main class="lg:col-span-3">
-          {/* Mobile-only metadata - shown above content on mobile */}
-          <div class="lg:hidden space-y-4 mb-8">
-            <div class="flex flex-wrap gap-4 text-sm text-[rgb(var(--color-text-muted))]">
-              {pubDate && (
-                <time datetime={pubDate.toISOString()} class="flex items-center gap-2">
-                  <span class="text-[rgb(var(--color-accent))]">📅</span>
-                  <FormattedDate date={pubDate} format="long" />
-                </time>
-              )}
-              
-              {readingTime && (
-                <span class="flex items-center gap-2">
-                  <span class="text-[rgb(var(--color-accent))]">⏱️</span>
-                  {readingTime} min read
-                </span>
-              )}
-              
-              {category && category.length > 0 && (
-                <span class="flex items-center gap-2">
-                  <span class="text-[rgb(var(--color-accent))]">📁</span>
-                  <a 
-                    href={`/category/${category[0]}/`}
-                    class="hover:text-[rgb(var(--color-accent))] theme-transition"
-                  >
-                    {category[0]}
-                  </a>
-                </span>
-              )}
-            </div>
-            
-            {tags && tags.length > 0 && (
-              <div class="flex flex-wrap gap-1.5">
-                <TagDisplay 
-                  tags={tags} 
-                  maxVisible={tags.length} 
-                  showMoreIndicator={false}
-                  compact={false}
-                />
-              </div>
-            )}
-            
-            {/* Mobile-only Table of Contents */}
-            {tableOfContents && tableOfContents.length > 0 && (
-              <div class="p-4 bg-[rgb(var(--color-bg-alt))] rounded-lg">
-                <h2 class="text-lg font-semibold mb-4">Table of Contents</h2>
-                <nav>
-                  <ul class="space-y-2">
-                    {tableOfContents.map(item => (
-                      <li>
-                        <a 
-                          href={`#${item.slug}`}
-                          class={`block hover:text-[rgb(var(--color-accent))] theme-transition ${
-                            item.level === 3 ? 'ml-4 text-sm' : ''
-                          }`}
-                        >
-                          {item.text}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </nav>
-              </div>
-            )}
-          </div>
-          
           {/* Hero Image - First thing in main content */}
           <div class="mb-8 md:mb-12">
             {heroImage ? (
@@ -280,6 +215,80 @@ const canonical = path || generateCanonicalUrl(Astro.url.pathname);
           {/* Content */}
           <div class="prose prose-lg max-w-none prose-headings:scroll-mt-20" transition:name="page-content">
             <slot />
+          </div>
+          
+          {/* Mobile-only metadata - shown after content on mobile */}
+          <div class="lg:hidden space-y-6 mt-12 pt-8 border-t border-[rgb(var(--color-border))]">
+            <div class="space-y-4">
+              <h3 class="text-lg font-semibold text-[rgb(var(--color-text))]">Article Details</h3>
+              
+              <div class="flex flex-wrap gap-4 text-sm text-[rgb(var(--color-text-muted))]">
+                {pubDate && (
+                  <time datetime={pubDate.toISOString()} class="flex items-center gap-2">
+                    <span class="text-[rgb(var(--color-accent))]">📅</span>
+                    <FormattedDate date={pubDate} format="long" />
+                  </time>
+                )}
+                
+                {readingTime && (
+                  <span class="flex items-center gap-2">
+                    <span class="text-[rgb(var(--color-accent))]">⏱️</span>
+                    {readingTime} min read
+                  </span>
+                )}
+                
+                {category && category.length > 0 && (
+                  <span class="flex items-center gap-2">
+                    <span class="text-[rgb(var(--color-accent))]">📁</span>
+                    <a 
+                      href={`/category/${category[0]}/`}
+                      class="hover:text-[rgb(var(--color-accent))] theme-transition"
+                    >
+                      {category[0]}
+                    </a>
+                  </span>
+                )}
+              </div>
+              
+              {tags && tags.length > 0 && (
+                <div class="space-y-2">
+                  <h4 class="text-sm font-semibold text-[rgb(var(--color-text-muted))] uppercase tracking-wider">Tags</h4>
+                  <div class="flex flex-wrap gap-1.5">
+                    <TagDisplay 
+                      tags={tags} 
+                      maxVisible={tags.length} 
+                      showMoreIndicator={false}
+                      compact={false}
+                    />
+                  </div>
+                </div>
+              )}
+              
+              {/* Mobile-only Table of Contents */}
+              {tableOfContents && tableOfContents.length > 0 && (
+                <div class="space-y-3">
+                  <h4 class="text-sm font-semibold text-[rgb(var(--color-text-muted))] uppercase tracking-wider">Table of Contents</h4>
+                  <div class="p-4 bg-[rgb(var(--color-bg-alt))] rounded-lg">
+                    <nav>
+                      <ul class="space-y-2">
+                        {tableOfContents.map(item => (
+                          <li>
+                            <a 
+                              href={`#${item.slug}`}
+                              class={`block hover:text-[rgb(var(--color-accent))] theme-transition ${
+                                item.level === 3 ? 'ml-4 text-sm' : ''
+                              }`}
+                            >
+                              {item.text}
+                            </a>
+                          </li>
+                        ))}
+                      </ul>
+                    </nav>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
           
           {/* Comments Section */}
