@@ -156,29 +156,29 @@ import { SITE_TITLE } from '../../../consts';
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <h4 class="font-medium mb-2 text-[rgb(var(--color-text))]">JavaScript/Fetch</h4>
-                         <pre class="bg-[rgb(var(--color-bg))] p-4 rounded text-sm overflow-x-auto border border-[rgb(var(--color-border))]/30"><code>// Get a random quote
- const response = await fetch('/api/quotes?action=random');
- const &#123;data&#125; = await response.json();
- console.log(&#123;data&#125;.quote.text);
+                         <pre class="bg-[rgb(var(--color-bg))] p-4 rounded text-sm overflow-x-auto border border-[rgb(var(--color-border))]/30"><code>{`// Get a random quote
+const response = await fetch('/api/quotes?action=random');
+const data = await response.json();
+console.log(data.quote.text);
 
- // Get quotes by theme
- const wisdomQuotes = await fetch('/api/quotes?action=theme&theme=wisdom');
- const wisdomData = await wisdomQuotes.json();
- console.log(wisdomData.quotes);</code></pre>
+// Get quotes by theme
+const wisdomQuotes = await fetch('/api/quotes?action=theme&theme=wisdom');
+const wisdomData = await wisdomQuotes.json();
+console.log(wisdomData.quotes);`}</code></pre>
           </div>
           <div>
             <h4 class="font-medium mb-2 text-[rgb(var(--color-text))]">Python/Requests</h4>
-                         <pre class="bg-[rgb(var(--color-bg))] p-4 rounded text-sm overflow-x-auto border border-[rgb(var(--color-border))]/30"><code>import requests
- 
- # Get a random quote
- response = requests.get('https://your-site.com/api/quotes?action=random')
- &#123;data&#125; = response.json()
- print(&#123;data&#125;['quote']['text'])
- 
- # Get quotes by author
- response = requests.get('https://your-site.com/api/quotes?action=author&author=Marcus%20Aurelius')
- &#123;data&#125; = response.json()
- print(f"Found &#123;data&#125;['count'] quotes")</code></pre>
+                                      <pre class="bg-[rgb(var(--color-bg))] p-4 rounded text-sm overflow-x-auto border border-[rgb(var(--color-border))]/30"><code>{`import requests
+
+# Get a random quote
+response = requests.get('https://your-site.com/api/quotes?action=random')
+data = response.json()
+print(data['quote']['text'])
+
+# Get quotes by author
+response = requests.get('https://your-site.com/api/quotes?action=author&author=Marcus%20Aurelius')
+data = response.json()
+print(f"Found {data['count']} quotes")`}</code></pre>
           </div>
         </div>
       </div>
