@@ -133,6 +133,40 @@ chapters.forEach(chapter => {
 					/>
 				))}
 			</div>
+			
+			<div class="local-storage-info">
+				<h3>About Your Reading Data</h3>
+				<p>
+					This site uses your browser's local storage to remember what you've read and enhance your experience. 
+					It's like having a personal reading journal that lives in your browser — completely private and under your control.
+				</p>
+				
+				<p>
+					<strong>What we save:</strong> Which posts you've completed, when you read them, how long you spent reading, 
+					and your reading preferences. Think of it as your digital reading fingerprint — unique to you, 
+					helping you track your journey through these thoughts and ideas.
+				</p>
+				
+				<p>
+					<strong>Privacy & Safety:</strong> I can't access this data. It lives only in your browser, 
+					on your device. It's not sent to any server, not tracked by analytics, not shared with anyone. 
+					It's yours. If you clear your browser data, it disappears. If you want to start fresh, 
+					just clear your browser's local storage for this site.
+				</p>
+				
+				<p>
+					<strong>Why bother?</strong> Because reading is a journey, not a destination. These little data points 
+					help you see patterns in your thinking, track your growth, and maybe discover which ideas 
+					resonate most with where you are in life right now. It's not about surveillance — it's about 
+					self-reflection through data.
+				</p>
+				
+				<p>
+					<strong>Your choice:</strong> You can disable this anytime by clearing your browser data. 
+					The site works perfectly fine without it. But if you're curious about your reading habits 
+					and want to see your journey mapped out, let it run. You might be surprised by what you discover about yourself.
+				</p>
+			</div>
 		</div>
 	</Container>
 </PageLayout>
@@ -145,5 +179,36 @@ chapters.forEach(chapter => {
 	.chapters {
 		max-width: 800px;
 		margin: 0 auto;
+	}
+
+	.local-storage-info {
+		max-width: 800px;
+		margin: 4rem auto 0;
+		padding: 2rem;
+		background: rgb(var(--color-bg-alt));
+		border-radius: 12px;
+		border: 1px solid rgb(var(--color-border));
+	}
+
+	.local-storage-info h3 {
+		font-size: 1.25rem;
+		font-weight: 600;
+		margin-bottom: 1rem;
+		color: rgb(var(--color-text));
+	}
+
+	.local-storage-info p {
+		margin-bottom: 1rem;
+		line-height: 1.6;
+		color: rgb(var(--color-text-muted));
+	}
+
+	.local-storage-info p:last-child {
+		margin-bottom: 0;
+	}
+
+	.local-storage-info strong {
+		color: rgb(var(--color-text));
+		font-weight: 600;
 	}
 </style> 
