@@ -4,6 +4,7 @@ import BlogLayout from '../../layouts/BlogLayout.astro';
 import { render } from 'astro:content';
 import { generateKeywords, generateImageAlt } from '../../utils/seo';
 import { AUTHOR } from '../../consts';
+import { categories } from '../../data/categories';
 
 export const prerender = true;
 
@@ -31,6 +32,11 @@ const imageAlt = generateImageAlt(post.data.title);
 // Use author from post data or fall back to default author from consts
 const author = post.data.author || AUTHOR.name;
 
+// Get category name from category ID
+const categoryName = post.data.category && post.data.category.length > 0 
+  ? categories.find(cat => cat.id === post.data.category![0])?.name || post.data.category![0]
+  : null;
+
 // Generate table of contents from headings
 const headings = post.body?.match(/<h[2-3][^>]*>.*?<\/h[2-3]>/g) || [];
 const tableOfContents = headings.map(heading => {
@@ -50,6 +56,7 @@ const tableOfContents = headings.map(heading => {
 	readingTime={post.data.readingTime}
 	tags={post.data.tags}
 	category={post.data.category}
+	categoryName={categoryName}
 	path={`/p/${post.id}`}
 	imageAlt={imageAlt}
 	author={author}

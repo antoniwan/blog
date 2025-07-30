@@ -22,6 +22,7 @@ export interface BaseLayoutProps {
 
 export interface BlogLayoutProps extends BaseLayoutProps {
   // Blog-specific additional props
+  categoryName?: string | null;
   tableOfContents?: {
     level: number;
     text: string;

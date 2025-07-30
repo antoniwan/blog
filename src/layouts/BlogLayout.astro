@@ -6,6 +6,7 @@ import TagDisplay from '../components/TagDisplay.astro';
 import Comments from '../components/Comments.astro';
 import Container from '../components/Container.astro';
 import DefaultImage from '../components/DefaultImage.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
 import { generateCanonicalUrl } from '../utils/seo';
 import { giscusConfig } from '../config/giscus';
 import type { BlogLayoutProps } from '../types/layout';
@@ -21,6 +22,7 @@ const {
   readingTime,
   tags,
   category,
+  categoryName,
   path,
   imageAlt,
   author,
@@ -53,6 +55,18 @@ const canonical = path || generateCanonicalUrl(Astro.url.pathname);
 >
   <Container>
     <div class="py-6 md:py-8 lg:py-12">
+      {/* Breadcrumbs */}
+      <div class="mb-6">
+        <Breadcrumbs 
+          items={[
+            { label: 'Home', href: '/' },
+            ...(categoryName && category && category.length > 0 ? [{ label: categoryName, href: `/category/${category[0]}/` }] : []),
+            { label: title }
+          ]}
+          class="text-sm"
+        />
+      </div>
+      
       {/* Hero Section - Full width on mobile, moves to sidebar on desktop */}
       <div class="mb-8 md:mb-12 lg:hidden">
         <PageHeader title={title} description={description} className="!mb-6" transition:name="page-title" />
@@ -117,7 +131,7 @@ const canonical = path || generateCanonicalUrl(Astro.url.pathname);
               )}
               
               {/* Category */}
-              {category && category.length > 0 && (
+              {categoryName && category && category.length > 0 && (
                 <div class="space-y-2">
                   <h3 class="text-xs font-semibold text-[rgb(var(--color-text-muted))] uppercase tracking-wider">
                     Category
@@ -128,7 +142,7 @@ const canonical = path || generateCanonicalUrl(Astro.url.pathname);
                       href={`/category/${category[0]}/`}
                       class="text-[rgb(var(--color-text))] hover:text-[rgb(var(--color-accent))] theme-transition"
                     >
-                      {category[0]}
+                      {categoryName}
                     </a>
                   </div>
                 </div>
@@ -237,14 +251,14 @@ const canonical = path || generateCanonicalUrl(Astro.url.pathname);
                   </span>
                 )}
                 
-                {category && category.length > 0 && (
+                {categoryName && category && category.length > 0 && (
                   <span class="flex items-center gap-2">
                     <span class="text-[rgb(var(--color-accent))]">📁</span>
                     <a 
                       href={`/category/${category[0]}/`}
                       class="hover:text-[rgb(var(--color-accent))] theme-transition"
                     >
-                      {category[0]}
+                      {categoryName}
                     </a>
                   </span>
                 )}
