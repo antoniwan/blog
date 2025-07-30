@@ -354,7 +354,7 @@ const recentTopTags = Object.entries(recentTagFrequency)
 			</div>
 
 			{/* Topic Evolution */}
-			<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
+			<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))] mb-8">
 				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">Topic Evolution by Quarter</h3>
 				<div class="space-y-6">
 					{quarters.slice(-8).map(quarter => (
@@ -372,6 +372,31 @@ const recentTopTags = Object.entries(recentTagFrequency)
 							</div>
 						</div>
 					))}
+				</div>
+			</div>
+
+			{/* Analysis Conclusion */}
+			<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
+				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-4">🏷️ Topic Analysis Insights</h3>
+				<div class="prose prose-sm text-[rgb(var(--color-text-muted))] leading-relaxed">
+					<p class="mb-3">
+						My writing covers a <strong>diverse range of interconnected themes</strong>, with personal development, parenting, 
+						and technology forming the core pillars. The strong tag relationships reveal how these areas naturally 
+						overlap—parenting insights often connect to personal growth, while technical topics frequently relate to 
+						productivity and learning.
+					</p>
+					<p class="mb-3">
+						The topic distribution shows a <strong>balanced approach</strong> across different life areas, with significant 
+						coverage of foundational needs (health, relationships) and higher-level pursuits (self-actualization, 
+						creativity). This suggests a holistic view of personal development that encompasses both practical and 
+						philosophical dimensions.
+					</p>
+					<p>
+						Recent trends indicate a growing focus on <strong>practical applications</strong> and <strong>systematic thinking</strong>, 
+						with increased writing about tools, processes, and frameworks. The most diverse posts—those covering 
+						multiple topics—tend to be the most comprehensive and insightful, suggesting that cross-disciplinary 
+						thinking produces my most valuable content.
+					</p>
 				</div>
 			</div>
 		</Container>

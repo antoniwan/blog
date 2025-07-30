@@ -384,7 +384,7 @@ const avgMaturityScore = Math.round(maturityIndicators.reduce((sum, post) => sum
 			</div>
 
 			{/* Writing Maturity */}
-			<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
+			<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))] mb-8">
 				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">Writing Maturity Indicators</h3>
 				<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
 					<div class="p-4 bg-[rgb(var(--color-bg))] rounded-lg text-center">
@@ -411,6 +411,28 @@ const avgMaturityScore = Math.round(maturityIndicators.reduce((sum, post) => sum
 						</div>
 						<div class="text-sm text-[rgb(var(--color-text-muted))]">Long-form Posts</div>
 					</div>
+				</div>
+			</div>
+
+			{/* Analysis Conclusion */}
+			<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
+				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-4">📈 Content Evolution Analysis</h3>
+				<div class="prose prose-sm text-[rgb(var(--color-text-muted))] leading-relaxed">
+					<p class="mb-3">
+						My writing has evolved from <strong>personal reflections</strong> to more <strong>analytical and technical content</strong>. 
+						The complexity trends show a steady increase in writing sophistication, with more structured arguments and 
+						evidence-based reasoning. This reflects a shift from emotional processing to <strong>intellectual synthesis</strong>.
+					</p>
+					<p class="mb-3">
+						Topic progression reveals a natural <strong>expansion of interests</strong>, starting with personal development 
+						and gradually incorporating parenting, technology, philosophy, and practical skills. The growth in long-form 
+						content indicates developing confidence in exploring complex subjects in depth.
+					</p>
+					<p>
+						The maturity indicators—increased use of code, links, and images—suggest a growing <strong>multimedia approach</strong> 
+						to content creation. This evolution from pure text to enriched content demonstrates an understanding that 
+						effective communication often requires multiple modalities to convey complex ideas clearly.
+					</p>
 				</div>
 			</div>
 		</Container>

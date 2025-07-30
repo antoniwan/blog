@@ -380,7 +380,7 @@ const momentumStats = Object.entries(momentumTrends).map(([month, posts]) => ({
 			</div>
 
 			{/* Writing Voice Evolution */}
-			<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
+			<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))] mb-8">
 				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">Writing Voice Evolution</h3>
 				<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 					{voiceStats.map(period => (
@@ -406,6 +406,30 @@ const momentumStats = Object.entries(momentumTrends).map(([month, posts]) => ({
 							</div>
 						</div>
 					))}
+				</div>
+			</div>
+
+			{/* Analysis Conclusion */}
+			<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
+				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-4">💡 Personal Insights Summary</h3>
+				<div class="prose prose-sm text-[rgb(var(--color-text-muted))] leading-relaxed">
+					<p class="mb-3">
+						My writing reveals a <strong>deeply introspective and emotionally engaged</strong> approach to content creation. 
+						The emotional intensity patterns show that my most impactful writing emerges from periods of 
+						<strong>personal challenge and growth</strong>, suggesting that vulnerability and authenticity drive my best work.
+					</p>
+					<p class="mb-3">
+						The knowledge area expansion demonstrates a <strong>natural evolution of interests</strong>, with early focus on 
+						personal development gradually expanding to include parenting, technology, and philosophy. This growth 
+						reflects life changes and the integration of new experiences into my intellectual framework.
+					</p>
+					<p>
+						The writing voice evolution shows a <strong>maturation process</strong> from emotional processing to more 
+						balanced analytical-emotional expression. The increasing voice maturity scores indicate growing 
+						confidence in my perspective and ability to communicate complex ideas effectively. This suggests 
+						I'm developing a <strong>distinctive and authentic writing voice</strong> that balances personal insight with 
+						practical wisdom.
+					</p>
 				</div>
 			</div>
 		</Container>

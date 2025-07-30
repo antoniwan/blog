@@ -79,8 +79,7 @@ const maslowAnalysis = MASLOW_CATEGORIES.map(category => {
 	};
 }).filter(cat => cat.postCount > 0);
 
-// Recent activity
-const recentPosts = sortedPosts.slice(0, 5);
+// Current month posts
 const thisMonthPosts = posts.filter(post => {
 	const now = new Date();
 	const postDate = post.data.pubDate;
@@ -297,27 +296,7 @@ currentStreak = tempStreak;
 					</div>
 				</div>
 
-				{/* Recent Activity */}
-				<div class="mt-12">
-					<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-4">Recent Activity</h3>
-					<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
-						<div class="space-y-4">
-							{recentPosts.map(post => (
-								<div class="flex justify-between items-center">
-									<div>
-										<h4 class="text-sm font-medium text-[rgb(var(--color-text))]">{post.data.title}</h4>
-										<p class="text-xs text-[rgb(var(--color-text-muted))]">
-											{format(post.data.pubDate, 'MMM d, yyyy')} • {post.data.readingTime || '~'} min read
-										</p>
-									</div>
-									<div class="text-xs text-[rgb(var(--color-text-muted))]">
-										{formatDistanceToNow(post.data.pubDate, { addSuffix: true })}
-									</div>
-								</div>
-							))}
-						</div>
-					</div>
-				</div>
+
 			</div>
 		</Container>
 	</Container>
