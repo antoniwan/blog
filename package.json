@@ -1,7 +1,7 @@
 {
   "name": "curious-chaos-journal",
   "type": "module",
-  "version": "2.4.2",
+  "version": "2.5.0",
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",

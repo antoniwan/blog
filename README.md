@@ -1,6 +1,6 @@
 # Curious Chaos Journal
 
-[![Version](https://img.shields.io/badge/version-2.4.1-blue.svg)](https://github.com/antoniwan/curious-chaos-journal/releases)
+[![Version](https://img.shields.io/badge/version-2.5.0-blue.svg)](https://github.com/antoniwan/curious-chaos-journal/releases)
 
 A personal digital space documenting the journey of building systems — digital, emotional, spiritual, and physical. Raw reflections on thinking, culture, and the soft heart inside the hard world.
 
@@ -16,6 +16,8 @@ A personal digital space documenting the journey of building systems — digital
 - **Enhanced navigation** with breadcrumbs and improved UX
 - **Simplified SEO system** with hero image prioritization
 - **100% post discovery** - all posts visible on homepage through scrolling
+- **🧠 Brain Science Analytics** - Comprehensive writing pattern analysis and personal insights
+- **🏷️ Tag Management System** - Advanced tag usage analytics and optimization tools
 
 ## 🌟 Content Categories
 
@@ -195,6 +197,51 @@ Mobile navigation has been completely refactored for better usability:
 - **Category Dropdowns**: Enhanced category navigation with icons and descriptions
 - **Consistent Styling**: Unified navigation experience across all pages
 
+## 🧠 Brain Science Analytics
+
+The **Brain Science** section provides comprehensive analytics and insights into writing patterns, content evolution, and personal development:
+
+### Available Analytics Pages
+
+- **📊 Dashboard Overview** (`/brain-science`) - Key metrics and navigation hub
+- **📅 Writing Cadence** (`/brain-science/cadence`) - Publishing patterns and streaks
+- **📈 Content Evolution** (`/brain-science/evolution`) - Topic progression and style development
+- **🏷️ Topic Analysis** (`/brain-science/topics`) - Tag frequency and relationships
+- **🔍 Meta Analysis** (`/brain-science/meta`) - Self-reference patterns and content depth
+- **💡 Personal Insights** (`/brain-science/insights`) - Creative patterns and growth trends
+- **🌀 Pattern Recognition** (`/brain-science/patterns`) - Correlation analysis and optimization
+
+### Key Features
+
+- **Real-time Analytics**: Dynamic calculation of all metrics and insights
+- **Pattern Recognition**: Algorithmic identification of writing and creative patterns
+- **Personal Development Tracking**: Monitor growth across life areas and interests
+- **Interactive Dashboards**: Rich data visualization with responsive design
+- **Insight Generation**: AI-powered analysis and actionable recommendations
+
+For detailed documentation, see [docs/BRAIN_SCIENCE_SECTION.md](docs/BRAIN_SCIENCE_SECTION.md).
+
+## 🏷️ Tag Management System
+
+The **Tag Management** section provides advanced analytics and optimization tools for content organization:
+
+### Key Features
+
+- **Tag Usage Analytics**: Comprehensive statistics on tag frequency and distribution
+- **Content Organization Insights**: Analysis of tagging patterns and optimization opportunities
+- **Low-Frequency Tag Management**: Identification of tags for consolidation or removal
+- **Recommendation System**: Automated suggestions for tag system improvement
+- **Performance Monitoring**: Track tag system efficiency and effectiveness
+
+### Management Tools
+
+- **Statistics Overview**: Total tags, instances, averages, and density metrics
+- **Frequency Analysis**: Top tags by usage with weight integration
+- **Content Optimization**: Posts with excessive tagging and improvement suggestions
+- **System Maintenance**: Ongoing tag system health monitoring and cleanup
+
+For detailed documentation, see [docs/TAG_MANAGEMENT_SECTION.md](docs/TAG_MANAGEMENT_SECTION.md).
+
 ## 💬 Comments System
 
 This blog uses [Giscus](https://giscus.app) for privacy-focused commenting. Comments are powered by GitHub Discussions, ensuring:
@@ -255,6 +302,8 @@ Comprehensive documentation is available in the `docs/` directory:
 - **[Frontmatter Audit Summary](docs/FRONTMATTER_AUDIT_AND_STANDARDIZATION_SUMMARY.md)** - Audit results and statistics
 - **[SEO Audit & Improvements](docs/SEO_AUDIT_AND_IMPROVEMENTS.md)** - SEO optimization details
 - **[Markdown Cleanup Verification](docs/MARKDOWN_CLEANUP_VERIFICATION.md)** - Content quality assurance
+- **[Brain Science Analytics](docs/BRAIN_SCIENCE_SECTION.md)** - Writing pattern analysis and insights
+- **[Tag Management System](docs/TAG_MANAGEMENT_SECTION.md)** - Tag usage analytics and optimization
 
 ## 🔒 Security Note
 
