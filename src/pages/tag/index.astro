@@ -5,12 +5,11 @@ import TagCloud from '../../components/TagCloud.astro';
 import Container from '../../components/Container.astro';
 import { getCollection } from 'astro:content';
 
-// Get all posts
+// Get all posts and calculate tag counts
 const posts = await getCollection('blog', ({ data }) => {
   return import.meta.env.PROD ? !data.draft : true;
 });
 
-// Get post counts by tag
 const tagCounts = posts.reduce((acc, post) => {
   post.data.tags?.forEach(tag => {
     acc[tag] = (acc[tag] || 0) + 1;
@@ -18,32 +17,80 @@ const tagCounts = posts.reduce((acc, post) => {
   return acc;
 }, {} as Record<string, number>);
 
-// Sort tags by post count
-const sortedTags = Object.entries(tagCounts)
-  .sort(([, a], [, b]) => b - a)
-  .map(([tag]) => tag);
+// Maslow's Hierarchy of Needs categorization
+const maslowCategories = [
+  {
+    key: 'physiological',
+    title: "Physiological Needs",
+    description: "Basic survival needs for food, health, and physical well-being",
+    icon: "🍽️",
+    tags: ['nutrition', 'health', 'wellness', 'cooking', 'food', 'healthy-eating', 'micronutrients', 'fasting', 'breathing', 'fitness', 'recipes', 'self-care']
+  },
+  {
+    key: 'safety',
+    title: "Safety & Security",
+    description: "Protection, stability, and creating safe environments",
+    icon: "🛡️",
+    tags: ['digital-safety', 'boundaries', 'control', 'discipline', 'self-control', 'emotional-regulation', 'mental-health', 'therapy', 'trauma', 'fear', 'emotional-health', 'emotional-pain', 'emotional-intelligence']
+  },
+  {
+    key: 'belonging',
+    title: "Love & Belonging",
+    description: "Relationships, family, and social connections",
+    icon: "💝",
+    tags: ['family', 'family-dynamics', 'children', 'parenting', 'conscious-parenting', 'fatherhood', 'relationships', 'connection', 'empathy', 'compassion', 'collective-healing', 'social-issues', 'social-justice', 'child-development', 'childhood', 'vulnerability']
+  },
+  {
+    key: 'esteem',
+    title: "Esteem & Achievement",
+    description: "Confidence, mastery, and recognition",
+    icon: "🏆",
+    tags: ['confidence-building', 'mastery', 'achievement', 'respect', 'responsibility', 'accountability', 'leadership', 'professional-development', 'imposter-syndrome', 'self-discipline', 'self-mastery', 'power', 'authority', 'feedback', 'self-awareness', 'humility', 'ego']
+  },
+  {
+    key: 'actualization',
+    title: "Self-Actualization",
+    description: "Personal growth, creativity, and fulfilling potential",
+    icon: "🌱",
+    tags: ['personal-growth', 'self-improvement', 'growth', 'learning', 'learning-projects', 'self-discovery', 'self-expression', 'art-expression', 'creativity', 'diy-creation', 'craftsmanship', 'development', 'transformation', 'intentional-living', 'purpose', 'meaning', 'authenticity', 'adaptability', 'decision-making', 'efficiency', 'habits', 'limits', 'patience', 'productivity', 'self-construction', 'self-reflection', 'simplicity', 'slow-living', 'time', 'tips', 'tools', 'workflow', 'writing', 'digital-art', 'customization']
+  },
+  {
+    key: 'transcendence',
+    title: "Transcendence",
+    description: "Spiritual growth, helping others, and meaning beyond self",
+    icon: "✨",
+    tags: ['self-transcendence', 'spirituality', 'consciousness', 'existentialism', 'philosophy', 'humanism', 'atheism', 'mythology', 'symbols', 'inner-work', 'inner-peace', 'serenity', 'contentment', 'meditation', 'mindfulness', 'presence', 'truth', 'healing', 'inner-child', 'reflection', 'resilience', 'ritual', 'routine']
+  }
+];
 
-// Calculate tag sizes for cloud view
+// Helper function to create tag data with size calculation
+const createTagData = (tag: string, count: number, maxCount: number, minCount: number) => ({
+  tag,
+  count,
+  size: Math.max(0.875, Math.min(2.5, 0.875 + (count - minCount) / (maxCount - minCount) * 1.625))
+});
+
+// Categorize tags
 const maxCount = Math.max(...Object.values(tagCounts));
 const minCount = Math.min(...Object.values(tagCounts));
-const tagSizes = Object.entries(tagCounts).reduce((acc, [tag, count]) => {
-  // Scale font size between 0.875rem (14px) and 2.5rem (40px)
-  const size = 0.875 + (count - minCount) / (maxCount - minCount) * 1.625;
-  acc[tag] = Math.max(0.875, Math.min(2.5, size));
-  return acc;
-}, {} as Record<string, number>);
 
-// Prepare tags data for TagCloud component
-const tagsData = sortedTags.map(tag => ({
-  tag,
-  count: tagCounts[tag],
-  size: tagSizes[tag]
+const categorizedTags = maslowCategories.map(category => ({
+  ...category,
+  tags: Object.entries(tagCounts)
+    .filter(([tag]) => category.tags.includes(tag))
+    .map(([tag, count]) => createTagData(tag, count, maxCount, minCount))
+    .sort((a, b) => b.count - a.count)
 }));
+
+const uncategorizedTags = Object.entries(tagCounts)
+  .filter(([tag]) => !maslowCategories.some(cat => cat.tags.includes(tag)))
+  .map(([tag, count]) => createTagData(tag, count, maxCount, minCount))
+  .sort((a, b) => b.count - a.count);
 ---
 
 <BaseLayout
   title="Tags"
-  description="Browse posts by tag"
+  description="Browse posts by tag, organized by Maslow's Hierarchy of Needs. Each section represents different levels of human motivation, from basic survival to spiritual fulfillment."
   path="/tag"
   structuredDataType="website"
 >
@@ -51,16 +98,65 @@ const tagsData = sortedTags.map(tag => ({
     <Container maxWidth="container" padding="none">
       <PageHeader 
         title="Tags"
-        description="Browse posts by tag"
+        description="Browse posts by tag, organized by Maslow's Hierarchy of Needs. Each section represents different levels of human motivation, from basic survival to spiritual fulfillment."
       />
       
-      {/* Tag Cloud */}
-      <div class="mt-12">
-        <TagCloud tags={tagsData} />
+      {/* Maslow's Hierarchy Sections */}
+      <div class="space-y-20">
+        {categorizedTags.map((category, index) => {
+          if (category.tags.length === 0) return null;
+          
+          const isEven = index % 2 === 0;
+          
+          return (
+            <section class={`relative ${isEven ? 'bg-[rgb(var(--color-bg-alt))]/30' : ''} rounded-2xl p-8 -mx-4`}>
+              <div class={`flex flex-col ${isEven ? 'lg:flex-row' : 'lg:flex-row-reverse'} items-center gap-8 lg:gap-12`}>
+                {/* Icon and Header */}
+                <div class={`flex-shrink-0 text-center ${isEven ? 'lg:text-left' : 'lg:text-right'} lg:w-1/3`}>
+                  <div class="text-6xl mb-4">{category.icon}</div>
+                  <h3 class="text-2xl font-bold text-[rgb(var(--color-text))] mb-3">
+                    {category.title}
+                  </h3>
+                  <p class="text-[rgb(var(--color-text-muted))] leading-relaxed">
+                    {category.description}
+                  </p>
+                  <div class="mt-4 text-sm text-[rgb(var(--color-text-muted))]">
+                    {category.tags.length} tag{category.tags.length !== 1 ? 's' : ''}
+                  </div>
+                </div>
+                
+                {/* Tag Cloud */}
+                <div class="flex-1 w-full">
+                  <TagCloud tags={category.tags} />
+                </div>
+              </div>
+            </section>
+          );
+        })}
+        
+        {/* Uncategorized Tags */}
+        {uncategorizedTags.length > 0 && (
+          <section class="relative bg-gradient-to-br from-[rgb(var(--color-accent))]/5 to-[rgb(var(--color-accent))]/10 rounded-2xl p-8 -mx-4">
+            <div class="text-center mb-8">
+              <div class="text-4xl mb-4">🏷️</div>
+              <h2 class="text-2xl font-bold text-[rgb(var(--color-text))] mb-3">
+                Other Topics
+              </h2>
+              <p class="text-[rgb(var(--color-text-muted))] max-w-2xl mx-auto leading-relaxed">
+                Additional tags that don't fit neatly into the hierarchy but are still important to explore.
+              </p>
+              <div class="mt-4 text-sm text-[rgb(var(--color-text-muted))]">
+                {uncategorizedTags.length} tag{uncategorizedTags.length !== 1 ? 's' : ''}
+              </div>
+            </div>
+            
+            <TagCloud tags={uncategorizedTags} />
+          </section>
+        )}
       </div>
       
       {/* Empty State */}
-      {sortedTags.length === 0 && (
+      {Object.keys(tagCounts).length === 0 && (
         <div class="text-center py-12">
           <p class="text-body-large text-[rgb(var(--color-text-muted))] leading-relaxed">
             No tags found yet.
@@ -72,15 +168,21 @@ const tagsData = sortedTags.map(tag => ({
 </BaseLayout>
 
 <style>
-  /* Smooth transitions for dark mode */
   main {
     transition: background-color 0.2s ease, color 0.2s ease;
   }
 
-  /* Respect reduced motion preferences */
   @media (prefers-reduced-motion: reduce) {
     main {
       transition: none !important;
+    }
+  }
+  
+  @media (max-width: 1024px) {
+    section {
+      padding: 1.5rem !important;
+      margin-left: -1rem !important;
+      margin-right: -1rem !important;
     }
   }
 </style> 
