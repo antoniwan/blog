@@ -1,6 +1,6 @@
 # Curious Chaos Journal
 
-[![Version](https://img.shields.io/badge/version-2.7.1-blue.svg)](https://github.com/antoniwan/curious-chaos-journal/releases)
+[![Version](https://img.shields.io/badge/version-2.8.0-blue.svg)](https://github.com/antoniwan/curious-chaos-journal/releases)
 
 A personal blog built with Astro, documenting thoughts on technology, personal growth, and creative expression. Features an internal API for Stoic philosophy quotes.
 
@@ -14,6 +14,7 @@ A personal blog built with Astro, documenting thoughts on technology, personal g
 - **SEO optimized** with structured data and Open Graph
 - **Internal API** for Stoic philosophy quotes
 - **Enhanced 404 page** with professional loading states and error handling
+- **Social Sharing** with mobile-first responsive design and native share API support
 
 ## Tech Stack
 
@@ -137,6 +138,7 @@ draft: false
 - **Brain Science Analytics** - Writing pattern analysis
 - **Tag Management** - Advanced tag usage analytics
 - **Internal API** - Stoic quotes for enhanced user experience
+- **Social Sharing** - Multi-platform sharing with mobile-first responsive design
 
 ## Configuration
 
@@ -145,6 +147,33 @@ draft: false
 - **Markdown**: Shiki syntax highlighting
 - **Prefetch**: Intelligent link prefetching
 - **Vercel Adapter**: Optimized deployment
+
+## Social Sharing
+
+The blog features a comprehensive social sharing system designed with a **mobile-first approach**:
+
+### Supported Platforms
+
+- 🐦 Twitter/X
+- 🌀 BlueSky
+- 📘 Facebook
+- 🧵 Threads
+- 💼 LinkedIn
+- 🔗 Copy Link
+
+### Device-Specific Experience
+
+- **Mobile**: Floating Action Button (FAB) + in-content share button
+- **Tablet**: Horizontal share bar below content
+- **Desktop**: Vertical share bar in sidebar
+
+### Features
+
+- Native Web Share API support with fallback
+- Copy-to-clipboard functionality with toast notifications
+- Responsive design optimized for all devices
+- Platform-specific sharing URLs
+- Accessibility compliant with ARIA labels and keyboard navigation
 
 ## Documentation
 
@@ -155,6 +184,7 @@ Comprehensive documentation available in `docs/`:
 - [Brain Science Analytics](docs/BRAIN_SCIENCE_SECTION.md)
 - [Tag Management](docs/TAG_MANAGEMENT_SECTION.md)
 - [Quotes API](docs/QUOTES_API.md)
+- [Social Sharing Implementation](docs/SOCIAL_SHARING_IMPLEMENTATION.md)
 
 ## License
 
