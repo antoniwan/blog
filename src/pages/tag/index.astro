@@ -106,13 +106,11 @@ const uncategorizedTags = Object.entries(tagCounts)
         {categorizedTags.map((category, index) => {
           if (category.tags.length === 0) return null;
           
-          const isEven = index % 2 === 0;
-          
           return (
-            <section class={`relative ${isEven ? 'bg-[rgb(var(--color-bg-alt))]/30' : ''} rounded-2xl p-8 -mx-4`}>
-              <div class={`flex flex-col ${isEven ? 'lg:flex-row' : 'lg:flex-row-reverse'} items-center gap-8 lg:gap-12`}>
+            <section class={`relative ${index % 2 === 0 ? 'bg-[rgb(var(--color-bg-alt))]/30' : ''} rounded-2xl p-8 -mx-4`}>
+              <div class="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
                 {/* Icon and Header */}
-                <div class={`flex-shrink-0 text-center ${isEven ? 'lg:text-left' : 'lg:text-right'} lg:w-1/3`}>
+                <div class="flex-shrink-0 text-center lg:text-left lg:w-1/3">
                   <div class="text-6xl mb-4">{category.icon}</div>
                   <h3 class="text-2xl font-bold text-[rgb(var(--color-text))] mb-3">
                     {category.title}
@@ -137,20 +135,26 @@ const uncategorizedTags = Object.entries(tagCounts)
         {/* Uncategorized Tags */}
         {uncategorizedTags.length > 0 && (
           <section class="relative bg-gradient-to-br from-[rgb(var(--color-accent))]/5 to-[rgb(var(--color-accent))]/10 rounded-2xl p-8 -mx-4">
-            <div class="text-center mb-8">
-              <div class="text-4xl mb-4">🏷️</div>
-              <h2 class="text-2xl font-bold text-[rgb(var(--color-text))] mb-3">
-                Other Topics
-              </h2>
-              <p class="text-[rgb(var(--color-text-muted))] max-w-2xl mx-auto leading-relaxed">
-                Additional tags that don't fit neatly into the hierarchy but are still important to explore.
-              </p>
-              <div class="mt-4 text-sm text-[rgb(var(--color-text-muted))]">
-                {uncategorizedTags.length} tag{uncategorizedTags.length !== 1 ? 's' : ''}
+            <div class="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
+              {/* Icon and Header */}
+              <div class="flex-shrink-0 text-center lg:text-left lg:w-1/3">
+                <div class="text-6xl mb-4">🏷️</div>
+                <h2 class="text-2xl font-bold text-[rgb(var(--color-text))] mb-3">
+                  Other Topics
+                </h2>
+                <p class="text-[rgb(var(--color-text-muted))] leading-relaxed">
+                  Additional tags that don't fit neatly into the hierarchy but are still important to explore.
+                </p>
+                <div class="mt-4 text-sm text-[rgb(var(--color-text-muted))]">
+                  {uncategorizedTags.length} tag{uncategorizedTags.length !== 1 ? 's' : ''}
+                </div>
+              </div>
+              
+              {/* Tag Cloud */}
+              <div class="flex-1 w-full">
+                <TagCloud tags={uncategorizedTags} />
               </div>
             </div>
-            
-            <TagCloud tags={uncategorizedTags} />
           </section>
         )}
       </div>
