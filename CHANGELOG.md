@@ -5,6 +5,33 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.5.1] - 2025-01-30
+
+### Maintenance & Cleanup
+
+- **Project Cleanup**: Removed build artifacts and temporary files
+  - Cleaned up `dist/` directory (build output)
+  - Cleaned up `.astro/` directory (Astro cache)
+  - Cleaned up `.vercel/` directory (deployment cache)
+  - Reduced repository size by ~44MB
+- **Dependency Management**: Updated package-lock.json with latest dependency resolutions
+- **Version Update**: Bumped version to 2.5.1 for maintenance release
+- **Documentation**: Updated README version badge and changelog
+
+### Technical Details
+
+- **Build Artifacts**: Removed all temporary build and cache directories
+- **Repository Size**: Significant reduction in repository size through cleanup
+- **Package Lock**: Regenerated with `npm install` for consistency
+- **Version Management**: Proper semantic versioning for maintenance release
+
+### Maintenance Benefits
+
+- 🧹 **Cleaner Repository**: No build artifacts or cache files in version control
+- 📦 **Consistent Dependencies**: Updated package lock file
+- 🔧 **Better Development**: Cleaner working directory for development
+- 📊 **Reduced Size**: ~44MB reduction in repository size
+
 ## [2.4.1] - 2025-01-30
 
 ### Fixed
@@ -232,6 +259,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Version History
 
+- **2.5.1**: Project cleanup and maintenance release with build artifact removal and dependency updates
 - **2.4.1**: Fixed homepage post coverage issue, ensuring 100% post visibility and complete archive access
 - **2.4.0**: Breadcrumb navigation, enhanced mobile experience, simplified SEO system, and comprehensive refactoring
 - **2.3.0**: Enhanced image handling, hero image support, and improved user experience
