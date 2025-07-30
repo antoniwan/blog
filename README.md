@@ -1,6 +1,6 @@
 # Curious Chaos Journal
 
-[![Version](https://img.shields.io/badge/version-2.4.0-blue.svg)](https://github.com/antoniwan/curious-chaos-journal/releases)
+[![Version](https://img.shields.io/badge/version-2.4.1-blue.svg)](https://github.com/antoniwan/curious-chaos-journal/releases)
 
 A personal digital space documenting the journey of building systems — digital, emotional, spiritual, and physical. Raw reflections on thinking, culture, and the soft heart inside the hard world.
 
@@ -8,13 +8,14 @@ A personal digital space documenting the journey of building systems — digital
 
 ## 📊 Project Status
 
-- **51 blog posts** with 100% frontmatter compliance
-- **207 pages** generated successfully
+- **52 blog posts** with 100% frontmatter compliance and complete homepage coverage
+- **216 pages** generated successfully
 - **9 content categories** with comprehensive tagging
 - **Multi-language support** (English/Spanish)
 - **Complete documentation** suite available
 - **Enhanced navigation** with breadcrumbs and improved UX
 - **Simplified SEO system** with hero image prioritization
+- **100% post discovery** - all posts visible on homepage through scrolling
 
 ## 🌟 Content Categories
 

@@ -18,8 +18,9 @@ const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDa
 // Get featured posts (posts marked as featured in frontmatter)
 const featuredPosts = sortedPosts.filter(post => post.data.featured).slice(0, 4);
 
-// Get remaining posts (non-featured)
-const remainingPosts = sortedPosts.filter(post => !post.data.featured);
+// Get all remaining posts (including featured posts beyond the top 4)
+const featuredPostIds = featuredPosts.map(post => post.id);
+const remainingPosts = sortedPosts.filter(post => !featuredPostIds.includes(post.id));
 
 // Get post counts by category
 const postCounts = categories.reduce((acc, category) => {
@@ -110,7 +111,7 @@ const topCategories = categories
 					Complete Archive
 				</h2>
 				<p class="text-body-large text-[rgb(var(--color-text-muted))] leading-relaxed">
-					Every thought, question, and reflection from the journey through thinking, fatherhood, and cultural navigation
+					Every thought, question, and reflection from the journey through thinking, fatherhood, and cultural navigation. Scroll to explore the complete collection.
 				</p>
 			</div>
 			<LazyPosts 

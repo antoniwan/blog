@@ -30,7 +30,7 @@ const { posts, initialCount = 6, loadMoreCount = 6 } = Astro.props;
 	{posts.length > initialCount && (
 		<div class="load-more-container text-center mt-12" id="load-more-container">
 			<div class="progress-indicator mb-4 text-base text-[rgb(var(--color-text-muted))] leading-relaxed" id="progress-indicator">
-				Showing {initialCount} of {posts.length} posts
+				Showing {initialCount} of {posts.length} posts ({Math.round((initialCount / posts.length) * 100)}% complete)
 			</div>
 			<button 
 				class="load-more-btn bg-[rgb(var(--color-primary))] hover:bg-[rgb(var(--color-primary-hover))] text-white font-medium py-3 px-8 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-primary))] focus:ring-offset-2 text-base leading-relaxed"
@@ -159,7 +159,8 @@ const { posts, initialCount = 6, loadMoreCount = 6 } = Astro.props;
 		
 		updateProgressIndicator(currentCount: number, totalCount: number) {
 			if (this.progressIndicator) {
-				this.progressIndicator.textContent = `Showing ${currentCount} of ${totalCount} posts`;
+				const percentage = Math.round((currentCount / totalCount) * 100);
+				this.progressIndicator.textContent = `Showing ${currentCount} of ${totalCount} posts (${percentage}% complete)`;
 			}
 		}
 	}

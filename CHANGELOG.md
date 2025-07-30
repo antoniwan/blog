@@ -5,6 +5,32 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.4.1] - 2025-01-30
+
+### Fixed
+
+- **Homepage Post Coverage**: Fixed critical issue where 4 featured posts were hidden from users
+  - Resolved object reference comparison bug in post filtering logic
+  - Updated filtering to use post IDs instead of object references for proper comparison
+  - Ensured 100% post coverage on homepage (52/52 posts now visible)
+  - Enhanced progress indicator with percentage completion for better UX
+- **Complete Archive Section**: All posts now appear in the archive section, including featured posts beyond the top 4
+- **User Experience**: Users can now discover every post through scrolling, with no hidden content
+
+### Technical Details
+
+- **Post Filtering Logic**: Changed from `!featuredPosts.includes(post)` to `!featuredPostIds.includes(post.id)`
+- **Progress Indicator**: Added percentage completion display in LazyPosts component
+- **Archive Description**: Updated to encourage exploration of complete collection
+- **Build Verification**: Confirmed all 52 posts are now properly accessible
+
+### User Experience
+
+- 📚 **Complete Discovery**: All 52 posts are now discoverable on the homepage
+- 🎯 **No Hidden Content**: Featured posts beyond the top 4 now appear in the archive section
+- 📊 **Better Progress Tracking**: Percentage completion indicator for archive exploration
+- 🔍 **Full Coverage**: 100% post visibility ensures users don't miss any content
+
 ## [2.4.0] - 2025-01-30
 
 ### Added
@@ -206,6 +232,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Version History
 
+- **2.4.1**: Fixed homepage post coverage issue, ensuring 100% post visibility and complete archive access
 - **2.4.0**: Breadcrumb navigation, enhanced mobile experience, simplified SEO system, and comprehensive refactoring
 - **2.3.0**: Enhanced image handling, hero image support, and improved user experience
 - **2.2.2**: Dependency updates and security monitoring
