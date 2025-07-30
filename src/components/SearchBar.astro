@@ -1,28 +1,139 @@
 ---
 import { getCollection } from 'astro:content';
+import { categories } from '../data/categories';
+import { getTagMetadata } from '../data/tags';
+import { calculateTagStats } from '../utils/tagProcessing';
 
 interface Props {
 	class?: string;
 	placeholder?: string;
 }
 
-const { class: className = '', placeholder = 'Search posts...' } = Astro.props;
+const { class: className = '', placeholder = 'Search posts, pages...' } = Astro.props;
 
 // Get all blog posts for search
 const posts = await getCollection('blog', ({ data }) => {
 	return import.meta.env.PROD ? !data.draft : true;
 });
 
-// Prepare search data
-const searchData = posts.map(post => ({
+// Prepare search data for posts
+const postSearchData = posts.map(post => ({
+  type: 'post',
   slug: post.id,
   title: post.data.title,
   description: post.data.description,
   category: post.data.category,
   tags: post.data.tags,
   heroImage: post.data.heroImage,
-  url: `/p/${post.id}/`
+  url: `/p/${post.id}/`,
+  author: post.data.author,
+  keywords: post.data.keywords,
+  language: post.data.language
 }));
+
+// Prepare search data for quotes (disabled)
+const quoteSearchData: any[] = [];
+
+// Prepare search data for categories
+const categorySearchData = categories.map(category => ({
+  type: 'category',
+  id: category.id,
+  title: category.name,
+  description: category.description,
+  url: `/category/${category.id}/`,
+  icon: category.icon
+}));
+
+// Prepare search data for tags (same as tag page)
+const { tagCounts } = calculateTagStats(posts);
+const tagSearchData = Object.entries(tagCounts).map(([tag, count]) => {
+  const metadata = getTagMetadata(tag);
+  return {
+    type: 'tag',
+    id: tag,
+    title: tag.replace(/-/g, ' ').replace(/\b\w/g, (l: string) => l.toUpperCase()),
+    description: metadata?.description || `${count} post${count !== 1 ? 's' : ''} tagged with "${tag}"`,
+    url: `/tag/${tag}/`,
+    weight: metadata?.weight || 1,
+    count: count
+  };
+});
+
+// Prepare search data for pages
+const pageSearchData = [
+  {
+    type: 'page',
+    id: 'about',
+    title: 'About',
+    description: 'Learn more about the author and this blog',
+    url: '/about/'
+  },
+  {
+    type: 'page',
+    id: 'brain-science',
+    title: 'Brain Science',
+    description: 'Analytics and insights about writing patterns, themes, and growth',
+    url: '/brain-science/'
+  },
+  {
+    type: 'page',
+    id: 'brain-science-topics',
+    title: 'Brain Science - Topics',
+    description: 'Analysis of topics and themes across all posts',
+    url: '/brain-science/topics/'
+  },
+  {
+    type: 'page',
+    id: 'brain-science-patterns',
+    title: 'Brain Science - Patterns',
+    description: 'Writing patterns and frequency analysis',
+    url: '/brain-science/patterns/'
+  },
+  {
+    type: 'page',
+    id: 'brain-science-evolution',
+    title: 'Brain Science - Evolution',
+    description: 'How writing and thinking has evolved over time',
+    url: '/brain-science/evolution/'
+  },
+  {
+    type: 'page',
+    id: 'brain-science-insights',
+    title: 'Brain Science - Insights',
+    description: 'Key insights and discoveries from the writing journey',
+    url: '/brain-science/insights/'
+  },
+  {
+    type: 'page',
+    id: 'brain-science-cadence',
+    title: 'Brain Science - Cadence',
+    description: 'Writing rhythm and consistency analysis',
+    url: '/brain-science/cadence/'
+  },
+  {
+    type: 'page',
+    id: 'brain-science-meta',
+    title: 'Brain Science - Meta',
+    description: 'Meta-analysis of the blog and its impact',
+    url: '/brain-science/meta/'
+  },
+  {
+    type: 'page',
+    id: 'tag-management',
+    title: 'Tag Management',
+    description: 'Organize and manage tags across all posts',
+    url: '/tag-management/'
+  }
+];
+
+// Combine all search data
+const searchData = [
+  ...postSearchData,
+  ...quoteSearchData,
+  ...categorySearchData,
+  ...tagSearchData,
+  ...pageSearchData
+];
 
 // Generate unique ID for this search instance
 const searchId = `search-${Math.random().toString(36).substr(2, 9)}`;
@@ -31,7 +142,7 @@ const searchId = `search-${Math.random().toString(36).substr(2, 9)}`;
 const searchDataJson = JSON.stringify(searchData);
 
 // Debug: Log search data info
-console.log(`SearchBar: ${posts.length} posts available for search`);
+console.log(`SearchBar: ${posts.length} posts, ${categories.length} categories, ${Object.keys(tagCounts).length} tags, ${pageSearchData.length} pages available for search`);
 ---
 
 <div class={`search-container relative ${className}`}>
@@ -81,8 +192,8 @@ console.log(`SearchBar: ${posts.length} posts available for search`);
 			<svg class="h-10 w-10 mx-auto mb-3 text-[rgb(var(--color-text-muted))]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 12h6m-6-4h6m2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"/>
 			</svg>
-			<p class="text-sm font-medium">No posts found</p>
-			<p class="text-xs mt-1">Try different keywords</p>
+			<p class="text-sm font-medium">No results found</p>
+			<p class="text-xs mt-1">Try searching for posts, categories, tags, or pages</p>
 		</div>
 		
 		<!-- Results List -->
@@ -203,7 +314,7 @@ console.log(`SearchBar: ${posts.length} posts available for search`);
 			// Get the search data from the global variable
 			const searchData = (window as any).searchData || [];
 			
-			console.log(`Searching for "${query}" with ${searchData.length} posts available`);
+			console.log(`Searching for "${query}" with ${searchData.length} items available`);
 			
 			if (!searchData || searchData.length === 0) {
 				console.warn('No search data available');
@@ -212,40 +323,87 @@ console.log(`SearchBar: ${posts.length} posts available for search`);
 			
 			const normalizedQuery = query.toLowerCase().trim();
 			
-			// Perform search across title, description, category, and tags
-			const results = searchData.filter((post: any) => {
-				const titleMatch = post.title?.toLowerCase().includes(normalizedQuery);
-				const descriptionMatch = post.description?.toLowerCase().includes(normalizedQuery);
-				const categoryMatch = post.category?.some((cat: string) => 
-					cat.toLowerCase().includes(normalizedQuery)
-				);
-				const tagsMatch = post.tags?.some((tag: string) => 
-					tag.toLowerCase().includes(normalizedQuery)
-				);
+			// Perform enhanced search across all content types
+			const results = searchData.filter((item: any) => {
+				// Basic text matches
+				const titleMatch = item.title?.toLowerCase().includes(normalizedQuery);
+				const descriptionMatch = item.description?.toLowerCase().includes(normalizedQuery);
 				
-				return titleMatch || descriptionMatch || categoryMatch || tagsMatch;
+				// Content type specific searches
+				let additionalMatches = false;
+				
+				if (item.type === 'post') {
+					// Search in post-specific fields
+					const categoryMatch = item.category?.some((cat: string) => 
+						cat.toLowerCase().includes(normalizedQuery)
+					);
+					const tagsMatch = item.tags?.some((tag: string) => 
+						tag.toLowerCase().includes(normalizedQuery)
+					);
+					const authorMatch = item.author?.toLowerCase().includes(normalizedQuery);
+					const keywordsMatch = item.keywords?.some((keyword: string) => 
+						keyword.toLowerCase().includes(normalizedQuery)
+					);
+					additionalMatches = categoryMatch || tagsMatch || authorMatch || keywordsMatch;
+
+				} else if (item.type === 'tag') {
+					// Search in tag-specific fields
+					const weightMatch = item.weight?.toString().includes(normalizedQuery);
+					additionalMatches = weightMatch;
+				}
+				
+				return titleMatch || descriptionMatch || additionalMatches;
 			});
 			
-			// Sort results by relevance (title matches first, then description, etc.)
-			const sortedResults = results.sort((a: any, b: any) => {
-				const aTitleMatch = a.title?.toLowerCase().includes(normalizedQuery);
-				const bTitleMatch = b.title?.toLowerCase().includes(normalizedQuery);
+			// Enhanced relevance scoring and sorting
+			const scoredResults = results.map((item: any) => {
+				let score = 0;
+				const titleMatch = item.title?.toLowerCase().includes(normalizedQuery);
+				const descriptionMatch = item.description?.toLowerCase().includes(normalizedQuery);
 				
-				// Title matches get priority
-				if (aTitleMatch && !bTitleMatch) return -1;
-				if (!aTitleMatch && bTitleMatch) return 1;
+				// Base scoring
+				if (titleMatch) score += 10;
+				if (descriptionMatch) score += 5;
 				
-				// If both or neither have title matches, sort by title length (shorter = more relevant)
+				// Content type specific scoring
+				if (item.type === 'post') {
+					// Posts get priority for most searches
+					score += 3;
+					if (item.category?.some((cat: string) => cat.toLowerCase().includes(normalizedQuery))) score += 2;
+					if (item.tags?.some((tag: string) => tag.toLowerCase().includes(normalizedQuery))) score += 1;
+
+				} else if (item.type === 'category') {
+					// Categories get high priority for category searches
+					score += 4;
+				} else if (item.type === 'tag') {
+					// Tags get medium priority
+					score += 2;
+					if (item.weight > 5) score += 1; // Higher weight tags get slight boost
+				} else if (item.type === 'page') {
+					// Pages get lower priority
+					score += 1;
+				}
+				
+				return { ...item, score };
+			});
+			
+			// Sort by score (highest first), then by title length for ties
+			const sortedResults = scoredResults.sort((a: any, b: any) => {
+				if (b.score !== a.score) return b.score - a.score;
 				return a.title.length - b.title.length;
 			});
 			
-			// Return top 10 results
-			return sortedResults.slice(0, 10).map((post: any) => ({
-				title: post.title,
-				description: post.description,
-				url: post.url,
-				image: post.heroImage,
-				category: post.category
+			// Return top 10 results with enhanced metadata
+			return sortedResults.slice(0, 10).map((item: any) => ({
+				title: item.title,
+				description: item.description,
+				url: item.url,
+				image: item.heroImage,
+				category: item.category,
+				type: item.type,
+				author: item.author,
+				themes: item.themes,
+				icon: item.icon
 			}));
 		}
 		
@@ -260,35 +418,99 @@ console.log(`SearchBar: ${posts.length} posts available for search`);
 				return;
 			}
 			
-			this.resultsList.innerHTML = results.map(result => `
-				<a
-					href="${result.url}"
-					class="search-result-item search-dropdown-item block px-4 py-3 hover:bg-[rgb(var(--color-bg-alt))] transition-fast"
-				>
-					<div class="search-result-content">
-						<div class="search-result-image">
-							${result.image ? 
-								`<img src="${result.image}" alt="" class="w-full h-full object-cover">` :
-								`<div class="w-full h-full flex items-center justify-center text-[rgb(var(--color-text-muted))]">
-									<svg class="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-									</svg>
-								</div>`
-							}
+			this.resultsList.innerHTML = results.map(result => {
+				// Get appropriate icon and styling based on content type
+				const typeConfig = this.getTypeConfig(result.type);
+				
+				return `
+					<a
+						href="${result.url}"
+						class="search-result-item search-dropdown-item block px-4 py-3 hover:bg-[rgb(var(--color-bg-alt))] transition-fast"
+					>
+						<div class="search-result-content">
+							<div class="search-result-image">
+								${result.image ? 
+									`<img src="${result.image}" alt="" class="w-full h-full object-cover">` :
+									`<div class="w-full h-full flex items-center justify-center text-[rgb(var(--color-text-muted))] ${typeConfig.bgClass}">
+										${typeConfig.icon}
+									</div>`
+								}
+							</div>
+							<div class="search-result-text">
+								<div class="flex items-center gap-2 mb-1">
+									<h3 class="search-result-title">${result.title}</h3>
+									<span class="search-result-type text-xs px-2 py-1 rounded-full ${typeConfig.badgeClass}">
+										${typeConfig.label}
+									</span>
+								</div>
+								<p class="search-result-description">${result.description}</p>
+								<div class="search-result-meta flex items-center gap-3 mt-2 text-xs text-[rgb(var(--color-text-muted))]">
+									${result.author ? `<span class="flex items-center gap-1">
+										<svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+											<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+										</svg>
+										${result.author}
+									</span>` : ''}
+									${result.themes && result.themes.length > 0 ? `<span class="flex items-center gap-1">
+										<svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+											<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
+										</svg>
+										${result.themes.slice(0, 2).join(', ')}${result.themes.length > 2 ? '...' : ''}
+									</span>` : ''}
+									${result.category && result.category.length > 0 ? `<span class="flex items-center gap-1">
+										<svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+											<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+										</svg>
+										${result.category[0]}
+									</span>` : ''}
+								</div>
+							</div>
 						</div>
-						<div class="search-result-text">
-							<h3 class="search-result-title">${result.title}</h3>
-							<p class="search-result-description">${result.description}</p>
-							${result.category ? 
-								`<span class="search-result-category">${result.category[0]}</span>` :
-								''
-							}
-						</div>
-					</div>
-				</a>
-			`).join('');
+					</a>
+				`;
+			}).join('');
 			
 			this.showResults();
+		}
+		
+		getTypeConfig(type: string) {
+			const configs = {
+				post: {
+					label: 'Post',
+					icon: `<svg class="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+					</svg>`,
+					bgClass: 'bg-blue-50 dark:bg-blue-900/20',
+					badgeClass: 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300'
+				},
+
+				category: {
+					label: 'Category',
+					icon: `<svg class="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+					</svg>`,
+					bgClass: 'bg-purple-50 dark:bg-purple-900/20',
+					badgeClass: 'bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300'
+				},
+				tag: {
+					label: 'Tag',
+					icon: `<svg class="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
+					</svg>`,
+					bgClass: 'bg-orange-50 dark:bg-orange-900/20',
+					badgeClass: 'bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-300'
+				},
+				page: {
+					label: 'Page',
+					icon: `<svg class="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+					</svg>`,
+					bgClass: 'bg-gray-50 dark:bg-gray-900/20',
+					badgeClass: 'bg-gray-100 text-gray-800 dark:bg-gray-900/30 dark:text-gray-300'
+				}
+			};
+			
+			return configs[type as keyof typeof configs] || configs.page;
 		}
 		
 		showResults() {
@@ -363,10 +585,88 @@ console.log(`SearchBar: ${posts.length} posts available for search`);
 		outline-offset: -2px;
 	}
 	
+	/* Enhanced search result styling */
+	.search-result-content {
+		display: grid;
+		grid-template-columns: 60px 1fr;
+		gap: 12px;
+		align-items: start;
+	}
+	
+	.search-result-image {
+		width: 60px;
+		height: 60px;
+		border-radius: 8px;
+		overflow: hidden;
+		flex-shrink: 0;
+	}
+	
+	.search-result-text {
+		min-width: 0;
+	}
+	
+	.search-result-title {
+		font-weight: 600;
+		font-size: 0.95rem;
+		line-height: 1.3;
+		margin-bottom: 4px;
+		color: rgb(var(--color-text));
+	}
+	
+	.search-result-description {
+		font-size: 0.875rem;
+		line-height: 1.4;
+		color: rgb(var(--color-text-muted));
+		margin-bottom: 8px;
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+	}
+	
+	.search-result-type {
+		font-size: 0.75rem;
+		font-weight: 500;
+		text-transform: uppercase;
+		letter-spacing: 0.025em;
+	}
+	
+	.search-result-meta {
+		font-size: 0.75rem;
+		line-height: 1.2;
+	}
+	
+	.search-result-meta span {
+		display: inline-flex;
+		align-items: center;
+		gap: 4px;
+	}
+	
 	/* Respect reduced motion preferences */
 	@media (prefers-reduced-motion: reduce) {
 		.search-result-item {
 			transition: none !important;
+		}
+	}
+	
+	/* Responsive adjustments */
+	@media (max-width: 640px) {
+		.search-result-content {
+			grid-template-columns: 50px 1fr;
+			gap: 10px;
+		}
+		
+		.search-result-image {
+			width: 50px;
+			height: 50px;
+		}
+		
+		.search-result-title {
+			font-size: 0.9rem;
+		}
+		
+		.search-result-description {
+			font-size: 0.8rem;
 		}
 	}
 </style> 

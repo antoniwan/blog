@@ -1,6 +1,6 @@
 # Curious Chaos Journal
 
-[![Version](https://img.shields.io/badge/version-2.6.1-blue.svg)](https://github.com/antoniwan/curious-chaos-journal/releases)
+[![Version](https://img.shields.io/badge/version-2.7.0-blue.svg)](https://github.com/antoniwan/curious-chaos-journal/releases)
 
 A personal blog built with Astro, documenting thoughts on technology, personal growth, and creative expression. Features an internal API for Stoic philosophy quotes.
 
@@ -19,7 +19,7 @@ A personal blog built with Astro, documenting thoughts on technology, personal g
 
 - **Astro 5.11.0** - Static site generator
 - **TypeScript 5.8.3** - Type-safe development
-- **Tailwind CSS 3.4.17** - Utility-first CSS
+- **Tailwind CSS 3.4.17** - Utility-first CSS (latest stable)
 - **MDX** - Markdown with JSX support
 - **Sharp 0.33.5** - Image optimization
 - **Giscus** - GitHub Discussions-based comments
