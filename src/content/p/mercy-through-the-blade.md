@@ -1,10 +1,10 @@
 ---
-title: 'Mercy Through the Blade: The Silent Law of Leadership'
+title: "Mercy Through the Blade: The Silent Law of Leadership"
 description: >-
   A deep exploration of authentic leadership, the warrior's dilemma between
   truth and comfort, and the sacred responsibility of wielding power with grace
   and ferocity.
-pubDate: '2025-04-26T00:00:00.000Z'
+pubDate: "2025-04-26T00:00:00.000Z"
 language:
   - en
 heroImage: /images/0_uLjrPcjl6O6biWBM.jpg
@@ -119,8 +119,91 @@ It is simply time to lead anyway. **Quietly. Fiercely. Without regret.**
 > For those ready to wield leadership **not as domination, but as duty** — the study never ends. **The blade only sharpens.**
 
 <figure>
-<img src="/images/1_1Nk2dG65FwJScF7h1KG9Dw.png" alt="value definitation table" />
-<img src="/images/1_RduPSOmxiTdu3dKj-8lIUQ.png" alt="book reference list" />
+<table class="value-definitions">
+  <thead>
+    <tr>
+      <th>Value</th>
+      <th>Definition</th>
+      <th>Warrior Application</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Mercy</strong></td>
+      <td>Compassionate treatment with strength</td>
+      <td>Cutting illusions without hatred</td>
+    </tr>
+    <tr>
+      <td><strong>Truth</strong></td>
+      <td>Unwavering loyalty to reality</td>
+      <td>Speaking what is, not what comforts</td>
+    </tr>
+    <tr>
+      <td><strong>Leadership</strong></td>
+      <td>Sacred responsibility to guide</td>
+      <td>Leading by example, not force</td>
+    </tr>
+    <tr>
+      <td><strong>Discipline</strong></td>
+      <td>Consistent action aligned with values</td>
+      <td>Daily practice of core principles</td>
+    </tr>
+    <tr>
+      <td><strong>Authenticity</strong></td>
+      <td>Being true to one's nature</td>
+      <td>No masks, no pretense</td>
+    </tr>
+    <tr>
+      <td><strong>Responsibility</strong></td>
+      <td>Owning the consequences of power</td>
+      <td>Accepting the weight of leadership</td>
+    </tr>
+  </tbody>
+</table>
+
+<br />
+
+<table class="book-references">
+  <thead>
+    <tr>
+      <th>Book Title</th>
+      <th>Author</th>
+      <th>Key Theme</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>The Leadership Blade</strong></td>
+      <td>Dr. Calvin McDowall</td>
+      <td>Warrior leadership principles</td>
+    </tr>
+    <tr>
+      <td><strong>The Art of War</strong></td>
+      <td>Sun Tzu</td>
+      <td>Strategic thinking and discipline</td>
+    </tr>
+    <tr>
+      <td><strong>Meditations</strong></td>
+      <td>Marcus Aurelius</td>
+      <td>Stoic leadership and self-mastery</td>
+    </tr>
+    <tr>
+      <td><strong>The Book of Five Rings</strong></td>
+      <td>Miyamoto Musashi</td>
+      <td>Warrior philosophy and mastery</td>
+    </tr>
+    <tr>
+      <td><strong>Leadership and Self-Deception</strong></td>
+      <td>The Arbinger Institute</td>
+      <td>Authentic leadership principles</td>
+    </tr>
+    <tr>
+      <td><strong>The Way of the Superior Man</strong></td>
+      <td>David Deida</td>
+      <td>Masculine leadership and purpose</td>
+    </tr>
+  </tbody>
+</table>
 <figcaption>Further Study References for Warrior Leadership & Core Values for Warrior Leadership (Glossary Style)</figcaption>
 </figure>
 
