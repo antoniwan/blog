@@ -259,29 +259,55 @@ const { insights, summary } = generateDynamicInsights(insightData, 'insights');
 					</p>
 				</div>
 
-			{/* Key Insights */}
+			{/* Key Insights with Balanced Indicators */}
 			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
 				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
 					<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2">{creativePatterns.growthAreas}</div>
 					<div class="text-sm text-[rgb(var(--color-text-muted))]">Growing Knowledge Areas</div>
+					<div class="text-xs text-green-500 mt-1">📈 Expanding</div>
 				</div>
 				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
-					<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2">{growthIndicators.length}</div>
-					<div class="text-sm text-[rgb(var(--color-text-muted))]">Growth-Focused Posts</div>
+					<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2">{creativePatterns.decliningAreas}</div>
+					<div class="text-sm text-[rgb(var(--color-text-muted))]">Declining Areas</div>
+					<div class="text-xs text-red-500 mt-1">📉 Shrinking</div>
 				</div>
 				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
 					<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2">{emotionalPosts.length}</div>
 					<div class="text-sm text-[rgb(var(--color-text-muted))]">Emotionally Intense Posts</div>
+					<div class="text-xs text-purple-500 mt-1">💜 Vulnerable</div>
 				</div>
 				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
 					<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2">{creativeEnergyPosts[0]?.wordCount || 0}</div>
 					<div class="text-sm text-[rgb(var(--color-text-muted))]">Peak Creative Energy</div>
+					<div class="text-xs text-blue-500 mt-1">⚡ Maximum Output</div>
 				</div>
 			</div>
 
-			{/* Personal Discoveries */}
+			{/* Growth vs Decline Analysis */}
 			<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))] mb-8">
-				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">Personal Discoveries</h3>
+				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">📊 Growth vs Decline Analysis</h3>
+				<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+					<div class="text-center p-4 bg-green-50 dark:bg-green-900/20 rounded-lg">
+						<div class="text-3xl font-bold text-green-500 mb-2">{creativePatterns.growthAreas}</div>
+						<div class="text-sm text-[rgb(var(--color-text-muted))]">Growing Areas</div>
+						<div class="text-xs text-green-600 dark:text-green-400 mt-1">Expanding knowledge</div>
+					</div>
+					<div class="text-center p-4 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg">
+						<div class="text-3xl font-bold text-yellow-500 mb-2">{creativePatterns.stableAreas}</div>
+						<div class="text-sm text-[rgb(var(--color-text-muted))]">Stable Areas</div>
+						<div class="text-xs text-yellow-600 dark:text-yellow-400 mt-1">Consistent focus</div>
+					</div>
+					<div class="text-center p-4 bg-red-50 dark:bg-red-900/20 rounded-lg">
+						<div class="text-3xl font-bold text-red-500 mb-2">{creativePatterns.decliningAreas}</div>
+						<div class="text-sm text-[rgb(var(--color-text-muted))]">Declining Areas</div>
+						<div class="text-xs text-red-600 dark:text-red-400 mt-1">Reduced attention</div>
+					</div>
+				</div>
+			</div>
+
+			{/* Personal Discoveries with Balanced Perspective */}
+			<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))] mb-8">
+				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">🔍 Personal Discoveries</h3>
 				<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 					{personalDiscoveries.map((discovery, index) => (
 						<div class="p-4 bg-[rgb(var(--color-bg))] rounded-lg">
@@ -306,9 +332,9 @@ const { insights, summary } = generateDynamicInsights(insightData, 'insights');
 				</div>
 			</div>
 
-			{/* Creative Patterns */}
+			{/* Creative Patterns with Balanced View */}
 			<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))] mb-8">
-				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">Creative Patterns</h3>
+				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">🌀 Creative Patterns</h3>
 				<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 					<div class="p-4 bg-[rgb(var(--color-bg))] rounded-lg">
 						<div class="text-lg font-semibold text-[rgb(var(--color-text))] mb-2">Writing Style</div>
@@ -350,12 +376,18 @@ const { insights, summary } = generateDynamicInsights(insightData, 'insights');
 
 			{/* Most Emotionally Intense Posts */}
 			<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))] mb-8">
-				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">Most Emotionally Intense Posts</h3>
+				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">💜 Most Emotionally Intense Posts</h3>
 				<div class="space-y-4">
 					{emotionalPosts.map((post, index) => (
 						<div class="flex items-center justify-between p-4 bg-[rgb(var(--color-bg))] rounded-lg">
 							<div class="flex items-center gap-4">
-								<div class="text-lg font-bold text-[rgb(var(--color-accent))]">#{index + 1}</div>
+								<div class={`text-lg font-bold ${
+									index === 0 ? 'text-purple-500' : 
+									index === 1 ? 'text-pink-500' : 
+									index === 2 ? 'text-indigo-500' : 'text-[rgb(var(--color-accent))]'
+								}`}>
+									{index === 0 ? '💜' : index === 1 ? '💖' : index === 2 ? '💙' : `#${index + 1}`}
+								</div>
 								<div>
 									<div class="text-sm font-medium text-[rgb(var(--color-text))]">
 										{post.title}
@@ -374,17 +406,22 @@ const { insights, summary } = generateDynamicInsights(insightData, 'insights');
 				</div>
 			</div>
 
-			{/* Knowledge Area Expansion */}
+			{/* Knowledge Area Expansion with Balanced View */}
 			<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))] mb-8">
-				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">Knowledge Area Expansion</h3>
+				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">📚 Knowledge Area Evolution</h3>
 				<div class="space-y-4">
 					{knowledgeAreas
-						.sort((a, b) => b.expansionRate - a.expansionRate)
+						.sort((a, b) => Math.abs(b.expansionRate) - Math.abs(a.expansionRate))
 						.slice(0, 10)
 						.map((area, index) => (
 							<div class="flex items-center justify-between p-4 bg-[rgb(var(--color-bg))] rounded-lg">
 								<div class="flex items-center gap-4">
-									<div class="text-lg font-bold text-[rgb(var(--color-accent))]">#{index + 1}</div>
+									<div class={`text-lg font-bold ${
+										area.expansionRate > 0 ? 'text-green-500' : 
+										area.expansionRate < 0 ? 'text-red-500' : 'text-[rgb(var(--color-accent))]'
+									}`}>
+										{area.expansionRate > 0 ? '📈' : area.expansionRate < 0 ? '📉' : '➡️'}
+									</div>
 									<div class="flex items-center gap-2">
 										<span class="text-lg">{area.icon}</span>
 										<div>
@@ -402,7 +439,9 @@ const { insights, summary } = generateDynamicInsights(insightData, 'insights');
 									}`}>
 										{area.expansionRate > 0 ? '+' : ''}{Math.round(area.expansionRate)}%
 									</div>
-									<div class="text-xs text-[rgb(var(--color-text-muted))]">expansion</div>
+									<div class="text-xs text-[rgb(var(--color-text-muted))]">
+										{area.expansionRate > 0 ? 'growth' : area.expansionRate < 0 ? 'decline' : 'stable'}
+									</div>
 								</div>
 							</div>
 						))}
@@ -411,7 +450,7 @@ const { insights, summary } = generateDynamicInsights(insightData, 'insights');
 
 			{/* Writing Voice Evolution */}
 			<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))] mb-8">
-				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">Writing Voice Evolution</h3>
+				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">🎭 Writing Voice Evolution</h3>
 				<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 					{voiceStats.map(period => (
 						<div class="p-4 bg-[rgb(var(--color-bg))] rounded-lg">
@@ -447,7 +486,11 @@ const { insights, summary } = generateDynamicInsights(insightData, 'insights');
 					<div class="space-y-2">
 						{insights.map((insight, index) => (
 							<div class={`flex items-center gap-2 ${insight.color}`}>
-								<span class="text-sm">•</span>
+								<span class="text-sm">
+									{insight.type === 'positive' ? '✅' : 
+									 insight.type === 'negative' ? '❌' : 
+									 insight.type === 'warning' ? '⚠️' : 'ℹ️'}
+								</span>
 								<span class="text-sm" set:html={insight.text}></span>
 							</div>
 						))}

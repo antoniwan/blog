@@ -284,34 +284,78 @@ const { insights, summary } = generateDynamicInsights(insightData, 'patterns');
 					</p>
 				</div>
 
-			{/* Key Patterns */}
+			{/* Key Patterns with Balanced Indicators */}
 			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
 				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
 					<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2">{patterns.dayOfWeekPatterns.length}</div>
 					<div class="text-sm text-[rgb(var(--color-text-muted))]">Day Patterns</div>
+					<div class="text-xs text-blue-500 mt-1">📅 Weekly Rhythms</div>
 				</div>
 				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
 					<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2">{patterns.seasonalPatterns.length}</div>
 					<div class="text-sm text-[rgb(var(--color-text-muted))]">Seasonal Patterns</div>
+					<div class="text-xs text-green-500 mt-1">🌱 Annual Cycles</div>
 				</div>
 				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
 					<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2">{cycleAnalysis.length}</div>
 					<div class="text-sm text-[rgb(var(--color-text-muted))]">Creative Cycles</div>
+					<div class="text-xs text-purple-500 mt-1">🌀 Creative Flow</div>
 				</div>
 				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
 					<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2">{correlations.tagCombinations.length}</div>
 					<div class="text-sm text-[rgb(var(--color-text-muted))]">Tag Correlations</div>
+					<div class="text-xs text-yellow-500 mt-1">🔗 Topic Synergy</div>
 				</div>
 			</div>
 
-			{/* Pattern Insights */}
+			{/* Pattern Strength Analysis */}
 			<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))] mb-8">
-				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">Pattern Insights</h3>
+				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">📊 Pattern Strength Analysis</h3>
+				<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+					<div class="text-center p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+						<div class="text-3xl font-bold text-blue-500 mb-2">
+							{patterns.dayOfWeekPatterns.sort((a, b) => b.productivity - a.productivity)[0]?.productivity || 0}
+						</div>
+						<div class="text-sm text-[rgb(var(--color-text-muted))]">Peak Day Productivity</div>
+						<div class="text-xs text-blue-600 dark:text-blue-400 mt-1">
+							{patterns.dayOfWeekPatterns.sort((a, b) => b.productivity - a.productivity)[0]?.name || 'Unknown'}
+						</div>
+					</div>
+					<div class="text-center p-4 bg-green-50 dark:bg-green-900/20 rounded-lg">
+						<div class="text-3xl font-bold text-green-500 mb-2">
+							{patterns.seasonalPatterns.sort((a, b) => b.creativity - a.creativity)[0]?.creativity || 0}
+						</div>
+						<div class="text-sm text-[rgb(var(--color-text-muted))]">Peak Season Creativity</div>
+						<div class="text-xs text-green-600 dark:text-green-400 mt-1">
+							{patterns.seasonalPatterns.sort((a, b) => b.creativity - a.creativity)[0]?.name || 'Unknown'}
+						</div>
+					</div>
+					<div class="text-center p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
+						<div class="text-3xl font-bold text-purple-500 mb-2">
+							{cycleAnalysis.sort((a, b) => b.avgWordCount - a.avgWordCount)[0]?.avgWordCount || 0}
+						</div>
+						<div class="text-sm text-[rgb(var(--color-text-muted))]">Peak Cycle Output</div>
+						<div class="text-xs text-purple-600 dark:text-purple-400 mt-1">
+							{cycleAnalysis.sort((a, b) => b.avgWordCount - a.avgWordCount)[0]?.phase || 'Unknown'}
+						</div>
+					</div>
+				</div>
+			</div>
+
+			{/* Pattern Insights with Balanced View */}
+			<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))] mb-8">
+				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">🔍 Pattern Insights</h3>
 				<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 					{patternInsights.map((insight, index) => (
 						<div class="p-4 bg-[rgb(var(--color-bg))] rounded-lg">
 							<div class="flex items-center gap-3 mb-3">
-								<div class="text-lg font-bold text-[rgb(var(--color-accent))]">#{index + 1}</div>
+								<div class={`text-lg font-bold ${
+									index === 0 ? 'text-yellow-500' : 
+									index === 1 ? 'text-gray-400' : 
+									index === 2 ? 'text-amber-600' : 'text-[rgb(var(--color-accent))]'
+								}`}>
+									{index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : `#${index + 1}`}
+								</div>
 								<span class={`text-xs px-2 py-1 rounded ${
 									insight.confidence === 'High' ? 'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400' :
 									insight.confidence === 'Medium' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400' :
@@ -331,9 +375,9 @@ const { insights, summary } = generateDynamicInsights(insightData, 'patterns');
 				</div>
 			</div>
 
-			{/* Day of Week Patterns */}
+			{/* Day of Week Patterns with Color Coding */}
 			<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))] mb-8">
-				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">Day of Week Patterns</h3>
+				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">📅 Day of Week Patterns</h3>
 				<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 					{patterns.dayOfWeekPatterns.map(day => (
 						<div class="p-4 bg-[rgb(var(--color-bg))] rounded-lg">
@@ -353,7 +397,13 @@ const { insights, summary } = generateDynamicInsights(insightData, 'patterns');
 								</div>
 								<div class="flex justify-between">
 									<span class="text-sm text-[rgb(var(--color-text-muted))]">Productivity:</span>
-									<span class="text-sm font-medium text-[rgb(var(--color-accent))]">{day.productivity}</span>
+									<span class={`text-sm font-medium ${
+										day.productivity >= Math.max(...patterns.dayOfWeekPatterns.map(d => d.productivity)) * 0.8 ? 'text-green-500' :
+										day.productivity >= Math.max(...patterns.dayOfWeekPatterns.map(d => d.productivity)) * 0.5 ? 'text-blue-500' :
+										day.productivity >= Math.max(...patterns.dayOfWeekPatterns.map(d => d.productivity)) * 0.2 ? 'text-yellow-500' : 'text-red-500'
+									}`}>
+										{day.productivity}
+									</span>
 								</div>
 							</div>
 						</div>
@@ -361,9 +411,9 @@ const { insights, summary } = generateDynamicInsights(insightData, 'patterns');
 				</div>
 			</div>
 
-			{/* Seasonal Patterns */}
+			{/* Seasonal Patterns with Color Coding */}
 			<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))] mb-8">
-				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">Seasonal Patterns</h3>
+				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">🌱 Seasonal Patterns</h3>
 				<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 					{patterns.seasonalPatterns.map(month => (
 						<div class="p-4 bg-[rgb(var(--color-bg))] rounded-lg">
@@ -383,7 +433,13 @@ const { insights, summary } = generateDynamicInsights(insightData, 'patterns');
 								</div>
 								<div class="flex justify-between">
 									<span class="text-sm text-[rgb(var(--color-text-muted))]">Creativity:</span>
-									<span class="text-sm font-medium text-[rgb(var(--color-accent))]">{month.creativity}</span>
+									<span class={`text-sm font-medium ${
+										month.creativity >= Math.max(...patterns.seasonalPatterns.map(m => m.creativity)) * 0.8 ? 'text-green-500' :
+										month.creativity >= Math.max(...patterns.seasonalPatterns.map(m => m.creativity)) * 0.5 ? 'text-blue-500' :
+										month.creativity >= Math.max(...patterns.seasonalPatterns.map(m => m.creativity)) * 0.2 ? 'text-yellow-500' : 'text-red-500'
+									}`}>
+										{month.creativity}
+									</span>
 								</div>
 							</div>
 						</div>
@@ -393,7 +449,7 @@ const { insights, summary } = generateDynamicInsights(insightData, 'patterns');
 
 			{/* Creative Cycles */}
 			<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))] mb-8">
-				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">Creative Cycle Analysis</h3>
+				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">🌀 Creative Cycle Analysis</h3>
 				<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
 					{cycleAnalysis.map(cycle => (
 						<div class="p-4 bg-[rgb(var(--color-bg))] rounded-lg">
@@ -423,12 +479,18 @@ const { insights, summary } = generateDynamicInsights(insightData, 'patterns');
 
 			{/* Tag Correlations */}
 			<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))] mb-8">
-				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">Tag Combination Correlations</h3>
+				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">🔗 Tag Combination Correlations</h3>
 				<div class="space-y-4">
 					{correlations.tagCombinations.map(([combo, data], index) => (
 						<div class="flex items-center justify-between p-4 bg-[rgb(var(--color-bg))] rounded-lg">
 							<div class="flex items-center gap-4">
-								<div class="text-lg font-bold text-[rgb(var(--color-accent))]">#{index + 1}</div>
+								<div class={`text-lg font-bold ${
+									index === 0 ? 'text-purple-500' : 
+									index === 1 ? 'text-pink-500' : 
+									index === 2 ? 'text-indigo-500' : 'text-[rgb(var(--color-accent))]'
+								}`}>
+									{index === 0 ? '🔗' : index === 1 ? '⚡' : index === 2 ? '💫' : `#${index + 1}`}
+								</div>
 								<div>
 									<div class="text-sm font-medium text-[rgb(var(--color-text))]">
 										{combo}
@@ -449,12 +511,18 @@ const { insights, summary } = generateDynamicInsights(insightData, 'patterns');
 
 			{/* Most Productive Patterns */}
 			<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))] mb-8">
-				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">Most Productive Patterns</h3>
+				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">🚀 Most Productive Patterns</h3>
 				<div class="space-y-4">
 					{productivePatterns.map((post, index) => (
 						<div class="flex items-center justify-between p-4 bg-[rgb(var(--color-bg))] rounded-lg">
 							<div class="flex items-center gap-4">
-								<div class="text-lg font-bold text-[rgb(var(--color-accent))]">#{index + 1}</div>
+								<div class={`text-lg font-bold ${
+									index === 0 ? 'text-yellow-500' : 
+									index === 1 ? 'text-gray-400' : 
+									index === 2 ? 'text-amber-600' : 'text-[rgb(var(--color-accent))]'
+								}`}>
+									{index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : `#${index + 1}`}
+								</div>
 								<div>
 									<div class="text-sm font-medium text-[rgb(var(--color-text))]">
 										{post.title}
@@ -481,7 +549,11 @@ const { insights, summary } = generateDynamicInsights(insightData, 'patterns');
 					<div class="space-y-2">
 						{insights.map((insight, index) => (
 							<div class={`flex items-center gap-2 ${insight.color}`}>
-								<span class="text-sm">•</span>
+								<span class="text-sm">
+									{insight.type === 'positive' ? '✅' : 
+									 insight.type === 'negative' ? '❌' : 
+									 insight.type === 'warning' ? '⚠️' : 'ℹ️'}
+								</span>
 								<span class="text-sm" set:html={insight.text}></span>
 							</div>
 						))}
