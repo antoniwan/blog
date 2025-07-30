@@ -35,7 +35,7 @@ tags:
   - philosophy
   - psychology
 readingTime: 14
-featured: false
+featured: true
 showComments: true
 ---
 
