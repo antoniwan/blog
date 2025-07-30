@@ -1,6 +1,6 @@
 # Curious Chaos Journal
 
-[![Version](https://img.shields.io/badge/version-2.6.0-blue.svg)](https://github.com/antoniwan/curious-chaos-journal/releases)
+[![Version](https://img.shields.io/badge/version-2.6.1-blue.svg)](https://github.com/antoniwan/curious-chaos-journal/releases)
 
 A personal blog built with Astro, documenting thoughts on technology, personal growth, and creative expression. Features an internal API for Stoic philosophy quotes.
 
@@ -13,6 +13,7 @@ A personal blog built with Astro, documenting thoughts on technology, personal g
 - **Responsive design** optimized for all devices
 - **SEO optimized** with structured data and Open Graph
 - **Internal API** for Stoic philosophy quotes
+- **Enhanced 404 page** with professional loading states and error handling
 
 ## Tech Stack
 
@@ -79,6 +80,7 @@ The site includes an internal API for accessing Stoic philosophy quotes:
 - **Endpoint**: `GET /api/quotes`
 - **Purpose**: Returns random Stoic philosophy quotes with metadata
 - **Use Cases**: 404 pages, future content features
+- **Features**: Enhanced error handling with retry logic and fallback content
 - **Documentation**: [API Documentation](docs/QUOTES_API.md)
 
 #### Quick Example
