@@ -17,33 +17,53 @@ function getCategoryName(categoryIds: string[] | undefined): string | null {
 ---
 
 <div class="book-chapter">
-	<h2 class="chapter-title">{chapterTitle}</h2>
-	{posts.length > 0 ? (
-		<ol class="post-list">
-			{posts.map((post, index) => {
-				const categoryName = getCategoryName(post.data.category);
-				return (
-					<li class="post-item">
-						<a href={`/p/${post.id}`} class="post-link" data-post-slug={post.id}>
-							<span class="post-number">{index + 1}.</span>
-							<div class="post-content">
-								<span class="post-title">{post.data.title}</span>
-								{categoryName && (
-									<span class="post-category">{categoryName}</span>
-								)}
-							</div>
-							<span class="read-indicator" data-post-slug={post.id}></span>
-							{post.data.readingTime && (
-								<span class="reading-time">{post.data.readingTime} min</span>
-							)}
-						</a>
-					</li>
-				);
-			})}
-		</ol>
-	) : (
-		<p class="empty-state">No posts yet in this chapter.</p>
-	)}
+	<button 
+		class="chapter-header" 
+		aria-expanded="true"
+		aria-controls={`chapter-${chapterTitle.toLowerCase().replace(/\s+/g, '-')}`}
+	>
+		<div class="chapter-title-section">
+			<h2 class="chapter-title">{chapterTitle}</h2>
+			<span class="post-count">({posts.length} posts)</span>
+		</div>
+		<svg class="expand-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+			<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+		</svg>
+	</button>
+	
+	<div class="chapter-content" id={`chapter-${chapterTitle.toLowerCase().replace(/\s+/g, '-')}`}>
+		{posts.length > 0 ? (
+			<ol class="post-list">
+				{posts.map((post, index) => {
+					const categoryName = getCategoryName(post.data.category);
+					return (
+						<li class="post-item">
+							<a href={`/p/${post.id}`} class="post-link" data-post-slug={post.id}>
+								<span class="post-number">{index + 1}.</span>
+								<div class="post-content">
+									<span class="post-title">{post.data.title}</span>
+									{categoryName && (
+										<span class="post-category">{categoryName}</span>
+									)}
+								</div>
+								<div class="post-status">
+									<span class="read-status" data-post-slug={post.id}>
+										<span class="status-icon">⭕</span>
+										<span class="status-text">Unread</span>
+									</span>
+									{post.data.readingTime && (
+										<span class="reading-time">{post.data.readingTime} min</span>
+									)}
+								</div>
+							</a>
+						</li>
+					);
+				})}
+			</ol>
+		) : (
+			<p class="empty-state">No posts yet in this chapter.</p>
+		)}
+	</div>
 </div>
 
 <script>
@@ -70,12 +90,19 @@ function getCategoryName(categoryIds: string[] | undefined): string | null {
 		}
 
 		private updateIndicators(): void {
-			document.querySelectorAll('.read-indicator').forEach(indicator => {
-				const postSlug = (indicator as HTMLElement).dataset.postSlug;
+			document.querySelectorAll('.read-status').forEach(statusElement => {
+				const postSlug = (statusElement as HTMLElement).dataset.postSlug;
+				const iconElement = statusElement.querySelector('.status-icon') as HTMLElement;
+				const textElement = statusElement.querySelector('.status-text') as HTMLElement;
+				
 				if (postSlug && this.isRead(postSlug)) {
-					indicator.classList.add('read');
+					iconElement.textContent = '✅';
+					textElement.textContent = 'Read';
+					statusElement.classList.add('read');
 				} else {
-					indicator.classList.remove('read');
+					iconElement.textContent = '⭕';
+					textElement.textContent = 'Unread';
+					statusElement.classList.remove('read');
 				}
 			});
 		}
@@ -96,26 +123,122 @@ function getCategoryName(categoryIds: string[] | undefined): string | null {
 		}
 	}
 
+	// Chapter expand/collapse functionality
+	class ChapterManager {
+		constructor() {
+			this.init();
+		}
+
+		private init(): void {
+			// Add click handlers to chapter headers
+			document.querySelectorAll('.chapter-header').forEach(header => {
+				header.addEventListener('click', (e) => {
+					e.preventDefault();
+					this.toggleChapter(header as HTMLElement);
+				});
+
+				// Keyboard support can be added later if needed
+			});
+		}
+
+		private toggleChapter(header: HTMLElement): void {
+			const isExpanded = header.getAttribute('aria-expanded') === 'true';
+			const contentId = header.getAttribute('aria-controls');
+			const content = document.getElementById(contentId!);
+			const icon = header.querySelector('.expand-icon') as HTMLElement;
+
+			if (isExpanded) {
+				// Collapse
+				header.setAttribute('aria-expanded', 'false');
+				content?.classList.add('collapsed');
+				icon.style.transform = 'rotate(0deg)';
+			} else {
+				// Expand
+				header.setAttribute('aria-expanded', 'true');
+				content?.classList.remove('collapsed');
+				icon.style.transform = 'rotate(180deg)';
+			}
+		}
+	}
+
 	// Initialize when DOM is ready
 	if (document.readyState === 'loading') {
 		document.addEventListener('DOMContentLoaded', () => {
 			new ReadTracker();
+			new ChapterManager();
 		});
 	} else {
 		new ReadTracker();
+		new ChapterManager();
 	}
 </script>
 
 <style>
 	.book-chapter {
-		margin-bottom: 2rem;
+		margin-bottom: 1rem;
+		border: 1px solid rgb(var(--color-border));
+		border-radius: 12px;
+		overflow: hidden;
+		background: rgb(var(--color-bg));
+	}
+
+	.chapter-header {
+		width: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 1rem 1.5rem;
+		background: rgb(var(--color-bg-alt));
+		border: none;
+		cursor: pointer;
+		transition: background-color 0.2s ease;
+	}
+
+	.chapter-header:hover {
+		background: rgb(var(--color-bg-alt));
+	}
+
+	.chapter-header:focus {
+		outline: 2px solid rgb(var(--color-primary));
+		outline-offset: -2px;
+	}
+
+	.chapter-title-section {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
 	}
 
 	.chapter-title {
-		font-size: 1.5rem;
+		font-size: 1.25rem;
 		font-weight: 600;
-		margin-bottom: 1rem;
 		color: rgb(var(--color-text));
+		margin: 0;
+	}
+
+	.post-count {
+		font-size: 0.875rem;
+		color: rgb(var(--color-text-muted));
+		font-weight: 400;
+	}
+
+	.expand-icon {
+		width: 1.25rem;
+		height: 1.25rem;
+		color: rgb(var(--color-text-muted));
+		transition: transform 0.2s ease;
+	}
+
+	.chapter-content {
+		transition: max-height 0.3s ease, opacity 0.3s ease;
+		max-height: 2000px;
+		opacity: 1;
+	}
+
+	.chapter-content.collapsed {
+		max-height: 0;
+		opacity: 0;
+		overflow: hidden;
 	}
 
 	.post-list {
@@ -125,22 +248,26 @@ function getCategoryName(categoryIds: string[] | undefined): string | null {
 	}
 
 	.post-item {
-		margin-bottom: 0.5rem;
+		margin: 0;
+		border-bottom: 1px solid rgb(var(--color-border));
+	}
+
+	.post-item:last-child {
+		border-bottom: none;
 	}
 
 	.post-link {
 		display: flex;
 		align-items: center;
 		gap: 0.75rem;
-		padding: 0.5rem 0;
+		padding: 1rem 1.5rem;
 		text-decoration: none;
 		color: rgb(var(--color-text));
-		border-bottom: 1px solid transparent;
-		transition: border-color 0.2s ease;
+		transition: background-color 0.2s ease;
 	}
 
 	.post-link:hover {
-		border-bottom-color: rgb(var(--color-primary));
+		background: rgb(var(--color-bg-alt));
 	}
 
 	.post-number {
@@ -168,17 +295,38 @@ function getCategoryName(categoryIds: string[] | undefined): string | null {
 		letter-spacing: 0.05em;
 	}
 
-	.read-indicator {
-		width: 8px;
-		height: 8px;
-		border-radius: 50%;
-		background-color: rgb(var(--color-primary));
-		opacity: 0.3;
-		transition: opacity 0.2s ease;
+	.post-status {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
 	}
 
-	.read-indicator.read {
-		opacity: 1;
+	.read-status {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		padding: 0.25rem 0.75rem;
+		border-radius: 20px;
+		background: rgb(var(--color-bg-alt));
+		border: 1px solid rgb(var(--color-border));
+		transition: all 0.2s ease;
+	}
+
+	.read-status.read {
+		background: rgb(var(--color-primary));
+		color: white;
+		border-color: rgb(var(--color-primary));
+	}
+
+	.status-icon {
+		font-size: 0.875rem;
+	}
+
+	.status-text {
+		font-size: 0.75rem;
+		font-weight: 500;
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
 	}
 
 	.reading-time {
@@ -189,6 +337,15 @@ function getCategoryName(categoryIds: string[] | undefined): string | null {
 	.empty-state {
 		color: rgb(var(--color-text-muted));
 		font-style: italic;
-		padding: 1rem 0;
+		padding: 1.5rem;
+		text-align: center;
+	}
+
+	/* Respect reduced motion preferences */
+	@media (prefers-reduced-motion: reduce) {
+		.chapter-content,
+		.expand-icon {
+			transition: none;
+		}
 	}
 </style> 
