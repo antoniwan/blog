@@ -85,7 +85,7 @@ const updatedDateISO = updatedDate?.toISOString();
 />
 
 <!-- Sitemap -->
-<link rel="sitemap" href="/sitemap.xml" />
+<link rel="sitemap" href={new URL('sitemap-index.xml', Astro.site)} />
 
 <!-- Primary Meta Tags -->
 <title>{metaTags.title}</title>
