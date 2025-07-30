@@ -135,7 +135,7 @@ But trauma responses that can't bend eventually break you. And that's exactly wh
 
 I wasn't practicing philosophy. I was performing philosophy while my nervous system slowly collapsed under the computational load of trying to be perfectly rigid across 33 dimensions simultaneously.
 
-## The Success That Nearly Killed Me
+## When Achievement Doesn't Bring Peace
 
 Here's the plot twist nobody warns you about: **I actually made it to the top of Maslow's pyramid**.
 
