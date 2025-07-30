@@ -51,39 +51,5 @@ export const mainNavigation: NavigationItem[] = [
     },
   },
   { href: "/tag", label: "Tags" },
-  {
-    href: "/api/",
-    label: "Tools",
-    dropdown: {
-      label: "Development Tools",
-      items: [
-        {
-          href: "/api/docs/quotes-demo",
-          label: "Quotes API",
-          icon: "💬",
-        },
-        {
-          href: "/tag-management",
-          label: "Tag Analytics",
-          icon: "📊",
-        },
-        {
-          href: "/brain-science",
-          label: "Writing Insights",
-          icon: "🧠",
-        },
-        {
-          href: "/rss.xml",
-          label: "RSS Feed",
-          icon: "📡",
-        },
-        {
-          href: "/sitemap.xml",
-          label: "Sitemap",
-          icon: "🗺️",
-        },
-      ],
-    },
-  },
   { href: "/about", label: "About" },
 ];

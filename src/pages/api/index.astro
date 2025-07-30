@@ -2,182 +2,189 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Container from '../../components/Container.astro';
 import PageHeader from '../../components/PageHeader.astro';
-import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { SITE_TITLE } from '../../consts';
 ---
 
-<BaseLayout
-  title="Development Tools"
-  description="Personal development tools and APIs for this blog"
+<BaseLayout 
+  title={`Public API - ${SITE_TITLE}`}
+  description="Internal API for Stoic philosophy quotes, powering our 404 pages and future content features"
   path="/api"
-  structuredDataType="website"
 >
   <Container>
     <Container maxWidth="container" padding="none">
       <PageHeader 
-        title="Development Tools"
-        description="APIs, analytics, and utilities for this blog's development"
+        title="Public API"
+        description="Internal API for Stoic philosophy quotes, powering our 404 pages and future content features"
       />
       
-      {/* Tools Overview */}
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-        <!-- Quotes API Card -->
-        <div class="bg-[rgb(var(--color-bg-alt))] rounded-lg border border-[rgb(var(--color-border))] p-6 hover:shadow-lg transition-shadow">
-          <div class="flex items-center gap-3 mb-4">
-            <div class="w-10 h-10 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center">
-              <svg class="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
-              </svg>
-            </div>
-            <h3 class="text-lg font-semibold text-[rgb(var(--color-text))]">Quotes API</h3>
-          </div>
-          <p class="text-[rgb(var(--color-text-muted))] mb-4">
-            Personal collection of Stoic philosophy quotes with metadata and filtering for blog integration.
-          </p>
-          <div class="space-y-2 mb-4">
-            <div class="flex items-center gap-2 text-sm">
-              <span class="w-2 h-2 bg-green-500 rounded-full"></span>
-              <span class="text-[rgb(var(--color-text-muted))]">30 curated quotes</span>
-            </div>
-            <div class="flex items-center gap-2 text-sm">
-              <span class="w-2 h-2 bg-blue-500 rounded-full"></span>
-              <span class="text-[rgb(var(--color-text-muted))]">Multiple filtering options</span>
-            </div>
-            <div class="flex items-center gap-2 text-sm">
-              <span class="w-2 h-2 bg-purple-500 rounded-full"></span>
-              <span class="text-[rgb(var(--color-text-muted))]">Rich metadata</span>
-            </div>
-          </div>
-          <div class="flex gap-2">
-            <a 
-              href="/api/docs/quotes-demo" 
-              class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded text-sm font-medium transition-colors"
-            >
-              Test API
-            </a>
-            <a 
-              href="/docs/QUOTES_API.md" 
-              class="border border-[rgb(var(--color-border))] hover:bg-[rgb(var(--color-bg))] px-4 py-2 rounded text-sm font-medium transition-colors"
-              target="_blank"
-            >
-              Documentation
-            </a>
-          </div>
+      {/* API Overview */}
+      <div class="bg-[rgb(var(--color-bg-alt))] rounded-lg border border-[rgb(var(--color-border))] p-6 mb-8">
+        <div class="flex justify-between items-start mb-4">
+          <h3 class="text-xl font-semibold text-[rgb(var(--color-text))]">Quotes API</h3>
+          <a 
+            href="https://github.com/antoniwan/curious-chaos-journal/blob/main/docs/QUOTES_API.md" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            class="text-sm text-blue-500 hover:text-blue-600 transition-colors flex items-center gap-1"
+          >
+            📖 Documentation
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+            </svg>
+          </a>
         </div>
-
-        <!-- Analytics Tools Card -->
-        <div class="bg-[rgb(var(--color-bg-alt))] rounded-lg border border-[rgb(var(--color-border))] p-6 hover:shadow-lg transition-shadow">
-          <div class="flex items-center gap-3 mb-4">
-            <div class="w-10 h-10 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center">
-              <svg class="w-6 h-6 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
-              </svg>
-            </div>
-            <h3 class="text-lg font-semibold text-[rgb(var(--color-text))]">Analytics</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <h4 class="font-medium mb-2 text-[rgb(var(--color-text))]">Endpoint</h4>
+            <code class="bg-[rgb(var(--color-bg))] px-3 py-2 rounded text-sm font-mono">GET /api/quotes</code>
+            <p class="text-sm text-[rgb(var(--color-text-muted))] mt-2">
+              Returns a random Stoic philosophy quote with rich metadata.
+            </p>
           </div>
-          <p class="text-[rgb(var(--color-text-muted))] mb-4">
-            Internal analytics for understanding content patterns, tag usage, and writing insights.
-          </p>
-          <div class="space-y-2 mb-4">
-            <div class="flex items-center gap-2 text-sm">
-              <span class="w-2 h-2 bg-green-500 rounded-full"></span>
-              <span class="text-[rgb(var(--color-text-muted))]">Tag analytics</span>
-            </div>
-            <div class="flex items-center gap-2 text-sm">
-              <span class="w-2 h-2 bg-blue-500 rounded-full"></span>
-              <span class="text-[rgb(var(--color-text-muted))]">Writing patterns</span>
-            </div>
-            <div class="flex items-center gap-2 text-sm">
-              <span class="w-2 h-2 bg-purple-500 rounded-full"></span>
-              <span class="text-[rgb(var(--color-text-muted))]">Content insights</span>
-            </div>
-          </div>
-          <div class="flex gap-2">
-            <a 
-              href="/tag-management" 
-              class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded text-sm font-medium transition-colors"
-            >
-              Tag Analytics
-            </a>
-            <a 
-              href="/brain-science" 
-              class="border border-[rgb(var(--color-border))] hover:bg-[rgb(var(--color-bg))] px-4 py-2 rounded text-sm font-medium transition-colors"
-            >
-              Writing Insights
-            </a>
-          </div>
-        </div>
-
-        <!-- Data Export Card -->
-        <div class="bg-[rgb(var(--color-bg-alt))] rounded-lg border border-[rgb(var(--color-border))] p-6 hover:shadow-lg transition-shadow">
-          <div class="flex items-center gap-3 mb-4">
-            <div class="w-10 h-10 bg-orange-100 dark:bg-orange-900 rounded-lg flex items-center justify-center">
-              <svg class="w-6 h-6 text-orange-600 dark:text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-              </svg>
-            </div>
-            <h3 class="text-lg font-semibold text-[rgb(var(--color-text))]">Data Export</h3>
-          </div>
-          <p class="text-[rgb(var(--color-text-muted))] mb-4">
-            RSS feeds, sitemaps, and structured data for content syndication and SEO.
-          </p>
-          <div class="space-y-2 mb-4">
-            <div class="flex items-center gap-2 text-sm">
-              <span class="w-2 h-2 bg-green-500 rounded-full"></span>
-              <span class="text-[rgb(var(--color-text-muted))]">RSS feed</span>
-            </div>
-            <div class="flex items-center gap-2 text-sm">
-              <span class="w-2 h-2 bg-blue-500 rounded-full"></span>
-              <span class="text-[rgb(var(--color-text-muted))]">XML sitemap</span>
-            </div>
-            <div class="flex items-center gap-2 text-sm">
-              <span class="w-2 h-2 bg-purple-500 rounded-full"></span>
-              <span class="text-[rgb(var(--color-text-muted))]">Structured data</span>
-            </div>
-          </div>
-          <div class="flex gap-2">
-            <a 
-              href="/rss.xml" 
-              class="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded text-sm font-medium transition-colors"
-            >
-              RSS Feed
-            </a>
-            <a 
-              href="/sitemap.xml" 
-              class="border border-[rgb(var(--color-border))] hover:bg-[rgb(var(--color-bg))] px-4 py-2 rounded text-sm font-medium transition-colors"
-            >
-              Sitemap
-            </a>
+          <div>
+            <h4 class="font-medium mb-2 text-[rgb(var(--color-text))]">Response Format</h4>
+            <pre class="bg-[rgb(var(--color-bg))] p-4 rounded text-sm overflow-x-auto border border-[rgb(var(--color-border))]/30"><code>{`{
+  "quote": {
+    "id": 1,
+    "text": "Quote text...",
+    "author": "Author name",
+    "work": "Work title",
+    "themes": ["theme1", "theme2"],
+    "difficulty": "beginner",
+    "length": "short",
+    "popularity": "high",
+    "context": "Historical context",
+    "modernRelevance": "Modern application"
+  },
+  "metadata": {
+    "totalQuotes": 30,
+    "version": "1.0",
+    "lastUpdated": "2025-01-30",
+    "description": "A random Stoic philosophy quote with rich metadata"
+  }
+}`}</code></pre>
           </div>
         </div>
       </div>
 
-      {/* Git Repository */}
+      {/* Usage Examples */}
+      <div class="bg-[rgb(var(--color-bg-alt))] rounded-lg border border-[rgb(var(--color-border))] p-6 mb-8">
+        <h3 class="text-xl font-semibold mb-4 text-[rgb(var(--color-text))]">Usage Examples</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <h4 class="font-medium mb-2 text-[rgb(var(--color-text))]">JavaScript/Fetch</h4>
+            <pre class="bg-[rgb(var(--color-bg))] p-4 rounded text-sm overflow-x-auto border border-[rgb(var(--color-border))]/30"><code>{`// Get a random quote
+const response = await fetch('/api/quotes');
+const data = await response.json();
+console.log(data.quote.text);
+console.log(\`By \${data.quote.author}\`);`}</code></pre>
+          </div>
+          <div>
+            <h4 class="font-medium mb-2 text-[rgb(var(--color-text))]">Python/Requests</h4>
+            <pre class="bg-[rgb(var(--color-bg))] p-4 rounded text-sm overflow-x-auto border border-[rgb(var(--color-border))]/30"><code>{`import requests
+
+# Get a random quote
+response = requests.get('https://your-site.com/api/quotes')
+data = response.json()
+print(data['quote']['text'])
+print(f"By {data['quote']['author']}")`}</code></pre>
+          </div>
+        </div>
+      </div>
+
+      {/* Test the API */}
       <div class="bg-[rgb(var(--color-bg-alt))] rounded-lg border border-[rgb(var(--color-border))] p-6">
-        <div class="flex items-center gap-4">
-          <div class="w-12 h-12 bg-gray-100 dark:bg-gray-800 rounded-lg flex items-center justify-center">
-            <svg class="w-6 h-6 text-gray-600 dark:text-gray-400" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-            </svg>
-          </div>
-          <div class="flex-1">
-            <h3 class="text-lg font-semibold text-[rgb(var(--color-text))]">Source Code</h3>
-            <p class="text-sm text-[rgb(var(--color-text-muted))] mb-2">
-              View the complete source code, contribute, or fork this project on GitHub.
-            </p>
-            <a 
-              href="https://github.com/antoniwan/curious-chaos-journal" 
-              class="inline-flex items-center gap-2 bg-gray-900 hover:bg-gray-800 text-white px-4 py-2 rounded text-sm font-medium transition-colors"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-              </svg>
-              View on GitHub
-            </a>
-          </div>
+        <h3 class="text-xl font-semibold mb-4 text-[rgb(var(--color-text))]">Test the API</h3>
+        <div class="mb-4">
+          <button 
+            id="testApi" 
+            class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg font-medium transition-colors"
+          >
+            Get Random Quote
+          </button>
+        </div>
+        <div id="apiResult" class="bg-[rgb(var(--color-bg))] p-4 rounded min-h-[200px] border border-[rgb(var(--color-border))]/30">
+          <p class="text-[rgb(var(--color-text-muted))] text-sm">Click the button above to test the API...</p>
         </div>
       </div>
     </Container>
   </Container>
-</BaseLayout> 
+</BaseLayout>
+
+<script>
+  document.getElementById('testApi')?.addEventListener('click', async () => {
+    const button = document.getElementById('testApi') as HTMLButtonElement;
+    const resultDiv = document.getElementById('apiResult');
+    
+    if (!resultDiv) return;
+    
+    // Disable button and show loading
+    button.disabled = true;
+    button.textContent = 'Loading...';
+    resultDiv.innerHTML = '<p class="text-[rgb(var(--color-text-muted))] text-sm">Loading...</p>';
+    
+    try {
+      const response = await fetch('/api/quotes');
+      const data = await response.json();
+      
+      if (data.error) {
+        resultDiv.innerHTML = `<p class="text-red-500 text-sm">Error: ${data.message}</p>`;
+        return;
+      }
+      
+      const quote = data.quote;
+      resultDiv.innerHTML = `
+        <div class="space-y-4">
+          <div class="p-4 bg-[rgb(var(--color-bg-alt))] rounded border-l-4 border-blue-500">
+            <p class="italic text-lg mb-2">"${quote.text}"</p>
+            <p class="text-sm text-[rgb(var(--color-text-muted))]">— ${quote.author}, ${quote.work}</p>
+          </div>
+          
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+            <div>
+              <span class="font-medium">Difficulty:</span>
+              <span class="text-[rgb(var(--color-text-muted))]">${quote.difficulty}</span>
+            </div>
+            <div>
+              <span class="font-medium">Length:</span>
+              <span class="text-[rgb(var(--color-text-muted))]">${quote.length}</span>
+            </div>
+            <div>
+              <span class="font-medium">Popularity:</span>
+              <span class="text-[rgb(var(--color-text-muted))]">${quote.popularity}</span>
+            </div>
+            <div>
+              <span class="font-medium">Themes:</span>
+              <span class="text-[rgb(var(--color-text-muted))]">${quote.themes.join(', ')}</span>
+            </div>
+          </div>
+          
+          ${quote.context ? `
+            <div class="text-sm">
+              <span class="font-medium">Context:</span>
+              <span class="text-[rgb(var(--color-text-muted))]">${quote.context}</span>
+            </div>
+          ` : ''}
+          
+          ${quote.modernRelevance ? `
+            <div class="text-sm">
+              <span class="font-medium">Modern Relevance:</span>
+              <span class="text-[rgb(var(--color-text-muted))]">${quote.modernRelevance}</span>
+            </div>
+          ` : ''}
+          
+          <div class="text-xs text-[rgb(var(--color-text-muted))] mt-4 pt-4 border-t border-[rgb(var(--color-border))]/30">
+            <p>API Response Time: ${new Date().toLocaleTimeString()}</p>
+            <p>Total Quotes Available: ${data.metadata.totalQuotes}</p>
+          </div>
+        </div>
+      `;
+    } catch (error) {
+      resultDiv.innerHTML = `<p class="text-red-500 text-sm">Error: ${error instanceof Error ? error.message : 'Unknown error'}</p>`;
+    } finally {
+      // Re-enable button
+      button.disabled = false;
+      button.textContent = 'Get Random Quote';
+    }
+  });
+</script> 

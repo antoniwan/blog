@@ -2,7 +2,7 @@
 
 [![Version](https://img.shields.io/badge/version-2.5.0-blue.svg)](https://github.com/antoniwan/curious-chaos-journal/releases)
 
-A personal blog built with Astro, documenting thoughts on technology, personal growth, and creative expression.
+A personal blog built with Astro, documenting thoughts on technology, personal growth, and creative expression. Features an internal API for Stoic philosophy quotes.
 
 ## Overview
 
@@ -12,6 +12,7 @@ A personal blog built with Astro, documenting thoughts on technology, personal g
 - **Dark mode** with system preference detection
 - **Responsive design** optimized for all devices
 - **SEO optimized** with structured data and Open Graph
+- **Internal API** for Stoic philosophy quotes
 
 ## Tech Stack
 
@@ -32,7 +33,7 @@ npm install
 npm run dev
 ```
 
-Visit `http://localhost:4321` to view the site.
+Visit `http://localhost:4323` to view the site.
 
 ## Available Scripts
 
@@ -58,14 +59,34 @@ curious-chaos-journal/
 ├── src/
 │   ├── components/        # UI components
 │   ├── content/p/         # Blog posts
-│   ├── data/             # Categories and navigation
+│   ├── data/             # Categories, navigation, and quotes
 │   ├── layouts/          # Page layouts
 │   ├── pages/            # Route components
+│   │   └── api/          # API endpoints
 │   ├── styles/           # Global styles
 │   └── utils/            # Utility functions
 ├── scripts/              # Automation tools
 ├── docs/                 # Documentation
 └── astro.config.mjs      # Astro configuration
+```
+
+## API
+
+### Quotes API
+
+The site includes an internal API for accessing Stoic philosophy quotes:
+
+- **Endpoint**: `GET /api/quotes`
+- **Purpose**: Returns random Stoic philosophy quotes with metadata
+- **Use Cases**: 404 pages, future content features
+- **Documentation**: [API Documentation](docs/QUOTES_API.md)
+
+#### Quick Example
+
+```javascript
+const response = await fetch("/api/quotes");
+const data = await response.json();
+console.log(data.quote.text); // Random Stoic quote
 ```
 
 ## Content Management
@@ -113,6 +134,7 @@ draft: false
 - **Reading Progress** - Visual progress indicator
 - **Brain Science Analytics** - Writing pattern analysis
 - **Tag Management** - Advanced tag usage analytics
+- **Internal API** - Stoic quotes for enhanced user experience
 
 ## Configuration
 
@@ -130,6 +152,7 @@ Comprehensive documentation available in `docs/`:
 - [Comments Setup](docs/COMMENTS_SETUP.md)
 - [Brain Science Analytics](docs/BRAIN_SCIENCE_SECTION.md)
 - [Tag Management](docs/TAG_MANAGEMENT_SECTION.md)
+- [Quotes API](docs/QUOTES_API.md)
 
 ## License
 
