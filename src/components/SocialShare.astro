@@ -1,5 +1,6 @@
 ---
 import { generateShareUrls } from '../utils/shareUtils';
+import { SITE_URL } from '../consts';
 
 interface Props {
   title: string;
@@ -18,7 +19,13 @@ const {
 } = Astro.props;
 
 // Get the current URL - prioritize passed URL, fallback to current page
-const currentUrl = url || Astro.url.href;
+// Ensure we always have a full URL with domain
+let currentUrl = url || Astro.url.href;
+
+// If the URL doesn't start with http, construct the full URL
+if (!currentUrl.startsWith('http')) {
+  currentUrl = new URL(currentUrl, SITE_URL).href;
+}
 
 // Generate share URLs using utility
 const platforms = generateShareUrls(title, currentUrl, description);
@@ -28,8 +35,12 @@ console.log('SocialShare Debug:', {
   title,
   currentUrl,
   canonical: Astro.url.href,
-  passedUrl: url
+  passedUrl: url,
+  siteUrl: SITE_URL
 });
+
+// Debug: log the generated share URLs
+console.log('Generated Share URLs:', platforms.map(p => ({ name: p.name, url: p.url })));
 ---
 
 <!-- Floating Action Button (Mobile) -->
@@ -244,7 +255,9 @@ console.log('SocialShare Debug:', {
         const action = (button as HTMLElement).dataset.action;
         
         if (action === 'copy') {
-          await copyToClipboard(window.location.href);
+          // Use the current page URL for copying
+          const pageUrl = window.location.href;
+          await copyToClipboard(pageUrl);
           showToast('Link copied to clipboard!');
         } else if (url && url !== '#') {
           // Debug: log the share URL
@@ -273,7 +286,8 @@ console.log('SocialShare Debug:', {
           }
         } else {
           // Fallback: copy to clipboard
-          await copyToClipboard(window.location.href);
+          const pageUrl = window.location.href;
+          await copyToClipboard(pageUrl);
           showToast('Link copied to clipboard!');
         }
       });

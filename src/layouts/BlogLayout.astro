@@ -90,6 +90,14 @@ const canonical = path || generateCanonicalUrl(Astro.url.pathname);
               )}
             </div>
             
+            {/* Social Share - Desktop Sidebar (Moved up for immediate access) */}
+            <SocialShare 
+              title={title}
+              description={description}
+              url={canonical}
+              variant="vertical"
+            />
+            
             {/* Post Metadata */}
             <div class="space-y-6">
               {/* Publication Date */}
@@ -204,14 +212,6 @@ const canonical = path || generateCanonicalUrl(Astro.url.pathname);
                 </nav>
               </div>
             )}
-            
-            {/* Social Share - Desktop Sidebar */}
-            <SocialShare 
-              title={title}
-              description={description}
-              url={canonical}
-              variant="vertical"
-            />
           </div>
         </aside>
         
