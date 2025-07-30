@@ -1,13 +1,14 @@
 ---
-title: 'The Paradox of Modernity: Progress Without Peace'
+title: "The Paradox of Modernity: Progress Without Peace"
 description: >-
   We are living in the most advanced moment in human history. And yet, we are
   also arguably the most confused, alienated, addicted, manipulated, and
   emotionally starved generation ever to exist. This is the paradox I cannot
   stop thinking about.
-pubDate: '2025-07-16T20:00:00.000Z'
+pubDate: "2025-07-16T20:00:00.000Z"
 language:
   - en
+heroImage: /images/empathy.avif
 category:
   - metaspace
   - psychology

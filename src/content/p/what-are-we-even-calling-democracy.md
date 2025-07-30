@@ -3,10 +3,10 @@ title: What Are We Even Calling Democracy Anymore?
 description: >-
   A raw reflection on the state of democracy, the gap between rhetoric and
   reality, and the need for genuine systemic change.
-pubDate: '2025-07-02T13:07:00.000Z'
+pubDate: "2025-07-02T13:07:00.000Z"
 language:
   - en
-heroImage: /images/saitama-okay.webp
+heroImage: /images/ai-is-creepy.avif
 category:
   - politics
   - metaspace
