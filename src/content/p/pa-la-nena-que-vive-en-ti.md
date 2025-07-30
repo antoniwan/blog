@@ -4,6 +4,7 @@ description: Desde la paz, el respeto, y la crianza compartida
 pubDate: '2025-04-21T12:21:28.540Z'
 language:
   - en
+heroImage: /images/una-nena-poderosa.avif
 category:
   - metaspace
   - integration-growth
