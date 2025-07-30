@@ -7,6 +7,7 @@ import Comments from '../components/Comments.astro';
 import Container from '../components/Container.astro';
 import DefaultImage from '../components/DefaultImage.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
+import SocialShare from '../components/SocialShare.astro';
 import { generateCanonicalUrl } from '../utils/seo';
 import { giscusConfig } from '../config/giscus';
 import type { BlogLayoutProps } from '../types/layout';
@@ -88,6 +89,14 @@ const canonical = path || generateCanonicalUrl(Astro.url.pathname);
                 </p>
               )}
             </div>
+            
+            {/* Social Share - Desktop Sidebar (Moved up for immediate access) */}
+            <SocialShare 
+              title={title}
+              description={description}
+              url={canonical}
+              variant="vertical"
+            />
             
             {/* Post Metadata */}
             <div class="space-y-6">
@@ -231,6 +240,14 @@ const canonical = path || generateCanonicalUrl(Astro.url.pathname);
             <slot />
           </div>
           
+          {/* Social Share - Tablet Horizontal Bar */}
+          <SocialShare 
+            title={title}
+            description={description}
+            url={canonical}
+            variant="horizontal"
+          />
+          
           {/* Mobile-only metadata - shown after content on mobile */}
           <div class="lg:hidden space-y-6 mt-12 pt-8 border-t border-[rgb(var(--color-border))]">
             <div class="space-y-4">
@@ -302,6 +319,18 @@ const canonical = path || generateCanonicalUrl(Astro.url.pathname);
                   </div>
                 </div>
               )}
+              
+              {/* Mobile Share Button */}
+              <div class="space-y-3">
+                <h4 class="text-sm font-semibold text-[rgb(var(--color-text-muted))] uppercase tracking-wider">Share</h4>
+                <SocialShare 
+                  title={title}
+                  description={description}
+                  url={canonical}
+                  variant="button"
+                  className="w-full justify-center"
+                />
+              </div>
             </div>
           </div>
           
@@ -329,4 +358,12 @@ const canonical = path || generateCanonicalUrl(Astro.url.pathname);
       </div>
     </div>
   </div>
+  
+  {/* Floating Share Button - Mobile Only */}
+  <SocialShare 
+    title={title}
+    description={description}
+    url={canonical}
+    variant="floating"
+  />
 </BaseLayout>
