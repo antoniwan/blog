@@ -4,10 +4,10 @@ description: >-
   A reflection on the symbols—mythic, fictional, and personal—that remind me of
   resilience, willpower, and transformation. These are the icons I'd etch into
   my skin if I ever choose to.
-pubDate: '2024-07-06T11:20:00.000Z'
+pubDate: "2024-07-06T11:20:00.000Z"
 language:
   - en
-heroImage: /symbols/lightsaber.avif
+heroImage: /images/symbols-of-power.avif
 category:
   - metaspace
   - psychology
