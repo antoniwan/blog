@@ -1,12 +1,12 @@
 ---
 title: >-
   Cómo Redirigir la Curiosidad Sexual Infantil con Amor, Liderazgo y Claridad
-  (Edades 4–8)
+  (4–8)
 description: >-
   Guide for parents on handling childhood sexual curiosity through
   age-appropriate responses and protective language. Based on attachment theory
   and developmental psychology.
-pubDate: '2025-05-06T16:30:00.000Z'
+pubDate: "2025-05-06T16:30:00.000Z"
 language:
   - es
 heroImage: /images/guia-practica-padres-conscientes.avif
