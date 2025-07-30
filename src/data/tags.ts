@@ -37,6 +37,7 @@ export const TAG_WEIGHTS: Record<string, number> = {
   // Major life areas
   parenting: 8,
   "conscious-parenting": 8,
+  "co-parenting": 8,
   technology: 8,
   "systems-strategy": 8,
   politics: 8,
@@ -242,6 +243,7 @@ export const MASLOW_CATEGORIES: TagCategory[] = [
       "children",
       "parenting",
       "conscious-parenting",
+      "co-parenting",
       "fatherhood",
       "relationships",
       "connection",

@@ -1,7 +1,7 @@
 ---
 title: ☀️ Pa’ la nena que vive en ti
 description: Desde la paz, el respeto, y la crianza compartida
-pubDate: '2025-04-21T12:21:28.540Z'
+pubDate: "2025-04-21T12:21:28.540Z"
 language:
   - en
 heroImage: /images/una-nena-poderosa.avif
@@ -17,8 +17,15 @@ tags:
   - authenticity
   - therapy
   - emotional-regulation
-  - self-improvement
   - transformation
+  - parenting
+  - conscious-parenting
+  - co-parenting
+  - family
+  - family-dynamics
+  - vulnerability
+  - empathy
+  - compassion
 readingTime: 1
 featured: false
 showComments: true
