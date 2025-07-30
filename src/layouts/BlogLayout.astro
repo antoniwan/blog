@@ -55,8 +55,8 @@ const canonical = path || generateCanonicalUrl(Astro.url.pathname);
 >
   <Container>
     <div class="py-6 md:py-8 lg:py-12">
-      {/* Breadcrumbs */}
-      <div class="mb-6">
+      {/* Breadcrumbs - Hidden on mobile, visible on desktop */}
+      <div class="hidden md:block mb-6">
         <Breadcrumbs 
           items={[
             { label: 'Home', href: '/' },
