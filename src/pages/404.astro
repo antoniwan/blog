@@ -1,6 +1,22 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Container from '../components/Container.astro';
+import { getAllTags } from '../data/tags';
+
+// Fetch a random quote for the 404 page
+let quote = null;
+try {
+  const response = await fetch(`${Astro.url.origin}/api/quotes`);
+  if (response.ok) {
+    const data = await response.json();
+    quote = data.quote;
+  }
+} catch (error) {
+  console.error('Failed to fetch quote:', error);
+}
+
+// Get existing tags to check for matches
+const existingTags = getAllTags();
 ---
 
 <BaseLayout
@@ -10,7 +26,7 @@ import Container from '../components/Container.astro';
   <Container>
     <Container maxWidth="container" padding="none">
       <div class="text-center py-12">
-        <div class="max-w-md mx-auto">
+        <div class="max-w-4xl mx-auto">
           <div class="mb-8">
             <div class="text-6xl font-bold text-[rgb(var(--color-primary))] mb-4">
               404
@@ -18,10 +34,70 @@ import Container from '../components/Container.astro';
             <h1 class="text-heading text-[rgb(var(--color-text))] mb-4">
               Page Not Found
             </h1>
-            		<p class="text-body-large text-[rgb(var(--color-text-muted))] leading-relaxed mb-8">
+            <p class="text-body-large text-[rgb(var(--color-text-muted))] leading-relaxed mb-8">
               Oops! The page you're looking for doesn't exist or has been moved.
             </p>
           </div>
+
+          {quote && (
+            <div class="mb-12">
+              <div class="relative p-8 sm:p-12 bg-gradient-to-br from-[rgb(var(--color-primary)/0.15)] via-[rgb(var(--color-accent)/0.1)] to-[rgb(var(--color-highlight)/0.05)] border-2 border-[rgb(var(--color-primary)/0.3)] rounded-2xl shadow-xl">
+                <div class="absolute inset-0 bg-gradient-to-br from-[rgb(var(--color-primary)/0.05)] to-transparent rounded-2xl"></div>
+                
+                <div class="relative z-10">
+                  <blockquote class="text-center space-y-6">
+                    <div class="relative">
+                      <div class="absolute -top-6 -left-6 text-8xl text-[rgb(var(--color-primary)/0.2)] font-serif leading-none">
+                        "
+                      </div>
+                      <p class="text-3xl sm:text-4xl md:text-5xl font-bold text-[rgb(var(--color-text))] leading-tight italic px-8">
+                        {quote.text}
+                      </p>
+                      <div class="absolute -bottom-6 -right-6 text-8xl text-[rgb(var(--color-primary)/0.2)] font-serif leading-none">
+                        "
+                      </div>
+                    </div>
+                    
+                    <footer class="space-y-2">
+                      <cite class="text-2xl sm:text-3xl font-black text-[rgb(var(--color-primary))] not-italic tracking-tight">
+                        — {quote.author}
+                      </cite>
+                      {quote.work && (
+                        <div class="text-lg sm:text-xl text-[rgb(var(--color-text-muted))] font-medium">
+                          {quote.work}
+                          {quote.book && `, ${quote.book}`}
+                        </div>
+                      )}
+                    </footer>
+                  </blockquote>
+                  
+                                     {quote.themes && quote.themes.length > 0 && (
+                     <div class="mt-8 pt-8 border-t-2 border-[rgb(var(--color-primary)/0.2)]">
+                       <div class="flex flex-wrap justify-center gap-3">
+                         {quote.themes.map((theme: string) => {
+                           const isExistingTag = existingTags.includes(theme);
+                           return isExistingTag ? (
+                             <a
+                               href={`/tag/${theme}/`}
+                               class="inline-flex items-center gap-2 text-base sm:text-lg px-4 py-2 rounded-full font-bold transition-all duration-200 bg-[rgb(var(--color-primary))] text-white hover:bg-[rgb(var(--color-primary-hover))] hover:scale-105 shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-primary))] focus:ring-offset-2"
+                             >
+                               <span aria-hidden="true">🏷️</span>
+                               <span>#{theme}</span>
+                             </a>
+                           ) : (
+                             <span class="inline-flex items-center gap-2 text-base sm:text-lg px-4 py-2 rounded-full font-bold bg-[rgb(var(--color-accent))]/20 border-2 border-[rgb(var(--color-accent))]/30 text-[rgb(var(--color-accent))]">
+                               <span aria-hidden="true">🏷️</span>
+                               <span>#{theme}</span>
+                             </span>
+                           );
+                         })}
+                       </div>
+                     </div>
+                   )}
+                </div>
+              </div>
+            </div>
+          )}
 
           <div class="space-y-4">
             <a
@@ -31,14 +107,14 @@ import Container from '../components/Container.astro';
               Return Home
             </a>
             
-            		<div class="text-base text-body-muted leading-relaxed">
-              				<a href="/category" class="link">
-					Browse Categories
-				</a>
-				<span class="mx-2">•</span>
-				<a href="/tag" class="link">
-					Explore Tags
-				</a>
+            <div class="text-base text-body-muted leading-relaxed">
+              <a href="/category" class="link">
+                Browse Categories
+              </a>
+              <span class="mx-2">•</span>
+              <a href="/tag" class="link">
+                Explore Tags
+              </a>
             </div>
           </div>
         </div>
