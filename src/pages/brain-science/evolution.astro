@@ -6,6 +6,7 @@ import { getCollection } from 'astro:content';
 import { categories } from '../../data/categories';
 import { getTagWeight, MASLOW_CATEGORIES } from '../../data/tags';
 import { format, startOfMonth, endOfMonth, eachMonthOfInterval } from 'date-fns';
+import { generateDynamicInsights } from '../../utils/insightGenerator';
 
 // Get all published posts
 const posts = await getCollection('blog', ({ data }) => {
@@ -196,6 +197,31 @@ const maturityIndicators = contentEvolution.map(post => {
 });
 
 const avgMaturityScore = Math.round(maturityIndicators.reduce((sum, post) => sum + post.maturityScore, 0) / maturityIndicators.length);
+
+// Generate dynamic insights
+const insightData = {
+	totalPosts: posts.length,
+	totalWords: posts.reduce((sum, post) => sum + (post.body || '').split(/\s+/).length, 0),
+	avgWordsPerPost: Math.round(posts.reduce((sum, post) => sum + (post.body || '').split(/\s+/).length, 0) / posts.length),
+	topTags: Object.entries(posts.reduce((acc, post) => {
+		post.data.tags?.forEach(tag => {
+			acc[tag] = (acc[tag] || 0) + 1;
+		});
+		return acc;
+	}, {} as Record<string, number>))
+		.sort(([,a], [,b]) => b - a)
+		.slice(0, 5)
+		.map(([tag, count]) => ({ tag, count })),
+	emotionalPosts: 0, // Not calculated for evolution
+	growthPosts: 0, // Not calculated for evolution
+	complexityTrend: periodStats[periodStats.length - 1]?.avgComplexity > periodStats[0]?.avgComplexity ? 'increasing' as const : 'decreasing' as const,
+	productivityTrend: 'stable' as const, // Not calculated for evolution
+	knowledgeAreas: [],
+	writingStreaks: [],
+	drySpells: []
+};
+
+const { insights, summary } = generateDynamicInsights(insightData, 'evolution');
 ---
 
 <BaseLayout
@@ -417,22 +443,21 @@ const avgMaturityScore = Math.round(maturityIndicators.reduce((sum, post) => sum
 			{/* Analysis Conclusion */}
 			<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
 				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-4">📈 Content Evolution Analysis</h3>
-				<div class="prose prose-sm text-[rgb(var(--color-text-muted))] leading-relaxed">
-					<p class="mb-3">
-						My writing has evolved from <strong>personal reflections</strong> to more <strong>analytical and technical content</strong>. 
-						The complexity trends show a steady increase in writing sophistication, with more structured arguments and 
-						evidence-based reasoning. This reflects a shift from emotional processing to <strong>intellectual synthesis</strong>.
-					</p>
-					<p class="mb-3">
-						Topic progression reveals a natural <strong>expansion of interests</strong>, starting with personal development 
-						and gradually incorporating parenting, technology, philosophy, and practical skills. The growth in long-form 
-						content indicates developing confidence in exploring complex subjects in depth.
-					</p>
-					<p>
-						The maturity indicators—increased use of code, links, and images—suggest a growing <strong>multimedia approach</strong> 
-						to content creation. This evolution from pure text to enriched content demonstrates an understanding that 
-						effective communication often requires multiple modalities to convey complex ideas clearly.
-					</p>
+				<div class="space-y-4">
+					{/* Dynamic Insights */}
+					<div class="space-y-2">
+						{insights.map((insight, index) => (
+							<div class={`flex items-center gap-2 ${insight.color}`}>
+								<span class="text-sm">•</span>
+								<span class="text-sm" set:html={insight.text}></span>
+							</div>
+						))}
+					</div>
+					
+					{/* Summary */}
+					<div class="pt-4 border-t border-[rgb(var(--color-border))]">
+						<p class="text-sm text-[rgb(var(--color-text-muted))]" set:html={summary}></p>
+					</div>
 				</div>
 			</div>
 		</Container>

@@ -4,6 +4,7 @@ import Container from '../../components/Container.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import { getCollection } from 'astro:content';
 import { format, startOfMonth, endOfMonth, eachMonthOfInterval, eachWeekOfInterval, eachDayOfInterval, getDay, getMonth, differenceInDays, differenceInWeeks } from 'date-fns';
+import { generateDynamicInsights } from '../../utils/insightGenerator';
 
 // Get all published posts
 const posts = await getCollection('blog', ({ data }) => {
@@ -157,6 +158,31 @@ const productiveMonths = monthlyPosts
 // Recent activity (last 30 days)
 const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
 const recentPosts = posts.filter(post => post.data.pubDate >= thirtyDaysAgo);
+
+// Generate dynamic insights
+const insightData = {
+	totalPosts: posts.length,
+	totalWords: posts.reduce((sum, post) => sum + (post.body || '').split(/\s+/).length, 0),
+	avgWordsPerPost: Math.round(posts.reduce((sum, post) => sum + (post.body || '').split(/\s+/).length, 0) / posts.length),
+	topTags: Object.entries(posts.reduce((acc, post) => {
+		post.data.tags?.forEach(tag => {
+			acc[tag] = (acc[tag] || 0) + 1;
+		});
+		return acc;
+	}, {} as Record<string, number>))
+		.sort(([,a], [,b]) => b - a)
+		.slice(0, 5)
+		.map(([tag, count]) => ({ tag, count })),
+	emotionalPosts: 0, // Not calculated for cadence
+	growthPosts: 0, // Not calculated for cadence
+	complexityTrend: 'stable' as const, // Not calculated for cadence
+	productivityTrend: recentPosts.length > 5 ? 'improving' as const : 'stable' as const,
+	knowledgeAreas: [],
+	writingStreaks: sortedStreaks.map(streak => ({ length: streak.length, days: streak.days })),
+	drySpells: sortedDrySpells.map(spell => ({ days: spell.days }))
+};
+
+const { insights, summary } = generateDynamicInsights(insightData, 'cadence');
 ---
 
 <BaseLayout
@@ -343,23 +369,21 @@ const recentPosts = posts.filter(post => post.data.pubDate >= thirtyDaysAgo);
 			{/* Analysis Conclusion */}
 			<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
 				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-4">📊 Writing Cadence Analysis</h3>
-				<div class="prose prose-sm text-[rgb(var(--color-text-muted))] leading-relaxed">
-					<p class="mb-3">
-						My writing cadence reveals a pattern of <strong>burst writing</strong> rather than consistent daily output. 
-						The data shows I tend to write in concentrated periods, often producing multiple posts within short timeframes, 
-						followed by longer dry spells. This suggests a <strong>creative cycle</strong> where ideas accumulate and then 
-						burst forth in clusters.
-					</p>
-					<p class="mb-3">
-						The seasonal patterns indicate I'm most productive during <strong>transitional periods</strong> (spring and fall), 
-						when change and reflection naturally occur. Weekday analysis shows a preference for <strong>mid-week writing</strong>, 
-						likely when the balance between weekend inspiration and weekday structure is optimal.
-					</p>
-					<p>
-						The writing streaks demonstrate my capacity for <strong>intensive creative periods</strong>, with some stretches 
-						producing 5+ posts in under a week. However, the frequent dry spells suggest I could benefit from more 
-						<strong>sustainable writing habits</strong> to maintain consistent output between creative bursts.
-					</p>
+				<div class="space-y-4">
+					{/* Dynamic Insights */}
+					<div class="space-y-2">
+						{insights.map((insight, index) => (
+							<div class={`flex items-center gap-2 ${insight.color}`}>
+								<span class="text-sm">•</span>
+								<span class="text-sm" set:html={insight.text}></span>
+							</div>
+						))}
+					</div>
+					
+					{/* Summary */}
+					<div class="pt-4 border-t border-[rgb(var(--color-border))]">
+						<p class="text-sm text-[rgb(var(--color-text-muted))]" set:html={summary}></p>
+					</div>
 				</div>
 			</div>
 		</Container>

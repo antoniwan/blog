@@ -6,6 +6,7 @@ import { getCollection } from 'astro:content';
 import { categories } from '../../data/categories';
 import { getTagWeight, MASLOW_CATEGORIES } from '../../data/tags';
 import { format, getDay, getMonth } from 'date-fns';
+import { generateDynamicInsights } from '../../utils/insightGenerator';
 
 // Get all published posts
 const posts = await getCollection('blog', ({ data }) => {
@@ -226,6 +227,31 @@ const productivePatterns = contentAnalysis
 		...post,
 		pattern: `${post.wordCount > 1000 ? 'Long-form' : 'Short-form'} • ${post.emotionalIntensity > 5 ? 'Emotional' : 'Analytical'} • ${post.fleschScore > 50 ? 'Complex' : 'Simple'}`
 	}));
+
+// Generate dynamic insights
+const insightData = {
+	totalPosts: posts.length,
+	totalWords: posts.reduce((sum, post) => sum + (post.body || '').split(/\s+/).length, 0),
+	avgWordsPerPost: Math.round(posts.reduce((sum, post) => sum + (post.body || '').split(/\s+/).length, 0) / posts.length),
+	topTags: Object.entries(posts.reduce((acc, post) => {
+		post.data.tags?.forEach(tag => {
+			acc[tag] = (acc[tag] || 0) + 1;
+		});
+		return acc;
+	}, {} as Record<string, number>))
+		.sort(([,a], [,b]) => b - a)
+		.slice(0, 5)
+		.map(([tag, count]) => ({ tag, count })),
+	emotionalPosts: 0, // Not calculated for patterns
+	growthPosts: 0, // Not calculated for patterns
+	complexityTrend: 'stable' as const, // Not calculated for patterns
+	productivityTrend: 'stable' as const, // Not calculated for patterns
+	knowledgeAreas: [],
+	writingStreaks: [], // Could be calculated from patterns
+	drySpells: [] // Could be calculated from patterns
+};
+
+const { insights, summary } = generateDynamicInsights(insightData, 'patterns');
 ---
 
 <BaseLayout
@@ -450,25 +476,21 @@ const productivePatterns = contentAnalysis
 			{/* Analysis Conclusion */}
 			<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
 				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-4">🌀 Pattern Recognition Summary</h3>
-				<div class="prose prose-sm text-[rgb(var(--color-text-muted))] leading-relaxed">
-					<p class="mb-3">
-						My creative process follows distinct <strong>cyclical patterns</strong> rather than linear progression. The data reveals 
-						clear phases of inspiration, execution, and reflection, with each cycle building upon previous insights. 
-						This suggests a <strong>spiral development model</strong> where I return to themes with deeper understanding.
-					</p>
-					<p class="mb-3">
-						The tag correlations show that my most productive writing emerges from <strong>cross-disciplinary connections</strong>, 
-						where different areas of interest intersect. Posts that combine multiple themes (parenting + technology, 
-						personal growth + philosophy) tend to be more comprehensive and insightful, indicating that 
-						<strong>synthesis drives creativity</strong>.
-					</p>
-					<p>
-						The creative cycle analysis reveals that my best work comes from periods of <strong>intense focus</strong> followed 
-						by reflection and integration. The most productive patterns involve deep engagement with a topic 
-						over multiple posts, suggesting that <strong>sustained exploration</strong> rather than scattered attention 
-						produces my most valuable insights. This pattern recognition can guide future content planning and 
-						creative process optimization.
-					</p>
+				<div class="space-y-4">
+					{/* Dynamic Insights */}
+					<div class="space-y-2">
+						{insights.map((insight, index) => (
+							<div class={`flex items-center gap-2 ${insight.color}`}>
+								<span class="text-sm">•</span>
+								<span class="text-sm" set:html={insight.text}></span>
+							</div>
+						))}
+					</div>
+					
+					{/* Summary */}
+					<div class="pt-4 border-t border-[rgb(var(--color-border))]">
+						<p class="text-sm text-[rgb(var(--color-text-muted))]" set:html={summary}></p>
+					</div>
 				</div>
 			</div>
 		</Container>

@@ -4,6 +4,7 @@ import Container from '../../components/Container.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import { getCollection } from 'astro:content';
 import { format } from 'date-fns';
+import { generateDynamicInsights } from '../../utils/insightGenerator';
 
 // Get all published posts
 const posts = await getCollection('blog', ({ data }) => {
@@ -192,6 +193,31 @@ const codeSnippetPosts = posts.filter(post => {
 	wordCount: (post.body || '').split(/\s+/).length,
 	hasCodeSnippets: true
 }));
+
+// Generate dynamic insights
+const insightData = {
+	totalPosts: posts.length,
+	totalWords: posts.reduce((sum, post) => sum + (post.body || '').split(/\s+/).length, 0),
+	avgWordsPerPost: Math.round(posts.reduce((sum, post) => sum + (post.body || '').split(/\s+/).length, 0) / posts.length),
+	topTags: Object.entries(posts.reduce((acc, post) => {
+		post.data.tags?.forEach(tag => {
+			acc[tag] = (acc[tag] || 0) + 1;
+		});
+		return acc;
+	}, {} as Record<string, number>))
+		.sort(([,a], [,b]) => b - a)
+		.slice(0, 5)
+		.map(([tag, count]) => ({ tag, count })),
+	emotionalPosts: 0, // Not calculated for meta
+	growthPosts: 0, // Not calculated for meta
+	complexityTrend: 'stable' as const, // Not calculated for meta
+	productivityTrend: 'stable' as const, // Not calculated for meta
+	knowledgeAreas: [],
+	writingStreaks: [],
+	drySpells: []
+};
+
+const { insights, summary } = generateDynamicInsights(insightData, 'meta');
 ---
 
 <BaseLayout
@@ -400,23 +426,21 @@ const codeSnippetPosts = posts.filter(post => {
 			{/* Analysis Conclusion */}
 			<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
 				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-4">🔍 Meta Analysis Summary</h3>
-				<div class="prose prose-sm text-[rgb(var(--color-text-muted))] leading-relaxed">
-					<p class="mb-3">
-						My writing demonstrates a <strong>self-referential and interconnected nature</strong>, with frequent cross-references 
-						between posts indicating a developing body of work that builds upon itself. This meta-pattern suggests 
-						I'm creating a <strong>coherent intellectual framework</strong> rather than isolated pieces of content.
-					</p>
-					<p class="mb-3">
-						The content depth analysis reveals a preference for <strong>medium-length, substantive posts</strong> (5-15 minute 
-						reading time) that allow for nuanced exploration without overwhelming readers. The complexity scores 
-						show consistent growth, indicating increasing sophistication in how I approach and present ideas.
-					</p>
-					<p>
-						The self-referential patterns—posts that reference other posts—demonstrate <strong>intellectual continuity</strong> 
-						and a growing web of interconnected thoughts. This suggests my writing is evolving into a more 
-						<strong>systematic knowledge base</strong> where ideas reference and build upon each other, creating a 
-						coherent personal philosophy and methodology.
-					</p>
+				<div class="space-y-4">
+					{/* Dynamic Insights */}
+					<div class="space-y-2">
+						{insights.map((insight, index) => (
+							<div class={`flex items-center gap-2 ${insight.color}`}>
+								<span class="text-sm">•</span>
+								<span class="text-sm" set:html={insight.text}></span>
+							</div>
+						))}
+					</div>
+					
+					{/* Summary */}
+					<div class="pt-4 border-t border-[rgb(var(--color-border))]">
+						<p class="text-sm text-[rgb(var(--color-text-muted))]" set:html={summary}></p>
+					</div>
 				</div>
 			</div>
 		</Container>

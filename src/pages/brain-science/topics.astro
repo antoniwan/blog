@@ -6,6 +6,7 @@ import { getCollection } from 'astro:content';
 import { categories } from '../../data/categories';
 import { getTagWeight, MASLOW_CATEGORIES, getTagCategory, getTagMetadata } from '../../data/tags';
 import { format } from 'date-fns';
+import { generateDynamicInsights } from '../../utils/insightGenerator';
 
 // Get all published posts
 const posts = await getCollection('blog', ({ data }) => {
@@ -165,6 +166,27 @@ const recentTopTags = Object.entries(recentTagFrequency)
 		overallRank: topTags.findIndex(t => t.tag === tag) + 1,
 		trend: 'stable' // Could be calculated as trending up/down
 	}));
+
+// Generate dynamic insights
+const insightData = {
+	totalPosts: posts.length,
+	totalWords: posts.reduce((sum, post) => sum + (post.body || '').split(/\s+/).length, 0),
+	avgWordsPerPost: Math.round(posts.reduce((sum, post) => sum + (post.body || '').split(/\s+/).length, 0) / posts.length),
+	topTags: topTags.slice(0, 5).map(tag => ({ tag: tag.tag, count: tag.count })),
+	emotionalPosts: 0, // Not calculated for topics
+	growthPosts: 0, // Not calculated for topics
+	complexityTrend: 'stable' as const, // Not calculated for topics
+	productivityTrend: 'stable' as const, // Not calculated for topics
+	knowledgeAreas: maslowAnalysis.map(area => ({
+		title: area.title,
+		postCount: area.postCount,
+		trend: 'stable' as const // Could be calculated based on recent vs historical data
+	})),
+	writingStreaks: [],
+	drySpells: []
+};
+
+const { insights, summary } = generateDynamicInsights(insightData, 'topics');
 ---
 
 <BaseLayout
@@ -378,25 +400,21 @@ const recentTopTags = Object.entries(recentTagFrequency)
 			{/* Analysis Conclusion */}
 			<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
 				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-4">🏷️ Topic Analysis Insights</h3>
-				<div class="prose prose-sm text-[rgb(var(--color-text-muted))] leading-relaxed">
-					<p class="mb-3">
-						My writing covers a <strong>diverse range of interconnected themes</strong>, with personal development, parenting, 
-						and technology forming the core pillars. The strong tag relationships reveal how these areas naturally 
-						overlap—parenting insights often connect to personal growth, while technical topics frequently relate to 
-						productivity and learning.
-					</p>
-					<p class="mb-3">
-						The topic distribution shows a <strong>balanced approach</strong> across different life areas, with significant 
-						coverage of foundational needs (health, relationships) and higher-level pursuits (self-actualization, 
-						creativity). This suggests a holistic view of personal development that encompasses both practical and 
-						philosophical dimensions.
-					</p>
-					<p>
-						Recent trends indicate a growing focus on <strong>practical applications</strong> and <strong>systematic thinking</strong>, 
-						with increased writing about tools, processes, and frameworks. The most diverse posts—those covering 
-						multiple topics—tend to be the most comprehensive and insightful, suggesting that cross-disciplinary 
-						thinking produces my most valuable content.
-					</p>
+				<div class="space-y-4">
+					{/* Dynamic Insights */}
+					<div class="space-y-2">
+						{insights.map((insight, index) => (
+							<div class={`flex items-center gap-2 ${insight.color}`}>
+								<span class="text-sm">•</span>
+								<span class="text-sm" set:html={insight.text}></span>
+							</div>
+						))}
+					</div>
+					
+					{/* Summary */}
+					<div class="pt-4 border-t border-[rgb(var(--color-border))]">
+						<p class="text-sm text-[rgb(var(--color-text-muted))]" set:html={summary}></p>
+					</div>
 				</div>
 			</div>
 		</Container>
