@@ -1,6 +1,6 @@
 # Curious Chaos Journal
 
-[![Version](https://img.shields.io/badge/version-2.2.2-blue.svg)](https://github.com/antoniwan/curious-chaos-journal/releases)
+[![Version](https://img.shields.io/badge/version-2.4.0-blue.svg)](https://github.com/antoniwan/curious-chaos-journal/releases)
 
 A personal digital space documenting the journey of building systems — digital, emotional, spiritual, and physical. Raw reflections on thinking, culture, and the soft heart inside the hard world.
 
@@ -13,6 +13,8 @@ A personal digital space documenting the journey of building systems — digital
 - **9 content categories** with comprehensive tagging
 - **Multi-language support** (English/Spanish)
 - **Complete documentation** suite available
+- **Enhanced navigation** with breadcrumbs and improved UX
+- **Simplified SEO system** with hero image prioritization
 
 ## 🌟 Content Categories
 
@@ -155,13 +157,42 @@ showComments: true
 
 - ✅ **Dark Mode** - System preference detection with manual toggle
 - ✅ **Responsive Design** - Mobile-first approach
-- ✅ **Image Optimization** - Automatic WebP conversion
+- ✅ **Image Optimization** - Automatic WebP conversion with clickable modals
 - ✅ **RSS Feed** - Full content syndication
-- ✅ **SEO Optimized** - Meta tags, structured data, Open Graph
+- ✅ **SEO Optimized** - Meta tags, structured data, Open Graph with hero image prioritization
 - ✅ **Accessibility** - WCAG compliant with ARIA support
 - ✅ **Reading Progress** - Visual progress indicator
 - ✅ **Search Functionality** - Content discovery
 - ✅ **Comments System** - Privacy-focused Giscus integration
+- ✅ **Breadcrumb Navigation** - Clear page hierarchy and navigation
+- ✅ **Enhanced Mobile Experience** - Improved mobile navigation and search
+
+## 🧭 Navigation & User Experience
+
+### Breadcrumb Navigation
+
+The site now features comprehensive breadcrumb navigation that provides clear context and easy navigation:
+
+- **Page Hierarchy**: Shows current location within the site structure
+- **Quick Navigation**: Click any breadcrumb to navigate to that level
+- **Accessibility**: Proper ARIA labels and semantic markup
+- **Responsive Design**: Adapts to mobile and desktop layouts
+
+### Enhanced Mobile Experience
+
+Mobile navigation has been completely refactored for better usability:
+
+- **Improved Search**: Dedicated mobile search toggle with full-width search bar
+- **Better Navigation**: Cleaner mobile menu with proper touch targets
+- **Smooth Transitions**: Optimized animations and transitions
+- **Accessibility**: Proper focus management and keyboard navigation
+
+### Navigation Refinements
+
+- **Logo as Home Link**: The logo now serves as the primary home navigation
+- **Streamlined Menu**: Removed redundant home link from main navigation
+- **Category Dropdowns**: Enhanced category navigation with icons and descriptions
+- **Consistent Styling**: Unified navigation experience across all pages
 
 ## 💬 Comments System
 
@@ -192,10 +223,11 @@ For detailed setup instructions, see [docs/COMMENTS_SETUP.md](docs/COMMENTS_SETU
 ## 🔧 Configuration
 
 - **Site URL**: `https://blog.antoniwan.online`
-- **Image Optimization**: Sharp service with WebP conversion
+- **Image Optimization**: Sharp service with WebP conversion and clickable modals
 - **Markdown**: Shiki syntax highlighting
 - **Prefetch**: Intelligent link prefetching
 - **Vercel Adapter**: Optimized deployment
+- **SEO System**: Simplified hero image prioritization with automatic meta tag generation
 
 ### Content Configuration
 

@@ -5,6 +5,48 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.4.0] - 2025-01-30
+
+### Added
+
+- **Breadcrumb Navigation**: Comprehensive breadcrumb system providing clear page hierarchy and navigation context
+- **Enhanced Mobile Navigation**: Complete refactor of mobile navigation with improved search toggle and better UX
+- **Image Modal System**: Clickable image modals for enhanced blog post image viewing experience
+- **Simplified SEO System**: Streamlined SEO implementation with hero image prioritization and automatic meta tag generation
+- **Navigation Refinements**: Logo now serves as primary home link with streamlined main navigation
+
+### Changed
+
+- **Navigation Architecture**: Removed redundant home link from main navigation, logo now handles home navigation
+- **Mobile Search Experience**: Dedicated mobile search toggle with full-width search bar implementation
+- **SEO Cleanup**: Comprehensive tree-shaking of SEO system, removed deprecated fields and unused code
+- **Component Refactoring**: Enhanced CategoryCard and PostCard components with improved styling and visual hierarchy
+- **Layout Improvements**: Better responsive design and visual consistency across all pages
+
+### Fixed
+
+- **SEO System**: Removed deprecated `ogImage` and `ogImageAlt` fields, simplified to use only `heroImage`
+- **Navigation Consistency**: Unified navigation experience across desktop and mobile
+- **Accessibility**: Improved focus management and keyboard navigation in mobile menu
+- **Performance**: Optimized meta tag generation and reduced bundle size through code cleanup
+
+### Technical Details
+
+- **SEO Simplification**: Removed 50+ lines of redundant code, eliminated confusing multiple image fields
+- **Navigation System**: Enhanced mobile navigation with proper event handling and cleanup
+- **Image Handling**: Added clickable modal functionality for blog post images
+- **Code Quality**: Comprehensive cleanup of unused imports and deprecated functionality
+- **Build Optimization**: Faster build times and improved dependency management
+
+### User Experience
+
+- 🧭 **Clear Navigation**: Breadcrumbs provide context and easy navigation throughout the site
+- 📱 **Better Mobile UX**: Improved mobile navigation with dedicated search and better touch targets
+- 🎨 **Enhanced Visuals**: Clickable image modals and improved visual hierarchy
+- 🔍 **Improved Search**: Better mobile search experience with dedicated toggle
+- ⚡ **Performance**: Faster loading and smoother interactions
+- ♿ **Accessibility**: Better keyboard navigation and focus management
+
 ## [2.3.0] - 2025-01-30
 
 ### Added
@@ -164,6 +206,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Version History
 
+- **2.4.0**: Breadcrumb navigation, enhanced mobile experience, simplified SEO system, and comprehensive refactoring
 - **2.3.0**: Enhanced image handling, hero image support, and improved user experience
 - **2.2.2**: Dependency updates and security monitoring
 - **2.2.1**: Layout improvements and content cleanup
