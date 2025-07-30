@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Container from '../../components/Container.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import { getCollection } from 'astro:content';
 import { format, startOfMonth, endOfMonth, eachMonthOfInterval, eachWeekOfInterval, eachDayOfInterval, getDay, getMonth, differenceInDays, differenceInWeeks } from 'date-fns';
 
@@ -164,22 +165,29 @@ const recentPosts = posts.filter(post => post.data.pubDate >= thirtyDaysAgo);
 	path="/brain-science/cadence"
 	structuredDataType="website"
 >
-	<Container maxWidth="container" padding="none">
-		<div class="py-6 md:py-8 lg:py-12">
-			{/* Header */}
-			<div class="mb-8 md:mb-12">
-				<div class="flex items-center gap-4 mb-4">
-					<a href="/brain-science" class="text-[rgb(var(--color-text-muted))] hover:text-[rgb(var(--color-text))] transition-colors">
-						← Back to Brain Science
-					</a>
-				</div>
-				<h1 class="text-display text-[rgb(var(--color-text))] mb-4 md:mb-6" transition:name="page-title">
-					📅 <span class="highlight-primary">Writing Cadence</span>
-				</h1>
-				<p class="text-body-large text-[rgb(var(--color-text-muted))] leading-relaxed" transition:name="page-description">
-					Understanding my publishing patterns, creative streaks, and the rhythms of my writing life.
-				</p>
+	<Container>
+		<Container maxWidth="container" padding="none">
+			{/* Breadcrumbs */}
+			<div class="mb-6">
+				<Breadcrumbs 
+					items={[
+						{ label: "Home", href: "/" },
+						{ label: "Brain Science", href: "/brain-science" },
+						{ label: "Writing Cadence" }
+					]} 
+				/>
 			</div>
+
+			<div class="py-6 md:py-8 lg:py-12">
+				{/* Header */}
+				<div class="mb-8 md:mb-12">
+					<h1 class="text-display text-[rgb(var(--color-text))] mb-4 md:mb-6" transition:name="page-title">
+						📅 <span class="highlight-primary">Writing Cadence</span>
+					</h1>
+					<p class="text-body-large text-[rgb(var(--color-text-muted))] leading-relaxed" transition:name="page-description">
+						Understanding my publishing patterns, creative streaks, and the rhythms of my writing life.
+					</p>
+				</div>
 
 			{/* Key Metrics */}
 			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
@@ -331,6 +339,6 @@ const recentPosts = posts.filter(post => post.data.pubDate >= thirtyDaysAgo);
 					))}
 				</div>
 			</div>
-		</div>
+		</Container>
 	</Container>
 </BaseLayout> 
