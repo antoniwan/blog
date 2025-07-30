@@ -1,0 +1,149 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import Container from '../components/Container.astro';
+import BookPostList from '../components/BookPostList.astro';
+import { getCollection } from 'astro:content';
+
+// Get all published posts
+const allPosts = await getCollection('blog', ({ data }) => {
+	return import.meta.env.PROD ? !data.draft : true;
+});
+
+// Define chapter structure
+interface PathChapter {
+	id: string;
+	title: string;
+	tags: string[];
+	posts: typeof allPosts;
+}
+
+// Simplified chapter definitions
+const chapters: PathChapter[] = [
+	{
+		id: 'prologue',
+		title: 'Prologue',
+		tags: ['consciousness', 'thinking', 'self-reflection', 'introspection'],
+		posts: []
+	},
+	{
+		id: 'foundations',
+		title: 'Foundations',
+		tags: [
+			'nutrition', 'health', 'wellness', 'cooking', 'healthy-eating', 'micronutrients', 'fasting',
+			'digital-safety', 'boundaries', 'control', 'discipline', 'self-control', 'emotional-regulation',
+			'mental-health', 'therapy', 'trauma', 'fear', 'emotional-health', 'emotional-pain', 'emotional-intelligence'
+		],
+		posts: []
+	},
+	{
+		id: 'belonging',
+		title: 'Belonging',
+		tags: [
+			'family', 'family-dynamics', 'children', 'parenting', 'conscious-parenting', 'co-parenting',
+			'fatherhood', 'relationships', 'connection', 'empathy', 'compassion', 'collective-healing',
+			'social-issues', 'social-justice', 'child-development', 'childhood', 'vulnerability'
+		],
+		posts: []
+	},
+	{
+		id: 'mastery',
+		title: 'Mastery',
+		tags: [
+			'confidence-building', 'mastery', 'achievement', 'respect', 'responsibility', 'accountability',
+			'leadership', 'professional-development', 'imposter-syndrome', 'self-discipline', 'self-mastery',
+			'power', 'authority', 'feedback', 'self-awareness', 'humility', 'ego'
+		],
+		posts: []
+	},
+	{
+		id: 'actualization',
+		title: 'Actualization',
+		tags: [
+			'personal-growth', 'self-improvement', 'growth', 'learning', 'learning-projects', 'self-discovery',
+			'self-expression', 'art-expression', 'creativity', 'diy-creation', 'craftsmanship', 'development',
+			'transformation', 'intentional-living', 'purpose', 'meaning', 'authenticity', 'adaptability',
+			'decision-making', 'efficiency', 'habits', 'limits', 'patience', 'productivity', 'self-construction',
+			'self-reflection', 'simplicity', 'slow-living', 'time', 'tips', 'tools', 'workflow', 'writing',
+			'digital-art', 'customization'
+		],
+		posts: []
+	},
+	{
+		id: 'transcendence',
+		title: 'Transcendence',
+		tags: [
+			'self-transcendence', 'spirituality', 'consciousness', 'existentialism', 'philosophy', 'humanism',
+			'atheism', 'mythology', 'symbols', 'inner-work', 'inner-peace', 'serenity', 'contentment',
+			'meditation', 'mindfulness', 'presence', 'truth', 'healing', 'inner-child', 'reflection',
+			'resilience', 'ritual', 'routine'
+		],
+		posts: []
+	},
+	{
+		id: 'systems',
+		title: 'Systems',
+		tags: [
+			'technology', 'systems-strategy', 'software-development', 'productivity', 'tools', 'workflow',
+			'customization', 'terminal', 'wezterm', 'powershell', 'oh-my-posh', 'zoxide', 'windows',
+			'nvm', 'fzf', 'efficiency', 'learning-projects'
+		],
+		posts: []
+	},
+	{
+		id: 'culture',
+		title: 'Culture',
+		tags: [
+			'politics', 'social-issues', 'social-justice', 'collective-healing', 'culture', 'power',
+			'fear', 'control', 'truth', 'freedom', 'identity'
+		],
+		posts: []
+	},
+	{
+		id: 'epilogue',
+		title: 'Epilogue',
+		tags: [
+			'transformation', 'growth', 'evolution', 'reflection', 'meaning', 'purpose', 'change',
+			'progress', 'improvement', 'development', 'excellence'
+		],
+		posts: []
+	}
+];
+
+// Filter posts for each chapter
+chapters.forEach(chapter => {
+	chapter.posts = allPosts.filter(post => {
+		if (!post.data.tags) return false;
+		return post.data.tags.some(tag => chapter.tags.includes(tag));
+	}).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+});
+---
+
+<PageLayout
+	title="Guided Path - Curious Chaos Journal"
+	description="A structured journey through consciousness, growth, and transformation."
+	path="/guided-path"
+>
+	<Container>
+		<div class="guided-path">
+			<div class="chapters">
+				{chapters.map(chapter => (
+					<BookPostList 
+						posts={chapter.posts} 
+						chapterTitle={chapter.title} 
+					/>
+				))}
+			</div>
+		</div>
+	</Container>
+</PageLayout>
+
+<style>
+	.guided-path {
+		padding: 2rem 0;
+	}
+
+	.chapters {
+		max-width: 800px;
+		margin: 0 auto;
+	}
+</style> 

@@ -80,6 +80,53 @@ const topCategories = categories
 		</Container>
 	)}
 
+	{/* Guided Path Section */}
+	<Container maxWidth="container" padding="none" class="mb-16 md:mb-20">
+		<div class="mb-8 md:mb-12">
+			<h2 class="text-heading text-[rgb(var(--color-text))] mb-4">
+				🗺️ Guided Path
+			</h2>
+			<p class="text-body-large text-[rgb(var(--color-text-muted))] leading-relaxed">
+				A structured journey through consciousness, growth, and transformation. Each chapter represents a different level of human development and understanding.
+			</p>
+		</div>
+		<div class="relative interactive-card overflow-hidden hover:-translate-y-2 transition-transform duration-200">
+			<div class="bg-gradient-to-br from-[rgb(var(--color-primary))]/5 to-[rgb(var(--color-accent))]/5 border border-[rgb(var(--color-border))]/30 rounded-lg p-6 md:p-8">
+				<div class="flex flex-col md:flex-row items-start gap-6 md:gap-8">
+					<div class="text-4xl md:text-5xl lg:text-6xl leading-none">
+						🗺️
+					</div>
+					<div class="flex-1 space-y-4">
+						<h3 class="text-xl md:text-2xl font-bold text-[rgb(var(--color-text))]">
+							Structured Journey Through Growth
+						</h3>
+						<p class="text-base md:text-lg text-[rgb(var(--color-text-muted))] leading-relaxed">
+							Explore posts organized by Maslow's hierarchy and thematic chapters. From foundations to transcendence, discover a path that mirrors human development and consciousness evolution.
+						</p>
+						<div class="flex flex-wrap items-center gap-4 text-sm text-[rgb(var(--color-text-muted))]">
+							<span class="flex items-center gap-2">
+								<span class="text-lg">📚</span>
+								9 chapters
+							</span>
+							<span class="flex items-center gap-2">
+								<span class="text-lg">🧠</span>
+								Maslow-based organization
+							</span>
+							<span class="flex items-center gap-2">
+								<span class="text-lg">🌱</span>
+								Progressive learning
+							</span>
+						</div>
+						<a href="/guided-path" class="btn-primary inline-flex items-center gap-2">
+							<span>Start Your Journey</span>
+							<span class="text-lg">→</span>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</Container>
+
 	{/* Category Highlights */}
 	{topCategories.length > 0 && (
 		<Container maxWidth="container" padding="none" class="mb-16 md:mb-20">
