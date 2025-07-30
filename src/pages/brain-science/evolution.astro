@@ -1,0 +1,410 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Container from '../../components/Container.astro';
+import { getCollection } from 'astro:content';
+import { categories } from '../../data/categories';
+import { getTagWeight, MASLOW_CATEGORIES } from '../../data/tags';
+import { format, startOfMonth, endOfMonth, eachMonthOfInterval } from 'date-fns';
+
+// Get all published posts
+const posts = await getCollection('blog', ({ data }) => {
+	return import.meta.env.PROD ? !data.draft && data.published : true;
+});
+
+// Sort posts by date
+const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+// Content evolution analysis
+const contentEvolution = posts.map(post => {
+	const content = post.body || '';
+	const wordCount = content.split(/\s+/).length;
+	const paragraphCount = content.split('\n\n').length;
+	const sentenceCount = content.split(/[.!?]+/).length - 1;
+	const averageSentenceLength = sentenceCount > 0 ? Math.round(wordCount / sentenceCount) : 0;
+	
+	// Calculate complexity score
+	const syllableCount = content.toLowerCase()
+		.replace(/[^a-z]/g, '')
+		.split('')
+		.filter(char => 'aeiou'.includes(char)).length;
+	const fleschScore = sentenceCount > 0 ? Math.round(206.835 - (1.015 * (wordCount / sentenceCount)) - (84.6 * (syllableCount / wordCount))) : 0;
+	
+	return {
+		title: post.data.title,
+		slug: post.id,
+		date: post.data.pubDate,
+		wordCount,
+		paragraphCount,
+		sentenceCount,
+		averageSentenceLength,
+		fleschScore,
+		readingTime: post.data.readingTime || Math.ceil(wordCount / 200),
+		tags: post.data.tags || [],
+		categories: post.data.category || [],
+		complexityScore: fleschScore + (wordCount / 100) + (paragraphCount * 2)
+	};
+});
+
+// Topic progression over time (by quarters)
+const quarters = [];
+const currentYear = new Date().getFullYear();
+const startYear = sortedPosts[sortedPosts.length - 1]?.data.pubDate.getFullYear() || currentYear;
+
+for (let year = startYear; year <= currentYear; year++) {
+	for (let quarter = 1; quarter <= 4; quarter++) {
+		const quarterStart = new Date(year, (quarter - 1) * 3, 1);
+		const quarterEnd = new Date(year, quarter * 3, 0);
+		
+		const quarterPosts = posts.filter(post => 
+			post.data.pubDate >= quarterStart && post.data.pubDate <= quarterEnd
+		);
+		
+		if (quarterPosts.length > 0) {
+			const quarterTags = quarterPosts.reduce((acc, post) => {
+				post.data.tags?.forEach(tag => {
+					acc[tag] = (acc[tag] || 0) + 1;
+				});
+				return acc;
+			}, {} as Record<string, number>);
+			
+			const quarterCategories = quarterPosts.reduce((acc, post) => {
+				post.data.category?.forEach(cat => {
+					acc[cat] = (acc[cat] || 0) + 1;
+				});
+				return acc;
+			}, {} as Record<string, number>);
+			
+			quarters.push({
+				year,
+				quarter,
+				label: `Q${quarter} ${year}`,
+				posts: quarterPosts.length,
+				topTags: Object.entries(quarterTags)
+					.sort(([,a], [,b]) => b - a)
+					.slice(0, 5)
+					.map(([tag, count]) => ({ tag, count, weight: getTagWeight(tag) })),
+				topCategories: Object.entries(quarterCategories)
+					.sort(([,a], [,b]) => b - a)
+					.slice(0, 3)
+					.map(([cat, count]) => ({ cat, count })),
+				avgWordCount: Math.round(quarterPosts.reduce((sum, post) => sum + (post.body || '').split(/\s+/).length, 0) / quarterPosts.length),
+				avgComplexity: Math.round(quarterPosts.reduce((sum, post) => {
+					const content = post.body || '';
+					const wordCount = content.split(/\s+/).length;
+					const sentenceCount = content.split(/[.!?]+/).length - 1;
+					const syllableCount = content.toLowerCase().replace(/[^a-z]/g, '').split('').filter(char => 'aeiou'.includes(char)).length;
+					const fleschScore = sentenceCount > 0 ? Math.round(206.835 - (1.015 * (wordCount / sentenceCount)) - (84.6 * (syllableCount / wordCount))) : 0;
+					return sum + fleschScore;
+				}, 0) / quarterPosts.length)
+			});
+		}
+	}
+}
+
+// Writing style evolution
+const styleEvolution = contentEvolution
+	.sort((a, b) => a.date.valueOf() - b.date.valueOf())
+	.map((post, index) => ({
+		...post,
+		trendIndex: index,
+		period: index < contentEvolution.length / 3 ? 'Early' : index < (contentEvolution.length * 2) / 3 ? 'Middle' : 'Recent'
+	}));
+
+// Topic diversity evolution
+const topicDiversity = quarters.map(quarter => ({
+	...quarter,
+	topicDiversity: quarter.topTags.length,
+	avgTagWeight: Math.round(quarter.topTags.reduce((sum, tag) => sum + tag.weight, 0) / quarter.topTags.length)
+}));
+
+// Category evolution
+const categoryEvolution = quarters.map(quarter => ({
+	...quarter,
+	categoryDiversity: quarter.topCategories.length,
+	primaryCategory: quarter.topCategories[0]?.cat || 'None'
+}));
+
+// Complexity trends
+const complexityTrends = styleEvolution.reduce((acc, post) => {
+	const period = post.period;
+	if (!acc[period]) {
+		acc[period] = [];
+	}
+	acc[period].push(post);
+	return acc;
+}, {} as Record<string, typeof styleEvolution>);
+
+const periodStats = Object.entries(complexityTrends).map(([period, posts]) => ({
+	period,
+	avgWordCount: Math.round(posts.reduce((sum, post) => sum + post.wordCount, 0) / posts.length),
+	avgComplexity: Math.round(posts.reduce((sum, post) => sum + post.fleschScore, 0) / posts.length),
+	avgReadingTime: Math.round(posts.reduce((sum, post) => sum + post.readingTime, 0) / posts.length),
+	postCount: posts.length
+}));
+
+// Most evolved topics (topics that have grown in frequency over time)
+const topicGrowth = {};
+const earlyQuarters = quarters.slice(0, Math.floor(quarters.length / 3));
+const recentQuarters = quarters.slice(-Math.floor(quarters.length / 3));
+
+// Compare early vs recent topic frequency
+const allTags = new Set();
+quarters.forEach(quarter => quarter.topTags.forEach(tag => allTags.add(tag.tag)));
+
+allTags.forEach(tag => {
+	const earlyCount = earlyQuarters.reduce((sum, quarter) => 
+		sum + (quarter.topTags.find(t => t.tag === tag)?.count || 0), 0);
+	const recentCount = recentQuarters.reduce((sum, quarter) => 
+		sum + (quarter.topTags.find(t => t.tag === tag)?.count || 0), 0);
+	
+	if (earlyCount > 0 || recentCount > 0) {
+		topicGrowth[tag] = {
+			tag,
+			earlyCount,
+			recentCount,
+			growth: recentCount - earlyCount,
+			growthRate: earlyCount > 0 ? ((recentCount - earlyCount) / earlyCount) * 100 : recentCount > 0 ? 100 : 0
+		};
+	}
+});
+
+const growingTopics = Object.values(topicGrowth)
+	.sort((a, b) => b.growthRate - a.growthRate)
+	.slice(0, 10);
+
+const decliningTopics = Object.values(topicGrowth)
+	.sort((a, b) => a.growthRate - b.growthRate)
+	.slice(0, 10);
+
+// Writing maturity indicators
+const maturityIndicators = contentEvolution.map(post => {
+	const content = post.body || '';
+	const hasCode = /```[\s\S]*```/.test(content) || /`[^`]+`/.test(content);
+	const hasLinks = /\[.*\]\(https?:\/\/.*\)/.test(content) || /https?:\/\/[^\s]+/.test(content);
+	const hasImages = /!\[.*\]\(.*\)/.test(content);
+	const hasQuotes = />\s+.+/.test(content);
+	
+	return {
+		...post,
+		hasCode,
+		hasLinks,
+		hasImages,
+		hasQuotes,
+		maturityScore: (hasCode ? 2 : 0) + (hasLinks ? 1 : 0) + (hasImages ? 1 : 0) + (hasQuotes ? 1 : 0) + (post.wordCount > 1000 ? 2 : 0)
+	};
+});
+
+const avgMaturityScore = Math.round(maturityIndicators.reduce((sum, post) => sum + post.maturityScore, 0) / maturityIndicators.length);
+---
+
+<BaseLayout
+	title="Content Evolution - Brain Science"
+	description="Analyzing my topic progression, writing style development, and intellectual growth over time."
+	path="/brain-science/evolution"
+	structuredDataType="website"
+>
+	<Container maxWidth="container" padding="none">
+		<div class="py-6 md:py-8 lg:py-12">
+			{/* Header */}
+			<div class="mb-8 md:mb-12">
+				<div class="flex items-center gap-4 mb-4">
+					<a href="/brain-science" class="text-[rgb(var(--color-text-muted))] hover:text-[rgb(var(--color-text))] transition-colors">
+						← Back to Brain Science
+					</a>
+				</div>
+				<h1 class="text-display text-[rgb(var(--color-text))] mb-4 md:mb-6" transition:name="page-title">
+					📈 <span class="highlight-primary">Content Evolution</span>
+				</h1>
+				<p class="text-body-large text-[rgb(var(--color-text-muted))] leading-relaxed" transition:name="page-description">
+					Understanding how my writing style, topics, and intellectual depth have evolved over time.
+				</p>
+			</div>
+
+			{/* Key Metrics */}
+			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
+					<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2">{quarters.length}</div>
+					<div class="text-sm text-[rgb(var(--color-text-muted))]">Quarters Analyzed</div>
+				</div>
+				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
+					<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2">{avgMaturityScore}</div>
+					<div class="text-sm text-[rgb(var(--color-text-muted))]">Avg Maturity Score</div>
+				</div>
+				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
+					<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2">{growingTopics.length}</div>
+					<div class="text-sm text-[rgb(var(--color-text-muted))]">Growing Topics</div>
+				</div>
+				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
+					<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2">{Math.round((quarters.length * 3) / 12)}</div>
+					<div class="text-sm text-[rgb(var(--color-text-muted))]">Years of Evolution</div>
+				</div>
+			</div>
+
+			{/* Writing Style Evolution */}
+			<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))] mb-8">
+				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">Writing Style Evolution by Period</h3>
+				<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+					{periodStats.map(period => (
+						<div class="p-4 bg-[rgb(var(--color-bg))] rounded-lg">
+							<div class="text-lg font-semibold text-[rgb(var(--color-text))] mb-4">{period.period} Period</div>
+							<div class="space-y-3">
+								<div class="flex justify-between">
+									<span class="text-sm text-[rgb(var(--color-text-muted))]">Avg Words:</span>
+									<span class="text-sm font-medium text-[rgb(var(--color-text))]">{period.avgWordCount}</span>
+								</div>
+								<div class="flex justify-between">
+									<span class="text-sm text-[rgb(var(--color-text-muted))]">Complexity:</span>
+									<span class="text-sm font-medium text-[rgb(var(--color-text))]">{period.avgComplexity}</span>
+								</div>
+								<div class="flex justify-between">
+									<span class="text-sm text-[rgb(var(--color-text-muted))]">Reading Time:</span>
+									<span class="text-sm font-medium text-[rgb(var(--color-text))]">{period.avgReadingTime} min</span>
+								</div>
+								<div class="flex justify-between">
+									<span class="text-sm text-[rgb(var(--color-text-muted))]">Posts:</span>
+									<span class="text-sm font-medium text-[rgb(var(--color-text))]">{period.postCount}</span>
+								</div>
+							</div>
+						</div>
+					))}
+				</div>
+			</div>
+
+			{/* Topic Growth Analysis */}
+			<div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
+					<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">Growing Topics</h3>
+					<div class="space-y-4">
+						{growingTopics.map((topic, index) => (
+							<div class="flex items-center justify-between p-3 bg-[rgb(var(--color-bg))] rounded-lg">
+								<div class="flex items-center gap-3">
+									<div class="text-lg font-bold text-green-500">#{index + 1}</div>
+									<div>
+										<div class="text-sm font-medium text-[rgb(var(--color-text))]">{topic.tag}</div>
+										<div class="text-xs text-[rgb(var(--color-text-muted))]">
+											{topic.earlyCount} → {topic.recentCount} posts
+										</div>
+									</div>
+								</div>
+								<div class="text-sm font-medium text-green-500">
+									+{Math.round(topic.growthRate)}%
+								</div>
+							</div>
+						))}
+					</div>
+				</div>
+
+				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
+					<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">Declining Topics</h3>
+					<div class="space-y-4">
+						{decliningTopics.map((topic, index) => (
+							<div class="flex items-center justify-between p-3 bg-[rgb(var(--color-bg))] rounded-lg">
+								<div class="flex items-center gap-3">
+									<div class="text-lg font-bold text-red-500">#{index + 1}</div>
+									<div>
+										<div class="text-sm font-medium text-[rgb(var(--color-text))]">{topic.tag}</div>
+										<div class="text-xs text-[rgb(var(--color-text-muted))]">
+											{topic.earlyCount} → {topic.recentCount} posts
+										</div>
+									</div>
+								</div>
+								<div class="text-sm font-medium text-red-500">
+									{Math.round(topic.growthRate)}%
+								</div>
+							</div>
+						))}
+					</div>
+				</div>
+			</div>
+
+			{/* Topic Evolution Timeline */}
+			<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))] mb-8">
+				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">Topic Evolution Timeline</h3>
+				<div class="space-y-6">
+					{quarters.slice(-8).map(quarter => (
+						<div class="p-4 bg-[rgb(var(--color-bg))] rounded-lg">
+							<div class="flex items-center justify-between mb-3">
+								<h4 class="text-sm font-medium text-[rgb(var(--color-text))]">{quarter.label}</h4>
+								<div class="text-xs text-[rgb(var(--color-text-muted))]">
+									{quarter.posts} posts • {quarter.avgWordCount} avg words • {quarter.avgComplexity} complexity
+								</div>
+							</div>
+							<div class="mb-3">
+								<div class="text-xs text-[rgb(var(--color-text-muted))] mb-2">Top Topics:</div>
+								<div class="flex flex-wrap gap-2">
+									{quarter.topTags.map(tag => (
+										<span class="text-xs bg-[rgb(var(--color-accent))] text-white px-2 py-1 rounded">
+											{tag.tag} ({tag.count})
+										</span>
+									))}
+								</div>
+							</div>
+							<div>
+								<div class="text-xs text-[rgb(var(--color-text-muted))] mb-2">Categories:</div>
+								<div class="flex flex-wrap gap-2">
+									{quarter.topCategories.map(cat => (
+										<span class="text-xs bg-[rgb(var(--color-bg-secondary))] text-[rgb(var(--color-text))] px-2 py-1 rounded border">
+											{cat.cat} ({cat.count})
+										</span>
+									))}
+								</div>
+							</div>
+						</div>
+					))}
+				</div>
+			</div>
+
+			{/* Complexity Trends */}
+			<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))] mb-8">
+				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">Complexity Trends</h3>
+				<div class="overflow-x-auto">
+					<div class="flex items-end gap-1 min-h-[200px]">
+						{quarters.map(quarter => (
+							<div class="flex flex-col items-center flex-1 min-w-0">
+								<div 
+									class="w-full bg-[rgb(var(--color-accent))] rounded-t transition-all hover:opacity-80"
+									style={`height: ${Math.max(20, (quarter.avgComplexity / Math.max(...quarters.map(q => q.avgComplexity))) * 150)}px`}
+									title={`${quarter.label}: ${quarter.avgComplexity} complexity`}
+								></div>
+								<div class="text-xs text-[rgb(var(--color-text-muted))] mt-2 text-center transform -rotate-45 origin-left">
+									{quarter.label}
+								</div>
+							</div>
+						))}
+					</div>
+				</div>
+			</div>
+
+			{/* Writing Maturity */}
+			<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
+				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">Writing Maturity Indicators</h3>
+				<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+					<div class="p-4 bg-[rgb(var(--color-bg))] rounded-lg text-center">
+						<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2">
+							{maturityIndicators.filter(post => post.hasCode).length}
+						</div>
+						<div class="text-sm text-[rgb(var(--color-text-muted))]">Posts with Code</div>
+					</div>
+					<div class="p-4 bg-[rgb(var(--color-bg))] rounded-lg text-center">
+						<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2">
+							{maturityIndicators.filter(post => post.hasLinks).length}
+						</div>
+						<div class="text-sm text-[rgb(var(--color-text-muted))]">Posts with Links</div>
+					</div>
+					<div class="p-4 bg-[rgb(var(--color-bg))] rounded-lg text-center">
+						<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2">
+							{maturityIndicators.filter(post => post.hasImages).length}
+						</div>
+						<div class="text-sm text-[rgb(var(--color-text-muted))]">Posts with Images</div>
+					</div>
+					<div class="p-4 bg-[rgb(var(--color-bg))] rounded-lg text-center">
+						<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2">
+							{maturityIndicators.filter(post => post.wordCount > 1000).length}
+						</div>
+						<div class="text-sm text-[rgb(var(--color-text-muted))]">Long-form Posts</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</Container>
+</BaseLayout> 

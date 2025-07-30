@@ -1,0 +1,336 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Container from '../../components/Container.astro';
+import { getCollection } from 'astro:content';
+import { format, startOfMonth, endOfMonth, eachMonthOfInterval, eachWeekOfInterval, eachDayOfInterval, getDay, getMonth, differenceInDays, differenceInWeeks } from 'date-fns';
+
+// Get all published posts
+const posts = await getCollection('blog', ({ data }) => {
+	return import.meta.env.PROD ? !data.draft && data.published : true;
+});
+
+// Sort posts by date
+const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+// Date range analysis
+const firstPostDate = sortedPosts[sortedPosts.length - 1]?.data.pubDate;
+const lastPostDate = sortedPosts[0]?.data.pubDate;
+
+// Monthly posting frequency
+const monthlyPosts = eachMonthOfInterval({
+	start: firstPostDate || new Date(),
+	end: lastPostDate || new Date()
+}).map(month => {
+	const monthStart = startOfMonth(month);
+	const monthEnd = endOfMonth(month);
+	const postsInMonth = posts.filter(post => 
+		post.data.pubDate >= monthStart && post.data.pubDate <= monthEnd
+	).length;
+	return {
+		month: format(month, 'yyyy-MM'),
+		label: format(month, 'MMM yyyy'),
+		count: postsInMonth,
+		date: month
+	};
+});
+
+// Weekly posting frequency
+const weeklyPosts = eachWeekOfInterval({
+	start: firstPostDate || new Date(),
+	end: lastPostDate || new Date()
+}).map(week => {
+	const weekStart = week;
+	const weekEnd = new Date(week.getTime() + 6 * 24 * 60 * 60 * 1000);
+	const postsInWeek = posts.filter(post => 
+		post.data.pubDate >= weekStart && post.data.pubDate <= weekEnd
+	).length;
+	return {
+		week: format(week, 'yyyy-MM-dd'),
+		label: format(week, 'MMM d'),
+		count: postsInWeek,
+		date: week
+	};
+});
+
+// Day of week analysis
+const dayOfWeekStats = [0, 1, 2, 3, 4, 5, 6].map(dayNum => {
+	const dayName = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][dayNum];
+	const postsOnDay = posts.filter(post => getDay(post.data.pubDate) === dayNum).length;
+	return {
+		day: dayNum,
+		name: dayName,
+		shortName: dayName.slice(0, 3),
+		count: postsOnDay,
+		percentage: Math.round((postsOnDay / posts.length) * 100)
+	};
+});
+
+// Month of year analysis
+const monthOfYearStats = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map(monthNum => {
+	const monthName = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'][monthNum];
+	const postsInMonth = posts.filter(post => getMonth(post.data.pubDate) === monthNum).length;
+	return {
+		month: monthNum,
+		name: monthName,
+		shortName: monthName.slice(0, 3),
+		count: postsInMonth,
+		percentage: Math.round((postsInMonth / posts.length) * 100)
+	};
+});
+
+// Writing streaks analysis
+const streaks: Array<{
+	start: Date;
+	end: Date;
+	length: number;
+	days: number;
+}> = [];
+let currentStreak = 0;
+let longestStreak = 0;
+let tempStreak = 0;
+let streakStart: Date | null = null;
+
+for (let i = 0; i < sortedPosts.length - 1; i++) {
+	const currentDate = sortedPosts[i].data.pubDate;
+	const nextDate = sortedPosts[i + 1].data.pubDate;
+	const daysDiff = differenceInDays(currentDate, nextDate);
+	
+	if (daysDiff <= 7) { // Consider posts within a week as a streak
+		if (tempStreak === 0) {
+			streakStart = currentDate;
+		}
+		tempStreak++;
+		longestStreak = Math.max(longestStreak, tempStreak);
+	} else {
+		if (tempStreak > 0 && streakStart) {
+			streaks.push({
+				start: streakStart,
+				end: currentDate,
+				length: tempStreak,
+				days: differenceInDays(currentDate, streakStart) + 1
+			});
+		}
+		tempStreak = 0;
+		streakStart = null;
+	}
+}
+
+// Add the last streak if it's still active
+if (tempStreak > 0 && streakStart) {
+	streaks.push({
+		start: streakStart,
+		end: sortedPosts[0].data.pubDate,
+		length: tempStreak,
+		days: differenceInDays(sortedPosts[0].data.pubDate, streakStart) + 1
+	});
+	currentStreak = tempStreak;
+}
+
+// Sort streaks by length
+const sortedStreaks = streaks.sort((a, b) => b.length - a.length);
+
+// Dry spells analysis
+const drySpells = [];
+for (let i = 0; i < sortedPosts.length - 1; i++) {
+	const currentDate = sortedPosts[i].data.pubDate;
+	const nextDate = sortedPosts[i + 1].data.pubDate;
+	const daysDiff = differenceInDays(currentDate, nextDate);
+	
+	if (daysDiff > 30) { // Consider gaps longer than 30 days as dry spells
+		drySpells.push({
+			start: nextDate,
+			end: currentDate,
+			days: daysDiff
+		});
+	}
+}
+
+const sortedDrySpells = drySpells.sort((a, b) => b.days - a.days);
+
+// Productivity periods (months with most posts)
+const productiveMonths = monthlyPosts
+	.filter(month => month.count > 0)
+	.sort((a, b) => b.count - a.count)
+	.slice(0, 5);
+
+// Recent activity (last 30 days)
+const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
+const recentPosts = posts.filter(post => post.data.pubDate >= thirtyDaysAgo);
+---
+
+<BaseLayout
+	title="Writing Cadence - Brain Science"
+	description="Analyzing my publishing patterns, writing streaks, and seasonal rhythms."
+	path="/brain-science/cadence"
+	structuredDataType="website"
+>
+	<Container maxWidth="container" padding="none">
+		<div class="py-6 md:py-8 lg:py-12">
+			{/* Header */}
+			<div class="mb-8 md:mb-12">
+				<div class="flex items-center gap-4 mb-4">
+					<a href="/brain-science" class="text-[rgb(var(--color-text-muted))] hover:text-[rgb(var(--color-text))] transition-colors">
+						← Back to Brain Science
+					</a>
+				</div>
+				<h1 class="text-display text-[rgb(var(--color-text))] mb-4 md:mb-6" transition:name="page-title">
+					📅 <span class="highlight-primary">Writing Cadence</span>
+				</h1>
+				<p class="text-body-large text-[rgb(var(--color-text-muted))] leading-relaxed" transition:name="page-description">
+					Understanding my publishing patterns, creative streaks, and the rhythms of my writing life.
+				</p>
+			</div>
+
+			{/* Key Metrics */}
+			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
+					<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2">{longestStreak}</div>
+					<div class="text-sm text-[rgb(var(--color-text-muted))]">Longest Streak</div>
+				</div>
+				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
+					<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2">{currentStreak}</div>
+					<div class="text-sm text-[rgb(var(--color-text-muted))]">Current Streak</div>
+				</div>
+				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
+					<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2">{sortedDrySpells[0]?.days || 0}</div>
+					<div class="text-sm text-[rgb(var(--color-text-muted))]">Longest Dry Spell</div>
+				</div>
+				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
+					<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2">{recentPosts.length}</div>
+					<div class="text-sm text-[rgb(var(--color-text-muted))]">Posts (30 days)</div>
+				</div>
+			</div>
+
+			{/* Monthly Activity Chart */}
+			<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))] mb-8">
+				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">Monthly Publishing Activity</h3>
+				<div class="overflow-x-auto">
+					<div class="flex items-end gap-1 min-h-[200px]">
+						{monthlyPosts.map(month => (
+							<div class="flex flex-col items-center flex-1 min-w-0">
+								<div 
+									class="w-full bg-[rgb(var(--color-accent))] rounded-t transition-all hover:opacity-80"
+									style={`height: ${Math.max(20, (month.count / Math.max(...monthlyPosts.map(m => m.count))) * 150)}px`}
+									title={`${month.label}: ${month.count} posts`}
+								></div>
+								<div class="text-xs text-[rgb(var(--color-text-muted))] mt-2 text-center transform -rotate-45 origin-left">
+									{month.label}
+								</div>
+							</div>
+						))}
+					</div>
+				</div>
+			</div>
+
+			{/* Day of Week Analysis */}
+			<div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
+					<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">Day of Week Preferences</h3>
+					<div class="space-y-4">
+						{dayOfWeekStats.map(day => (
+							<div class="flex items-center justify-between">
+								<span class="text-sm text-[rgb(var(--color-text))] font-medium w-20">{day.shortName}</span>
+								<div class="flex items-center gap-3 flex-1">
+									<div class="flex-1 bg-[rgb(var(--color-border))] rounded-full h-3">
+										<div 
+											class="bg-[rgb(var(--color-accent))] h-3 rounded-full transition-all" 
+											style={`width: ${(day.count / Math.max(...dayOfWeekStats.map(d => d.count))) * 100}%`}
+										></div>
+									</div>
+									<span class="text-xs text-[rgb(var(--color-text-muted))] w-8 text-right">{day.count}</span>
+								</div>
+							</div>
+						))}
+					</div>
+				</div>
+
+				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
+					<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">Seasonal Patterns</h3>
+					<div class="space-y-4">
+						{monthOfYearStats.map(month => (
+							<div class="flex items-center justify-between">
+								<span class="text-sm text-[rgb(var(--color-text))] font-medium w-20">{month.shortName}</span>
+								<div class="flex items-center gap-3 flex-1">
+									<div class="flex-1 bg-[rgb(var(--color-border))] rounded-full h-3">
+										<div 
+											class="bg-[rgb(var(--color-accent))] h-3 rounded-full transition-all" 
+											style={`width: ${(month.count / Math.max(...monthOfYearStats.map(m => m.count))) * 100}%`}
+										></div>
+									</div>
+									<span class="text-xs text-[rgb(var(--color-text-muted))] w-8 text-right">{month.count}</span>
+								</div>
+							</div>
+						))}
+					</div>
+				</div>
+			</div>
+
+			{/* Writing Streaks */}
+			<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))] mb-8">
+				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">Writing Streaks</h3>
+				<div class="space-y-4">
+					{sortedStreaks.slice(0, 10).map((streak, index) => (
+						<div class="flex items-center justify-between p-4 bg-[rgb(var(--color-bg))] rounded-lg">
+							<div class="flex items-center gap-4">
+								<div class="text-lg font-bold text-[rgb(var(--color-accent))]">#{index + 1}</div>
+								<div>
+									<div class="text-sm font-medium text-[rgb(var(--color-text))]">
+										{streak.length} posts in {streak.days} days
+									</div>
+									<div class="text-xs text-[rgb(var(--color-text-muted))]">
+										{format(streak.start, 'MMM d, yyyy')} - {format(streak.end, 'MMM d, yyyy')}
+									</div>
+								</div>
+							</div>
+							<div class="text-sm text-[rgb(var(--color-text-muted))]">
+								{Math.round((streak.length / streak.days) * 100) / 100} posts/day
+							</div>
+						</div>
+					))}
+				</div>
+			</div>
+
+			{/* Dry Spells */}
+			<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))] mb-8">
+				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">Longest Dry Spells</h3>
+				<div class="space-y-4">
+					{sortedDrySpells.slice(0, 5).map((spell, index) => (
+						<div class="flex items-center justify-between p-4 bg-[rgb(var(--color-bg))] rounded-lg">
+							<div class="flex items-center gap-4">
+								<div class="text-lg font-bold text-red-500">#{index + 1}</div>
+								<div>
+									<div class="text-sm font-medium text-[rgb(var(--color-text))]">
+										{spell.days} days without posting
+									</div>
+									<div class="text-xs text-[rgb(var(--color-text-muted))]">
+										{format(spell.start, 'MMM d, yyyy')} - {format(spell.end, 'MMM d, yyyy')}
+									</div>
+								</div>
+							</div>
+							<div class="text-sm text-[rgb(var(--color-text-muted))]">
+								{Math.round(spell.days / 7)} weeks
+							</div>
+						</div>
+					))}
+				</div>
+			</div>
+
+			{/* Most Productive Months */}
+			<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
+				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">Most Productive Months</h3>
+				<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+					{productiveMonths.map((month, index) => (
+						<div class="p-4 bg-[rgb(var(--color-bg))] rounded-lg">
+							<div class="flex items-center justify-between mb-2">
+								<span class="text-sm font-medium text-[rgb(var(--color-text))]">{month.label}</span>
+								<span class="text-lg font-bold text-[rgb(var(--color-accent))]">#{index + 1}</span>
+							</div>
+							<div class="text-2xl font-bold text-[rgb(var(--color-text))]">{month.count}</div>
+							<div class="text-xs text-[rgb(var(--color-text-muted))]">posts</div>
+						</div>
+					))}
+				</div>
+			</div>
+		</div>
+	</Container>
+</BaseLayout> 

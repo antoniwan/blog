@@ -1,0 +1,443 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Container from '../../components/Container.astro';
+import { getCollection } from 'astro:content';
+import { categories } from '../../data/categories';
+import { getTagWeight, MASLOW_CATEGORIES } from '../../data/tags';
+import { format, getDay, getMonth } from 'date-fns';
+
+// Get all published posts
+const posts = await getCollection('blog', ({ data }) => {
+	return import.meta.env.PROD ? !data.draft && data.published : true;
+});
+
+// Sort posts by date
+const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+// Content analysis
+const contentAnalysis = posts.map(post => {
+	const content = post.body || '';
+	const wordCount = content.split(/\s+/).length;
+	const paragraphCount = content.split('\n\n').length;
+	const sentenceCount = content.split(/[.!?]+/).length - 1;
+	const averageSentenceLength = sentenceCount > 0 ? Math.round(wordCount / sentenceCount) : 0;
+	
+	// Calculate complexity score
+	const syllableCount = content.toLowerCase()
+		.replace(/[^a-z]/g, '')
+		.split('')
+		.filter(char => 'aeiou'.includes(char)).length;
+	const fleschScore = sentenceCount > 0 ? Math.round(206.835 - (1.015 * (wordCount / sentenceCount)) - (84.6 * (syllableCount / wordCount))) : 0;
+	
+	// Calculate emotional intensity
+	const exclamationCount = (content.match(/!/g) || []).length;
+	const emotionalWords = ['love', 'hate', 'fear', 'joy', 'sadness', 'anger', 'peace', 'anxiety', 'hope', 'despair', 'gratitude', 'frustration'];
+	const emotionalWordCount = emotionalWords.reduce((count, word) => {
+		const regex = new RegExp(`\\b${word}\\b`, 'gi');
+		return count + (content.match(regex) || []).length;
+	}, 0);
+	const emotionalIntensity = exclamationCount + emotionalWordCount;
+	
+	return {
+		title: post.data.title,
+		slug: post.id,
+		date: post.data.pubDate,
+		dayOfWeek: getDay(post.data.pubDate),
+		month: getMonth(post.data.pubDate),
+		wordCount,
+		paragraphCount,
+		sentenceCount,
+		averageSentenceLength,
+		fleschScore,
+		emotionalIntensity,
+		readingTime: post.data.readingTime || Math.ceil(wordCount / 200),
+		tags: post.data.tags || [],
+		categories: post.data.category || [],
+		complexityScore: fleschScore + (wordCount / 100) + (paragraphCount * 2)
+	};
+});
+
+// Pattern analysis
+const patterns = {
+	// Day of week patterns
+	dayOfWeekPatterns: [0, 1, 2, 3, 4, 5, 6].map(dayNum => {
+		const dayName = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][dayNum];
+		const postsOnDay = contentAnalysis.filter(post => post.dayOfWeek === dayNum);
+		const avgWordCount = postsOnDay.length > 0 ? Math.round(postsOnDay.reduce((sum, post) => sum + post.wordCount, 0) / postsOnDay.length) : 0;
+		const avgEmotionalIntensity = postsOnDay.length > 0 ? Math.round(postsOnDay.reduce((sum, post) => sum + post.emotionalIntensity, 0) / postsOnDay.length) : 0;
+		
+		return {
+			day: dayNum,
+			name: dayName,
+			shortName: dayName.slice(0, 3),
+			postCount: postsOnDay.length,
+			avgWordCount,
+			avgEmotionalIntensity,
+			productivity: avgWordCount * postsOnDay.length
+		};
+	}),
+	
+	// Seasonal patterns
+	seasonalPatterns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map(monthNum => {
+		const monthName = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'][monthNum];
+		const postsInMonth = contentAnalysis.filter(post => post.month === monthNum);
+		const avgWordCount = postsInMonth.length > 0 ? Math.round(postsInMonth.reduce((sum, post) => sum + post.wordCount, 0) / postsInMonth.length) : 0;
+		const avgComplexity = postsInMonth.length > 0 ? Math.round(postsInMonth.reduce((sum, post) => sum + post.fleschScore, 0) / postsInMonth.length) : 0;
+		
+		return {
+			month: monthNum,
+			name: monthName,
+			shortName: monthName.slice(0, 3),
+			postCount: postsInMonth.length,
+			avgWordCount,
+			avgComplexity,
+			creativity: avgWordCount * avgComplexity
+		};
+	})
+};
+
+// Creative cycles analysis
+const creativeCycles = contentAnalysis
+	.sort((a, b) => a.date.valueOf() - b.date.valueOf())
+	.map((post, index) => ({
+		...post,
+		cycleIndex: index,
+		cyclePhase: index % 4, // 0: Inspiration, 1: Creation, 2: Reflection, 3: Rest
+		cyclePhaseName: ['Inspiration', 'Creation', 'Reflection', 'Rest'][index % 4],
+		momentum: index > 0 ? post.wordCount - contentAnalysis[index - 1].wordCount : 0
+	}));
+
+const cycleAnalysis = ['Inspiration', 'Creation', 'Reflection', 'Rest'].map(phase => {
+	const phasePosts = creativeCycles.filter(post => post.cyclePhaseName === phase);
+	return {
+		phase,
+		postCount: phasePosts.length,
+		avgWordCount: phasePosts.length > 0 ? Math.round(phasePosts.reduce((sum, post) => sum + post.wordCount, 0) / phasePosts.length) : 0,
+		avgEmotionalIntensity: phasePosts.length > 0 ? Math.round(phasePosts.reduce((sum, post) => sum + post.emotionalIntensity, 0) / phasePosts.length) : 0,
+		avgComplexity: phasePosts.length > 0 ? Math.round(phasePosts.reduce((sum, post) => sum + post.fleschScore, 0) / phasePosts.length) : 0
+	};
+});
+
+// Correlation analysis
+const correlations = {
+	// Word count vs emotional intensity
+	wordCountEmotional: contentAnalysis.reduce((acc, post) => {
+		const bucket = Math.floor(post.wordCount / 500) * 500;
+		if (!acc[bucket]) {
+			acc[bucket] = [];
+		}
+		acc[bucket].push(post.emotionalIntensity);
+		return acc;
+	}, {} as Record<number, number[]>),
+	
+	// Complexity vs day of week
+	complexityDayOfWeek: patterns.dayOfWeekPatterns.map(day => ({
+		day: day.name,
+		avgComplexity: contentAnalysis
+			.filter(post => post.dayOfWeek === day.day)
+			.reduce((sum, post) => sum + post.fleschScore, 0) / Math.max(1, day.postCount)
+	})),
+	
+	// Tag combinations and their impact on word count
+	tagCombinations: (() => {
+		const combinations: Record<string, { count: number; avgWordCount: number; posts: typeof contentAnalysis }> = {};
+		
+		contentAnalysis.forEach(post => {
+			const tags = post.tags.sort();
+			for (let i = 0; i < tags.length; i++) {
+				for (let j = i + 1; j < tags.length; j++) {
+					const combo = `${tags[i]}+${tags[j]}`;
+					if (!combinations[combo]) {
+						combinations[combo] = { count: 0, avgWordCount: 0, posts: [] };
+					}
+					combinations[combo].count++;
+					combinations[combo].posts.push(post);
+				}
+			}
+		});
+		
+		// Calculate averages
+		Object.keys(combinations).forEach(combo => {
+			const data = combinations[combo];
+			data.avgWordCount = Math.round(data.posts.reduce((sum, post) => sum + post.wordCount, 0) / data.count);
+		});
+		
+		return Object.entries(combinations)
+			.filter(([, data]) => data.count >= 2)
+			.sort(([, a], [, b]) => b.avgWordCount - a.avgWordCount)
+			.slice(0, 10);
+	})()
+};
+
+// Momentum patterns
+const momentumPatterns = creativeCycles.reduce((acc, post) => {
+	const momentum = post.momentum;
+	const bucket = Math.floor(momentum / 500) * 500;
+	if (!acc[bucket]) {
+		acc[bucket] = [];
+	}
+	acc[bucket].push(post);
+	return acc;
+}, {} as Record<number, typeof creativeCycles>);
+
+const momentumStats = Object.entries(momentumPatterns)
+	.map(([bucket, posts]) => ({
+		bucket: parseInt(bucket),
+		postCount: posts.length,
+		avgEmotionalIntensity: Math.round(posts.reduce((sum, post) => sum + post.emotionalIntensity, 0) / posts.length),
+		avgComplexity: Math.round(posts.reduce((sum, post) => sum + post.fleschScore, 0) / posts.length)
+	}))
+	.sort((a, b) => a.bucket - b.bucket);
+
+// Pattern insights
+const patternInsights = [
+	{
+		pattern: "Productivity by Day",
+		insight: patterns.dayOfWeekPatterns.sort((a, b) => b.productivity - a.productivity)[0]?.name || 'Unknown',
+		evidence: `${patterns.dayOfWeekPatterns.sort((a, b) => b.productivity - a.productivity)[0]?.postCount || 0} posts with highest avg word count`,
+		confidence: "High"
+	},
+	{
+		pattern: "Seasonal Creativity",
+		insight: patterns.seasonalPatterns.sort((a, b) => b.creativity - a.creativity)[0]?.name || 'Unknown',
+		evidence: `${patterns.seasonalPatterns.sort((a, b) => b.creativity - a.creativity)[0]?.postCount || 0} posts with highest creativity score`,
+		confidence: "Medium"
+	},
+	{
+		pattern: "Creative Cycle Phase",
+		insight: cycleAnalysis.sort((a, b) => b.avgWordCount - a.avgWordCount)[0]?.phase || 'Unknown',
+		evidence: `${cycleAnalysis.sort((a, b) => b.avgWordCount - a.avgWordCount)[0]?.postCount || 0} posts in most productive phase`,
+		confidence: "Medium"
+	},
+	{
+		pattern: "Tag Synergy",
+		insight: correlations.tagCombinations[0]?.[0] || 'None detected',
+		evidence: `${correlations.tagCombinations[0]?.[1].avgWordCount || 0} avg words when combined`,
+		confidence: "High"
+	}
+];
+
+// Most productive patterns
+const productivePatterns = contentAnalysis
+	.sort((a, b) => b.wordCount - a.wordCount)
+	.slice(0, 10)
+	.map(post => ({
+		...post,
+		pattern: `${post.wordCount > 1000 ? 'Long-form' : 'Short-form'} • ${post.emotionalIntensity > 5 ? 'Emotional' : 'Analytical'} • ${post.fleschScore > 50 ? 'Complex' : 'Simple'}`
+	}));
+---
+
+<BaseLayout
+	title="Pattern Recognition - Brain Science"
+	description="Analyzing correlations, creative cycles, and pattern recognition from my writing data."
+	path="/brain-science/patterns"
+	structuredDataType="website"
+>
+	<Container maxWidth="container" padding="none">
+		<div class="py-6 md:py-8 lg:py-12">
+			{/* Header */}
+			<div class="mb-8 md:mb-12">
+				<div class="flex items-center gap-4 mb-4">
+					<a href="/brain-science" class="text-[rgb(var(--color-text-muted))] hover:text-[rgb(var(--color-text))] transition-colors">
+						← Back to Brain Science
+					</a>
+				</div>
+				<h1 class="text-display text-[rgb(var(--color-text))] mb-4 md:mb-6" transition:name="page-title">
+					🌀 <span class="highlight-primary">Pattern Recognition</span>
+				</h1>
+				<p class="text-body-large text-[rgb(var(--color-text-muted))] leading-relaxed" transition:name="page-description">
+					Analyzing correlations, creative cycles, and pattern recognition from my writing data.
+				</p>
+			</div>
+
+			{/* Key Patterns */}
+			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
+					<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2">{patterns.dayOfWeekPatterns.length}</div>
+					<div class="text-sm text-[rgb(var(--color-text-muted))]">Day Patterns</div>
+				</div>
+				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
+					<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2">{patterns.seasonalPatterns.length}</div>
+					<div class="text-sm text-[rgb(var(--color-text-muted))]">Seasonal Patterns</div>
+				</div>
+				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
+					<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2">{cycleAnalysis.length}</div>
+					<div class="text-sm text-[rgb(var(--color-text-muted))]">Creative Cycles</div>
+				</div>
+				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
+					<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2">{correlations.tagCombinations.length}</div>
+					<div class="text-sm text-[rgb(var(--color-text-muted))]">Tag Correlations</div>
+				</div>
+			</div>
+
+			{/* Pattern Insights */}
+			<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))] mb-8">
+				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">Pattern Insights</h3>
+				<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+					{patternInsights.map((insight, index) => (
+						<div class="p-4 bg-[rgb(var(--color-bg))] rounded-lg">
+							<div class="flex items-center gap-3 mb-3">
+								<div class="text-lg font-bold text-[rgb(var(--color-accent))]">#{index + 1}</div>
+								<span class={`text-xs px-2 py-1 rounded ${
+									insight.confidence === 'High' ? 'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400' :
+									insight.confidence === 'Medium' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400' :
+									'bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400'
+								}`}>
+									{insight.confidence} Confidence
+								</span>
+							</div>
+							<div class="text-sm font-medium text-[rgb(var(--color-text))] mb-2">
+								{insight.pattern}: {insight.insight}
+							</div>
+							<div class="text-xs text-[rgb(var(--color-text-muted))]">
+								{insight.evidence}
+							</div>
+						</div>
+					))}
+				</div>
+			</div>
+
+			{/* Day of Week Patterns */}
+			<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))] mb-8">
+				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">Day of Week Patterns</h3>
+				<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+					{patterns.dayOfWeekPatterns.map(day => (
+						<div class="p-4 bg-[rgb(var(--color-bg))] rounded-lg">
+							<div class="text-lg font-semibold text-[rgb(var(--color-text))] mb-4">{day.name}</div>
+							<div class="space-y-3">
+								<div class="flex justify-between">
+									<span class="text-sm text-[rgb(var(--color-text-muted))]">Posts:</span>
+									<span class="text-sm font-medium text-[rgb(var(--color-text))]">{day.postCount}</span>
+								</div>
+								<div class="flex justify-between">
+									<span class="text-sm text-[rgb(var(--color-text-muted))]">Avg Words:</span>
+									<span class="text-sm font-medium text-[rgb(var(--color-text))]">{day.avgWordCount}</span>
+								</div>
+								<div class="flex justify-between">
+									<span class="text-sm text-[rgb(var(--color-text-muted))]">Emotional Intensity:</span>
+									<span class="text-sm font-medium text-[rgb(var(--color-text))]">{day.avgEmotionalIntensity}</span>
+								</div>
+								<div class="flex justify-between">
+									<span class="text-sm text-[rgb(var(--color-text-muted))]">Productivity:</span>
+									<span class="text-sm font-medium text-[rgb(var(--color-accent))]">{day.productivity}</span>
+								</div>
+							</div>
+						</div>
+					))}
+				</div>
+			</div>
+
+			{/* Seasonal Patterns */}
+			<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))] mb-8">
+				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">Seasonal Patterns</h3>
+				<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+					{patterns.seasonalPatterns.map(month => (
+						<div class="p-4 bg-[rgb(var(--color-bg))] rounded-lg">
+							<div class="text-lg font-semibold text-[rgb(var(--color-text))] mb-4">{month.name}</div>
+							<div class="space-y-3">
+								<div class="flex justify-between">
+									<span class="text-sm text-[rgb(var(--color-text-muted))]">Posts:</span>
+									<span class="text-sm font-medium text-[rgb(var(--color-text))]">{month.postCount}</span>
+								</div>
+								<div class="flex justify-between">
+									<span class="text-sm text-[rgb(var(--color-text-muted))]">Avg Words:</span>
+									<span class="text-sm font-medium text-[rgb(var(--color-text))]">{month.avgWordCount}</span>
+								</div>
+								<div class="flex justify-between">
+									<span class="text-sm text-[rgb(var(--color-text-muted))]">Complexity:</span>
+									<span class="text-sm font-medium text-[rgb(var(--color-text))]">{month.avgComplexity}</span>
+								</div>
+								<div class="flex justify-between">
+									<span class="text-sm text-[rgb(var(--color-text-muted))]">Creativity:</span>
+									<span class="text-sm font-medium text-[rgb(var(--color-accent))]">{month.creativity}</span>
+								</div>
+							</div>
+						</div>
+					))}
+				</div>
+			</div>
+
+			{/* Creative Cycles */}
+			<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))] mb-8">
+				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">Creative Cycle Analysis</h3>
+				<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+					{cycleAnalysis.map(cycle => (
+						<div class="p-4 bg-[rgb(var(--color-bg))] rounded-lg">
+							<div class="text-lg font-semibold text-[rgb(var(--color-text))] mb-4">{cycle.phase}</div>
+							<div class="space-y-3">
+								<div class="flex justify-between">
+									<span class="text-sm text-[rgb(var(--color-text-muted))]">Posts:</span>
+									<span class="text-sm font-medium text-[rgb(var(--color-text))]">{cycle.postCount}</span>
+								</div>
+								<div class="flex justify-between">
+									<span class="text-sm text-[rgb(var(--color-text-muted))]">Avg Words:</span>
+									<span class="text-sm font-medium text-[rgb(var(--color-text))]">{cycle.avgWordCount}</span>
+								</div>
+								<div class="flex justify-between">
+									<span class="text-sm text-[rgb(var(--color-text-muted))]">Emotional Intensity:</span>
+									<span class="text-sm font-medium text-[rgb(var(--color-text))]">{cycle.avgEmotionalIntensity}</span>
+								</div>
+								<div class="flex justify-between">
+									<span class="text-sm text-[rgb(var(--color-text-muted))]">Complexity:</span>
+									<span class="text-sm font-medium text-[rgb(var(--color-text))]">{cycle.avgComplexity}</span>
+								</div>
+							</div>
+						</div>
+					))}
+				</div>
+			</div>
+
+			{/* Tag Correlations */}
+			<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))] mb-8">
+				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">Tag Combination Correlations</h3>
+				<div class="space-y-4">
+					{correlations.tagCombinations.map(([combo, data], index) => (
+						<div class="flex items-center justify-between p-4 bg-[rgb(var(--color-bg))] rounded-lg">
+							<div class="flex items-center gap-4">
+								<div class="text-lg font-bold text-[rgb(var(--color-accent))]">#{index + 1}</div>
+								<div>
+									<div class="text-sm font-medium text-[rgb(var(--color-text))]">
+										{combo}
+									</div>
+									<div class="text-xs text-[rgb(var(--color-text-muted))]">
+										{data.count} posts with this combination
+									</div>
+								</div>
+							</div>
+							<div class="text-right">
+								<div class="text-sm font-medium text-[rgb(var(--color-text))]">{data.avgWordCount}</div>
+								<div class="text-xs text-[rgb(var(--color-text-muted))]">avg words</div>
+							</div>
+						</div>
+					))}
+				</div>
+			</div>
+
+			{/* Most Productive Patterns */}
+			<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
+				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">Most Productive Patterns</h3>
+				<div class="space-y-4">
+					{productivePatterns.map((post, index) => (
+						<div class="flex items-center justify-between p-4 bg-[rgb(var(--color-bg))] rounded-lg">
+							<div class="flex items-center gap-4">
+								<div class="text-lg font-bold text-[rgb(var(--color-accent))]">#{index + 1}</div>
+								<div>
+									<div class="text-sm font-medium text-[rgb(var(--color-text))]">
+										{post.title}
+									</div>
+									<div class="text-xs text-[rgb(var(--color-text-muted))]">
+										{format(post.date, 'MMM d, yyyy')} • {post.pattern}
+									</div>
+								</div>
+							</div>
+							<div class="text-right">
+								<div class="text-sm font-medium text-[rgb(var(--color-text))]">{post.wordCount}</div>
+								<div class="text-xs text-[rgb(var(--color-text-muted))]">words</div>
+							</div>
+						</div>
+					))}
+				</div>
+			</div>
+		</div>
+	</Container>
+</BaseLayout> 
