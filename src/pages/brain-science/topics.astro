@@ -198,7 +198,7 @@ const { insights, summary } = generateDynamicInsights(insightData, 'topics');
 	<Container>
 		<Container maxWidth="container" padding="none">
 			{/* Breadcrumbs */}
-			<div class="mb-6">
+			<div class="mb-6 hidden md:block">
 				<Breadcrumbs 
 					items={[
 						{ label: "Home", href: "/" },
@@ -212,7 +212,7 @@ const { insights, summary } = generateDynamicInsights(insightData, 'topics');
 				{/* Header */}
 				<div class="mb-8 md:mb-12">
 					<h1 class="text-display text-[rgb(var(--color-text))] mb-4 md:mb-6" transition:name="page-title">
-						🏷️ <span class="highlight-primary">Topic Analysis</span>
+						🏷️ <span class="highlight-accent">Topic Analysis</span>
 					</h1>
 					<p class="text-body-large text-[rgb(var(--color-text-muted))] leading-relaxed" transition:name="page-description">
 						Understanding my writing themes, tag relationships, and how my interests evolve over time.

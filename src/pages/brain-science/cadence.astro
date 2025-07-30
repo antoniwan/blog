@@ -199,7 +199,7 @@ const { insights, summary } = generateDynamicInsights(insightData, 'cadence');
 	<Container>
 		<Container maxWidth="container" padding="none">
 			{/* Breadcrumbs */}
-			<div class="mb-6">
+			<div class="mb-6 hidden md:block">
 				<Breadcrumbs 
 					items={[
 						{ label: "Home", href: "/" },
@@ -213,7 +213,7 @@ const { insights, summary } = generateDynamicInsights(insightData, 'cadence');
 				{/* Header */}
 				<div class="mb-8 md:mb-12">
 					<h1 class="text-display text-[rgb(var(--color-text))] mb-4 md:mb-6" transition:name="page-title">
-						📅 <span class="highlight-primary">Writing Cadence</span>
+						📅 <span class="highlight-accent">Writing Cadence</span>
 					</h1>
 					<p class="text-body-large text-[rgb(var(--color-text-muted))] leading-relaxed" transition:name="page-description">
 						Understanding my publishing patterns, creative streaks, and the rhythms of my writing life.

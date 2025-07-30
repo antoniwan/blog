@@ -263,7 +263,7 @@ const { insights, summary } = generateDynamicInsights(insightData, 'patterns');
 	<Container>
 		<Container maxWidth="container" padding="none">
 			{/* Breadcrumbs */}
-			<div class="mb-6">
+			<div class="mb-6 hidden md:block">
 				<Breadcrumbs 
 					items={[
 						{ label: "Home", href: "/" },
@@ -277,7 +277,7 @@ const { insights, summary } = generateDynamicInsights(insightData, 'patterns');
 				{/* Header */}
 				<div class="mb-8 md:mb-12">
 					<h1 class="text-display text-[rgb(var(--color-text))] mb-4 md:mb-6" transition:name="page-title">
-						🌀 <span class="highlight-primary">Pattern Recognition</span>
+						🌀 <span class="highlight-accent">Pattern Recognition</span>
 					</h1>
 					<p class="text-body-large text-[rgb(var(--color-text-muted))] leading-relaxed" transition:name="page-description">
 						Analyzing correlations, creative cycles, and pattern recognition from my writing data.

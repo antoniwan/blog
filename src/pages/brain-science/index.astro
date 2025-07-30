@@ -116,7 +116,7 @@ currentStreak = tempStreak;
 	<Container>
 		<Container maxWidth="container" padding="none">
 			{/* Breadcrumbs */}
-			<div class="mb-6">
+			<div class="mb-6 hidden md:block">
 				<Breadcrumbs 
 					items={[
 						{ label: "Home", href: "/" },
@@ -174,78 +174,132 @@ currentStreak = tempStreak;
 				</div>
 
 				{/* Navigation Cards */}
-				<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-					<a href="/brain-science/cadence" class="group">
-						<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))] hover:border-[rgb(var(--color-accent))] transition-colors">
-							<div class="text-2xl mb-3">📅</div>
-							<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-2 group-hover:text-[rgb(var(--color-accent))] transition-colors">
-								Writing Cadence
-							</h3>
-							<p class="text-sm text-[rgb(var(--color-text-muted))]">
-								Publishing patterns, streaks, and seasonal rhythms
-							</p>
-						</div>
-					</a>
+				<div class="bg-gradient-to-br from-[rgb(var(--color-accent))]/5 via-[rgb(var(--color-accent))]/3 to-transparent rounded-xl p-6 border border-[rgb(var(--color-accent))]/20 mb-8">
+					<h2 class="text-xl font-semibold text-[rgb(var(--color-text))] mb-6 flex items-center gap-2">
+						<span class="text-[rgb(var(--color-accent))]">🧭</span>
+						Explore Brain Science Sections
+					</h2>
+					<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+						<a href="/brain-science/cadence" class="group block">
+							<div class="bg-[rgb(var(--color-bg))] rounded-lg p-6 border-2 border-[rgb(var(--color-border))] hover:border-[rgb(var(--color-accent))] hover:shadow-lg hover:shadow-[rgb(var(--color-accent))]/20 hover:-translate-y-1 transition-all duration-200 cursor-pointer relative overflow-hidden">
+								{/* Subtle gradient overlay on hover */}
+								<div class="absolute inset-0 bg-gradient-to-br from-[rgb(var(--color-accent))]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
+								{/* Arrow indicator */}
+								<div class="absolute top-4 right-4 text-[rgb(var(--color-accent))] opacity-0 group-hover:opacity-100 transition-opacity duration-200 transform translate-x-2 group-hover:translate-x-0">
+									→
+								</div>
+								<div class="relative">
+									<div class="text-2xl mb-3">📅</div>
+									<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-2 group-hover:text-[rgb(var(--color-accent))] transition-colors">
+										Writing Cadence
+									</h3>
+									<p class="text-sm text-[rgb(var(--color-text-muted))] group-hover:text-[rgb(var(--color-text))] transition-colors">
+										Publishing patterns, streaks, and seasonal rhythms
+									</p>
+								</div>
+							</div>
+						</a>
 
-					<a href="/brain-science/evolution" class="group">
-						<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))] hover:border-[rgb(var(--color-accent))] transition-colors">
-							<div class="text-2xl mb-3">📈</div>
-							<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-2 group-hover:text-[rgb(var(--color-accent))] transition-colors">
-								Content Evolution
-							</h3>
-							<p class="text-sm text-[rgb(var(--color-text-muted))]">
-								Topic progression and writing style development
-							</p>
-						</div>
-					</a>
+						<a href="/brain-science/evolution" class="group block">
+							<div class="bg-[rgb(var(--color-bg))] rounded-lg p-6 border-2 border-[rgb(var(--color-border))] hover:border-[rgb(var(--color-accent))] hover:shadow-lg hover:shadow-[rgb(var(--color-accent))]/20 hover:-translate-y-1 transition-all duration-200 cursor-pointer relative overflow-hidden">
+								{/* Subtle gradient overlay on hover */}
+								<div class="absolute inset-0 bg-gradient-to-br from-[rgb(var(--color-accent))]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
+								{/* Arrow indicator */}
+								<div class="absolute top-4 right-4 text-[rgb(var(--color-accent))] opacity-0 group-hover:opacity-100 transition-opacity duration-200 transform translate-x-2 group-hover:translate-x-0">
+									→
+								</div>
+								<div class="relative">
+									<div class="text-2xl mb-3">📈</div>
+									<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-2 group-hover:text-[rgb(var(--color-accent))] transition-colors">
+										Content Evolution
+									</h3>
+									<p class="text-sm text-[rgb(var(--color-text-muted))] group-hover:text-[rgb(var(--color-text))] transition-colors">
+										Topic progression and writing style development
+									</p>
+								</div>
+							</div>
+						</a>
 
-					<a href="/brain-science/topics" class="group">
-						<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))] hover:border-[rgb(var(--color-accent))] transition-colors">
-							<div class="text-2xl mb-3">🏷️</div>
-							<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-2 group-hover:text-[rgb(var(--color-accent))] transition-colors">
-								Topic Analysis
-							</h3>
-							<p class="text-sm text-[rgb(var(--color-text-muted))]">
-								Tag frequency, category distribution, and theme relationships
-							</p>
-						</div>
-					</a>
+						<a href="/brain-science/topics" class="group block">
+							<div class="bg-[rgb(var(--color-bg))] rounded-lg p-6 border-2 border-[rgb(var(--color-border))] hover:border-[rgb(var(--color-accent))] hover:shadow-lg hover:shadow-[rgb(var(--color-accent))]/20 hover:-translate-y-1 transition-all duration-200 cursor-pointer relative overflow-hidden">
+								{/* Subtle gradient overlay on hover */}
+								<div class="absolute inset-0 bg-gradient-to-br from-[rgb(var(--color-accent))]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
+								{/* Arrow indicator */}
+								<div class="absolute top-4 right-4 text-[rgb(var(--color-accent))] opacity-0 group-hover:opacity-100 transition-opacity duration-200 transform translate-x-2 group-hover:translate-x-0">
+									→
+								</div>
+								<div class="relative">
+									<div class="text-2xl mb-3">🏷️</div>
+									<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-2 group-hover:text-[rgb(var(--color-accent))] transition-colors">
+										Topic Analysis
+									</h3>
+									<p class="text-sm text-[rgb(var(--color-text-muted))] group-hover:text-[rgb(var(--color-text))] transition-colors">
+										Tag frequency, category distribution, and theme relationships
+									</p>
+								</div>
+							</div>
+						</a>
 
-					<a href="/brain-science/meta" class="group">
-						<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))] hover:border-[rgb(var(--color-accent))] transition-colors">
-							<div class="text-2xl mb-3">🔍</div>
-							<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-2 group-hover:text-[rgb(var(--color-accent))] transition-colors">
-								Meta Analysis
-							</h3>
-							<p class="text-sm text-[rgb(var(--color-text-muted))]">
-								Self-referential patterns and content depth analysis
-							</p>
-						</div>
-					</a>
+						<a href="/brain-science/meta" class="group block">
+							<div class="bg-[rgb(var(--color-bg))] rounded-lg p-6 border-2 border-[rgb(var(--color-border))] hover:border-[rgb(var(--color-accent))] hover:shadow-lg hover:shadow-[rgb(var(--color-accent))]/20 hover:-translate-y-1 transition-all duration-200 cursor-pointer relative overflow-hidden">
+								{/* Subtle gradient overlay on hover */}
+								<div class="absolute inset-0 bg-gradient-to-br from-[rgb(var(--color-accent))]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
+								{/* Arrow indicator */}
+								<div class="absolute top-4 right-4 text-[rgb(var(--color-accent))] opacity-0 group-hover:opacity-100 transition-opacity duration-200 transform translate-x-2 group-hover:translate-x-0">
+									→
+								</div>
+								<div class="relative">
+									<div class="text-2xl mb-3">🔍</div>
+									<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-2 group-hover:text-[rgb(var(--color-accent))] transition-colors">
+										Meta Analysis
+									</h3>
+									<p class="text-sm text-[rgb(var(--color-text-muted))] group-hover:text-[rgb(var(--color-text))] transition-colors">
+										Self-referential patterns and content depth analysis
+									</p>
+								</div>
+							</div>
+						</a>
 
-					<a href="/brain-science/insights" class="group">
-						<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))] hover:border-[rgb(var(--color-accent))] transition-colors">
-							<div class="text-2xl mb-3">💡</div>
-							<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-2 group-hover:text-[rgb(var(--color-accent))] transition-colors">
-								Personal Insights
-							</h3>
-							<p class="text-sm text-[rgb(var(--color-text-muted))]">
-								Creative patterns and intellectual growth trends
-							</p>
-						</div>
-					</a>
+						<a href="/brain-science/insights" class="group block">
+							<div class="bg-[rgb(var(--color-bg))] rounded-lg p-6 border-2 border-[rgb(var(--color-border))] hover:border-[rgb(var(--color-accent))] hover:shadow-lg hover:shadow-[rgb(var(--color-accent))]/20 hover:-translate-y-1 transition-all duration-200 cursor-pointer relative overflow-hidden">
+								{/* Subtle gradient overlay on hover */}
+								<div class="absolute inset-0 bg-gradient-to-br from-[rgb(var(--color-accent))]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
+								{/* Arrow indicator */}
+								<div class="absolute top-4 right-4 text-[rgb(var(--color-accent))] opacity-0 group-hover:opacity-100 transition-opacity duration-200 transform translate-x-2 group-hover:translate-x-0">
+									→
+								</div>
+								<div class="relative">
+									<div class="text-2xl mb-3">💡</div>
+									<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-2 group-hover:text-[rgb(var(--color-accent))] transition-colors">
+										Personal Insights
+									</h3>
+									<p class="text-sm text-[rgb(var(--color-text-muted))] group-hover:text-[rgb(var(--color-text))] transition-colors">
+										Creative patterns and intellectual growth trends
+									</p>
+								</div>
+							</div>
+						</a>
 
-					<a href="/brain-science/patterns" class="group">
-						<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))] hover:border-[rgb(var(--color-accent))] transition-colors">
-							<div class="text-2xl mb-3">🌀</div>
-							<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-2 group-hover:text-[rgb(var(--color-accent))] transition-colors">
-								Pattern Recognition
-							</h3>
-							<p class="text-sm text-[rgb(var(--color-text-muted))]">
-								Correlations and creative cycle analysis
-							</p>
-						</div>
-					</a>
+						<a href="/brain-science/patterns" class="group block">
+							<div class="bg-[rgb(var(--color-bg))] rounded-lg p-6 border-2 border-[rgb(var(--color-border))] hover:border-[rgb(var(--color-accent))] hover:shadow-lg hover:shadow-[rgb(var(--color-accent))]/20 hover:-translate-y-1 transition-all duration-200 cursor-pointer relative overflow-hidden">
+								{/* Subtle gradient overlay on hover */}
+								<div class="absolute inset-0 bg-gradient-to-br from-[rgb(var(--color-accent))]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
+								{/* Arrow indicator */}
+								<div class="absolute top-4 right-4 text-[rgb(var(--color-accent))] opacity-0 group-hover:opacity-100 transition-opacity duration-200 transform translate-x-2 group-hover:translate-x-0">
+									→
+								</div>
+								<div class="relative">
+									<div class="text-2xl mb-3">🌀</div>
+									<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-2 group-hover:text-[rgb(var(--color-accent))] transition-colors">
+										Pattern Recognition
+									</h3>
+									<p class="text-sm text-[rgb(var(--color-text-muted))] group-hover:text-[rgb(var(--color-text))] transition-colors">
+										Correlations and creative cycle analysis
+									</p>
+								</div>
+							</div>
+						</a>
+					</div>
 				</div>
 
 				{/* Quick Stats */}
