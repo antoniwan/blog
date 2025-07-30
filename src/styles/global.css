@@ -401,6 +401,10 @@
     @apply bg-[rgb(var(--color-accent))] text-white px-2 py-1 rounded font-semibold;
   }
 
+  .highlight-brain {
+    @apply bg-purple-600 text-white px-2 py-1 rounded font-semibold;
+  }
+
   /* Status utilities */
   .status-success {
     @apply text-[rgb(var(--color-success))] font-semibold;

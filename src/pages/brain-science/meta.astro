@@ -1,0 +1,448 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Container from '../../components/Container.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { getCollection } from 'astro:content';
+import { format } from 'date-fns';
+import { generateDynamicInsights } from '../../utils/insightGenerator';
+
+// Get all published posts
+const posts = await getCollection('blog', ({ data }) => {
+	return import.meta.env.PROD ? !data.draft && data.published : true;
+});
+
+// Sort posts by date
+const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+// Content depth analysis
+const contentAnalysis = posts.map(post => {
+	const content = post.body || '';
+	const wordCount = content.split(/\s+/).length;
+	const paragraphCount = content.split('\n\n').length;
+	const sentenceCount = content.split(/[.!?]+/).length - 1;
+	const averageSentenceLength = sentenceCount > 0 ? Math.round(wordCount / sentenceCount) : 0;
+	const averageParagraphLength = paragraphCount > 0 ? Math.round(wordCount / paragraphCount) : 0;
+	
+	// Calculate reading complexity (simple Flesch-Kincaid approximation)
+	const syllableCount = content.toLowerCase()
+		.replace(/[^a-z]/g, '')
+		.split('')
+		.filter(char => 'aeiou'.includes(char)).length;
+	const fleschScore = sentenceCount > 0 ? Math.round(206.835 - (1.015 * (wordCount / sentenceCount)) - (84.6 * (syllableCount / wordCount))) : 0;
+	
+	return {
+		title: post.data.title,
+		slug: post.id,
+		date: post.data.pubDate,
+		wordCount,
+		paragraphCount,
+		sentenceCount,
+		averageSentenceLength,
+		averageParagraphLength,
+		fleschScore,
+		readingTime: post.data.readingTime || Math.ceil(wordCount / 200),
+		tags: post.data.tags || [],
+		categories: post.data.category || []
+	};
+});
+
+// Cross-reference analysis
+const crossReferences = [];
+posts.forEach(post => {
+	const content = post.body || '';
+	const title = post.data.title;
+	
+	// Find references to other posts by title
+	posts.forEach(otherPost => {
+		if (otherPost.id !== post.id) {
+			const otherTitle = otherPost.data.title;
+			// Simple title matching (could be improved with fuzzy matching)
+			if (content.toLowerCase().includes(otherTitle.toLowerCase())) {
+				crossReferences.push({
+					from: {
+						title: title,
+						slug: post.id,
+						date: post.data.pubDate
+					},
+					to: {
+						title: otherTitle,
+						slug: otherPost.id,
+						date: otherPost.data.pubDate
+					},
+					type: 'title-reference'
+				});
+			}
+		}
+	});
+});
+
+// Self-referential posts (posts that reference themselves or are about writing)
+const selfReferentialPosts = posts.filter(post => {
+	const content = post.body || '';
+	const title = post.data.title.toLowerCase();
+	const tags = post.data.tags || [];
+	
+	// Check for writing-related content
+	const writingKeywords = ['writing', 'blog', 'post', 'journal', 'thoughts', 'reflection', 'thinking'];
+	const hasWritingKeywords = writingKeywords.some(keyword => 
+		title.includes(keyword) || content.toLowerCase().includes(keyword)
+	);
+	
+	// Check for meta tags
+	const metaTags = ['metaspace', 'self-reflection', 'consciousness', 'philosophy'];
+	const hasMetaTags = metaTags.some(tag => tags.includes(tag));
+	
+	return hasWritingKeywords || hasMetaTags;
+}).map(post => ({
+	title: post.data.title,
+	slug: post.id,
+	date: post.data.pubDate,
+	wordCount: (post.body || '').split(/\s+/).length,
+	tags: post.data.tags || [],
+	reason: 'writing-related'
+}));
+
+// Content depth trends over time
+const depthTrends = contentAnalysis
+	.sort((a, b) => a.date.valueOf() - b.date.valueOf())
+	.map((post, index) => ({
+		...post,
+		trendIndex: index,
+		complexityScore: post.fleschScore + (post.wordCount / 100) + (post.paragraphCount * 2)
+	}));
+
+// Most complex posts
+const mostComplexPosts = contentAnalysis
+	.sort((a, b) => b.wordCount - a.wordCount)
+	.slice(0, 10);
+
+// Reading time analysis
+const readingTimeStats = contentAnalysis.reduce((acc, post) => {
+	const time = post.readingTime;
+	if (!acc[time]) {
+		acc[time] = 0;
+	}
+	acc[time]++;
+	return acc;
+}, {} as Record<number, number>);
+
+const averageReadingTime = Math.round(
+	contentAnalysis.reduce((sum, post) => sum + post.readingTime, 0) / contentAnalysis.length
+);
+
+// Writing style analysis
+const styleAnalysis = {
+	averageWordsPerPost: Math.round(contentAnalysis.reduce((sum, post) => sum + post.wordCount, 0) / contentAnalysis.length),
+	averageSentencesPerPost: Math.round(contentAnalysis.reduce((sum, post) => sum + post.sentenceCount, 0) / contentAnalysis.length),
+	averageParagraphsPerPost: Math.round(contentAnalysis.reduce((sum, post) => sum + post.paragraphCount, 0) / contentAnalysis.length),
+	averageSentenceLength: Math.round(contentAnalysis.reduce((sum, post) => sum + post.averageSentenceLength, 0) / contentAnalysis.length),
+	averageParagraphLength: Math.round(contentAnalysis.reduce((sum, post) => sum + post.averageParagraphLength, 0) / contentAnalysis.length),
+	averageFleschScore: Math.round(contentAnalysis.reduce((sum, post) => sum + post.fleschScore, 0) / contentAnalysis.length)
+};
+
+// Content evolution analysis
+const evolutionQuarters = [];
+const currentYear = new Date().getFullYear();
+const startYear = sortedPosts[sortedPosts.length - 1]?.data.pubDate.getFullYear() || currentYear;
+
+for (let year = startYear; year <= currentYear; year++) {
+	for (let quarter = 1; quarter <= 4; quarter++) {
+		const quarterStart = new Date(year, (quarter - 1) * 3, 1);
+		const quarterEnd = new Date(year, quarter * 3, 0);
+		
+		const quarterPosts = contentAnalysis.filter(post => 
+			post.date >= quarterStart && post.date <= quarterEnd
+		);
+		
+		if (quarterPosts.length > 0) {
+			evolutionQuarters.push({
+				year,
+				quarter,
+				label: `Q${quarter} ${year}`,
+				posts: quarterPosts.length,
+				avgWordCount: Math.round(quarterPosts.reduce((sum, post) => sum + post.wordCount, 0) / quarterPosts.length),
+				avgReadingTime: Math.round(quarterPosts.reduce((sum, post) => sum + post.readingTime, 0) / quarterPosts.length),
+				avgComplexity: Math.round(quarterPosts.reduce((sum, post) => sum + post.fleschScore, 0) / quarterPosts.length)
+			});
+		}
+	}
+}
+
+// External link patterns (simple detection)
+const externalLinkPosts = posts.filter(post => {
+	const content = post.body || '';
+	// Look for markdown links or URLs
+	return /\[.*\]\(https?:\/\/.*\)/.test(content) || /https?:\/\/[^\s]+/.test(content);
+}).map(post => ({
+	title: post.data.title,
+	slug: post.id,
+	date: post.data.pubDate,
+	wordCount: (post.body || '').split(/\s+/).length,
+	hasExternalLinks: true
+}));
+
+// Code snippet usage
+const codeSnippetPosts = posts.filter(post => {
+	const content = post.body || '';
+	// Look for code blocks or inline code
+	return /```[\s\S]*```/.test(content) || /`[^`]+`/.test(content);
+}).map(post => ({
+	title: post.data.title,
+	slug: post.id,
+	date: post.data.pubDate,
+	wordCount: (post.body || '').split(/\s+/).length,
+	hasCodeSnippets: true
+}));
+
+// Generate dynamic insights
+const insightData = {
+	totalPosts: posts.length,
+	totalWords: posts.reduce((sum, post) => sum + (post.body || '').split(/\s+/).length, 0),
+	avgWordsPerPost: Math.round(posts.reduce((sum, post) => sum + (post.body || '').split(/\s+/).length, 0) / posts.length),
+	topTags: Object.entries(posts.reduce((acc, post) => {
+		post.data.tags?.forEach(tag => {
+			acc[tag] = (acc[tag] || 0) + 1;
+		});
+		return acc;
+	}, {} as Record<string, number>))
+		.sort(([,a], [,b]) => b - a)
+		.slice(0, 5)
+		.map(([tag, count]) => ({ tag, count })),
+	emotionalPosts: 0, // Not calculated for meta
+	growthPosts: 0, // Not calculated for meta
+	complexityTrend: 'stable' as const, // Not calculated for meta
+	productivityTrend: 'stable' as const, // Not calculated for meta
+	knowledgeAreas: [],
+	writingStreaks: [],
+	drySpells: []
+};
+
+const { insights, summary } = generateDynamicInsights(insightData, 'meta');
+---
+
+<BaseLayout
+	title="Meta Analysis - Brain Science"
+	description="Analyzing self-referential patterns, content depth, and writing style evolution."
+	path="/brain-science/meta"
+	structuredDataType="website"
+>
+	<Container>
+		<Container maxWidth="container" padding="none">
+			{/* Breadcrumbs */}
+			<div class="mb-6 hidden md:block">
+				<Breadcrumbs 
+					items={[
+						{ label: "Home", href: "/" },
+						{ label: "Brain Science", href: "/brain-science" },
+						{ label: "Meta Analysis" }
+					]} 
+				/>
+			</div>
+
+			<div class="py-6 md:py-8 lg:py-12">
+				{/* Header */}
+				<div class="mb-8 md:mb-12">
+					<h1 class="text-display text-[rgb(var(--color-text))] mb-4 md:mb-6" transition:name="page-title">
+						🔍 <span class="highlight-accent">Meta Analysis</span>
+					</h1>
+					<p class="text-body-large text-[rgb(var(--color-text-muted))] leading-relaxed" transition:name="page-description">
+						Understanding my writing style, content depth, and self-referential patterns.
+					</p>
+				</div>
+
+			{/* Key Metrics */}
+			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
+					<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Average words per post across all published posts">{styleAnalysis.averageWordsPerPost}</div>
+					<div class="text-sm text-[rgb(var(--color-text-muted))]">Avg Words/Post</div>
+				</div>
+				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
+					<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Average estimated reading time per post (calculated as word count / 200)">{averageReadingTime}</div>
+					<div class="text-sm text-[rgb(var(--color-text-muted))]">Avg Reading Time</div>
+				</div>
+				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
+					<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Average Flesch reading ease score (higher = easier to read)">{styleAnalysis.averageFleschScore}</div>
+					<div class="text-sm text-[rgb(var(--color-text-muted))]">Avg Complexity</div>
+				</div>
+				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
+					<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Number of posts that reference other posts by title">{crossReferences.length}</div>
+					<div class="text-sm text-[rgb(var(--color-text-muted))]">Cross-References</div>
+				</div>
+			</div>
+
+			{/* Writing Style Analysis */}
+			<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))] mb-8">
+				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">Writing Style Metrics</h3>
+				<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+					<div class="p-4 bg-[rgb(var(--color-bg))] rounded-lg">
+						<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Average number of sentences per post">{styleAnalysis.averageSentencesPerPost}</div>
+						<div class="text-sm text-[rgb(var(--color-text-muted))]">Avg Sentences/Post</div>
+					</div>
+					<div class="p-4 bg-[rgb(var(--color-bg))] rounded-lg">
+						<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Average number of paragraphs per post">{styleAnalysis.averageParagraphsPerPost}</div>
+						<div class="text-sm text-[rgb(var(--color-text-muted))]">Avg Paragraphs/Post</div>
+					</div>
+					<div class="p-4 bg-[rgb(var(--color-bg))] rounded-lg">
+						<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Average words per sentence">{styleAnalysis.averageSentenceLength}</div>
+						<div class="text-sm text-[rgb(var(--color-text-muted))]">Avg Words/Sentence</div>
+					</div>
+					<div class="p-4 bg-[rgb(var(--color-bg))] rounded-lg">
+						<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Average words per paragraph">{styleAnalysis.averageParagraphLength}</div>
+						<div class="text-sm text-[rgb(var(--color-text-muted))]">Avg Words/Paragraph</div>
+					</div>
+					<div class="p-4 bg-[rgb(var(--color-bg))] rounded-lg">
+						<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Posts containing external links or URLs">{externalLinkPosts.length}</div>
+						<div class="text-sm text-[rgb(var(--color-text-muted))]">Posts with External Links</div>
+					</div>
+					<div class="p-4 bg-[rgb(var(--color-bg))] rounded-lg">
+						<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Posts containing code blocks or inline code">{codeSnippetPosts.length}</div>
+						<div class="text-sm text-[rgb(var(--color-text-muted))]">Posts with Code</div>
+					</div>
+				</div>
+			</div>
+
+			{/* Most Complex Posts */}
+			<div class="mb-8">
+				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">Most Complex Posts</h3>
+				<div class="space-y-4">
+					{mostComplexPosts.map((post, index) => (
+						<div class="flex items-center justify-between p-4 bg-[rgb(var(--color-bg))] rounded-lg">
+							<div class="flex items-center gap-4">
+								<div class="text-lg font-bold text-[rgb(var(--color-accent))]">#{index + 1}</div>
+								<div>
+									<div class="text-sm font-medium text-[rgb(var(--color-text))]">
+										{post.title}
+									</div>
+									<div class="text-xs text-[rgb(var(--color-text-muted))]">
+										{format(post.date, 'MMM d, yyyy')} • Complexity: {post.fleschScore}
+									</div>
+								</div>
+							</div>
+							<div class="text-right">
+								<div class="text-sm font-medium text-[rgb(var(--color-text))]" title={`${post.wordCount} words in this post`}>{post.wordCount} words</div>
+								<div class="text-xs text-[rgb(var(--color-text-muted))]" title={`Estimated reading time: ${post.readingTime} minutes`}>{post.readingTime} min read</div>
+							</div>
+						</div>
+					))}
+				</div>
+			</div>
+
+			{/* Self-Referential Posts */}
+			<div class="mb-8">
+				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">Self-Referential Posts</h3>
+				<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+					{selfReferentialPosts.slice(0, 12).map((post, index) => (
+						<div class="p-4 bg-[rgb(var(--color-bg))] rounded-lg">
+							<div class="text-sm font-medium text-[rgb(var(--color-text))] mb-2">
+								{post.title}
+							</div>
+							<div class="text-xs text-[rgb(var(--color-text-muted))] mb-2">
+								{format(post.date, 'MMM d, yyyy')} • {post.wordCount} words
+							</div>
+							<div class="flex flex-wrap gap-1">
+								{post.tags.slice(0, 3).map(tag => (
+									<span class="text-xs bg-[rgb(var(--color-accent))] text-white px-2 py-1 rounded">
+										{tag}
+									</span>
+								))}
+								{post.tags.length > 3 && (
+									<span class="text-xs text-[rgb(var(--color-text-muted))]">+{post.tags.length - 3}</span>
+								)}
+							</div>
+						</div>
+					))}
+				</div>
+			</div>
+
+			{/* Cross-References */}
+			<div class="mb-8">
+				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">Cross-References Between Posts</h3>
+				<div class="space-y-4">
+					{crossReferences.slice(0, 15).map((ref, index) => (
+						<div class="flex items-center justify-between p-4 bg-[rgb(var(--color-bg))] rounded-lg">
+							<div class="flex items-center gap-4">
+								<div class="text-lg font-bold text-[rgb(var(--color-accent))]">#{index + 1}</div>
+								<div>
+									<div class="text-sm font-medium text-[rgb(var(--color-text))]">
+										{ref.from.title} → {ref.to.title}
+									</div>
+									<div class="text-xs text-[rgb(var(--color-text-muted))]">
+										{format(ref.from.date, 'MMM d, yyyy')} → {format(ref.to.date, 'MMM d, yyyy')}
+									</div>
+								</div>
+							</div>
+							<div class="text-sm text-[rgb(var(--color-text-muted))]">
+								{ref.type}
+							</div>
+						</div>
+					))}
+				</div>
+			</div>
+
+			{/* Content Evolution */}
+			<div class="mb-8">
+				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">Content Evolution by Quarter</h3>
+				<div class="space-y-6">
+					{evolutionQuarters.slice(-8).map(quarter => (
+						<div class="p-4 bg-[rgb(var(--color-bg))] rounded-lg">
+							<div class="flex items-center justify-between mb-3">
+								<h4 class="text-sm font-medium text-[rgb(var(--color-text))]">{quarter.label}</h4>
+								<span class="text-xs text-[rgb(var(--color-text-muted))]" title={`${quarter.posts} posts in ${quarter.label}`}>{quarter.posts} posts</span>
+							</div>
+							<div class="grid grid-cols-3 gap-4 text-center">
+								<div>
+									<div class="text-lg font-bold text-[rgb(var(--color-text))]" title={`Average word count per post in ${quarter.label}`}>{quarter.avgWordCount}</div>
+									<div class="text-xs text-[rgb(var(--color-text-muted))]">Avg Words</div>
+								</div>
+								<div>
+									<div class="text-lg font-bold text-[rgb(var(--color-text))]" title={`Average reading time per post in ${quarter.label}`}>{quarter.avgReadingTime}</div>
+									<div class="text-xs text-[rgb(var(--color-text-muted))]">Avg Minutes</div>
+								</div>
+								<div>
+									<div class="text-lg font-bold text-[rgb(var(--color-text))]" title={`Average Flesch complexity score in ${quarter.label}`}>{quarter.avgComplexity}</div>
+									<div class="text-xs text-[rgb(var(--color-text-muted))]">Complexity</div>
+								</div>
+							</div>
+						</div>
+					))}
+				</div>
+			</div>
+
+			{/* Reading Time Distribution */}
+			<div class="mb-8">
+				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">Reading Time Distribution</h3>
+				<div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+					{Object.entries(readingTimeStats)
+						.sort(([a], [b]) => parseInt(a) - parseInt(b))
+						.map(([time, count]) => (
+							<div class="p-4 bg-[rgb(var(--color-bg))] rounded-lg text-center">
+								<div class="text-lg font-bold text-[rgb(var(--color-text))]" title={`${count} posts with ${time} minute reading time`}>{count}</div>
+								<div class="text-xs text-[rgb(var(--color-text-muted))]">{time} min</div>
+							</div>
+						))}
+				</div>
+			</div>
+
+			{/* Analysis Conclusion */}
+			<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
+				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-4">🔍 Meta Analysis Summary</h3>
+				<div class="space-y-4">
+					{/* Dynamic Insights */}
+					<div class="space-y-2">
+						{insights.map((insight, index) => (
+							<div class={`flex items-center gap-2 ${insight.color}`}>
+								<span class="text-sm">•</span>
+								<span class="text-sm" set:html={insight.text}></span>
+							</div>
+						))}
+					</div>
+					
+					{/* Summary */}
+					<div class="pt-4 border-t border-[rgb(var(--color-border))]">
+						<p class="text-sm text-[rgb(var(--color-text-muted))]" set:html={summary}></p>
+					</div>
+				</div>
+			</div>
+		</Container>
+	</Container>
+</BaseLayout> 

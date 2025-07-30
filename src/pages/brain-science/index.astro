@@ -1,0 +1,357 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Container from '../../components/Container.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { getCollection } from 'astro:content';
+import { categories } from '../../data/categories';
+import { getTagWeight, MASLOW_CATEGORIES } from '../../data/tags';
+import { formatDistanceToNow, format, startOfMonth, endOfMonth, eachMonthOfInterval, parseISO } from 'date-fns';
+
+// Get all published posts
+const posts = await getCollection('blog', ({ data }) => {
+	return import.meta.env.PROD ? !data.draft && data.published : true;
+});
+
+// Sort posts by date
+const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+// Calculate key metrics
+const totalPosts = posts.length;
+const totalWords = posts.reduce((sum, post) => {
+	const content = post.body;
+	return sum + (content ? content.split(/\s+/).length : 0);
+}, 0);
+const averageWordsPerPost = Math.round(totalWords / totalPosts);
+
+// Date range analysis
+const firstPostDate = sortedPosts[sortedPosts.length - 1]?.data.pubDate;
+const lastPostDate = sortedPosts[0]?.data.pubDate;
+const daysSinceFirstPost = firstPostDate ? Math.floor((Date.now() - firstPostDate.getTime()) / (1000 * 60 * 60 * 24)) : 0;
+const postsPerDay = daysSinceFirstPost > 0 ? (totalPosts / daysSinceFirstPost).toFixed(2) : 0;
+
+// Monthly posting frequency
+const monthlyPosts = eachMonthOfInterval({
+	start: firstPostDate || new Date(),
+	end: lastPostDate || new Date()
+}).map(month => {
+	const monthStart = startOfMonth(month);
+	const monthEnd = endOfMonth(month);
+	const postsInMonth = posts.filter(post => 
+		post.data.pubDate >= monthStart && post.data.pubDate <= monthEnd
+	).length;
+	return {
+		month: format(month, 'yyyy-MM'),
+		label: format(month, 'MMM yyyy'),
+		count: postsInMonth
+	};
+});
+
+// Tag analysis
+const tagFrequency = posts.reduce((acc, post) => {
+	post.data.tags?.forEach(tag => {
+		acc[tag] = (acc[tag] || 0) + 1;
+	});
+	return acc;
+}, {} as Record<string, number>);
+
+const topTags = Object.entries(tagFrequency)
+	.sort(([,a], [,b]) => b - a)
+	.slice(0, 10)
+	.map(([tag, count]) => ({ tag, count, weight: getTagWeight(tag) }));
+
+// Category analysis
+const categoryFrequency = posts.reduce((acc, post) => {
+	post.data.category?.forEach(cat => {
+		acc[cat] = (acc[cat] || 0) + 1;
+	});
+	return acc;
+}, {} as Record<string, number>);
+
+// Maslow hierarchy analysis
+const maslowAnalysis = MASLOW_CATEGORIES.map(category => {
+	const categoryPosts = posts.filter(post => 
+		post.data.tags?.some(tag => category.tags.includes(tag))
+	).length;
+	return {
+		...category,
+		postCount: categoryPosts,
+		percentage: Math.round((categoryPosts / totalPosts) * 100)
+	};
+}).filter(cat => cat.postCount > 0);
+
+// Current month posts
+const thisMonthPosts = posts.filter(post => {
+	const now = new Date();
+	const postDate = post.data.pubDate;
+	return postDate.getMonth() === now.getMonth() && postDate.getFullYear() === now.getFullYear();
+}).length;
+
+// Writing streaks
+let currentStreak = 0;
+let longestStreak = 0;
+let tempStreak = 0;
+
+for (let i = 0; i < sortedPosts.length - 1; i++) {
+	const currentDate = sortedPosts[i].data.pubDate;
+	const nextDate = sortedPosts[i + 1].data.pubDate;
+	const daysDiff = Math.floor((currentDate.getTime() - nextDate.getTime()) / (1000 * 60 * 60 * 24));
+	
+	if (daysDiff <= 7) { // Consider posts within a week as a streak
+		tempStreak++;
+		longestStreak = Math.max(longestStreak, tempStreak);
+	} else {
+		tempStreak = 0;
+	}
+}
+
+currentStreak = tempStreak;
+---
+
+<BaseLayout
+	title="Brain Science - Writing Analytics Dashboard"
+	description="Deep dive into my writing patterns, creative evolution, and intellectual journey through data analysis."
+	path="/brain-science"
+	structuredDataType="website"
+>
+	<Container>
+		<Container maxWidth="container" padding="none">
+			{/* Breadcrumbs */}
+			<div class="mb-6 hidden md:block">
+				<Breadcrumbs 
+					items={[
+						{ label: "Home", href: "/" },
+						{ label: "Brain Science" }
+					]} 
+				/>
+			</div>
+
+			<div class="py-6 md:py-8 lg:py-12">
+				{/* Header */}
+				<div class="mb-8 md:mb-12">
+					<h1 class="text-display text-[rgb(var(--color-text))] mb-4 md:mb-6" transition:name="page-title">
+						🧠 <span class="highlight-primary">Brain Science</span>
+					</h1>
+					<p class="text-body-large text-[rgb(var(--color-text-muted))] leading-relaxed" transition:name="page-description">
+						Analyzing my writing patterns, creative evolution, and intellectual journey through data. 
+						Understanding my "brain" through the lens of my published thoughts.
+					</p>
+				</div>
+
+				{/* Key Metrics Grid */}
+				<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+					<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
+						<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Total number of published blog posts (excluding drafts in production)">{totalPosts}</div>
+						<div class="text-sm text-[rgb(var(--color-text-muted))]">Total Posts</div>
+					</div>
+					<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
+						<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Sum of all words across all published posts (calculated by splitting content on whitespace)">{totalWords.toLocaleString()}</div>
+						<div class="text-sm text-[rgb(var(--color-text-muted))]">Total Words</div>
+					</div>
+					<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
+						<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Average words per post (total words divided by total posts)">{averageWordsPerPost}</div>
+						<div class="text-sm text-[rgb(var(--color-text-muted))]">Avg Words/Post</div>
+					</div>
+					<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
+						<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Posts per day since the first post was published (total posts divided by days since first post)">{postsPerDay}</div>
+						<div class="text-sm text-[rgb(var(--color-text-muted))]">Posts/Day</div>
+					</div>
+				</div>
+
+				{/* Activity Metrics */}
+				<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+					<div class="text-center">
+						<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Number of posts published in the current month">{thisMonthPosts}</div>
+						<div class="text-sm text-[rgb(var(--color-text-muted))]">Posts This Month</div>
+					</div>
+					<div class="text-center">
+						<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Current writing streak (consecutive posts within 7 days of each other)">{currentStreak}</div>
+						<div class="text-sm text-[rgb(var(--color-text-muted))]">Current Streak</div>
+					</div>
+					<div class="text-center">
+						<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Longest writing streak achieved (consecutive posts within 7 days of each other)">{longestStreak}</div>
+						<div class="text-sm text-[rgb(var(--color-text-muted))]">Longest Streak</div>
+					</div>
+				</div>
+
+				{/* Navigation Cards */}
+				<div class="bg-gradient-to-br from-[rgb(var(--color-accent))]/5 via-[rgb(var(--color-accent))]/3 to-transparent rounded-xl p-6 border border-[rgb(var(--color-accent))]/20 mb-8">
+					<h2 class="text-xl font-semibold text-[rgb(var(--color-text))] mb-6 flex items-center gap-2">
+						<span class="text-[rgb(var(--color-accent))]">🧭</span>
+						Explore Brain Science Sections
+					</h2>
+					<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+						<a href="/brain-science/cadence" class="group block">
+							<div class="bg-[rgb(var(--color-bg))] rounded-lg p-6 border-2 border-[rgb(var(--color-border))] hover:border-[rgb(var(--color-accent))] hover:shadow-lg hover:shadow-[rgb(var(--color-accent))]/20 hover:-translate-y-1 transition-all duration-200 cursor-pointer relative overflow-hidden">
+								{/* Subtle gradient overlay on hover */}
+								<div class="absolute inset-0 bg-gradient-to-br from-[rgb(var(--color-accent))]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
+								{/* Arrow indicator */}
+								<div class="absolute top-4 right-4 text-[rgb(var(--color-accent))] opacity-0 group-hover:opacity-100 transition-opacity duration-200 transform translate-x-2 group-hover:translate-x-0">
+									→
+								</div>
+								<div class="relative">
+									<div class="text-2xl mb-3">📅</div>
+									<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-2 group-hover:text-[rgb(var(--color-accent))] transition-colors">
+										Writing Cadence
+									</h3>
+									<p class="text-sm text-[rgb(var(--color-text-muted))] group-hover:text-[rgb(var(--color-text))] transition-colors">
+										Publishing patterns, streaks, and seasonal rhythms
+									</p>
+								</div>
+							</div>
+						</a>
+
+						<a href="/brain-science/evolution" class="group block">
+							<div class="bg-[rgb(var(--color-bg))] rounded-lg p-6 border-2 border-[rgb(var(--color-border))] hover:border-[rgb(var(--color-accent))] hover:shadow-lg hover:shadow-[rgb(var(--color-accent))]/20 hover:-translate-y-1 transition-all duration-200 cursor-pointer relative overflow-hidden">
+								{/* Subtle gradient overlay on hover */}
+								<div class="absolute inset-0 bg-gradient-to-br from-[rgb(var(--color-accent))]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
+								{/* Arrow indicator */}
+								<div class="absolute top-4 right-4 text-[rgb(var(--color-accent))] opacity-0 group-hover:opacity-100 transition-opacity duration-200 transform translate-x-2 group-hover:translate-x-0">
+									→
+								</div>
+								<div class="relative">
+									<div class="text-2xl mb-3">📈</div>
+									<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-2 group-hover:text-[rgb(var(--color-accent))] transition-colors">
+										Content Evolution
+									</h3>
+									<p class="text-sm text-[rgb(var(--color-text-muted))] group-hover:text-[rgb(var(--color-text))] transition-colors">
+										Topic progression and writing style development
+									</p>
+								</div>
+							</div>
+						</a>
+
+						<a href="/brain-science/topics" class="group block">
+							<div class="bg-[rgb(var(--color-bg))] rounded-lg p-6 border-2 border-[rgb(var(--color-border))] hover:border-[rgb(var(--color-accent))] hover:shadow-lg hover:shadow-[rgb(var(--color-accent))]/20 hover:-translate-y-1 transition-all duration-200 cursor-pointer relative overflow-hidden">
+								{/* Subtle gradient overlay on hover */}
+								<div class="absolute inset-0 bg-gradient-to-br from-[rgb(var(--color-accent))]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
+								{/* Arrow indicator */}
+								<div class="absolute top-4 right-4 text-[rgb(var(--color-accent))] opacity-0 group-hover:opacity-100 transition-opacity duration-200 transform translate-x-2 group-hover:translate-x-0">
+									→
+								</div>
+								<div class="relative">
+									<div class="text-2xl mb-3">🏷️</div>
+									<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-2 group-hover:text-[rgb(var(--color-accent))] transition-colors">
+										Topic Analysis
+									</h3>
+									<p class="text-sm text-[rgb(var(--color-text-muted))] group-hover:text-[rgb(var(--color-text))] transition-colors">
+										Tag frequency, category distribution, and theme relationships
+									</p>
+								</div>
+							</div>
+						</a>
+
+						<a href="/brain-science/meta" class="group block">
+							<div class="bg-[rgb(var(--color-bg))] rounded-lg p-6 border-2 border-[rgb(var(--color-border))] hover:border-[rgb(var(--color-accent))] hover:shadow-lg hover:shadow-[rgb(var(--color-accent))]/20 hover:-translate-y-1 transition-all duration-200 cursor-pointer relative overflow-hidden">
+								{/* Subtle gradient overlay on hover */}
+								<div class="absolute inset-0 bg-gradient-to-br from-[rgb(var(--color-accent))]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
+								{/* Arrow indicator */}
+								<div class="absolute top-4 right-4 text-[rgb(var(--color-accent))] opacity-0 group-hover:opacity-100 transition-opacity duration-200 transform translate-x-2 group-hover:translate-x-0">
+									→
+								</div>
+								<div class="relative">
+									<div class="text-2xl mb-3">🔍</div>
+									<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-2 group-hover:text-[rgb(var(--color-accent))] transition-colors">
+										Meta Analysis
+									</h3>
+									<p class="text-sm text-[rgb(var(--color-text-muted))] group-hover:text-[rgb(var(--color-text))] transition-colors">
+										Self-referential patterns and content depth analysis
+									</p>
+								</div>
+							</div>
+						</a>
+
+						<a href="/brain-science/insights" class="group block">
+							<div class="bg-[rgb(var(--color-bg))] rounded-lg p-6 border-2 border-[rgb(var(--color-border))] hover:border-[rgb(var(--color-accent))] hover:shadow-lg hover:shadow-[rgb(var(--color-accent))]/20 hover:-translate-y-1 transition-all duration-200 cursor-pointer relative overflow-hidden">
+								{/* Subtle gradient overlay on hover */}
+								<div class="absolute inset-0 bg-gradient-to-br from-[rgb(var(--color-accent))]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
+								{/* Arrow indicator */}
+								<div class="absolute top-4 right-4 text-[rgb(var(--color-accent))] opacity-0 group-hover:opacity-100 transition-opacity duration-200 transform translate-x-2 group-hover:translate-x-0">
+									→
+								</div>
+								<div class="relative">
+									<div class="text-2xl mb-3">💡</div>
+									<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-2 group-hover:text-[rgb(var(--color-accent))] transition-colors">
+										Personal Insights
+									</h3>
+									<p class="text-sm text-[rgb(var(--color-text-muted))] group-hover:text-[rgb(var(--color-text))] transition-colors">
+										Creative patterns and intellectual growth trends
+									</p>
+								</div>
+							</div>
+						</a>
+
+						<a href="/brain-science/patterns" class="group block">
+							<div class="bg-[rgb(var(--color-bg))] rounded-lg p-6 border-2 border-[rgb(var(--color-border))] hover:border-[rgb(var(--color-accent))] hover:shadow-lg hover:shadow-[rgb(var(--color-accent))]/20 hover:-translate-y-1 transition-all duration-200 cursor-pointer relative overflow-hidden">
+								{/* Subtle gradient overlay on hover */}
+								<div class="absolute inset-0 bg-gradient-to-br from-[rgb(var(--color-accent))]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
+								{/* Arrow indicator */}
+								<div class="absolute top-4 right-4 text-[rgb(var(--color-accent))] opacity-0 group-hover:opacity-100 transition-opacity duration-200 transform translate-x-2 group-hover:translate-x-0">
+									→
+								</div>
+								<div class="relative">
+									<div class="text-2xl mb-3">🌀</div>
+									<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-2 group-hover:text-[rgb(var(--color-accent))] transition-colors">
+										Pattern Recognition
+									</h3>
+									<p class="text-sm text-[rgb(var(--color-text-muted))] group-hover:text-[rgb(var(--color-text))] transition-colors">
+										Correlations and creative cycle analysis
+									</p>
+								</div>
+							</div>
+						</a>
+					</div>
+				</div>
+
+				{/* Quick Stats */}
+				<div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+					{/* Top Tags */}
+					<div>
+						<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-4">Most Frequent Topics</h3>
+						<div class="space-y-3">
+							{topTags.map(({ tag, count, weight }) => (
+								<div class="flex justify-between items-center">
+									<span class="text-sm text-[rgb(var(--color-text))] font-medium">{tag}</span>
+									<div class="flex items-center gap-2">
+										<div class="w-16 bg-[rgb(var(--color-border))] rounded-full h-2">
+											<div 
+												class="bg-[rgb(var(--color-accent))] h-2 rounded-full" 
+												style={`width: ${(count / topTags[0].count) * 100}%`}
+											></div>
+										</div>
+										<span class="text-xs text-[rgb(var(--color-text-muted))] w-8 text-right" title={`${count} posts tagged with "${tag}"`}>{count}</span>
+									</div>
+								</div>
+							))}
+						</div>
+					</div>
+
+					{/* Maslow Hierarchy */}
+					<div>
+						<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-4">Content by Life Areas</h3>
+						<div class="space-y-3">
+							{maslowAnalysis.map(category => (
+								<div class="flex justify-between items-center">
+									<div class="flex items-center gap-2">
+										<span class="text-lg">{category.icon}</span>
+										<span class="text-sm text-[rgb(var(--color-text))] font-medium">{category.title}</span>
+									</div>
+									<div class="flex items-center gap-2">
+										<div class="w-16 bg-[rgb(var(--color-border))] rounded-full h-2">
+											<div 
+												class="h-2 rounded-full" 
+												style={`width: ${category.percentage}%; background-color: rgb(var(--color-accent))`}
+											></div>
+										</div>
+										<span class="text-xs text-[rgb(var(--color-text-muted))] w-8 text-right" title={`${category.postCount} posts (${category.percentage}% of total) in ${category.title} category`}>{category.percentage}%</span>
+									</div>
+								</div>
+							))}
+						</div>
+					</div>
+				</div>
+
+
+			</div>
+		</Container>
+	</Container>
+</BaseLayout> 

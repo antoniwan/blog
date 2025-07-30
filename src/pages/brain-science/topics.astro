@@ -1,0 +1,478 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Container from '../../components/Container.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { getCollection } from 'astro:content';
+import { categories } from '../../data/categories';
+import { getTagWeight, MASLOW_CATEGORIES, getTagCategory, getTagMetadata } from '../../data/tags';
+import { format } from 'date-fns';
+import { generateDynamicInsights } from '../../utils/insightGenerator';
+
+// Get all published posts
+const posts = await getCollection('blog', ({ data }) => {
+	return import.meta.env.PROD ? !data.draft && data.published : true;
+});
+
+// Sort posts by date
+const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+// Tag analysis
+const tagFrequency = posts.reduce((acc, post) => {
+	post.data.tags?.forEach(tag => {
+		acc[tag] = (acc[tag] || 0) + 1;
+	});
+	return acc;
+}, {} as Record<string, number>);
+
+const topTags = Object.entries(tagFrequency)
+	.sort(([,a], [,b]) => b - a)
+	.map(([tag, count]) => ({ 
+		tag, 
+		count, 
+		weight: getTagWeight(tag),
+		category: getTagCategory(tag),
+		metadata: getTagMetadata(tag)
+	}));
+
+// Category analysis
+const categoryFrequency = posts.reduce((acc, post) => {
+	post.data.category?.forEach(cat => {
+		acc[cat] = (acc[cat] || 0) + 1;
+	});
+	return acc;
+}, {} as Record<string, number>);
+
+const categoryStats = categories.map(category => ({
+	...category,
+	count: categoryFrequency[category.id] || 0,
+	percentage: Math.round(((categoryFrequency[category.id] || 0) / posts.length) * 100)
+})).filter(cat => cat.count > 0);
+
+// Maslow hierarchy analysis
+const maslowAnalysis = MASLOW_CATEGORIES.map(category => {
+	const categoryPosts = posts.filter(post => 
+		post.data.tags?.some(tag => category.tags.includes(tag))
+	).length;
+	return {
+		...category,
+		postCount: categoryPosts,
+		percentage: Math.round((categoryPosts / posts.length) * 100)
+	};
+}).filter(cat => cat.postCount > 0);
+
+// Tag co-occurrence analysis
+const tagCooccurrence: Record<string, Record<string, number>> = {};
+posts.forEach(post => {
+	const postTags = post.data.tags || [];
+	postTags.forEach(tag1 => {
+		if (!tagCooccurrence[tag1]) {
+			tagCooccurrence[tag1] = {};
+		}
+		postTags.forEach(tag2 => {
+			if (tag1 !== tag2) {
+				tagCooccurrence[tag1][tag2] = (tagCooccurrence[tag1][tag2] || 0) + 1;
+			}
+		});
+	});
+});
+
+// Find strongest tag relationships
+const tagRelationships = Object.entries(tagCooccurrence)
+	.flatMap(([tag1, relationships]) => 
+		Object.entries(relationships).map(([tag2, count]) => ({
+			tag1,
+			tag2,
+			count,
+			strength: count / Math.min(tagFrequency[tag1], tagFrequency[tag2])
+		}))
+	)
+	.sort((a, b) => b.strength - a.strength)
+	.slice(0, 20);
+
+// Topic evolution over time (by quarters)
+const quarters = [];
+const currentYear = new Date().getFullYear();
+const startYear = sortedPosts[sortedPosts.length - 1]?.data.pubDate.getFullYear() || currentYear;
+
+for (let year = startYear; year <= currentYear; year++) {
+	for (let quarter = 1; quarter <= 4; quarter++) {
+		const quarterStart = new Date(year, (quarter - 1) * 3, 1);
+		const quarterEnd = new Date(year, quarter * 3, 0);
+		
+		const quarterPosts = posts.filter(post => 
+			post.data.pubDate >= quarterStart && post.data.pubDate <= quarterEnd
+		);
+		
+		if (quarterPosts.length > 0) {
+			const quarterTags = quarterPosts.reduce((acc, post) => {
+				post.data.tags?.forEach(tag => {
+					acc[tag] = (acc[tag] || 0) + 1;
+				});
+				return acc;
+			}, {} as Record<string, number>);
+			
+			quarters.push({
+				year,
+				quarter,
+				label: `Q${quarter} ${year}`,
+				posts: quarterPosts.length,
+				topTags: Object.entries(quarterTags)
+					.sort(([,a], [,b]) => b - a)
+					.slice(0, 5)
+					.map(([tag, count]) => ({ tag, count }))
+			});
+		}
+	}
+}
+
+// Most diverse posts (posts with most unique tags)
+const postTagDiversity = posts.map(post => ({
+	title: post.data.title,
+	slug: post.id,
+	date: post.data.pubDate,
+	tagCount: post.data.tags?.length || 0,
+	tags: post.data.tags || [],
+	categories: post.data.category || []
+})).sort((a, b) => b.tagCount - a.tagCount);
+
+// Tag weight analysis
+const tagWeightAnalysis = topTags.reduce((acc, tag) => {
+	const weight = tag.weight;
+	if (!acc[weight]) {
+		acc[weight] = [];
+	}
+	acc[weight].push(tag);
+	return acc;
+}, {} as Record<number, typeof topTags>);
+
+// Recent topic trends (last 6 months)
+const sixMonthsAgo = new Date();
+sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
+
+const recentPosts = posts.filter(post => post.data.pubDate >= sixMonthsAgo);
+const recentTagFrequency = recentPosts.reduce((acc, post) => {
+	post.data.tags?.forEach(tag => {
+		acc[tag] = (acc[tag] || 0) + 1;
+	});
+	return acc;
+}, {} as Record<string, number>);
+
+const recentTopTags = Object.entries(recentTagFrequency)
+	.sort(([,a], [,b]) => b - a)
+	.slice(0, 10)
+	.map(([tag, count]) => ({ 
+		tag, 
+		count,
+		overallRank: topTags.findIndex(t => t.tag === tag) + 1,
+		trend: 'stable' // Could be calculated as trending up/down
+	}));
+
+// Generate dynamic insights
+const insightData = {
+	totalPosts: posts.length,
+	totalWords: posts.reduce((sum, post) => sum + (post.body || '').split(/\s+/).length, 0),
+	avgWordsPerPost: Math.round(posts.reduce((sum, post) => sum + (post.body || '').split(/\s+/).length, 0) / posts.length),
+	topTags: topTags.slice(0, 5).map(tag => ({ tag: tag.tag, count: tag.count })),
+	emotionalPosts: 0, // Not calculated for topics
+	growthPosts: 0, // Not calculated for topics
+	complexityTrend: 'stable' as const, // Not calculated for topics
+	productivityTrend: 'stable' as const, // Not calculated for topics
+	knowledgeAreas: maslowAnalysis.map(area => ({
+		title: area.title,
+		postCount: area.postCount,
+		trend: 'stable' as const // Could be calculated based on recent vs historical data
+	})),
+	writingStreaks: [],
+	drySpells: []
+};
+
+const { insights, summary } = generateDynamicInsights(insightData, 'topics');
+---
+
+<BaseLayout
+	title="Topic Analysis - Brain Science"
+	description="Analyzing my writing themes, tag relationships, and topic evolution over time."
+	path="/brain-science/topics"
+	structuredDataType="website"
+>
+	<Container>
+		<Container maxWidth="container" padding="none">
+			{/* Breadcrumbs */}
+			<div class="mb-6 hidden md:block">
+				<Breadcrumbs 
+					items={[
+						{ label: "Home", href: "/" },
+						{ label: "Brain Science", href: "/brain-science" },
+						{ label: "Topic Analysis" }
+					]} 
+				/>
+			</div>
+
+			<div class="py-6 md:py-8 lg:py-12">
+				{/* Header */}
+				<div class="mb-8 md:mb-12">
+					<h1 class="text-display text-[rgb(var(--color-text))] mb-4 md:mb-6" transition:name="page-title">
+						🏷️ <span class="highlight-accent">Topic Analysis</span>
+					</h1>
+					<p class="text-body-large text-[rgb(var(--color-text-muted))] leading-relaxed" transition:name="page-description">
+						Understanding my writing themes, tag relationships, and how my interests evolve over time.
+					</p>
+				</div>
+
+			{/* Key Metrics with Balanced Indicators */}
+			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
+					<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Number of unique tags used across all posts">{Object.keys(tagFrequency).length}</div>
+					<div class="text-sm text-[rgb(var(--color-text-muted))]">Unique Topics</div>
+					<div class="text-xs text-blue-500 mt-1">🎯 Topic Diversity</div>
+				</div>
+				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
+					<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Number of categories that have at least one post">{categoryStats.length}</div>
+					<div class="text-sm text-[rgb(var(--color-text-muted))]">Active Categories</div>
+					<div class="text-xs text-green-500 mt-1">📂 Well Organized</div>
+				</div>
+				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
+					<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Number of Maslow hierarchy areas covered by posts">{maslowAnalysis.length}</div>
+					<div class="text-sm text-[rgb(var(--color-text-muted))]">Life Areas Covered</div>
+					<div class="text-xs text-purple-500 mt-1">🌱 Holistic Growth</div>
+				</div>
+				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
+					<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Average number of tags per post (total tags / total posts)">{Math.round(posts.reduce((sum, post) => sum + (post.data.tags?.length || 0), 0) / posts.length * 10) / 10}</div>
+					<div class="text-sm text-[rgb(var(--color-text-muted))]">Avg Tags/Post</div>
+					<div class="text-xs text-yellow-500 mt-1">🏷️ Tag Density</div>
+				</div>
+			</div>
+
+			{/* Topic Focus Analysis */}
+			<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))] mb-8">
+				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">🎯 Topic Focus Analysis</h3>
+				<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+					<div class="text-center p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+						<div class="text-3xl font-bold text-blue-500 mb-2" title={`${topTags[0]?.count || 0} posts tagged with the most frequent topic`}>{topTags[0]?.count || 0}</div>
+						<div class="text-sm text-[rgb(var(--color-text-muted))]">Top Topic Posts</div>
+						<div class="text-xs text-blue-600 dark:text-blue-400 mt-1">
+							"{topTags[0]?.tag || 'None'}"
+						</div>
+					</div>
+					<div class="text-center p-4 bg-green-50 dark:bg-green-900/20 rounded-lg">
+						<div class="text-3xl font-bold text-green-500 mb-2" title={`${Math.round((topTags[0]?.count || 0) / posts.length * 100)}% of posts use the most frequent tag`}>{Math.round((topTags[0]?.count || 0) / posts.length * 100)}%</div>
+						<div class="text-sm text-[rgb(var(--color-text-muted))]">Focus Concentration</div>
+						<div class="text-xs text-green-600 dark:text-green-400 mt-1">
+							{(topTags[0]?.count || 0) / posts.length > 0.3 ? 'High Focus' : (topTags[0]?.count || 0) / posts.length > 0.15 ? 'Balanced' : 'Diverse'}
+						</div>
+					</div>
+					<div class="text-center p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
+						<div class="text-3xl font-bold text-purple-500 mb-2" title={`${Object.keys(tagFrequency).length} unique tags used across all posts`}>{Object.keys(tagFrequency).length}</div>
+						<div class="text-sm text-[rgb(var(--color-text-muted))]">Topic Diversity</div>
+						<div class="text-xs text-purple-600 dark:text-purple-400 mt-1">
+							{Object.keys(tagFrequency).length > 20 ? 'Very Diverse' : Object.keys(tagFrequency).length > 10 ? 'Moderately Diverse' : 'Focused'}
+						</div>
+					</div>
+				</div>
+			</div>
+
+			{/* Top Tags with Balanced View */}
+			<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))] mb-8">
+				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">🏆 Most Frequent Topics</h3>
+				<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+					{topTags.slice(0, 15).map((tagData, index) => (
+						<div class="p-4 bg-[rgb(var(--color-bg))] rounded-lg">
+							<div class="flex items-center justify-between mb-2">
+								<span class="text-sm font-medium text-[rgb(var(--color-text))]">{tagData.tag}</span>
+								<span class={`text-lg font-bold ${
+									index === 0 ? 'text-yellow-500' : 
+									index === 1 ? 'text-gray-400' : 
+									index === 2 ? 'text-amber-600' : 'text-[rgb(var(--color-accent))]'
+								}`}>
+									{index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : `#${index + 1}`}
+								</span>
+							</div>
+							<div class="text-2xl font-bold text-[rgb(var(--color-text))]" title={`${tagData.count} posts tagged with "${tagData.tag}"`}>{tagData.count}</div>
+							<div class="text-xs text-[rgb(var(--color-text-muted))]">
+								Weight: {tagData.weight} • {Math.round((tagData.count / posts.length) * 100)}% of posts
+							</div>
+							{tagData.category && (
+								<div class="text-xs text-[rgb(var(--color-text-muted))] mt-1">
+									{tagData.category.icon} {tagData.category.title}
+								</div>
+							)}
+						</div>
+					))}
+				</div>
+			</div>
+
+			{/* Category Distribution with Color Coding */}
+			<div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+				<div>
+					<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">📂 Category Distribution</h3>
+					<div class="space-y-4">
+						{categoryStats.map(category => (
+							<div class="flex items-center justify-between">
+								<div class="flex items-center gap-3">
+									<span class="text-lg">{category.icon}</span>
+									<span class="text-sm text-[rgb(var(--color-text))] font-medium">{category.name}</span>
+								</div>
+								<div class="flex items-center gap-3">
+									<div class="w-20 bg-[rgb(var(--color-border))] rounded-full h-3">
+										<div 
+											class={`h-3 rounded-full transition-all ${
+												category.percentage >= 30 ? 'bg-green-500' :
+												category.percentage >= 15 ? 'bg-blue-500' :
+												category.percentage >= 5 ? 'bg-yellow-500' : 'bg-red-500'
+											}`}
+											style={`width: ${(category.count / Math.max(...categoryStats.map(c => c.count))) * 100}%`}
+										></div>
+									</div>
+									<span class="text-xs text-[rgb(var(--color-text-muted))] w-8 text-right" title={`${category.count} posts (${category.percentage}% of total) in ${category.name} category`}>{category.count}</span>
+								</div>
+							</div>
+						))}
+					</div>
+				</div>
+
+				<div>
+					<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">🌱 Content by Life Areas</h3>
+					<div class="space-y-4">
+						{maslowAnalysis.map(category => (
+							<div class="flex items-center justify-between">
+								<div class="flex items-center gap-3">
+									<span class="text-lg">{category.icon}</span>
+									<span class="text-sm text-[rgb(var(--color-text))] font-medium">{category.title}</span>
+								</div>
+								<div class="flex items-center gap-3">
+									<div class="w-20 bg-[rgb(var(--color-border))] rounded-full h-3">
+										<div 
+											class={`h-3 rounded-full transition-all ${
+												category.percentage >= 25 ? 'bg-green-500' :
+												category.percentage >= 10 ? 'bg-blue-500' :
+												category.percentage >= 5 ? 'bg-yellow-500' : 'bg-red-500'
+											}`}
+											style={`width: ${category.percentage}%`}
+										></div>
+									</div>
+									<span class="text-xs text-[rgb(var(--color-text-muted))] w-8 text-right" title={`${category.postCount} posts (${category.percentage}% of total) in ${category.title} life area`}>{category.percentage}%</span>
+								</div>
+							</div>
+						))}
+					</div>
+				</div>
+			</div>
+
+			{/* Tag Relationships */}
+			<div class="mb-8">
+				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">🔗 Strongest Topic Relationships</h3>
+				<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+					{tagRelationships.slice(0, 12).map((relationship, index) => (
+						<div class="p-4 bg-[rgb(var(--color-bg))] rounded-lg">
+							<div class="text-sm font-medium text-[rgb(var(--color-text))] mb-2">
+								{relationship.tag1} ↔ {relationship.tag2}
+							</div>
+							<div class="text-lg font-bold text-[rgb(var(--color-accent))]" title={`${relationship.count} posts have both tags "${relationship.tag1}" and "${relationship.tag2}"`}>{relationship.count}</div>
+							<div class="text-xs text-[rgb(var(--color-text-muted))]">
+								Co-occurrences • Strength: {Math.round(relationship.strength * 100)}%
+							</div>
+						</div>
+					))}
+				</div>
+			</div>
+
+			{/* Recent Trends */}
+			<div class="mb-8">
+				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">📈 Recent Topic Trends (Last 6 Months)</h3>
+				<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+					{recentTopTags.map((tagData, index) => (
+						<div class="p-4 bg-[rgb(var(--color-bg))] rounded-lg">
+							<div class="flex items-center justify-between mb-2">
+								<span class="text-sm font-medium text-[rgb(var(--color-text))]">{tagData.tag}</span>
+								<span class="text-lg font-bold text-[rgb(var(--color-accent))]">#{index + 1}</span>
+							</div>
+							<div class="text-2xl font-bold text-[rgb(var(--color-text))]" title={`${tagData.count} posts tagged with "${tagData.tag}" in the last 6 months`}>{tagData.count}</div>
+							<div class="text-xs text-[rgb(var(--color-text-muted))]">
+								Overall rank: #{tagData.overallRank}
+							</div>
+						</div>
+					))}
+				</div>
+			</div>
+
+			{/* Most Diverse Posts */}
+			<div class="mb-8">
+				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">🎨 Most Diverse Posts</h3>
+				<div class="space-y-4">
+					{postTagDiversity.slice(0, 10).map((post, index) => (
+						<div class="flex items-center justify-between p-4 bg-[rgb(var(--color-bg))] rounded-lg">
+							<div class="flex items-center gap-4">
+								<div class={`text-lg font-bold ${
+									index === 0 ? 'text-purple-500' : 
+									index === 1 ? 'text-pink-500' : 
+									index === 2 ? 'text-indigo-500' : 'text-[rgb(var(--color-accent))]'
+								}`}>
+									{index === 0 ? '🎨' : index === 1 ? '🌈' : index === 2 ? '✨' : `#${index + 1}`}
+								</div>
+								<div>
+									<div class="text-sm font-medium text-[rgb(var(--color-text))]">
+										{post.title}
+									</div>
+									<div class="text-xs text-[rgb(var(--color-text-muted))]">
+										{format(post.date, 'MMM d, yyyy')} • {post.tagCount} tags
+									</div>
+								</div>
+							</div>
+							<div class="text-sm text-[rgb(var(--color-text-muted))]" title={`Tags: ${post.tags.join(', ')}`}>
+								{post.tags.slice(0, 3).join(', ')}
+								{post.tags.length > 3 && '...'}
+							</div>
+						</div>
+					))}
+				</div>
+			</div>
+
+			{/* Topic Evolution */}
+			<div class="mb-8">
+				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">📊 Topic Evolution by Quarter</h3>
+				<div class="space-y-6">
+					{quarters.slice(-8).map(quarter => (
+						<div class="p-4 bg-[rgb(var(--color-bg))] rounded-lg">
+							<div class="flex items-center justify-between mb-3">
+								<h4 class="text-sm font-medium text-[rgb(var(--color-text))]">{quarter.label}</h4>
+								<span class="text-xs text-[rgb(var(--color-text-muted))]" title={`${quarter.posts} posts published in ${quarter.label}`}>{quarter.posts} posts</span>
+							</div>
+							<div class="flex flex-wrap gap-2">
+								{quarter.topTags.map(tag => (
+									<span class="text-xs bg-[rgb(var(--color-accent))] text-white px-2 py-1 rounded" title={`${tag.count} posts tagged with "${tag.tag}" in ${quarter.label}`}>
+										{tag.tag} ({tag.count})
+									</span>
+								))}
+							</div>
+						</div>
+					))}
+				</div>
+			</div>
+
+			{/* Analysis Conclusion */}
+			<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
+				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-4">🏷️ Topic Analysis Insights</h3>
+				<div class="space-y-4">
+					{/* Dynamic Insights */}
+					<div class="space-y-2">
+						{insights.map((insight, index) => (
+							<div class={`flex items-center gap-2 ${insight.color}`}>
+								<span class="text-sm">
+									{insight.type === 'positive' ? '✅' : 
+									 insight.type === 'negative' ? '❌' : 
+									 insight.type === 'warning' ? '⚠️' : 'ℹ️'}
+								</span>
+								<span class="text-sm" set:html={insight.text}></span>
+							</div>
+						))}
+					</div>
+					
+					{/* Summary */}
+					<div class="pt-4 border-t border-[rgb(var(--color-border))]">
+						<p class="text-sm text-[rgb(var(--color-text-muted))]" set:html={summary}></p>
+					</div>
+				</div>
+			</div>
+		</Container>
+	</Container>
+</BaseLayout> 

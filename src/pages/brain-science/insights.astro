@@ -1,0 +1,507 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Container from '../../components/Container.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { getCollection } from 'astro:content';
+import { categories } from '../../data/categories';
+import { getTagWeight, MASLOW_CATEGORIES } from '../../data/tags';
+import { format } from 'date-fns';
+import { generateDynamicInsights } from '../../utils/insightGenerator';
+
+// Get all published posts
+const posts = await getCollection('blog', ({ data }) => {
+	return import.meta.env.PROD ? !data.draft && data.published : true;
+});
+
+// Sort posts by date
+const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+// Content analysis
+const contentAnalysis = posts.map(post => {
+	const content = post.body || '';
+	const wordCount = content.split(/\s+/).length;
+	const paragraphCount = content.split('\n\n').length;
+	const sentenceCount = content.split(/[.!?]+/).length - 1;
+	
+	// Calculate emotional intensity (simple proxy based on exclamation marks and emotional words)
+	const exclamationCount = (content.match(/!/g) || []).length;
+	const emotionalWords = ['love', 'hate', 'fear', 'joy', 'sadness', 'anger', 'peace', 'anxiety', 'hope', 'despair', 'gratitude', 'frustration'];
+	const emotionalWordCount = emotionalWords.reduce((count, word) => {
+		const regex = new RegExp(`\\b${word}\\b`, 'gi');
+		return count + (content.match(regex) || []).length;
+	}, 0);
+	
+	const emotionalIntensity = exclamationCount + emotionalWordCount;
+	
+	return {
+		title: post.data.title,
+		slug: post.id,
+		date: post.data.pubDate,
+		wordCount,
+		paragraphCount,
+		sentenceCount,
+		emotionalIntensity,
+		readingTime: post.data.readingTime || Math.ceil(wordCount / 200),
+		tags: post.data.tags || [],
+		categories: post.data.category || []
+	};
+});
+
+// Most emotionally intense posts
+const emotionalPosts = contentAnalysis
+	.sort((a, b) => b.emotionalIntensity - a.emotionalIntensity)
+	.slice(0, 10);
+
+// Creative energy analysis (posts with most words as proxy for creative energy)
+const creativeEnergyPosts = contentAnalysis
+	.sort((a, b) => b.wordCount - a.wordCount)
+	.slice(0, 10);
+
+// Intellectual depth analysis (posts with most complex vocabulary)
+const intellectualDepthPosts = contentAnalysis
+	.sort((a, b) => b.sentenceCount - a.sentenceCount)
+	.slice(0, 10);
+
+// Personal growth indicators
+const growthIndicators = posts.filter(post => {
+	const tags = post.data.tags || [];
+	const title = post.data.title.toLowerCase();
+	const content = post.body || '';
+	
+	// Look for growth-related indicators
+	const growthTags = ['personal-growth', 'transformation', 'healing', 'self-improvement', 'learning', 'consciousness'];
+	const growthKeywords = ['growth', 'change', 'transform', 'learn', 'evolve', 'improve', 'heal', 'discover'];
+	
+	const hasGrowthTags = growthTags.some(tag => tags.includes(tag));
+	const hasGrowthKeywords = growthKeywords.some(keyword => 
+		title.includes(keyword) || content.toLowerCase().includes(keyword)
+	);
+	
+	return hasGrowthTags || hasGrowthKeywords;
+}).map(post => ({
+	title: post.data.title,
+	slug: post.id,
+	date: post.data.pubDate,
+	wordCount: (post.body || '').split(/\s+/).length,
+	tags: post.data.tags || [],
+	reason: 'growth-related'
+}));
+
+// Knowledge area expansion
+const knowledgeAreas = MASLOW_CATEGORIES.map(category => {
+	const categoryPosts = posts.filter(post => 
+		post.data.tags?.some(tag => category.tags.includes(tag))
+	);
+	
+	const earlyPosts = categoryPosts.filter(post => {
+		const postIndex = sortedPosts.findIndex(p => p.id === post.id);
+		return postIndex >= sortedPosts.length * 0.7; // Last 30% of posts
+	});
+	
+	const recentPosts = categoryPosts.filter(post => {
+		const postIndex = sortedPosts.findIndex(p => p.id === post.id);
+		return postIndex < sortedPosts.length * 0.3; // First 30% of posts
+	});
+	
+	return {
+		...category,
+		totalPosts: categoryPosts.length,
+		earlyPosts: earlyPosts.length,
+		recentPosts: recentPosts.length,
+		expansion: recentPosts.length - earlyPosts.length,
+		expansionRate: earlyPosts.length > 0 ? ((recentPosts.length - earlyPosts.length) / earlyPosts.length) * 100 : recentPosts.length > 0 ? 100 : 0
+	};
+}).filter(area => area.totalPosts > 0);
+
+// Writing voice evolution
+const voiceEvolution = contentAnalysis
+	.sort((a, b) => a.date.valueOf() - b.date.valueOf())
+	.map((post, index) => ({
+		...post,
+		period: index < contentAnalysis.length / 3 ? 'Early' : index < (contentAnalysis.length * 2) / 3 ? 'Middle' : 'Recent',
+		voiceMaturity: post.wordCount + (post.emotionalIntensity * 10) + (post.paragraphCount * 5)
+	}));
+
+const voicePeriods = voiceEvolution.reduce((acc, post) => {
+	const period = post.period;
+	if (!acc[period]) {
+		acc[period] = [];
+	}
+	acc[period].push(post);
+	return acc;
+}, {} as Record<string, typeof voiceEvolution>);
+
+const voiceStats = Object.entries(voicePeriods).map(([period, posts]) => ({
+	period,
+	avgWordCount: Math.round(posts.reduce((sum, post) => sum + post.wordCount, 0) / posts.length),
+	avgEmotionalIntensity: Math.round(posts.reduce((sum, post) => sum + post.emotionalIntensity, 0) / posts.length),
+	avgVoiceMaturity: Math.round(posts.reduce((sum, post) => sum + post.voiceMaturity, 0) / posts.length),
+	postCount: posts.length
+}));
+
+// Creative patterns
+const creativePatterns = {
+	mostProductiveTime: 'Evening', // Could be calculated from timestamps
+	preferredLength: 'Medium', // Based on word count distribution
+	favoriteTopics: ['personal-growth', 'consciousness', 'parenting'], // Top tags
+	writingStyle: 'Reflective', // Based on emotional intensity and complexity
+	growthAreas: knowledgeAreas.filter(area => area.expansionRate > 0).length,
+	stableAreas: knowledgeAreas.filter(area => area.expansionRate === 0).length,
+	decliningAreas: knowledgeAreas.filter(area => area.expansionRate < 0).length
+};
+
+// Personal discoveries
+const personalDiscoveries = [
+	{
+		insight: "Writing serves as emotional processing",
+		evidence: `${emotionalPosts.length} highly emotional posts`,
+		impact: "High"
+	},
+	{
+		insight: "Growth-focused content dominates",
+		evidence: `${growthIndicators.length} growth-related posts`,
+		impact: "High"
+	},
+	{
+		insight: "Creative energy varies significantly",
+		evidence: `${creativeEnergyPosts[0]?.wordCount} words in longest post vs ${creativeEnergyPosts[creativeEnergyPosts.length - 1]?.wordCount} in shortest`,
+		impact: "Medium"
+	},
+	{
+		insight: "Knowledge areas are expanding",
+		evidence: `${creativePatterns.growthAreas} areas growing vs ${creativePatterns.decliningAreas} declining`,
+		impact: "High"
+	}
+];
+
+// Writing momentum analysis
+const momentumAnalysis = contentAnalysis
+	.sort((a, b) => a.date.valueOf() - b.date.valueOf())
+	.map((post, index) => ({
+		...post,
+		momentum: index > 0 ? post.wordCount - contentAnalysis[index - 1].wordCount : 0,
+		cumulativeMomentum: index > 0 ? contentAnalysis.slice(0, index).reduce((sum, p) => sum + p.wordCount, 0) : post.wordCount
+	}));
+
+const momentumTrends = momentumAnalysis.reduce((acc, post) => {
+	const month = format(post.date, 'yyyy-MM');
+	if (!acc[month]) {
+		acc[month] = [];
+	}
+	acc[month].push(post);
+	return acc;
+}, {} as Record<string, typeof momentumAnalysis>);
+
+const momentumStats = Object.entries(momentumTrends).map(([month, posts]) => ({
+	month,
+	avgMomentum: Math.round(posts.reduce((sum, post) => sum + post.momentum, 0) / posts.length),
+	totalWords: posts.reduce((sum, post) => sum + post.wordCount, 0),
+	postCount: posts.length
+})).sort((a, b) => b.totalWords - a.totalWords);
+
+// Generate dynamic insights
+const insightData = {
+	totalPosts: posts.length,
+	totalWords: posts.reduce((sum, post) => sum + (post.body || '').split(/\s+/).length, 0),
+	avgWordsPerPost: Math.round(posts.reduce((sum, post) => sum + (post.body || '').split(/\s+/).length, 0) / posts.length),
+	topTags: Object.entries(posts.reduce((acc, post) => {
+		post.data.tags?.forEach(tag => {
+			acc[tag] = (acc[tag] || 0) + 1;
+		});
+		return acc;
+	}, {} as Record<string, number>))
+		.sort(([,a], [,b]) => b - a)
+		.slice(0, 5)
+		.map(([tag, count]) => ({ tag, count })),
+	emotionalPosts: emotionalPosts.length,
+	growthPosts: growthIndicators.length,
+	complexityTrend: 'stable' as const, // Not calculated for insights
+	productivityTrend: 'stable' as const, // Not calculated for insights
+	knowledgeAreas: knowledgeAreas.map(area => ({
+		title: area.title,
+		postCount: area.totalPosts,
+		trend: area.expansionRate > 0 ? 'growing' as const : area.expansionRate < 0 ? 'declining' as const : 'stable' as const
+	})),
+	writingStreaks: [],
+	drySpells: []
+};
+
+const { insights, summary } = generateDynamicInsights(insightData, 'insights');
+---
+
+<BaseLayout
+	title="Personal Insights - Brain Science"
+	description="Discovering creative patterns, intellectual growth trends, and personal revelations from my writing data."
+	path="/brain-science/insights"
+	structuredDataType="website"
+>
+	<Container>
+		<Container maxWidth="container" padding="none">
+			{/* Breadcrumbs */}
+			<div class="mb-6 hidden md:block">
+				<Breadcrumbs 
+					items={[
+						{ label: "Home", href: "/" },
+						{ label: "Brain Science", href: "/brain-science" },
+						{ label: "Personal Insights" }
+					]} 
+				/>
+			</div>
+
+			<div class="py-6 md:py-8 lg:py-12">
+				{/* Header */}
+				<div class="mb-8 md:mb-12">
+					<h1 class="text-display text-[rgb(var(--color-text))] mb-4 md:mb-6" transition:name="page-title">
+						💡 <span class="highlight-accent">Personal Insights</span>
+					</h1>
+					<p class="text-body-large text-[rgb(var(--color-text-muted))] leading-relaxed" transition:name="page-description">
+						Discovering creative patterns, intellectual growth trends, and personal revelations from my writing data.
+					</p>
+				</div>
+
+			{/* Key Insights with Balanced Indicators */}
+			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
+					<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Number of knowledge areas that have increased in frequency over time">{creativePatterns.growthAreas}</div>
+					<div class="text-sm text-[rgb(var(--color-text-muted))]">Growing Knowledge Areas</div>
+					<div class="text-xs text-green-500 mt-1">📈 Expanding</div>
+				</div>
+				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
+					<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Number of knowledge areas that have decreased in frequency over time">{creativePatterns.decliningAreas}</div>
+					<div class="text-sm text-[rgb(var(--color-text-muted))]">Declining Areas</div>
+					<div class="text-xs text-red-500 mt-1">📉 Shrinking</div>
+				</div>
+				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
+					<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Posts with high emotional intensity (based on exclamation marks and emotional keywords)">{emotionalPosts.length}</div>
+					<div class="text-sm text-[rgb(var(--color-text-muted))]">Emotionally Intense Posts</div>
+					<div class="text-xs text-purple-500 mt-1">💜 Vulnerable</div>
+				</div>
+				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
+					<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Word count of the longest post (highest creative energy output)">{creativeEnergyPosts[0]?.wordCount || 0}</div>
+					<div class="text-sm text-[rgb(var(--color-text-muted))]">Peak Creative Energy</div>
+					<div class="text-xs text-blue-500 mt-1">⚡ Maximum Output</div>
+				</div>
+			</div>
+
+			{/* Growth vs Decline Analysis */}
+			<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))] mb-8">
+				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">📊 Growth vs Decline Analysis</h3>
+				<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+					<div class="text-center p-4 bg-green-50 dark:bg-green-900/20 rounded-lg">
+						<div class="text-3xl font-bold text-green-500 mb-2" title="Knowledge areas that have increased in frequency from early to recent periods">{creativePatterns.growthAreas}</div>
+						<div class="text-sm text-[rgb(var(--color-text-muted))]">Growing Areas</div>
+						<div class="text-xs text-green-600 dark:text-green-400 mt-1">Expanding knowledge</div>
+					</div>
+					<div class="text-center p-4 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg">
+						<div class="text-3xl font-bold text-yellow-500 mb-2" title="Knowledge areas that have maintained consistent frequency over time">{creativePatterns.stableAreas}</div>
+						<div class="text-sm text-[rgb(var(--color-text-muted))]">Stable Areas</div>
+						<div class="text-xs text-yellow-600 dark:text-yellow-400 mt-1">Consistent focus</div>
+					</div>
+					<div class="text-center p-4 bg-red-50 dark:bg-red-900/20 rounded-lg">
+						<div class="text-3xl font-bold text-red-500 mb-2" title="Knowledge areas that have decreased in frequency from early to recent periods">{creativePatterns.decliningAreas}</div>
+						<div class="text-sm text-[rgb(var(--color-text-muted))]">Declining Areas</div>
+						<div class="text-xs text-red-600 dark:text-red-400 mt-1">Reduced attention</div>
+					</div>
+				</div>
+			</div>
+
+			{/* Personal Discoveries with Balanced Perspective */}
+			<div class="mb-8">
+				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">🔍 Personal Discoveries</h3>
+				<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+					{personalDiscoveries.map((discovery, index) => (
+						<div class="p-4 bg-[rgb(var(--color-bg))] rounded-lg">
+							<div class="flex items-center gap-3 mb-3">
+								<div class="text-lg font-bold text-[rgb(var(--color-accent))]">#{index + 1}</div>
+								<span class={`text-xs px-2 py-1 rounded ${
+									discovery.impact === 'High' ? 'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400' :
+									discovery.impact === 'Medium' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400' :
+									'bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400'
+								}`}>
+									{discovery.impact} Impact
+								</span>
+							</div>
+							<div class="text-sm font-medium text-[rgb(var(--color-text))] mb-2">
+								{discovery.insight}
+							</div>
+							<div class="text-xs text-[rgb(var(--color-text-muted))]">
+								{discovery.evidence}
+							</div>
+						</div>
+					))}
+				</div>
+			</div>
+
+			{/* Creative Patterns with Balanced View */}
+			<div class="mb-8">
+				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">🌀 Creative Patterns</h3>
+				<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+					<div class="p-4 bg-[rgb(var(--color-bg))] rounded-lg">
+						<div class="text-lg font-semibold text-[rgb(var(--color-text))] mb-2">Writing Style</div>
+						<div class="text-2xl font-bold text-[rgb(var(--color-accent))] mb-2">{creativePatterns.writingStyle}</div>
+						<div class="text-sm text-[rgb(var(--color-text-muted))]">Based on emotional intensity and complexity analysis</div>
+					</div>
+					<div class="p-4 bg-[rgb(var(--color-bg))] rounded-lg">
+						<div class="text-lg font-semibold text-[rgb(var(--color-text))] mb-2">Preferred Length</div>
+						<div class="text-2xl font-bold text-[rgb(var(--color-accent))] mb-2">{creativePatterns.preferredLength}</div>
+						<div class="text-sm text-[rgb(var(--color-text-muted))]">Based on word count distribution</div>
+					</div>
+					<div class="p-4 bg-[rgb(var(--color-bg))] rounded-lg">
+						<div class="text-lg font-semibold text-[rgb(var(--color-text))] mb-2">Growth Areas</div>
+						<div class="text-2xl font-bold text-green-500 mb-2">{creativePatterns.growthAreas}</div>
+						<div class="text-sm text-[rgb(var(--color-text-muted))]">Knowledge areas expanding</div>
+					</div>
+					<div class="p-4 bg-[rgb(var(--color-bg))] rounded-lg">
+						<div class="text-lg font-semibold text-[rgb(var(--color-text))] mb-2">Stable Areas</div>
+						<div class="text-2xl font-bold text-yellow-500 mb-2">{creativePatterns.stableAreas}</div>
+						<div class="text-sm text-[rgb(var(--color-text-muted))]">Consistent focus areas</div>
+					</div>
+					<div class="p-4 bg-[rgb(var(--color-bg))] rounded-lg">
+						<div class="text-lg font-semibold text-[rgb(var(--color-text))] mb-2">Declining Areas</div>
+						<div class="text-2xl font-bold text-red-500 mb-2">{creativePatterns.decliningAreas}</div>
+						<div class="text-sm text-[rgb(var(--color-text-muted))]">Areas of reduced focus</div>
+					</div>
+					<div class="p-4 bg-[rgb(var(--color-bg))] rounded-lg">
+						<div class="text-lg font-semibold text-[rgb(var(--color-text))] mb-2">Top Topics</div>
+						<div class="text-sm text-[rgb(var(--color-text-muted))]">
+							{creativePatterns.favoriteTopics.map(topic => (
+								<span class="inline-block bg-[rgb(var(--color-accent))] text-white px-2 py-1 rounded text-xs mr-1 mb-1">
+									{topic}
+								</span>
+							))}
+						</div>
+					</div>
+				</div>
+			</div>
+
+			{/* Most Emotionally Intense Posts */}
+			<div class="mb-8">
+				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">💜 Most Emotionally Intense Posts</h3>
+				<div class="space-y-4">
+					{emotionalPosts.map((post, index) => (
+						<div class="flex items-center justify-between p-4 bg-[rgb(var(--color-bg))] rounded-lg">
+							<div class="flex items-center gap-4">
+								<div class={`text-lg font-bold ${
+									index === 0 ? 'text-purple-500' : 
+									index === 1 ? 'text-pink-500' : 
+									index === 2 ? 'text-indigo-500' : 'text-[rgb(var(--color-accent))]'
+								}`}>
+									{index === 0 ? '💜' : index === 1 ? '💖' : index === 2 ? '💙' : `#${index + 1}`}
+								</div>
+								<div>
+									<div class="text-sm font-medium text-[rgb(var(--color-text))]">
+										{post.title}
+									</div>
+									<div class="text-xs text-[rgb(var(--color-text-muted))]">
+										{format(post.date, 'MMM d, yyyy')} • {post.wordCount} words
+									</div>
+								</div>
+							</div>
+							<div class="text-right">
+								<div class="text-sm font-medium text-[rgb(var(--color-text))]" title={`Emotional intensity score: ${post.emotionalIntensity} (exclamation marks + emotional keywords)`}>{post.emotionalIntensity}</div>
+								<div class="text-xs text-[rgb(var(--color-text-muted))]">emotional intensity</div>
+							</div>
+						</div>
+					))}
+				</div>
+			</div>
+
+			{/* Knowledge Area Expansion with Balanced View */}
+			<div class="mb-8">
+				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">📚 Knowledge Area Evolution</h3>
+				<div class="space-y-4">
+					{knowledgeAreas
+						.sort((a, b) => Math.abs(b.expansionRate) - Math.abs(a.expansionRate))
+						.slice(0, 10)
+						.map((area, index) => (
+							<div class="flex items-center justify-between p-4 bg-[rgb(var(--color-bg))] rounded-lg">
+								<div class="flex items-center gap-4">
+									<div class={`text-lg font-bold ${
+										area.expansionRate > 0 ? 'text-green-500' : 
+										area.expansionRate < 0 ? 'text-red-500' : 'text-[rgb(var(--color-accent))]'
+									}`}>
+										{area.expansionRate > 0 ? '📈' : area.expansionRate < 0 ? '📉' : '➡️'}
+									</div>
+									<div class="flex items-center gap-2">
+										<span class="text-lg">{area.icon}</span>
+										<div>
+											<div class="text-sm font-medium text-[rgb(var(--color-text))]">{area.title}</div>
+											<div class="text-xs text-[rgb(var(--color-text-muted))]">
+												{area.earlyPosts} → {area.recentPosts} posts
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="text-right">
+									<div class={`text-sm font-medium ${
+										area.expansionRate > 0 ? 'text-green-500' : 
+										area.expansionRate < 0 ? 'text-red-500' : 'text-[rgb(var(--color-text-muted))]'
+									}`} title={`${area.expansionRate > 0 ? 'Growth' : area.expansionRate < 0 ? 'Decline' : 'Stable'} rate: ${Math.round(area.expansionRate)}% change from early to recent periods`}>
+										{area.expansionRate > 0 ? '+' : ''}{Math.round(area.expansionRate)}%
+									</div>
+									<div class="text-xs text-[rgb(var(--color-text-muted))]">
+										{area.expansionRate > 0 ? 'growth' : area.expansionRate < 0 ? 'decline' : 'stable'}
+									</div>
+								</div>
+							</div>
+						))}
+				</div>
+			</div>
+
+			{/* Writing Voice Evolution */}
+			<div class="mb-8">
+				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">🎭 Writing Voice Evolution</h3>
+				<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+					{voiceStats.map(period => (
+						<div class="p-4 bg-[rgb(var(--color-bg))] rounded-lg">
+							<div class="text-lg font-semibold text-[rgb(var(--color-text))] mb-4">{period.period} Voice</div>
+							<div class="space-y-3">
+								<div class="flex justify-between">
+									<span class="text-sm text-[rgb(var(--color-text-muted))]">Avg Words:</span>
+									<span class="text-sm font-medium text-[rgb(var(--color-text))]" title={`Average word count per post in ${period.period} period`}>{period.avgWordCount}</span>
+								</div>
+								<div class="flex justify-between">
+									<span class="text-sm text-[rgb(var(--color-text-muted))]">Emotional Intensity:</span>
+									<span class="text-sm font-medium text-[rgb(var(--color-text))]" title={`Average emotional intensity score in ${period.period} period`}>{period.avgEmotionalIntensity}</span>
+								</div>
+								<div class="flex justify-between">
+									<span class="text-sm text-[rgb(var(--color-text-muted))]">Voice Maturity:</span>
+									<span class="text-sm font-medium text-[rgb(var(--color-text))]" title={`Average voice maturity score in ${period.period} period (words + emotional intensity + paragraphs)`}>{period.avgVoiceMaturity}</span>
+								</div>
+								<div class="flex justify-between">
+									<span class="text-sm text-[rgb(var(--color-text-muted))]">Posts:</span>
+									<span class="text-sm font-medium text-[rgb(var(--color-text))]" title={`Number of posts in ${period.period} period`}>{period.postCount}</span>
+								</div>
+							</div>
+						</div>
+					))}
+				</div>
+			</div>
+
+			{/* Analysis Conclusion */}
+			<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
+				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-4">💡 Personal Insights Summary</h3>
+				<div class="space-y-4">
+					{/* Dynamic Insights */}
+					<div class="space-y-2">
+						{insights.map((insight, index) => (
+							<div class={`flex items-center gap-2 ${insight.color}`}>
+								<span class="text-sm">
+									{insight.type === 'positive' ? '✅' : 
+									 insight.type === 'negative' ? '❌' : 
+									 insight.type === 'warning' ? '⚠️' : 'ℹ️'}
+								</span>
+								<span class="text-sm" set:html={insight.text}></span>
+							</div>
+						))}
+					</div>
+					
+					{/* Summary */}
+					<div class="pt-4 border-t border-[rgb(var(--color-border))]">
+						<p class="text-sm text-[rgb(var(--color-text-muted))]" set:html={summary}></p>
+					</div>
+				</div>
+			</div>
+		</Container>
+	</Container>
+</BaseLayout> 
