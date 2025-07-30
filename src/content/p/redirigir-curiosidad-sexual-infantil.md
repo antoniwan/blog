@@ -26,9 +26,7 @@ tags:
   - family-dynamics
   - consciousness
 readingTime: 6
-draft: false
 featured: false
-published: true
 showComments: true
 ---
 

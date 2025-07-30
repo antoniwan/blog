@@ -25,9 +25,7 @@ tags:
   - self-expression
   - metaspace
 readingTime: 7
-draft: false
 featured: true
-published: true
 showComments: true
 ---
 

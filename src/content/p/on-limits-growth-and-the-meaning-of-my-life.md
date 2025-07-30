@@ -21,11 +21,8 @@ tags:
   - healing
   - purpose
 readingTime: 2
-draft: false
 featured: false
-published: true
 showComments: true
-author: wizards777
 ---
 
 I notice I can keep tearing and rebuilding muscle and mass. Mentally, I can keep reading, learning, letting go, and creating new ideas and paradigm shifts. Disciplined and through practice, I kill my ego to love more and be kinder and compassionate more fully. I practice feeling and connecting with my understandings and biases to feel more profound feelings, lately sadness, joy, intention, desire, grief, whatever I need to feel.

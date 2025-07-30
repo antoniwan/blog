@@ -26,9 +26,7 @@ tags:
   - digital-art
   - craftsmanship
 readingTime: 8
-draft: false
 featured: true
-published: true
 showComments: true
 ---
 
@@ -90,7 +88,6 @@ pubDate: "2025-01-29T00:00:00.000Z"
 category: ["systems-strategy", "diy-creation"]
 tags: ["astro", "typescript", "open-source"]
 readingTime: 5
-draft: false
 featured: true
 ---
 ```

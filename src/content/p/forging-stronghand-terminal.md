@@ -22,9 +22,7 @@ tags:
   - software-development
   - customization
 readingTime: 3
-draft: false
 featured: false
-published: true
 showComments: true
 ---
 

@@ -23,9 +23,7 @@ tags:
   - responsibility
   - metaspace
 readingTime: 1
-draft: false
 featured: false
-published: true
 showComments: true
 ---
 

@@ -36,9 +36,7 @@ tags:
   - berserk
   - samurai-x
 readingTime: 6
-draft: false
 featured: true
-published: true
 showComments: true
 ---
 

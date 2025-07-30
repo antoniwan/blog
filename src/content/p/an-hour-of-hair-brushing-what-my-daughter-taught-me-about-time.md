@@ -28,9 +28,7 @@ tags:
   - slow-living
   - ritual
 readingTime: 5
-draft: false
 featured: true
-published: true
 showComments: true
 ---
 

@@ -22,9 +22,7 @@ tags:
   - self-improvement
   - routine
 readingTime: 2
-draft: false
 featured: false
-published: true
 showComments: true
 ---
 

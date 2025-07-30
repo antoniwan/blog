@@ -20,9 +20,7 @@ tags:
   - mindfulness
   - healing
 readingTime: 2
-draft: false
 featured: false
-published: true
 showComments: true
 ---
 

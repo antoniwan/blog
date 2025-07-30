@@ -20,9 +20,7 @@ tags:
   - social-issues
   - self-improvement
 readingTime: 1
-draft: false
 featured: false
-published: true
 showComments: true
 ---
 

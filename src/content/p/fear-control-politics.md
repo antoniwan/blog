@@ -24,9 +24,7 @@ tags:
   - therapy
   - healing
 readingTime: 3
-draft: false
 featured: false
-published: true
 showComments: true
 ---
 

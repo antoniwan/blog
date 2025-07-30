@@ -21,11 +21,8 @@ tags:
   - self-improvement
   - mindfulness
 readingTime: 2
-draft: false
 featured: false
-published: true
 showComments: true
-author: wizards777
 ---
 
 I wrote this on April 10, 2023, to regulate painful emotions.
