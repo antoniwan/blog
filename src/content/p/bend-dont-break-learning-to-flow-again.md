@@ -1,10 +1,10 @@
 ---
-title: 'Bend, Don''t Break: Learning to Flow Again'
+title: "Bend, Don't Break: Learning to Flow Again"
 description: >-
   A personal reflection on the transformation from rigid control to flexible
   flow, embracing vulnerability and finding strength in adaptability during
   life's challenges.
-pubDate: '2025-07-09T00:00:00.000Z'
+pubDate: "2025-07-09T00:00:00.000Z"
 language:
   - en
 heroImage: /images/saitama-okay.webp
@@ -20,9 +20,10 @@ tags:
   - emotional-regulation
   - consciousness
   - healing
-  - self-improvement
   - adaptability
   - transformation
+  - co-parenting
+  - vulnerability
 readingTime: 2
 featured: false
 showComments: true

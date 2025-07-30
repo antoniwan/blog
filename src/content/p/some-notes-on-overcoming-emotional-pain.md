@@ -3,7 +3,7 @@ title: Some Notes on Overcoming Emotional Pain
 description: >-
   A personal reflection on dealing with emotional pain, accountability, and
   personal growth through challenging times.
-pubDate: '2024-05-01'
+pubDate: "2024-05-01"
 language:
   - en
 category:
@@ -17,9 +17,10 @@ tags:
   - personal-growth
   - therapy
   - emotional-regulation
-  - self-improvement
   - resilience
   - mindfulness
+  - co-parenting
+  - parenting
 readingTime: 3
 featured: false
 showComments: true
