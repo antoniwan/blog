@@ -135,6 +135,18 @@ import { mainNavigation } from '../data/navigation';
         </a>
       </div>
     </div>
+    
+    <!-- Share Current Page -->
+    <div class="border-t border-[rgb(var(--color-border))] pt-4">
+      <button
+        id="mobile-share-button"
+        class="w-full flex items-center gap-3 text-lg text-[rgb(var(--color-text-muted))] py-3 px-4 rounded-lg hover:bg-[rgb(var(--color-bg-alt))] theme-transition leading-relaxed"
+        aria-label="Share this page"
+      >
+        <span class="text-lg" aria-hidden="true">📤</span>
+        <span>Share This Page</span>
+      </button>
+    </div>
   </nav>
 </div>
 
@@ -166,6 +178,41 @@ import { mainNavigation } from '../data/navigation';
       link.addEventListener('click', closeMenu);
     });
     
+    // Handle mobile share button
+    const mobileShareButton = document.getElementById('mobile-share-button');
+    if (mobileShareButton) {
+      mobileShareButton.addEventListener('click', async () => {
+        closeMenu();
+        
+        if (navigator.share) {
+          try {
+            await navigator.share({
+              title: document.title,
+              text: document.querySelector('meta[name="description"]')?.getAttribute('content') || '',
+              url: window.location.href
+            });
+          } catch (err) {
+            console.log('Share cancelled or failed');
+          }
+        } else {
+          // Fallback: copy to clipboard
+          try {
+            await navigator.clipboard.writeText(window.location.href);
+            showToast('Link copied to clipboard!');
+          } catch (err) {
+            // Fallback for older browsers
+            const textArea = document.createElement('textarea');
+            textArea.value = window.location.href;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            showToast('Link copied to clipboard!');
+          }
+        }
+      });
+    }
+    
     isInitialized = true;
   }
 
@@ -194,6 +241,20 @@ import { mainNavigation } from '../data/navigation';
     if (e.target === menu) {
       closeMenu();
     }
+  }
+
+  function showToast(message: string) {
+    // Create toast notification
+    const toast = document.createElement('div');
+    toast.className = 'fixed bottom-20 left-1/2 transform -translate-x-1/2 bg-[rgb(var(--color-bg))] border border-[rgb(var(--color-border))] text-[rgb(var(--color-text))] px-4 py-2 rounded-lg shadow-lg z-50 theme-transition';
+    toast.textContent = message;
+    
+    document.body.appendChild(toast);
+    
+    // Remove after 3 seconds
+    setTimeout(() => {
+      toast.remove();
+    }, 3000);
   }
 
   function handleKeydown(e: KeyboardEvent) {
