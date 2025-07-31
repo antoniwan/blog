@@ -222,7 +222,7 @@ const { insights, summary } = generateDynamicInsights(insightData, 'topics');
 			{/* Key Metrics with Balanced Indicators */}
 			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
 				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
-					<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Number of unique tags used across all posts">{Object.keys(tagFrequency).length}</div>
+					<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Number of unique tags used across all writings">{Object.keys(tagFrequency).length}</div>
 					<div class="text-sm text-[rgb(var(--color-text-muted))]">Unique Topics</div>
 					<div class="text-xs text-blue-500 mt-1">🎯 Topic Diversity</div>
 				</div>
@@ -232,13 +232,13 @@ const { insights, summary } = generateDynamicInsights(insightData, 'topics');
 					<div class="text-xs text-green-500 mt-1">📂 Well Organized</div>
 				</div>
 				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
-					<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Number of Maslow hierarchy areas covered by posts">{maslowAnalysis.length}</div>
+					<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Number of Maslow hierarchy areas covered by writings">{maslowAnalysis.length}</div>
 					<div class="text-sm text-[rgb(var(--color-text-muted))]">Life Areas Covered</div>
 					<div class="text-xs text-purple-500 mt-1">🌱 Holistic Growth</div>
 				</div>
 				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
-					<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Average number of tags per post (total tags / total posts)">{Math.round(posts.reduce((sum, post) => sum + (post.data.tags?.length || 0), 0) / posts.length * 10) / 10}</div>
-					<div class="text-sm text-[rgb(var(--color-text-muted))]">Avg Tags/Post</div>
+					<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Average number of tags per writing (total tags / total writings)">{Math.round(posts.reduce((sum, post) => sum + (post.data.tags?.length || 0), 0) / posts.length * 10) / 10}</div>
+					<div class="text-sm text-[rgb(var(--color-text-muted))]">Avg Tags/Writing</div>
 					<div class="text-xs text-yellow-500 mt-1">🏷️ Tag Density</div>
 				</div>
 			</div>
@@ -397,7 +397,7 @@ const { insights, summary } = generateDynamicInsights(insightData, 'topics');
 
 			{/* Most Diverse Posts */}
 			<div class="mb-8">
-				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">🎨 Most Diverse Posts</h3>
+				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">🎨 Most Diverse Writings</h3>
 				<div class="space-y-4">
 					{postTagDiversity.slice(0, 10).map((post, index) => (
 						<div class="flex items-center justify-between p-4 bg-[rgb(var(--color-bg))] rounded-lg">

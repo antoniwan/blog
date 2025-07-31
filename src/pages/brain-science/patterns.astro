@@ -255,19 +255,19 @@ const patternInsights = [
 	{
 		pattern: "Productivity by Day",
 		insight: patterns.dayOfWeekPatterns.sort((a, b) => b.productivity - a.productivity)[0]?.name || 'Unknown',
-		evidence: `${patterns.dayOfWeekPatterns.sort((a, b) => b.productivity - a.productivity)[0]?.postCount || 0} posts with highest avg word count`,
+		evidence: `${patterns.dayOfWeekPatterns.sort((a, b) => b.productivity - a.productivity)[0]?.postCount || 0} writings with highest avg word count`,
 		confidence: "High"
 	},
 	{
 		pattern: "Seasonal Creativity",
 		insight: patterns.seasonalPatterns.sort((a, b) => b.creativity - a.creativity)[0]?.name || 'Unknown',
-		evidence: `${patterns.seasonalPatterns.sort((a, b) => b.creativity - a.creativity)[0]?.postCount || 0} posts with highest creativity score`,
+		evidence: `${patterns.seasonalPatterns.sort((a, b) => b.creativity - a.creativity)[0]?.postCount || 0} writings with highest creativity score`,
 		confidence: "Medium"
 	},
 	{
 		pattern: "Creative Cycle Phase",
 		insight: cycleAnalysis.sort((a, b) => b.avgWordCount - a.avgWordCount)[0]?.phase || 'Unknown',
-		evidence: `${cycleAnalysis.sort((a, b) => b.avgWordCount - a.avgWordCount)[0]?.postCount || 0} posts in most productive phase`,
+		evidence: `${cycleAnalysis.sort((a, b) => b.avgWordCount - a.avgWordCount)[0]?.postCount || 0} writings in most productive phase`,
 		confidence: "Medium"
 	},
 	{

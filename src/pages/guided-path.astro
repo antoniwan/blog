@@ -128,7 +128,7 @@ const nonEmptyChapters = seasonalChapters.filter(chapter => chapter.posts.length
 	description="Welcome to a new way of reading online publications. Instead of endless scrolling through chronological feeds, here you'll find thoughts and ideas organized by the natural rhythm of seasons. Each chapter represents a season of a year, allowing you to say 'I already read Fall 2023' or 'I'm currently in Spring 2024.'"
 	path="/guided-path"
 >
-	<Container>
+	<>
 		<div class="guided-path">
 			<div class="chapters">
 				{nonEmptyChapters.map((chapter, index) => (
@@ -188,7 +188,7 @@ const nonEmptyChapters = seasonalChapters.filter(chapter => chapter.posts.length
 			</div>
 			</div>
 		</div>
-	</Container>
+	</>
 </PageLayout>
 
 <script>
@@ -273,7 +273,7 @@ const nonEmptyChapters = seasonalChapters.filter(chapter => chapter.posts.length
 
 <style>
 	.guided-path {
-		padding: 2rem 0;
+
 	}
 
 	.path-intro {

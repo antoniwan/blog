@@ -30,7 +30,7 @@ const { posts, initialCount = 6, loadMoreCount = 6 } = Astro.props;
 	{posts.length > initialCount && (
 		<div class="load-more-container text-center mt-12" id="load-more-container">
 			<div class="progress-indicator mb-4 text-base text-[rgb(var(--color-text-muted))] leading-relaxed" id="progress-indicator">
-				Showing {initialCount} of {posts.length} posts ({Math.round((initialCount / posts.length) * 100)}% complete)
+				Showing {initialCount} of {posts.length} writings ({Math.round((initialCount / posts.length) * 100)}% complete)
 			</div>
 			<button 
 				class="load-more-btn bg-[rgb(var(--color-primary))] hover:bg-[rgb(var(--color-primary-hover))] text-white font-medium py-3 px-8 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-primary))] focus:ring-offset-2 text-base leading-relaxed"
@@ -39,7 +39,7 @@ const { posts, initialCount = 6, loadMoreCount = 6 } = Astro.props;
 				data-current-count={initialCount}
 				data-load-count={loadMoreCount}
 			>
-				Load More Posts
+				Load More Writings
 			</button>
 			<div class="loading-spinner hidden mt-4" id="loading-spinner">
 				<div class="inline-block animate-spin rounded-full h-6 w-6 border-b-2 border-[rgb(var(--color-primary))]"></div>
@@ -153,14 +153,14 @@ const { posts, initialCount = 6, loadMoreCount = 6 } = Astro.props;
 			}
 			if (this.loadMoreBtn) {
 				this.loadMoreBtn.disabled = false;
-				this.loadMoreBtn.textContent = 'Load More Posts';
+				this.loadMoreBtn.textContent = 'Load More Writings';
 			}
 		}
 		
 		updateProgressIndicator(currentCount: number, totalCount: number) {
 			if (this.progressIndicator) {
 				const percentage = Math.round((currentCount / totalCount) * 100);
-				this.progressIndicator.textContent = `Showing ${currentCount} of ${totalCount} posts (${percentage}% complete)`;
+				this.progressIndicator.textContent = `Showing ${currentCount} of ${totalCount} writings (${percentage}% complete)`;
 			}
 		}
 	}
