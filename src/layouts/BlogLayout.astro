@@ -35,6 +35,9 @@ const {
 
 // Generate canonical URL automatically
 const canonical = path || generateCanonicalUrl(Astro.url.pathname);
+
+// Extract post slug from path for read status
+const postSlug = path?.replace('/p/', '').replace('/', '') || '';
 ---
 
 <BaseLayout
@@ -125,6 +128,17 @@ const canonical = path || generateCanonicalUrl(Astro.url.pathname);
                   </time>
                 </div>
               )}
+              
+              {/* Read on Date - Dynamic from localStorage */}
+              <div class="space-y-2" id="read-on-section" style="display: none;">
+                <h3 class="text-xs font-semibold text-[rgb(var(--color-text-muted))] uppercase tracking-wider">
+                  Read on
+                </h3>
+                <div class="flex items-center gap-2 text-base text-[rgb(var(--color-text))] leading-relaxed">
+                  <span class="text-[rgb(var(--color-accent))]">👁️</span>
+                  <time id="read-on-date" class="leading-relaxed"></time>
+                </div>
+              </div>
               
               {/* Reading Time */}
               {readingTime && (
@@ -250,120 +264,227 @@ const canonical = path || generateCanonicalUrl(Astro.url.pathname);
           
           {/* Mobile-only metadata - shown after content on mobile */}
           <div class="lg:hidden space-y-6 mt-12 pt-8 border-t border-[rgb(var(--color-border))]">
-            <div class="space-y-4">
-              <h3 class="text-lg font-semibold text-[rgb(var(--color-text))]">Article Details</h3>
-              
-              <div class="flex flex-wrap gap-4 text-sm text-[rgb(var(--color-text-muted))]">
-                {pubDate && (
-                  <time datetime={pubDate.toISOString()} class="flex items-center gap-2">
-                    <span class="text-[rgb(var(--color-accent))]">📅</span>
-                    <FormattedDate date={pubDate} format="long" />
-                  </time>
-                )}
-                
-                {readingTime && (
-                  <span class="flex items-center gap-2">
-                    <span class="text-[rgb(var(--color-accent))]">⏱️</span>
-                    {readingTime} min read
-                  </span>
-                )}
-                
-                {categoryName && category && category.length > 0 && (
-                  <span class="flex items-center gap-2">
-                    <span class="text-[rgb(var(--color-accent))]">📁</span>
-                    <a 
-                      href={`/category/${category[0]}/`}
-                      class="hover:text-[rgb(var(--color-accent))] theme-transition"
-                    >
-                      {categoryName}
-                    </a>
-                  </span>
-                )}
+            {/* Publication Date */}
+            {pubDate && (
+              <div class="space-y-2">
+                <h3 class="text-xs font-semibold text-[rgb(var(--color-text-muted))] uppercase tracking-wider">
+                  Published
+                </h3>
+                <time datetime={pubDate.toISOString()} class="flex items-center gap-2 text-base text-[rgb(var(--color-text))] leading-relaxed">
+                  <span class="text-[rgb(var(--color-accent))]">📅</span>
+                  <FormattedDate date={pubDate} format="long" />
+                </time>
               </div>
-              
-              {tags && tags.length > 0 && (
-                <div class="space-y-2">
-                  <h4 class="text-sm font-semibold text-[rgb(var(--color-text-muted))] uppercase tracking-wider">Tags</h4>
-                  <div class="flex flex-wrap gap-1.5">
-                    <TagDisplay 
-                      tags={tags} 
-                      maxVisible={tags.length} 
-                      showMoreIndicator={false}
-                      compact={false}
-                    />
-                  </div>
-                </div>
-              )}
-              
-              {/* Mobile-only Table of Contents */}
-              {tableOfContents && tableOfContents.length > 0 && (
-                <div class="space-y-3">
-                  <h4 class="text-sm font-semibold text-[rgb(var(--color-text-muted))] uppercase tracking-wider">Table of Contents</h4>
-                  <div class="p-4 bg-[rgb(var(--color-bg-alt))] rounded-lg">
-                    <nav>
-                      <ul class="space-y-2">
-                        {tableOfContents.map(item => (
-                          <li>
-                            <a 
-                              href={`#${item.slug}`}
-                              class={`block hover:text-[rgb(var(--color-accent))] theme-transition ${
-                                item.level === 3 ? 'ml-4 text-sm' : ''
-                              }`}
-                            >
-                              {item.text}
-                            </a>
-                          </li>
-                        ))}
-                      </ul>
-                    </nav>
-                  </div>
-                </div>
-              )}
-              
-              {/* Mobile Share Button */}
-              <div class="space-y-3">
-                <h4 class="text-sm font-semibold text-[rgb(var(--color-text-muted))] uppercase tracking-wider">Share</h4>
-                <SocialShare 
-                  title={title}
-                  description={description}
-                  url={canonical}
-                  variant="button"
-                  className="w-full justify-center"
-                />
+            )}
+            
+            {/* Updated Date */}
+            {updatedDate && updatedDate.getTime() !== pubDate?.getTime() && (
+              <div class="space-y-2">
+                <h3 class="text-xs font-semibold text-[rgb(var(--color-text-muted))] uppercase tracking-wider">
+                  Updated
+                </h3>
+                <time datetime={updatedDate.toISOString()} class="flex items-center gap-2 text-base text-[rgb(var(--color-text))] leading-relaxed">
+                  <span class="text-[rgb(var(--color-accent))]">🔄</span>
+                  <FormattedDate date={updatedDate} format="long" />
+                </time>
+              </div>
+            )}
+            
+            {/* Read on Date - Dynamic from localStorage (Mobile) */}
+            <div class="space-y-2" id="read-on-section-mobile" style="display: none;">
+              <h3 class="text-xs font-semibold text-[rgb(var(--color-text-muted))] uppercase tracking-wider">
+                Read on
+              </h3>
+              <div class="flex items-center gap-2 text-base text-[rgb(var(--color-text))] leading-relaxed">
+                <span class="text-[rgb(var(--color-accent))]">👁️</span>
+                <time id="read-on-date-mobile" class="leading-relaxed"></time>
               </div>
             </div>
+            
+            {/* Reading Time */}
+            {readingTime && (
+              <div class="space-y-2">
+                <h3 class="text-xs font-semibold text-[rgb(var(--color-text-muted))] uppercase tracking-wider">
+                  Reading Time
+                </h3>
+                <div class="flex items-center gap-2 text-base text-[rgb(var(--color-text))] leading-relaxed">
+                  <span class="text-[rgb(var(--color-accent))]">⏱️</span>
+                  <span>{readingTime} min read</span>
+                </div>
+              </div>
+            )}
+            
+            {/* Category */}
+            {categoryName && category && category.length > 0 && (
+              <div class="space-y-2">
+                <h3 class="text-xs font-semibold text-[rgb(var(--color-text-muted))] uppercase tracking-wider">
+                  Category
+                </h3>
+                <div class="flex items-center gap-2 text-base leading-relaxed">
+                  <span class="text-[rgb(var(--color-accent))]">📁</span>
+                  <a 
+                    href={`/category/${category[0]}/`}
+                    class="text-[rgb(var(--color-text))] hover:text-[rgb(var(--color-accent))] theme-transition"
+                  >
+                    {categoryName}
+                  </a>
+                </div>
+              </div>
+            )}
+            
+            {/* Tags */}
+            {tags && tags.length > 0 && (
+              <div class="space-y-2">
+                <h3 class="text-xs font-semibold text-[rgb(var(--color-text-muted))] uppercase tracking-wider">
+                  Tags
+                </h3>
+                <div class="flex flex-wrap gap-0.5">
+                  <TagDisplay 
+                    tags={tags} 
+                    maxVisible={tags.length} 
+                    showMoreIndicator={false}
+                    compact={true}
+                  />
+                </div>
+              </div>
+            )}
+            
+            {/* Author */}
+            {author && (
+              <div class="space-y-2">
+                <h3 class="text-xs font-semibold text-[rgb(var(--color-text-muted))] uppercase tracking-wider">
+                  Author
+                </h3>
+                <div class="flex items-center gap-2 text-base text-[rgb(var(--color-text))] leading-relaxed">
+                  <span class="text-[rgb(var(--color-accent))]">✍️</span>
+                  <span>{author}</span>
+                </div>
+              </div>
+            )}
           </div>
           
-          {/* Comments Section */}
+          {/* Comments */}
           {showComments && (
-            <div class="mt-12">
-              <Comments
-                title={title}
-                repo={giscusConfig.repo}
-                repoId={giscusConfig.repoId}
-                category={giscusConfig.category}
-                categoryId={giscusConfig.categoryId}
-                mapping={giscusConfig.mapping}
-                strict={giscusConfig.strict}
-                reactionsEnabled={giscusConfig.reactionsEnabled}
-                emitMetadata={giscusConfig.emitMetadata}
-                inputPosition={giscusConfig.inputPosition}
-                lang={giscusConfig.lang}
-                loading={giscusConfig.loading}
-                theme={giscusConfig.theme}
-              />
-            </div>
+            <Comments 
+              repo={giscusConfig.repo}
+              repoId={giscusConfig.repoId}
+              category={giscusConfig.category}
+              categoryId={giscusConfig.categoryId}
+              mapping={giscusConfig.mapping}
+              strict={giscusConfig.strict}
+              reactionsEnabled={giscusConfig.reactionsEnabled}
+              emitMetadata={giscusConfig.emitMetadata}
+              inputPosition={giscusConfig.inputPosition}
+              theme={giscusConfig.theme}
+              lang={giscusConfig.lang}
+              loading={giscusConfig.loading}
+            />
           )}
         </main>
       </div>
     </div>
-  </div>
-  
-  {/* Floating Share Button - Mobile Only */}
-  <SocialShare 
-    title={title}
-    description={description}
-    url={canonical}
-    variant="floating"
-  />
+  </Container>
 </BaseLayout>
+
+<script define:vars={{ postSlug }}>
+	// Read status display for blog posts
+	class ReadStatusDisplay {
+		constructor() {
+			this.storageKey = 'curious-chaos-read-posts';
+			this.init();
+		}
+
+		loadReadPosts() {
+			try {
+				const stored = localStorage.getItem(this.storageKey);
+				return stored ? JSON.parse(stored) : [];
+			} catch {
+				return [];
+			}
+		}
+
+		getReadData(postSlug) {
+			const readData = this.loadReadPosts();
+			return readData.find((data) => data.postSlug === postSlug) || null;
+		}
+
+		formatReadDate(dateString) {
+			const readDate = new Date(dateString);
+			const now = new Date();
+			const diffInMs = now.getTime() - readDate.getTime();
+			const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
+			const diffInHours = Math.floor(diffInMs / (1000 * 60 * 60));
+			const diffInMinutes = Math.floor(diffInMs / (1000 * 60));
+
+			if (diffInDays > 0) {
+				return diffInDays === 1 ? 'Yesterday' : `${diffInDays} days ago`;
+			} else if (diffInHours > 0) {
+				return diffInHours === 1 ? 'An hour ago' : `${diffInHours} hours ago`;
+			} else if (diffInMinutes > 0) {
+				return diffInMinutes === 1 ? 'A minute ago' : `${diffInMinutes} minutes ago`;
+			} else {
+				return 'Just now';
+			}
+		}
+
+		updateReadStatus() {
+			const readData = this.getReadData(postSlug);
+			
+			// Desktop version
+			const desktopSection = document.getElementById('read-on-section');
+			const desktopDate = document.getElementById('read-on-date');
+			
+			// Mobile version
+			const mobileSection = document.getElementById('read-on-section-mobile');
+			const mobileDate = document.getElementById('read-on-date-mobile');
+			
+			if (readData) {
+				const formattedDate = this.formatReadDate(readData.readAt);
+				
+				// Show desktop section
+				if (desktopSection && desktopDate) {
+					desktopSection.style.display = 'block';
+					desktopDate.textContent = formattedDate;
+					desktopDate.setAttribute('datetime', readData.readAt);
+				}
+				
+				// Show mobile section
+				if (mobileSection && mobileDate) {
+					mobileSection.style.display = 'block';
+					mobileDate.textContent = formattedDate;
+					mobileDate.setAttribute('datetime', readData.readAt);
+				}
+			} else {
+				// Hide sections if not read
+				if (desktopSection) desktopSection.style.display = 'none';
+				if (mobileSection) mobileSection.style.display = 'none';
+			}
+		}
+
+		init() {
+			// Update on page load
+			this.updateReadStatus();
+
+			// Listen for post-read events
+			window.addEventListener('post-read', (event) => {
+				if (event.detail?.postSlug === postSlug) {
+					setTimeout(() => this.updateReadStatus(), 100);
+				}
+			});
+
+			// Listen for read-posts-cleared events
+			window.addEventListener('read-posts-cleared', () => {
+				setTimeout(() => this.updateReadStatus(), 100);
+			});
+		}
+	}
+
+	// Initialize when DOM is ready
+	if (document.readyState === 'loading') {
+		document.addEventListener('DOMContentLoaded', () => {
+			new ReadStatusDisplay();
+		});
+	} else {
+		new ReadStatusDisplay();
+	}
+</script>
