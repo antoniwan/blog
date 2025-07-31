@@ -140,36 +140,36 @@ currentStreak = tempStreak;
 				{/* Key Metrics Grid */}
 				<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
 					<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
-						<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Total number of published blog posts (excluding drafts in production)">{totalPosts}</div>
-						<div class="text-sm text-[rgb(var(--color-text-muted))]">Total Posts</div>
+								<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Total number of published writings (excluding drafts in production)">{totalPosts}</div>
+		<div class="text-sm text-[rgb(var(--color-text-muted))]">Total Writings</div>
 					</div>
 					<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
 						<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Sum of all words across all published posts (calculated by splitting content on whitespace)">{totalWords.toLocaleString()}</div>
 						<div class="text-sm text-[rgb(var(--color-text-muted))]">Total Words</div>
 					</div>
 					<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
-						<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Average words per post (total words divided by total posts)">{averageWordsPerPost}</div>
-						<div class="text-sm text-[rgb(var(--color-text-muted))]">Avg Words/Post</div>
+								<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Average words per writing (total words divided by total writings)">{averageWordsPerPost}</div>
+		<div class="text-sm text-[rgb(var(--color-text-muted))]">Avg Words/Writing</div>
 					</div>
 					<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
-						<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Posts per day since the first post was published (total posts divided by days since first post)">{postsPerDay}</div>
-						<div class="text-sm text-[rgb(var(--color-text-muted))]">Posts/Day</div>
+								<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Writings per day since the first writing was published (total writings divided by days since first writing)">{postsPerDay}</div>
+		<div class="text-sm text-[rgb(var(--color-text-muted))]">Writings/Day</div>
 					</div>
 				</div>
 
 				{/* Activity Metrics */}
 				<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
 					<div class="text-center">
-						<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Number of posts published in the current month">{thisMonthPosts}</div>
-						<div class="text-sm text-[rgb(var(--color-text-muted))]">Posts This Month</div>
+								<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Number of writings published in the current month">{thisMonthPosts}</div>
+		<div class="text-sm text-[rgb(var(--color-text-muted))]">Writings This Month</div>
 					</div>
 					<div class="text-center">
-						<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Current writing streak (consecutive posts within 7 days of each other)">{currentStreak}</div>
-						<div class="text-sm text-[rgb(var(--color-text-muted))]">Current Streak</div>
+								<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Current writing streak (consecutive writings within 7 days of each other)">{currentStreak}</div>
+		<div class="text-sm text-[rgb(var(--color-text-muted))]">Current Streak</div>
 					</div>
 					<div class="text-center">
-						<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Longest writing streak achieved (consecutive posts within 7 days of each other)">{longestStreak}</div>
-						<div class="text-sm text-[rgb(var(--color-text-muted))]">Longest Streak</div>
+								<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Longest writing streak achieved (consecutive writings within 7 days of each other)">{longestStreak}</div>
+		<div class="text-sm text-[rgb(var(--color-text-muted))]">Longest Streak</div>
 					</div>
 				</div>
 

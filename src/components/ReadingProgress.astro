@@ -31,6 +31,107 @@ const { class: className = '' } = Astro.props;
 	let lastProgress = 0;
 	let lastScrollY = 0;
 	let lastWindowHeight = 0;
+	let hasMarkedAsRead = false;
+	
+	// Reading tracker functionality
+	interface ReadData {
+		postSlug: string;
+		readAt: string;
+		readTime: number; // seconds spent reading
+		scrollDepth: number; // percentage scrolled
+		deviceInfo: {
+			userAgent: string;
+			screenSize: string;
+			timezone: string;
+		};
+	}
+
+	class ReadingTracker {
+		private storageKey = 'curious-chaos-read-posts';
+		private readData: ReadData[] = [];
+		private startTime: number = 0;
+		public maxScrollDepth: number = 0;
+
+		constructor() {
+			this.readData = this.loadReadData();
+			this.startTime = Date.now();
+		}
+
+		private loadReadData(): ReadData[] {
+			try {
+				const stored = localStorage.getItem(this.storageKey);
+				return stored ? JSON.parse(stored) : [];
+			} catch {
+				return [];
+			}
+		}
+
+		private saveReadData(): void {
+			try {
+				localStorage.setItem(this.storageKey, JSON.stringify(this.readData));
+			} catch (error) {
+				console.warn('Failed to save read data:', error);
+			}
+		}
+
+		private getDeviceInfo(): ReadData['deviceInfo'] {
+			return {
+				userAgent: navigator.userAgent,
+				screenSize: `${screen.width}x${screen.height}`,
+				timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
+			};
+		}
+
+		markAsRead(postSlug: string, scrollDepth: number): void {
+			const existingIndex = this.readData.findIndex(data => data.postSlug === postSlug);
+			const readTime = Math.floor((Date.now() - this.startTime) / 1000);
+			
+			const readData: ReadData = {
+				postSlug,
+				readAt: new Date().toISOString(),
+				readTime,
+				scrollDepth,
+				deviceInfo: this.getDeviceInfo()
+			};
+
+			if (existingIndex >= 0) {
+				// Update existing entry with better data
+				this.readData[existingIndex] = readData;
+			} else {
+				// Add new entry
+				this.readData.push(readData);
+			}
+
+			this.saveReadData();
+			
+			// Analytics update would go here in a future enhancement
+			
+			// Dispatch custom event for other components to listen to
+			window.dispatchEvent(new CustomEvent('post-read', { 
+				detail: { postSlug, readData } 
+			}));
+		}
+
+		isRead(postSlug: string): boolean {
+			return this.readData.some(data => data.postSlug === postSlug);
+		}
+
+		getReadStats(): { totalRead: number; totalTime: number; averageTime: number } {
+			const totalRead = this.readData.length;
+			const totalTime = this.readData.reduce((sum, data) => sum + data.readTime, 0);
+			const averageTime = totalRead > 0 ? Math.round(totalTime / totalRead) : 0;
+			
+			return { totalRead, totalTime, averageTime };
+		}
+	}
+
+	const tracker = new ReadingTracker();
+	
+	function getCurrentPostSlug(): string | null {
+		const path = window.location.pathname;
+		const match = path.match(/\/p\/(.+)/);
+		return match ? match[1] : null;
+	}
 	
 	function updateReadingProgress() {
 		const windowHeight = window.innerHeight;
@@ -53,6 +154,20 @@ const { class: className = '' } = Astro.props;
 			// Update ARIA attributes
 			if (progressBar) {
 				progressBar.setAttribute('aria-valuenow', Math.round(progress).toString());
+			}
+		}
+		
+		// Track max scroll depth for this session
+		if (progress > tracker.maxScrollDepth) {
+			tracker.maxScrollDepth = progress;
+		}
+
+		// Check if we should mark the post as read
+		if (!hasMarkedAsRead && progress >= 90) {
+			const currentPostSlug = getCurrentPostSlug();
+			if (currentPostSlug) {
+				tracker.markAsRead(currentPostSlug, progress);
+				hasMarkedAsRead = true;
 			}
 		}
 		

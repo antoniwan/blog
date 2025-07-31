@@ -375,6 +375,10 @@
     @apply inline-flex items-center gap-2 px-4 py-2 bg-[rgb(var(--color-highlight))] text-[rgb(var(--color-text))] rounded-lg hover:bg-[rgb(var(--color-highlight))]/90 transition-colors font-bold;
   }
 
+  .btn-outline {
+    @apply inline-flex items-center gap-2 px-4 py-2 bg-transparent text-[rgb(var(--color-text))] border border-[rgb(var(--color-border))] rounded-lg hover:bg-[rgb(var(--color-bg-alt))] transition-colors font-medium;
+  }
+
   /* Link utilities */
   .link {
     @apply text-[rgb(var(--color-accent))] hover:text-[rgb(var(--color-accent-hover))] transition-colors;

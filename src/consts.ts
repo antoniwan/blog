@@ -40,7 +40,7 @@ export interface SEOConfig {
 export const SITE_TITLE = "Curious Chaos Journal";
 export const SHORT_SITE_TITLE = "Curious Chaos Journal";
 export const SITE_DESCRIPTION =
-  "Dispatches from a fractured mind navigating fatherhood, masculinity, cultura, and modern collapse. Raw reflections on thinking, culture, and the soft heart inside the hard world.";
+  "Raw thoughts on fatherhood, masculinity, and modern life. No filter, some philosophy, occasional beauty. This is where I think out loud about the hard questions that keep me up at night.";
 export const SITE_URL = "https://blog.antoniwan.online";
 
 // Author Information

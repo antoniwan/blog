@@ -253,11 +253,11 @@ const { insights, summary } = generateDynamicInsights(insightData, 'meta');
 			{/* Key Metrics */}
 			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
 				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
-					<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Average words per post across all published posts">{styleAnalysis.averageWordsPerPost}</div>
-					<div class="text-sm text-[rgb(var(--color-text-muted))]">Avg Words/Post</div>
+					<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Average words per writing across all published writings">{styleAnalysis.averageWordsPerPost}</div>
+					<div class="text-sm text-[rgb(var(--color-text-muted))]">Avg Words/Writing</div>
 				</div>
 				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
-					<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Average estimated reading time per post (calculated as word count / 200)">{averageReadingTime}</div>
+					<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Average estimated reading time per writing (calculated as word count / 200)">{averageReadingTime}</div>
 					<div class="text-sm text-[rgb(var(--color-text-muted))]">Avg Reading Time</div>
 				</div>
 				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
@@ -265,7 +265,7 @@ const { insights, summary } = generateDynamicInsights(insightData, 'meta');
 					<div class="text-sm text-[rgb(var(--color-text-muted))]">Avg Complexity</div>
 				</div>
 				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
-					<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Number of posts that reference other posts by title">{crossReferences.length}</div>
+					<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Number of writings that reference other writings by title">{crossReferences.length}</div>
 					<div class="text-sm text-[rgb(var(--color-text-muted))]">Cross-References</div>
 				</div>
 			</div>
@@ -275,12 +275,12 @@ const { insights, summary } = generateDynamicInsights(insightData, 'meta');
 				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">Writing Style Metrics</h3>
 				<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 					<div class="p-4 bg-[rgb(var(--color-bg))] rounded-lg">
-						<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Average number of sentences per post">{styleAnalysis.averageSentencesPerPost}</div>
-						<div class="text-sm text-[rgb(var(--color-text-muted))]">Avg Sentences/Post</div>
+						<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Average number of sentences per writing">{styleAnalysis.averageSentencesPerPost}</div>
+						<div class="text-sm text-[rgb(var(--color-text-muted))]">Avg Sentences/Writing</div>
 					</div>
 					<div class="p-4 bg-[rgb(var(--color-bg))] rounded-lg">
-						<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Average number of paragraphs per post">{styleAnalysis.averageParagraphsPerPost}</div>
-						<div class="text-sm text-[rgb(var(--color-text-muted))]">Avg Paragraphs/Post</div>
+						<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Average number of paragraphs per writing">{styleAnalysis.averageParagraphsPerPost}</div>
+						<div class="text-sm text-[rgb(var(--color-text-muted))]">Avg Paragraphs/Writing</div>
 					</div>
 					<div class="p-4 bg-[rgb(var(--color-bg))] rounded-lg">
 						<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Average words per sentence">{styleAnalysis.averageSentenceLength}</div>
@@ -291,19 +291,19 @@ const { insights, summary } = generateDynamicInsights(insightData, 'meta');
 						<div class="text-sm text-[rgb(var(--color-text-muted))]">Avg Words/Paragraph</div>
 					</div>
 					<div class="p-4 bg-[rgb(var(--color-bg))] rounded-lg">
-						<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Posts containing external links or URLs">{externalLinkPosts.length}</div>
-						<div class="text-sm text-[rgb(var(--color-text-muted))]">Posts with External Links</div>
+						<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Writings containing external links or URLs">{externalLinkPosts.length}</div>
+						<div class="text-sm text-[rgb(var(--color-text-muted))]">Writings with External Links</div>
 					</div>
 					<div class="p-4 bg-[rgb(var(--color-bg))] rounded-lg">
-						<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Posts containing code blocks or inline code">{codeSnippetPosts.length}</div>
-						<div class="text-sm text-[rgb(var(--color-text-muted))]">Posts with Code</div>
+						<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Writings containing code blocks or inline code">{codeSnippetPosts.length}</div>
+						<div class="text-sm text-[rgb(var(--color-text-muted))]">Writings with Code</div>
 					</div>
 				</div>
 			</div>
 
 			{/* Most Complex Posts */}
 			<div class="mb-8">
-				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">Most Complex Posts</h3>
+				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">Most Complex Writings</h3>
 				<div class="space-y-4">
 					{mostComplexPosts.map((post, index) => (
 						<div class="flex items-center justify-between p-4 bg-[rgb(var(--color-bg))] rounded-lg">
@@ -319,7 +319,7 @@ const { insights, summary } = generateDynamicInsights(insightData, 'meta');
 								</div>
 							</div>
 							<div class="text-right">
-								<div class="text-sm font-medium text-[rgb(var(--color-text))]" title={`${post.wordCount} words in this post`}>{post.wordCount} words</div>
+								<div class="text-sm font-medium text-[rgb(var(--color-text))]" title={`${post.wordCount} words in this writing`}>{post.wordCount} words</div>
 								<div class="text-xs text-[rgb(var(--color-text-muted))]" title={`Estimated reading time: ${post.readingTime} minutes`}>{post.readingTime} min read</div>
 							</div>
 						</div>
@@ -329,7 +329,7 @@ const { insights, summary } = generateDynamicInsights(insightData, 'meta');
 
 			{/* Self-Referential Posts */}
 			<div class="mb-8">
-				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">Self-Referential Posts</h3>
+				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">Self-Referential Writings</h3>
 				<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
 					{selfReferentialPosts.slice(0, 12).map((post, index) => (
 						<div class="p-4 bg-[rgb(var(--color-bg))] rounded-lg">
@@ -356,7 +356,7 @@ const { insights, summary } = generateDynamicInsights(insightData, 'meta');
 
 			{/* Cross-References */}
 			<div class="mb-8">
-				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">Cross-References Between Posts</h3>
+				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">Cross-References Between Writings</h3>
 				<div class="space-y-4">
 					{crossReferences.slice(0, 15).map((ref, index) => (
 						<div class="flex items-center justify-between p-4 bg-[rgb(var(--color-bg))] rounded-lg">
@@ -387,15 +387,15 @@ const { insights, summary } = generateDynamicInsights(insightData, 'meta');
 						<div class="p-4 bg-[rgb(var(--color-bg))] rounded-lg">
 							<div class="flex items-center justify-between mb-3">
 								<h4 class="text-sm font-medium text-[rgb(var(--color-text))]">{quarter.label}</h4>
-								<span class="text-xs text-[rgb(var(--color-text-muted))]" title={`${quarter.posts} posts in ${quarter.label}`}>{quarter.posts} posts</span>
+								<span class="text-xs text-[rgb(var(--color-text-muted))]" title={`${quarter.posts} writings in ${quarter.label}`}>{quarter.posts} writings</span>
 							</div>
 							<div class="grid grid-cols-3 gap-4 text-center">
 								<div>
-									<div class="text-lg font-bold text-[rgb(var(--color-text))]" title={`Average word count per post in ${quarter.label}`}>{quarter.avgWordCount}</div>
+									<div class="text-lg font-bold text-[rgb(var(--color-text))]" title={`Average word count per writing in ${quarter.label}`}>{quarter.avgWordCount}</div>
 									<div class="text-xs text-[rgb(var(--color-text-muted))]">Avg Words</div>
 								</div>
 								<div>
-									<div class="text-lg font-bold text-[rgb(var(--color-text))]" title={`Average reading time per post in ${quarter.label}`}>{quarter.avgReadingTime}</div>
+									<div class="text-lg font-bold text-[rgb(var(--color-text))]" title={`Average reading time per writing in ${quarter.label}`}>{quarter.avgReadingTime}</div>
 									<div class="text-xs text-[rgb(var(--color-text-muted))]">Avg Minutes</div>
 								</div>
 								<div>

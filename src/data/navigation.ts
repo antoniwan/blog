@@ -50,6 +50,7 @@ export const mainNavigation: NavigationItem[] = [
       ],
     },
   },
+  { href: "/guided-path", label: "🗺️ Guided Path" },
   { href: "/tag", label: "Tags" },
   { href: "/about", label: "About" },
 ];

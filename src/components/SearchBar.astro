@@ -9,7 +9,7 @@ interface Props {
 	placeholder?: string;
 }
 
-const { class: className = '', placeholder = 'Search posts, pages...' } = Astro.props;
+const { class: className = '', placeholder = 'Search writings, pages...' } = Astro.props;
 
 // Get all blog posts for search
 const posts = await getCollection('blog', ({ data }) => {
@@ -52,7 +52,7 @@ const tagSearchData = Object.entries(tagCounts).map(([tag, count]) => {
     type: 'tag',
     id: tag,
     title: tag.replace(/-/g, ' ').replace(/\b\w/g, (l: string) => l.toUpperCase()),
-    description: metadata?.description || `${count} post${count !== 1 ? 's' : ''} tagged with "${tag}"`,
+    description: metadata?.description || `${count} writing${count !== 1 ? 's' : ''} tagged with "${tag}"`,
     url: `/tag/${tag}/`,
     weight: metadata?.weight || 1,
     count: count
@@ -65,7 +65,7 @@ const pageSearchData = [
     type: 'page',
     id: 'about',
     title: 'About',
-    description: 'Learn more about the author and this blog',
+    description: 'Learn more about the author and this site',
     url: '/about/'
   },
   {
@@ -79,7 +79,7 @@ const pageSearchData = [
     type: 'page',
     id: 'brain-science-topics',
     title: 'Brain Science - Topics',
-    description: 'Analysis of topics and themes across all posts',
+    description: 'Analysis of topics and themes across all writings',
     url: '/brain-science/topics/'
   },
   {
@@ -114,14 +114,14 @@ const pageSearchData = [
     type: 'page',
     id: 'brain-science-meta',
     title: 'Brain Science - Meta',
-    description: 'Meta-analysis of the blog and its impact',
+    description: 'Meta-analysis of the site and its impact',
     url: '/brain-science/meta/'
   },
   {
     type: 'page',
     id: 'tag-management',
     title: 'Tag Management',
-    description: 'Organize and manage tags across all posts',
+    description: 'Organize and manage tags across all writings',
     url: '/tag-management/'
   }
 ];
@@ -142,7 +142,7 @@ const searchId = `search-${Math.random().toString(36).substr(2, 9)}`;
 const searchDataJson = JSON.stringify(searchData);
 
 // Debug: Log search data info
-console.log(`SearchBar: ${posts.length} posts, ${categories.length} categories, ${Object.keys(tagCounts).length} tags, ${pageSearchData.length} pages available for search`);
+console.log(`SearchBar: ${posts.length} writings, ${categories.length} categories, ${Object.keys(tagCounts).length} tags, ${pageSearchData.length} pages available for search`);
 ---
 
 <div class={`search-container relative ${className}`}>
@@ -161,7 +161,7 @@ console.log(`SearchBar: ${posts.length} posts, ${categories.length} categories, 
 			id={searchId}
 			class="w-full md:w-64 lg:w-80 px-4 py-2.5 pl-10 pr-10 md:pr-4 text-base bg-[rgb(var(--color-bg))] border border-[rgb(var(--color-border))] rounded-lg focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:border-transparent text-[rgb(var(--color-text))] placeholder-[rgb(var(--color-text-muted))] theme-transition"
 			placeholder={placeholder}
-			aria-label="Search posts"
+			aria-label="Search writings"
 		/>
 		
 		<!-- Clear Button -->
@@ -197,7 +197,7 @@ console.log(`SearchBar: ${posts.length} posts, ${categories.length} categories, 
 				<div class="text-5xl opacity-60">🔍</div>
 				<div class="space-y-2">
 					<p class="text-base font-semibold">No results found</p>
-					<p class="text-sm opacity-75">Try searching for posts, categories, tags, or pages</p>
+					<p class="text-sm opacity-75">Try searching for writings, categories, tags, or pages</p>
 				</div>
 			</div>
 		</div>
@@ -488,7 +488,7 @@ console.log(`SearchBar: ${posts.length} posts, ${categories.length} categories, 
 		getTypeConfig(type: string) {
 			const configs = {
 				post: {
-					label: 'Post',
+					label: 'Writing',
 					icon: `<svg class="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
 					</svg>`,
