@@ -1,7 +1,7 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
 import Container from '../components/Container.astro';
-import BookPostList from '../components/BookPostList.astro';
+import Chapter from '../components/Chapter.astro';
 import { getCollection } from 'astro:content';
 
 // Get all published posts
@@ -126,10 +126,12 @@ chapters.forEach(chapter => {
 	<Container>
 		<div class="guided-path">
 			<div class="chapters">
-				{chapters.map(chapter => (
-					<BookPostList 
+				{chapters.map((chapter, index) => (
+					<Chapter 
 						posts={chapter.posts} 
-						chapterTitle={chapter.title} 
+						chapterTitle={chapter.title}
+						chapterId={chapter.id}
+						defaultExpanded={index === 0} // Only expand the first chapter by default
 					/>
 				))}
 			</div>

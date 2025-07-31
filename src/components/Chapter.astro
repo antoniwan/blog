@@ -4,9 +4,11 @@ import { categories } from '../data/categories';
 export interface Props {
 	posts: any[];
 	chapterTitle: string;
+	chapterId: string;
+	defaultExpanded?: boolean;
 }
 
-const { posts, chapterTitle } = Astro.props;
+const { posts, chapterTitle, chapterId, defaultExpanded = true } = Astro.props;
 
 // Helper function to get category name
 function getCategoryName(categoryIds: string[] | undefined): string | null {
@@ -14,24 +16,44 @@ function getCategoryName(categoryIds: string[] | undefined): string | null {
 	const category = categories.find(cat => cat.id === categoryIds[0]);
 	return category ? category.name : categoryIds[0];
 }
+
+// Helper function to format relative time
+function formatRelativeTime(dateString: string): string {
+	const now = new Date();
+	const readDate = new Date(dateString);
+	const diffInMs = now.getTime() - readDate.getTime();
+	const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
+	const diffInHours = Math.floor(diffInMs / (1000 * 60 * 60));
+	const diffInMinutes = Math.floor(diffInMs / (1000 * 60));
+
+	if (diffInDays > 0) {
+		return diffInDays === 1 ? 'Read a day ago' : `Read ${diffInDays} days ago`;
+	} else if (diffInHours > 0) {
+		return diffInHours === 1 ? 'Read an hour ago' : `Read ${diffInHours} hours ago`;
+	} else if (diffInMinutes > 0) {
+		return diffInMinutes === 1 ? 'Read a minute ago' : `Read ${diffInMinutes} minutes ago`;
+	} else {
+		return 'Read just now';
+	}
+}
 ---
 
 <div class="book-chapter">
 	<button 
 		class="chapter-header" 
-		aria-expanded="true"
-		aria-controls={`chapter-${chapterTitle.toLowerCase().replace(/\s+/g, '-')}`}
+		aria-expanded={defaultExpanded}
+		aria-controls={`chapter-${chapterId}`}
 	>
 		<div class="chapter-title-section">
 			<h2 class="chapter-title">{chapterTitle}</h2>
 			<span class="post-count">({posts.length} posts)</span>
 		</div>
-		<svg class="expand-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+		<svg class="expand-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={`transform: rotate(${defaultExpanded ? '180deg' : '0deg'})`}>
 			<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
 		</svg>
 	</button>
 	
-	<div class="chapter-content" id={`chapter-${chapterTitle.toLowerCase().replace(/\s+/g, '-')}`}>
+	<div class={`chapter-content ${!defaultExpanded ? 'collapsed' : ''}`} id={`chapter-${chapterId}`}>
 		{posts.length > 0 ? (
 			<ol class="post-list">
 				{posts.map((post, index) => {
@@ -52,7 +74,7 @@ function getCategoryName(categoryIds: string[] | undefined): string | null {
 										<span class="status-text">Unread</span>
 									</span>
 									{post.data.readingTime && (
-										<span class="reading-time">{post.data.readingTime} min</span>
+										<span class="reading-time" data-post-slug={post.id}>{post.data.readingTime} min</span>
 									)}
 								</div>
 							</a>
@@ -75,7 +97,7 @@ function getCategoryName(categoryIds: string[] | undefined): string | null {
 			this.init();
 		}
 
-		private loadReadPosts(): string[] {
+		private loadReadPosts(): any[] {
 			try {
 				const stored = localStorage.getItem(this.storageKey);
 				return stored ? JSON.parse(stored) : [];
@@ -84,9 +106,28 @@ function getCategoryName(categoryIds: string[] | undefined): string | null {
 			}
 		}
 
-		private isRead(postSlug: string): boolean {
+		private getReadData(postSlug: string): any | null {
 			const readData = this.loadReadPosts();
-			return readData.some((data: any) => data.postSlug === postSlug);
+			return readData.find((data: any) => data.postSlug === postSlug) || null;
+		}
+
+		private formatRelativeTime(dateString: string): string {
+			const now = new Date();
+			const readDate = new Date(dateString);
+			const diffInMs = now.getTime() - readDate.getTime();
+			const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
+			const diffInHours = Math.floor(diffInMs / (1000 * 60 * 60));
+			const diffInMinutes = Math.floor(diffInMs / (1000 * 60));
+
+			if (diffInDays > 0) {
+				return diffInDays === 1 ? 'Read a day ago' : `Read ${diffInDays} days ago`;
+			} else if (diffInHours > 0) {
+				return diffInHours === 1 ? 'Read an hour ago' : `Read ${diffInHours} hours ago`;
+			} else if (diffInMinutes > 0) {
+				return diffInMinutes === 1 ? 'Read a minute ago' : `Read ${diffInMinutes} minutes ago`;
+			} else {
+				return 'Read just now';
+			}
 		}
 
 		private updateIndicators(): void {
@@ -95,14 +136,27 @@ function getCategoryName(categoryIds: string[] | undefined): string | null {
 				const iconElement = statusElement.querySelector('.status-icon') as HTMLElement;
 				const textElement = statusElement.querySelector('.status-text') as HTMLElement;
 				
-				if (postSlug && this.isRead(postSlug)) {
-					iconElement.textContent = '✅';
-					textElement.textContent = 'Read';
-					statusElement.classList.add('read');
-				} else {
-					iconElement.textContent = '⭕';
-					textElement.textContent = 'Unread';
-					statusElement.classList.remove('read');
+				if (postSlug) {
+					const readData = this.getReadData(postSlug);
+					const readingTimeElement = document.querySelector(`.reading-time[data-post-slug="${postSlug}"]`) as HTMLElement;
+					
+					if (readData) {
+						iconElement.textContent = '✅';
+						textElement.textContent = this.formatRelativeTime(readData.readAt);
+						statusElement.classList.add('read');
+						// Hide reading time for read posts
+						if (readingTimeElement) {
+							readingTimeElement.style.display = 'none';
+						}
+					} else {
+						iconElement.textContent = '⭕';
+						textElement.textContent = 'Unread';
+						statusElement.classList.remove('read');
+						// Show reading time for unread posts
+						if (readingTimeElement) {
+							readingTimeElement.style.display = 'inline';
+						}
+					}
 				}
 			});
 		}
@@ -313,9 +367,10 @@ function getCategoryName(categoryIds: string[] | undefined): string | null {
 	}
 
 	.read-status.read {
-		background: rgb(var(--color-primary));
-		color: white;
-		border-color: rgb(var(--color-primary));
+		/* Relaxing green color instead of attention-grabbing red */
+		background: rgb(34, 197, 94, 0.1);
+		color: rgb(34, 197, 94);
+		border-color: rgb(34, 197, 94, 0.2);
 	}
 
 	.status-icon {
