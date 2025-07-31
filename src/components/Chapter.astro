@@ -46,7 +46,15 @@ function formatRelativeTime(dateString: string): string {
 	>
 		<div class="chapter-title-section">
 			<h2 class="chapter-title">{chapterTitle}</h2>
-			<span class="post-count">({posts.length} posts)</span>
+			<div class="chapter-meta">
+				<span class="post-count">({posts.length} posts)</span>
+				<div class="chapter-progress" data-chapter-id={chapterId}>
+					<div class="progress-bar">
+						<div class="progress-fill" data-chapter-id={chapterId}></div>
+					</div>
+					<span class="progress-text" data-chapter-id={chapterId}>0%</span>
+				</div>
+			</div>
 		</div>
 		<svg class="expand-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={`transform: rotate(${defaultExpanded ? '180deg' : '0deg'})`}>
 			<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
@@ -159,6 +167,45 @@ function formatRelativeTime(dateString: string): string {
 					}
 				}
 			});
+			
+			// Update chapter progress
+			this.updateChapterProgress();
+		}
+
+		private updateChapterProgress(): void {
+			document.querySelectorAll('.chapter-progress').forEach(progressElement => {
+				const chapterId = (progressElement as HTMLElement).dataset.chapterId;
+				if (!chapterId) return;
+				
+				const chapterContent = document.getElementById(`chapter-${chapterId}`);
+				if (!chapterContent) return;
+				
+				const posts = chapterContent.querySelectorAll('.post-item');
+				const readPosts = chapterContent.querySelectorAll('.post-item .read-status.read');
+				
+				const totalPosts = posts.length;
+				const readCount = readPosts.length;
+				const percentage = totalPosts > 0 ? Math.round((readCount / totalPosts) * 100) : 0;
+				
+				// Update progress bar
+				const progressFill = progressElement.querySelector('.progress-fill') as HTMLElement;
+				if (progressFill) {
+					progressFill.style.width = `${percentage}%`;
+				}
+				
+				// Update progress text
+				const progressText = progressElement.querySelector('.progress-text') as HTMLElement;
+				if (progressText) {
+					progressText.textContent = `${percentage}%`;
+				}
+				
+				// Add completion class for styling
+				if (percentage === 100) {
+					progressElement.classList.add('completed');
+				} else {
+					progressElement.classList.remove('completed');
+				}
+			});
 		}
 
 		private init(): void {
@@ -261,6 +308,7 @@ function formatRelativeTime(dateString: string): string {
 		display: flex;
 		align-items: center;
 		gap: 0.75rem;
+		flex: 1;
 	}
 
 	.chapter-title {
@@ -270,10 +318,57 @@ function formatRelativeTime(dateString: string): string {
 		margin: 0;
 	}
 
+	.chapter-meta {
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+		margin-left: auto;
+	}
+
 	.post-count {
 		font-size: 0.875rem;
 		color: rgb(var(--color-text-muted));
 		font-weight: 400;
+	}
+
+	.chapter-progress {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		min-width: 120px;
+	}
+
+	.progress-bar {
+		width: 60px;
+		height: 6px;
+		background: rgb(var(--color-border));
+		border-radius: 3px;
+		overflow: hidden;
+	}
+
+	.progress-fill {
+		height: 100%;
+		background: rgb(var(--color-primary));
+		border-radius: 3px;
+		width: 0%;
+		transition: width 0.3s ease;
+	}
+
+	.chapter-progress.completed .progress-fill {
+		background: rgb(34, 197, 94);
+	}
+
+	.progress-text {
+		font-size: 0.75rem;
+		font-weight: 500;
+		color: rgb(var(--color-text-muted));
+		min-width: 2rem;
+		text-align: right;
+	}
+
+	.chapter-progress.completed .progress-text {
+		color: rgb(34, 197, 94);
+		font-weight: 600;
 	}
 
 	.expand-icon {
