@@ -157,14 +157,14 @@ function markPostAsRead(postId: string) {
 
 Each chapter displays:
 - Progress bar showing completion percentage
-- Number of posts read vs total posts
+- Number of writings read vs total writings
 - Visual indicators for completion status
 
 #### Total Progress Summary
 
 The page includes a comprehensive progress summary:
 - Total progress bar across all chapters
-- Reading statistics (total posts, read posts, remaining posts, completed seasons)
+- Reading statistics (total writings, read writings, remaining writings, completed seasons)
 - Completion celebration message for 100% completion
 
 ### Responsive Design
@@ -220,12 +220,12 @@ Each season becomes a chapter with:
 - **Progress Tracking**: Individual chapter completion status
 - **Expandable Interface**: Collapsible chapters for better organization
 
-### Post Integration
+### Writing Integration
 
-Posts are automatically assigned to seasonal chapters based on their publication date:
-- **Date Filtering**: Posts filtered by season start/end dates
-- **Chronological Order**: Posts sorted by publication date within each chapter
-- **Progress Integration**: Read status automatically tracked per post
+Writings are automatically assigned to seasonal chapters based on their publication date:
+- **Date Filtering**: Writings filtered by season start/end dates
+- **Chronological Order**: Writings sorted by publication date within each chapter
+- **Progress Integration**: Read status automatically tracked per writing
 
 ## Achievement System
 

@@ -25,7 +25,7 @@ The centerpiece of this release is the Guided Path feature, which organizes blog
 #### Progress Visualization
 - **Chapter-Level Progress**: Individual progress bars for each season
 - **Total Progress Summary**: Overall reading journey completion
-- **Reading Statistics**: Total posts, read posts, remaining posts, completed seasons
+- **Reading Statistics**: Total writings, read writings, remaining writings, completed seasons
 - **Achievement System**: Completion celebrations and milestone tracking
 
 ### 🎯 User Experience Enhancements

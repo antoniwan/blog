@@ -6,7 +6,7 @@ A personal blog built with Astro, documenting thoughts on technology, personal g
 
 ## Overview
 
-- **52 blog posts** with complete frontmatter compliance
+- **52 blog writings** with complete frontmatter compliance
 - **9 content categories** with comprehensive tagging
 - **Multi-language support** (English/Spanish)
 - **Dark mode** with system preference detection
@@ -95,9 +95,9 @@ console.log(data.quote.text); // Random Stoic quote
 
 ## Content Management
 
-### Blog Posts
+### Blog Writings
 
-All posts follow a standardized frontmatter format. See [docs/OFFICIAL_FRONTMATTER_SPECIFICATION.md](docs/OFFICIAL_FRONTMATTER_SPECIFICATION.md) for details.
+All writings follow a standardized frontmatter format. See [docs/OFFICIAL_FRONTMATTER_SPECIFICATION.md](docs/OFFICIAL_FRONTMATTER_SPECIFICATION.md) for details.
 
 Example frontmatter:
 
@@ -135,7 +135,7 @@ draft: false
 - **Search Functionality** - Content discovery
 - **Comments System** - Privacy-focused Giscus integration
 - **Breadcrumb Navigation** - Clear page hierarchy
-- **Reading Progress** - Visual progress indicator
+- **Reading Progress** - Visual progress indicator for writings
 - **Brain Science Analytics** - Writing pattern analysis
 - **Tag Management** - Advanced tag usage analytics
 - **Internal API** - Stoic quotes for enhanced user experience
