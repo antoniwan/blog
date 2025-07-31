@@ -124,27 +124,12 @@ const nonEmptyChapters = seasonalChapters.filter(chapter => chapter.posts.length
 ---
 
 <PageLayout
-	title="Seasonal Reading Path - Curious Chaos Journal"
-	description="A journey through thoughts and ideas organized by the natural rhythm of seasons."
+	title="Guided Path"
+	description="Welcome to a new way of reading online publications. Instead of endless scrolling through chronological feeds, here you'll find thoughts and ideas organized by the natural rhythm of seasons. Each chapter represents a season of a year, allowing you to say 'I already read Fall 2023' or 'I'm currently in Spring 2024.'"
 	path="/guided-path"
 >
 	<Container>
 		<div class="guided-path">
-			<div class="path-intro">
-				<h1>Seasonal Reading Path</h1>
-				<p class="intro-text">
-					Welcome to a new way of reading online publications. Instead of endless scrolling through 
-					chronological feeds, here you'll find thoughts and ideas organized by the natural rhythm 
-					of seasons. Each chapter represents a season of a year, allowing you to say "I already 
-					read Fall 2023" or "I'm currently in Spring 2024."
-				</p>
-				<p class="intro-text">
-					This approach respects the cyclical nature of growth and reflection, mirroring how we 
-					experience life through changing seasons. Start with the current season and work your 
-					way through the chapters that resonate with where you are in your journey.
-				</p>
-			</div>
-			
 			<div class="chapters">
 				{nonEmptyChapters.map((chapter, index) => (
 					<Chapter 
@@ -191,6 +176,16 @@ const nonEmptyChapters = seasonalChapters.filter(chapter => chapter.posts.length
 					<p>You've completed the entire Seasonal Reading Path! You've journeyed through all the thoughts and ideas, experiencing the full cycle of seasons and growth. This is a remarkable achievement that reflects your commitment to personal development and intellectual exploration.</p>
 					<p>Consider revisiting your favorite seasons or exploring new themes that emerged during your reading journey. The path is always here for you to return to.</p>
 				</div>
+			</div>
+			
+			<div class="privacy-notice">
+				<p>
+					<strong>Privacy First:</strong> Your reading progress is stored locally in your browser using localStorage. 
+					I literally cannot access this data — it never leaves your device. No tracking, no analytics, no creepy 
+					profiles. Just your progress, your way, on your terms. Clear your browser data and start fresh anytime. 
+					This is how reading should work.
+				</p>
+			</div>
 			</div>
 		</div>
 	</Container>
@@ -412,6 +407,23 @@ const nonEmptyChapters = seasonalChapters.filter(chapter => chapter.posts.length
 
 	.completion-message p:last-child {
 		margin-bottom: 0;
+	}
+
+	.privacy-notice {
+		max-width: 800px;
+		margin: 2rem auto;
+		padding: 1.5rem;
+		background: rgb(var(--color-bg));
+		border-radius: 8px;
+		border: 1px solid rgb(var(--color-border));
+		border-left: 4px solid rgb(var(--color-primary));
+	}
+
+	.privacy-notice p {
+		margin: 0;
+		font-size: 0.875rem;
+		line-height: 1.6;
+		color: rgb(var(--color-text-muted));
 	}
 
 	@media (max-width: 768px) {
