@@ -223,23 +223,23 @@ const { insights, summary } = generateDynamicInsights(insightData, 'cadence');
 			{/* Key Metrics with Balanced Indicators */}
 			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
 				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
-					<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Longest consecutive streak of posts published within 7 days of each other">{longestStreak}</div>
+					<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Longest consecutive streak of writings published within 7 days of each other">{longestStreak}</div>
 					<div class="text-sm text-[rgb(var(--color-text-muted))]">Longest Streak</div>
 					<div class="text-xs text-green-500 mt-1">🏆 Peak Performance</div>
 				</div>
 				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
-					<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Current active streak of posts published within 7 days of each other">{currentStreak}</div>
+					<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Current active streak of writings published within 7 days of each other">{currentStreak}</div>
 					<div class="text-sm text-[rgb(var(--color-text-muted))]">Current Streak</div>
 					<div class="text-xs text-blue-500 mt-1">🔥 Active Momentum</div>
 				</div>
 				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
-					<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Longest gap between consecutive posts (days without publishing)">{sortedDrySpells[0]?.days || 0}</div>
+					<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Longest gap between consecutive writings (days without publishing)">{sortedDrySpells[0]?.days || 0}</div>
 					<div class="text-sm text-[rgb(var(--color-text-muted))]">Longest Dry Spell</div>
 					<div class="text-xs text-red-500 mt-1">⚠️ Biggest Challenge</div>
 				</div>
 				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
-					<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Number of posts published in the last 30 days">{recentPosts.length}</div>
-					<div class="text-sm text-[rgb(var(--color-text-muted))]">Posts (30 days)</div>
+							<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Number of writings published in the last 30 days">{recentPosts.length}</div>
+		<div class="text-sm text-[rgb(var(--color-text-muted))]">Writings (30 days)</div>
 					<div class={`text-xs mt-1 ${recentPosts.length > avgPostsPerMonth ? 'text-green-500' : recentPosts.length < avgPostsPerMonth * 0.5 ? 'text-red-500' : 'text-yellow-500'}`}>
 						{recentPosts.length > avgPostsPerMonth ? '📈 Above Average' : recentPosts.length < avgPostsPerMonth * 0.5 ? '📉 Below Average' : '➡️ On Track'}
 					</div>
@@ -258,8 +258,8 @@ const { insights, summary } = generateDynamicInsights(insightData, 'cadence');
 						</div>
 					</div>
 					<div class="text-center">
-						<div class="text-3xl font-bold text-blue-500 mb-2" title="Average posts per month calculated as: total posts / (days since first post / 30)">{avgPostsPerMonth}</div>
-						<div class="text-sm text-[rgb(var(--color-text-muted))]">Avg Posts/Month</div>
+						<div class="text-3xl font-bold text-blue-500 mb-2" title="Average writings per month calculated as: total writings / (days since first writing / 30)">{avgPostsPerMonth}</div>
+						<div class="text-sm text-[rgb(var(--color-text-muted))]">Avg Writings/Month</div>
 						<div class="text-xs text-[rgb(var(--color-text-muted))] mt-1">
 							{avgPostsPerMonth > 4 ? 'High Output' : avgPostsPerMonth > 2 ? 'Moderate' : 'Low Output'}
 						</div>

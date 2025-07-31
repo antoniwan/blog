@@ -47,7 +47,7 @@ function formatRelativeTime(dateString: string): string {
 		<div class="chapter-title-section">
 			<h2 class="chapter-title">{chapterTitle}</h2>
 			<div class="chapter-meta">
-				<span class="post-count">({posts.length} posts)</span>
+				<span class="post-count">({posts.length} writings)</span>
 				<div class="chapter-progress" data-chapter-id={chapterId}>
 					<div class="progress-bar">
 						<div class="progress-fill" data-chapter-id={chapterId}></div>
@@ -91,7 +91,7 @@ function formatRelativeTime(dateString: string): string {
 				})}
 			</ol>
 		) : (
-			<p class="empty-state">No posts yet in this chapter.</p>
+			<p class="empty-state">No writings yet in this chapter.</p>
 		)}
 	</div>
 </div>

@@ -49,7 +49,7 @@ console.log('Generated Share URLs:', platforms.map(p => ({ name: p.name, url: p.
     <button
       id="share-fab"
       class="flex items-center justify-center w-14 h-14 bg-[rgb(var(--color-accent))] text-white rounded-full shadow-lg hover:bg-[rgb(var(--color-accent-hover))] focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:ring-offset-2 theme-transition"
-      aria-label="Share this post"
+      aria-label="Share this writing"
     >
       <span class="text-xl">📤</span>
     </button>
@@ -80,11 +80,11 @@ console.log('Generated Share URLs:', platforms.map(p => ({ name: p.name, url: p.
 {variant === 'horizontal' && (
   <div class="hidden md:block lg:hidden my-8">
     <div class="relative">
-      <button
-        id="horizontal-share-toggle"
-        class="flex items-center gap-2 px-4 py-2 bg-[rgb(var(--color-bg-alt))] rounded-lg border border-[rgb(var(--color-border))] hover:bg-[rgb(var(--color-bg-alt))]/80 theme-transition"
-        aria-label="Share this post"
-      >
+              <button
+          id="horizontal-share-toggle"
+          class="flex items-center gap-2 px-4 py-2 bg-[rgb(var(--color-bg-alt))] rounded-lg border border-[rgb(var(--color-border))] hover:bg-[rgb(var(--color-bg-alt))]/80 theme-transition"
+          aria-label="Share this writing"
+        >
         <span class="text-base">📤</span>
         <span class="text-sm font-medium">Share</span>
         <svg class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -127,10 +127,10 @@ console.log('Generated Share URLs:', platforms.map(p => ({ name: p.name, url: p.
         <button
           id="vertical-share-toggle"
           class="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-left text-sm bg-[rgb(var(--color-bg-alt))] hover:bg-[rgb(var(--color-bg-alt))]/80 theme-transition"
-          aria-label="Share this post"
+          aria-label="Share this writing"
         >
           <span class="text-base">📤</span>
-          <span class="flex-1">Share this post</span>
+          <span class="flex-1">Share this writing</span>
           <svg class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
           </svg>
@@ -166,7 +166,7 @@ console.log('Generated Share URLs:', platforms.map(p => ({ name: p.name, url: p.
   <button
     id="share-button"
     class={`inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[rgb(var(--color-bg-alt))] text-[rgb(var(--color-text))] hover:bg-[rgb(var(--color-bg-alt))]/80 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] theme-transition ${className}`}
-    aria-label="Share this post"
+    aria-label="Share this writing"
   >
     <span class="text-base">📤</span>
     <span class="text-sm font-medium">Share</span>

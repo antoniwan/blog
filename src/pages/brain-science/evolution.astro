@@ -328,8 +328,8 @@ const { insights, summary } = generateDynamicInsights(insightData, 'evolution');
 									<span class="text-sm font-medium text-[rgb(var(--color-text))]" title={`Average estimated reading time per post in ${period.period} period`}>{period.avgReadingTime} min</span>
 								</div>
 								<div class="flex justify-between">
-									<span class="text-sm text-[rgb(var(--color-text-muted))]">Posts:</span>
-									<span class="text-sm font-medium text-[rgb(var(--color-text))]" title={`Number of posts in ${period.period} period`}>{period.postCount}</span>
+																<span class="text-sm text-[rgb(var(--color-text-muted))]">Writings:</span>
+							<span class="text-sm font-medium text-[rgb(var(--color-text))]" title={`Number of writings in ${period.period} period`}>{period.postCount}</span>
 								</div>
 							</div>
 						</div>
@@ -355,7 +355,7 @@ const { insights, summary } = generateDynamicInsights(insightData, 'evolution');
 									<div>
 										<div class="text-sm font-medium text-[rgb(var(--color-text))]">{topic.tag}</div>
 										<div class="text-xs text-[rgb(var(--color-text-muted))]">
-											{topic.earlyCount} → {topic.recentCount} posts
+											{topic.earlyCount} → {topic.recentCount} writings
 										</div>
 									</div>
 								</div>
@@ -377,7 +377,7 @@ const { insights, summary } = generateDynamicInsights(insightData, 'evolution');
 									<div>
 										<div class="text-sm font-medium text-[rgb(var(--color-text))]">{topic.tag}</div>
 										<div class="text-xs text-[rgb(var(--color-text-muted))]">
-											{topic.earlyCount} → {topic.recentCount} posts
+											{topic.earlyCount} → {topic.recentCount} writings
 										</div>
 									</div>
 								</div>
@@ -398,15 +398,15 @@ const { insights, summary } = generateDynamicInsights(insightData, 'evolution');
 						<div class="p-4 bg-[rgb(var(--color-bg))] rounded-lg">
 							<div class="flex items-center justify-between mb-3">
 								<h4 class="text-sm font-medium text-[rgb(var(--color-text))]">{quarter.label}</h4>
-								<div class="text-xs text-[rgb(var(--color-text-muted))]" title={`${quarter.posts} posts with average ${quarter.avgWordCount} words and ${quarter.avgComplexity} complexity score`}>
-									{quarter.posts} posts • {quarter.avgWordCount} avg words • {quarter.avgComplexity} complexity
+								<div class="text-xs text-[rgb(var(--color-text-muted))]" title={`${quarter.posts} writings with average ${quarter.avgWordCount} words and ${quarter.avgComplexity} complexity score`}>
+									{quarter.posts} writings • {quarter.avgWordCount} avg words • {quarter.avgComplexity} complexity
 								</div>
 							</div>
 							<div class="mb-3">
 								<div class="text-xs text-[rgb(var(--color-text-muted))] mb-2">Top Topics:</div>
 								<div class="flex flex-wrap gap-2">
 									{quarter.topTags.map(tag => (
-										<span class="text-xs bg-[rgb(var(--color-accent))] text-white px-2 py-1 rounded" title={`${tag.count} posts tagged with "${tag.tag}" in ${quarter.label}`}>
+										<span class="text-xs bg-[rgb(var(--color-accent))] text-white px-2 py-1 rounded" title={`${tag.count} writings tagged with "${tag.tag}" in ${quarter.label}`}>
 											{tag.tag} ({tag.count})
 										</span>
 									))}
@@ -416,7 +416,7 @@ const { insights, summary } = generateDynamicInsights(insightData, 'evolution');
 								<div class="text-xs text-[rgb(var(--color-text-muted))] mb-2">Categories:</div>
 								<div class="flex flex-wrap gap-2">
 									{quarter.topCategories.map(cat => (
-										<span class="text-xs bg-[rgb(var(--color-bg-secondary))] text-[rgb(var(--color-text))] px-2 py-1 rounded border" title={`${cat.count} posts in "${cat.cat}" category in ${quarter.label}`}>
+										<span class="text-xs bg-[rgb(var(--color-bg-secondary))] text-[rgb(var(--color-text))] px-2 py-1 rounded border" title={`${cat.count} writings in "${cat.cat}" category in ${quarter.label}`}>
 											{cat.cat} ({cat.count})
 										</span>
 									))}
@@ -475,31 +475,31 @@ const { insights, summary } = generateDynamicInsights(insightData, 'evolution');
 				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">🎓 Writing Maturity Indicators</h3>
 				<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
 					<div class="p-4 bg-[rgb(var(--color-bg))] rounded-lg text-center">
-						<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Posts containing code blocks or inline code">
+						<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Writings containing code blocks or inline code">
 							{maturityIndicators.filter(post => post.hasCode).length}
 						</div>
-						<div class="text-sm text-[rgb(var(--color-text-muted))]">Posts with Code</div>
+						<div class="text-sm text-[rgb(var(--color-text-muted))]">Writings with Code</div>
 						<div class="text-xs text-blue-500 mt-1">💻 Technical Depth</div>
 					</div>
 					<div class="p-4 bg-[rgb(var(--color-bg))] rounded-lg text-center">
-						<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Posts containing external links or URLs">
+						<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Writings containing external links or URLs">
 							{maturityIndicators.filter(post => post.hasLinks).length}
 						</div>
-						<div class="text-sm text-[rgb(var(--color-text-muted))]">Posts with Links</div>
+						<div class="text-sm text-[rgb(var(--color-text-muted))]">Writings with Links</div>
 						<div class="text-xs text-green-500 mt-1">🔗 Research Quality</div>
 					</div>
 					<div class="p-4 bg-[rgb(var(--color-bg))] rounded-lg text-center">
-						<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Posts containing images or visual content">
+						<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Writings containing images or visual content">
 							{maturityIndicators.filter(post => post.hasImages).length}
 						</div>
-						<div class="text-sm text-[rgb(var(--color-text-muted))]">Posts with Images</div>
+						<div class="text-sm text-[rgb(var(--color-text-muted))]">Writings with Images</div>
 						<div class="text-xs text-purple-500 mt-1">🖼️ Visual Appeal</div>
 					</div>
 					<div class="p-4 bg-[rgb(var(--color-bg))] rounded-lg text-center">
-						<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Posts with more than 1000 words">
+						<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Writings with more than 1000 words">
 							{maturityIndicators.filter(post => post.wordCount > 1000).length}
 						</div>
-						<div class="text-sm text-[rgb(var(--color-text-muted))]">Long-form Posts</div>
+						<div class="text-sm text-[rgb(var(--color-text-muted))]">Long-form Writings</div>
 						<div class="text-xs text-yellow-500 mt-1">📝 Depth of Thought</div>
 					</div>
 				</div>

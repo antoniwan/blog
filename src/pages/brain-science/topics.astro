@@ -248,21 +248,21 @@ const { insights, summary } = generateDynamicInsights(insightData, 'topics');
 				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">🎯 Topic Focus Analysis</h3>
 				<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 					<div class="text-center p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
-						<div class="text-3xl font-bold text-blue-500 mb-2" title={`${topTags[0]?.count || 0} posts tagged with the most frequent topic`}>{topTags[0]?.count || 0}</div>
-						<div class="text-sm text-[rgb(var(--color-text-muted))]">Top Topic Posts</div>
+						<div class="text-3xl font-bold text-blue-500 mb-2" title={`${topTags[0]?.count || 0} writings tagged with the most frequent topic`}>{topTags[0]?.count || 0}</div>
+						<div class="text-sm text-[rgb(var(--color-text-muted))]">Top Topic Writings</div>
 						<div class="text-xs text-blue-600 dark:text-blue-400 mt-1">
 							"{topTags[0]?.tag || 'None'}"
 						</div>
 					</div>
 					<div class="text-center p-4 bg-green-50 dark:bg-green-900/20 rounded-lg">
-						<div class="text-3xl font-bold text-green-500 mb-2" title={`${Math.round((topTags[0]?.count || 0) / posts.length * 100)}% of posts use the most frequent tag`}>{Math.round((topTags[0]?.count || 0) / posts.length * 100)}%</div>
+						<div class="text-3xl font-bold text-green-500 mb-2" title={`${Math.round((topTags[0]?.count || 0) / posts.length * 100)}% of writings use the most frequent tag`}>{Math.round((topTags[0]?.count || 0) / posts.length * 100)}%</div>
 						<div class="text-sm text-[rgb(var(--color-text-muted))]">Focus Concentration</div>
 						<div class="text-xs text-green-600 dark:text-green-400 mt-1">
 							{(topTags[0]?.count || 0) / posts.length > 0.3 ? 'High Focus' : (topTags[0]?.count || 0) / posts.length > 0.15 ? 'Balanced' : 'Diverse'}
 						</div>
 					</div>
 					<div class="text-center p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
-						<div class="text-3xl font-bold text-purple-500 mb-2" title={`${Object.keys(tagFrequency).length} unique tags used across all posts`}>{Object.keys(tagFrequency).length}</div>
+						<div class="text-3xl font-bold text-purple-500 mb-2" title={`${Object.keys(tagFrequency).length} unique tags used across all writings`}>{Object.keys(tagFrequency).length}</div>
 						<div class="text-sm text-[rgb(var(--color-text-muted))]">Topic Diversity</div>
 						<div class="text-xs text-purple-600 dark:text-purple-400 mt-1">
 							{Object.keys(tagFrequency).length > 20 ? 'Very Diverse' : Object.keys(tagFrequency).length > 10 ? 'Moderately Diverse' : 'Focused'}
@@ -287,9 +287,9 @@ const { insights, summary } = generateDynamicInsights(insightData, 'topics');
 									{index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : `#${index + 1}`}
 								</span>
 							</div>
-							<div class="text-2xl font-bold text-[rgb(var(--color-text))]" title={`${tagData.count} posts tagged with "${tagData.tag}"`}>{tagData.count}</div>
+							<div class="text-2xl font-bold text-[rgb(var(--color-text))]" title={`${tagData.count} writings tagged with "${tagData.tag}"`}>{tagData.count}</div>
 							<div class="text-xs text-[rgb(var(--color-text-muted))]">
-								Weight: {tagData.weight} • {Math.round((tagData.count / posts.length) * 100)}% of posts
+								Weight: {tagData.weight} • {Math.round((tagData.count / posts.length) * 100)}% of writings
 							</div>
 							{tagData.category && (
 								<div class="text-xs text-[rgb(var(--color-text-muted))] mt-1">
@@ -323,7 +323,7 @@ const { insights, summary } = generateDynamicInsights(insightData, 'topics');
 											style={`width: ${(category.count / Math.max(...categoryStats.map(c => c.count))) * 100}%`}
 										></div>
 									</div>
-									<span class="text-xs text-[rgb(var(--color-text-muted))] w-8 text-right" title={`${category.count} posts (${category.percentage}% of total) in ${category.name} category`}>{category.count}</span>
+									<span class="text-xs text-[rgb(var(--color-text-muted))] w-8 text-right" title={`${category.count} writings (${category.percentage}% of total) in ${category.name} category`}>{category.count}</span>
 								</div>
 							</div>
 						))}
@@ -350,7 +350,7 @@ const { insights, summary } = generateDynamicInsights(insightData, 'topics');
 											style={`width: ${category.percentage}%`}
 										></div>
 									</div>
-									<span class="text-xs text-[rgb(var(--color-text-muted))] w-8 text-right" title={`${category.postCount} posts (${category.percentage}% of total) in ${category.title} life area`}>{category.percentage}%</span>
+									<span class="text-xs text-[rgb(var(--color-text-muted))] w-8 text-right" title={`${category.postCount} writings (${category.percentage}% of total) in ${category.title} life area`}>{category.percentage}%</span>
 								</div>
 							</div>
 						))}
@@ -367,7 +367,7 @@ const { insights, summary } = generateDynamicInsights(insightData, 'topics');
 							<div class="text-sm font-medium text-[rgb(var(--color-text))] mb-2">
 								{relationship.tag1} ↔ {relationship.tag2}
 							</div>
-							<div class="text-lg font-bold text-[rgb(var(--color-accent))]" title={`${relationship.count} posts have both tags "${relationship.tag1}" and "${relationship.tag2}"`}>{relationship.count}</div>
+							<div class="text-lg font-bold text-[rgb(var(--color-accent))]" title={`${relationship.count} writings have both tags "${relationship.tag1}" and "${relationship.tag2}"`}>{relationship.count}</div>
 							<div class="text-xs text-[rgb(var(--color-text-muted))]">
 								Co-occurrences • Strength: {Math.round(relationship.strength * 100)}%
 							</div>
@@ -386,7 +386,7 @@ const { insights, summary } = generateDynamicInsights(insightData, 'topics');
 								<span class="text-sm font-medium text-[rgb(var(--color-text))]">{tagData.tag}</span>
 								<span class="text-lg font-bold text-[rgb(var(--color-accent))]">#{index + 1}</span>
 							</div>
-							<div class="text-2xl font-bold text-[rgb(var(--color-text))]" title={`${tagData.count} posts tagged with "${tagData.tag}" in the last 6 months`}>{tagData.count}</div>
+							<div class="text-2xl font-bold text-[rgb(var(--color-text))]" title={`${tagData.count} writings tagged with "${tagData.tag}" in the last 6 months`}>{tagData.count}</div>
 							<div class="text-xs text-[rgb(var(--color-text-muted))]">
 								Overall rank: #{tagData.overallRank}
 							</div>
@@ -435,11 +435,11 @@ const { insights, summary } = generateDynamicInsights(insightData, 'topics');
 						<div class="p-4 bg-[rgb(var(--color-bg))] rounded-lg">
 							<div class="flex items-center justify-between mb-3">
 								<h4 class="text-sm font-medium text-[rgb(var(--color-text))]">{quarter.label}</h4>
-								<span class="text-xs text-[rgb(var(--color-text-muted))]" title={`${quarter.posts} posts published in ${quarter.label}`}>{quarter.posts} posts</span>
+								<span class="text-xs text-[rgb(var(--color-text-muted))]" title={`${quarter.posts} writings published in ${quarter.label}`}>{quarter.posts} writings</span>
 							</div>
 							<div class="flex flex-wrap gap-2">
 								{quarter.topTags.map(tag => (
-									<span class="text-xs bg-[rgb(var(--color-accent))] text-white px-2 py-1 rounded" title={`${tag.count} posts tagged with "${tag.tag}" in ${quarter.label}`}>
+									<span class="text-xs bg-[rgb(var(--color-accent))] text-white px-2 py-1 rounded" title={`${tag.count} writings tagged with "${tag.tag}" in ${quarter.label}`}>
 										{tag.tag} ({tag.count})
 									</span>
 								))}
