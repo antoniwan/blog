@@ -5,6 +5,53 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.9.0] - 2025-01-30
+
+### Added
+
+- **Guided Path**: Revolutionary seasonal reading experience with privacy-first progress tracking
+  - **Seasonal Organization**: Content organized by Spring, Summer, Fall, and Winter seasons
+  - **Year-based Chapters**: Each season of each year becomes a reading chapter with natural progression
+  - **Progress Tracking**: Local storage-based progress tracking with real-time updates
+  - **Privacy-First Design**: Zero tracking, analytics, or data collection - all progress stored locally
+  - **Reading Journey**: Users can track completion across seasons and years with achievement system
+  - **Responsive Design**: Optimized experience across mobile, tablet, and desktop devices
+  - **Accessibility**: Full keyboard navigation and screen reader support
+  - **Completion Celebrations**: Achievement system with milestone tracking and completion messages
+
+### Technical Implementation
+
+- **Guided Path Page**: `src/pages/guided-path.astro` with comprehensive seasonal organization
+- **Chapter Component**: Enhanced `src/components/Chapter.astro` with progress tracking integration
+- **Navigation Integration**: Added Guided Path to main navigation with map emoji
+- **Local Storage**: Privacy-first progress tracking using browser localStorage
+- **Seasonal Logic**: Intelligent season detection and date range calculations
+- **Progress Visualization**: Real-time progress bars, completion stats, and achievement tracking
+
+### User Experience
+
+- 🗺️ **Natural Reading Flow**: "I read Fall 2023" - intuitive seasonal reading organization
+- 🎯 **Progress Visualization**: Real-time progress bars with completion percentages
+- 🏆 **Achievement System**: Completion celebrations and milestone tracking
+- 📊 **Reading Stats**: Total posts, read posts, remaining posts, and completed seasons
+- 🔒 **Privacy-First**: Clear privacy notice explaining local-only data storage
+- 📱 **Responsive Design**: Optimized experience across all device types
+- ♿ **Accessible**: Full keyboard navigation and screen reader support
+
+### Development Benefits
+
+- 🛠️ **Maintainable**: Clean, modular component architecture with TypeScript
+- 📚 **Well-Documented**: Comprehensive implementation with clear privacy policies
+- 🔧 **Type-Safe**: Full TypeScript support with proper error handling
+- 🎨 **Customizable**: Flexible seasonal organization and progress tracking
+
+### Content & Navigation Updates
+
+- **Navigation Enhancement**: Added Guided Path to main navigation with intuitive icon
+- **Content Organization**: Seasonal chapters provide natural content discovery
+- **User Engagement**: Progress tracking encourages continued reading and exploration
+- **Privacy Transparency**: Clear communication about data handling and user control
+
 ## [2.8.0] - 2025-01-30
 
 ### Added
@@ -434,6 +481,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Version History
 
+- **2.9.0**: Guided Path seasonal reading experience with privacy-first progress tracking and content organization
 - **2.8.0**: Social sharing system with mobile-first responsive design and multi-platform support
 - **2.7.1**: Production go-live preparation with dependency updates and security monitoring
 - **2.6.1**: Enhanced 404 page with professional loading states, robust error handling, and graceful degradation

@@ -1,6 +1,6 @@
 # Curious Chaos Journal
 
-[![Version](https://img.shields.io/badge/version-2.8.0-blue.svg)](https://github.com/antoniwan/curious-chaos-journal/releases)
+[![Version](https://img.shields.io/badge/version-2.9.0-blue.svg)](https://github.com/antoniwan/curious-chaos-journal/releases)
 
 A personal blog built with Astro, documenting thoughts on technology, personal growth, and creative expression. Features an internal API for Stoic philosophy quotes.
 
@@ -15,6 +15,7 @@ A personal blog built with Astro, documenting thoughts on technology, personal g
 - **Internal API** for Stoic philosophy quotes
 - **Enhanced 404 page** with professional loading states and error handling
 - **Social Sharing** with mobile-first responsive design and native share API support
+- **Guided Path** - Seasonal reading experience with progress tracking
 
 ## Tech Stack
 
@@ -139,6 +140,7 @@ draft: false
 - **Tag Management** - Advanced tag usage analytics
 - **Internal API** - Stoic quotes for enhanced user experience
 - **Social Sharing** - Multi-platform sharing with mobile-first responsive design
+- **Guided Path** - Seasonal reading experience with progress tracking and privacy-first design
 
 ## Configuration
 
@@ -147,6 +149,32 @@ draft: false
 - **Markdown**: Shiki syntax highlighting
 - **Prefetch**: Intelligent link prefetching
 - **Vercel Adapter**: Optimized deployment
+
+## Guided Path
+
+The blog features a unique **Guided Path** reading experience that organizes content by seasons and years:
+
+### Seasonal Organization
+
+- **Natural Rhythm**: Content organized by Spring, Summer, Fall, and Winter seasons
+- **Year-based Chapters**: Each season of each year becomes a reading chapter
+- **Progress Tracking**: Local storage-based progress tracking with privacy-first design
+- **Reading Journey**: Users can track completion across seasons and years
+
+### Privacy-First Design
+
+- **Local Storage**: All progress stored locally in user's browser
+- **No Tracking**: Zero analytics, tracking, or data collection
+- **User Control**: Clear browser data to reset progress anytime
+- **Transparent**: Clear privacy notice explaining data handling
+
+### User Experience
+
+- 📚 **Seasonal Reading**: "I read Fall 2023" - natural way to track reading
+- 🎯 **Progress Visualization**: Real-time progress bars and completion stats
+- 🏆 **Achievement System**: Completion celebrations and milestone tracking
+- 📱 **Responsive Design**: Optimized experience across all devices
+- ♿ **Accessibility**: Full keyboard navigation and screen reader support
 
 ## Social Sharing
 
@@ -185,6 +213,7 @@ Comprehensive documentation available in `docs/`:
 - [Tag Management](docs/TAG_MANAGEMENT_SECTION.md)
 - [Quotes API](docs/QUOTES_API.md)
 - [Social Sharing Implementation](docs/SOCIAL_SHARING_IMPLEMENTATION.md)
+- [Guided Path Implementation](docs/GUIDED_PATH_IMPLEMENTATION.md)
 
 ## License
 
