@@ -586,7 +586,7 @@
   border-radius: 0.5rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   transition:
-    transform 0.2s ease,
+    opacity 0.2s ease,
     box-shadow 0.2s ease;
   max-width: 100% !important;
   object-fit: contain !important;
@@ -595,7 +595,7 @@
 }
 
 .prose img:hover {
-  transform: scale(1.02);
+  opacity: 0.85;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
 }
 
@@ -626,7 +626,7 @@
 
   .prose img:hover,
   .prose figure img:hover {
-    transform: scale(1.01);
+    opacity: 0.85;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
   }
 }
@@ -645,7 +645,7 @@
   border-radius: 0.5rem !important;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
   transition:
-    transform 0.2s ease,
+    opacity 0.2s ease,
     box-shadow 0.2s ease !important;
   max-width: 100% !important;
   object-fit: cover !important;
@@ -653,7 +653,7 @@
 }
 
 .prose > div:first-child img:hover {
-  transform: scale(1.02) !important;
+  opacity: 0.85 !important;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15) !important;
 }
 
