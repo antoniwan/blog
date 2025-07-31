@@ -192,40 +192,6 @@ const nonEmptyChapters = seasonalChapters.filter(chapter => chapter.posts.length
 					<p>Consider revisiting your favorite seasons or exploring new themes that emerged during your reading journey. The path is always here for you to return to.</p>
 				</div>
 			</div>
-			
-			<div class="reading-philosophy">
-				<h3>Reading Philosophy</h3>
-				<p>
-					This seasonal approach transforms reading from a linear consumption into a cyclical journey. 
-					Each season brings different themes, moods, and insights that naturally align with the 
-					rhythms of life and nature.
-				</p>
-				
-				<div class="seasonal-themes">
-					<div class="theme">
-						<h4>🌱 Spring</h4>
-						<p>New beginnings, growth, and fresh perspectives</p>
-					</div>
-					<div class="theme">
-						<h4>☀️ Summer</h4>
-						<p>Peak energy, exploration, and outward expression</p>
-					</div>
-					<div class="theme">
-						<h4>🍂 Fall</h4>
-						<p>Reflection, harvest, and preparation for change</p>
-					</div>
-					<div class="theme">
-						<h4>❄️ Winter</h4>
-						<p>Introspection, rest, and inner transformation</p>
-					</div>
-				</div>
-				
-				<p>
-					<strong>Your reading journey is tracked locally in your browser</strong> — completely private 
-					and under your control. This helps you see patterns in your thinking and track your growth 
-					through these seasonal cycles of ideas and insights.
-				</p>
-			</div>
 		</div>
 	</Container>
 </PageLayout>
@@ -448,68 +414,9 @@ const nonEmptyChapters = seasonalChapters.filter(chapter => chapter.posts.length
 		margin-bottom: 0;
 	}
 
-	.reading-philosophy {
-		max-width: 800px;
-		margin: 4rem auto 0;
-		padding: 2rem;
-		background: rgb(var(--color-bg-alt));
-		border-radius: 12px;
-		border: 1px solid rgb(var(--color-border));
-	}
-
-	.reading-philosophy h3 {
-		font-size: 1.25rem;
-		font-weight: 600;
-		margin-bottom: 1rem;
-		color: rgb(var(--color-text));
-	}
-
-	.reading-philosophy p {
-		margin-bottom: 1.5rem;
-		line-height: 1.6;
-		color: rgb(var(--color-text-muted));
-	}
-
-	.seasonal-themes {
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-		gap: 1.5rem;
-		margin: 2rem 0;
-	}
-
-	.theme {
-		padding: 1rem;
-		background: rgb(var(--color-bg));
-		border-radius: 8px;
-		border: 1px solid rgb(var(--color-border));
-		text-align: center;
-	}
-
-	.theme h4 {
-		font-size: 1rem;
-		font-weight: 600;
-		margin-bottom: 0.5rem;
-		color: rgb(var(--color-text));
-	}
-
-	.theme p {
-		font-size: 0.875rem;
-		color: rgb(var(--color-text-muted));
-		margin: 0;
-	}
-
-	.reading-philosophy strong {
-		color: rgb(var(--color-text));
-		font-weight: 600;
-	}
-
 	@media (max-width: 768px) {
 		.path-intro h1 {
 			font-size: 2rem;
-		}
-		
-		.seasonal-themes {
-			grid-template-columns: 1fr;
 		}
 
 		.progress-header {
