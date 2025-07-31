@@ -9,7 +9,7 @@ import { mainNavigation } from '../data/navigation';
   aria-label="Open menu"
   aria-expanded="false"
   aria-controls="mobile-menu"
-  class="inline-flex items-center justify-center p-2 rounded-lg text-[rgb(var(--color-text))] hover:bg-[rgb(var(--color-bg-alt))] focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] md:hidden theme-transition"
+  class="inline-flex items-center justify-center p-2 rounded-lg text-[rgb(var(--color-text))] hover:bg-[rgb(var(--color-bg-alt))] focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] xl:hidden theme-transition"
 >
   <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
@@ -19,7 +19,7 @@ import { mainNavigation } from '../data/navigation';
 <!-- Mobile Menu Overlay -->
 <div
   id="mobile-menu"
-  class="fixed inset-0 z-50 hidden flex flex-col bg-[rgb(var(--color-bg))] h-screen w-full transform transition-transform duration-300 ease-in-out md:hidden"
+  class="fixed inset-0 z-50 hidden flex flex-col bg-[rgb(var(--color-bg))] h-screen w-full transform transition-transform duration-300 ease-in-out xl:hidden"
   tabindex="-1"
   aria-modal="true"
   role="dialog"
@@ -299,7 +299,7 @@ import { mainNavigation } from '../data/navigation';
 </script>
 
 <style>
-@media (min-width: 768px) {
+@media (min-width: 1280px) {
   #mobile-menu-button {
     display: none;
   }
