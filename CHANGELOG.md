@@ -5,7 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.9.0] - 2025-01-30
+## [2.10.0] - 2025-08-01
+
+### Added
+
+- Revamped the Brain Science section. I think it's more human now. More relatable. We'll see.
+
+## [2.9.0] - 2025-07-30
 
 ### Added
 
@@ -52,7 +58,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **User Engagement**: Progress tracking encourages continued reading and exploration
 - **Privacy Transparency**: Clear communication about data handling and user control
 
-## [2.8.0] - 2025-01-30
+## [2.8.0]
 
 ### Added
 
@@ -91,7 +97,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 🔧 **Type-Safe**: TypeScript utilities with proper error handling
 - 🎨 **Customizable**: Flexible component variants for different use cases
 
-## [2.7.1] - 2025-01-30
+## [2.7.1]
 
 ### Production Go-Live Preparation
 
@@ -114,7 +120,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 🔒 **Security Awareness**: Documented known vulnerabilities for transparency
 - 🔧 **Build Optimization**: Improved package lock file and dependency resolution
 
-## [2.7.0] - 2025-01-30
+## [2.7.0]
 
 ### Production Go-Live Preparation
 
@@ -137,7 +143,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 🔒 **Security Awareness**: Documented known vulnerabilities for transparency
 - 🔧 **Build Optimization**: Improved package lock file and dependency resolution
 
-## [2.6.1] - 2025-01-30
+## [2.6.1]
 
 ### Enhanced
 
@@ -177,7 +183,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 🔒 **Performance**: Optimized loading times and efficient error recovery
 - 📝 **Documentation**: Complete technical documentation for error handling patterns
 
-## [2.6.0] - 2025-01-30
+## [2.6.0]
 
 ### Added
 
@@ -227,7 +233,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 🔒 **Reliability**: Comprehensive error handling and validation
 - 📝 **Documentation**: Complete technical documentation for all new features
 
-## [2.5.1] - 2025-01-30
+## [2.5.1]
 
 ### Maintenance & Cleanup
 
@@ -254,7 +260,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 🔧 **Better Development**: Cleaner working directory for development
 - 📊 **Reduced Size**: ~44MB reduction in repository size
 
-## [2.4.1] - 2025-01-30
+## [2.4.1]
 
 ### Fixed
 
@@ -280,7 +286,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 📊 **Better Progress Tracking**: Percentage completion indicator for archive exploration
 - 🔍 **Full Coverage**: 100% post visibility ensures users don't miss any content
 
-## [2.4.0] - 2025-01-30
+## [2.4.0]
 
 ### Added
 
@@ -322,7 +328,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - ⚡ **Performance**: Faster loading and smoother interactions
 - ♿ **Accessibility**: Better keyboard navigation and focus management
 
-## [2.3.0] - 2025-01-30
+## [2.3.0]
 
 ### Added
 
