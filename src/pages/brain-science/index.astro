@@ -105,11 +105,41 @@ for (let i = 0; i < sortedPosts.length - 1; i++) {
 }
 
 currentStreak = tempStreak;
+
+// Personal growth indicators
+const growthPosts = posts.filter(post => {
+	const tags = post.data.tags || [];
+	const title = post.data.title.toLowerCase();
+	const content = post.body || '';
+	
+	const growthTags = ['personal-growth', 'transformation', 'healing', 'self-improvement', 'learning', 'consciousness'];
+	const growthKeywords = ['growth', 'change', 'transform', 'learn', 'evolve', 'improve', 'heal', 'discover'];
+	
+	const hasGrowthTags = growthTags.some(tag => tags.includes(tag));
+	const hasGrowthKeywords = growthKeywords.some(keyword => 
+		title.includes(keyword) || content.toLowerCase().includes(keyword)
+	);
+	
+	return hasGrowthTags || hasGrowthKeywords;
+}).length;
+
+// Emotional processing indicators
+const emotionalPosts = posts.filter(post => {
+	const content = post.body || '';
+	const exclamationCount = (content.match(/!/g) || []).length;
+	const emotionalWords = ['love', 'hate', 'fear', 'joy', 'sadness', 'anger', 'peace', 'anxiety', 'hope', 'despair', 'gratitude', 'frustration'];
+	const emotionalWordCount = emotionalWords.reduce((count, word) => {
+		const regex = new RegExp(`\\b${word}\\b`, 'gi');
+		return count + (content.match(regex) || []).length;
+	}, 0);
+	
+	return exclamationCount + emotionalWordCount > 5; // Threshold for emotional intensity
+}).length;
 ---
 
 <BaseLayout
-	title="Brain Science - Writing Analytics Dashboard"
-	description="Deep dive into my writing patterns, creative evolution, and intellectual journey through data analysis."
+	title="Writing Analytics & Self-Discovery - Brain Science"
+	description="Scientific analysis of writing patterns, measurable insights, and data-driven self-discovery. Understanding cognitive patterns through quantitative content analysis."
 	path="/brain-science"
 	structuredDataType="website"
 >
@@ -129,58 +159,62 @@ currentStreak = tempStreak;
 				{/* Header */}
 				<div class="mb-8 md:mb-12">
 					<h1 class="text-display text-[rgb(var(--color-text))] mb-4 md:mb-6" transition:name="page-title">
-						🧠 <span class="highlight-primary">Brain Science</span>
+						🧠 <span class="highlight-primary">Writing Analytics & Self-Discovery</span>
 					</h1>
 					<p class="text-body-large text-[rgb(var(--color-text-muted))] leading-relaxed" transition:name="page-description">
-						Analyzing my writing patterns, creative evolution, and intellectual journey through data. 
-						Understanding my "brain" through the lens of my published thoughts.
+						Scientific analysis of writing patterns through measurable metrics and quantitative content analysis. 
+						This section measures cognitive patterns, emotional processing, and intellectual evolution using data-driven methodologies.
 					</p>
 				</div>
 
-				{/* Key Metrics Grid */}
+				{/* Measurable Metrics Grid */}
 				<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
 					<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
-								<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Total number of published writings (excluding drafts in production)">{totalPosts}</div>
-		<div class="text-sm text-[rgb(var(--color-text-muted))]">Total Writings</div>
+						<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Total number of published writings (excluding drafts in production)">{totalPosts}</div>
+						<div class="text-sm text-[rgb(var(--color-text-muted))]">Thoughts Captured</div>
+						<div class="text-xs text-blue-500 mt-1">💭 Mental Snapshots</div>
 					</div>
 					<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
 						<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Sum of all words across all published posts (calculated by splitting content on whitespace)">{totalWords.toLocaleString()}</div>
-						<div class="text-sm text-[rgb(var(--color-text-muted))]">Total Words</div>
+						<div class="text-sm text-[rgb(var(--color-text-muted))]">Words Written</div>
+						<div class="text-xs text-green-500 mt-1">📝 Creative Output</div>
 					</div>
 					<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
-								<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Average words per writing (total words divided by total writings)">{averageWordsPerPost}</div>
-		<div class="text-sm text-[rgb(var(--color-text-muted))]">Avg Words/Writing</div>
+						<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Posts focused on personal growth, transformation, or self-improvement">{growthPosts}</div>
+						<div class="text-sm text-[rgb(var(--color-text-muted))]">Growth Writings</div>
+						<div class="text-xs text-purple-500 mt-1">🌱 Personal Evolution</div>
 					</div>
 					<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
-								<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Writings per day since the first writing was published (total writings divided by days since first writing)">{postsPerDay}</div>
-		<div class="text-sm text-[rgb(var(--color-text-muted))]">Writings/Day</div>
+						<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Posts with high emotional intensity (exclamation marks and emotional keywords)">{emotionalPosts}</div>
+						<div class="text-sm text-[rgb(var(--color-text-muted))]">Emotional Writings</div>
+						<div class="text-xs text-pink-500 mt-1">💜 Heart Processing</div>
 					</div>
 				</div>
 
-				{/* Activity Metrics */}
+				{/* Publishing Activity Metrics */}
 				<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
 					<div class="text-center">
-								<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Number of writings published in the current month">{thisMonthPosts}</div>
-		<div class="text-sm text-[rgb(var(--color-text-muted))]">Writings This Month</div>
+						<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Number of writings published in the current month">{thisMonthPosts}</div>
+						<div class="text-sm text-[rgb(var(--color-text-muted))]">This Month's Insights</div>
 					</div>
 					<div class="text-center">
-								<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Current writing streak (consecutive writings within 7 days of each other)">{currentStreak}</div>
-		<div class="text-sm text-[rgb(var(--color-text-muted))]">Current Streak</div>
+						<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Current writing streak (consecutive writings within 7 days of each other)">{currentStreak}</div>
+						<div class="text-sm text-[rgb(var(--color-text-muted))]">Current Publishing Streak</div>
 					</div>
 					<div class="text-center">
-								<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Longest writing streak achieved (consecutive writings within 7 days of each other)">{longestStreak}</div>
-		<div class="text-sm text-[rgb(var(--color-text-muted))]">Longest Streak</div>
+						<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Longest writing streak achieved (consecutive writings within 7 days of each other)">{longestStreak}</div>
+						<div class="text-sm text-[rgb(var(--color-text-muted))]">Longest Publishing Period</div>
 					</div>
 				</div>
 
-				{/* Navigation Cards */}
+				{/* Analytics Navigation Cards */}
 				<div class="bg-gradient-to-br from-[rgb(var(--color-accent))]/5 via-[rgb(var(--color-accent))]/3 to-transparent rounded-xl p-6 border border-[rgb(var(--color-accent))]/20 mb-8">
 					<h2 class="text-xl font-semibold text-[rgb(var(--color-text))] mb-6 flex items-center gap-2">
-						<span class="text-[rgb(var(--color-accent))]">🧭</span>
-						Explore Brain Science Sections
+						<span class="text-[rgb(var(--color-accent))]">🔬</span>
+						Analytics & Insights
 					</h2>
 					<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-						<a href="/brain-science/cadence" class="group block">
+						<a href="/brain-science/insights" class="group block">
 							<div class="bg-[rgb(var(--color-bg))] rounded-lg p-6 border-2 border-[rgb(var(--color-border))] hover:border-[rgb(var(--color-accent))] hover:shadow-lg hover:shadow-[rgb(var(--color-accent))]/20 hover:-translate-y-1 transition-all duration-200 cursor-pointer relative overflow-hidden">
 								{/* Subtle gradient overlay on hover */}
 								<div class="absolute inset-0 bg-gradient-to-br from-[rgb(var(--color-accent))]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
@@ -189,12 +223,12 @@ currentStreak = tempStreak;
 									→
 								</div>
 								<div class="relative">
-									<div class="text-2xl mb-3">📅</div>
+									<div class="text-2xl mb-3">💡</div>
 									<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-2 group-hover:text-[rgb(var(--color-accent))] transition-colors">
-										Writing Cadence
+										Personal Insights
 									</h3>
 									<p class="text-sm text-[rgb(var(--color-text-muted))] group-hover:text-[rgb(var(--color-text))] transition-colors">
-										Publishing patterns, streaks, and seasonal rhythms
+										Discover patterns in your emotional processing and creative energy
 									</p>
 								</div>
 							</div>
@@ -211,10 +245,10 @@ currentStreak = tempStreak;
 								<div class="relative">
 									<div class="text-2xl mb-3">📈</div>
 									<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-2 group-hover:text-[rgb(var(--color-accent))] transition-colors">
-										Content Evolution
+										Intellectual Growth
 									</h3>
 									<p class="text-sm text-[rgb(var(--color-text-muted))] group-hover:text-[rgb(var(--color-text))] transition-colors">
-										Topic progression and writing style development
+										See how your thinking style and knowledge areas have evolved
 									</p>
 								</div>
 							</div>
@@ -231,16 +265,16 @@ currentStreak = tempStreak;
 								<div class="relative">
 									<div class="text-2xl mb-3">🏷️</div>
 									<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-2 group-hover:text-[rgb(var(--color-accent))] transition-colors">
-										Topic Analysis
+										Core Themes
 									</h3>
 									<p class="text-sm text-[rgb(var(--color-text-muted))] group-hover:text-[rgb(var(--color-text))] transition-colors">
-										Tag frequency, category distribution, and theme relationships
+										Understand what truly matters to you and how your interests connect
 									</p>
 								</div>
 							</div>
 						</a>
 
-						<a href="/brain-science/meta" class="group block">
+						<a href="/brain-science/cadence" class="group block">
 							<div class="bg-[rgb(var(--color-bg))] rounded-lg p-6 border-2 border-[rgb(var(--color-border))] hover:border-[rgb(var(--color-accent))] hover:shadow-lg hover:shadow-[rgb(var(--color-accent))]/20 hover:-translate-y-1 transition-all duration-200 cursor-pointer relative overflow-hidden">
 								{/* Subtle gradient overlay on hover */}
 								<div class="absolute inset-0 bg-gradient-to-br from-[rgb(var(--color-accent))]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
@@ -249,32 +283,12 @@ currentStreak = tempStreak;
 									→
 								</div>
 								<div class="relative">
-									<div class="text-2xl mb-3">🔍</div>
+									<div class="text-2xl mb-3">📅</div>
 									<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-2 group-hover:text-[rgb(var(--color-accent))] transition-colors">
-										Meta Analysis
+										Creative Rhythms
 									</h3>
 									<p class="text-sm text-[rgb(var(--color-text-muted))] group-hover:text-[rgb(var(--color-text))] transition-colors">
-										Self-referential patterns and content depth analysis
-									</p>
-								</div>
-							</div>
-						</a>
-
-						<a href="/brain-science/insights" class="group block">
-							<div class="bg-[rgb(var(--color-bg))] rounded-lg p-6 border-2 border-[rgb(var(--color-border))] hover:border-[rgb(var(--color-accent))] hover:shadow-lg hover:shadow-[rgb(var(--color-accent))]/20 hover:-translate-y-1 transition-all duration-200 cursor-pointer relative overflow-hidden">
-								{/* Subtle gradient overlay on hover */}
-								<div class="absolute inset-0 bg-gradient-to-br from-[rgb(var(--color-accent))]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
-								{/* Arrow indicator */}
-								<div class="absolute top-4 right-4 text-[rgb(var(--color-accent))] opacity-0 group-hover:opacity-100 transition-opacity duration-200 transform translate-x-2 group-hover:translate-x-0">
-									→
-								</div>
-								<div class="relative">
-									<div class="text-2xl mb-3">💡</div>
-									<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-2 group-hover:text-[rgb(var(--color-accent))] transition-colors">
-										Personal Insights
-									</h3>
-									<p class="text-sm text-[rgb(var(--color-text-muted))] group-hover:text-[rgb(var(--color-text))] transition-colors">
-										Creative patterns and intellectual growth trends
+										Discover your natural creative cycles and productive patterns
 									</p>
 								</div>
 							</div>
@@ -291,10 +305,30 @@ currentStreak = tempStreak;
 								<div class="relative">
 									<div class="text-2xl mb-3">🌀</div>
 									<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-2 group-hover:text-[rgb(var(--color-accent))] transition-colors">
-										Pattern Recognition
+										Hidden Patterns
 									</h3>
 									<p class="text-sm text-[rgb(var(--color-text-muted))] group-hover:text-[rgb(var(--color-text))] transition-colors">
-										Correlations and creative cycle analysis
+										Uncover subconscious patterns and creative correlations
+									</p>
+								</div>
+							</div>
+						</a>
+
+						<a href="/brain-science/meta" class="group block">
+							<div class="bg-[rgb(var(--color-bg))] rounded-lg p-6 border-2 border-[rgb(var(--color-border))] hover:border-[rgb(var(--color-accent))] hover:shadow-lg hover:shadow-[rgb(var(--color-accent))]/20 hover:-translate-y-1 transition-all duration-200 cursor-pointer relative overflow-hidden">
+								{/* Subtle gradient overlay on hover */}
+								<div class="absolute inset-0 bg-gradient-to-br from-[rgb(var(--color-accent))]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
+								{/* Arrow indicator */}
+								<div class="absolute top-4 right-4 text-[rgb(var(--color-accent))] opacity-0 group-hover:opacity-100 transition-opacity duration-200 transform translate-x-2 group-hover:translate-x-0">
+									→
+								</div>
+								<div class="relative">
+									<div class="text-2xl mb-3">🔍</div>
+									<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-2 group-hover:text-[rgb(var(--color-accent))] transition-colors">
+										Self-Reflection
+									</h3>
+									<p class="text-sm text-[rgb(var(--color-text-muted))] group-hover:text-[rgb(var(--color-text))] transition-colors">
+										Explore how you think about thinking and your relationship with writing
 									</p>
 								</div>
 							</div>
@@ -302,11 +336,11 @@ currentStreak = tempStreak;
 					</div>
 				</div>
 
-				{/* Quick Stats */}
+				{/* Data Insights */}
 				<div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-					{/* Top Tags */}
+					{/* Core Themes */}
 					<div>
-						<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-4">Most Frequent Topics</h3>
+						<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-4">What Matters Most to You</h3>
 						<div class="space-y-3">
 							{topTags.map(({ tag, count, weight }) => (
 								<div class="flex justify-between items-center">
@@ -325,9 +359,9 @@ currentStreak = tempStreak;
 						</div>
 					</div>
 
-					{/* Maslow Hierarchy */}
+					{/* Life Areas Focus */}
 					<div>
-						<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-4">Content by Life Areas</h3>
+						<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-4">Your Life Areas Focus</h3>
 						<div class="space-y-3">
 							{maslowAnalysis.map(category => (
 								<div class="flex justify-between items-center">
@@ -350,6 +384,25 @@ currentStreak = tempStreak;
 					</div>
 				</div>
 
+				{/* Analytical Reflection */}
+				<div class="mt-12 bg-gradient-to-r from-[rgb(var(--color-accent))]/10 to-[rgb(var(--color-accent))]/5 rounded-lg p-6 border border-[rgb(var(--color-accent))]/20">
+					<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-4 flex items-center gap-2">
+						<span class="text-[rgb(var(--color-accent))]">🔬</span>
+						Analytical Questions
+					</h3>
+					<div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-[rgb(var(--color-text-muted))]">
+						<div>
+							<p class="mb-2">• What patterns do you notice in your most emotional writings?</p>
+							<p class="mb-2">• How has your thinking style evolved over time?</p>
+							<p class="mb-2">• Which topics consistently energize you?</p>
+						</div>
+						<div>
+							<p class="mb-2">• When are you most creative and productive?</p>
+							<p class="mb-2">• What themes connect your different interests?</p>
+							<p class="mb-2">• How does writing help you process your experiences?</p>
+						</div>
+					</div>
+				</div>
 
 			</div>
 		</Container>
