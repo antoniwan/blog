@@ -203,7 +203,7 @@ Individual resistance is worse than useless - it's part of the system. It provid
 
 The "CCJ is just broke and bitter" response is classic deflection - making it about individual criticism rather than systemic analysis. It's the same logic as "if you don't like America, leave it" - avoiding the actual points by attacking the messenger.
 
-The fast-pass mentality perfectly illustrates the problem: "I can afford to skip the abuse, so the abuse doesn't exist." But the fast-pass is part of the abuse system - paying extra to avoid the artificial suffering that shouldn't exist in the first place. It's like saying domestic violence isn't real because some people can afford private security.
+The fast-pass mentality perfectly illustrates the problem: "I can afford to skip the abuse, so the abuse doesn't exist." But the fast-pass is part of the abuse system - paying extra to avoid the artificial suffering that shouldn't exist in the first place. It's like saying food poisoning isn't real because some people can afford organic groceries. Everybody should be eating organic (I truly could care less about organic or the labels, MAKE THE FOOD HEALTHY!!).
 
 ## Too Much Individualism Is Wrecking Us
 
