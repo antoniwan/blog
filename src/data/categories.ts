@@ -13,6 +13,12 @@ export const categories: Category[] = [
     icon: "🎵",
   },
   {
+    id: "culture",
+    name: "Culture",
+    description: "Social norms, collective behavior, and cultural critique",
+    icon: "🌍",
+  },
+  {
     id: "diy-creation",
     name: "DIY & Creation",
     description: "Physical builds, handmade goods, crafting",

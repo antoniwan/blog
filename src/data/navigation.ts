@@ -24,6 +24,11 @@ export const mainNavigation: NavigationItem[] = [
           icon: "🎵",
         },
         {
+          href: "/category/culture/",
+          label: "Culture",
+          icon: "🌍",
+        },
+        {
           href: "/category/diy-creation/",
           label: "DIY & Creation",
           icon: "🛠️",
