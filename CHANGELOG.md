@@ -5,6 +5,52 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.12.0] - 2025-08-04
+
+### Added
+
+- **Best-in-Class RSS Feed System**: Complete RSS feed overhaul with modern standards and enhanced features
+  - **Enhanced RSS Feed** (`/rss.xml`) - Full RSS 2.0 compliance with complete content and metadata
+  - **JSON Feed** (`/feed.json`) - Modern JSON Feed 1.1 specification for better compatibility
+  - **Full Content Syndication**: Complete posts with images and metadata (not just excerpts)
+  - **Image Enclosures**: Hero images automatically included as attachments
+  - **Reading Time**: Reading time displayed for each post
+  - **Author Information**: Proper author attribution and metadata
+  - **Category/Tag Support**: Full categorization and tagging
+  - **Comments URLs**: Links to comment sections when enabled
+  - **Feed Validation**: Automated testing and validation system
+  - **Proper Caching**: Optimized headers and TTL settings
+
+### Technical Implementation
+
+- **Enhanced RSS Configuration**: Complete metadata including language, lastBuildDate, ttl, managingEditor, webMaster
+- **Feed Branding**: Added proper image with dimensions for feed identification
+- **Content Processing**: Full post content with `content:encoded` and image handling
+- **Feed Discovery**: Both feeds properly referenced in HTML `<head>`, footer, and robots.txt
+- **Validation System**: Comprehensive RSS and JSON feed validation utilities
+- **Automated Testing**: `npm run validate-feeds` script for CI/CD integration
+
+### User Experience
+
+- 📡 **Complete Content**: Subscribers get full posts directly in their feed readers
+- 🖼️ **Image Support**: Hero images are automatically included in feeds
+- ⏱️ **Reading Time**: Helps users plan their reading time
+- 📱 **Multiple Formats**: RSS for traditional readers, JSON for modern apps
+- 🏷️ **Rich Metadata**: Better categorization and discovery
+- ✅ **Validation**: Automated testing ensures feed quality and compliance
+
+### Development Benefits
+
+- 🛠️ **Maintainable**: Clean, modular feed generation with TypeScript
+- 📚 **Well-Documented**: Comprehensive audit report and implementation guide
+- 🔧 **Type-Safe**: Full TypeScript support with proper error handling
+- 🎯 **Standards Compliant**: RSS 2.0 and JSON Feed 1.1 specification compliance
+
+### Feed URLs
+
+- **RSS Feed**: `https://blog.antoniwan.online/rss.xml`
+- **JSON Feed**: `https://blog.antoniwan.online/feed.json`
+
 ## [2.11.0] - 2025-08-04
 
 ### Added

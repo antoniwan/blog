@@ -1,6 +1,6 @@
 # Curious Chaos Journal
 
-[![Version](https://img.shields.io/badge/version-2.11.0-blue.svg)](https://github.com/antoniwan/curious-chaos-journal/releases)
+[![Version](https://img.shields.io/badge/version-2.12.0-blue.svg)](https://github.com/antoniwan/curious-chaos-journal/releases)
 
 A personal blog exploring fatherhood, masculinity, culture, and modern collapse through raw reflections on thinking, consciousness, and the soft heart inside the hard world.
 
@@ -46,6 +46,7 @@ Visit `http://localhost:4323` to view the site.
 | `npm run build`          | Build for production        |
 | `npm run preview`        | Preview production build    |
 | `npm run setup-comments` | Setup Giscus comment system |
+| `npm run validate-feeds` | Validate RSS and JSON feeds |
 
 ### Content Management
 
@@ -131,7 +132,8 @@ draft: false
 
 - **Dark/Light Mode** - Automatic theme switching
 - **Image Optimization** - WebP conversion with clickable modals
-- **RSS Feed** - Full content syndication
+- **RSS Feed** - Full content syndication with enhanced metadata
+- **JSON Feed** - Modern feed format for better compatibility
 - **Search Functionality** - Content discovery
 - **Comments System** - Privacy-focused Giscus integration
 - **Breadcrumb Navigation** - Clear page hierarchy
@@ -142,6 +144,7 @@ draft: false
 - **Social Sharing** - Multi-platform sharing with mobile-first responsive design
 - **Guided Path** - Seasonal reading experience with progress tracking and privacy-first design
 - **Favicon System** - Comprehensive favicon support with fallback formats
+- **Feed Validation** - Automated RSS and JSON feed validation
 
 ## Configuration
 
@@ -176,6 +179,39 @@ The blog features a unique **Guided Path** reading experience that organizes con
 - 🏆 **Achievement System**: Completion celebrations and milestone tracking
 - 📱 **Responsive Design**: Optimized experience across all devices
 - ♿ **Accessibility**: Full keyboard navigation and screen reader support
+
+## RSS & JSON Feeds
+
+The blog provides **best-in-class feed syndication** with both traditional RSS and modern JSON Feed formats:
+
+### Feed Formats
+
+- **📡 RSS Feed** (`/rss.xml`) - Full RSS 2.0 compliance with complete content
+- **📄 JSON Feed** (`/feed.json`) - Modern JSON Feed 1.1 specification
+
+### Features
+
+- **Full Content**: Complete posts with images and metadata (not just excerpts)
+- **Image Enclosures**: Hero images automatically included as attachments
+- **Reading Time**: Reading time displayed for each post
+- **Author Information**: Proper author attribution and metadata
+- **Category/Tag Support**: Full categorization and tagging
+- **Comments URLs**: Links to comment sections when enabled
+- **Feed Validation**: Automated testing and validation system
+- **Proper Caching**: Optimized headers and TTL settings
+
+### Feed Discovery
+
+Both feeds are properly referenced in:
+- HTML `<head>` with appropriate `rel="alternate"` links
+- Footer with descriptive icons and links
+- `robots.txt` for search engine discovery
+
+### Validation
+
+```bash
+npm run validate-feeds  # Validate both feeds after build
+```
 
 ## Social Sharing
 
@@ -215,6 +251,7 @@ Comprehensive documentation available in `docs/`:
 - [Quotes API](docs/QUOTES_API.md)
 - [Social Sharing Implementation](docs/SOCIAL_SHARING_IMPLEMENTATION.md)
 - [Guided Path Implementation](docs/GUIDED_PATH_IMPLEMENTATION.md)
+- [RSS Feed Audit & Improvements](docs/RSS_FEED_AUDIT_AND_IMPROVEMENTS.md)
 
 ## License
 
