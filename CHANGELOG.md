@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.12.1] - 2025-08-04
+
+### Fixed
+
+- **RSS Feed Links**: Fixed critical issue where RSS and JSON feeds were showing `/p/undefined/` links instead of proper post URLs
+  - Updated RSS feed (`/rss.xml`) to use `post.id` instead of `post.slug` for proper URL generation
+  - Updated JSON feed (`/feed.json`) to use `post.id` instead of `post.slug` for proper URL generation
+  - Fixed comments URL generation in both feeds
+  - All feed links now correctly point to actual blog post URLs
+
+### Technical Details
+
+- **Root Cause**: Astro content collections use `post.id` for file paths, not `post.slug`
+- **Impact**: RSS and JSON feeds now display proper URLs like `https://blog.antoniwan.online/p/good-sheep/` instead of broken links
+- **Validation**: Both feeds pass validation and build successfully
+
 ## [2.12.0] - 2025-08-04
 
 ### Added

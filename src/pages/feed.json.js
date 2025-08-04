@@ -49,8 +49,8 @@ export async function GET(context) {
       }
 
       return {
-        id: `${SITE_URL}/p/${post.slug}/`,
-        url: `${SITE_URL}/p/${post.slug}/`,
+        id: `${SITE_URL}/p/${post.id}/`,
+        url: `${SITE_URL}/p/${post.id}/`,
         title: post.data.title,
         content_html: fullContent,
         content_text: post.data.description,

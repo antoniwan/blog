@@ -54,8 +54,8 @@ export async function GET(context) {
         description: post.data.description,
         pubDate: post.data.pubDate,
         updatedDate: post.data.updatedDate,
-        link: `${SITE_URL}/p/${post.slug}/`,
-        guid: `${SITE_URL}/p/${post.slug}/`,
+        link: `${SITE_URL}/p/${post.id}/`,
+        guid: `${SITE_URL}/p/${post.id}/`,
         categories: post.data.category || [],
         author: post.data.author || AUTHOR.name,
         content: fullContent,
@@ -71,7 +71,7 @@ export async function GET(context) {
         }),
         // Add comments URL if comments are enabled
         ...(post.data.showComments !== false && {
-          comments: `${SITE_URL}/p/${post.slug}/#comments`
+          comments: `${SITE_URL}/p/${post.id}/#comments`
         }),
       };
     }),
