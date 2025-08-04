@@ -81,8 +81,16 @@ const updatedDateISO = updatedDate?.toISOString();
 <link
 	rel="alternate"
 	type="application/rss+xml"
-	title={SITE_TITLE}
+	title={`${SITE_TITLE} - RSS Feed`}
 	href={new URL('rss.xml', Astro.site)}
+/>
+
+<!-- JSON Feed -->
+<link
+	rel="alternate"
+	type="application/feed+json"
+	title={`${SITE_TITLE} - JSON Feed`}
+	href={new URL('feed.json', Astro.site)}
 />
 
 <!-- Sitemap -->

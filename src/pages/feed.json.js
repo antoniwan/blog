@@ -1,4 +1,3 @@
-import rss from "@astrojs/rss";
 import { getCollection } from "astro:content";
 import { SITE_TITLE, SITE_DESCRIPTION, SITE_URL, AUTHOR } from "../consts";
 
@@ -16,22 +15,22 @@ export async function GET(context) {
     (a, b) => new Date(b.data.pubDate) - new Date(a.data.pubDate)
   );
 
-  return rss({
+  const feed = {
+    version: "https://jsonfeed.org/version/1.1",
     title: SITE_TITLE,
     description: SITE_DESCRIPTION,
-    site: SITE_URL,
+    home_page_url: SITE_URL,
+    feed_url: `${SITE_URL}/feed.json`,
     language: "en-US",
-    lastBuildDate: new Date(),
-    ttl: 60, // 1 hour cache
-    managingEditor: `${AUTHOR.email} (${AUTHOR.name})`,
-    webMaster: `${AUTHOR.email} (${AUTHOR.name})`,
-    image: {
-      url: `${SITE_URL}/images/default.avif`,
-      title: SITE_TITLE,
-      link: SITE_URL,
-      width: 1200,
-      height: 630,
-    },
+    favicon: `${SITE_URL}/favicon.ico`,
+    icon: `${SITE_URL}/images/default.avif`,
+    authors: [
+      {
+        name: AUTHOR.name,
+        email: AUTHOR.email,
+        url: AUTHOR.url,
+      },
+    ],
     items: sortedPosts.map((post) => {
       // Get the full content for the feed
       let fullContent = post.body || post.data.description;
@@ -50,30 +49,43 @@ export async function GET(context) {
       }
 
       return {
+        id: `${SITE_URL}/p/${post.slug}/`,
+        url: `${SITE_URL}/p/${post.slug}/`,
         title: post.data.title,
-        description: post.data.description,
-        pubDate: post.data.pubDate,
-        updatedDate: post.data.updatedDate,
-        link: `${SITE_URL}/p/${post.slug}/`,
-        guid: `${SITE_URL}/p/${post.slug}/`,
-        categories: post.data.category || [],
-        author: post.data.author || AUTHOR.name,
-        content: fullContent,
-        // Add image enclosure if hero image exists
+        content_html: fullContent,
+        content_text: post.data.description,
+        summary: post.data.description,
+        date_published: post.data.pubDate.toISOString(),
+        date_modified: post.data.updatedDate?.toISOString() || post.data.pubDate.toISOString(),
+        authors: [
+          {
+            name: post.data.author || AUTHOR.name,
+            url: AUTHOR.url,
+          },
+        ],
+        tags: [
+          ...(post.data.category || []),
+          ...(post.data.tags || []),
+        ],
+        // Add image if hero image exists
         ...(post.data.heroImage && {
-          enclosure: {
-            url: post.data.heroImage.startsWith('http') 
-              ? post.data.heroImage 
-              : `${SITE_URL}${post.data.heroImage}`,
-            type: "image/jpeg", // You might want to detect this dynamically
-            length: 0, // Length is optional for images
-          }
+          image: post.data.heroImage.startsWith('http') 
+            ? post.data.heroImage 
+            : `${SITE_URL}${post.data.heroImage}`,
         }),
-        // Add comments URL if comments are enabled
-        ...(post.data.showComments !== false && {
-          comments: `${SITE_URL}/p/${post.slug}/#comments`
+        // Add external URL if this is a repost
+        ...(post.data.external_url && {
+          external_url: post.data.external_url,
         }),
       };
     }),
+  };
+
+  return new Response(JSON.stringify(feed, null, 2), {
+    status: 200,
+    headers: {
+      "Content-Type": "application/feed+json",
+      "Cache-Control": "public, max-age=3600", // 1 hour cache
+    },
   });
-}
+} 

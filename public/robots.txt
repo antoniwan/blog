@@ -17,8 +17,9 @@ Allow: /*.svg$
 Allow: /*.webp$
 Allow: /*.avif$
 
-# Allow RSS feed
+# Allow RSS feeds
 Allow: /rss.xml
+Allow: /feed.json
 
 # Sitemap
 Sitemap: https://blog.antoniwan.online/sitemap-index.xml

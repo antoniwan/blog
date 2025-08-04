@@ -79,7 +79,11 @@ import pkg from '../../package.json';
 				<!-- Additional Links -->
 				<div class="flex flex-wrap justify-center md:justify-end gap-4 text-sm text-[rgb(var(--color-text-muted))] leading-relaxed">
 					<a href="/sitemap-index.xml" class="link-muted">Sitemap</a>
-					<a href="/rss.xml" class="link-muted">RSS</a>
+					<div class="flex items-center gap-2">
+						<a href="/rss.xml" class="link-muted" title="RSS Feed">📡 RSS</a>
+						<span class="text-[rgb(var(--color-text-muted))]/50">•</span>
+						<a href="/feed.json" class="link-muted" title="JSON Feed">📄 JSON</a>
+					</div>
 					<span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-[rgb(var(--color-primary))]/10 text-[rgb(var(--color-primary))] border border-[rgb(var(--color-primary))]/20">
 						v{pkg.version}
 					</span>
