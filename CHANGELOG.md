@@ -5,6 +5,45 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.11.0] - 2025-08-04
+
+### Added
+
+- **Comprehensive Favicon System**: Added fallback favicon formats for maximum browser compatibility
+  - **Favicon.ico** (286B) - Fallback for older browsers
+  - **Apple Touch Icon** (1.2KB) - iOS home screen icon (180x180)
+  - **PWA Icons** - 192x192 and 512x512 PNG icons for Android/Chrome
+  - **Generation Script** - Automated favicon generation from SVG source
+  - **Documentation** - Complete favicon setup and maintenance guide
+- **Category Terminology Update**: Changed "posts" to "writings" throughout category system for consistency
+  - Updated CategoryCard component to display "X writings" instead of "X posts"
+  - Updated category pages to use "writings" terminology
+  - Updated category index page descriptions and empty states
+  - Maintains consistency with existing tag page terminology
+
+### Technical Implementation
+
+- **Favicon Generation**: Node.js script using Sharp for automated favicon creation
+- **Asset Configuration**: Enhanced asset config with new favicon file references
+- **Web Manifest**: Updated with PNG icons for better PWA support
+- **BaseHead Component**: Added fallback favicon links for comprehensive browser support
+- **NPM Script**: Added `npm run generate-favicons` for easy favicon regeneration
+
+### Browser Compatibility
+
+- **Modern Browsers**: SVG favicon (best quality, smallest size)
+- **Older Browsers**: ICO fallback format
+- **iOS Devices**: Apple touch icon for home screen
+- **Android/Chrome**: PWA icons from manifest
+- **PWA Installation**: Full support with all required icon sizes
+
+### User Experience
+
+- 🎯 **Better Branding**: Consistent favicon display across all browsers and devices
+- 📱 **Mobile Optimization**: Proper icons for iOS home screen and Android PWA
+- 🔧 **Easy Maintenance**: Simple command to regenerate all favicon formats
+- 📚 **Complete Documentation**: Comprehensive setup and maintenance guide
+
 ## [2.10.0] - 2025-08-01
 
 ### Added
@@ -487,6 +526,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Version History
 
+- **2.11.0**: Comprehensive favicon system with fallback formats and category terminology updates
+- **2.10.0**: Revamped Brain Science section with more human and relatable content
 - **2.9.0**: Guided Path seasonal reading experience with privacy-first progress tracking and content organization
 - **2.8.0**: Social sharing system with mobile-first responsive design and multi-platform support
 - **2.7.1**: Production go-live preparation with dependency updates and security monitoring

@@ -1,13 +1,13 @@
 # Curious Chaos Journal
 
-[![Version](https://img.shields.io/badge/version-2.9.0-blue.svg)](https://github.com/antoniwan/curious-chaos-journal/releases)
+[![Version](https://img.shields.io/badge/version-2.11.0-blue.svg)](https://github.com/antoniwan/curious-chaos-journal/releases)
 
-A personal blog built with Astro, documenting thoughts on technology, personal growth, and creative expression. Features an internal API for Stoic philosophy quotes.
+A personal blog exploring fatherhood, masculinity, culture, and modern collapse through raw reflections on thinking, consciousness, and the soft heart inside the hard world.
 
 ## Overview
 
-- **52 blog writings** with complete frontmatter compliance
-- **9 content categories** with comprehensive tagging
+- **52+ writings** exploring personal growth, consciousness, and modern life
+- **9 content categories** covering fatherhood, psychology, politics, and more
 - **Multi-language support** (English/Spanish)
 - **Dark mode** with system preference detection
 - **Responsive design** optimized for all devices
@@ -119,7 +119,7 @@ draft: false
 
 - **Art & Expression** - Creative content and aesthetic exploration
 - **DIY & Creation** - Physical builds and handmade projects
-- **Integration & Growth** - Personal development and leadership
+- **Integration & Growth** - Personal development and consciousness
 - **Learning Projects** - Documentation of skill development
 - **Metaspace** - Reflections on the journey itself
 - **Parenting** - Family dynamics and child development
@@ -141,6 +141,7 @@ draft: false
 - **Internal API** - Stoic quotes for enhanced user experience
 - **Social Sharing** - Multi-platform sharing with mobile-first responsive design
 - **Guided Path** - Seasonal reading experience with progress tracking and privacy-first design
+- **Favicon System** - Comprehensive favicon support with fallback formats
 
 ## Configuration
 
