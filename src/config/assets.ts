@@ -15,6 +15,10 @@ export const assetConfig = {
 
     // Favicon
     favicon: "/favicon.svg",
+    faviconIco: "/favicon.ico",
+    appleTouchIcon: "/apple-touch-icon.png",
+    favicon192: "/favicon-192x192.png",
+    favicon512: "/favicon-512x512.png",
   },
 
   // Symbol images (for special content)

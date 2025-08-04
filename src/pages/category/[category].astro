@@ -35,7 +35,7 @@ const secondaryCategoryPosts = categoryPosts
 
 <BaseLayout
 	title={`${category.name} - Category`}
-	description={`Browse all posts in the ${category.name} category`}
+	description={`Browse all writings in the ${category.name} category`}
 	path={`/category/${category.id}`}
 	structuredDataType="category"
 	structuredDataIdentifier={category.id}
@@ -46,7 +46,7 @@ const secondaryCategoryPosts = categoryPosts
 			{/* Category Header */}
 			<PageHeader 
 				title={`${category.icon} ${category.name}`}
-				description={`Browse all posts in the ${category.name} category`}
+				description={`Browse all writings in the ${category.name} category`}
 			/>
 			
 			{/* Primary Category Posts Section */}
@@ -65,10 +65,10 @@ const secondaryCategoryPosts = categoryPosts
 				<div class="mb-16 md:mb-20">
 					<div class="mb-8 md:mb-12">
 						<h2 class="text-heading text-[rgb(var(--color-text))] mb-4">
-							Related {category.name} Posts
+							Related {category.name} Writings
 						</h2>
 						<p class="text-body-large text-[rgb(var(--color-text-muted))] leading-relaxed">
-							Posts that touch on {category.name} as a secondary topic
+							Writings that touch on {category.name} as a secondary topic
 						</p>
 					</div>
 					<div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
@@ -83,7 +83,7 @@ const secondaryCategoryPosts = categoryPosts
 			{categoryPosts.length === 0 && (
 				<div class="text-center py-12">
 					<p class="text-body-large text-[rgb(var(--color-text-muted))] leading-relaxed">
-						No posts found in this category yet.
+						No writings found in this category yet.
 					</p>
 				</div>
 			)}
