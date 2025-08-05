@@ -327,7 +327,7 @@ const { insights, summary, balancedAnalysis } = generateDynamicInsights(insightD
 	<Container>
 		<Container maxWidth="container" padding="none">
 			{/* Breadcrumbs */}
-			<div class="mb-6 hidden md:block">
+			<div class="mb-4 md:mb-6 hidden md:block">
 				<Breadcrumbs 
 					items={[
 						{ label: "Home", href: "/" },
@@ -337,65 +337,65 @@ const { insights, summary, balancedAnalysis } = generateDynamicInsights(insightD
 				/>
 			</div>
 
-			<div class="py-6 md:py-8 lg:py-12">
+			<div class="py-4 md:py-6 lg:py-8">
 				{/* Header */}
-				<div class="mb-8 md:mb-12">
-					<h1 class="text-display text-[rgb(var(--color-text))] mb-4 md:mb-6" transition:name="page-title">
+				<div class="mb-6 md:mb-8 lg:mb-10">
+					<h1 class="text-display text-[rgb(var(--color-text))] mb-3 md:mb-4 lg:mb-5" transition:name="page-title">
 						🌀 <span class="highlight-accent">Pattern Recognition</span>
 					</h1>
-					<p class="text-body-large text-[rgb(var(--color-text-muted))] leading-relaxed" transition:name="page-description">
+					<p class="text-body-large text-[rgb(var(--color-text-muted))] leading-relaxed max-w-4xl" transition:name="page-description">
 						Analyzing correlations, creative cycles, and pattern recognition from my writing data.
 					</p>
 				</div>
 
 			{/* Key Patterns with Balanced Indicators */}
-			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
-					<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Number of day-of-week patterns analyzed (7 days)">{patterns.dayOfWeekPatterns.length}</div>
-					<div class="text-sm text-[rgb(var(--color-text-muted))]">Day Patterns</div>
+			<div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-8 md:mb-10 lg:mb-12">
+				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-4 md:p-6 border border-[rgb(var(--color-border))]">
+					<div class="text-xl md:text-2xl font-bold text-[rgb(var(--color-text))] mb-1 md:mb-2" title="Number of day-of-week patterns analyzed (7 days)">{patterns.dayOfWeekPatterns.length}</div>
+					<div class="text-xs md:text-sm text-[rgb(var(--color-text-muted))]">Day Patterns</div>
 					<div class="text-xs text-blue-500 mt-1">📅 Weekly Rhythms</div>
 				</div>
-				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
-					<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Number of seasonal patterns analyzed (12 months)">{patterns.seasonalPatterns.length}</div>
-					<div class="text-sm text-[rgb(var(--color-text-muted))]">Seasonal Patterns</div>
+				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-4 md:p-6 border border-[rgb(var(--color-border))]">
+					<div class="text-xl md:text-2xl font-bold text-[rgb(var(--color-text))] mb-1 md:mb-2" title="Number of seasonal patterns analyzed (12 months)">{patterns.seasonalPatterns.length}</div>
+					<div class="text-xs md:text-sm text-[rgb(var(--color-text-muted))]">Seasonal Patterns</div>
 					<div class="text-xs text-green-500 mt-1">🌱 Annual Cycles</div>
 				</div>
-				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
-					<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Number of creative cycle phases analyzed (4 phases)">{cycleAnalysis.length}</div>
-					<div class="text-sm text-[rgb(var(--color-text-muted))]">Creative Cycles</div>
+				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-4 md:p-6 border border-[rgb(var(--color-border))]">
+					<div class="text-xl md:text-2xl font-bold text-[rgb(var(--color-text))] mb-1 md:mb-2" title="Number of creative cycle phases analyzed (4 phases)">{cycleAnalysis.length}</div>
+					<div class="text-xs md:text-sm text-[rgb(var(--color-text-muted))]">Creative Cycles</div>
 					<div class="text-xs text-purple-500 mt-1">🌀 Creative Flow</div>
 				</div>
-				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
-					<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Number of tag combination correlations found">{correlations.tagCombinations.length}</div>
-					<div class="text-sm text-[rgb(var(--color-text-muted))]">Tag Correlations</div>
+				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-4 md:p-6 border border-[rgb(var(--color-border))]">
+					<div class="text-xl md:text-2xl font-bold text-[rgb(var(--color-text))] mb-1 md:mb-2" title="Number of tag combination correlations found">{correlations.tagCombinations.length}</div>
+					<div class="text-xs md:text-sm text-[rgb(var(--color-text-muted))]">Tag Correlations</div>
 					<div class="text-xs text-yellow-500 mt-1">🔗 Topic Synergy</div>
 				</div>
 			</div>
 
 			{/* Pattern Strength Analysis */}
-			<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))] mb-8">
-				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">📊 Pattern Strength Analysis</h3>
-				<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+			<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-4 md:p-6 border border-[rgb(var(--color-border))] mb-6 md:mb-8">
+				<h3 class="text-base md:text-lg font-semibold text-[rgb(var(--color-text))] mb-4 md:mb-6">📊 Pattern Strength Analysis</h3>
+				<div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
 					<div class="text-center p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
-						<div class="text-3xl font-bold text-blue-500 mb-2" title="Peak day productivity score (avg words × post count for most productive day)">
+						<div class="text-2xl md:text-3xl font-bold text-blue-500 mb-1 md:mb-2" title="Peak day productivity score (avg words × post count for most productive day)">
 							{patterns.dayOfWeekPatterns.sort((a, b) => b.productivity - a.productivity)[0]?.productivity || 0}
 						</div>
-						<div class="text-sm text-[rgb(var(--color-text-muted))]">Peak Day Productivity</div>
+						<div class="text-xs md:text-sm text-[rgb(var(--color-text-muted))]">Peak Day Productivity</div>
 						<div class="text-xs text-blue-600 dark:text-blue-400 mt-1">
 							{patterns.dayOfWeekPatterns.sort((a, b) => b.productivity - a.productivity)[0]?.name || 'Unknown'}
 						</div>
 					</div>
 					<div class="text-center p-4 bg-green-50 dark:bg-green-900/20 rounded-lg">
-						<div class="text-3xl font-bold text-green-500 mb-2" title="Peak season creativity score (avg words × complexity for most creative month)">
+						<div class="text-2xl md:text-3xl font-bold text-green-500 mb-1 md:mb-2" title="Peak season creativity score (avg words × complexity for most creative month)">
 							{patterns.seasonalPatterns.sort((a, b) => b.creativity - a.creativity)[0]?.creativity || 0}
 						</div>
-						<div class="text-sm text-[rgb(var(--color-text-muted))]">Peak Season Creativity</div>
+						<div class="text-xs md:text-sm text-[rgb(var(--color-text-muted))]">Peak Season Creativity</div>
 						<div class="text-xs text-green-600 dark:text-green-400 mt-1">
 							{patterns.seasonalPatterns.sort((a, b) => b.creativity - a.creativity)[0]?.name || 'Unknown'}
 						</div>
 					</div>
 					<div class="text-center p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
-						<div class="text-3xl font-bold text-purple-500 mb-2" title="Average word count in the most productive creative cycle phase">
+						<div class="text-2xl md:text-3xl font-bold text-purple-500 mb-1 md:mb-2" title="Average word count in the most productive creative cycle phase">
 							{cycleAnalysis.sort((a, b) => b.avgWordCount - a.avgWordCount)[0]?.avgWordCount || 0}
 						</div>
 						<div class="text-sm text-[rgb(var(--color-text-muted))]">Peak Cycle Output</div>
@@ -677,7 +677,7 @@ const { insights, summary, balancedAnalysis } = generateDynamicInsights(insightD
 					</div>
 					
 					{/* Summary */}
-					<div class="pt-4 border-t border-[rgb(var(--color-border))]">
+					<div class="pt-4">
 						<p class="text-sm text-[rgb(var(--color-text-muted))]" set:html={summary}></p>
 					</div>
 				</div>

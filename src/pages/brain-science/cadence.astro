@@ -204,7 +204,7 @@ const { insights, summary, balancedAnalysis } = generateDynamicInsights(insightD
 	<Container>
 		<Container maxWidth="container" padding="none">
 			{/* Breadcrumbs */}
-			<div class="mb-6 hidden md:block">
+			<div class="mb-4 md:mb-6 hidden md:block">
 				<Breadcrumbs 
 					items={[
 						{ label: "Home", href: "/" },
@@ -214,37 +214,37 @@ const { insights, summary, balancedAnalysis } = generateDynamicInsights(insightD
 				/>
 			</div>
 
-			<div class="py-6 md:py-8 lg:py-12">
+			<div class="py-4 md:py-6 lg:py-8">
 				{/* Header */}
-				<div class="mb-8 md:mb-12">
-					<h1 class="text-display text-[rgb(var(--color-text))] mb-4 md:mb-6" transition:name="page-title">
+				<div class="mb-6 md:mb-8 lg:mb-10">
+					<h1 class="text-display text-[rgb(var(--color-text))] mb-3 md:mb-4 lg:mb-5" transition:name="page-title">
 						📅 <span class="highlight-accent">Writing Cadence</span>
 					</h1>
-					<p class="text-body-large text-[rgb(var(--color-text-muted))] leading-relaxed" transition:name="page-description">
+					<p class="text-body-large text-[rgb(var(--color-text-muted))] leading-relaxed max-w-4xl" transition:name="page-description">
 						Understanding my publishing patterns, creative streaks, and the rhythms of my writing life.
 					</p>
 				</div>
 
 			{/* Key Metrics with Balanced Indicators */}
-			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
-					<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Longest consecutive streak of writings published within 7 days of each other">{longestStreak}</div>
-					<div class="text-sm text-[rgb(var(--color-text-muted))]">Longest Streak</div>
+			<div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-8 md:mb-10 lg:mb-12">
+				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-4 md:p-6 border border-[rgb(var(--color-border))]">
+					<div class="text-xl md:text-2xl font-bold text-[rgb(var(--color-text))] mb-1 md:mb-2" title="Longest consecutive streak of writings published within 7 days of each other">{longestStreak}</div>
+					<div class="text-xs md:text-sm text-[rgb(var(--color-text-muted))]">Longest Streak</div>
 					<div class="text-xs text-green-500 mt-1">🏆 Peak Performance</div>
 				</div>
-				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
-					<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Current active streak of writings published within 7 days of each other">{currentStreak}</div>
-					<div class="text-sm text-[rgb(var(--color-text-muted))]">Current Streak</div>
+				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-4 md:p-6 border border-[rgb(var(--color-border))]">
+					<div class="text-xl md:text-2xl font-bold text-[rgb(var(--color-text))] mb-1 md:mb-2" title="Current active streak of writings published within 7 days of each other">{currentStreak}</div>
+					<div class="text-xs md:text-sm text-[rgb(var(--color-text-muted))]">Current Streak</div>
 					<div class="text-xs text-blue-500 mt-1">🔥 Active Momentum</div>
 				</div>
-				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
-					<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Longest gap between consecutive writings (days without publishing)">{sortedDrySpells[0]?.days || 0}</div>
-					<div class="text-sm text-[rgb(var(--color-text-muted))]">Longest Dry Spell</div>
+				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-4 md:p-6 border border-[rgb(var(--color-border))]">
+					<div class="text-xl md:text-2xl font-bold text-[rgb(var(--color-text))] mb-1 md:mb-2" title="Longest gap between consecutive writings (days without publishing)">{sortedDrySpells[0]?.days || 0}</div>
+					<div class="text-xs md:text-sm text-[rgb(var(--color-text-muted))]">Longest Dry Spell</div>
 					<div class="text-xs text-red-500 mt-1">⚠️ Biggest Challenge</div>
 				</div>
-				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
-							<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Number of writings published in the last 30 days">{recentPosts.length}</div>
-		<div class="text-sm text-[rgb(var(--color-text-muted))]">Writings (30 days)</div>
+				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-4 md:p-6 border border-[rgb(var(--color-border))]">
+							<div class="text-xl md:text-2xl font-bold text-[rgb(var(--color-text))] mb-1 md:mb-2" title="Number of writings published in the last 30 days">{recentPosts.length}</div>
+		<div class="text-xs md:text-sm text-[rgb(var(--color-text-muted))]">Writings (30 days)</div>
 					<div class={`text-xs mt-1 ${recentPosts.length > avgPostsPerMonth ? 'text-green-500' : recentPosts.length < avgPostsPerMonth * 0.5 ? 'text-red-500' : 'text-yellow-500'}`}>
 						{recentPosts.length > avgPostsPerMonth ? '📈 Above Average' : recentPosts.length < avgPostsPerMonth * 0.5 ? '📉 Below Average' : '➡️ On Track'}
 					</div>
@@ -252,28 +252,28 @@ const { insights, summary, balancedAnalysis } = generateDynamicInsights(insightD
 			</div>
 
 			{/* Productivity Health Score */}
-			<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))] mb-8">
-				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-4">📊 Productivity Health Score</h3>
-				<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+			<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-4 md:p-6 border border-[rgb(var(--color-border))] mb-6 md:mb-8">
+				<h3 class="text-base md:text-lg font-semibold text-[rgb(var(--color-text))] mb-3 md:mb-4">📊 Productivity Health Score</h3>
+				<div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
 					<div class="text-center">
-						<div class="text-3xl font-bold text-green-500 mb-2" title="Consistency score calculated as: (number of writing streaks) / (total streaks + dry spells)">{Math.round(consistencyScore * 100)}%</div>
-						<div class="text-sm text-[rgb(var(--color-text-muted))]">Consistency Score</div>
+						<div class="text-2xl md:text-3xl font-bold text-green-500 mb-1 md:mb-2" title="Consistency score calculated as: (number of writing streaks) / (total streaks + dry spells)">{Math.round(consistencyScore * 100)}%</div>
+						<div class="text-xs md:text-sm text-[rgb(var(--color-text-muted))]">Consistency Score</div>
 						<div class="text-xs text-[rgb(var(--color-text-muted))] mt-1">
 							{consistencyScore > 0.7 ? 'Excellent' : consistencyScore > 0.4 ? 'Good' : 'Needs Improvement'}
 						</div>
 					</div>
 					<div class="text-center">
-						<div class="text-3xl font-bold text-blue-500 mb-2" title="Average writings per month calculated as: total writings / (days since first writing / 30)">{avgPostsPerMonth}</div>
-						<div class="text-sm text-[rgb(var(--color-text-muted))]">Avg Writings/Month</div>
+						<div class="text-2xl md:text-3xl font-bold text-blue-500 mb-1 md:mb-2" title="Average writings per month calculated as: total writings / (days since first writing / 30)">{avgPostsPerMonth}</div>
+						<div class="text-xs md:text-sm text-[rgb(var(--color-text-muted))]">Avg Writings/Month</div>
 						<div class="text-xs text-[rgb(var(--color-text-muted))] mt-1">
 							{avgPostsPerMonth > 4 ? 'High Output' : avgPostsPerMonth > 2 ? 'Moderate' : 'Low Output'}
 						</div>
 					</div>
 					<div class="text-center">
-						<div class={`text-3xl font-bold mb-2 ${productivityTrend === 'improving' ? 'text-green-500' : productivityTrend === 'declining' ? 'text-red-500' : 'text-yellow-500'}`}>
+						<div class={`text-2xl md:text-3xl font-bold mb-1 md:mb-2 ${productivityTrend === 'improving' ? 'text-green-500' : productivityTrend === 'declining' ? 'text-red-500' : 'text-yellow-500'}`}>
 							{productivityTrend === 'improving' ? '↗️' : productivityTrend === 'declining' ? '↘️' : '➡️'}
 						</div>
-						<div class="text-sm text-[rgb(var(--color-text-muted))]">Trend</div>
+						<div class="text-xs md:text-sm text-[rgb(var(--color-text-muted))]">Trend</div>
 						<div class="text-xs text-[rgb(var(--color-text-muted))] mt-1 capitalize">
 							{productivityTrend}
 						</div>
@@ -282,10 +282,10 @@ const { insights, summary, balancedAnalysis } = generateDynamicInsights(insightD
 			</div>
 
 			{/* Monthly Activity Chart */}
-			<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))] mb-8">
-				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">Monthly Publishing Activity</h3>
+			<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-4 md:p-6 border border-[rgb(var(--color-border))] mb-6 md:mb-8">
+				<h3 class="text-base md:text-lg font-semibold text-[rgb(var(--color-text))] mb-4 md:mb-6">Monthly Publishing Activity</h3>
 				<div class="overflow-x-auto">
-					<div class="flex items-end gap-1 min-h-[200px]">
+					<div class="flex items-end gap-1 min-h-[150px] md:min-h-[200px]">
 						{monthlyPosts.map(month => (
 							<div class="flex flex-col items-center flex-1 min-w-0">
 								<div 
@@ -569,7 +569,7 @@ const { insights, summary, balancedAnalysis } = generateDynamicInsights(insightD
 					</div>
 					
 					{/* Summary */}
-					<div class="pt-4 border-t border-[rgb(var(--color-border))]">
+					<div class="pt-4">
 						<p class="text-sm text-[rgb(var(--color-text-muted))]" set:html={summary}></p>
 					</div>
 				</div>

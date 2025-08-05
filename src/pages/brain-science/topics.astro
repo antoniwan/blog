@@ -225,7 +225,7 @@ const { insights, summary, balancedAnalysis } = generateDynamicInsights(insightD
 	<Container>
 		<Container maxWidth="container" padding="none">
 			{/* Breadcrumbs */}
-			<div class="mb-6 hidden md:block">
+			<div class="mb-4 md:mb-6 hidden md:block">
 				<Breadcrumbs 
 					items={[
 						{ label: "Home", href: "/" },
@@ -235,50 +235,50 @@ const { insights, summary, balancedAnalysis } = generateDynamicInsights(insightD
 				/>
 			</div>
 
-			<div class="py-6 md:py-8 lg:py-12">
+			<div class="py-4 md:py-6 lg:py-8">
 				{/* Header */}
-				<div class="mb-8 md:mb-12">
-					<h1 class="text-display text-[rgb(var(--color-text))] mb-4 md:mb-6" transition:name="page-title">
+				<div class="mb-6 md:mb-8 lg:mb-10">
+					<h1 class="text-display text-[rgb(var(--color-text))] mb-3 md:mb-4 lg:mb-5" transition:name="page-title">
 						🏷️ <span class="highlight-accent">Topic Analysis Analytics</span>
 					</h1>
-					<p class="text-body-large text-[rgb(var(--color-text-muted))] leading-relaxed" transition:name="page-description">
+					<p class="text-body-large text-[rgb(var(--color-text-muted))] leading-relaxed max-w-4xl" transition:name="page-description">
 						Quantitative analysis of writing themes, topic relationships, and interest patterns. 
 						Data-driven insights into content focus and thematic evolution over time.
 					</p>
 				</div>
 
 			{/* Topic Overview Metrics */}
-			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
-					<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Total number of unique topics you've written about">{Object.keys(tagFrequency).length}</div>
-					<div class="text-sm text-[rgb(var(--color-text-muted))]">Unique Topics</div>
+			<div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-8 md:mb-10 lg:mb-12">
+				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-4 md:p-6 border border-[rgb(var(--color-border))]">
+					<div class="text-xl md:text-2xl font-bold text-[rgb(var(--color-text))] mb-1 md:mb-2" title="Total number of unique topics you've written about">{Object.keys(tagFrequency).length}</div>
+					<div class="text-xs md:text-sm text-[rgb(var(--color-text-muted))]">Unique Topics</div>
 					<div class="text-xs text-blue-500 mt-1">🎯 Areas of Interest</div>
 				</div>
-				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
-					<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Number of life areas you explore in your writing">{maslowAnalysis.length}</div>
-					<div class="text-sm text-[rgb(var(--color-text-muted))]">Life Areas</div>
+				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-4 md:p-6 border border-[rgb(var(--color-border))]">
+					<div class="text-xl md:text-2xl font-bold text-[rgb(var(--color-text))] mb-1 md:mb-2" title="Number of life areas you explore in your writing">{maslowAnalysis.length}</div>
+					<div class="text-xs md:text-sm text-[rgb(var(--color-text-muted))]">Life Areas</div>
 					<div class="text-xs text-green-500 mt-1">🌍 Life Dimensions</div>
 				</div>
-				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
-					<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Number of strong topic relationships identified">{tagRelationships.length}</div>
-					<div class="text-sm text-[rgb(var(--color-text-muted))]">Topic Connections</div>
+				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-4 md:p-6 border border-[rgb(var(--color-border))]">
+					<div class="text-xl md:text-2xl font-bold text-[rgb(var(--color-text))] mb-1 md:mb-2" title="Number of strong topic relationships identified">{tagRelationships.length}</div>
+					<div class="text-xs md:text-sm text-[rgb(var(--color-text-muted))]">Topic Connections</div>
 					<div class="text-xs text-purple-500 mt-1">🔗 Interest Networks</div>
 				</div>
-				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
-					<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Percentage of writings in your top 5 topics">{Math.round((topTags.slice(0, 5).reduce((sum, tag) => sum + tag.count, 0) / posts.length) * 100)}%</div>
-					<div class="text-sm text-[rgb(var(--color-text-muted))]">Core Focus</div>
+				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-4 md:p-6 border border-[rgb(var(--color-border))]">
+					<div class="text-xl md:text-2xl font-bold text-[rgb(var(--color-text))] mb-1 md:mb-2" title="Percentage of writings in your top 5 topics">{Math.round((topTags.slice(0, 5).reduce((sum, tag) => sum + tag.count, 0) / posts.length) * 100)}%</div>
+					<div class="text-xs md:text-sm text-[rgb(var(--color-text-muted))]">Core Focus</div>
 					<div class="text-xs text-yellow-500 mt-1">⭐ Primary Interests</div>
 				</div>
 			</div>
 
 			{/* Personal Insights About Your Topics */}
-			<div class="mb-8">
-				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">🔍 Insights About What Matters to You</h3>
-				<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+			<div class="mb-6 md:mb-8">
+				<h3 class="text-base md:text-lg font-semibold text-[rgb(var(--color-text))] mb-4 md:mb-6">🔍 Insights About What Matters to You</h3>
+				<div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
 					{topicInsights.map((insight, index) => (
-						<div class="p-4 bg-[rgb(var(--color-bg))] rounded-lg">
+						<div class="p-4 bg-[rgb(var(--color-bg-secondary))] rounded-lg border border-[rgb(var(--color-border))]">
 							<div class="flex items-center gap-3 mb-3">
-								<div class="text-lg font-bold text-[rgb(var(--color-accent))]">#{index + 1}</div>
+								<div class="text-base md:text-lg font-bold text-[rgb(var(--color-accent))]">#{index + 1}</div>
 								<span class={`text-xs px-2 py-1 rounded ${
 									insight.impact === 'High' ? 'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400' :
 									insight.impact === 'Medium' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400' :
@@ -436,9 +436,9 @@ const { insights, summary, balancedAnalysis } = generateDynamicInsights(insightD
 							</h4>
 							<div class="space-y-3 text-[rgb(var(--color-text-muted))]">
 								<p><strong class="text-[rgb(var(--color-text))]">Topic Frequency:</strong> Posts per tag / Total posts</p>
-								<p><strong class="text-[rgb(var(--color-text))]">Top Topic Concentration:</strong> Most frequent tag / Total posts × 100</p>
+								<p><strong class="text-[rgb(var(--color-text))]">Top Topic Concentration:</strong> <code class="font-mono text-xs md:text-sm">Most frequent tag / Total posts × 100</code></p>
 								<p><strong class="text-[rgb(var(--color-text))]">Topic Diversity:</strong> Number of unique tags used</p>
-								<p><strong class="text-[rgb(var(--color-text))]">Topic Balance:</strong> Stable areas / Total areas × 100</p>
+								<p><strong class="text-[rgb(var(--color-text))]">Topic Balance:</strong> <code class="font-mono text-xs md:text-sm">Stable areas / Total areas × 100</code></p>
 							</div>
 						</div>
 						<div>
@@ -455,8 +455,6 @@ const { insights, summary, balancedAnalysis } = generateDynamicInsights(insightD
 						</div>
 					</div>
 
-					<div class="border-t border-[rgb(var(--color-border))] pt-8"></div>
-
 					<div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
 						<div>
 							<h4 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-4 flex items-center gap-2">
@@ -465,7 +463,7 @@ const { insights, summary, balancedAnalysis } = generateDynamicInsights(insightD
 							</h4>
 							<div class="space-y-3 text-[rgb(var(--color-text-muted))]">
 								<p><strong class="text-[rgb(var(--color-text))]">Co-occurrence Strength:</strong> Shared posts / Total posts with either tag</p>
-								<p><strong class="text-[rgb(var(--color-text))]">Relationship Percentage:</strong> Co-occurrence count / Total posts × 100</p>
+								<p><strong class="text-[rgb(var(--color-text))]">Relationship Percentage:</strong> <code class="font-mono text-xs md:text-sm">Co-occurrence count / Total posts × 100</code></p>
 								<p><strong class="text-[rgb(var(--color-text))]">Topic Clusters:</strong> Groups of frequently co-occurring tags</p>
 								<p><strong class="text-[rgb(var(--color-text))]">Cross-pollination:</strong> Tags that appear together across different posts</p>
 							</div>
@@ -476,7 +474,7 @@ const { insights, summary, balancedAnalysis } = generateDynamicInsights(insightD
 								Life Areas Focus
 							</h4>
 							<div class="space-y-3 text-[rgb(var(--color-text-muted))]">
-								<p><strong class="text-[rgb(var(--color-text))]">Maslow Distribution:</strong> Posts per life area / Total posts × 100</p>
+								<p><strong class="text-[rgb(var(--color-text))]">Maslow Distribution:</strong> <code class="font-mono text-xs md:text-sm">Posts per life area / Total posts × 100</code></p>
 								<p><strong class="text-[rgb(var(--color-text))]">Area Concentration:</strong> Most focused life area percentage</p>
 								<p><strong class="text-[rgb(var(--color-text))]">Balance Score:</strong> Evenness of distribution across life areas</p>
 								<p><strong class="text-[rgb(var(--color-text))]">Growth Trajectory:</strong> Life area focus trends over time</p>
@@ -505,7 +503,7 @@ const { insights, summary, balancedAnalysis } = generateDynamicInsights(insightD
 					</div>
 					
 					{/* Summary */}
-					<div class="pt-4 border-t border-[rgb(var(--color-border))]">
+					<div class="pt-4">
 						<p class="text-sm text-[rgb(var(--color-text-muted))]" set:html={summary}></p>
 					</div>
 				</div>

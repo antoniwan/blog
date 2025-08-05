@@ -244,7 +244,7 @@ const { insights, summary, balancedAnalysis } = generateDynamicInsights(insightD
 	<Container>
 		<Container maxWidth="container" padding="none">
 			{/* Breadcrumbs */}
-			<div class="mb-6 hidden md:block">
+			<div class="mb-4 md:mb-6 hidden md:block">
 				<Breadcrumbs 
 					items={[
 						{ label: "Home", href: "/" },
@@ -254,50 +254,50 @@ const { insights, summary, balancedAnalysis } = generateDynamicInsights(insightD
 				/>
 			</div>
 
-			<div class="py-6 md:py-8 lg:py-12">
+			<div class="py-4 md:py-6 lg:py-8">
 				{/* Header */}
-				<div class="mb-8 md:mb-12">
-					<h1 class="text-display text-[rgb(var(--color-text))] mb-4 md:mb-6" transition:name="page-title">
+				<div class="mb-6 md:mb-8 lg:mb-10">
+					<h1 class="text-display text-[rgb(var(--color-text))] mb-3 md:mb-4 lg:mb-5" transition:name="page-title">
 						💡 <span class="highlight-accent">Emotional Processing Analytics</span>
 					</h1>
-					<p class="text-body-large text-[rgb(var(--color-text-muted))] leading-relaxed" transition:name="page-description">
+					<p class="text-body-large text-[rgb(var(--color-text-muted))] leading-relaxed max-w-4xl" transition:name="page-description">
 						Objective analysis of emotional patterns, vulnerability indicators, and confidence metrics in writing. 
 						Balanced data-driven insights into emotional processing and psychological patterns without bias toward positive outcomes.
 					</p>
 				</div>
 
 			{/* Emotional Processing Overview */}
-			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
-					<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Posts with high emotional intensity (exclamation marks and emotional keywords)">{emotionalPatterns.totalEmotionalPosts}</div>
-					<div class="text-sm text-[rgb(var(--color-text-muted))]">Emotional Writings</div>
+			<div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-8 md:mb-10 lg:mb-12">
+				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-4 md:p-6 border border-[rgb(var(--color-border))]">
+					<div class="text-xl md:text-2xl font-bold text-[rgb(var(--color-text))] mb-1 md:mb-2" title="Posts with high emotional intensity (exclamation marks and emotional keywords)">{emotionalPatterns.totalEmotionalPosts}</div>
+					<div class="text-xs md:text-sm text-[rgb(var(--color-text-muted))]">Emotional Writings</div>
 					<div class="text-xs text-purple-500 mt-1">💜 Heart Processing</div>
 				</div>
-				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
-					<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Posts with high vulnerability indicators (struggle, challenge, pain, etc.)">{emotionalPatterns.totalVulnerablePosts}</div>
-					<div class="text-sm text-[rgb(var(--color-text-muted))]">Vulnerable Writings</div>
+				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-4 md:p-6 border border-[rgb(var(--color-border))]">
+					<div class="text-xl md:text-2xl font-bold text-[rgb(var(--color-text))] mb-1 md:mb-2" title="Posts with high vulnerability indicators (struggle, challenge, pain, etc.)">{emotionalPatterns.totalVulnerablePosts}</div>
+					<div class="text-xs md:text-sm text-[rgb(var(--color-text-muted))]">Vulnerable Writings</div>
 					<div class="text-xs text-pink-500 mt-1">🫂 Raw Honesty</div>
 				</div>
-				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
-					<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Posts with high confidence indicators (know, believe, certain, etc.)">{emotionalPatterns.totalConfidentPosts}</div>
-					<div class="text-sm text-[rgb(var(--color-text-muted))]">Confident Writings</div>
+				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-4 md:p-6 border border-[rgb(var(--color-border))]">
+					<div class="text-xl md:text-2xl font-bold text-[rgb(var(--color-text))] mb-1 md:mb-2" title="Posts with high confidence indicators (know, believe, certain, etc.)">{emotionalPatterns.totalConfidentPosts}</div>
+					<div class="text-xs md:text-sm text-[rgb(var(--color-text-muted))]">Confident Writings</div>
 					<div class="text-xs text-green-500 mt-1">💪 Inner Strength</div>
 				</div>
-				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
-					<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Posts focused on personal growth, transformation, or self-improvement">{growthIndicators.length}</div>
-					<div class="text-sm text-[rgb(var(--color-text-muted))]">Growth Writings</div>
+				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-4 md:p-6 border border-[rgb(var(--color-border))]">
+					<div class="text-xl md:text-2xl font-bold text-[rgb(var(--color-text))] mb-1 md:mb-2" title="Posts focused on personal growth, transformation, or self-improvement">{growthIndicators.length}</div>
+					<div class="text-xs md:text-sm text-[rgb(var(--color-text-muted))]">Growth Writings</div>
 					<div class="text-xs text-blue-500 mt-1">🌱 Evolution</div>
 				</div>
 			</div>
 
 			{/* Personal Discoveries with Reflection Prompts */}
-			<div class="mb-8">
-				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">🔍 Key Discoveries About Yourself</h3>
-				<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+			<div class="mb-6 md:mb-8">
+				<h3 class="text-base md:text-lg font-semibold text-[rgb(var(--color-text))] mb-4 md:mb-6">🔍 Key Discoveries About Yourself</h3>
+				<div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
 					{personalDiscoveries.map((discovery, index) => (
-						<div class="p-4 bg-[rgb(var(--color-bg))] rounded-lg">
+						<div class="p-4 bg-[rgb(var(--color-bg-secondary))] rounded-lg border border-[rgb(var(--color-border))]">
 							<div class="flex items-center gap-3 mb-3">
-								<div class="text-lg font-bold text-[rgb(var(--color-accent))]">#{index + 1}</div>
+								<div class="text-base md:text-lg font-bold text-[rgb(var(--color-accent))]">#{index + 1}</div>
 								<span class={`text-xs px-2 py-1 rounded ${
 									discovery.impact === 'High' ? 'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400' :
 									discovery.impact === 'Medium' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400' :
@@ -321,71 +321,70 @@ const { insights, summary, balancedAnalysis } = generateDynamicInsights(insightD
 			</div>
 
 			{/* Emotional Processing Deep Dive */}
-			<div class="mb-8">
-				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">💜 Your Emotional Processing Patterns</h3>
-				<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-					<div class="p-4 bg-[rgb(var(--color-bg))] rounded-lg text-center">
-						<div class="text-2xl font-bold text-purple-500 mb-2">{emotionalPatterns.avgEmotionalIntensity}</div>
-						<div class="text-sm text-[rgb(var(--color-text-muted))]">Avg Emotional Intensity</div>
+			<div class="mb-6 md:mb-8">
+				<h3 class="text-base md:text-lg font-semibold text-[rgb(var(--color-text))] mb-4 md:mb-6">💜 Your Emotional Processing Patterns</h3>
+				<div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-6">
+					<div class="p-4 bg-[rgb(var(--color-bg-secondary))] rounded-lg text-center border border-[rgb(var(--color-border))]">
+						<div class="text-xl md:text-2xl font-bold text-purple-500 mb-1 md:mb-2">{emotionalPatterns.avgEmotionalIntensity}</div>
+						<div class="text-xs md:text-sm text-[rgb(var(--color-text-muted))]">Avg Emotional Intensity</div>
 						<div class="text-xs text-purple-600 dark:text-purple-400 mt-1">How deeply you feel</div>
 					</div>
-					<div class="p-4 bg-[rgb(var(--color-bg))] rounded-lg text-center">
-						<div class="text-2xl font-bold text-pink-500 mb-2">{emotionalPatterns.avgVulnerabilityScore}</div>
-						<div class="text-sm text-[rgb(var(--color-text-muted))]">Avg Vulnerability Score</div>
+					<div class="p-4 bg-[rgb(var(--color-bg-secondary))] rounded-lg text-center border border-[rgb(var(--color-border))]">
+						<div class="text-xl md:text-2xl font-bold text-pink-500 mb-1 md:mb-2">{emotionalPatterns.avgVulnerabilityScore}</div>
+						<div class="text-xs md:text-sm text-[rgb(var(--color-text-muted))]">Avg Vulnerability Score</div>
 						<div class="text-xs text-pink-600 dark:text-pink-400 mt-1">How open you are</div>
 					</div>
-					<div class="p-4 bg-[rgb(var(--color-bg))] rounded-lg text-center">
-						<div class="text-2xl font-bold text-green-500 mb-2">{emotionalPatterns.avgConfidenceScore}</div>
-						<div class="text-sm text-[rgb(var(--color-text-muted))]">Avg Confidence Score</div>
+					<div class="p-4 bg-[rgb(var(--color-bg-secondary))] rounded-lg text-center border border-[rgb(var(--color-border))]">
+						<div class="text-xl md:text-2xl font-bold text-green-500 mb-1 md:mb-2">{emotionalPatterns.avgConfidenceScore}</div>
+						<div class="text-xs md:text-sm text-[rgb(var(--color-text-muted))]">Avg Confidence Score</div>
 						<div class="text-xs text-green-600 dark:text-green-400 mt-1">How sure you feel</div>
 					</div>
 				</div>
 				
 				{/* Emotional Analysis Formulas */}
-				<div class="mt-8">
-					<h4 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6 flex items-center gap-2">
+				<div class="mt-6 md:mt-8">
+					<h4 class="text-base md:text-lg font-semibold text-[rgb(var(--color-text))] mb-4 md:mb-6 flex items-center gap-2">
 						<span class="text-purple-500">📊</span>
 						Emotional Analysis Formulas
 					</h4>
-					<div class="space-y-8 text-sm">
-						<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-							<div>
+					<div class="space-y-6 md:space-y-8 text-xs md:text-sm">
+						<div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+							<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-4 md:p-6 border border-[rgb(var(--color-border))]">
 								<h5 class="font-semibold text-[rgb(var(--color-text))] mb-3 flex items-center gap-2">
 									<span class="text-purple-500">💜</span>
 									Emotional Intensity Score
 								</h5>
 								<div class="space-y-2 text-[rgb(var(--color-text-muted))]">
-									<p><strong class="text-[rgb(var(--color-text))]">Formula:</strong> Exclamation marks + Emotional keywords</p>
+									<p><strong class="text-[rgb(var(--color-text))]">Formula:</strong> <code class="font-mono text-xs md:text-sm">Exclamation marks + Emotional keywords</code></p>
 									<p><strong class="text-[rgb(var(--color-text))]">Threshold:</strong> >5 = emotionally intense post</p>
 									<p><strong class="text-[rgb(var(--color-text))]">Keywords:</strong> love, hate, fear, joy, sadness, anger, peace, anxiety, hope, despair, gratitude, frustration</p>
 								</div>
 							</div>
-							<div>
+							<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-4 md:p-6 border border-[rgb(var(--color-border))]">
 								<h5 class="font-semibold text-[rgb(var(--color-text))] mb-3 flex items-center gap-2">
 									<span class="text-pink-500">🫂</span>
 									Vulnerability Score
 								</h5>
 								<div class="space-y-2 text-[rgb(var(--color-text-muted))]">
-									<p><strong class="text-[rgb(var(--color-text))]">Formula:</strong> Struggle words + Challenge words + Pain words</p>
+									<p><strong class="text-[rgb(var(--color-text))]">Formula:</strong> <code class="font-mono text-xs md:text-sm">Struggle words + Challenge words + Pain words</code></p>
 									<p><strong class="text-[rgb(var(--color-text))]">Interpretation:</strong> Higher scores = more vulnerable content</p>
 									<p><strong class="text-[rgb(var(--color-text))]">Keywords:</strong> struggle, challenge, pain, hurt, broken, difficult, failure, disappointed, defeated, hopeless</p>
 								</div>
 							</div>
 						</div>
-						<div class="border-t border-[rgb(var(--color-border))] pt-6"></div>
-						<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-							<div>
+						<div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+							<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-4 md:p-6 border border-[rgb(var(--color-border))]">
 								<h5 class="font-semibold text-[rgb(var(--color-text))] mb-3 flex items-center gap-2">
 									<span class="text-green-500">🌱</span>
 									Growth Focus Ratio
 								</h5>
 								<div class="space-y-2 text-[rgb(var(--color-text-muted))]">
-									<p><strong class="text-[rgb(var(--color-text))]">Formula:</strong> Growth posts / Total posts × 100</p>
+									<p><strong class="text-[rgb(var(--color-text))]">Formula:</strong> <code class="font-mono text-xs md:text-sm">Growth posts / Total posts × 100</code></p>
 									<p><strong class="text-[rgb(var(--color-text))]">Growth Tags:</strong> personal-growth, transformation, healing, self-improvement, learning, consciousness</p>
 									<p><strong class="text-[rgb(var(--color-text))]">Growth Keywords:</strong> growth, change, transform, learn, evolve, improve, heal, discover</p>
 								</div>
 							</div>
-							<div>
+							<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-4 md:p-6 border border-[rgb(var(--color-border))]">
 								<h5 class="font-semibold text-[rgb(var(--color-text))] mb-3 flex items-center gap-2">
 									<span class="text-blue-500">🎭</span>
 									Voice Evolution Metrics
@@ -402,13 +401,13 @@ const { insights, summary, balancedAnalysis } = generateDynamicInsights(insightD
 			</div>
 
 			{/* Most Emotionally Intense Posts */}
-			<div class="mb-8">
-				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">💜 Your Most Emotional Writings</h3>
-				<div class="space-y-4">
+			<div class="mb-6 md:mb-8">
+				<h3 class="text-base md:text-lg font-semibold text-[rgb(var(--color-text))] mb-4 md:mb-6">💜 Your Most Emotional Writings</h3>
+				<div class="space-y-3 md:space-y-4">
 					{emotionalPosts.map((post, index) => (
-						<div class="flex items-center justify-between p-4 bg-[rgb(var(--color-bg))] rounded-lg">
-							<div class="flex items-center gap-4">
-								<div class={`text-lg font-bold ${
+						<div class="flex items-center justify-between p-4 bg-[rgb(var(--color-bg-secondary))] rounded-lg border border-[rgb(var(--color-border))]">
+							<div class="flex items-center gap-3 md:gap-4">
+								<div class={`text-base md:text-lg font-bold ${
 									index === 0 ? 'text-purple-500' : 
 									index === 1 ? 'text-pink-500' : 
 									index === 2 ? 'text-indigo-500' : 'text-[rgb(var(--color-accent))]'
@@ -434,13 +433,13 @@ const { insights, summary, balancedAnalysis } = generateDynamicInsights(insightD
 			</div>
 
 			{/* Most Vulnerable Posts */}
-			<div class="mb-8">
-				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">🫂 Your Most Vulnerable Writings</h3>
-				<div class="space-y-4">
+			<div class="mb-6 md:mb-8">
+				<h3 class="text-base md:text-lg font-semibold text-[rgb(var(--color-text))] mb-4 md:mb-6">🫂 Your Most Vulnerable Writings</h3>
+				<div class="space-y-3 md:space-y-4">
 					{vulnerablePosts.map((post, index) => (
-						<div class="flex items-center justify-between p-4 bg-[rgb(var(--color-bg))] rounded-lg">
-							<div class="flex items-center gap-4">
-								<div class={`text-lg font-bold ${
+						<div class="flex items-center justify-between p-4 bg-[rgb(var(--color-bg-secondary))] rounded-lg border border-[rgb(var(--color-border))]">
+							<div class="flex items-center gap-3 md:gap-4">
+								<div class={`text-base md:text-lg font-bold ${
 									index === 0 ? 'text-pink-500' : 
 									index === 1 ? 'text-rose-500' : 
 									index === 2 ? 'text-red-500' : 'text-[rgb(var(--color-accent))]'
@@ -548,9 +547,9 @@ const { insights, summary, balancedAnalysis } = generateDynamicInsights(insightD
 								Emotional Processing Metrics
 							</h4>
 							<div class="space-y-3 text-[rgb(var(--color-text-muted))]">
-								<p><strong class="text-[rgb(var(--color-text))]">Emotional Expression Ratio:</strong> Emotional posts / Total posts × 100</p>
+								<p><strong class="text-[rgb(var(--color-text))]">Emotional Expression Ratio:</strong> <code class="font-mono text-xs md:text-sm">Emotional posts / Total posts × 100</code></p>
 								<p><strong class="text-[rgb(var(--color-text))]">Intensity Distribution:</strong> High/Medium/Low emotional intensity posts</p>
-								<p><strong class="text-[rgb(var(--color-text))]">Vulnerability Frequency:</strong> Vulnerability words per 1000 words</p>
+								<p><strong class="text-[rgb(var(--color-text))]">Vulnerability Frequency:</strong> <code class="font-mono text-xs md:text-sm">Vulnerability words per 1000 words</code></p>
 								<p><strong class="text-[rgb(var(--color-text))]">Emotional Evolution:</strong> Sentiment trend over time periods</p>
 							</div>
 						</div>
@@ -560,15 +559,13 @@ const { insights, summary, balancedAnalysis } = generateDynamicInsights(insightD
 								Growth Journey Metrics
 							</h4>
 							<div class="space-y-3 text-[rgb(var(--color-text-muted))]">
-								<p><strong class="text-[rgb(var(--color-text))]">Growth Focus Percentage:</strong> Growth-oriented posts / Total posts × 100</p>
+								<p><strong class="text-[rgb(var(--color-text))]">Growth Focus Percentage:</strong> <code class="font-mono text-xs md:text-sm">Growth-oriented posts / Total posts × 100</code></p>
 								<p><strong class="text-[rgb(var(--color-text))]">Knowledge Area Trends:</strong> Growing/Declining/Stable topic areas</p>
 								<p><strong class="text-[rgb(var(--color-text))]">Confidence Indicators:</strong> Confident words frequency over time</p>
 								<p><strong class="text-[rgb(var(--color-text))]">Transformation Markers:</strong> Breakthrough moments and insights</p>
 							</div>
 						</div>
 					</div>
-
-					<div class="border-t border-[rgb(var(--color-border))] pt-8"></div>
 
 					<div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
 						<div>
@@ -579,7 +576,7 @@ const { insights, summary, balancedAnalysis } = generateDynamicInsights(insightD
 							<div class="space-y-3 text-[rgb(var(--color-text-muted))]">
 								<p><strong class="text-[rgb(var(--color-text))]">Total Word Count:</strong> Sum of all words across all posts</p>
 								<p><strong class="text-[rgb(var(--color-text))]">Average Post Length:</strong> Total words / Total posts</p>
-								<p><strong class="text-[rgb(var(--color-text))]">Content Density:</strong> Words per emotional/growth post</p>
+								<p><strong class="text-[rgb(var(--color-text))]">Content Density:</strong> <code class="font-mono text-xs md:text-sm">Words per emotional/growth post</code></p>
 								<p><strong class="text-[rgb(var(--color-text))]">Writing Momentum:</strong> Posts per time period trends</p>
 							</div>
 						</div>
@@ -671,7 +668,7 @@ const { insights, summary, balancedAnalysis } = generateDynamicInsights(insightD
 					</div>
 					
 					{/* Summary */}
-					<div class="pt-4 border-t border-[rgb(var(--color-border))]">
+					<div class="pt-4">
 						<p class="text-sm text-[rgb(var(--color-text-muted))]" set:html={summary}></p>
 					</div>
 				</div>

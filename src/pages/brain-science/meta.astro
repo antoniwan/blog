@@ -234,7 +234,7 @@ const { insights, summary, balancedAnalysis } = generateDynamicInsights(insightD
 	<Container>
 		<Container maxWidth="container" padding="none">
 			{/* Breadcrumbs */}
-			<div class="mb-6 hidden md:block">
+			<div class="mb-4 md:mb-6 hidden md:block">
 				<Breadcrumbs 
 					items={[
 						{ label: "Home", href: "/" },
@@ -244,64 +244,64 @@ const { insights, summary, balancedAnalysis } = generateDynamicInsights(insightD
 				/>
 			</div>
 
-			<div class="py-6 md:py-8 lg:py-12">
+			<div class="py-4 md:py-6 lg:py-8">
 				{/* Header */}
-				<div class="mb-8 md:mb-12">
-					<h1 class="text-display text-[rgb(var(--color-text))] mb-4 md:mb-6" transition:name="page-title">
+				<div class="mb-6 md:mb-8 lg:mb-10">
+					<h1 class="text-display text-[rgb(var(--color-text))] mb-3 md:mb-4 lg:mb-5" transition:name="page-title">
 						🔍 <span class="highlight-accent">Meta Analysis</span>
 					</h1>
-					<p class="text-body-large text-[rgb(var(--color-text-muted))] leading-relaxed" transition:name="page-description">
+					<p class="text-body-large text-[rgb(var(--color-text-muted))] leading-relaxed max-w-4xl" transition:name="page-description">
 						Understanding my writing style, content depth, and self-referential patterns.
 					</p>
 				</div>
 
 			{/* Key Metrics */}
-			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
-					<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Average words per writing across all published writings">{styleAnalysis.averageWordsPerPost}</div>
-					<div class="text-sm text-[rgb(var(--color-text-muted))]">Avg Words/Writing</div>
+			<div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-8 md:mb-10 lg:mb-12">
+				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-4 md:p-6 border border-[rgb(var(--color-border))]">
+					<div class="text-xl md:text-2xl font-bold text-[rgb(var(--color-text))] mb-1 md:mb-2" title="Average words per writing across all published writings">{styleAnalysis.averageWordsPerPost}</div>
+					<div class="text-xs md:text-sm text-[rgb(var(--color-text-muted))]">Avg Words/Writing</div>
 				</div>
-				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
-					<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Average estimated reading time per writing (calculated as word count / 200)">{averageReadingTime}</div>
-					<div class="text-sm text-[rgb(var(--color-text-muted))]">Avg Reading Time</div>
+				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-4 md:p-6 border border-[rgb(var(--color-border))]">
+					<div class="text-xl md:text-2xl font-bold text-[rgb(var(--color-text))] mb-1 md:mb-2" title="Average estimated reading time per writing (calculated as word count / 200)">{averageReadingTime}</div>
+					<div class="text-xs md:text-sm text-[rgb(var(--color-text-muted))]">Avg Reading Time</div>
 				</div>
-				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
-					<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Average Flesch reading ease score (higher = easier to read)">{styleAnalysis.averageFleschScore}</div>
-					<div class="text-sm text-[rgb(var(--color-text-muted))]">Avg Complexity</div>
+				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-4 md:p-6 border border-[rgb(var(--color-border))]">
+					<div class="text-xl md:text-2xl font-bold text-[rgb(var(--color-text))] mb-1 md:mb-2" title="Average Flesch reading ease score (higher = easier to read)">{styleAnalysis.averageFleschScore}</div>
+					<div class="text-xs md:text-sm text-[rgb(var(--color-text-muted))]">Avg Complexity</div>
 				</div>
-				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
-					<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Number of writings that reference other writings by title">{crossReferences.length}</div>
-					<div class="text-sm text-[rgb(var(--color-text-muted))]">Cross-References</div>
+				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-4 md:p-6 border border-[rgb(var(--color-border))]">
+					<div class="text-xl md:text-2xl font-bold text-[rgb(var(--color-text))] mb-1 md:mb-2" title="Number of writings that reference other writings by title">{crossReferences.length}</div>
+					<div class="text-xs md:text-sm text-[rgb(var(--color-text-muted))]">Cross-References</div>
 				</div>
 			</div>
 
 			{/* Writing Style Analysis */}
-			<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))] mb-8">
-				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">Writing Style Metrics</h3>
-				<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-					<div class="p-4 bg-[rgb(var(--color-bg))] rounded-lg">
-						<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Average number of sentences per writing">{styleAnalysis.averageSentencesPerPost}</div>
-						<div class="text-sm text-[rgb(var(--color-text-muted))]">Avg Sentences/Writing</div>
+			<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-4 md:p-6 border border-[rgb(var(--color-border))] mb-6 md:mb-8">
+				<h3 class="text-base md:text-lg font-semibold text-[rgb(var(--color-text))] mb-4 md:mb-6">Writing Style Metrics</h3>
+				<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+					<div class="p-4 bg-[rgb(var(--color-bg))] rounded-lg border border-[rgb(var(--color-border))]">
+						<div class="text-xl md:text-2xl font-bold text-[rgb(var(--color-text))] mb-1 md:mb-2" title="Average number of sentences per writing">{styleAnalysis.averageSentencesPerPost}</div>
+						<div class="text-xs md:text-sm text-[rgb(var(--color-text-muted))]">Avg Sentences/Writing</div>
 					</div>
-					<div class="p-4 bg-[rgb(var(--color-bg))] rounded-lg">
-						<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Average number of paragraphs per writing">{styleAnalysis.averageParagraphsPerPost}</div>
-						<div class="text-sm text-[rgb(var(--color-text-muted))]">Avg Paragraphs/Writing</div>
+					<div class="p-4 bg-[rgb(var(--color-bg))] rounded-lg border border-[rgb(var(--color-border))]">
+						<div class="text-xl md:text-2xl font-bold text-[rgb(var(--color-text))] mb-1 md:mb-2" title="Average number of paragraphs per writing">{styleAnalysis.averageParagraphsPerPost}</div>
+						<div class="text-xs md:text-sm text-[rgb(var(--color-text-muted))]">Avg Paragraphs/Writing</div>
 					</div>
-					<div class="p-4 bg-[rgb(var(--color-bg))] rounded-lg">
-						<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Average words per sentence">{styleAnalysis.averageSentenceLength}</div>
-						<div class="text-sm text-[rgb(var(--color-text-muted))]">Avg Words/Sentence</div>
+					<div class="p-4 bg-[rgb(var(--color-bg))] rounded-lg border border-[rgb(var(--color-border))]">
+						<div class="text-xl md:text-2xl font-bold text-[rgb(var(--color-text))] mb-1 md:mb-2" title="Average words per sentence">{styleAnalysis.averageSentenceLength}</div>
+						<div class="text-xs md:text-sm text-[rgb(var(--color-text-muted))]">Avg Words/Sentence</div>
 					</div>
-					<div class="p-4 bg-[rgb(var(--color-bg))] rounded-lg">
-						<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Average words per paragraph">{styleAnalysis.averageParagraphLength}</div>
-						<div class="text-sm text-[rgb(var(--color-text-muted))]">Avg Words/Paragraph</div>
+					<div class="p-4 bg-[rgb(var(--color-bg))] rounded-lg border border-[rgb(var(--color-border))]">
+						<div class="text-xl md:text-2xl font-bold text-[rgb(var(--color-text))] mb-1 md:mb-2" title="Average words per paragraph">{styleAnalysis.averageParagraphLength}</div>
+						<div class="text-xs md:text-sm text-[rgb(var(--color-text-muted))]">Avg Words/Paragraph</div>
 					</div>
-					<div class="p-4 bg-[rgb(var(--color-bg))] rounded-lg">
-						<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Writings containing external links or URLs">{externalLinkPosts.length}</div>
-						<div class="text-sm text-[rgb(var(--color-text-muted))]">Writings with External Links</div>
+					<div class="p-4 bg-[rgb(var(--color-bg))] rounded-lg border border-[rgb(var(--color-border))]">
+						<div class="text-xl md:text-2xl font-bold text-[rgb(var(--color-text))] mb-1 md:mb-2" title="Writings containing external links or URLs">{externalLinkPosts.length}</div>
+						<div class="text-xs md:text-sm text-[rgb(var(--color-text-muted))]">Writings with External Links</div>
 					</div>
-					<div class="p-4 bg-[rgb(var(--color-bg))] rounded-lg">
-						<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Writings containing code blocks or inline code">{codeSnippetPosts.length}</div>
-						<div class="text-sm text-[rgb(var(--color-text-muted))]">Writings with Code</div>
+					<div class="p-4 bg-[rgb(var(--color-bg))] rounded-lg border border-[rgb(var(--color-border))]">
+						<div class="text-xl md:text-2xl font-bold text-[rgb(var(--color-text))] mb-1 md:mb-2" title="Writings containing code blocks or inline code">{codeSnippetPosts.length}</div>
+						<div class="text-xs md:text-sm text-[rgb(var(--color-text-muted))]">Writings with Code</div>
 					</div>
 				</div>
 			</div>
@@ -443,7 +443,7 @@ const { insights, summary, balancedAnalysis } = generateDynamicInsights(insightD
 					</div>
 					
 					{/* Summary */}
-					<div class="pt-4 border-t border-[rgb(var(--color-border))]">
+					<div class="pt-4">
 						<p class="text-sm text-[rgb(var(--color-text-muted))]" set:html={summary}></p>
 					</div>
 				</div>
