@@ -307,8 +307,8 @@ const { insights, summary, balancedAnalysis } = generateDynamicInsights(insightD
 			</div>
 
 			{/* Most Complex Posts */}
-			<div class="mb-8">
-				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">Most Complex Writings</h3>
+			<div class="mb-6 md:mb-8 lg:mb-10">
+				<h3 class="text-base md:text-lg font-semibold text-[rgb(var(--color-text))] mb-4 md:mb-6">Most Complex Writings</h3>
 				<div class="space-y-4">
 					{mostComplexPosts.map((post, index) => (
 						<div class="flex items-center justify-between p-4 bg-[rgb(var(--color-bg))] rounded-lg">
@@ -333,8 +333,8 @@ const { insights, summary, balancedAnalysis } = generateDynamicInsights(insightD
 			</div>
 
 			{/* Self-Referential Posts */}
-			<div class="mb-8">
-				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">Self-Referential Writings</h3>
+			<div class="mb-6 md:mb-8 lg:mb-10">
+				<h3 class="text-base md:text-lg font-semibold text-[rgb(var(--color-text))] mb-4 md:mb-6">Self-Referential Writings</h3>
 				<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
 					{selfReferentialPosts.slice(0, 12).map((post, index) => (
 						<div class="p-4 bg-[rgb(var(--color-bg))] rounded-lg">
@@ -360,8 +360,8 @@ const { insights, summary, balancedAnalysis } = generateDynamicInsights(insightD
 			</div>
 
 			{/* Cross-References */}
-			<div class="mb-8">
-				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">Cross-References Between Writings</h3>
+			<div class="mb-6 md:mb-8 lg:mb-10">
+				<h3 class="text-base md:text-lg font-semibold text-[rgb(var(--color-text))] mb-4 md:mb-6">Cross-References Between Writings</h3>
 				<div class="space-y-4">
 					{crossReferences.slice(0, 15).map((ref, index) => (
 						<div class="flex items-center justify-between p-4 bg-[rgb(var(--color-bg))] rounded-lg">
@@ -385,8 +385,8 @@ const { insights, summary, balancedAnalysis } = generateDynamicInsights(insightD
 			</div>
 
 			{/* Content Evolution */}
-			<div class="mb-8">
-				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">Content Evolution by Quarter</h3>
+			<div class="mb-6 md:mb-8 lg:mb-10">
+				<h3 class="text-base md:text-lg font-semibold text-[rgb(var(--color-text))] mb-4 md:mb-6">Content Evolution by Quarter</h3>
 				<div class="space-y-6">
 					{evolutionQuarters.slice(-8).map(quarter => (
 						<div class="p-4 bg-[rgb(var(--color-bg))] rounded-lg">
@@ -414,8 +414,8 @@ const { insights, summary, balancedAnalysis } = generateDynamicInsights(insightD
 			</div>
 
 			{/* Reading Time Distribution */}
-			<div class="mb-8">
-				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">Reading Time Distribution</h3>
+			<div class="mb-6 md:mb-8 lg:mb-10">
+				<h3 class="text-base md:text-lg font-semibold text-[rgb(var(--color-text))] mb-4 md:mb-6">Reading Time Distribution</h3>
 				<div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
 					{Object.entries(readingTimeStats)
 						.sort(([a], [b]) => parseInt(a) - parseInt(b))
@@ -429,8 +429,8 @@ const { insights, summary, balancedAnalysis } = generateDynamicInsights(insightD
 			</div>
 
 			{/* Analysis Conclusion */}
-			<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
-				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-4">🔍 Meta Analysis Summary</h3>
+			<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-4 md:p-6 border border-[rgb(var(--color-border))]">
+				<h3 class="text-base md:text-lg font-semibold text-[rgb(var(--color-text))] mb-4 md:mb-6">🔍 Meta Analysis Summary</h3>
 				<div class="space-y-4">
 					{/* Dynamic Insights */}
 					<div class="space-y-2">
@@ -446,6 +446,30 @@ const { insights, summary, balancedAnalysis } = generateDynamicInsights(insightD
 					<div class="pt-4">
 						<p class="text-sm text-[rgb(var(--color-text-muted))]" set:html={summary}></p>
 					</div>
+				</div>
+			</div>
+
+			{/* Navigation Links */}
+			<div class="mt-8 md:mt-12 pt-6 md:pt-8 border-t border-[rgb(var(--color-border))]">
+				<div class="flex flex-wrap gap-4 md:gap-6 justify-center">
+					<a href="/brain-science" class="text-sm text-[rgb(var(--color-accent))] hover:text-[rgb(var(--color-accent-hover))] transition-colors">
+						🏠 Brain Science Dashboard
+					</a>
+					<a href="/brain-science/insights" class="text-sm text-[rgb(var(--color-accent))] hover:text-[rgb(var(--color-accent-hover))] transition-colors">
+						📊 Emotional Processing Analytics
+					</a>
+					<a href="/brain-science/evolution" class="text-sm text-[rgb(var(--color-accent))] hover:text-[rgb(var(--color-accent-hover))] transition-colors">
+						📈 Intellectual Growth Analytics
+					</a>
+					<a href="/brain-science/topics" class="text-sm text-[rgb(var(--color-accent))] hover:text-[rgb(var(--color-accent-hover))] transition-colors">
+						🏷️ Core Themes Analysis
+					</a>
+					<a href="/brain-science/cadence" class="text-sm text-[rgb(var(--color-accent))] hover:text-[rgb(var(--color-accent-hover))] transition-colors">
+						📅 Writing Cadence Patterns
+					</a>
+					<a href="/brain-science/patterns" class="text-sm text-[rgb(var(--color-accent))] hover:text-[rgb(var(--color-accent-hover))] transition-colors">
+						🌀 Pattern Recognition
+					</a>
 				</div>
 			</div>
 		</Container>

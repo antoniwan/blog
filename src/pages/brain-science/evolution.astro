@@ -354,7 +354,7 @@ const { insights, summary, balancedAnalysis } = generateDynamicInsights(insightD
 			</div>
 
 			{/* Intellectual Growth Insights */}
-			<div class="mb-6 md:mb-8">
+			<div class="mb-6 md:mb-8 lg:mb-10">
 				<h3 class="text-base md:text-lg font-semibold text-[rgb(var(--color-text))] mb-4 md:mb-6">🔍 Key Insights About Your Intellectual Growth</h3>
 				<div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
 					{intellectualInsights.map((insight, index) => (
@@ -384,7 +384,7 @@ const { insights, summary, balancedAnalysis } = generateDynamicInsights(insightD
 			</div>
 
 			{/* Thinking Style Evolution */}
-			<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-4 md:p-6 border border-[rgb(var(--color-border))] mb-6 md:mb-8">
+			<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-4 md:p-6 border border-[rgb(var(--color-border))] mb-6 md:mb-8 lg:mb-10">
 				<h3 class="text-base md:text-lg font-semibold text-[rgb(var(--color-text))] mb-4 md:mb-6">🧠 How Your Thinking Style Has Evolved</h3>
 				<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
 					{periodStats.map(period => (
@@ -428,9 +428,9 @@ const { insights, summary, balancedAnalysis } = generateDynamicInsights(insightD
 			</div>
 
 			{/* Topic Growth vs Decline Analysis */}
-			<div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+			<div class="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 mb-6 md:mb-8 lg:mb-10">
 				<div>
-					<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">📈 Topics You're Exploring More</h3>
+					<h3 class="text-base md:text-lg font-semibold text-[rgb(var(--color-text))] mb-4 md:mb-6">📈 Topics You're Exploring More</h3>
 					<div class="space-y-4">
 						{growingTopics.map((topic, index) => (
 							<div class="flex items-center justify-between p-3 bg-[rgb(var(--color-bg))] rounded-lg">
@@ -458,7 +458,7 @@ const { insights, summary, balancedAnalysis } = generateDynamicInsights(insightD
 				</div>
 
 				<div>
-					<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">📉 Topics You're Focusing Less On</h3>
+					<h3 class="text-base md:text-lg font-semibold text-[rgb(var(--color-text))] mb-4 md:mb-6">📉 Topics You're Focusing Less On</h3>
 					<div class="space-y-4">
 						{decliningTopics.map((topic, index) => (
 							<div class="flex items-center justify-between p-3 bg-[rgb(var(--color-bg))] rounded-lg">
@@ -481,8 +481,8 @@ const { insights, summary, balancedAnalysis } = generateDynamicInsights(insightD
 			</div>
 
 			{/* Topic Evolution Timeline */}
-			<div class="mb-8">
-				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">📅 Your Intellectual Journey Timeline</h3>
+			<div class="mb-6 md:mb-8 lg:mb-10">
+				<h3 class="text-base md:text-lg font-semibold text-[rgb(var(--color-text))] mb-4 md:mb-6">📅 Your Intellectual Journey Timeline</h3>
 				<div class="space-y-6">
 					{quarters.slice(-8).map(quarter => (
 						<div class="p-4 bg-[rgb(var(--color-bg))] rounded-lg">
@@ -518,8 +518,8 @@ const { insights, summary, balancedAnalysis } = generateDynamicInsights(insightD
 			</div>
 
 			{/* Writing Maturity */}
-			<div class="mb-8">
-				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">🎓 Your Writing Maturity Indicators</h3>
+			<div class="mb-6 md:mb-8 lg:mb-10">
+				<h3 class="text-base md:text-lg font-semibold text-[rgb(var(--color-text))] mb-4 md:mb-6">🎓 Your Writing Maturity Indicators</h3>
 				<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
 					<div class="p-4 bg-[rgb(var(--color-bg))] rounded-lg text-center">
 						<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-2" title="Writings containing code blocks or inline code">
@@ -553,13 +553,13 @@ const { insights, summary, balancedAnalysis } = generateDynamicInsights(insightD
 			</div>
 
 			{/* Intellectual Growth Formulas */}
-			<div class="mt-12">
-				<h3 class="text-xl font-semibold text-[rgb(var(--color-text))] mb-8 flex items-center gap-3">
+			<div class="mb-6 md:mb-8 lg:mb-10">
+				<h3 class="text-lg md:text-xl font-semibold text-[rgb(var(--color-text))] mb-4 md:mb-6 flex items-center gap-3">
 					<span class="text-[rgb(var(--color-accent))] text-2xl">📊</span>
 					Intellectual Growth Formulas
 				</h3>
-				<div class="space-y-12">
-					<div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+				<div class="space-y-6 md:space-y-8">
+					<div class="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
 						<div>
 							<h4 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-4 flex items-center gap-2">
 								<span class="text-blue-500">🧠</span>
@@ -586,7 +586,7 @@ const { insights, summary, balancedAnalysis } = generateDynamicInsights(insightD
 						</div>
 					</div>
 
-					<div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+					<div class="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
 						<div>
 							<h4 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-4 flex items-center gap-2">
 								<span class="text-green-500">🎓</span>
@@ -616,8 +616,8 @@ const { insights, summary, balancedAnalysis } = generateDynamicInsights(insightD
 			</div>
 
 			{/* Analysis Conclusion */}
-			<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
-				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-4">📈 Intellectual Growth Summary</h3>
+			<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-4 md:p-6 border border-[rgb(var(--color-border))]">
+				<h3 class="text-base md:text-lg font-semibold text-[rgb(var(--color-text))] mb-4 md:mb-6">📈 Intellectual Growth Summary</h3>
 				<div class="space-y-4">
 					{/* Dynamic Insights */}
 					<div class="space-y-2">
@@ -637,6 +637,30 @@ const { insights, summary, balancedAnalysis } = generateDynamicInsights(insightD
 					<div class="pt-4">
 						<p class="text-sm text-[rgb(var(--color-text-muted))]" set:html={summary}></p>
 					</div>
+				</div>
+			</div>
+
+			{/* Navigation Links */}
+			<div class="mt-8 md:mt-12 pt-6 md:pt-8 border-t border-[rgb(var(--color-border))]">
+				<div class="flex flex-wrap gap-4 md:gap-6 justify-center">
+					<a href="/brain-science" class="text-sm text-[rgb(var(--color-accent))] hover:text-[rgb(var(--color-accent-hover))] transition-colors">
+						🏠 Brain Science Dashboard
+					</a>
+					<a href="/brain-science/insights" class="text-sm text-[rgb(var(--color-accent))] hover:text-[rgb(var(--color-accent-hover))] transition-colors">
+						📊 Emotional Processing Analytics
+					</a>
+					<a href="/brain-science/topics" class="text-sm text-[rgb(var(--color-accent))] hover:text-[rgb(var(--color-accent-hover))] transition-colors">
+						🏷️ Core Themes Analysis
+					</a>
+					<a href="/brain-science/cadence" class="text-sm text-[rgb(var(--color-accent))] hover:text-[rgb(var(--color-accent-hover))] transition-colors">
+						📅 Writing Cadence Patterns
+					</a>
+					<a href="/brain-science/patterns" class="text-sm text-[rgb(var(--color-accent))] hover:text-[rgb(var(--color-accent-hover))] transition-colors">
+						🌀 Pattern Recognition
+					</a>
+					<a href="/brain-science/meta" class="text-sm text-[rgb(var(--color-accent))] hover:text-[rgb(var(--color-accent-hover))] transition-colors">
+						🔍 Meta Analysis
+					</a>
 				</div>
 			</div>
 		</Container>

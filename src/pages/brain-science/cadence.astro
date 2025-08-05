@@ -330,9 +330,9 @@ const { insights, summary, balancedAnalysis } = generateDynamicInsights(insightD
 			</div>
 
 			{/* Day of Week Analysis */}
-			<div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+			<div class="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 mb-6 md:mb-8 lg:mb-10">
 				<div>
-					<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">Day of Week Preferences</h3>
+					<h3 class="text-base md:text-lg font-semibold text-[rgb(var(--color-text))] mb-4 md:mb-6">Day of Week Preferences</h3>
 					<div class="space-y-4">
 						{dayOfWeekStats.map(day => (
 							<div class="flex items-center justify-between">
@@ -356,7 +356,7 @@ const { insights, summary, balancedAnalysis } = generateDynamicInsights(insightD
 				</div>
 
 				<div>
-					<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">Seasonal Patterns</h3>
+					<h3 class="text-base md:text-lg font-semibold text-[rgb(var(--color-text))] mb-4 md:mb-6">Seasonal Patterns</h3>
 					<div class="space-y-4">
 						{monthOfYearStats.map(month => (
 							<div class="flex items-center justify-between">
@@ -381,8 +381,8 @@ const { insights, summary, balancedAnalysis } = generateDynamicInsights(insightD
 			</div>
 
 			{/* Writing Streaks */}
-			<div class="mb-8">
-				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">🏃‍♂️ Writing Streaks (Creative Bursts)</h3>
+			<div class="mb-6 md:mb-8 lg:mb-10">
+				<h3 class="text-base md:text-lg font-semibold text-[rgb(var(--color-text))] mb-4 md:mb-6">🏃‍♂️ Writing Streaks (Creative Bursts)</h3>
 				<div class="space-y-4">
 					{sortedStreaks.slice(0, 10).map((streak, index) => (
 						<div class="flex items-center justify-between p-4 bg-[rgb(var(--color-bg))] rounded-lg">
@@ -417,8 +417,8 @@ const { insights, summary, balancedAnalysis } = generateDynamicInsights(insightD
 			</div>
 
 			{/* Dry Spells */}
-			<div class="mb-8">
-				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">🌵 Longest Dry Spells (Challenges)</h3>
+			<div class="mb-6 md:mb-8 lg:mb-10">
+				<h3 class="text-base md:text-lg font-semibold text-[rgb(var(--color-text))] mb-4 md:mb-6">🌵 Longest Dry Spells (Challenges)</h3>
 				<div class="space-y-4">
 					{sortedDrySpells.slice(0, 5).map((spell, index) => (
 						<div class="flex items-center justify-between p-4 bg-[rgb(var(--color-bg))] rounded-lg">
@@ -470,17 +470,17 @@ const { insights, summary, balancedAnalysis } = generateDynamicInsights(insightD
 			</div>
 
 			{/* Balanced Analysis Section */}
-			<div class="mt-12 mb-16">
-				<h2 class="text-xl font-semibold text-[rgb(var(--color-text))] mb-6 flex items-center gap-2">
+			<div class="mb-6 md:mb-8 lg:mb-10">
+				<h2 class="text-lg md:text-xl font-semibold text-[rgb(var(--color-text))] mb-4 md:mb-6 flex items-center gap-2">
 					<span class="text-gray-600 dark:text-gray-400">⚖️</span>
 					Balanced Analysis
 				</h2>
-				<p class="text-sm text-[rgb(var(--color-text-muted))] mb-8">
+				<p class="text-sm text-[rgb(var(--color-text-muted))] mb-4 md:mb-6">
 					Objective assessment showing strengths, challenges, and neutral metrics without bias toward positive outcomes.
 				</p>
 				
 				{/* Consistency Grades */}
-				<div class="mb-8">
+				<div class="mb-6 md:mb-8">
 					<h3 class="text-lg font-medium text-[rgb(var(--color-text))] mb-4">📊 Consistency Grades</h3>
 					<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 						<div>
@@ -509,7 +509,7 @@ const { insights, summary, balancedAnalysis } = generateDynamicInsights(insightD
 
 				{/* Strengths */}
 				{balancedAnalysis.strengths.length > 0 && (
-					<div class="mb-8">
+					<div class="mb-6 md:mb-8">
 						<h3 class="text-lg font-medium text-[rgb(var(--color-text))] mb-4 text-green-600 dark:text-green-400">✅ Strengths</h3>
 						<div class="space-y-3">
 							{balancedAnalysis.strengths.map((insight, index) => (
@@ -523,7 +523,7 @@ const { insights, summary, balancedAnalysis } = generateDynamicInsights(insightD
 
 				{/* Challenges */}
 				{balancedAnalysis.challenges.length > 0 && (
-					<div class="mb-8">
+					<div class="mb-6 md:mb-8">
 						<h3 class="text-lg font-medium text-[rgb(var(--color-text))] mb-4 text-red-600 dark:text-red-400">❌ Challenges</h3>
 						<div class="space-y-3">
 							{balancedAnalysis.challenges.map((insight, index) => (
@@ -537,7 +537,7 @@ const { insights, summary, balancedAnalysis } = generateDynamicInsights(insightD
 
 				{/* Neutral/Objective */}
 				{balancedAnalysis.neutral.length > 0 && (
-					<div class="mb-8">
+					<div class="mb-6 md:mb-8">
 						<h3 class="text-lg font-medium text-[rgb(var(--color-text))] mb-4 text-gray-600 dark:text-gray-400">ℹ️ Objective Metrics</h3>
 						<div class="space-y-3">
 							{balancedAnalysis.neutral.map((insight, index) => (
@@ -551,8 +551,8 @@ const { insights, summary, balancedAnalysis } = generateDynamicInsights(insightD
 			</div>
 
 			{/* Analysis Conclusion */}
-			<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-6 border border-[rgb(var(--color-border))]">
-				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-4">📊 Writing Cadence Analysis</h3>
+			<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-4 md:p-6 border border-[rgb(var(--color-border))]">
+				<h3 class="text-base md:text-lg font-semibold text-[rgb(var(--color-text))] mb-4 md:mb-6">📊 Writing Cadence Analysis</h3>
 				<div class="space-y-4">
 					{/* Dynamic Insights */}
 					<div class="space-y-2">
@@ -572,6 +572,30 @@ const { insights, summary, balancedAnalysis } = generateDynamicInsights(insightD
 					<div class="pt-4">
 						<p class="text-sm text-[rgb(var(--color-text-muted))]" set:html={summary}></p>
 					</div>
+				</div>
+			</div>
+
+			{/* Navigation Links */}
+			<div class="mt-8 md:mt-12 pt-6 md:pt-8 border-t border-[rgb(var(--color-border))]">
+				<div class="flex flex-wrap gap-4 md:gap-6 justify-center">
+					<a href="/brain-science" class="text-sm text-[rgb(var(--color-accent))] hover:text-[rgb(var(--color-accent-hover))] transition-colors">
+						🏠 Brain Science Dashboard
+					</a>
+					<a href="/brain-science/insights" class="text-sm text-[rgb(var(--color-accent))] hover:text-[rgb(var(--color-accent-hover))] transition-colors">
+						📊 Emotional Processing Analytics
+					</a>
+					<a href="/brain-science/evolution" class="text-sm text-[rgb(var(--color-accent))] hover:text-[rgb(var(--color-accent-hover))] transition-colors">
+						📈 Intellectual Growth Analytics
+					</a>
+					<a href="/brain-science/topics" class="text-sm text-[rgb(var(--color-accent))] hover:text-[rgb(var(--color-accent-hover))] transition-colors">
+						🏷️ Core Themes Analysis
+					</a>
+					<a href="/brain-science/patterns" class="text-sm text-[rgb(var(--color-accent))] hover:text-[rgb(var(--color-accent-hover))] transition-colors">
+						🌀 Pattern Recognition
+					</a>
+					<a href="/brain-science/meta" class="text-sm text-[rgb(var(--color-accent))] hover:text-[rgb(var(--color-accent-hover))] transition-colors">
+						🔍 Meta Analysis
+					</a>
 				</div>
 			</div>
 		</Container>
