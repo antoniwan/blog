@@ -6,7 +6,7 @@ import { getCollection } from 'astro:content';
 import { categories } from '../../data/categories';
 import { getTagWeight, MASLOW_CATEGORIES } from '../../data/tags';
 import { format, startOfMonth, endOfMonth, eachMonthOfInterval } from 'date-fns';
-import { generateDynamicInsights } from '../../utils/insightGenerator';
+import { generateDynamicInsights, calculateObjectiveMetrics, scoreToLetterGrade, letterGradeToColor } from '../../utils/insightGenerator';
 
 // Get all published posts
 const posts = await getCollection('blog', ({ data }) => {
@@ -267,13 +267,16 @@ const intellectualInsights = [
 	}
 ];
 
+// Calculate objective metrics
+const objectiveMetrics = calculateObjectiveMetrics(posts);
+
 // Generate dynamic insights
 const insightData = {
 	totalPosts: posts.length,
 	totalWords: posts.reduce((sum, post) => sum + (post.body || '').split(/\s+/).length, 0),
 	avgWordsPerPost: Math.round(posts.reduce((sum, post) => sum + (post.body || '').split(/\s+/).length, 0) / posts.length),
 	topTags: Object.entries(posts.reduce((acc, post) => {
-		post.data.tags?.forEach(tag => {
+		post.data.tags?.forEach((tag: string) => {
 			acc[tag] = (acc[tag] || 0) + 1;
 		});
 		return acc;
@@ -287,10 +290,12 @@ const insightData = {
 	productivityTrend: 'stable' as const, // Not calculated for evolution
 	knowledgeAreas: [],
 	writingStreaks: [],
-	drySpells: []
+	drySpells: [],
+	// Add objective metrics
+	...objectiveMetrics
 };
 
-const { insights, summary } = generateDynamicInsights(insightData, 'evolution');
+const { insights, summary, balancedAnalysis } = generateDynamicInsights(insightData, 'evolution');
 ---
 
 <BaseLayout
@@ -547,26 +552,67 @@ const { insights, summary } = generateDynamicInsights(insightData, 'evolution');
 				</div>
 			</div>
 
-			{/* Personal Reflection Section */}
-			<div class="bg-gradient-to-r from-[rgb(var(--color-accent))]/10 to-[rgb(var(--color-accent))]/5 rounded-lg p-6 border border-[rgb(var(--color-accent))]/20 mb-8">
-				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-4 flex items-center gap-2">
-					<span class="text-[rgb(var(--color-accent))]">🤔</span>
-					Reflect on Your Intellectual Growth
+			{/* Intellectual Growth Formulas */}
+			<div class="mt-12">
+				<h3 class="text-xl font-semibold text-[rgb(var(--color-text))] mb-8 flex items-center gap-3">
+					<span class="text-[rgb(var(--color-accent))] text-2xl">📊</span>
+					Intellectual Growth Formulas
 				</h3>
-				<div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm text-[rgb(var(--color-text-muted))]">
-					<div>
-						<h4 class="font-medium text-[rgb(var(--color-text))] mb-3">About Your Thinking Evolution:</h4>
-						<p class="mb-2">• How has your approach to complex topics changed?</p>
-						<p class="mb-2">• What new areas of knowledge excite you most?</p>
-						<p class="mb-2">• How has your curiosity evolved over time?</p>
-						<p class="mb-2">• What patterns do you notice in your intellectual growth?</p>
+				<div class="space-y-12">
+					<div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+						<div>
+							<h4 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-4 flex items-center gap-2">
+								<span class="text-blue-500">🧠</span>
+								Complexity Analysis
+							</h4>
+							<div class="space-y-3 text-[rgb(var(--color-text-muted))]">
+								<p><strong class="text-[rgb(var(--color-text))]">Writing Complexity Trend:</strong> Increasing/Decreasing/Stable over time</p>
+								<p><strong class="text-[rgb(var(--color-text))]">Content Depth:</strong> Average words per post</p>
+								<p><strong class="text-[rgb(var(--color-text))]">Technical Depth:</strong> Posts with code blocks / Total posts</p>
+								<p><strong class="text-[rgb(var(--color-text))]">Research Quality:</strong> Posts with external links / Total posts</p>
+							</div>
+						</div>
+						<div>
+							<h4 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-4 flex items-center gap-2">
+								<span class="text-purple-500">📚</span>
+								Knowledge Area Evolution
+							</h4>
+							<div class="space-y-3 text-[rgb(var(--color-text-muted))]">
+								<p><strong class="text-[rgb(var(--color-text))]">Topic Diversity:</strong> Number of distinct knowledge areas</p>
+								<p><strong class="text-[rgb(var(--color-text))]">Growth Trends:</strong> Growing/Declining/Stable topic areas</p>
+								<p><strong class="text-[rgb(var(--color-text))]">Focus Concentration:</strong> Top topic percentage of total posts</p>
+								<p><strong class="text-[rgb(var(--color-text))]">Exploration Depth:</strong> Average posts per knowledge area</p>
+							</div>
+						</div>
 					</div>
-					<div>
-						<h4 class="font-medium text-[rgb(var(--color-text))] mb-3">About Your Learning Journey:</h4>
-						<p class="mb-2">• Which topics have you explored most deeply?</p>
-						<p class="mb-2">• How has your writing style matured?</p>
-						<p class="mb-2">• What questions drive your exploration?</p>
-						<p class="mb-2">• How does writing help you understand complex ideas?</p>
+
+					<div class="border-t border-[rgb(var(--color-border))] pt-8"></div>
+
+					<div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+						<div>
+							<h4 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-4 flex items-center gap-2">
+								<span class="text-green-500">🎓</span>
+								Maturity Indicators
+							</h4>
+							<div class="space-y-3 text-[rgb(var(--color-text-muted))]">
+								<p><strong class="text-[rgb(var(--color-text))]">Long-form Content:</strong> Posts >1000 words / Total posts</p>
+								<p><strong class="text-[rgb(var(--color-text))]">Curiosity Level:</strong> Posts with questions / Total posts</p>
+								<p><strong class="text-[rgb(var(--color-text))]">Technical Integration:</strong> Code-containing posts / Total posts</p>
+								<p><strong class="text-[rgb(var(--color-text))]">Research Integration:</strong> Link-containing posts / Total posts</p>
+							</div>
+						</div>
+						<div>
+							<h4 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-4 flex items-center gap-2">
+								<span class="text-orange-500">📈</span>
+								Learning Trajectory
+							</h4>
+							<div class="space-y-3 text-[rgb(var(--color-text-muted))]">
+								<p><strong class="text-[rgb(var(--color-text))]">Quarterly Growth:</strong> Post count and word count per quarter</p>
+								<p><strong class="text-[rgb(var(--color-text))]">Topic Evolution:</strong> Category distribution over time periods</p>
+								<p><strong class="text-[rgb(var(--color-text))]">Depth Progression:</strong> Average post length trend</p>
+								<p><strong class="text-[rgb(var(--color-text))]">Complexity Progression:</strong> Technical content frequency trend</p>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>

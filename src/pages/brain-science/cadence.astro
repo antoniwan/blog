@@ -4,7 +4,7 @@ import Container from '../../components/Container.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import { getCollection } from 'astro:content';
 import { format, startOfMonth, endOfMonth, eachMonthOfInterval, eachWeekOfInterval, eachDayOfInterval, getDay, getMonth, differenceInDays, differenceInWeeks } from 'date-fns';
-import { generateDynamicInsights } from '../../utils/insightGenerator';
+import { generateDynamicInsights, calculateObjectiveMetrics, scoreToLetterGrade, letterGradeToColor } from '../../utils/insightGenerator';
 
 // Get all published posts
 const posts = await getCollection('blog', ({ data }) => {
@@ -164,13 +164,16 @@ const avgPostsPerMonth = Math.round(posts.length / Math.max(1, differenceInDays(
 const consistencyScore = streaks.length / Math.max(1, streaks.length + drySpells.length);
 const productivityTrend: 'improving' | 'declining' | 'stable' = recentPosts.length > avgPostsPerMonth ? 'improving' : recentPosts.length < avgPostsPerMonth * 0.5 ? 'declining' : 'stable';
 
+// Calculate objective metrics
+const objectiveMetrics = calculateObjectiveMetrics(posts);
+
 // Generate dynamic insights
 const insightData = {
 	totalPosts: posts.length,
 	totalWords: posts.reduce((sum, post) => sum + (post.body || '').split(/\s+/).length, 0),
 	avgWordsPerPost: Math.round(posts.reduce((sum, post) => sum + (post.body || '').split(/\s+/).length, 0) / posts.length),
 	topTags: Object.entries(posts.reduce((acc, post) => {
-		post.data.tags?.forEach(tag => {
+		post.data.tags?.forEach((tag: string) => {
 			acc[tag] = (acc[tag] || 0) + 1;
 		});
 		return acc;
@@ -184,10 +187,12 @@ const insightData = {
 	productivityTrend: productivityTrend,
 	knowledgeAreas: [],
 	writingStreaks: sortedStreaks.map(streak => ({ length: streak.length, days: streak.days })),
-	drySpells: sortedDrySpells.map(spell => ({ days: spell.days }))
+	drySpells: sortedDrySpells.map(spell => ({ days: spell.days })),
+	// Add objective metrics
+	...objectiveMetrics
 };
 
-const { insights, summary } = generateDynamicInsights(insightData, 'cadence');
+const { insights, summary, balancedAnalysis } = generateDynamicInsights(insightData, 'cadence');
 ---
 
 <BaseLayout
@@ -462,6 +467,87 @@ const { insights, summary } = generateDynamicInsights(insightData, 'cadence');
 						</div>
 					))}
 				</div>
+			</div>
+
+			{/* Balanced Analysis Section */}
+			<div class="mt-12 mb-16">
+				<h2 class="text-xl font-semibold text-[rgb(var(--color-text))] mb-6 flex items-center gap-2">
+					<span class="text-gray-600 dark:text-gray-400">⚖️</span>
+					Balanced Analysis
+				</h2>
+				<p class="text-sm text-[rgb(var(--color-text-muted))] mb-8">
+					Objective assessment showing strengths, challenges, and neutral metrics without bias toward positive outcomes.
+				</p>
+				
+				{/* Consistency Grades */}
+				<div class="mb-8">
+					<h3 class="text-lg font-medium text-[rgb(var(--color-text))] mb-4">📊 Consistency Grades</h3>
+					<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+						<div>
+							<div class="text-sm text-[rgb(var(--color-text-muted))] mb-1">Posting Regularity</div>
+							<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-1">{objectiveMetrics.consistencyMetrics.postingRegularity}/100</div>
+							<div class={`text-sm font-semibold ${letterGradeToColor(scoreToLetterGrade(objectiveMetrics.consistencyMetrics.postingRegularity))}`}>
+								Grade: {scoreToLetterGrade(objectiveMetrics.consistencyMetrics.postingRegularity)}
+							</div>
+						</div>
+						<div>
+							<div class="text-sm text-[rgb(var(--color-text-muted))] mb-1">Topic Consistency</div>
+							<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-1">{objectiveMetrics.consistencyMetrics.topicConsistency}/100</div>
+							<div class={`text-sm font-semibold ${letterGradeToColor(scoreToLetterGrade(objectiveMetrics.consistencyMetrics.topicConsistency))}`}>
+								Grade: {scoreToLetterGrade(objectiveMetrics.consistencyMetrics.topicConsistency)}
+							</div>
+						</div>
+						<div>
+							<div class="text-sm text-[rgb(var(--color-text-muted))] mb-1">Quality Consistency</div>
+							<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-1">{100 - objectiveMetrics.consistencyMetrics.qualityVariance}/100</div>
+							<div class={`text-sm font-semibold ${letterGradeToColor(scoreToLetterGrade(100 - objectiveMetrics.consistencyMetrics.qualityVariance))}`}>
+								Grade: {scoreToLetterGrade(100 - objectiveMetrics.consistencyMetrics.qualityVariance)}
+							</div>
+						</div>
+					</div>
+				</div>
+
+				{/* Strengths */}
+				{balancedAnalysis.strengths.length > 0 && (
+					<div class="mb-8">
+						<h3 class="text-lg font-medium text-[rgb(var(--color-text))] mb-4 text-green-600 dark:text-green-400">✅ Strengths</h3>
+						<div class="space-y-3">
+							{balancedAnalysis.strengths.map((insight, index) => (
+								<div class="py-3 border-b border-[rgb(var(--color-border))] last:border-b-0">
+									<div class="text-sm text-[rgb(var(--color-text))]" set:html={insight.text}></div>
+								</div>
+							))}
+						</div>
+					</div>
+				)}
+
+				{/* Challenges */}
+				{balancedAnalysis.challenges.length > 0 && (
+					<div class="mb-8">
+						<h3 class="text-lg font-medium text-[rgb(var(--color-text))] mb-4 text-red-600 dark:text-red-400">❌ Challenges</h3>
+						<div class="space-y-3">
+							{balancedAnalysis.challenges.map((insight, index) => (
+								<div class="py-3 border-b border-[rgb(var(--color-border))] last:border-b-0">
+									<div class="text-sm text-[rgb(var(--color-text))]" set:html={insight.text}></div>
+								</div>
+							))}
+						</div>
+					</div>
+				)}
+
+				{/* Neutral/Objective */}
+				{balancedAnalysis.neutral.length > 0 && (
+					<div class="mb-8">
+						<h3 class="text-lg font-medium text-[rgb(var(--color-text))] mb-4 text-gray-600 dark:text-gray-400">ℹ️ Objective Metrics</h3>
+						<div class="space-y-3">
+							{balancedAnalysis.neutral.map((insight, index) => (
+								<div class="py-3 border-b border-[rgb(var(--color-border))] last:border-b-0">
+									<div class="text-sm text-[rgb(var(--color-text))]" set:html={insight.text}></div>
+								</div>
+							))}
+						</div>
+					</div>
+				)}
 			</div>
 
 			{/* Analysis Conclusion */}

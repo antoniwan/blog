@@ -6,6 +6,7 @@ import { getCollection } from 'astro:content';
 import { categories } from '../../data/categories';
 import { getTagWeight, MASLOW_CATEGORIES } from '../../data/tags';
 import { formatDistanceToNow, format, startOfMonth, endOfMonth, eachMonthOfInterval, parseISO } from 'date-fns';
+import { calculateObjectiveMetrics, scoreToLetterGrade, letterGradeToColor } from '../../utils/insightGenerator';
 
 // Get all published posts
 const posts = await getCollection('blog', ({ data }) => {
@@ -135,6 +136,9 @@ const emotionalPosts = posts.filter(post => {
 	
 	return exclamationCount + emotionalWordCount > 5; // Threshold for emotional intensity
 }).length;
+
+// Calculate objective metrics for balanced analysis
+const objectiveMetrics = calculateObjectiveMetrics(posts);
 ---
 
 <BaseLayout
@@ -162,8 +166,8 @@ const emotionalPosts = posts.filter(post => {
 						🧠 <span class="highlight-primary">Writing Analytics & Self-Discovery</span>
 					</h1>
 					<p class="text-body-large text-[rgb(var(--color-text-muted))] leading-relaxed" transition:name="page-description">
-						Scientific analysis of writing patterns through measurable metrics and quantitative content analysis. 
-						This section measures cognitive patterns, emotional processing, and intellectual evolution using data-driven methodologies.
+						Objective analysis of writing patterns through balanced metrics and quantitative content analysis. 
+						This section provides unbiased assessment of cognitive patterns, emotional processing, and intellectual evolution using data-driven methodologies that include positive, neutral, and negative signal analysis.
 					</p>
 				</div>
 
@@ -207,130 +211,200 @@ const emotionalPosts = posts.filter(post => {
 					</div>
 				</div>
 
-				{/* Analytics Navigation Cards */}
-				<div class="bg-gradient-to-br from-[rgb(var(--color-accent))]/5 via-[rgb(var(--color-accent))]/3 to-transparent rounded-xl p-6 border border-[rgb(var(--color-accent))]/20 mb-8">
+				{/* Objective Analysis Section */}
+				<div class="mt-12 mb-16">
 					<h2 class="text-xl font-semibold text-[rgb(var(--color-text))] mb-6 flex items-center gap-2">
+						<span class="text-gray-600 dark:text-gray-400">⚖️</span>
+						Objective Analysis
+					</h2>
+					<p class="text-sm text-[rgb(var(--color-text-muted))] mb-8">
+						Balanced assessment showing strengths, challenges, and neutral metrics without bias toward positive outcomes.
+					</p>
+					
+					{/* Sentiment Analysis */}
+					<div class="mb-8">
+						<h3 class="text-lg font-medium text-[rgb(var(--color-text))] mb-4">Sentiment Distribution</h3>
+						<div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+							<div class="text-center">
+								<div class="text-2xl font-bold text-green-600 dark:text-green-400 mb-1">{objectiveMetrics.sentimentAnalysis.positive}</div>
+								<div class="text-sm text-green-600 dark:text-green-400">Positive</div>
+							</div>
+							<div class="text-center">
+								<div class="text-2xl font-bold text-red-600 dark:text-red-400 mb-1">{objectiveMetrics.sentimentAnalysis.negative}</div>
+								<div class="text-sm text-red-600 dark:text-red-400">Negative</div>
+							</div>
+							<div class="text-center">
+								<div class="text-2xl font-bold text-blue-600 dark:text-blue-400 mb-1">{objectiveMetrics.sentimentAnalysis.neutral}</div>
+								<div class="text-sm text-blue-600 dark:text-blue-400">Neutral</div>
+							</div>
+							<div class="text-center">
+								<div class="text-2xl font-bold text-gray-600 dark:text-gray-400 mb-1">{objectiveMetrics.sentimentAnalysis.mixed}</div>
+								<div class="text-sm text-gray-600 dark:text-gray-400">Mixed</div>
+							</div>
+						</div>
+					</div>
+
+					{/* Consistency Metrics */}
+					<div class="mb-8">
+						<h3 class="text-lg font-medium text-[rgb(var(--color-text))] mb-4">Consistency Metrics</h3>
+						<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+							<div>
+								<div class="text-sm text-[rgb(var(--color-text-muted))] mb-1">Posting Regularity</div>
+								<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-1">{objectiveMetrics.consistencyMetrics.postingRegularity}/100</div>
+								<div class={`text-sm font-semibold ${letterGradeToColor(scoreToLetterGrade(objectiveMetrics.consistencyMetrics.postingRegularity))}`}>
+									Grade: {scoreToLetterGrade(objectiveMetrics.consistencyMetrics.postingRegularity)}
+								</div>
+							</div>
+							<div>
+								<div class="text-sm text-[rgb(var(--color-text-muted))] mb-1">Topic Consistency</div>
+								<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-1">{objectiveMetrics.consistencyMetrics.topicConsistency}/100</div>
+								<div class={`text-sm font-semibold ${letterGradeToColor(scoreToLetterGrade(objectiveMetrics.consistencyMetrics.topicConsistency))}`}>
+									Grade: {scoreToLetterGrade(objectiveMetrics.consistencyMetrics.topicConsistency)}
+								</div>
+							</div>
+							<div>
+								<div class="text-sm text-[rgb(var(--color-text-muted))] mb-1">Quality Variance</div>
+								<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-1">{objectiveMetrics.consistencyMetrics.qualityVariance}/100</div>
+								<div class={`text-sm font-semibold ${letterGradeToColor(scoreToLetterGrade(100 - objectiveMetrics.consistencyMetrics.qualityVariance))}`}>
+									Grade: {scoreToLetterGrade(100 - objectiveMetrics.consistencyMetrics.qualityVariance)}
+								</div>
+							</div>
+						</div>
+					</div>
+
+					{/* Challenge Areas */}
+					{objectiveMetrics.challengeAreas.length > 0 && (
+						<div class="mb-8">
+							<h3 class="text-lg font-medium text-[rgb(var(--color-text))] mb-4">Challenge Areas</h3>
+							<div class="space-y-3">
+								{objectiveMetrics.challengeAreas.map(challenge => (
+									<div class="flex justify-between items-center py-3 border-b border-[rgb(var(--color-border))] last:border-b-0">
+										<div>
+											<span class="font-medium text-[rgb(var(--color-text))]">{challenge.area}</span>
+											<div class="text-sm text-[rgb(var(--color-text-muted))]">
+												Frequency: {challenge.frequency}%
+											</div>
+										</div>
+										<span class={`text-sm px-3 py-1 rounded-full ${
+											challenge.severity === 'high' 
+												? 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300' 
+												: challenge.severity === 'medium'
+												? 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300'
+												: 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300'
+										}`}>
+											{challenge.severity}
+										</span>
+									</div>
+								))}
+							</div>
+						</div>
+					)}
+
+					{/* Improvement Areas */}
+					{objectiveMetrics.improvementAreas.length > 0 && (
+						<div class="mb-8">
+							<h3 class="text-lg font-medium text-[rgb(var(--color-text))] mb-4">Improvement Opportunities</h3>
+							<div class="space-y-4">
+								{objectiveMetrics.improvementAreas.map(improvement => (
+									<div>
+										<div class="flex justify-between items-center mb-2">
+											<span class="font-medium text-[rgb(var(--color-text))]">{improvement.area}</span>
+											<span class="text-sm text-[rgb(var(--color-text-muted))]">
+												{improvement.current} / {improvement.target}
+											</span>
+										</div>
+										<div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 mb-1">
+											<div 
+												class="bg-blue-500 h-2 rounded-full transition-all duration-300"
+												style={`width: ${Math.min(100, (improvement.current / improvement.target) * 100)}%`}
+											></div>
+										</div>
+										<div class="text-sm text-[rgb(var(--color-text-muted))]">
+											Gap: {improvement.gap.toFixed(1)}
+										</div>
+									</div>
+								))}
+							</div>
+						</div>
+					)}
+				</div>
+
+				{/* Analytics Navigation Cards */}
+				<div class="mt-12 mb-16">
+					<h2 class="text-xl font-semibold text-[rgb(var(--color-text))] mb-8 flex items-center gap-2">
 						<span class="text-[rgb(var(--color-accent))]">🔬</span>
 						Analytics & Insights
 					</h2>
-					<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+					<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 						<a href="/brain-science/insights" class="group block">
-							<div class="bg-[rgb(var(--color-bg))] rounded-lg p-6 border-2 border-[rgb(var(--color-border))] hover:border-[rgb(var(--color-accent))] hover:shadow-lg hover:shadow-[rgb(var(--color-accent))]/20 hover:-translate-y-1 transition-all duration-200 cursor-pointer relative overflow-hidden">
-								{/* Subtle gradient overlay on hover */}
-								<div class="absolute inset-0 bg-gradient-to-br from-[rgb(var(--color-accent))]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
-								{/* Arrow indicator */}
-								<div class="absolute top-4 right-4 text-[rgb(var(--color-accent))] opacity-0 group-hover:opacity-100 transition-opacity duration-200 transform translate-x-2 group-hover:translate-x-0">
-									→
-								</div>
-								<div class="relative">
-									<div class="text-2xl mb-3">💡</div>
-									<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-2 group-hover:text-[rgb(var(--color-accent))] transition-colors">
-										Personal Insights
-									</h3>
-									<p class="text-sm text-[rgb(var(--color-text-muted))] group-hover:text-[rgb(var(--color-text))] transition-colors">
-										Discover patterns in your emotional processing and creative energy
-									</p>
-								</div>
+							<div class="p-6 border border-[rgb(var(--color-border))] hover:border-[rgb(var(--color-accent))] hover:bg-[rgb(var(--color-accent))]/5 transition-all duration-200 cursor-pointer">
+								<div class="text-2xl mb-3">💡</div>
+								<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-2 group-hover:text-[rgb(var(--color-accent))] transition-colors">
+									Personal Insights
+								</h3>
+								<p class="text-sm text-[rgb(var(--color-text-muted))] group-hover:text-[rgb(var(--color-text))] transition-colors">
+									Discover patterns in your emotional processing and creative energy
+								</p>
 							</div>
 						</a>
 
 						<a href="/brain-science/evolution" class="group block">
-							<div class="bg-[rgb(var(--color-bg))] rounded-lg p-6 border-2 border-[rgb(var(--color-border))] hover:border-[rgb(var(--color-accent))] hover:shadow-lg hover:shadow-[rgb(var(--color-accent))]/20 hover:-translate-y-1 transition-all duration-200 cursor-pointer relative overflow-hidden">
-								{/* Subtle gradient overlay on hover */}
-								<div class="absolute inset-0 bg-gradient-to-br from-[rgb(var(--color-accent))]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
-								{/* Arrow indicator */}
-								<div class="absolute top-4 right-4 text-[rgb(var(--color-accent))] opacity-0 group-hover:opacity-100 transition-opacity duration-200 transform translate-x-2 group-hover:translate-x-0">
-									→
-								</div>
-								<div class="relative">
-									<div class="text-2xl mb-3">📈</div>
-									<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-2 group-hover:text-[rgb(var(--color-accent))] transition-colors">
-										Intellectual Growth
-									</h3>
-									<p class="text-sm text-[rgb(var(--color-text-muted))] group-hover:text-[rgb(var(--color-text))] transition-colors">
-										See how your thinking style and knowledge areas have evolved
-									</p>
-								</div>
+							<div class="p-6 border border-[rgb(var(--color-border))] hover:border-[rgb(var(--color-accent))] hover:bg-[rgb(var(--color-accent))]/5 transition-all duration-200 cursor-pointer">
+								<div class="text-2xl mb-3">📈</div>
+								<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-2 group-hover:text-[rgb(var(--color-accent))] transition-colors">
+									Intellectual Growth
+								</h3>
+								<p class="text-sm text-[rgb(var(--color-text-muted))] group-hover:text-[rgb(var(--color-text))] transition-colors">
+									See how your thinking style and knowledge areas have evolved
+								</p>
 							</div>
 						</a>
 
 						<a href="/brain-science/topics" class="group block">
-							<div class="bg-[rgb(var(--color-bg))] rounded-lg p-6 border-2 border-[rgb(var(--color-border))] hover:border-[rgb(var(--color-accent))] hover:shadow-lg hover:shadow-[rgb(var(--color-accent))]/20 hover:-translate-y-1 transition-all duration-200 cursor-pointer relative overflow-hidden">
-								{/* Subtle gradient overlay on hover */}
-								<div class="absolute inset-0 bg-gradient-to-br from-[rgb(var(--color-accent))]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
-								{/* Arrow indicator */}
-								<div class="absolute top-4 right-4 text-[rgb(var(--color-accent))] opacity-0 group-hover:opacity-100 transition-opacity duration-200 transform translate-x-2 group-hover:translate-x-0">
-									→
-								</div>
-								<div class="relative">
-									<div class="text-2xl mb-3">🏷️</div>
-									<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-2 group-hover:text-[rgb(var(--color-accent))] transition-colors">
-										Core Themes
-									</h3>
-									<p class="text-sm text-[rgb(var(--color-text-muted))] group-hover:text-[rgb(var(--color-text))] transition-colors">
-										Understand what truly matters to you and how your interests connect
-									</p>
-								</div>
+							<div class="p-6 border border-[rgb(var(--color-border))] hover:border-[rgb(var(--color-accent))] hover:bg-[rgb(var(--color-accent))]/5 transition-all duration-200 cursor-pointer">
+								<div class="text-2xl mb-3">🏷️</div>
+								<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-2 group-hover:text-[rgb(var(--color-accent))] transition-colors">
+									Core Themes
+								</h3>
+								<p class="text-sm text-[rgb(var(--color-text-muted))] group-hover:text-[rgb(var(--color-text))] transition-colors">
+									Understand what truly matters to you and how your interests connect
+								</p>
 							</div>
 						</a>
 
 						<a href="/brain-science/cadence" class="group block">
-							<div class="bg-[rgb(var(--color-bg))] rounded-lg p-6 border-2 border-[rgb(var(--color-border))] hover:border-[rgb(var(--color-accent))] hover:shadow-lg hover:shadow-[rgb(var(--color-accent))]/20 hover:-translate-y-1 transition-all duration-200 cursor-pointer relative overflow-hidden">
-								{/* Subtle gradient overlay on hover */}
-								<div class="absolute inset-0 bg-gradient-to-br from-[rgb(var(--color-accent))]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
-								{/* Arrow indicator */}
-								<div class="absolute top-4 right-4 text-[rgb(var(--color-accent))] opacity-0 group-hover:opacity-100 transition-opacity duration-200 transform translate-x-2 group-hover:translate-x-0">
-									→
-								</div>
-								<div class="relative">
-									<div class="text-2xl mb-3">📅</div>
-									<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-2 group-hover:text-[rgb(var(--color-accent))] transition-colors">
-										Creative Rhythms
-									</h3>
-									<p class="text-sm text-[rgb(var(--color-text-muted))] group-hover:text-[rgb(var(--color-text))] transition-colors">
-										Discover your natural creative cycles and productive patterns
-									</p>
-								</div>
+							<div class="p-6 border border-[rgb(var(--color-border))] hover:border-[rgb(var(--color-accent))] hover:bg-[rgb(var(--color-accent))]/5 transition-all duration-200 cursor-pointer">
+								<div class="text-2xl mb-3">📅</div>
+								<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-2 group-hover:text-[rgb(var(--color-accent))] transition-colors">
+									Creative Rhythms
+								</h3>
+								<p class="text-sm text-[rgb(var(--color-text-muted))] group-hover:text-[rgb(var(--color-text))] transition-colors">
+									Discover your natural creative cycles and productive patterns
+								</p>
 							</div>
 						</a>
 
 						<a href="/brain-science/patterns" class="group block">
-							<div class="bg-[rgb(var(--color-bg))] rounded-lg p-6 border-2 border-[rgb(var(--color-border))] hover:border-[rgb(var(--color-accent))] hover:shadow-lg hover:shadow-[rgb(var(--color-accent))]/20 hover:-translate-y-1 transition-all duration-200 cursor-pointer relative overflow-hidden">
-								{/* Subtle gradient overlay on hover */}
-								<div class="absolute inset-0 bg-gradient-to-br from-[rgb(var(--color-accent))]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
-								{/* Arrow indicator */}
-								<div class="absolute top-4 right-4 text-[rgb(var(--color-accent))] opacity-0 group-hover:opacity-100 transition-opacity duration-200 transform translate-x-2 group-hover:translate-x-0">
-									→
-								</div>
-								<div class="relative">
-									<div class="text-2xl mb-3">🌀</div>
-									<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-2 group-hover:text-[rgb(var(--color-accent))] transition-colors">
-										Hidden Patterns
-									</h3>
-									<p class="text-sm text-[rgb(var(--color-text-muted))] group-hover:text-[rgb(var(--color-text))] transition-colors">
-										Uncover subconscious patterns and creative correlations
-									</p>
-								</div>
+							<div class="p-6 border border-[rgb(var(--color-border))] hover:border-[rgb(var(--color-accent))] hover:bg-[rgb(var(--color-accent))]/5 transition-all duration-200 cursor-pointer">
+								<div class="text-2xl mb-3">🌀</div>
+								<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-2 group-hover:text-[rgb(var(--color-accent))] transition-colors">
+									Hidden Patterns
+								</h3>
+								<p class="text-sm text-[rgb(var(--color-text-muted))] group-hover:text-[rgb(var(--color-text))] transition-colors">
+									Uncover subconscious patterns and creative correlations
+								</p>
 							</div>
 						</a>
 
 						<a href="/brain-science/meta" class="group block">
-							<div class="bg-[rgb(var(--color-bg))] rounded-lg p-6 border-2 border-[rgb(var(--color-border))] hover:border-[rgb(var(--color-accent))] hover:shadow-lg hover:shadow-[rgb(var(--color-accent))]/20 hover:-translate-y-1 transition-all duration-200 cursor-pointer relative overflow-hidden">
-								{/* Subtle gradient overlay on hover */}
-								<div class="absolute inset-0 bg-gradient-to-br from-[rgb(var(--color-accent))]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
-								{/* Arrow indicator */}
-								<div class="absolute top-4 right-4 text-[rgb(var(--color-accent))] opacity-0 group-hover:opacity-100 transition-opacity duration-200 transform translate-x-2 group-hover:translate-x-0">
-									→
-								</div>
-								<div class="relative">
-									<div class="text-2xl mb-3">🔍</div>
-									<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-2 group-hover:text-[rgb(var(--color-accent))] transition-colors">
-										Self-Reflection
-									</h3>
-									<p class="text-sm text-[rgb(var(--color-text-muted))] group-hover:text-[rgb(var(--color-text))] transition-colors">
-										Explore how you think about thinking and your relationship with writing
-									</p>
-								</div>
+							<div class="p-6 border border-[rgb(var(--color-border))] hover:border-[rgb(var(--color-accent))] hover:bg-[rgb(var(--color-accent))]/5 transition-all duration-200 cursor-pointer">
+								<div class="text-2xl mb-3">🔍</div>
+								<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-2 group-hover:text-[rgb(var(--color-accent))] transition-colors">
+									Self-Reflection
+								</h3>
+								<p class="text-sm text-[rgb(var(--color-text-muted))] group-hover:text-[rgb(var(--color-text))] transition-colors">
+									Explore how you think about thinking and your relationship with writing
+								</p>
 							</div>
 						</a>
 					</div>
@@ -384,22 +458,121 @@ const emotionalPosts = posts.filter(post => {
 					</div>
 				</div>
 
-				{/* Analytical Reflection */}
-				<div class="mt-12 bg-gradient-to-r from-[rgb(var(--color-accent))]/10 to-[rgb(var(--color-accent))]/5 rounded-lg p-6 border border-[rgb(var(--color-accent))]/20">
-					<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-4 flex items-center gap-2">
-						<span class="text-[rgb(var(--color-accent))]">🔬</span>
-						Analytical Questions
+				{/* Formulas & Metrics Glossary */}
+				<div class="mt-12">
+					<h3 class="text-xl font-semibold text-[rgb(var(--color-text))] mb-8 flex items-center gap-3">
+						<span class="text-[rgb(var(--color-accent))] text-2xl">📊</span>
+						Formulas & Metrics Glossary
 					</h3>
-					<div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-[rgb(var(--color-text-muted))]">
+					
+					<div class="space-y-12">
+						{/* Sentiment Analysis */}
 						<div>
-							<p class="mb-2">• What patterns do you notice in your most emotional writings?</p>
-							<p class="mb-2">• How has your thinking style evolved over time?</p>
-							<p class="mb-2">• Which topics consistently energize you?</p>
+							<h4 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-4 flex items-center gap-2">
+								<span class="text-blue-500">📈</span>
+								Sentiment Analysis
+							</h4>
+							<div class="space-y-3 text-[rgb(var(--color-text-muted))]">
+								<p><strong class="text-[rgb(var(--color-text))]">Formula:</strong> Word frequency analysis using predefined emotional lexicons</p>
+								<p><strong class="text-[rgb(var(--color-text))]">Classification:</strong> Post is classified based on highest word frequency category</p>
+								<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-4">
+									<div>
+										<p class="font-medium text-[rgb(var(--color-text))] mb-2">Positive Words</p>
+										<p class="text-sm">love, joy, excited, happy, grateful, inspired, confident, proud, accomplished, fulfilled, peaceful, content, optimistic, hopeful, energized, motivated, successful, achieved, breakthrough, transformation, growth, improvement, better, stronger, wiser</p>
+									</div>
+									<div>
+										<p class="font-medium text-[rgb(var(--color-text))] mb-2">Negative Words</p>
+										<p class="text-sm">hate, fear, sadness, anger, anxiety, despair, frustration, worried, confused, overwhelmed, restless, pain, hurt, broken, struggle, difficult, challenge, failure, disappointed, defeated, hopeless, lost, stuck, trapped, suffering</p>
+									</div>
+									<div>
+										<p class="font-medium text-[rgb(var(--color-text))] mb-2">Neutral Words</p>
+										<p class="text-sm">think, believe, understand, realize, observe, notice, consider, reflect, analyze, examine, study, learn, discover, explore, investigate, research, find, determine, conclude, decide</p>
+									</div>
+								</div>
+							</div>
 						</div>
+
+						<div class="border-t border-[rgb(var(--color-border))] pt-8"></div>
+
+						{/* Posting Regularity */}
 						<div>
-							<p class="mb-2">• When are you most creative and productive?</p>
-							<p class="mb-2">• What themes connect your different interests?</p>
-							<p class="mb-2">• How does writing help you process your experiences?</p>
+							<h4 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-4 flex items-center gap-2">
+								<span class="text-green-500">📅</span>
+								Posting Regularity
+							</h4>
+							<div class="space-y-3 text-[rgb(var(--color-text-muted))]">
+								<p><strong class="text-[rgb(var(--color-text))]">Formula:</strong> Consistency = 100 - (Variance / 10)</p>
+								<p><strong class="text-[rgb(var(--color-text))]">Calculation:</strong> Analyze intervals between consecutive posts, calculate variance from mean interval</p>
+								<p><strong class="text-[rgb(var(--color-text))]">Score Range:</strong> 0-100 (higher = more consistent)</p>
+								<p><strong class="text-[rgb(var(--color-text))]">Interpretation:</strong> Lower variance in posting intervals indicates more regular writing habits</p>
+							</div>
+						</div>
+
+						<div class="border-t border-[rgb(var(--color-border))] pt-8"></div>
+
+						{/* Topic Consistency */}
+						<div>
+							<h4 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-4 flex items-center gap-2">
+								<span class="text-purple-500">🏷️</span>
+								Topic Consistency
+							</h4>
+							<div class="space-y-3 text-[rgb(var(--color-text-muted))]">
+								<p><strong class="text-[rgb(var(--color-text))]">Formula:</strong> (Most Frequent Tag Count / Total Posts) × 100</p>
+								<p><strong class="text-[rgb(var(--color-text))]">Calculation:</strong> Count posts per tag, find highest frequency, divide by total posts</p>
+								<p><strong class="text-[rgb(var(--color-text))]">Score Range:</strong> 0-100 (higher = more focused on single topic)</p>
+								<p><strong class="text-[rgb(var(--color-text))]">Interpretation:</strong> Higher scores indicate concentrated focus, lower scores show topic diversity</p>
+							</div>
+						</div>
+
+						<div class="border-t border-[rgb(var(--color-border))] pt-8"></div>
+
+						{/* Quality Variance */}
+						<div>
+							<h4 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-4 flex items-center gap-2">
+								<span class="text-orange-500">📊</span>
+								Quality Variance
+							</h4>
+							<div class="space-y-3 text-[rgb(var(--color-text-muted))]">
+								<p><strong class="text-[rgb(var(--color-text))]">Formula:</strong> Variance = Σ(word_count - avg_word_count)² / n</p>
+								<p><strong class="text-[rgb(var(--color-text))]">Calculation:</strong> Calculate variance in word count across all posts</p>
+								<p><strong class="text-[rgb(var(--color-text))]">Score Range:</strong> 0-100 (lower = more consistent quality)</p>
+								<p><strong class="text-[rgb(var(--color-text))]">Normalization:</strong> Variance / 10, capped at 100</p>
+								<p><strong class="text-[rgb(var(--color-text))]">Interpretation:</strong> Lower scores indicate consistent post lengths, higher scores show irregular content depth</p>
+							</div>
+						</div>
+
+						<div class="border-t border-[rgb(var(--color-border))] pt-8"></div>
+
+						{/* Writing Streaks */}
+						<div>
+							<h4 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-4 flex items-center gap-2">
+								<span class="text-pink-500">📈</span>
+								Writing Streaks
+							</h4>
+							<div class="space-y-3 text-[rgb(var(--color-text-muted))]">
+								<p><strong class="text-[rgb(var(--color-text))]">Definition:</strong> Consecutive posts within 7 days of each other</p>
+								<p><strong class="text-[rgb(var(--color-text))]">Average Streak:</strong> Σ(streak_lengths) / number_of_streaks</p>
+								<p><strong class="text-[rgb(var(--color-text))]">Consistency Ratio:</strong> Streaks / (Streaks + Dry Spells)</p>
+								<p><strong class="text-[rgb(var(--color-text))]">Interpretation:</strong> Higher ratios indicate more predictable creative cycles</p>
+							</div>
+						</div>
+
+						<div class="border-t border-[rgb(var(--color-border))] pt-8"></div>
+
+						{/* Grade Scoring */}
+						<div>
+							<h4 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-4 flex items-center gap-2">
+								<span class="text-indigo-500">🎯</span>
+								Grade Scoring
+							</h4>
+							<div class="grid grid-cols-2 md:grid-cols-3 gap-4 text-[rgb(var(--color-text-muted))]">
+								<div><strong class="text-green-600">A+ (97-100):</strong> Exceptional</div>
+								<div><strong class="text-green-600">A (93-96):</strong> Excellent</div>
+								<div><strong class="text-blue-600">B (83-92):</strong> Good</div>
+								<div><strong class="text-yellow-600">C (70-82):</strong> Average</div>
+								<div><strong class="text-orange-600">D (60-69):</strong> Below average</div>
+								<div><strong class="text-red-600">F (0-59):</strong> Needs improvement</div>
+							</div>
 						</div>
 					</div>
 				</div>

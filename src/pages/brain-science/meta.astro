@@ -4,7 +4,7 @@ import Container from '../../components/Container.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import { getCollection } from 'astro:content';
 import { format } from 'date-fns';
-import { generateDynamicInsights } from '../../utils/insightGenerator';
+import { generateDynamicInsights, calculateObjectiveMetrics, scoreToLetterGrade, letterGradeToColor } from '../../utils/insightGenerator';
 
 // Get all published posts
 const posts = await getCollection('blog', ({ data }) => {
@@ -194,13 +194,16 @@ const codeSnippetPosts = posts.filter(post => {
 	hasCodeSnippets: true
 }));
 
+// Calculate objective metrics
+const objectiveMetrics = calculateObjectiveMetrics(posts);
+
 // Generate dynamic insights
 const insightData = {
 	totalPosts: posts.length,
 	totalWords: posts.reduce((sum, post) => sum + (post.body || '').split(/\s+/).length, 0),
 	avgWordsPerPost: Math.round(posts.reduce((sum, post) => sum + (post.body || '').split(/\s+/).length, 0) / posts.length),
 	topTags: Object.entries(posts.reduce((acc, post) => {
-		post.data.tags?.forEach(tag => {
+		post.data.tags?.forEach((tag: string) => {
 			acc[tag] = (acc[tag] || 0) + 1;
 		});
 		return acc;
@@ -214,10 +217,12 @@ const insightData = {
 	productivityTrend: 'stable' as const, // Not calculated for meta
 	knowledgeAreas: [],
 	writingStreaks: [],
-	drySpells: []
+	drySpells: [],
+	// Add objective metrics
+	...objectiveMetrics
 };
 
-const { insights, summary } = generateDynamicInsights(insightData, 'meta');
+const { insights, summary, balancedAnalysis } = generateDynamicInsights(insightData, 'meta');
 ---
 
 <BaseLayout

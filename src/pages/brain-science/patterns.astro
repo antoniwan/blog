@@ -6,7 +6,7 @@ import { getCollection } from 'astro:content';
 import { categories } from '../../data/categories';
 import { getTagWeight, MASLOW_CATEGORIES } from '../../data/tags';
 import { format, getDay, getMonth } from 'date-fns';
-import { generateDynamicInsights } from '../../utils/insightGenerator';
+import { generateDynamicInsights, calculateObjectiveMetrics, scoreToLetterGrade, letterGradeToColor } from '../../utils/insightGenerator';
 
 // Grade translation function - converts numerical scores to letter grades
 function getGrade(score: number, maxScore: number, minScore: number = 0): string {
@@ -287,13 +287,16 @@ const productivePatterns = contentAnalysis
 		pattern: `${post.wordCount > 1000 ? 'Long-form' : 'Short-form'} • ${post.emotionalIntensity > 5 ? 'Emotional' : 'Analytical'} • ${post.fleschScore > 50 ? 'Complex' : 'Simple'}`
 	}));
 
+// Calculate objective metrics
+const objectiveMetrics = calculateObjectiveMetrics(posts);
+
 // Generate dynamic insights
 const insightData = {
 	totalPosts: posts.length,
 	totalWords: posts.reduce((sum, post) => sum + (post.body || '').split(/\s+/).length, 0),
 	avgWordsPerPost: Math.round(posts.reduce((sum, post) => sum + (post.body || '').split(/\s+/).length, 0) / posts.length),
 	topTags: Object.entries(posts.reduce((acc, post) => {
-		post.data.tags?.forEach(tag => {
+		post.data.tags?.forEach((tag: string) => {
 			acc[tag] = (acc[tag] || 0) + 1;
 		});
 		return acc;
@@ -307,10 +310,12 @@ const insightData = {
 	productivityTrend: 'stable' as const, // Not calculated for patterns
 	knowledgeAreas: [],
 	writingStreaks: [], // Could be calculated from patterns
-	drySpells: [] // Could be calculated from patterns
+	drySpells: [], // Could be calculated from patterns
+	// Add objective metrics
+	...objectiveMetrics
 };
 
-const { insights, summary } = generateDynamicInsights(insightData, 'patterns');
+const { insights, summary, balancedAnalysis } = generateDynamicInsights(insightData, 'patterns');
 ---
 
 <BaseLayout
