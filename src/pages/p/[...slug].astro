@@ -3,6 +3,7 @@ import { type CollectionEntry, getCollection } from 'astro:content';
 import BlogLayout from '../../layouts/BlogLayout.astro';
 import { render } from 'astro:content';
 import { generateKeywords, generateImageAlt } from '../../utils/seo';
+import { getTranslationData } from '../../utils/translationUtils';
 import { AUTHOR } from '../../consts';
 import { categories } from '../../data/categories';
 
@@ -12,12 +13,15 @@ export async function getStaticPaths() {
 	const posts = await getCollection('blog');
 	return posts.map((post) => ({
 		params: { slug: post.id },
-		props: post,
+		props: { post, allPosts: posts },
 	}));
 }
-type Props = CollectionEntry<'blog'>;
+interface Props {
+	post: CollectionEntry<'blog'>;
+	allPosts: CollectionEntry<'blog'>[];
+}
 
-const post = Astro.props;
+const { post, allPosts } = Astro.props;
 const { Content } = await render(post);
 
 // Auto-generate keywords from tags and categories
@@ -45,6 +49,9 @@ const tableOfContents = headings.map(heading => {
 	const slug = text.toLowerCase().replace(/[^a-z0-9]+/g, '-');
 	return { text, slug, level };
 });
+
+// Get translation data
+const translationData = await getTranslationData(post, allPosts);
 ---
 
 <BlogLayout 
@@ -63,6 +70,7 @@ const tableOfContents = headings.map(heading => {
 	keywords={keywords}
 	tableOfContents={tableOfContents}
 	showComments={post.data.showComments}
+	translationData={translationData}
 >
 	<Content />
 </BlogLayout> 

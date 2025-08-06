@@ -20,6 +20,20 @@ export interface BaseLayoutProps {
   posts?: any[]; // For category/tag pages
 }
 
+export interface Translation {
+  id: string;
+  title: string;
+  language: string[];
+  path: string;
+}
+
+export interface TranslationData {
+  translations: Translation[];
+  currentLanguage: string;
+  currentPath: string;
+  hasTranslations: boolean;
+}
+
 export interface BlogLayoutProps extends BaseLayoutProps {
   // Blog-specific additional props
   categoryName?: string | null;
@@ -29,4 +43,5 @@ export interface BlogLayoutProps extends BaseLayoutProps {
     slug: string;
   }[];
   showComments?: boolean;
+  translationData?: TranslationData;
 }

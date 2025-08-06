@@ -1,6 +1,6 @@
 # Curious Chaos Journal
 
-[![Version](https://img.shields.io/badge/version-2.12.1-blue.svg)](https://github.com/antoniwan/curious-chaos-journal/releases)
+[![Version](https://img.shields.io/badge/version-2.14.0-blue.svg)](https://github.com/antoniwan/curious-chaos-journal/releases)
 
 A personal blog exploring fatherhood, masculinity, culture, and modern collapse through raw reflections on thinking, consciousness, and the soft heart inside the hard world.
 
@@ -8,7 +8,7 @@ A personal blog exploring fatherhood, masculinity, culture, and modern collapse 
 
 - **52+ writings** exploring personal growth, consciousness, and modern life
 - **9 content categories** covering fatherhood, psychology, politics, and more
-- **Multi-language support** (English/Spanish)
+- **Multilingual system** with automatic translation discovery (English/Spanish)
 - **Dark mode** with system preference detection
 - **Responsive design** optimized for all devices
 - **SEO optimized** with structured data and Open Graph
@@ -81,8 +81,35 @@ heroImage: "/images/hero-image.jpg"
 category: ["integration-growth"]
 tags: ["tag1", "tag2"]
 readingTime: 5
+featured: true
+translationGroup: "unique-group-id" # Links related translations
 draft: false
 ---
+```
+
+### Multilingual Content
+
+The site supports bilingual content with automatic translation discovery:
+
+**Publishing Translations:**
+
+1. Set the same `translationGroup` value in both language versions
+2. Use `featured: true` for the primary language (usually English)
+3. Use `featured: false` for secondary languages to prevent duplicate listings
+4. The system automatically links translations with language flags
+
+**Example Translation Pair:**
+
+```yaml
+# English version
+translationGroup: "my-article"
+featured: true
+language: ["en"]
+
+# Spanish version
+translationGroup: "my-article"
+featured: false
+language: ["es"]
 ```
 
 ### Categories
@@ -112,6 +139,7 @@ draft: false
 - **Internal API** - Stoic quotes for enhanced user experience
 - **Social Sharing** - Multi-platform sharing with mobile-first responsive design
 - **Guided Path** - Seasonal reading experience with progress tracking and privacy-first design
+- **Multilingual Support** - Automatic translation discovery and language switching
 
 ## API
 
@@ -130,6 +158,7 @@ Essential documentation available in `docs/`:
 - [Frontmatter Specification](docs/frontmatter-spec.md)
 - [Comments Setup](docs/comments-setup.md)
 - [Quotes API](docs/quotes-api.md)
+- [Multilingual Setup](docs/multilingual-setup.md)
 
 ## License
 

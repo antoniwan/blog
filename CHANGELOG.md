@@ -5,6 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.14.0] - 2025-01-08
+
+### Added
+
+- **Multilingual Translation System**: Complete language toggle functionality for bilingual content
+  - **LanguageToggle Component**: Displays available translations with language flags
+  - **Translation Utilities**: Automatic detection and linking of translation groups
+  - **Smart Featured Control**: Hide secondary language versions from main listings while maintaining discoverability
+  - **Blog Layout Integration**: Seamless integration between English and Spanish content
+  - **Type-Safe Implementation**: Full TypeScript support for translation metadata
+
+### Enhanced
+
+- **Bilingual Content Management**: Streamlined workflow for publishing content in multiple languages
+  - Use `translationGroup` field to link related posts
+  - Set `featured: false` on secondary language versions to prevent duplicate listings
+  - Automatic language detection and cross-linking
+
 ## [2.12.1] - 2025-08-04
 
 ### Fixed

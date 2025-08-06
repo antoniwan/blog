@@ -8,6 +8,7 @@ import Container from '../components/Container.astro';
 import DefaultImage from '../components/DefaultImage.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import SocialShare from '../components/SocialShare.astro';
+import LanguageToggle from '../components/LanguageToggle.astro';
 import { generateCanonicalUrl } from '../utils/seo';
 import { giscusConfig } from '../config/giscus';
 import type { BlogLayoutProps } from '../types/layout';
@@ -30,6 +31,7 @@ const {
   keywords,
   tableOfContents,
   showComments = true,
+  translationData,
   ...rest
 } = Astro.props;
 
@@ -248,6 +250,15 @@ const postSlug = path?.replace('/p/', '').replace('/', '') || '';
               />
             )}
           </div>
+
+          {/* Language Toggle */}
+          {translationData?.hasTranslations && (
+            <LanguageToggle 
+              translations={translationData.translations}
+              currentLanguage={translationData.currentLanguage}
+              currentPath={translationData.currentPath}
+            />
+          )}
           
           {/* Content */}
           <div class="prose prose-lg max-w-none prose-headings:scroll-mt-20" transition:name="page-content">
