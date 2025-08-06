@@ -67,7 +67,7 @@ export const SOCIAL_LINKS: SocialLinks = {
 export const SEO_CONFIG: SEOConfig = {
   defaultImage: assetConfig.images.defaultSocial,
   defaultImageAlt:
-    "Curious Chaos Journal - Thinking hurts. I do it anyway. Raw reflections on fatherhood, masculinity, culture, and modern collapse.",
+    "Curious Chaos Journal - Reality hurts. I look anyway. Raw reflections on fatherhood, masculinity, culture, and modern collapse.",
   defaultHeroImage: assetConfig.images.defaultHero,
   defaultLocale: "en_US",
   defaultRobots: "index, follow",
@@ -109,7 +109,7 @@ export const DISCLAIMER_TEXT =
 
 // Site Taglines and Messaging
 export const SITE_TAGLINES = {
-  main: "Thinking hurts. I do it anyway.",
+  main: "Reality hurts. I look anyway.",
   subtitle:
     "Dispatches from a fractured mind navigating fatherhood, masculinity, cultura, and modern collapse — one burning question at a time.",
   description:
