@@ -398,21 +398,56 @@ const postSlug = path?.replace('/p/', '').replace('/', '') || '';
 </BaseLayout>
 
 <script define:vars={{ postSlug }}>
+	// Storage constants - using direct values since import doesn't work in Astro client scripts
+	const STORAGE_KEY = 'curious-chaos-read-posts-v1.0';
+	const FALLBACK_KEY = 'curious-chaos-read-posts';
+	const CROSS_TAB_DELAY = 100;
+	const SAME_TAB_DELAY = 50;
+
 	// Read status display for blog posts
 	class ReadStatusDisplay {
 		constructor() {
-			this.storageKey = 'curious-chaos-read-posts';
+			this.storageKey = STORAGE_KEY;
+			this.fallbackKey = FALLBACK_KEY;
+			this.boundPostReadHandler = this.handlePostRead.bind(this);
+			this.boundClearedHandler = this.handleClearedPosts.bind(this);
+			this.boundStorageHandler = this.handleStorageChange.bind(this);
+			this.boundDataUpdatedHandler = this.handleDataUpdated.bind(this);
 			this.init();
 		}
 
-		loadReadPosts() {
-			try {
-				const stored = localStorage.getItem(this.storageKey);
-				return stored ? JSON.parse(stored) : [];
-			} catch {
+			loadReadPosts() {
+		try {
+			const stored = localStorage.getItem(this.storageKey) || localStorage.getItem(this.fallbackKey);
+			if (!stored) return [];
+			
+			const parsed = JSON.parse(stored);
+			
+			// Validate data structure
+			if (!Array.isArray(parsed)) {
+				console.warn('Invalid read posts format: expected array, got', typeof parsed);
 				return [];
 			}
+			
+			// Filter and validate individual items
+			return parsed.filter(item => {
+				if (!item || typeof item !== 'object') return false;
+				
+				const hasValidSlug = typeof item.postSlug === 'string' && item.postSlug.trim().length > 0;
+				const hasValidDate = typeof item.readAt === 'string' && !isNaN(Date.parse(item.readAt));
+				
+				if (!hasValidSlug || !hasValidDate) {
+					console.warn('Filtering out invalid read post item:', item);
+					return false;
+				}
+				
+				return true;
+			});
+		} catch (error) {
+			console.warn('Failed to parse read posts:', error);
+			return [];
 		}
+	}
 
 		getReadData(postSlug) {
 			const readData = this.loadReadPosts();
@@ -472,30 +507,70 @@ const postSlug = path?.replace('/p/', '').replace('/', '') || '';
 			}
 		}
 
+		handlePostRead(event) {
+			if (event.detail?.postSlug === postSlug) {
+				setTimeout(() => this.updateReadStatus(), CROSS_TAB_DELAY);
+			}
+		}
+		
+		handleClearedPosts() {
+			setTimeout(() => this.updateReadStatus(), CROSS_TAB_DELAY);
+		}
+		
+		handleStorageChange(event) {
+			// React to localStorage changes from other tabs/windows
+			if (event.key === this.storageKey || event.key === this.fallbackKey) {
+				setTimeout(() => this.updateReadStatus(), CROSS_TAB_DELAY);
+			}
+		}
+		
+		handleDataUpdated(event) {
+			// React to immediate data updates from same tab
+			if (event.detail?.type === 'post-read') {
+				setTimeout(() => this.updateReadStatus(), SAME_TAB_DELAY);
+			}
+		}
+		
 		init() {
 			// Update on page load
 			this.updateReadStatus();
 
 			// Listen for post-read events
-			window.addEventListener('post-read', (event) => {
-				if (event.detail?.postSlug === postSlug) {
-					setTimeout(() => this.updateReadStatus(), 100);
-				}
-			});
+			window.addEventListener('post-read', this.boundPostReadHandler);
 
 			// Listen for read-posts-cleared events
-			window.addEventListener('read-posts-cleared', () => {
-				setTimeout(() => this.updateReadStatus(), 100);
-			});
+			window.addEventListener('read-posts-cleared', this.boundClearedHandler);
+			
+			// Listen for storage events (cross-tab synchronization)
+			window.addEventListener('storage', this.boundStorageHandler);
+			
+			// Listen for immediate data updates (same-tab reactivity)
+			window.addEventListener('reading-data-updated', this.boundDataUpdatedHandler);
+		}
+		
+		cleanup() {
+			window.removeEventListener('post-read', this.boundPostReadHandler);
+			window.removeEventListener('read-posts-cleared', this.boundClearedHandler);
+			window.removeEventListener('storage', this.boundStorageHandler);
+			window.removeEventListener('reading-data-updated', this.boundDataUpdatedHandler);
 		}
 	}
 
 	// Initialize when DOM is ready
+	let readStatusDisplay;
+	
 	if (document.readyState === 'loading') {
 		document.addEventListener('DOMContentLoaded', () => {
-			new ReadStatusDisplay();
+			readStatusDisplay = new ReadStatusDisplay();
 		});
 	} else {
-		new ReadStatusDisplay();
+		readStatusDisplay = new ReadStatusDisplay();
 	}
+	
+	// Cleanup on page unload
+	window.addEventListener('beforeunload', () => {
+		if (readStatusDisplay) {
+			readStatusDisplay.cleanup();
+		}
+	});
 </script>

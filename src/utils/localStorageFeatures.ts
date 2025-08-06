@@ -1,9 +1,17 @@
 // Clever local storage features for the blog
+import {
+  STORAGE_KEYS,
+  STORAGE_EVENTS,
+  STORAGE_VERSION,
+  dispatchClearEvents,
+  getAllReadPostsKeys,
+  isReadPostsKey,
+} from "../config/storage.js";
 
 export interface UserPreferences {
-  theme: 'light' | 'dark' | 'auto';
-  fontSize: 'small' | 'medium' | 'large';
-  readingMode: 'normal' | 'focus' | 'speed';
+  theme: "light" | "dark" | "auto";
+  fontSize: "small" | "medium" | "large";
+  readingMode: "normal" | "focus" | "speed";
   autoSaveProgress: boolean;
   showReadingStats: boolean;
 }
@@ -24,24 +32,209 @@ export interface ReadingAnalytics {
   mostReadCategory: string;
   readingStreak: number;
   totalTimeSpent: number;
-  devicePreference: 'mobile' | 'desktop' | 'tablet';
-  timeOfDayPreference: 'morning' | 'afternoon' | 'evening' | 'night';
+  devicePreference: "mobile" | "desktop" | "tablet";
+  timeOfDayPreference: "morning" | "afternoon" | "evening" | "night";
 }
 
 class LocalStorageManager {
-  private readonly PREFERENCES_KEY = 'curious-chaos-preferences';
-  private readonly SESSION_KEY = 'curious-chaos-session';
-  private readonly ANALYTICS_KEY = 'curious-chaos-analytics';
-  private readonly SEARCH_HISTORY_KEY = 'curious-chaos-search-history';
-  private readonly BOOKMARKED_POSTS_KEY = 'curious-chaos-bookmarks';
-  private readonly READING_GOALS_KEY = 'curious-chaos-goals';
+  private readonly STORAGE_VERSION = STORAGE_VERSION;
+  private readonly PREFERENCES_KEY = STORAGE_KEYS.PREFERENCES;
+  private readonly SESSION_KEY = STORAGE_KEYS.SESSION;
+  private readonly ANALYTICS_KEY = STORAGE_KEYS.ANALYTICS;
+  private readonly SEARCH_HISTORY_KEY = STORAGE_KEYS.SEARCH_HISTORY;
+  private readonly BOOKMARKED_POSTS_KEY = STORAGE_KEYS.BOOKMARKED_POSTS;
+  private readonly READING_GOALS_KEY = STORAGE_KEYS.READING_GOALS;
+  private readonly READ_POSTS_KEY = STORAGE_KEYS.READ_POSTS;
+  private readonly MAX_STORAGE_SIZE = 5 * 1024 * 1024; // 5MB limit
+
+  constructor() {
+    this.migrateDataIfNeeded();
+  }
+
+  // Storage management methods
+  private getStorageUsage(): number {
+    let totalSize = 0;
+    for (let key in localStorage) {
+      if (
+        localStorage.hasOwnProperty(key) &&
+        key.startsWith("curious-chaos-")
+      ) {
+        totalSize += localStorage.getItem(key)?.length || 0;
+      }
+    }
+    return totalSize;
+  }
+
+  private handleStorageQuotaExceeded(): void {
+    console.warn("LocalStorage quota exceeded, attempting cleanup...");
+    this.pruneOldData();
+
+    // If still over quota, remove oldest read posts
+    if (this.getStorageUsage() > this.MAX_STORAGE_SIZE) {
+      this.pruneReadPosts();
+    }
+  }
+
+  private pruneOldData(): void {
+    // Remove old version read posts
+    const oldKeys = [];
+    for (let key in localStorage) {
+      if (
+        (key.startsWith("curious-chaos-read-posts") || isReadPostsKey(key)) &&
+        key !== this.READ_POSTS_KEY
+      ) {
+        oldKeys.push(key);
+      }
+    }
+    oldKeys.forEach((key) => localStorage.removeItem(key));
+  }
+
+  private pruneReadPosts(): void {
+    try {
+      const readPosts = this.getReadPostsRaw();
+      if (readPosts.length > 100) {
+        // Keep only the 50 most recent posts
+        const pruned = readPosts
+          .sort(
+            (a, b) =>
+              new Date(b.readAt).getTime() - new Date(a.readAt).getTime()
+          )
+          .slice(0, 50);
+
+        localStorage.setItem(this.READ_POSTS_KEY, JSON.stringify(pruned));
+        console.warn(
+          `Pruned read posts from ${readPosts.length} to ${pruned.length}`
+        );
+      }
+    } catch (error) {
+      console.warn("Failed to prune read posts:", error);
+    }
+  }
+
+  private migrateDataIfNeeded(): void {
+    // Check for old version read posts and migrate
+    const oldReadPosts = localStorage.getItem(STORAGE_KEYS.READ_POSTS_LEGACY);
+    if (oldReadPosts && !localStorage.getItem(this.READ_POSTS_KEY)) {
+      try {
+        localStorage.setItem(this.READ_POSTS_KEY, oldReadPosts);
+        localStorage.removeItem(STORAGE_KEYS.READ_POSTS_LEGACY);
+        console.log("Migrated read posts to versioned storage");
+      } catch (error) {
+        console.warn("Failed to migrate read posts:", error);
+      }
+    }
+  }
+
+  private safeSetItem(key: string, value: string): boolean {
+    try {
+      const dataSize = value.length;
+      if (this.getStorageUsage() + dataSize > this.MAX_STORAGE_SIZE) {
+        this.handleStorageQuotaExceeded();
+      }
+
+      localStorage.setItem(key, value);
+      return true;
+    } catch (error) {
+      if (error.name === "QuotaExceededError") {
+        this.handleStorageQuotaExceeded();
+        try {
+          localStorage.setItem(key, value);
+          return true;
+        } catch (retryError) {
+          console.error("Failed to save data even after cleanup:", retryError);
+          return false;
+        }
+      }
+      console.warn(`Failed to save data to ${key}:`, error);
+      return false;
+    }
+  }
+
+  // Read posts management with versioning
+  getReadPostsRaw(): any[] {
+    try {
+      const stored = localStorage.getItem(this.READ_POSTS_KEY);
+      if (!stored) return [];
+
+      const parsed = JSON.parse(stored);
+      if (!Array.isArray(parsed)) {
+        console.warn(
+          "Invalid read posts format: expected array, got",
+          typeof parsed
+        );
+        return [];
+      }
+
+      return parsed.filter((item) => {
+        if (!item || typeof item !== "object") return false;
+
+        const hasValidSlug =
+          typeof item.postSlug === "string" && item.postSlug.trim().length > 0;
+        const hasValidDate =
+          typeof item.readAt === "string" && !isNaN(Date.parse(item.readAt));
+
+        if (!hasValidSlug || !hasValidDate) {
+          console.warn("Filtering out invalid read post item:", item);
+          return false;
+        }
+
+        return true;
+      });
+    } catch (error) {
+      console.warn("Failed to parse read posts:", error);
+      return [];
+    }
+  }
+
+  updateReadPosts(readPosts: any[]): boolean {
+    try {
+      return this.safeSetItem(this.READ_POSTS_KEY, JSON.stringify(readPosts));
+    } catch (error) {
+      console.warn("Failed to update read posts:", error);
+      return false;
+    }
+  }
 
   // User Preferences
   getPreferences(): UserPreferences {
     try {
       const stored = localStorage.getItem(this.PREFERENCES_KEY);
-      return stored ? JSON.parse(stored) : this.getDefaultPreferences();
-    } catch {
+      if (!stored) return this.getDefaultPreferences();
+
+      const parsed = JSON.parse(stored);
+
+      // Validate data structure
+      if (!parsed || typeof parsed !== "object") {
+        console.warn(
+          "Invalid preferences format: expected object, got",
+          typeof parsed
+        );
+        return this.getDefaultPreferences();
+      }
+
+      // Merge with defaults to ensure all required fields exist
+      const defaults = this.getDefaultPreferences();
+      return {
+        theme: ["light", "dark", "auto"].includes(parsed.theme)
+          ? parsed.theme
+          : defaults.theme,
+        fontSize: ["small", "medium", "large"].includes(parsed.fontSize)
+          ? parsed.fontSize
+          : defaults.fontSize,
+        readingMode: ["normal", "focus", "speed"].includes(parsed.readingMode)
+          ? parsed.readingMode
+          : defaults.readingMode,
+        autoSaveProgress:
+          typeof parsed.autoSaveProgress === "boolean"
+            ? parsed.autoSaveProgress
+            : defaults.autoSaveProgress,
+        showReadingStats:
+          typeof parsed.showReadingStats === "boolean"
+            ? parsed.showReadingStats
+            : defaults.showReadingStats,
+      };
+    } catch (error) {
+      console.warn("Failed to parse preferences:", error);
       return this.getDefaultPreferences();
     }
   }
@@ -50,19 +243,19 @@ class LocalStorageManager {
     try {
       const current = this.getPreferences();
       const updated = { ...current, ...preferences };
-      localStorage.setItem(this.PREFERENCES_KEY, JSON.stringify(updated));
+      this.safeSetItem(this.PREFERENCES_KEY, JSON.stringify(updated));
     } catch (error) {
-      console.warn('Failed to save preferences:', error);
+      console.warn("Failed to save preferences:", error);
     }
   }
 
   private getDefaultPreferences(): UserPreferences {
     return {
-      theme: 'auto',
-      fontSize: 'medium',
-      readingMode: 'normal',
+      theme: "auto",
+      fontSize: "medium",
+      readingMode: "normal",
       autoSaveProgress: true,
-      showReadingStats: true
+      showReadingStats: true,
     };
   }
 
@@ -80,9 +273,9 @@ class LocalStorageManager {
     try {
       const current = this.getSessionData();
       const updated = { ...current, ...updates };
-      localStorage.setItem(this.SESSION_KEY, JSON.stringify(updated));
+      this.safeSetItem(this.SESSION_KEY, JSON.stringify(updated));
     } catch (error) {
-      console.warn('Failed to update session data:', error);
+      console.warn("Failed to update session data:", error);
     }
   }
 
@@ -94,7 +287,7 @@ class LocalStorageManager {
       favoriteCategories: [],
       searchHistory: [],
       readingStreak: 0,
-      lastReadDate: ''
+      lastReadDate: "",
     };
   }
 
@@ -102,11 +295,11 @@ class LocalStorageManager {
   addToSearchHistory(query: string): void {
     try {
       const history = this.getSearchHistory();
-      const filtered = history.filter(item => item !== query);
+      const filtered = history.filter((item) => item !== query);
       const updated = [query, ...filtered].slice(0, 10); // Keep last 10 searches
-      localStorage.setItem(this.SEARCH_HISTORY_KEY, JSON.stringify(updated));
+      this.safeSetItem(this.SEARCH_HISTORY_KEY, JSON.stringify(updated));
     } catch (error) {
-      console.warn('Failed to save search history:', error);
+      console.warn("Failed to save search history:", error);
     }
   }
 
@@ -124,18 +317,18 @@ class LocalStorageManager {
     try {
       const bookmarks = this.getBookmarkedPosts();
       const isBookmarked = bookmarks.includes(postSlug);
-      
+
       if (isBookmarked) {
-        const updated = bookmarks.filter(slug => slug !== postSlug);
-        localStorage.setItem(this.BOOKMARKED_POSTS_KEY, JSON.stringify(updated));
+        const updated = bookmarks.filter((slug) => slug !== postSlug);
+        this.safeSetItem(this.BOOKMARKED_POSTS_KEY, JSON.stringify(updated));
         return false;
       } else {
         const updated = [...bookmarks, postSlug];
-        localStorage.setItem(this.BOOKMARKED_POSTS_KEY, JSON.stringify(updated));
+        this.safeSetItem(this.BOOKMARKED_POSTS_KEY, JSON.stringify(updated));
         return true;
       }
     } catch (error) {
-      console.warn('Failed to toggle bookmark:', error);
+      console.warn("Failed to toggle bookmark:", error);
       return false;
     }
   }
@@ -156,16 +349,18 @@ class LocalStorageManager {
   // Reading Goals
   setReadingGoal(goal: { postsPerWeek: number; minutesPerDay: number }): void {
     try {
-      localStorage.setItem(this.READING_GOALS_KEY, JSON.stringify(goal));
+      this.safeSetItem(this.READING_GOALS_KEY, JSON.stringify(goal));
     } catch (error) {
-      console.warn('Failed to save reading goal:', error);
+      console.warn("Failed to save reading goal:", error);
     }
   }
 
   getReadingGoal(): { postsPerWeek: number; minutesPerDay: number } {
     try {
       const stored = localStorage.getItem(this.READING_GOALS_KEY);
-      return stored ? JSON.parse(stored) : { postsPerWeek: 3, minutesPerDay: 15 };
+      return stored
+        ? JSON.parse(stored)
+        : { postsPerWeek: 3, minutesPerDay: 15 };
     } catch {
       return { postsPerWeek: 3, minutesPerDay: 15 };
     }
@@ -177,17 +372,19 @@ class LocalStorageManager {
       const analytics = this.getAnalytics();
       const timeOfDay = this.getTimeOfDay();
       const deviceType = this.getDeviceType();
-      
+
       analytics.totalPostsRead++;
       analytics.totalTimeSpent += readData.readTime || 0;
-      analytics.averageReadingTime = Math.round(analytics.totalTimeSpent / analytics.totalPostsRead);
+      analytics.averageReadingTime = Math.round(
+        analytics.totalTimeSpent / analytics.totalPostsRead
+      );
       analytics.devicePreference = deviceType;
       analytics.timeOfDayPreference = timeOfDay;
-      
+
       // Update reading streak
       const today = new Date().toDateString();
       const lastRead = new Date(readData.readAt).toDateString();
-      
+
       if (lastRead === today) {
         analytics.readingStreak++;
       } else if (this.isConsecutiveDay(lastRead, analytics.lastReadDate)) {
@@ -195,12 +392,12 @@ class LocalStorageManager {
       } else {
         analytics.readingStreak = 1;
       }
-      
+
       analytics.lastReadDate = today;
-      
-      localStorage.setItem(this.ANALYTICS_KEY, JSON.stringify(analytics));
+
+      this.safeSetItem(this.ANALYTICS_KEY, JSON.stringify(analytics));
     } catch (error) {
-      console.warn('Failed to update analytics:', error);
+      console.warn("Failed to update analytics:", error);
     }
   }
 
@@ -217,27 +414,27 @@ class LocalStorageManager {
     return {
       totalPostsRead: 0,
       averageReadingTime: 0,
-      mostReadCategory: '',
+      mostReadCategory: "",
       readingStreak: 0,
       totalTimeSpent: 0,
-      devicePreference: 'desktop',
-      timeOfDayPreference: 'afternoon'
+      devicePreference: "desktop",
+      timeOfDayPreference: "afternoon",
     };
   }
 
-  private getTimeOfDay(): 'morning' | 'afternoon' | 'evening' | 'night' {
+  private getTimeOfDay(): "morning" | "afternoon" | "evening" | "night" {
     const hour = new Date().getHours();
-    if (hour < 12) return 'morning';
-    if (hour < 17) return 'afternoon';
-    if (hour < 21) return 'evening';
-    return 'night';
+    if (hour < 12) return "morning";
+    if (hour < 17) return "afternoon";
+    if (hour < 21) return "evening";
+    return "night";
   }
 
-  private getDeviceType(): 'mobile' | 'desktop' | 'tablet' {
+  private getDeviceType(): "mobile" | "desktop" | "tablet" {
     const width = window.innerWidth;
-    if (width < 768) return 'mobile';
-    if (width < 1024) return 'tablet';
-    return 'desktop';
+    if (width < 768) return "mobile";
+    if (width < 1024) return "tablet";
+    return "desktop";
   }
 
   private isConsecutiveDay(date1: string, date2: string): boolean {
@@ -257,14 +454,35 @@ class LocalStorageManager {
       localStorage.removeItem(this.SEARCH_HISTORY_KEY);
       localStorage.removeItem(this.BOOKMARKED_POSTS_KEY);
       localStorage.removeItem(this.READING_GOALS_KEY);
-      localStorage.removeItem('curious-chaos-read-posts');
+      localStorage.removeItem(this.READ_POSTS_KEY);
+
+      // Also remove old version read posts
+      localStorage.removeItem(STORAGE_KEYS.READ_POSTS_LEGACY);
+
+      // Dispatch events for immediate UI reactivity
+      dispatchClearEvents("all-cleared");
     } catch (error) {
-      console.warn('Failed to clear data:', error);
+      console.warn("Failed to clear data:", error);
+    }
+  }
+
+  clearReadPosts(): void {
+    try {
+      localStorage.removeItem(this.READ_POSTS_KEY);
+      localStorage.removeItem(STORAGE_KEYS.READ_POSTS_LEGACY);
+
+      // Dispatch events for immediate UI reactivity
+      dispatchClearEvents("posts-cleared");
+    } catch (error) {
+      console.warn("Failed to clear read posts:", error);
     }
   }
 
   exportData(): string {
     try {
+      // Safely parse read posts with validation
+      const readPosts = this.getReadPostsRaw();
+
       const data = {
         preferences: this.getPreferences(),
         session: this.getSessionData(),
@@ -272,14 +490,14 @@ class LocalStorageManager {
         searchHistory: this.getSearchHistory(),
         bookmarks: this.getBookmarkedPosts(),
         readingGoal: this.getReadingGoal(),
-        readPosts: JSON.parse(localStorage.getItem('curious-chaos-read-posts') || '[]')
+        readPosts: readPosts,
       };
       return JSON.stringify(data, null, 2);
     } catch (error) {
-      console.warn('Failed to export data:', error);
-      return '';
+      console.warn("Failed to export data:", error);
+      return "";
     }
   }
 }
 
-export const localStorageManager = new LocalStorageManager(); 
+export const localStorageManager = new LocalStorageManager();

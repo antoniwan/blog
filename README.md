@@ -1,18 +1,19 @@
 # Curious Chaos Journal
 
-[![Version](https://img.shields.io/badge/version-2.14.0-blue.svg)](https://github.com/antoniwan/curious-chaos-journal/releases)
+[![Version](https://img.shields.io/badge/version-2.15.0-blue.svg)](https://github.com/antoniwan/curious-chaos-journal/releases)
 
 A personal blog exploring fatherhood, masculinity, culture, and modern collapse through raw reflections on thinking, consciousness, and the soft heart inside the hard world.
 
 ## Overview
 
-- **52+ writings** exploring personal growth, consciousness, and modern life
+- **55+ writings** exploring personal growth, consciousness, and modern life
 - **9 content categories** covering fatherhood, psychology, politics, and more
-- **Multilingual system** with translation linking (English/Spanish)
+- **Multilingual system** with translation linking (English/Spanis)
 - **Dark mode** with system preference detection
 - **Responsive design** optimized for all devices
 - **SEO optimized** with structured data and Open Graph
-- **Guided Path** - Seasonal reading experience with progress tracking
+- **Advanced Reading System** - Smart progress tracking with toast notifications
+- **Guided Path** - Seasonal reading experience with privacy-first progress tracking
 
 ## Tech Stack
 
@@ -47,7 +48,7 @@ Visit `http://localhost:4323` to view the site.
 
 ## Project Structure
 
-```
+```text
 curious-chaos-journal/
 ├── public/                 # Static assets
 ├── src/
@@ -86,6 +87,31 @@ translationGroup: "unique-group-id" # Links related translations
 draft: false
 ---
 ```
+
+### Reading Progress System
+
+Advanced reading progress tracking with intelligent completion detection:
+
+**Smart Completion Detection:**
+
+- Triggers "read" status at 75% of article content (excluding comments/footer)
+- Toast notification appears with green checkmark and "Read" confirmation
+- Progress syncs instantly across all browser tabs
+- Positioned to avoid conflicts with Back-to-Top button
+
+**Privacy-First Storage:**
+
+- All data stored locally in browser localStorage
+- Schema versioning for future-proof data migration
+- Automatic data pruning keeps 50 most recent posts when over quota
+- No server tracking or analytics - completely private
+
+**Cross-Component Reactivity:**
+
+- Real-time updates across all reading indicators
+- Chapter progress updates automatically
+- Guided Path progress reflects immediately
+- Custom events for seamless communication
 
 ### Multilingual Content
 
@@ -126,20 +152,38 @@ language: ["es"]
 
 ## Features
 
-- **Dark/Light Mode** - Automatic theme switching
+### 🎨 **User Experience**
+
+- **Dark/Light Mode** - Automatic theme switching with system preference detection
+- **Advanced Reading System** - Smart progress tracking that triggers at 75% completion (before comments/footer)
+- **Toast Notifications** - Lightweight, non-intrusive "Read" confirmations with smooth animations
+- **Cross-Tab Synchronization** - Reading progress syncs instantly across browser tabs
+- **Mobile-First Design** - Responsive layouts optimized for all screen sizes
+
+### 📚 **Content & Navigation**
+
+- **Search Functionality** - Intelligent content discovery across 55+ writings
+- **Guided Path** - Seasonal reading experience with chapter progress tracking
+- **Breadcrumb Navigation** - Clear page hierarchy and location awareness
+- **Tag Management** - Advanced tag usage analytics and filtering
+- **Brain Science Analytics** - Writing pattern analysis and insights
+
+### 🔒 **Privacy & Security**
+
+- **Privacy-First Storage** - All reading data stored locally with no tracking
+- **XSS Protection** - Secure DOM manipulation throughout the application
+- **Data Validation** - Robust localStorage data integrity checking
+- **Schema Versioning** - Future-proof data migration system
+- **Storage Quotas** - Automatic data pruning with 5MB limits
+
+### 🌐 **Technical Features**
+
 - **Image Optimization** - WebP conversion with clickable modals
-- **RSS Feed** - Full content syndication with enhanced metadata
-- **JSON Feed** - Modern feed format for better compatibility
-- **Search Functionality** - Content discovery
+- **RSS/JSON Feeds** - Full content syndication with enhanced metadata
 - **Comments System** - Privacy-focused Giscus integration
-- **Breadcrumb Navigation** - Clear page hierarchy
-- **Reading Progress** - Visual progress indicator for writings
-- **Brain Science Analytics** - Writing pattern analysis
-- **Tag Management** - Advanced tag usage analytics
-- **Internal API** - Stoic quotes for enhanced user experience
-- **Social Sharing** - Multi-platform sharing with mobile-first responsive design
-- **Guided Path** - Seasonal reading experience with progress tracking and privacy-first design
-- **Multilingual Support** - Translation linking and language switching
+- **Social Sharing** - Multi-platform sharing (Twitter, BlueSky, Facebook, Threads, LinkedIn)
+- **Internal API** - Stoic quotes system for enhanced user experience
+- **Multilingual Support** - Translation linking with Puerto Rico flag for Spanish 🇵🇷
 
 ## API
 
@@ -150,6 +194,26 @@ The site includes an internal API for accessing Stoic philosophy quotes:
 - **Endpoint**: `GET /api/quotes`
 - **Purpose**: Returns random Stoic philosophy quotes with metadata
 - **Documentation**: [API Documentation](docs/quotes-api.md)
+
+## Recent Updates (v2.15.0)
+
+### 🚀 **Major Enhancements**
+
+- **Smart Reading Progress** - Optimized completion detection at 75% of content
+- **Toast Notifications** - Lightweight "Read" confirmations with smooth animations
+- **Cross-Tab Sync** - Reading progress syncs instantly across browser tabs
+- **Security Hardening** - Fixed XSS vulnerabilities and added data validation
+- **Storage Optimization** - Centralized configuration with schema versioning
+- **Puerto Rico Flag** - Updated Spanish language toggle from Spain to Puerto Rico 🇵🇷
+- **Component Cleanup** - Memory leak prevention with proper event listener cleanup
+
+### 🔧 **Technical Improvements**
+
+- Centralized storage constants across all components
+- Enhanced LocalStorageManager with quota management
+- Custom events for real-time reactivity (`reading-data-updated`)
+- Improved collection handling (all 55 writings now properly displayed)
+- Performance optimizations with throttled scroll events
 
 ## Documentation
 

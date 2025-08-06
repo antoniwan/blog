@@ -194,9 +194,26 @@ const nonEmptyChapters = seasonalChapters.filter(chapter => chapter.posts.length
 </PageLayout>
 
 <script>
+	// Storage constants - using direct values since import doesn't work in Astro client scripts
+	const STORAGE_KEY = 'curious-chaos-read-posts-v1.0';
+	const FALLBACK_KEY = 'curious-chaos-read-posts';
+	const CROSS_TAB_DELAY = 100;
+	const SAME_TAB_DELAY = 50;
+
 	// Total progress tracking
 	class TotalProgressTracker {
+		private boundPostReadHandler: () => void;
+		private boundClearedHandler: () => void;
+		private boundDataUpdatedHandler: (event: any) => void;
+		private boundStorageHandler: (event: any) => void;
+		private storageKey = STORAGE_KEY;
+		private fallbackKey = FALLBACK_KEY;
+		
 		constructor() {
+			this.boundPostReadHandler = this.handlePostRead.bind(this);
+			this.boundClearedHandler = this.handleClearedPosts.bind(this);
+			this.boundDataUpdatedHandler = this.handleDataUpdated.bind(this);
+			this.boundStorageHandler = this.handleStorageChange.bind(this);
 			this.init();
 		}
 
@@ -248,29 +265,68 @@ const nonEmptyChapters = seasonalChapters.filter(chapter => chapter.posts.length
 			}
 		}
 
+		private handlePostRead(): void {
+			setTimeout(() => this.updateTotalProgress(), CROSS_TAB_DELAY);
+		}
+		
+		private handleClearedPosts(): void {
+			setTimeout(() => this.updateTotalProgress(), CROSS_TAB_DELAY);
+		}
+		
+		private handleDataUpdated(event: any): void {
+			// React to immediate data updates from same tab
+			if (event.detail?.type === 'post-read') {
+				setTimeout(() => this.updateTotalProgress(), SAME_TAB_DELAY);
+			}
+		}
+		
+		private handleStorageChange(event: any): void {
+			// React to localStorage changes from other tabs/windows
+			if (event.key === this.storageKey || event.key === this.fallbackKey) {
+				setTimeout(() => this.updateTotalProgress(), CROSS_TAB_DELAY);
+			}
+		}
+
 		private init(): void {
 			// Update on page load
 			this.updateTotalProgress();
 
 			// Listen for progress updates
-			window.addEventListener('post-read', () => {
-				setTimeout(() => this.updateTotalProgress(), 100);
-			});
-
-			window.addEventListener('read-posts-cleared', () => {
-				setTimeout(() => this.updateTotalProgress(), 100);
-			});
+			window.addEventListener('post-read', this.boundPostReadHandler);
+			window.addEventListener('read-posts-cleared', this.boundClearedHandler);
+			
+			// Listen for storage events (cross-tab synchronization)
+			window.addEventListener('storage', this.boundStorageHandler);
+			
+			// Listen for immediate data updates (same-tab reactivity)
+			window.addEventListener('reading-data-updated', this.boundDataUpdatedHandler);
+		}
+		
+		cleanup(): void {
+			window.removeEventListener('post-read', this.boundPostReadHandler);
+			window.removeEventListener('read-posts-cleared', this.boundClearedHandler);
+			window.removeEventListener('storage', this.boundStorageHandler);
+			window.removeEventListener('reading-data-updated', this.boundDataUpdatedHandler);
 		}
 	}
 
 	// Initialize when DOM is ready
+	let totalProgressTracker: TotalProgressTracker;
+	
 	if (document.readyState === 'loading') {
 		document.addEventListener('DOMContentLoaded', () => {
-			new TotalProgressTracker();
+			totalProgressTracker = new TotalProgressTracker();
 		});
 	} else {
-		new TotalProgressTracker();
+		totalProgressTracker = new TotalProgressTracker();
 	}
+	
+	// Cleanup on page unload
+	window.addEventListener('beforeunload', () => {
+		if (totalProgressTracker) {
+			totalProgressTracker.cleanup();
+		}
+	});
 </script>
 
 <style>

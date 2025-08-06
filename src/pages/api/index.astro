@@ -121,14 +121,22 @@ print(f"By {data['quote']['author']}")`}</code></pre>
     // Disable button and show loading
     button.disabled = true;
     button.textContent = 'Loading...';
-    resultDiv.innerHTML = '<p class="text-[rgb(var(--color-text-muted))] text-sm">Loading...</p>';
+    resultDiv.replaceChildren();
+    const loadingP = document.createElement('p');
+    loadingP.className = 'text-[rgb(var(--color-text-muted))] text-sm';
+    loadingP.textContent = 'Loading...';
+    resultDiv.appendChild(loadingP);
     
     try {
       const response = await fetch('/api/quotes');
       const data = await response.json();
       
       if (data.error) {
-        resultDiv.innerHTML = `<p class="text-red-500 text-sm">Error: ${data.message}</p>`;
+        resultDiv.replaceChildren();
+        const errorP = document.createElement('p');
+        errorP.className = 'text-red-500 text-sm';
+        errorP.textContent = `Error: ${data.message}`;
+        resultDiv.appendChild(errorP);
         return;
       }
       
@@ -180,7 +188,11 @@ print(f"By {data['quote']['author']}")`}</code></pre>
         </div>
       `;
     } catch (error) {
-      resultDiv.innerHTML = `<p class="text-red-500 text-sm">Error: ${error instanceof Error ? error.message : 'Unknown error'}</p>`;
+      resultDiv.replaceChildren();
+      const errorP = document.createElement('p');
+      errorP.className = 'text-red-500 text-sm';
+      errorP.textContent = `Error: ${error instanceof Error ? error.message : 'Unknown error'}`;
+      resultDiv.appendChild(errorP);
     } finally {
       // Re-enable button
       button.disabled = false;

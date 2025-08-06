@@ -110,29 +110,69 @@ const { data } = post;
 
 <script>
 	// Read status indicator for PostCard
+		// Storage constants - using direct values since import doesn't work in Astro client scripts
+	const STORAGE_KEY = 'curious-chaos-read-posts-v1.0';
+	const FALLBACK_KEY = 'curious-chaos-read-posts';
+
 	class PostCardReadIndicator {
+		private storageKey: string;
+		private fallbackKey: string;
+		private boundPostReadHandler: () => void;
+		private boundClearedHandler: () => void;
+		private boundStorageHandler: (event: any) => void;
+		private boundDataUpdatedHandler: (event: any) => void;
+
 		constructor() {
-			this.storageKey = 'curious-chaos-read-posts';
+			this.storageKey = STORAGE_KEY;
+			this.fallbackKey = FALLBACK_KEY;
+			this.boundPostReadHandler = this.handlePostRead.bind(this);
+			this.boundClearedHandler = this.handleClearedPosts.bind(this);
+			this.boundStorageHandler = this.handleStorageChange.bind(this);
+			this.boundDataUpdatedHandler = this.handleDataUpdated.bind(this);
 			this.init();
 		}
 
-		loadReadPosts() {
-			try {
-				const stored = localStorage.getItem(this.storageKey);
-				return stored ? JSON.parse(stored) : [];
-			} catch {
+			loadReadPosts() {
+		try {
+			const stored = localStorage.getItem(this.storageKey) || localStorage.getItem(this.fallbackKey);
+			if (!stored) return [];
+			
+			const parsed = JSON.parse(stored);
+			
+			// Validate data structure
+			if (!Array.isArray(parsed)) {
+				console.warn('Invalid read posts format: expected array, got', typeof parsed);
 				return [];
 			}
+			
+			// Filter and validate individual items
+			return parsed.filter(item => {
+				if (!item || typeof item !== 'object') return false;
+				
+				const hasValidSlug = typeof item.postSlug === 'string' && item.postSlug.trim().length > 0;
+				const hasValidDate = typeof item.readAt === 'string' && !isNaN(Date.parse(item.readAt));
+				
+				if (!hasValidSlug || !hasValidDate) {
+					console.warn('Filtering out invalid read post item:', item);
+					return false;
+				}
+				
+				return true;
+			});
+		} catch (error) {
+			console.warn('Failed to parse read posts:', error);
+			return [];
 		}
+	}
 
-		getReadData(postSlug) {
-			const readData = this.loadReadPosts();
-			return readData.find((data) => data.postSlug === postSlug) || null;
-		}
+			getReadData(postSlug: string) {
+		const readData = this.loadReadPosts();
+		return readData.find((data) => data.postSlug === postSlug) || null;
+	}
 
 		updateIndicators() {
 			document.querySelectorAll('.read-indicator').forEach(indicator => {
-				const postSlug = indicator.dataset.postSlug;
+				const postSlug = (indicator as HTMLElement).dataset.postSlug;
 				const dot = indicator.querySelector('.read-dot');
 				
 				if (postSlug && dot) {
@@ -149,30 +189,70 @@ const { data } = post;
 			});
 		}
 
-		init() {
-			// Update indicators on page load
+			handlePostRead() {
+		this.updateIndicators();
+	}
+	
+	handleClearedPosts() {
+		this.updateIndicators();
+	}
+	
+	handleStorageChange(event: any) {
+		// React to localStorage changes from other tabs/windows
+		if (event.key === this.storageKey || event.key === this.fallbackKey) {
 			this.updateIndicators();
-
-			// Listen for post-read events from other components
-			window.addEventListener('post-read', () => {
-				this.updateIndicators();
-			});
-
-			// Listen for read-posts-cleared events
-			window.addEventListener('read-posts-cleared', () => {
-				this.updateIndicators();
-			});
 		}
+	}
+	
+	handleDataUpdated(event: any) {
+		// React to immediate data updates from same tab
+		if (event.detail?.type === 'post-read') {
+			this.updateIndicators();
+		}
+	}
+	
+	init() {
+		// Update indicators on page load
+		this.updateIndicators();
+
+		// Listen for post-read events from other components
+		window.addEventListener('post-read', this.boundPostReadHandler);
+
+		// Listen for read-posts-cleared events
+		window.addEventListener('read-posts-cleared', this.boundClearedHandler);
+		
+		// Listen for storage events (cross-tab synchronization)
+		window.addEventListener('storage', this.boundStorageHandler);
+		
+		// Listen for immediate data updates (same-tab reactivity)
+		window.addEventListener('reading-data-updated', this.boundDataUpdatedHandler);
+	}
+	
+	cleanup() {
+		window.removeEventListener('post-read', this.boundPostReadHandler);
+		window.removeEventListener('read-posts-cleared', this.boundClearedHandler);
+		window.removeEventListener('storage', this.boundStorageHandler);
+		window.removeEventListener('reading-data-updated', this.boundDataUpdatedHandler);
+	}
 	}
 
 	// Initialize when DOM is ready
+	let postCardIndicator: PostCardReadIndicator;
+	
 	if (document.readyState === 'loading') {
 		document.addEventListener('DOMContentLoaded', () => {
-			new PostCardReadIndicator();
+			postCardIndicator = new PostCardReadIndicator();
 		});
 	} else {
-		new PostCardReadIndicator();
+		postCardIndicator = new PostCardReadIndicator();
 	}
+	
+	// Cleanup on page unload
+	window.addEventListener('beforeunload', () => {
+		if (postCardIndicator) {
+			postCardIndicator.cleanup();
+		}
+	});
 </script>
 
 <style>

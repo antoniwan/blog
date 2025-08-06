@@ -97,22 +97,59 @@ function formatRelativeTime(dateString: string): string {
 </div>
 
 <script>
+	// Storage constants - using direct values since import doesn't work in Astro client scripts
+	const STORAGE_KEY = 'curious-chaos-read-posts-v1.0';
+	const FALLBACK_KEY = 'curious-chaos-read-posts';
+
 	// Read/unread functionality using shared storage
 	class ReadTracker {
-		private storageKey = 'curious-chaos-read-posts';
+		private storageKey = STORAGE_KEY;
+		private fallbackKey = FALLBACK_KEY;
+		private boundPostReadHandler: (event: any) => void;
+		private boundClearedHandler: () => void;
+		private boundStorageHandler: (event: any) => void;
+		private boundDataUpdatedHandler: (event: any) => void;
 
 		constructor() {
+			this.boundPostReadHandler = this.handlePostRead.bind(this);
+			this.boundClearedHandler = this.handleClearedPosts.bind(this);
+			this.boundStorageHandler = this.handleStorageChange.bind(this);
+			this.boundDataUpdatedHandler = this.handleDataUpdated.bind(this);
 			this.init();
 		}
 
-		private loadReadPosts(): any[] {
-			try {
-				const stored = localStorage.getItem(this.storageKey);
-				return stored ? JSON.parse(stored) : [];
-			} catch {
+			private loadReadPosts(): any[] {
+		try {
+			const stored = localStorage.getItem(this.storageKey) || localStorage.getItem(this.fallbackKey);
+			if (!stored) return [];
+			
+			const parsed = JSON.parse(stored);
+			
+			// Validate data structure
+			if (!Array.isArray(parsed)) {
+				console.warn('Invalid read posts format: expected array, got', typeof parsed);
 				return [];
 			}
+			
+			// Filter and validate individual items
+			return parsed.filter(item => {
+				if (!item || typeof item !== 'object') return false;
+				
+				const hasValidSlug = typeof item.postSlug === 'string' && item.postSlug.trim().length > 0;
+				const hasValidDate = typeof item.readAt === 'string' && !isNaN(Date.parse(item.readAt));
+				
+				if (!hasValidSlug || !hasValidDate) {
+					console.warn('Filtering out invalid read post item:', item);
+					return false;
+				}
+				
+				return true;
+			});
+		} catch (error) {
+			console.warn('Failed to parse read posts:', error);
+			return [];
 		}
+	}
 
 		private getReadData(postSlug: string): any | null {
 			const readData = this.loadReadPosts();
@@ -208,20 +245,51 @@ function formatRelativeTime(dateString: string): string {
 			});
 		}
 
-		private init(): void {
-			// Update indicators on page load
+			private handlePostRead(event: any): void {
+		this.updateIndicators();
+	}
+	
+	private handleClearedPosts(): void {
+		this.updateIndicators();
+	}
+	
+	private handleStorageChange(event: any): void {
+		// React to localStorage changes from other tabs/windows
+		if (event.key === this.storageKey || event.key === this.fallbackKey) {
 			this.updateIndicators();
-
-			// Listen for post-read events from other components
-			window.addEventListener('post-read', (event: any) => {
-				this.updateIndicators();
-			});
-
-			// Listen for read-posts-cleared events
-			window.addEventListener('read-posts-cleared', () => {
-				this.updateIndicators();
-			});
 		}
+	}
+	
+	private handleDataUpdated(event: any): void {
+		// React to immediate data updates from same tab
+		if (event.detail?.type === 'post-read') {
+			this.updateIndicators();
+		}
+	}
+	
+	private init(): void {
+		// Update indicators on page load
+		this.updateIndicators();
+
+		// Listen for post-read events from other components
+		window.addEventListener('post-read', this.boundPostReadHandler);
+
+		// Listen for read-posts-cleared events
+		window.addEventListener('read-posts-cleared', this.boundClearedHandler);
+		
+		// Listen for storage events (cross-tab synchronization)
+		window.addEventListener('storage', this.boundStorageHandler);
+		
+		// Listen for immediate data updates (same-tab reactivity)
+		window.addEventListener('reading-data-updated', this.boundDataUpdatedHandler);
+	}
+	
+	cleanup(): void {
+		window.removeEventListener('post-read', this.boundPostReadHandler);
+		window.removeEventListener('read-posts-cleared', this.boundClearedHandler);
+		window.removeEventListener('storage', this.boundStorageHandler);
+		window.removeEventListener('reading-data-updated', this.boundDataUpdatedHandler);
+	}
 	}
 
 	// Chapter expand/collapse functionality
@@ -263,15 +331,25 @@ function formatRelativeTime(dateString: string): string {
 	}
 
 	// Initialize when DOM is ready
+	let readTracker: ReadTracker;
+	let chapterManager: ChapterManager;
+	
 	if (document.readyState === 'loading') {
 		document.addEventListener('DOMContentLoaded', () => {
-			new ReadTracker();
-			new ChapterManager();
+			readTracker = new ReadTracker();
+			chapterManager = new ChapterManager();
 		});
 	} else {
-		new ReadTracker();
-		new ChapterManager();
+		readTracker = new ReadTracker();
+		chapterManager = new ChapterManager();
 	}
+	
+	// Cleanup on page unload
+	window.addEventListener('beforeunload', () => {
+		if (readTracker) {
+			readTracker.cleanup();
+		}
+	});
 </script>
 
 <style>

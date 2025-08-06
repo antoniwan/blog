@@ -46,33 +46,71 @@ const { class: className = '' } = Astro.props;
 		};
 	}
 
+	// Import storage constants - using direct values since import doesn't work in Astro client scripts
+	const STORAGE_KEY = 'curious-chaos-read-posts-v1.0';
+	const FALLBACK_KEY = 'curious-chaos-read-posts';
+	const SAME_TAB_DELAY = 50;
+
 	class ReadingTracker {
-		private storageKey = 'curious-chaos-read-posts';
 		private readData: ReadData[] = [];
 		private startTime: number = 0;
 		public maxScrollDepth: number = 0;
+		private storageKey = STORAGE_KEY;
+		private fallbackKey = FALLBACK_KEY;
 
 		constructor() {
 			this.readData = this.loadReadData();
 			this.startTime = Date.now();
 		}
 
-		private loadReadData(): ReadData[] {
-			try {
-				const stored = localStorage.getItem(this.storageKey);
-				return stored ? JSON.parse(stored) : [];
-			} catch {
+			private loadReadData(): ReadData[] {
+		try {
+			const stored = localStorage.getItem(this.storageKey) || localStorage.getItem(this.fallbackKey);
+			if (!stored) return [];
+			
+			const parsed = JSON.parse(stored);
+			if (!Array.isArray(parsed)) {
+				console.warn('Invalid read data format: expected array, got', typeof parsed);
 				return [];
 			}
+			
+			return parsed.filter(item => {
+				if (!item || typeof item !== 'object') return false;
+				
+				const hasValidSlug = typeof item.postSlug === 'string' && item.postSlug.trim().length > 0;
+				const hasValidDate = typeof item.readAt === 'string' && !isNaN(Date.parse(item.readAt));
+				const hasValidReadTime = typeof item.readTime === 'number' && item.readTime >= 0;
+				const hasValidScrollDepth = typeof item.scrollDepth === 'number' && item.scrollDepth >= 0 && item.scrollDepth <= 100;
+				
+				if (!hasValidSlug || !hasValidDate || !hasValidReadTime || !hasValidScrollDepth) {
+					console.warn('Filtering out invalid read data item:', item);
+					return false;
+				}
+				
+				return true;
+			});
+		} catch (error) {
+			console.warn('Failed to parse read data:', error);
+			return [];
 		}
+	}
 
-		private saveReadData(): void {
-			try {
-				localStorage.setItem(this.storageKey, JSON.stringify(this.readData));
-			} catch (error) {
-				console.warn('Failed to save read data:', error);
+			private saveReadData(): void {
+		try {
+			const dataSize = JSON.stringify(this.readData).length;
+			
+			// Simple size check - if over 1MB, prune data
+			if (dataSize > 1024 * 1024) {
+				this.readData = this.readData
+					.sort((a, b) => new Date(b.readAt).getTime() - new Date(a.readAt).getTime())
+					.slice(0, 50);
 			}
+			
+			localStorage.setItem(this.storageKey, JSON.stringify(this.readData));
+		} catch (error) {
+			console.warn('Failed to save read data:', error);
 		}
+	}
 
 		private getDeviceInfo(): ReadData['deviceInfo'] {
 			return {
@@ -106,9 +144,14 @@ const { class: className = '' } = Astro.props;
 			
 			// Analytics update would go here in a future enhancement
 			
-			// Dispatch custom event for other components to listen to
+			// Dispatch enhanced custom events for better reactivity
 			window.dispatchEvent(new CustomEvent('post-read', { 
 				detail: { postSlug, readData } 
+			}));
+			
+			// Also dispatch a generic storage update event for immediate reactivity
+			window.dispatchEvent(new CustomEvent('reading-data-updated', {
+				detail: { type: 'post-read', postSlug, readData }
 			}));
 		}
 
@@ -131,6 +174,41 @@ const { class: className = '' } = Astro.props;
 		const path = window.location.pathname;
 		const match = path.match(/\/p\/(.+)/);
 		return match ? match[1] : null;
+	}
+
+	function showReadToast() {
+		// Create lightweight toast notification
+		const toast = document.createElement('div');
+		toast.className = 'fixed bottom-32 left-1/2 transform -translate-x-1/2 bg-[rgb(var(--color-bg))] border border-[rgb(var(--color-border))] text-[rgb(var(--color-text))] px-3 py-2 rounded-lg shadow-lg z-40 theme-transition flex items-center gap-2 text-sm';
+		
+		// Add read icon and message
+		toast.innerHTML = `
+			<svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+				<path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+			</svg>
+			<span>Read</span>
+		`;
+		
+		document.body.appendChild(toast);
+		
+		// Add entrance animation
+		toast.style.opacity = '0';
+		toast.style.transform = 'translate(-50%, 10px) scale(0.95)';
+		
+		requestAnimationFrame(() => {
+			toast.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+			toast.style.opacity = '1';
+			toast.style.transform = 'translate(-50%, 0) scale(1)';
+		});
+		
+		// Remove after 2.5 seconds with exit animation
+		setTimeout(() => {
+			toast.style.opacity = '0';
+			toast.style.transform = 'translate(-50%, -10px) scale(0.95)';
+			setTimeout(() => {
+				toast.remove();
+			}, 300);
+		}, 2500);
 	}
 	
 	function updateReadingProgress() {
@@ -162,12 +240,13 @@ const { class: className = '' } = Astro.props;
 			tracker.maxScrollDepth = progress;
 		}
 
-		// Check if we should mark the post as read
-		if (!hasMarkedAsRead && progress >= 90) {
+		// Check if we should mark the post as read - simple percentage approach
+		if (!hasMarkedAsRead && progress >= 75) {
 			const currentPostSlug = getCurrentPostSlug();
 			if (currentPostSlug) {
 				tracker.markAsRead(currentPostSlug, progress);
 				hasMarkedAsRead = true;
+				showReadToast();
 			}
 		}
 		
@@ -175,6 +254,8 @@ const { class: className = '' } = Astro.props;
 		lastWindowHeight = windowHeight;
 		ticking = false;
 	}
+
+
 
 	function throttledUpdate() {
 		if (!ticking) {
@@ -187,8 +268,21 @@ const { class: className = '' } = Astro.props;
 	window.addEventListener('scroll', throttledUpdate, { passive: true });
 	window.addEventListener('resize', throttledUpdate, { passive: true });
 	
+	// Store references for cleanup
+	(window as any).readingProgressCleanup = () => {
+		window.removeEventListener('scroll', throttledUpdate);
+		window.removeEventListener('resize', throttledUpdate);
+	};
+	
 	// Initial update
 	updateReadingProgress();
+	
+	// Cleanup on page unload
+	window.addEventListener('beforeunload', () => {
+		if ((window as any).readingProgressCleanup) {
+			(window as any).readingProgressCleanup();
+		}
+	});
 </script>
 
 <style>
