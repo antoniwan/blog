@@ -8,7 +8,7 @@ A personal blog exploring fatherhood, masculinity, culture, and modern collapse 
 
 - **52+ writings** exploring personal growth, consciousness, and modern life
 - **9 content categories** covering fatherhood, psychology, politics, and more
-- **Multilingual system** with automatic translation discovery (English/Spanish)
+- **Multilingual system** with translation linking (English/Spanish)
 - **Dark mode** with system preference detection
 - **Responsive design** optimized for all devices
 - **SEO optimized** with structured data and Open Graph
@@ -89,14 +89,14 @@ draft: false
 
 ### Multilingual Content
 
-The site supports bilingual content with automatic translation discovery:
+The site supports bilingual content with translation linking:
 
 **Publishing Translations:**
 
 1. Set the same `translationGroup` value in both language versions
 2. Use `featured: true` for the primary language (usually English)
 3. Use `featured: false` for secondary languages to prevent duplicate listings
-4. The system automatically links translations with language flags
+4. The system links translations and displays language toggles
 
 **Example Translation Pair:**
 
@@ -139,7 +139,7 @@ language: ["es"]
 - **Internal API** - Stoic quotes for enhanced user experience
 - **Social Sharing** - Multi-platform sharing with mobile-first responsive design
 - **Guided Path** - Seasonal reading experience with progress tracking and privacy-first design
-- **Multilingual Support** - Automatic translation discovery and language switching
+- **Multilingual Support** - Translation linking and language switching
 
 ## API
 

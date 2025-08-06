@@ -7,7 +7,7 @@ This guide explains how to create and manage bilingual content using the automat
 The multilingual system allows you to:
 
 - Publish content in multiple languages (currently English and Spanish)
-- Automatically link related translations
+- Link related translations via shared IDs
 - Hide secondary language versions from main listings
 - Display language toggles for easy switching between versions
 
@@ -84,7 +84,7 @@ The current language is automatically hidden from the toggle.
 
 ### Translation Discovery
 
-The system automatically:
+The system:
 
 1. Finds all posts with matching `translationGroup`
 2. Filters out drafts and unpublished posts
