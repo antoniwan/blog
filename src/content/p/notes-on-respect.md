@@ -20,7 +20,9 @@ tags:
   - healing
   - authenticity
 readingTime: 3
+draft: false
 featured: false
+published: true
 showComments: true
 ---
 

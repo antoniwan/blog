@@ -21,7 +21,9 @@ tags:
   - therapy
   - emotional-regulation
 readingTime: 4
+draft: false
 featured: false
+published: true
 showComments: true
 ---
 

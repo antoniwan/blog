@@ -1,12 +1,13 @@
 ---
-title: "Who I Am Today: A Recovery Progress Report"
+title: 'Who I Am Today: A Recovery Progress Report'
 description: >-
   Why I write, why I need systematic frameworks for basic human functions, and
-  what recovery from narcissism and codependency actually looks like in practice.
-pubDate: "2025-08-06T11:00:00.000Z"
+  what recovery from narcissism and codependency actually looks like in
+  practice.
+pubDate: '2025-08-06T11:00:00.000Z'
 language:
   - en
-heroImage: "/images/lost-af.avif"
+heroImage: /images/lost-af.avif
 category:
   - metaspace
   - integration-growth
@@ -25,7 +26,9 @@ tags:
   - emotional-regulation
   - self-awareness
 readingTime: 4
+draft: false
 featured: true
+published: true
 showComments: true
 translationGroup: recovery-progress-report
 ---

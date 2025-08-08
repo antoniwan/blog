@@ -22,7 +22,9 @@ tags:
   - self-improvement
   - metaspace
 readingTime: 1
+draft: false
 featured: false
+published: true
 showComments: true
 ---
 

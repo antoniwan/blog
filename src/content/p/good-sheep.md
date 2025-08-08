@@ -1,14 +1,36 @@
 ---
-title: "Good Sheep"
-description: "How we've been conditioned to love our own systematic exploitation - from theme parks to algorithmic playlists, we pay premium prices to be herded through corporate processing systems while calling it freedom."
-pubDate: "2025-08-03T17:25:00.000Z"
-heroImage: "/images/good-sheep.avif"
-language: ["en"]
-category: ["culture", "psychology"]
-tags: ["consumerism", "corporate-manipulation", "cultural-critique", "psychology", "systems", "exploitation", "modern-life", "capitalism", "abuse", "conditioning", "social-critique", "behavioral-economics", "digital-age", "authenticity"]
+title: Good Sheep
+description: >-
+  How we've been conditioned to love our own systematic exploitation - from
+  theme parks to algorithmic playlists, we pay premium prices to be herded
+  through corporate processing systems while calling it freedom.
+pubDate: '2025-08-03T17:25:00.000Z'
+language:
+  - en
+heroImage: /images/good-sheep.avif
+category:
+  - culture
+  - psychology
+tags:
+  - consumerism
+  - corporate-manipulation
+  - cultural-critique
+  - psychology
+  - systems
+  - exploitation
+  - modern-life
+  - capitalism
+  - abuse
+  - conditioning
+  - social-critique
+  - behavioral-economics
+  - digital-age
+  - authenticity
 readingTime: 26
 draft: false
 featured: true
+published: true
+showComments: true
 ---
 
 

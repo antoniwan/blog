@@ -4,9 +4,9 @@ description: >-
   A reflection on the power of self-control, curiosity, and value-based decision
   making in personal growth and emotional regulation.
 pubDate: '2024-05-06'
-heroImage: '/images/self-control.avif'
 language:
   - en
+heroImage: /images/self-control.avif
 category:
   - integration-growth
 tags:
@@ -21,7 +21,9 @@ tags:
   - mindfulness
   - healing
 readingTime: 2
+draft: false
 featured: false
+published: true
 showComments: true
 ---
 

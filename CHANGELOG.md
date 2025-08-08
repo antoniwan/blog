@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.16.0] - 2025-01-15
+
+### Added
+
+- **Navigation Updates**: Enhanced navigation system with improved content organization
+- **Content Management**: Streamlined content updates and management workflows
+- **Script Automation**: Added frontmatter audit and standardization tools
+  - **audit-frontmatter**: Script to audit frontmatter consistency across all posts
+  - **standardize-frontmatter**: Script to standardize frontmatter format
+
+### Enhanced
+
+- **Package.json Scripts**: Added missing script references for better automation
+- **Documentation**: Updated README with new scripts and version information
+
 ## [2.14.0] - 2025-01-08
 
 ### Added

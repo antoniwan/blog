@@ -22,7 +22,9 @@ tags:
   - personal-growth
   - workflow
 readingTime: 1
+draft: false
 featured: false
+published: true
 showComments: true
 ---
 

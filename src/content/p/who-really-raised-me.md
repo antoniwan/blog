@@ -6,7 +6,7 @@ description: >-
   Berserk, and especially One Punch Man's Saitama became my true mentors,
   teaching me about discipline, brotherhood, pain as power, and the loneliness
   of mastery.
-pubDate: "2025-04-17T13:56:47.953Z"
+pubDate: '2025-04-17T13:56:47.953Z'
 language:
   - en
 heroImage: /images/anime-souls.avif
@@ -36,7 +36,9 @@ tags:
   - berserk
   - samurai-x
 readingTime: 6
+draft: false
 featured: true
+published: true
 showComments: true
 ---
 

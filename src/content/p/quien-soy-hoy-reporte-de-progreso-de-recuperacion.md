@@ -1,12 +1,13 @@
 ---
-title: "Quién Soy Hoy: Un Reporte de Progreso de Recuperación"
+title: 'Quién Soy Hoy: Un Reporte de Progreso de Recuperación'
 description: >-
-  Por qué escribo, por qué necesito marcos sistemáticos para funciones humanas básicas, 
-  y cómo se ve la recuperación del narcisismo y codependencia en la práctica.
-pubDate: "2025-08-06T11:00:00.000Z"
+  Por qué escribo, por qué necesito marcos sistemáticos para funciones humanas
+  básicas,  y cómo se ve la recuperación del narcisismo y codependencia en la
+  práctica.
+pubDate: '2025-08-06T11:00:00.000Z'
 language:
   - es
-heroImage: "/images/lost-af.avif"
+heroImage: /images/lost-af.avif
 category:
   - metaspace
   - integration-growth
@@ -25,7 +26,9 @@ tags:
   - regulación-emocional
   - auto-conocimiento
 readingTime: 4
+draft: false
 featured: false
+published: true
 showComments: true
 translationGroup: recovery-progress-report
 ---

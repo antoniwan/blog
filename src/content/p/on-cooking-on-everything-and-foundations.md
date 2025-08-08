@@ -21,7 +21,9 @@ tags:
   - consciousness
   - personal-growth
 readingTime: 1
+draft: false
 featured: false
+published: true
 showComments: true
 ---
 

@@ -22,7 +22,9 @@ tags:
   - self-reflection
   - authenticity
 readingTime: 5
+draft: false
 featured: false
+published: true
 showComments: true
 ---
 

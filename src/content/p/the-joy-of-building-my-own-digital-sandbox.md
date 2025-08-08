@@ -1,9 +1,10 @@
 ---
 title: The Joy of Building My Own Digital Sandbox
 description: >-
-  Why I spend hundreds of hours building a custom blog when perfectly good solutions exist. 
-  Because this digital art project—code and content together—is how I view the world.
-pubDate: "2025-07-29T22:00:00.000Z"
+  Why I spend hundreds of hours building a custom blog when perfectly good
+  solutions exist.  Because this digital art project—code and content
+  together—is how I view the world.
+pubDate: '2025-07-29T22:00:00.000Z'
 language:
   - en
 heroImage: /images/how-i-view-the-world.avif
@@ -26,7 +27,9 @@ tags:
   - digital-art
   - craftsmanship
 readingTime: 8
+draft: false
 featured: true
+published: true
 showComments: true
 ---
 

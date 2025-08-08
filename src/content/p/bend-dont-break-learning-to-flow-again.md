@@ -1,8 +1,10 @@
 ---
-title: "Bend, Don't Break: Learning to Flow Again"
+title: 'Bend, Don''t Break: Learning to Flow Again'
 description: >-
-  A personal essay about the psychological toll of extreme self-optimization, the breakdown of a 33-value system, and the path toward flexible strength through acceptance and presence.
-pubDate: "2025-07-30T23:15:00.000Z"
+  A personal essay about the psychological toll of extreme self-optimization,
+  the breakdown of a 33-value system, and the path toward flexible strength
+  through acceptance and presence.
+pubDate: '2025-07-30T23:15:00.000Z'
 language:
   - en
 heroImage: /images/saitama-okay.webp
@@ -35,7 +37,9 @@ tags:
   - philosophy
   - psychology
 readingTime: 14
+draft: false
 featured: true
+published: true
 showComments: true
 ---
 

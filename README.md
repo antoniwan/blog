@@ -1,6 +1,6 @@
 # Curious Chaos Journal
 
-[![Version](https://img.shields.io/badge/version-2.15.0-blue.svg)](https://github.com/antoniwan/curious-chaos-journal/releases)
+[![Version](https://img.shields.io/badge/version-2.16.0-blue.svg)](https://github.com/antoniwan/curious-chaos-journal/releases)
 
 A personal blog exploring fatherhood, masculinity, culture, and modern collapse through raw reflections on thinking, consciousness, and the soft heart inside the hard world.
 
@@ -38,13 +38,16 @@ Visit `http://localhost:4323` to view the site.
 
 ## Available Scripts
 
-| Command                  | Action                      |
-| ------------------------ | --------------------------- |
-| `npm run dev`            | Start development server    |
-| `npm run build`          | Build for production        |
-| `npm run preview`        | Preview production build    |
-| `npm run setup-comments` | Setup Giscus comment system |
-| `npm run validate-feeds` | Validate RSS and JSON feeds |
+| Command                     | Action                           |
+| --------------------------- | -------------------------------- |
+| `npm run dev`               | Start development server         |
+| `npm run build`             | Build for production             |
+| `npm run preview`           | Preview production build         |
+| `npm run setup-comments`    | Setup Giscus comment system      |
+| `npm run generate-favicons` | Generate favicon assets          |
+| `npm run validate-feeds`    | Validate RSS and JSON feeds      |
+| `npm run audit-frontmatter` | Audit frontmatter consistency    |
+| `npm run standardize-frontmatter` | Standardize frontmatter format |
 
 ## Project Structure
 
@@ -195,10 +198,13 @@ The site includes an internal API for accessing Stoic philosophy quotes:
 - **Purpose**: Returns random Stoic philosophy quotes with metadata
 - **Documentation**: [API Documentation](docs/quotes-api.md)
 
-## Recent Updates (v2.15.0)
+## Recent Updates (v2.16.0)
 
 ### 🚀 **Major Enhancements**
 
+- **Navigation Updates** - Enhanced navigation system with improved content organization
+- **Content Management** - Streamlined content updates and management workflows
+- **Script Automation** - Added frontmatter audit and standardization tools
 - **Smart Reading Progress** - Optimized completion detection at 75% of content
 - **Toast Notifications** - Lightweight "Read" confirmations with smooth animations
 - **Cross-Tab Sync** - Reading progress syncs instantly across browser tabs

@@ -1,7 +1,7 @@
 {
   "name": "curious-chaos-journal",
   "type": "module",
-  "version": "2.15.0",
+  "version": "2.16.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/antoniwan/curious-chaos-journal.git"
@@ -15,7 +15,9 @@
     "astro": "astro",
     "setup-comments": "node scripts/setup-comments.js",
     "generate-favicons": "node scripts/generate-favicons.js",
-    "validate-feeds": "node scripts/validate-feeds.js"
+    "validate-feeds": "node scripts/validate-feeds.js",
+    "audit-frontmatter": "node scripts/audit-frontmatter.js",
+    "standardize-frontmatter": "node scripts/standardize-frontmatter.js"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.2.6",

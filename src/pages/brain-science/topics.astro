@@ -318,7 +318,7 @@ const { insights, summary, balancedAnalysis } = generateDynamicInsights(insightD
 								<div>
 									<div class="text-sm font-medium text-[rgb(var(--color-text))]">{tag.tag}</div>
 									<div class="text-xs text-[rgb(var(--color-text-muted))]">
-										{tag.category || 'Uncategorized'} • Weight: {tag.weight}
+										{tag.category?.title || 'Uncategorized'} • Weight: {tag.weight}
 									</div>
 								</div>
 							</div>

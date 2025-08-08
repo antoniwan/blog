@@ -1,10 +1,10 @@
 ---
-title: "Mercy Through the Blade: The Silent Law of Leadership"
+title: 'Mercy Through the Blade: The Silent Law of Leadership'
 description: >-
   A deep exploration of authentic leadership, the warrior's dilemma between
   truth and comfort, and the sacred responsibility of wielding power with grace
   and ferocity.
-pubDate: "2025-04-26T00:00:00.000Z"
+pubDate: '2025-04-26T00:00:00.000Z'
 language:
   - en
 heroImage: /images/0_uLjrPcjl6O6biWBM.jpg
@@ -24,7 +24,9 @@ tags:
   - power
   - consciousness
 readingTime: 5
+draft: false
 featured: true
+published: true
 showComments: true
 ---
 
