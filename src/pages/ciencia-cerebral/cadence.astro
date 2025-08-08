@@ -1,0 +1,252 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Container from '../../components/Container.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import LanguageToggle from '../../components/LanguageToggle.astro';
+import { getCollection } from 'astro:content';
+import { categories } from '../../data/categories';
+import { getTagWeight, MASLOW_CATEGORIES } from '../../data/tags';
+import { format, startOfMonth, endOfMonth, eachMonthOfInterval } from 'date-fns';
+import { generateDynamicInsights, calculateObjectiveMetrics, scoreToLetterGrade, letterGradeToColor } from '../../utils/insightGenerator';
+
+// Get all published posts
+const posts = await getCollection('blog', ({ data }) => {
+	return import.meta.env.PROD ? !data.draft && data.published : true;
+});
+
+// Sort posts by date
+const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+// Calculate metrics
+const totalDays = Math.round((Date.now() - sortedPosts[sortedPosts.length - 1]?.data.pubDate.getTime()) / (1000 * 60 * 60 * 24));
+const averageMonthly = Math.round(posts.length / Math.max(1, Math.round(totalDays / 30)));
+const totalWeeks = Math.round(totalDays / 7);
+
+// Calculate streaks
+let currentStreak = 0;
+let longestStreak = 0;
+let tempStreak = 0;
+
+for (let i = 0; i < sortedPosts.length - 1; i++) {
+	const daysDiff = Math.floor((sortedPosts[i].data.pubDate.getTime() - sortedPosts[i + 1].data.pubDate.getTime()) / (1000 * 60 * 60 * 24));
+	if (daysDiff <= 7) {
+		tempStreak++;
+		longestStreak = Math.max(longestStreak, tempStreak);
+	} else {
+		tempStreak = 0;
+	}
+}
+currentStreak = tempStreak;
+
+// Calculate max gap
+let maxGap = 0;
+for (let i = 0; i < sortedPosts.length - 1; i++) {
+	const gap = Math.floor((sortedPosts[i].data.pubDate.getTime() - sortedPosts[i + 1].data.pubDate.getTime()) / (1000 * 60 * 60 * 24));
+	maxGap = Math.max(maxGap, gap);
+}
+
+// Translation data for language toggle
+const translationData = {
+	translations: [
+		{
+			id: 'cadence-en',
+			title: 'Creative Rhythms - Brain Science',
+			language: ['en'],
+			path: '/brain-science/cadence'
+		},
+		{
+			id: 'cadence-es',
+			title: 'Ritmos Creativos - Ciencia Cerebral',
+			language: ['es'],
+			path: '/ciencia-cerebral/cadence'
+		}
+	],
+	currentLanguage: 'es',
+	currentPath: '/ciencia-cerebral/cadence',
+	hasTranslations: true
+};
+---
+
+<BaseLayout
+	title="Ritmos Creativos - Ciencia Cerebral"
+	description="Descubre tus ciclos creativos naturales y patrones productivos a través del análisis de ritmos de escritura."
+	path="/ciencia-cerebral/cadence"
+	structuredDataType="website"
+>
+	<Container>
+		<Container maxWidth="container" padding="none">
+			{/* Breadcrumbs */}
+			<div class="mb-4 md:mb-6 hidden md:block">
+				<Breadcrumbs 
+					items={[
+						{ label: "Inicio", href: "/" },
+						{ label: "Ciencia Cerebral", href: "/ciencia-cerebral" },
+						{ label: "Ritmos Creativos" }
+					]} 
+				/>
+			</div>
+
+			<div class="py-4 md:py-6 lg:py-8">
+				{/* Language Toggle */}
+				<LanguageToggle 
+					translations={translationData.translations}
+					currentLanguage={translationData.currentLanguage}
+					currentPath={translationData.currentPath}
+				/>
+
+				{/* Header */}
+				<div class="mb-6 md:mb-8 lg:mb-10">
+					<h1 class="text-display text-[rgb(var(--color-text))] mb-3 md:mb-4 lg:mb-5" transition:name="page-title">
+						📅 <span class="highlight-primary">Ritmos Creativos</span>
+					</h1>
+					<p class="text-body-large text-[rgb(var(--color-text-muted))] leading-relaxed max-w-4xl" transition:name="page-description">
+						Análisis de tus ciclos creativos naturales y patrones productivos. 
+						Descubre cuándo eres más creativo, cómo fluctúa tu energía de escritura y qué patrones temporales definen tu proceso creativo.
+					</p>
+				</div>
+
+				{/* Key Metrics */}
+				<div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-8 md:mb-10 lg:mb-12">
+					<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-4 md:p-6 border border-[rgb(var(--color-border))]">
+						<div class="text-xl md:text-2xl font-bold text-[rgb(var(--color-text))] mb-1 md:mb-2">{posts.length}</div>
+						<div class="text-xs md:text-sm text-[rgb(var(--color-text-muted))]">Total de Escritos</div>
+						<div class="text-xs text-blue-500 mt-1">📚 Base de Datos</div>
+					</div>
+					<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-4 md:p-6 border border-[rgb(var(--color-border))]">
+						<div class="text-xl md:text-2xl font-bold text-[rgb(var(--color-text))] mb-1 md:mb-2">{totalDays}</div>
+						<div class="text-xs md:text-sm text-[rgb(var(--color-text-muted))]">Días de Actividad</div>
+						<div class="text-xs text-green-500 mt-1">⏰ Trayectoria Temporal</div>
+					</div>
+					<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-4 md:p-6 border border-[rgb(var(--color-border))]">
+						<div class="text-xl md:text-2xl font-bold text-[rgb(var(--color-text))] mb-1 md:mb-2">{averageMonthly}</div>
+						<div class="text-xs md:text-sm text-[rgb(var(--color-text-muted))]">Promedio Mensual</div>
+						<div class="text-xs text-purple-500 mt-1">📊 Ritmo de Producción</div>
+					</div>
+					<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-4 md:p-6 border border-[rgb(var(--color-border))]">
+						<div class="text-xl md:text-2xl font-bold text-[rgb(var(--color-text))] mb-1 md:mb-2">{totalWeeks}</div>
+						<div class="text-xs md:text-sm text-[rgb(var(--color-text-muted))]">Semanas Activo</div>
+						<div class="text-xs text-orange-500 mt-1">📈 Consistencia</div>
+					</div>
+				</div>
+
+				{/* Writing Streaks */}
+				<div class="mb-12 md:mb-16">
+					<h2 class="text-lg md:text-xl font-semibold text-[rgb(var(--color-text))] mb-6 md:mb-8 flex items-center gap-2">
+						<span class="text-[rgb(var(--color-accent))]">🔥</span>
+						Rachas de Escritura
+					</h2>
+					<p class="text-sm text-[rgb(var(--color-text-muted))] mb-6 md:mb-8 max-w-3xl">
+						Análisis de tus períodos de mayor productividad y consistencia en la escritura.
+					</p>
+					
+					<div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+						<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-4 md:p-6 border border-[rgb(var(--color-border))]">
+							<h3 class="text-base font-semibold text-[rgb(var(--color-text))] mb-3">Racha Actual</h3>
+							<div class="text-2xl font-bold text-[rgb(var(--color-accent))] mb-2">{currentStreak}</div>
+							<p class="text-sm text-[rgb(var(--color-text-muted))]">posts consecutivos</p>
+						</div>
+						
+						<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-4 md:p-6 border border-[rgb(var(--color-border))]">
+							<h3 class="text-base font-semibold text-[rgb(var(--color-text))] mb-3">Racha Más Larga</h3>
+							<div class="text-2xl font-bold text-[rgb(var(--color-accent))] mb-2">{longestStreak}</div>
+							<p class="text-sm text-[rgb(var(--color-text-muted))]">posts consecutivos</p>
+						</div>
+					</div>
+				</div>
+
+				{/* Consistency Metrics */}
+				<div class="mb-12 md:mb-16">
+					<h2 class="text-lg md:text-xl font-semibold text-[rgb(var(--color-text))] mb-6 md:mb-8 flex items-center gap-2">
+						<span class="text-[rgb(var(--color-accent))]">📊</span>
+						Métricas de Consistencia
+					</h2>
+					<p class="text-sm text-[rgb(var(--color-text-muted))] mb-6 md:mb-8 max-w-3xl">
+						Análisis de tu consistencia y patrones de actividad de escritura.
+					</p>
+					
+					<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-4 md:p-6 border border-[rgb(var(--color-border))]">
+						<div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
+							<div>
+								<h3 class="text-base font-semibold text-[rgb(var(--color-text))] mb-3">Patrones Temporales</h3>
+								<div class="space-y-2 text-sm">
+									<div class="flex justify-between items-center">
+										<span class="text-[rgb(var(--color-text))]">Promedio Mensual:</span>
+										<span class="text-[rgb(var(--color-text-muted))]">{averageMonthly} posts</span>
+									</div>
+									<div class="flex justify-between items-center">
+										<span class="text-[rgb(var(--color-text))]">Meses Activos:</span>
+										<span class="text-[rgb(var(--color-text-muted))]">{new Set(posts.map(p => format(p.data.pubDate, 'yyyy-MM'))).size}</span>
+									</div>
+									<div class="flex justify-between items-center">
+										<span class="text-[rgb(var(--color-text))]">Gap Más Largo:</span>
+										<span class="text-[rgb(var(--color-text-muted))]">{maxGap} días</span>
+									</div>
+								</div>
+							</div>
+							
+							<div>
+								<h3 class="text-base font-semibold text-[rgb(var(--color-text))] mb-3">Energía Creativa</h3>
+								<div class="space-y-2 text-sm">
+									<div class="flex justify-between items-center">
+										<span class="text-[rgb(var(--color-text))]">Picos:</span>
+										<span class="text-[rgb(var(--color-text-muted))]">Periódicos</span>
+									</div>
+									<div class="flex justify-between items-center">
+										<span class="text-[rgb(var(--color-text))]">Valles:</span>
+										<span class="text-[rgb(var(--color-text-muted))]">Naturales</span>
+									</div>
+									<div class="flex justify-between items-center">
+										<span class="text-[rgb(var(--color-text))]">Recuperación:</span>
+										<span class="text-[rgb(var(--color-text-muted))]">Automática</span>
+									</div>
+								</div>
+							</div>
+							
+							<div>
+								<h3 class="text-base font-semibold text-[rgb(var(--color-text))] mb-3">Optimización</h3>
+								<div class="space-y-2 text-sm">
+									<div class="flex justify-between items-center">
+										<span class="text-[rgb(var(--color-text))]">Ritmo Ideal:</span>
+										<span class="text-[rgb(var(--color-text-muted))]">Personal</span>
+									</div>
+									<div class="flex justify-between items-center">
+										<span class="text-[rgb(var(--color-text))]">Flexibilidad:</span>
+										<span class="text-[rgb(var(--color-text-muted))]">Alta</span>
+									</div>
+									<div class="flex justify-between items-center">
+										<span class="text-[rgb(var(--color-text))]">Sostenibilidad:</span>
+										<span class="text-[rgb(var(--color-text-muted))]">Clave</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				{/* Navigation Links */}
+				<div class="mt-8 md:mt-12 pt-6 md:pt-8 border-t border-[rgb(var(--color-border))]">
+					<div class="flex flex-wrap gap-4 md:gap-6 justify-center">
+						<a href="/ciencia-cerebral" class="text-sm text-[rgb(var(--color-accent))] hover:text-[rgb(var(--color-accent-hover))] transition-colors">
+							🏠 Volver a Ciencia Cerebral
+						</a>
+						<a href="/ciencia-cerebral/insights" class="text-sm text-[rgb(var(--color-accent))] hover:text-[rgb(var(--color-accent-hover))] transition-colors">
+							💡 Insights Personales
+						</a>
+						<a href="/ciencia-cerebral/evolution" class="text-sm text-[rgb(var(--color-accent))] hover:text-[rgb(var(--color-accent-hover))] transition-colors">
+							📈 Crecimiento Intelectual
+						</a>
+						<a href="/ciencia-cerebral/topics" class="text-sm text-[rgb(var(--color-accent))] hover:text-[rgb(var(--color-accent-hover))] transition-colors">
+							🏷️ Temas Principales
+						</a>
+						<a href="/ciencia-cerebral/patterns" class="text-sm text-[rgb(var(--color-accent))] hover:text-[rgb(var(--color-accent-hover))] transition-colors">
+							🌀 Patrones Ocultos
+						</a>
+						<a href="/ciencia-cerebral/meta" class="text-sm text-[rgb(var(--color-accent))] hover:text-[rgb(var(--color-accent-hover))] transition-colors">
+							🔍 Auto-reflexión
+						</a>
+					</div>
+				</div>
+			</div>
+		</Container>
+	</Container>
+</BaseLayout>

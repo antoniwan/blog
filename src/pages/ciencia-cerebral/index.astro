@@ -1,0 +1,350 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Container from '../../components/Container.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import LanguageToggle from '../../components/LanguageToggle.astro';
+import { getCollection } from 'astro:content';
+import { categories } from '../../data/categories';
+import { getTagWeight, MASLOW_CATEGORIES } from '../../data/tags';
+import { formatDistanceToNow, format, startOfMonth, endOfMonth, eachMonthOfInterval, parseISO } from 'date-fns';
+import { calculateObjectiveMetrics, scoreToLetterGrade, letterGradeToColor } from '../../utils/insightGenerator';
+
+// Get all published posts
+const posts = await getCollection('blog', ({ data }) => {
+	return import.meta.env.PROD ? !data.draft && data.published : true;
+});
+
+// Sort posts by date
+const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+// Calculate key metrics
+const totalPosts = posts.length;
+const totalWords = posts.reduce((sum, post) => {
+	const content = post.body;
+	return sum + (content ? content.split(/\s+/).length : 0);
+}, 0);
+const averageWordsPerPost = Math.round(totalWords / totalPosts);
+
+// Date range analysis
+const firstPostDate = sortedPosts[sortedPosts.length - 1]?.data.pubDate;
+const lastPostDate = sortedPosts[0]?.data.pubDate;
+const daysSinceFirstPost = firstPostDate ? Math.floor((Date.now() - firstPostDate.getTime()) / (1000 * 60 * 60 * 24)) : 0;
+const postsPerDay = daysSinceFirstPost > 0 ? (totalPosts / daysSinceFirstPost).toFixed(2) : 0;
+
+// Monthly posting frequency
+const monthlyPosts = eachMonthOfInterval({
+	start: firstPostDate || new Date(),
+	end: lastPostDate || new Date()
+}).map(month => {
+	const monthStart = startOfMonth(month);
+	const monthEnd = endOfMonth(month);
+	const postsInMonth = posts.filter(post => 
+		post.data.pubDate >= monthStart && post.data.pubDate <= monthEnd
+	).length;
+	return {
+		month: format(month, 'yyyy-MM'),
+		label: format(month, 'MMM yyyy'),
+		count: postsInMonth
+	};
+});
+
+// Tag analysis
+const tagFrequency = posts.reduce((acc, post) => {
+	post.data.tags?.forEach(tag => {
+		acc[tag] = (acc[tag] || 0) + 1;
+	});
+	return acc;
+}, {} as Record<string, number>);
+
+const topTags = Object.entries(tagFrequency)
+	.sort(([,a], [,b]) => b - a)
+	.slice(0, 10)
+	.map(([tag, count]) => ({ tag, count, weight: getTagWeight(tag) }));
+
+// Category analysis
+const categoryFrequency = posts.reduce((acc, post) => {
+	post.data.category?.forEach(cat => {
+		acc[cat] = (acc[cat] || 0) + 1;
+	});
+	return acc;
+}, {} as Record<string, number>);
+
+// Maslow hierarchy analysis
+const maslowAnalysis = MASLOW_CATEGORIES.map(category => {
+	const categoryPosts = posts.filter(post => 
+		post.data.tags?.some(tag => category.tags.includes(tag))
+	).length;
+	return {
+		...category,
+		postCount: categoryPosts,
+		percentage: Math.round((categoryPosts / totalPosts) * 100)
+	};
+}).filter(cat => cat.postCount > 0);
+
+// Current month posts
+const thisMonthPosts = posts.filter(post => {
+	const now = new Date();
+	const postDate = post.data.pubDate;
+	return postDate.getMonth() === now.getMonth() && postDate.getFullYear() === now.getFullYear();
+}).length;
+
+// Writing streaks
+let currentStreak = 0;
+let longestStreak = 0;
+let tempStreak = 0;
+
+for (let i = 0; i < sortedPosts.length - 1; i++) {
+	const currentDate = sortedPosts[i].data.pubDate;
+	const nextDate = sortedPosts[i + 1].data.pubDate;
+	const daysDiff = Math.floor((currentDate.getTime() - nextDate.getTime()) / (1000 * 60 * 60 * 24));
+	
+	if (daysDiff <= 7) { // Consider posts within a week as a streak
+		tempStreak++;
+		longestStreak = Math.max(longestStreak, tempStreak);
+	} else {
+		tempStreak = 0;
+	}
+}
+
+currentStreak = tempStreak;
+
+// Personal growth indicators
+const growthPosts = posts.filter(post => {
+	const tags = post.data.tags || [];
+	const title = post.data.title.toLowerCase();
+	const content = post.body || '';
+	
+	const growthTags = ['personal-growth', 'transformation', 'healing', 'self-improvement', 'learning', 'consciousness'];
+	const growthKeywords = ['growth', 'change', 'transform', 'learn', 'evolve', 'improve', 'heal', 'discover'];
+	
+	const hasGrowthTags = growthTags.some(tag => tags.includes(tag));
+	const hasGrowthKeywords = growthKeywords.some(keyword => 
+		title.includes(keyword) || content.toLowerCase().includes(keyword)
+	);
+	
+	return hasGrowthTags || hasGrowthKeywords;
+}).length;
+
+// Emotional processing indicators
+const emotionalPosts = posts.filter(post => {
+	const content = post.body || '';
+	const exclamationCount = (content.match(/!/g) || []).length;
+	const emotionalWords = ['love', 'hate', 'fear', 'joy', 'sadness', 'anger', 'peace', 'anxiety', 'hope', 'despair', 'gratitude', 'frustration'];
+	const emotionalWordCount = emotionalWords.reduce((count, word) => {
+		const regex = new RegExp(`\\b${word}\\b`, 'gi');
+		return count + (content.match(regex) || []).length;
+	}, 0);
+	
+	return exclamationCount + emotionalWordCount > 5; // Threshold for emotional intensity
+}).length;
+
+// Calculate objective metrics for balanced analysis
+const objectiveMetrics = calculateObjectiveMetrics(posts);
+
+// Translation data for language toggle
+const translationData = {
+	translations: [
+		{
+			id: 'brain-science-en',
+			title: 'Writing Analytics & Self-Discovery - Brain Science',
+			language: ['en'],
+			path: '/brain-science'
+		},
+		{
+			id: 'brain-science-es',
+			title: 'Análisis de Escritura y Autodescubrimiento - Ciencia Cerebral',
+			language: ['es'],
+			path: '/ciencia-cerebral'
+		}
+	],
+	currentLanguage: 'es',
+	currentPath: '/ciencia-cerebral',
+	hasTranslations: true
+};
+---
+
+<BaseLayout
+	title="Análisis de Escritura y Autodescubrimiento - Ciencia Cerebral"
+	description="Análisis científico de patrones de escritura, insights medibles y autodescubrimiento basado en datos. Comprensión de patrones cognitivos a través de análisis cuantitativo de contenido."
+	path="/ciencia-cerebral"
+	structuredDataType="website"
+>
+	<Container>
+		<Container maxWidth="container" padding="none">
+			{/* Breadcrumbs */}
+			<div class="mb-4 md:mb-6 hidden md:block">
+				<Breadcrumbs 
+					items={[
+						{ label: "Inicio", href: "/" },
+						{ label: "Ciencia Cerebral" }
+					]} 
+				/>
+			</div>
+
+			<div class="py-4 md:py-6 lg:py-8">
+				{/* Language Toggle */}
+				<LanguageToggle 
+					translations={translationData.translations}
+					currentLanguage={translationData.currentLanguage}
+					currentPath={translationData.currentPath}
+				/>
+
+				{/* Header */}
+				<div class="mb-6 md:mb-8 lg:mb-10">
+					<h1 class="text-display text-[rgb(var(--color-text))] mb-3 md:mb-4 lg:mb-5" transition:name="page-title">
+						🧠 <span class="highlight-primary">Análisis de Escritura y Autodescubrimiento</span>
+					</h1>
+					<p class="text-body-large text-[rgb(var(--color-text-muted))] leading-relaxed max-w-4xl" transition:name="page-description">
+						Análisis objetivo de patrones de escritura a través de métricas balanceadas y análisis cuantitativo de contenido. 
+						Esta sección proporciona una evaluación imparcial de patrones cognitivos, procesamiento emocional y evolución intelectual utilizando metodologías basadas en datos que incluyen análisis de señales positivas, neutrales y negativas.
+					</p>
+				</div>
+
+				{/* Measurable Metrics Grid */}
+				<div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-8 md:mb-10 lg:mb-12">
+					<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-4 md:p-6 border border-[rgb(var(--color-border))]">
+						<div class="text-xl md:text-2xl font-bold text-[rgb(var(--color-text))] mb-1 md:mb-2" title="Número total de escritos publicados (excluyendo borradores en producción)">{totalPosts}</div>
+						<div class="text-xs md:text-sm text-[rgb(var(--color-text-muted))]">Pensamientos Capturados</div>
+						<div class="text-xs text-blue-500 mt-1">💭 Instantáneas Mentales</div>
+					</div>
+					<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-4 md:p-6 border border-[rgb(var(--color-border))]">
+						<div class="text-xl md:text-2xl font-bold text-[rgb(var(--color-text))] mb-1 md:mb-2" title="Suma de todas las palabras en todos los posts publicados">{totalWords.toLocaleString()}</div>
+						<div class="text-xs md:text-sm text-[rgb(var(--color-text-muted))]">Palabras Escritas</div>
+						<div class="text-xs text-green-500 mt-1">📝 Producción Creativa</div>
+					</div>
+					<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-4 md:p-6 border border-[rgb(var(--color-border))]">
+						<div class="text-xl md:text-2xl font-bold text-[rgb(var(--color-text))] mb-1 md:mb-2" title="Posts enfocados en crecimiento personal, transformación o automejora">{growthPosts}</div>
+						<div class="text-xs md:text-sm text-[rgb(var(--color-text-muted))]">Escritos de Crecimiento</div>
+						<div class="text-xs text-purple-500 mt-1">🌱 Evolución Personal</div>
+					</div>
+					<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-4 md:p-6 border border-[rgb(var(--color-border))]">
+						<div class="text-xl md:text-2xl font-bold text-[rgb(var(--color-text))] mb-1 md:mb-2" title="Posts con alta intensidad emocional">{emotionalPosts}</div>
+						<div class="text-xs md:text-sm text-[rgb(var(--color-text-muted))]">Escritos Emocionales</div>
+						<div class="text-xs text-pink-500 mt-1">💜 Procesamiento del Corazón</div>
+					</div>
+				</div>
+
+				{/* Publishing Activity Metrics */}
+				<div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-8 md:mb-10 lg:mb-12">
+					<div class="text-center bg-[rgb(var(--color-bg-secondary))] rounded-lg p-4 md:p-6 border border-[rgb(var(--color-border))]">
+						<div class="text-xl md:text-2xl font-bold text-[rgb(var(--color-text))] mb-1 md:mb-2" title="Número de escritos publicados en el mes actual">{thisMonthPosts}</div>
+						<div class="text-xs md:text-sm text-[rgb(var(--color-text-muted))]">Insights de Este Mes</div>
+					</div>
+					<div class="text-center bg-[rgb(var(--color-bg-secondary))] rounded-lg p-4 md:p-6 border border-[rgb(var(--color-border))]">
+						<div class="text-xl md:text-2xl font-bold text-[rgb(var(--color-text))] mb-1 md:mb-2" title="Racha actual de escritura">{currentStreak}</div>
+						<div class="text-xs md:text-sm text-[rgb(var(--color-text-muted))]">Racha Actual de Publicación</div>
+					</div>
+					<div class="text-center bg-[rgb(var(--color-bg-secondary))] rounded-lg p-4 md:p-6 border border-[rgb(var(--color-border))]">
+						<div class="text-xl md:text-2xl font-bold text-[rgb(var(--color-text))] mb-1 md:mb-2" title="Racha más larga de escritura lograda">{longestStreak}</div>
+						<div class="text-xs md:text-sm text-[rgb(var(--color-text-muted))]">Período Más Largo de Publicación</div>
+					</div>
+				</div>
+
+				{/* Analytics Navigation Cards */}
+				<div class="mb-12 md:mb-16">
+					<h2 class="text-lg md:text-xl font-semibold text-[rgb(var(--color-text))] mb-6 md:mb-8 flex items-center gap-2">
+						<span class="text-[rgb(var(--color-accent))]">🔬</span>
+						Análisis e Insights
+					</h2>
+					<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
+						<a href="/ciencia-cerebral/insights" class="group block">
+							<div class="p-4 md:p-6 border border-[rgb(var(--color-border))] hover:border-[rgb(var(--color-accent))] hover:bg-[rgb(var(--color-accent))]/5 transition-all duration-200 cursor-pointer rounded-lg h-full">
+								<div class="text-xl md:text-2xl mb-2 md:mb-3">💡</div>
+								<h3 class="text-base md:text-lg font-semibold text-[rgb(var(--color-text))] mb-2 group-hover:text-[rgb(var(--color-accent))] transition-colors">
+									Insights Personales
+								</h3>
+								<p class="text-xs md:text-sm text-[rgb(var(--color-text-muted))] group-hover:text-[rgb(var(--color-text))] transition-colors">
+									Descubre patrones en tu procesamiento emocional y energía creativa
+								</p>
+							</div>
+						</a>
+
+						<a href="/ciencia-cerebral/evolution" class="group block">
+							<div class="p-4 md:p-6 border border-[rgb(var(--color-border))] hover:border-[rgb(var(--color-accent))] hover:bg-[rgb(var(--color-accent))]/5 transition-all duration-200 cursor-pointer rounded-lg h-full">
+								<div class="text-xl md:text-2xl mb-2 md:mb-3">📈</div>
+								<h3 class="text-base md:text-lg font-semibold text-[rgb(var(--color-text))] mb-2 group-hover:text-[rgb(var(--color-accent))] transition-colors">
+									Crecimiento Intelectual
+								</h3>
+								<p class="text-xs md:text-sm text-[rgb(var(--color-text-muted))] group-hover:text-[rgb(var(--color-text))] transition-colors">
+									Ve cómo han evolucionado tu estilo de pensamiento y áreas de conocimiento
+								</p>
+							</div>
+						</a>
+
+						<a href="/ciencia-cerebral/topics" class="group block">
+							<div class="p-4 md:p-6 border border-[rgb(var(--color-border))] hover:border-[rgb(var(--color-accent))] hover:bg-[rgb(var(--color-accent))]/5 transition-all duration-200 cursor-pointer rounded-lg h-full">
+								<div class="text-xl md:text-2xl mb-2 md:mb-3">🏷️</div>
+								<h3 class="text-base md:text-lg font-semibold text-[rgb(var(--color-text))] mb-2 group-hover:text-[rgb(var(--color-accent))] transition-colors">
+									Temas Principales
+								</h3>
+								<p class="text-xs md:text-sm text-[rgb(var(--color-text-muted))] group-hover:text-[rgb(var(--color-text))] transition-colors">
+									Entiende qué realmente te importa y cómo se conectan tus intereses
+								</p>
+							</div>
+						</a>
+
+						<a href="/ciencia-cerebral/cadence" class="group block">
+							<div class="p-4 md:p-6 border border-[rgb(var(--color-border))] hover:border-[rgb(var(--color-accent))] hover:bg-[rgb(var(--color-accent))]/5 transition-all duration-200 cursor-pointer rounded-lg h-full">
+								<div class="text-xl md:text-2xl mb-2 md:mb-3">📅</div>
+								<h3 class="text-base md:text-lg font-semibold text-[rgb(var(--color-text))] mb-2 group-hover:text-[rgb(var(--color-accent))] transition-colors">
+									Ritmos Creativos
+								</h3>
+								<p class="text-xs md:text-sm text-[rgb(var(--color-text-muted))] group-hover:text-[rgb(var(--color-text))] transition-colors">
+									Descubre tus ciclos creativos naturales y patrones productivos
+								</p>
+							</div>
+						</a>
+
+						<a href="/ciencia-cerebral/patterns" class="group block">
+							<div class="p-4 md:p-6 border border-[rgb(var(--color-border))] hover:border-[rgb(var(--color-accent))] hover:bg-[rgb(var(--color-accent))]/5 transition-all duration-200 cursor-pointer rounded-lg h-full">
+								<div class="text-xl md:text-2xl mb-2 md:mb-3">🌀</div>
+								<h3 class="text-base md:text-lg font-semibold text-[rgb(var(--color-text))] mb-2 group-hover:text-[rgb(var(--color-accent))] transition-colors">
+									Patrones Ocultos
+								</h3>
+								<p class="text-xs md:text-sm text-[rgb(var(--color-text-muted))] group-hover:text-[rgb(var(--color-text))] transition-colors">
+									Descubre patrones subconscientes y correlaciones creativas
+								</p>
+							</div>
+						</a>
+
+						<a href="/ciencia-cerebral/meta" class="group block">
+							<div class="p-4 md:p-6 border border-[rgb(var(--color-border))] hover:border-[rgb(var(--color-accent))] hover:bg-[rgb(var(--color-accent))]/5 transition-all duration-200 cursor-pointer rounded-lg h-full">
+								<div class="text-xl md:text-2xl mb-2 md:mb-3">🔍</div>
+								<h3 class="text-base md:text-lg font-semibold text-[rgb(var(--color-text))] mb-2 group-hover:text-[rgb(var(--color-accent))] transition-colors">
+									Auto-reflexión
+								</h3>
+								<p class="text-xs md:text-sm text-[rgb(var(--color-text-muted))] group-hover:text-[rgb(var(--color-text))] transition-colors">
+									Explora cómo piensas sobre el pensamiento y tu relación con la escritura
+								</p>
+							</div>
+						</a>
+					</div>
+				</div>
+
+				{/* Navigation Links */}
+				<div class="mt-8 md:mt-12 pt-6 md:pt-8 border-t border-[rgb(var(--color-border))]">
+					<div class="flex flex-wrap gap-4 md:gap-6 justify-center">
+						<a href="/ciencia-cerebral/insights" class="text-sm text-[rgb(var(--color-accent))] hover:text-[rgb(var(--color-accent-hover))] transition-colors">
+							📊 Análisis de Procesamiento Emocional
+						</a>
+						<a href="/ciencia-cerebral/evolution" class="text-sm text-[rgb(var(--color-accent))] hover:text-[rgb(var(--color-accent-hover))] transition-colors">
+							📈 Análisis de Crecimiento Intelectual
+						</a>
+						<a href="/ciencia-cerebral/topics" class="text-sm text-[rgb(var(--color-accent))] hover:text-[rgb(var(--color-accent-hover))] transition-colors">
+							🏷️ Análisis de Temas Principales
+						</a>
+						<a href="/ciencia-cerebral/cadence" class="text-sm text-[rgb(var(--color-accent))] hover:text-[rgb(var(--color-accent-hover))] transition-colors">
+							📅 Patrones de Ritmo de Escritura
+						</a>
+						<a href="/ciencia-cerebral/patterns" class="text-sm text-[rgb(var(--color-accent))] hover:text-[rgb(var(--color-accent-hover))] transition-colors">
+							🌀 Reconocimiento de Patrones
+						</a>
+						<a href="/ciencia-cerebral/meta" class="text-sm text-[rgb(var(--color-accent))] hover:text-[rgb(var(--color-accent-hover))] transition-colors">
+							🔍 Análisis Meta
+						</a>
+					</div>
+				</div>
+			</div>
+		</Container>
+	</Container>
+</BaseLayout>

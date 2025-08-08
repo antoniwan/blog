@@ -1,0 +1,283 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Container from '../../components/Container.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import LanguageToggle from '../../components/LanguageToggle.astro';
+import { getCollection } from 'astro:content';
+import { categories } from '../../data/categories';
+import { getTagWeight, MASLOW_CATEGORIES } from '../../data/tags';
+import { format } from 'date-fns';
+import { generateDynamicInsights, calculateObjectiveMetrics, scoreToLetterGrade, letterGradeToColor } from '../../utils/insightGenerator';
+
+// Get all published posts
+const posts = await getCollection('blog', ({ data }) => {
+	return import.meta.env.PROD ? !data.draft && data.published : true;
+});
+
+// Sort posts by date
+const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+// Translation data for language toggle
+const translationData = {
+	translations: [
+		{
+			id: 'patterns-en',
+			title: 'Hidden Patterns - Brain Science',
+			language: ['en'],
+			path: '/brain-science/patterns'
+		},
+		{
+			id: 'patterns-es',
+			title: 'Patrones Ocultos - Ciencia Cerebral',
+			language: ['es'],
+			path: '/ciencia-cerebral/patterns'
+		}
+	],
+	currentLanguage: 'es',
+	currentPath: '/ciencia-cerebral/patterns',
+	hasTranslations: true
+};
+---
+
+<BaseLayout
+	title="Patrones Ocultos - Ciencia Cerebral"
+	description="Descubre patrones subconscientes y correlaciones creativas a través del análisis de patrones ocultos en tu escritura."
+	path="/ciencia-cerebral/patterns"
+	structuredDataType="website"
+>
+	<Container>
+		<Container maxWidth="container" padding="none">
+			{/* Breadcrumbs */}
+			<div class="mb-4 md:mb-6 hidden md:block">
+				<Breadcrumbs 
+					items={[
+						{ label: "Inicio", href: "/" },
+						{ label: "Ciencia Cerebral", href: "/ciencia-cerebral" },
+						{ label: "Patrones Ocultos" }
+					]} 
+				/>
+			</div>
+
+			<div class="py-4 md:py-6 lg:py-8">
+				{/* Language Toggle */}
+				<LanguageToggle 
+					translations={translationData.translations}
+					currentLanguage={translationData.currentLanguage}
+					currentPath={translationData.currentPath}
+				/>
+
+				{/* Header */}
+				<div class="mb-6 md:mb-8 lg:mb-10">
+					<h1 class="text-display text-[rgb(var(--color-text))] mb-3 md:mb-4 lg:mb-5" transition:name="page-title">
+						🌀 <span class="highlight-primary">Patrones Ocultos</span>
+					</h1>
+					<p class="text-body-large text-[rgb(var(--color-text-muted))] leading-relaxed max-w-4xl" transition:name="page-description">
+						Descubre patrones subconscientes y correlaciones creativas que revelan la complejidad de tu mente. 
+						Análisis de patrones ocultos que emergen a través del tiempo y la evolución de tu pensamiento.
+					</p>
+				</div>
+
+				{/* Key Metrics */}
+				<div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-8 md:mb-10 lg:mb-12">
+					<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-4 md:p-6 border border-[rgb(var(--color-border))]">
+						<div class="text-xl md:text-2xl font-bold text-[rgb(var(--color-text))] mb-1 md:mb-2">{posts.length}</div>
+						<div class="text-xs md:text-sm text-[rgb(var(--color-text-muted))]">Patrones Analizados</div>
+						<div class="text-xs text-blue-500 mt-1">🔍 Base de Datos</div>
+					</div>
+					<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-4 md:p-6 border border-[rgb(var(--color-border))]">
+						<div class="text-xl md:text-2xl font-bold text-[rgb(var(--color-text))] mb-1 md:mb-2">{Object.keys(posts.reduce((acc, post) => {
+							post.data.tags?.forEach(tag => acc[tag] = true);
+							return acc;
+						}, {} as Record<string, boolean>)).length}</div>
+						<div class="text-xs md:text-sm text-[rgb(var(--color-text-muted))]">Temas Únicos</div>
+						<div class="text-xs text-green-500 mt-1">🏷️ Diversidad</div>
+					</div>
+					<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-4 md:p-6 border border-[rgb(var(--color-border))]">
+						<div class="text-xl md:text-2xl font-bold text-[rgb(var(--color-text))] mb-1 md:mb-2">{Math.round((Date.now() - sortedPosts[sortedPosts.length - 1]?.data.pubDate.getTime()) / (1000 * 60 * 60 * 24 * 365))}</div>
+						<div class="text-xs md:text-sm text-[rgb(var(--color-text-muted))]">Años de Datos</div>
+						<div class="text-xs text-purple-500 mt-1">⏰ Trayectoria</div>
+					</div>
+					<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-4 md:p-6 border border-[rgb(var(--color-border))]">
+						<div class="text-xl md:text-2xl font-bold text-[rgb(var(--color-text))] mb-1 md:mb-2">{MASLOW_CATEGORIES.length}</div>
+						<div class="text-xs md:text-sm text-[rgb(var(--color-text-muted))]">Dimensiones</div>
+						<div class="text-xs text-orange-500 mt-1">🧠 Complejidad</div>
+					</div>
+				</div>
+
+				{/* Pattern Categories */}
+				<div class="mb-12 md:mb-16">
+					<h2 class="text-lg md:text-xl font-semibold text-[rgb(var(--color-text))] mb-6 md:mb-8 flex items-center gap-2">
+						<span class="text-[rgb(var(--color-accent))]">🔍</span>
+						Categorías de Patrones
+					</h2>
+					<p class="text-sm text-[rgb(var(--color-text-muted))] mb-6 md:mb-8 max-w-3xl">
+						Diferentes tipos de patrones que emergen en tu escritura y pensamiento.
+					</p>
+					
+					<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+						<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-4 md:p-6 border border-[rgb(var(--color-border))]">
+							<div class="flex items-center gap-3 mb-3">
+								<span class="text-2xl">🔄</span>
+								<h3 class="text-base font-semibold text-[rgb(var(--color-text))]">Patrones Temporales</h3>
+							</div>
+							<p class="text-sm text-[rgb(var(--color-text-muted))] mb-3">
+								Patrones que se repiten en el tiempo, como ciclos estacionales, ritmos semanales y tendencias a largo plazo.
+							</p>
+							<div class="text-xs text-[rgb(var(--color-text-muted))]">
+								Incluye: Estacionalidad, ritmos circadianos, ciclos creativos
+							</div>
+						</div>
+
+						<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-4 md:p-6 border border-[rgb(var(--color-border))]">
+							<div class="flex items-center gap-3 mb-3">
+								<span class="text-2xl">🧠</span>
+								<h3 class="text-base font-semibold text-[rgb(var(--color-text))]">Patrones Cognitivos</h3>
+							</div>
+							<p class="text-sm text-[rgb(var(--color-text-muted))] mb-3">
+								Patrones en tu forma de pensar, procesar información y estructurar ideas.
+							</p>
+							<div class="text-xs text-[rgb(var(--color-text-muted))]">
+								Incluye: Estilos de pensamiento, patrones de resolución, sesgos cognitivos
+							</div>
+						</div>
+
+						<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-4 md:p-6 border border-[rgb(var(--color-border))]">
+							<div class="flex items-center gap-3 mb-3">
+								<span class="text-2xl">💜</span>
+								<h3 class="text-base font-semibold text-[rgb(var(--color-text))]">Patrones Emocionales</h3>
+							</div>
+							<p class="text-sm text-[rgb(var(--color-text-muted))] mb-3">
+								Patrones en tu procesamiento emocional, respuestas afectivas y regulación emocional.
+							</p>
+							<div class="text-xs text-[rgb(var(--color-text-muted))]">
+								Incluye: Respuestas emocionales, patrones de vulnerabilidad, regulación
+							</div>
+						</div>
+
+						<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-4 md:p-6 border border-[rgb(var(--color-border))]">
+							<div class="flex items-center gap-3 mb-3">
+								<span class="text-2xl">🏷️</span>
+								<h3 class="text-base font-semibold text-[rgb(var(--color-text))]">Patrones Temáticos</h3>
+							</div>
+							<p class="text-sm text-[rgb(var(--color-text-muted))] mb-3">
+								Patrones en los temas que eliges, las conexiones que haces y los intereses que persigues.
+							</p>
+							<div class="text-xs text-[rgb(var(--color-text-muted))]">
+								Incluye: Intereses recurrentes, conexiones temáticas, evolución de temas
+							</div>
+						</div>
+
+						<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-4 md:p-6 border border-[rgb(var(--color-border))]">
+							<div class="flex items-center gap-3 mb-3">
+								<span class="text-2xl">📝</span>
+								<h3 class="text-base font-semibold text-[rgb(var(--color-text))]">Patrones de Escritura</h3>
+							</div>
+							<p class="text-sm text-[rgb(var(--color-text-muted))] mb-3">
+								Patrones en tu estilo de escritura, estructura de contenido y elecciones lingüísticas.
+							</p>
+							<div class="text-xs text-[rgb(var(--color-text-muted))]">
+								Incluye: Estilo, estructura, vocabulario, longitud
+							</div>
+						</div>
+
+						<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-4 md:p-6 border border-[rgb(var(--color-border))]">
+							<div class="flex items-center gap-3 mb-3">
+								<span class="text-2xl">🌱</span>
+								<h3 class="text-base font-semibold text-[rgb(var(--color-text))]">Patrones de Crecimiento</h3>
+							</div>
+							<p class="text-sm text-[rgb(var(--color-text-muted))] mb-3">
+								Patrones en tu desarrollo personal, evolución intelectual y transformación.
+							</p>
+							<div class="text-xs text-[rgb(var(--color-text-muted))]">
+								Incluye: Evolución personal, desarrollo intelectual, transformación
+							</div>
+						</div>
+					</div>
+				</div>
+
+				{/* Pattern Insights */}
+				<div class="mb-12 md:mb-16">
+					<h2 class="text-lg md:text-xl font-semibold text-[rgb(var(--color-text))] mb-6 md:mb-8 flex items-center gap-2">
+						<span class="text-[rgb(var(--color-accent))]">💡</span>
+						Insights de Patrones
+					</h2>
+					<p class="text-sm text-[rgb(var(--color-text-muted))] mb-6 md:mb-8 max-w-3xl">
+						Descubrimientos clave sobre los patrones que definen tu pensamiento y creatividad.
+					</p>
+					
+					<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-4 md:p-6 border border-[rgb(var(--color-border))]">
+						<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+							<div>
+								<h3 class="text-base font-semibold text-[rgb(var(--color-text))] mb-3">Patrones Identificados</h3>
+								<div class="space-y-2 text-sm">
+									<div class="flex justify-between items-center">
+										<span class="text-[rgb(var(--color-text))]">Temporales:</span>
+										<span class="text-[rgb(var(--color-text-muted))]">Presentes</span>
+									</div>
+									<div class="flex justify-between items-center">
+										<span class="text-[rgb(var(--color-text))]">Cognitivos:</span>
+										<span class="text-[rgb(var(--color-text-muted))]">Evolucionando</span>
+									</div>
+									<div class="flex justify-between items-center">
+										<span class="text-[rgb(var(--color-text))]">Emocionales:</span>
+										<span class="text-[rgb(var(--color-text-muted))]">Complejos</span>
+									</div>
+									<div class="flex justify-between items-center">
+										<span class="text-[rgb(var(--color-text))]">Temáticos:</span>
+										<span class="text-[rgb(var(--color-text-muted))]">Diversos</span>
+									</div>
+								</div>
+							</div>
+							
+							<div>
+								<h3 class="text-base font-semibold text-[rgb(var(--color-text))] mb-3">Correlaciones</h3>
+								<div class="space-y-2 text-sm">
+									<div class="flex justify-between items-center">
+										<span class="text-[rgb(var(--color-text))]">Tiempo-Tema:</span>
+										<span class="text-[rgb(var(--color-text-muted))]">Fuerte</span>
+									</div>
+									<div class="flex justify-between items-center">
+										<span class="text-[rgb(var(--color-text))]">Emoción-Creatividad:</span>
+										<span class="text-[rgb(var(--color-text-muted))]">Moderada</span>
+									</div>
+									<div class="flex justify-between items-center">
+										<span class="text-[rgb(var(--color-text))]">Crecimiento-Evolución:</span>
+										<span class="text-[rgb(var(--color-text-muted))]">Alta</span>
+									</div>
+									<div class="flex justify-between items-center">
+										<span class="text-[rgb(var(--color-text))]">Patrón-Complejidad:</span>
+										<span class="text-[rgb(var(--color-text-muted))]">Incremental</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				{/* Navigation Links */}
+				<div class="mt-8 md:mt-12 pt-6 md:pt-8 border-t border-[rgb(var(--color-border))]">
+					<div class="flex flex-wrap gap-4 md:gap-6 justify-center">
+						<a href="/ciencia-cerebral" class="text-sm text-[rgb(var(--color-accent))] hover:text-[rgb(var(--color-accent-hover))] transition-colors">
+							🏠 Volver a Ciencia Cerebral
+						</a>
+						<a href="/ciencia-cerebral/insights" class="text-sm text-[rgb(var(--color-accent))] hover:text-[rgb(var(--color-accent-hover))] transition-colors">
+							💡 Insights Personales
+						</a>
+						<a href="/ciencia-cerebral/evolution" class="text-sm text-[rgb(var(--color-accent))] hover:text-[rgb(var(--color-accent-hover))] transition-colors">
+							📈 Crecimiento Intelectual
+						</a>
+						<a href="/ciencia-cerebral/topics" class="text-sm text-[rgb(var(--color-accent))] hover:text-[rgb(var(--color-accent-hover))] transition-colors">
+							🏷️ Temas Principales
+						</a>
+						<a href="/ciencia-cerebral/cadence" class="text-sm text-[rgb(var(--color-accent))] hover:text-[rgb(var(--color-accent-hover))] transition-colors">
+							📅 Ritmos Creativos
+						</a>
+						<a href="/ciencia-cerebral/meta" class="text-sm text-[rgb(var(--color-accent))] hover:text-[rgb(var(--color-accent-hover))] transition-colors">
+							🔍 Auto-reflexión
+						</a>
+					</div>
+				</div>
+			</div>
+		</Container>
+	</Container>
+</BaseLayout>

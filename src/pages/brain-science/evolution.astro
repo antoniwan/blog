@@ -2,6 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Container from '../../components/Container.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import LanguageToggle from '../../components/LanguageToggle.astro';
 import { getCollection } from 'astro:content';
 import { categories } from '../../data/categories';
 import { getTagWeight, MASLOW_CATEGORIES } from '../../data/tags';
@@ -15,6 +16,27 @@ const posts = await getCollection('blog', ({ data }) => {
 
 // Sort posts by date
 const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+// Translation data for language toggle
+const translationData = {
+	translations: [
+		{
+			id: 'evolution-en',
+			title: 'Intellectual Growth - Brain Science',
+			language: ['en'],
+			path: '/brain-science/evolution'
+		},
+		{
+			id: 'evolution-es',
+			title: 'Crecimiento Intelectual - Ciencia Cerebral',
+			language: ['es'],
+			path: '/ciencia-cerebral/evolution'
+		}
+	],
+	currentLanguage: 'en',
+	currentPath: '/brain-science/evolution',
+	hasTranslations: true
+};
 
 // Content evolution analysis
 const contentEvolution = posts.map(post => {
@@ -318,6 +340,13 @@ const { insights, summary, balancedAnalysis } = generateDynamicInsights(insightD
 			</div>
 
 			<div class="py-4 md:py-6 lg:py-8">
+				{/* Language Toggle */}
+				<LanguageToggle 
+					translations={translationData.translations}
+					currentLanguage={translationData.currentLanguage}
+					currentPath={translationData.currentPath}
+				/>
+
 				{/* Header */}
 				<div class="mb-6 md:mb-8 lg:mb-10">
 					<h1 class="text-display text-[rgb(var(--color-text))] mb-3 md:mb-4 lg:mb-5" transition:name="page-title">

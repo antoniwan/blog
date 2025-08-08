@@ -1,0 +1,298 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Container from '../../components/Container.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import LanguageToggle from '../../components/LanguageToggle.astro';
+import { getCollection } from 'astro:content';
+import { categories } from '../../data/categories';
+import { getTagWeight, MASLOW_CATEGORIES } from '../../data/tags';
+import { format } from 'date-fns';
+import { generateDynamicInsights, calculateObjectiveMetrics, scoreToLetterGrade, letterGradeToColor } from '../../utils/insightGenerator';
+
+// Get all published posts
+const posts = await getCollection('blog', ({ data }) => {
+	return import.meta.env.PROD ? !data.draft && data.published : true;
+});
+
+// Sort posts by date
+const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+// Translation data for language toggle
+const translationData = {
+	translations: [
+		{
+			id: 'evolution-en',
+			title: 'Intellectual Growth - Brain Science',
+			language: ['en'],
+			path: '/brain-science/evolution'
+		},
+		{
+			id: 'evolution-es',
+			title: 'Crecimiento Intelectual - Ciencia Cerebral',
+			language: ['es'],
+			path: '/ciencia-cerebral/evolution'
+		}
+	],
+	currentLanguage: 'es',
+	currentPath: '/ciencia-cerebral/evolution',
+	hasTranslations: true
+};
+---
+
+<BaseLayout
+	title="Crecimiento Intelectual - Ciencia Cerebral"
+	description="Analiza cómo ha evolucionado tu estilo de pensamiento, áreas de conocimiento y madurez intelectual a lo largo del tiempo."
+	path="/ciencia-cerebral/evolution"
+	structuredDataType="website"
+>
+	<Container>
+		<Container maxWidth="container" padding="none">
+			{/* Breadcrumbs */}
+			<div class="mb-4 md:mb-6 hidden md:block">
+				<Breadcrumbs 
+					items={[
+						{ label: "Inicio", href: "/" },
+						{ label: "Ciencia Cerebral", href: "/ciencia-cerebral" },
+						{ label: "Crecimiento Intelectual" }
+					]} 
+				/>
+			</div>
+
+			<div class="py-4 md:py-6 lg:py-8">
+				{/* Language Toggle */}
+				<LanguageToggle 
+					translations={translationData.translations}
+					currentLanguage={translationData.currentLanguage}
+					currentPath={translationData.currentPath}
+				/>
+
+				{/* Header */}
+				<div class="mb-6 md:mb-8 lg:mb-10">
+					<h1 class="text-display text-[rgb(var(--color-text))] mb-3 md:mb-4 lg:mb-5" transition:name="page-title">
+						📈 <span class="highlight-primary">Crecimiento Intelectual</span>
+					</h1>
+					<p class="text-body-large text-[rgb(var(--color-text-muted))] leading-relaxed max-w-4xl" transition:name="page-description">
+						Análisis de la evolución de tu estilo de pensamiento, expansión de áreas de conocimiento y desarrollo de madurez intelectual. 
+						Descubre cómo tu mente ha crecido y se ha transformado a través del tiempo.
+					</p>
+				</div>
+
+				{/* Key Growth Metrics */}
+				<div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-8 md:mb-10 lg:mb-12">
+					<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-4 md:p-6 border border-[rgb(var(--color-border))]">
+						<div class="text-xl md:text-2xl font-bold text-[rgb(var(--color-text))] mb-1 md:mb-2">{posts.length}</div>
+						<div class="text-xs md:text-sm text-[rgb(var(--color-text-muted))]">Total de Escritos</div>
+						<div class="text-xs text-blue-500 mt-1">📚 Base de Conocimiento</div>
+					</div>
+					<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-4 md:p-6 border border-[rgb(var(--color-border))]">
+						<div class="text-xl md:text-2xl font-bold text-[rgb(var(--color-text))] mb-1 md:mb-2">{MASLOW_CATEGORIES.length}</div>
+						<div class="text-xs md:text-sm text-[rgb(var(--color-text-muted))]">Áreas de Conocimiento</div>
+						<div class="text-xs text-green-500 mt-1">🌱 Diversidad Temática</div>
+					</div>
+					<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-4 md:p-6 border border-[rgb(var(--color-border))]">
+						<div class="text-xl md:text-2xl font-bold text-[rgb(var(--color-text))] mb-1 md:mb-2">{Math.round((Date.now() - sortedPosts[sortedPosts.length - 1]?.data.pubDate.getTime()) / (1000 * 60 * 60 * 24 * 365))}</div>
+						<div class="text-xs md:text-sm text-[rgb(var(--color-text-muted))]">Años de Evolución</div>
+						<div class="text-xs text-purple-500 mt-1">⏰ Trayectoria Temporal</div>
+					</div>
+					<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-4 md:p-6 border border-[rgb(var(--color-border))]">
+						<div class="text-xl md:text-2xl font-bold text-[rgb(var(--color-text))] mb-1 md:mb-2">{Math.round(posts.length / Math.max(1, Math.round((Date.now() - sortedPosts[sortedPosts.length - 1]?.data.pubDate.getTime()) / (1000 * 60 * 60 * 24 * 30))))}</div>
+						<div class="text-xs md:text-sm text-[rgb(var(--color-text-muted))]">Promedio Mensual</div>
+						<div class="text-xs text-orange-500 mt-1">📊 Ritmo de Producción</div>
+					</div>
+				</div>
+
+				{/* Evolution Timeline */}
+				<div class="mb-12 md:mb-16">
+					<h2 class="text-lg md:text-xl font-semibold text-[rgb(var(--color-text))] mb-6 md:mb-8 flex items-center gap-2">
+						<span class="text-[rgb(var(--color-accent))]">📅</span>
+						Línea de Tiempo de Evolución
+					</h2>
+					<p class="text-sm text-[rgb(var(--color-text-muted))] mb-6 md:mb-8 max-w-3xl">
+						Trayectoria de tu crecimiento intelectual a través del tiempo, mostrando hitos y patrones de desarrollo.
+					</p>
+					
+					<div class="space-y-4 md:space-y-6">
+						{/* Early Period */}
+						<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-4 md:p-6 border border-[rgb(var(--color-border))]">
+							<div class="flex items-center gap-3 mb-4">
+								<span class="text-2xl">🌱</span>
+								<h3 class="text-lg font-semibold text-[rgb(var(--color-text))]">Período Inicial</h3>
+								<span class="text-sm text-[rgb(var(--color-text-muted))]">
+									{format(sortedPosts[sortedPosts.length - 1]?.data.pubDate || new Date(), 'MMM yyyy')} - {format(sortedPosts[Math.floor(sortedPosts.length * 0.33)]?.data.pubDate || new Date(), 'MMM yyyy')}
+								</span>
+							</div>
+							<p class="text-sm text-[rgb(var(--color-text-muted))] mb-3">
+								Etapa de exploración inicial y establecimiento de patrones de pensamiento fundamentales.
+							</p>
+							<div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs">
+								<div>
+									<span class="font-medium text-[rgb(var(--color-text))]">Escritos:</span>
+									<span class="text-[rgb(var(--color-text-muted))] ml-1">{Math.floor(sortedPosts.length * 0.33)}</span>
+								</div>
+								<div>
+									<span class="font-medium text-[rgb(var(--color-text))]">Temas:</span>
+									<span class="text-[rgb(var(--color-text-muted))] ml-1">{new Set(sortedPosts.slice(Math.floor(sortedPosts.length * 0.67)).flatMap(p => p.data.tags || [])).size}</span>
+								</div>
+								<div>
+									<span class="font-medium text-[rgb(var(--color-text))]">Promedio:</span>
+									<span class="text-[rgb(var(--color-text-muted))] ml-1">{Math.round(sortedPosts.slice(Math.floor(sortedPosts.length * 0.67)).reduce((sum, p) => sum + (p.body || '').split(/\s+/).length, 0) / Math.max(1, Math.floor(sortedPosts.length * 0.33)))} palabras</span>
+								</div>
+								<div>
+									<span class="font-medium text-[rgb(var(--color-text))]">Frecuencia:</span>
+									<span class="text-[rgb(var(--color-text-muted))] ml-1">Baja</span>
+								</div>
+							</div>
+						</div>
+
+						{/* Middle Period */}
+						<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-4 md:p-6 border border-[rgb(var(--color-border))]">
+							<div class="flex items-center gap-3 mb-4">
+								<span class="text-2xl">🌿</span>
+								<h3 class="text-lg font-semibold text-[rgb(var(--color-text))]">Período de Desarrollo</h3>
+								<span class="text-sm text-[rgb(var(--color-text-muted))]">
+									{format(sortedPosts[Math.floor(sortedPosts.length * 0.33)]?.data.pubDate || new Date(), 'MMM yyyy')} - {format(sortedPosts[Math.floor(sortedPosts.length * 0.67)]?.data.pubDate || new Date(), 'MMM yyyy')}
+								</span>
+							</div>
+							<p class="text-sm text-[rgb(var(--color-text-muted))] mb-3">
+								Fase de consolidación y expansión de áreas de conocimiento, mayor profundidad en el análisis.
+							</p>
+							<div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs">
+								<div>
+									<span class="font-medium text-[rgb(var(--color-text))]">Escritos:</span>
+									<span class="text-[rgb(var(--color-text-muted))] ml-1">{Math.floor(sortedPosts.length * 0.34)}</span>
+								</div>
+								<div>
+									<span class="font-medium text-[rgb(var(--color-text))]">Temas:</span>
+									<span class="text-[rgb(var(--color-text-muted))] ml-1">{new Set(sortedPosts.slice(Math.floor(sortedPosts.length * 0.33), Math.floor(sortedPosts.length * 0.67)).flatMap(p => p.data.tags || [])).size}</span>
+								</div>
+								<div>
+									<span class="font-medium text-[rgb(var(--color-text))]">Promedio:</span>
+									<span class="text-[rgb(var(--color-text-muted))] ml-1">{Math.round(sortedPosts.slice(Math.floor(sortedPosts.length * 0.33), Math.floor(sortedPosts.length * 0.67)).reduce((sum, p) => sum + (p.body || '').split(/\s+/).length, 0) / Math.max(1, Math.floor(sortedPosts.length * 0.34)))} palabras</span>
+								</div>
+								<div>
+									<span class="font-medium text-[rgb(var(--color-text))]">Frecuencia:</span>
+									<span class="text-[rgb(var(--color-text-muted))] ml-1">Media</span>
+								</div>
+							</div>
+						</div>
+
+						{/* Recent Period */}
+						<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-4 md:p-6 border border-[rgb(var(--color-border))]">
+							<div class="flex items-center gap-3 mb-4">
+								<span class="text-2xl">🌳</span>
+								<h3 class="text-lg font-semibold text-[rgb(var(--color-text))]">Período de Madurez</h3>
+								<span class="text-sm text-[rgb(var(--color-text-muted))]">
+									{format(sortedPosts[Math.floor(sortedPosts.length * 0.67)]?.data.pubDate || new Date(), 'MMM yyyy')} - Presente
+								</span>
+							</div>
+							<p class="text-sm text-[rgb(var(--color-text-muted))] mb-3">
+								Etapa de madurez intelectual, síntesis de conocimientos y desarrollo de perspectivas únicas.
+							</p>
+							<div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs">
+								<div>
+									<span class="font-medium text-[rgb(var(--color-text))]">Escritos:</span>
+									<span class="text-[rgb(var(--color-text-muted))] ml-1">{Math.floor(sortedPosts.length * 0.33)}</span>
+								</div>
+								<div>
+									<span class="font-medium text-[rgb(var(--color-text))]">Temas:</span>
+									<span class="text-[rgb(var(--color-text-muted))] ml-1">{new Set(sortedPosts.slice(0, Math.floor(sortedPosts.length * 0.33)).flatMap(p => p.data.tags || [])).size}</span>
+								</div>
+								<div>
+									<span class="font-medium text-[rgb(var(--color-text))]">Promedio:</span>
+									<span class="text-[rgb(var(--color-text-muted))] ml-1">{Math.round(sortedPosts.slice(0, Math.floor(sortedPosts.length * 0.33)).reduce((sum, p) => sum + (p.body || '').split(/\s+/).length, 0) / Math.max(1, Math.floor(sortedPosts.length * 0.33)))} palabras</span>
+								</div>
+								<div>
+									<span class="font-medium text-[rgb(var(--color-text))]">Frecuencia:</span>
+									<span class="text-[rgb(var(--color-text-muted))] ml-1">Alta</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				{/* Knowledge Area Evolution */}
+				<div class="mb-12 md:mb-16">
+					<h2 class="text-lg md:text-xl font-semibold text-[rgb(var(--color-text))] mb-6 md:mb-8 flex items-center gap-2">
+						<span class="text-[rgb(var(--color-accent))]">🧠</span>
+						Evolución de Áreas de Conocimiento
+					</h2>
+					<p class="text-sm text-[rgb(var(--color-text-muted))] mb-6 md:mb-8 max-w-3xl">
+						Análisis de cómo han evolucionado tus intereses y áreas de especialización a lo largo del tiempo.
+					</p>
+					
+					<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+						{MASLOW_CATEGORIES.map(category => {
+							const categoryPosts = posts.filter(post => 
+								post.data.tags?.some(tag => category.tags.includes(tag))
+							);
+							
+							const earlyPosts = categoryPosts.filter(post => {
+								const postIndex = sortedPosts.findIndex(p => p.id === post.id);
+								return postIndex >= sortedPosts.length * 0.7;
+							});
+							
+							const recentPosts = categoryPosts.filter(post => {
+								const postIndex = sortedPosts.findIndex(p => p.id === post.id);
+								return postIndex < sortedPosts.length * 0.3;
+							});
+							
+							const expansion = recentPosts.length - earlyPosts.length;
+							const expansionRate = earlyPosts.length > 0 ? ((recentPosts.length - earlyPosts.length) / earlyPosts.length) * 100 : recentPosts.length > 0 ? 100 : 0;
+							
+							return (
+								<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-4 md:p-6 border border-[rgb(var(--color-border))]">
+									<div class="flex items-center gap-2 mb-3">
+										<span class="text-xl">{category.icon}</span>
+										<h3 class="text-base font-semibold text-[rgb(var(--color-text))]">{category.title}</h3>
+									</div>
+									<div class="space-y-2 text-sm">
+										<div class="flex justify-between">
+											<span class="text-[rgb(var(--color-text-muted))]">Total:</span>
+											<span class="font-medium text-[rgb(var(--color-text))]">{categoryPosts.length}</span>
+										</div>
+										<div class="flex justify-between">
+											<span class="text-[rgb(var(--color-text-muted))]">Expansión:</span>
+											<span class={`font-medium ${expansion > 0 ? 'text-green-600' : expansion < 0 ? 'text-red-600' : 'text-[rgb(var(--color-text))]'}`}>
+												{expansion > 0 ? '+' : ''}{expansion}
+											</span>
+										</div>
+										<div class="flex justify-between">
+											<span class="text-[rgb(var(--color-text-muted))]">Tasa:</span>
+											<span class={`font-medium ${expansionRate > 0 ? 'text-green-600' : expansionRate < 0 ? 'text-red-600' : 'text-[rgb(var(--color-text))]'}`}>
+												{expansionRate > 0 ? '+' : ''}{Math.round(expansionRate)}%
+											</span>
+										</div>
+									</div>
+								</div>
+							);
+						})}
+					</div>
+				</div>
+
+				{/* Navigation Links */}
+				<div class="mt-8 md:mt-12 pt-6 md:pt-8 border-t border-[rgb(var(--color-border))]">
+					<div class="flex flex-wrap gap-4 md:gap-6 justify-center">
+						<a href="/ciencia-cerebral" class="text-sm text-[rgb(var(--color-accent))] hover:text-[rgb(var(--color-accent-hover))] transition-colors">
+							🏠 Volver a Ciencia Cerebral
+						</a>
+						<a href="/ciencia-cerebral/insights" class="text-sm text-[rgb(var(--color-accent))] hover:text-[rgb(var(--color-accent-hover))] transition-colors">
+							💡 Insights Personales
+						</a>
+						<a href="/ciencia-cerebral/topics" class="text-sm text-[rgb(var(--color-accent))] hover:text-[rgb(var(--color-accent-hover))] transition-colors">
+							🏷️ Temas Principales
+						</a>
+						<a href="/ciencia-cerebral/cadence" class="text-sm text-[rgb(var(--color-accent))] hover:text-[rgb(var(--color-accent-hover))] transition-colors">
+							📅 Ritmos Creativos
+						</a>
+						<a href="/ciencia-cerebral/patterns" class="text-sm text-[rgb(var(--color-accent))] hover:text-[rgb(var(--color-accent-hover))] transition-colors">
+							🌀 Patrones Ocultos
+						</a>
+						<a href="/ciencia-cerebral/meta" class="text-sm text-[rgb(var(--color-accent))] hover:text-[rgb(var(--color-accent-hover))] transition-colors">
+							🔍 Auto-reflexión
+						</a>
+					</div>
+				</div>
+			</div>
+		</Container>
+	</Container>
+</BaseLayout>

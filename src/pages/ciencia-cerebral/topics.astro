@@ -1,0 +1,280 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Container from '../../components/Container.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import LanguageToggle from '../../components/LanguageToggle.astro';
+import { getCollection } from 'astro:content';
+import { categories } from '../../data/categories';
+import { getTagWeight, MASLOW_CATEGORIES } from '../../data/tags';
+import { format } from 'date-fns';
+import { generateDynamicInsights, calculateObjectiveMetrics, scoreToLetterGrade, letterGradeToColor } from '../../utils/insightGenerator';
+
+// Get all published posts
+const posts = await getCollection('blog', ({ data }) => {
+	return import.meta.env.PROD ? !data.draft && data.published : true;
+});
+
+// Sort posts by date
+const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+// Tag analysis
+const tagFrequency = posts.reduce((acc, post) => {
+	post.data.tags?.forEach(tag => {
+		acc[tag] = (acc[tag] || 0) + 1;
+	});
+	return acc;
+}, {} as Record<string, number>);
+
+const topTags = Object.entries(tagFrequency)
+	.sort(([,a], [,b]) => b - a)
+	.slice(0, 20)
+	.map(([tag, count]) => ({ tag, count, weight: getTagWeight(tag) }));
+
+// Category analysis
+const categoryFrequency = posts.reduce((acc, post) => {
+	post.data.category?.forEach(cat => {
+		acc[cat] = (acc[cat] || 0) + 1;
+	});
+	return acc;
+}, {} as Record<string, number>);
+
+// Maslow hierarchy analysis
+const maslowAnalysis = MASLOW_CATEGORIES.map(category => {
+	const categoryPosts = posts.filter(post => 
+		post.data.tags?.some(tag => category.tags.includes(tag))
+	).length;
+	return {
+		...category,
+		postCount: categoryPosts,
+		percentage: Math.round((categoryPosts / posts.length) * 100)
+	};
+}).filter(cat => cat.postCount > 0);
+
+// Translation data for language toggle
+const translationData = {
+	translations: [
+		{
+			id: 'topics-en',
+			title: 'Core Themes - Brain Science',
+			language: ['en'],
+			path: '/brain-science/topics'
+		},
+		{
+			id: 'topics-es',
+			title: 'Temas Principales - Ciencia Cerebral',
+			language: ['es'],
+			path: '/ciencia-cerebral/topics'
+		}
+	],
+	currentLanguage: 'es',
+	currentPath: '/ciencia-cerebral/topics',
+	hasTranslations: true
+};
+---
+
+<BaseLayout
+	title="Temas Principales - Ciencia Cerebral"
+	description="Descubre qué temas realmente te importan y cómo se conectan tus intereses a través del análisis de patrones temáticos."
+	path="/ciencia-cerebral/topics"
+	structuredDataType="website"
+>
+	<Container>
+		<Container maxWidth="container" padding="none">
+			{/* Breadcrumbs */}
+			<div class="mb-4 md:mb-6 hidden md:block">
+				<Breadcrumbs 
+					items={[
+						{ label: "Inicio", href: "/" },
+						{ label: "Ciencia Cerebral", href: "/ciencia-cerebral" },
+						{ label: "Temas Principales" }
+					]} 
+				/>
+			</div>
+
+			<div class="py-4 md:py-6 lg:py-8">
+				{/* Language Toggle */}
+				<LanguageToggle 
+					translations={translationData.translations}
+					currentLanguage={translationData.currentLanguage}
+					currentPath={translationData.currentPath}
+				/>
+
+				{/* Header */}
+				<div class="mb-6 md:mb-8 lg:mb-10">
+					<h1 class="text-display text-[rgb(var(--color-text))] mb-3 md:mb-4 lg:mb-5" transition:name="page-title">
+						🏷️ <span class="highlight-primary">Temas Principales</span>
+					</h1>
+					<p class="text-body-large text-[rgb(var(--color-text-muted))] leading-relaxed max-w-4xl" transition:name="page-description">
+						Análisis de los temas que realmente te importan y cómo se conectan tus intereses. 
+						Descubre los patrones temáticos que definen tu pensamiento y las áreas que capturan tu atención.
+					</p>
+				</div>
+
+				{/* Key Metrics */}
+				<div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-8 md:mb-10 lg:mb-12">
+					<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-4 md:p-6 border border-[rgb(var(--color-border))]">
+						<div class="text-xl md:text-2xl font-bold text-[rgb(var(--color-text))] mb-1 md:mb-2">{Object.keys(tagFrequency).length}</div>
+						<div class="text-xs md:text-sm text-[rgb(var(--color-text-muted))]">Temas Únicos</div>
+						<div class="text-xs text-blue-500 mt-1">🏷️ Diversidad Temática</div>
+					</div>
+					<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-4 md:p-6 border border-[rgb(var(--color-border))]">
+						<div class="text-xl md:text-2xl font-bold text-[rgb(var(--color-text))] mb-1 md:mb-2">{topTags[0]?.count || 0}</div>
+						<div class="text-xs md:text-sm text-[rgb(var(--color-text-muted))]">Tema Más Frecuente</div>
+						<div class="text-xs text-green-500 mt-1">🎯 Enfoque Principal</div>
+					</div>
+					<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-4 md:p-6 border border-[rgb(var(--color-border))]">
+						<div class="text-xl md:text-2xl font-bold text-[rgb(var(--color-text))] mb-1 md:mb-2">{maslowAnalysis.length}</div>
+						<div class="text-xs md:text-sm text-[rgb(var(--color-text-muted))]">Áreas de Vida</div>
+						<div class="text-xs text-purple-500 mt-1">🌱 Dimensiones Humanas</div>
+					</div>
+					<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-4 md:p-6 border border-[rgb(var(--color-border))]">
+						<div class="text-xl md:text-2xl font-bold text-[rgb(var(--color-text))] mb-1 md:mb-2">{Math.round(topTags.reduce((sum, tag) => sum + tag.count, 0) / posts.length)}</div>
+						<div class="text-xs md:text-sm text-[rgb(var(--color-text-muted))]">Promedio por Post</div>
+						<div class="text-xs text-orange-500 mt-1">📊 Densidad Temática</div>
+					</div>
+				</div>
+
+				{/* Top Themes */}
+				<div class="mb-12 md:mb-16">
+					<h2 class="text-lg md:text-xl font-semibold text-[rgb(var(--color-text))] mb-6 md:mb-8 flex items-center gap-2">
+						<span class="text-[rgb(var(--color-accent))]">🎯</span>
+						Temas Más Frecuentes
+					</h2>
+					<p class="text-sm text-[rgb(var(--color-text-muted))] mb-6 md:mb-8 max-w-3xl">
+						Los temas que aparecen con mayor frecuencia en tus escritos, indicando tus áreas de mayor interés y enfoque.
+					</p>
+					
+					<div class="space-y-4 md:space-y-6">
+						{topTags.slice(0, 10).map((tag, index) => (
+							<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-4 md:p-6 border border-[rgb(var(--color-border))]">
+								<div class="flex justify-between items-center mb-3">
+									<div class="flex items-center gap-3">
+										<span class="text-lg md:text-xl font-bold text-[rgb(var(--color-accent))]">#{index + 1}</span>
+										<h3 class="text-base md:text-lg font-semibold text-[rgb(var(--color-text))]">{tag.tag}</h3>
+									</div>
+									<div class="text-right">
+										<div class="text-lg md:text-xl font-bold text-[rgb(var(--color-text))]">{tag.count}</div>
+										<div class="text-xs text-[rgb(var(--color-text-muted))]">apariciones</div>
+									</div>
+								</div>
+								<div class="w-full bg-[rgb(var(--color-border))] rounded-full h-2 mb-2">
+									<div 
+										class="bg-[rgb(var(--color-accent))] h-2 rounded-full transition-all duration-300"
+										style={`width: ${(tag.count / topTags[0].count) * 100}%`}
+									></div>
+								</div>
+								<div class="flex justify-between items-center text-xs text-[rgb(var(--color-text-muted))]">
+									<span>Peso: {tag.weight}</span>
+									<span>{Math.round((tag.count / posts.length) * 100)}% de todos los posts</span>
+								</div>
+							</div>
+						))}
+					</div>
+				</div>
+
+				{/* Life Areas Focus */}
+				<div class="mb-12 md:mb-16">
+					<h2 class="text-lg md:text-xl font-semibold text-[rgb(var(--color-text))] mb-6 md:mb-8 flex items-center gap-2">
+						<span class="text-[rgb(var(--color-accent))]">🌱</span>
+						Enfoque en Áreas de Vida
+					</h2>
+					<p class="text-sm text-[rgb(var(--color-text-muted))] mb-6 md:mb-8 max-w-3xl">
+						Distribución de tu atención a través de diferentes dimensiones de la experiencia humana, basada en la jerarquía de necesidades de Maslow.
+					</p>
+					
+					<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+						{maslowAnalysis.map(category => (
+							<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-4 md:p-6 border border-[rgb(var(--color-border))]">
+								<div class="flex items-center gap-3 mb-3">
+									<span class="text-2xl">{category.icon}</span>
+									<div>
+										<h3 class="text-base font-semibold text-[rgb(var(--color-text))]">{category.title}</h3>
+										<p class="text-xs text-[rgb(var(--color-text-muted))]">{category.description}</p>
+									</div>
+								</div>
+								<div class="space-y-2">
+									<div class="flex justify-between items-center">
+										<span class="text-sm text-[rgb(var(--color-text-muted))]">Posts:</span>
+										<span class="font-medium text-[rgb(var(--color-text))]">{category.postCount}</span>
+									</div>
+									<div class="flex justify-between items-center">
+										<span class="text-sm text-[rgb(var(--color-text-muted))]">Porcentaje:</span>
+										<span class="font-medium text-[rgb(var(--color-text))]">{category.percentage}%</span>
+									</div>
+									<div class="w-full bg-[rgb(var(--color-border))] rounded-full h-2">
+										<div 
+											class="h-2 rounded-full transition-all duration-300"
+											style={`width: ${category.percentage}%; background-color: rgb(var(--color-accent))`}
+										></div>
+									</div>
+								</div>
+							</div>
+						))}
+					</div>
+				</div>
+
+				{/* Topic Connections */}
+				<div class="mb-12 md:mb-16">
+					<h2 class="text-lg md:text-xl font-semibold text-[rgb(var(--color-text))] mb-6 md:mb-8 flex items-center gap-2">
+						<span class="text-[rgb(var(--color-accent))]">🔗</span>
+						Conexiones Temáticas
+					</h2>
+					<p class="text-sm text-[rgb(var(--color-text-muted))] mb-6 md:mb-8 max-w-3xl">
+						Análisis de cómo se relacionan y conectan tus temas de interés, revelando patrones de pensamiento interdisciplinario.
+					</p>
+					
+					<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-4 md:p-6 border border-[rgb(var(--color-border))]">
+						<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+							<div>
+								<h3 class="text-base font-semibold text-[rgb(var(--color-text))] mb-3">Temas Más Conectados</h3>
+								<div class="space-y-2 text-sm">
+									{topTags.slice(0, 5).map(tag => (
+										<div class="flex justify-between items-center">
+											<span class="text-[rgb(var(--color-text))]">{tag.tag}</span>
+											<span class="text-[rgb(var(--color-text-muted))]">{tag.count} posts</span>
+										</div>
+									))}
+								</div>
+							</div>
+							<div>
+								<h3 class="text-base font-semibold text-[rgb(var(--color-text))] mb-3">Áreas de Enfoque</h3>
+								<div class="space-y-2 text-sm">
+									{maslowAnalysis.slice(0, 5).map(category => (
+										<div class="flex justify-between items-center">
+											<span class="text-[rgb(var(--color-text))]">{category.title}</span>
+											<span class="text-[rgb(var(--color-text-muted))]">{category.percentage}%</span>
+										</div>
+									))}
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				{/* Navigation Links */}
+				<div class="mt-8 md:mt-12 pt-6 md:pt-8 border-t border-[rgb(var(--color-border))]">
+					<div class="flex flex-wrap gap-4 md:gap-6 justify-center">
+						<a href="/ciencia-cerebral" class="text-sm text-[rgb(var(--color-accent))] hover:text-[rgb(var(--color-accent-hover))] transition-colors">
+							🏠 Volver a Ciencia Cerebral
+						</a>
+						<a href="/ciencia-cerebral/insights" class="text-sm text-[rgb(var(--color-accent))] hover:text-[rgb(var(--color-accent-hover))] transition-colors">
+							💡 Insights Personales
+						</a>
+						<a href="/ciencia-cerebral/evolution" class="text-sm text-[rgb(var(--color-accent))] hover:text-[rgb(var(--color-accent-hover))] transition-colors">
+							📈 Crecimiento Intelectual
+						</a>
+						<a href="/ciencia-cerebral/cadence" class="text-sm text-[rgb(var(--color-accent))] hover:text-[rgb(var(--color-accent-hover))] transition-colors">
+							📅 Ritmos Creativos
+						</a>
+						<a href="/ciencia-cerebral/patterns" class="text-sm text-[rgb(var(--color-accent))] hover:text-[rgb(var(--color-accent-hover))] transition-colors">
+							🌀 Patrones Ocultos
+						</a>
+						<a href="/ciencia-cerebral/meta" class="text-sm text-[rgb(var(--color-accent))] hover:text-[rgb(var(--color-accent-hover))] transition-colors">
+							🔍 Auto-reflexión
+						</a>
+					</div>
+				</div>
+			</div>
+		</Container>
+	</Container>
+</BaseLayout>

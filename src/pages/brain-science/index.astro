@@ -2,6 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Container from '../../components/Container.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import LanguageToggle from '../../components/LanguageToggle.astro';
 import { getCollection } from 'astro:content';
 import { categories } from '../../data/categories';
 import { getTagWeight, MASLOW_CATEGORIES } from '../../data/tags';
@@ -139,6 +140,27 @@ const emotionalPosts = posts.filter(post => {
 
 // Calculate objective metrics for balanced analysis
 const objectiveMetrics = calculateObjectiveMetrics(posts);
+
+// Translation data for language toggle
+const translationData = {
+	translations: [
+		{
+			id: 'brain-science-en',
+			title: 'Writing Analytics & Self-Discovery - Brain Science',
+			language: ['en'],
+			path: '/brain-science'
+		},
+		{
+			id: 'brain-science-es',
+			title: 'Análisis de Escritura y Autodescubrimiento - Ciencia Cerebral',
+			language: ['es'],
+			path: '/ciencia-cerebral'
+		}
+	],
+	currentLanguage: 'en',
+	currentPath: '/brain-science',
+	hasTranslations: true
+};
 ---
 
 <BaseLayout
@@ -169,6 +191,15 @@ const objectiveMetrics = calculateObjectiveMetrics(posts);
 						Objective analysis of writing patterns through balanced metrics and quantitative content analysis. 
 						This section provides unbiased assessment of cognitive patterns, emotional processing, and intellectual evolution using data-driven methodologies that include positive, neutral, and negative signal analysis.
 					</p>
+					
+					{/* Language Toggle - Positioned after description for better flow */}
+					<div class="mt-4 md:mt-6">
+						<LanguageToggle 
+							translations={translationData.translations}
+							currentLanguage={translationData.currentLanguage}
+							currentPath={translationData.currentPath}
+						/>
+					</div>
 				</div>
 
 				{/* Measurable Metrics Grid */}

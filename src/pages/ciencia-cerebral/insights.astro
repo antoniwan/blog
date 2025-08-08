@@ -1,0 +1,355 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Container from '../../components/Container.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import LanguageToggle from '../../components/LanguageToggle.astro';
+import { getCollection } from 'astro:content';
+import { categories } from '../../data/categories';
+import { getTagWeight, MASLOW_CATEGORIES } from '../../data/tags';
+import { format } from 'date-fns';
+import { generateDynamicInsights, calculateObjectiveMetrics, scoreToLetterGrade, letterGradeToColor } from '../../utils/insightGenerator';
+
+// Get all published posts
+const posts = await getCollection('blog', ({ data }) => {
+	return import.meta.env.PROD ? !data.draft && data.published : true;
+});
+
+// Sort posts by date
+const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+// Content analysis
+const contentAnalysis = posts.map(post => {
+	const content = post.body || '';
+	const wordCount = content.split(/\s+/).length;
+	const paragraphCount = content.split('\n\n').length;
+	const sentenceCount = content.split(/[.!?]+/).length - 1;
+	
+	// Calculate emotional intensity (simple proxy based on exclamation marks and emotional words)
+	const exclamationCount = (content.match(/!/g) || []).length;
+	const emotionalWords = ['love', 'hate', 'fear', 'joy', 'sadness', 'anger', 'peace', 'anxiety', 'hope', 'despair', 'gratitude', 'frustration', 'excited', 'worried', 'confused', 'inspired', 'overwhelmed', 'content', 'restless', 'fulfilled'];
+	const emotionalWordCount = emotionalWords.reduce((count, word) => {
+		const regex = new RegExp(`\\b${word}\\b`, 'gi');
+		return count + (content.match(regex) || []).length;
+	}, 0);
+	
+	const emotionalIntensity = exclamationCount + emotionalWordCount;
+	
+	// Calculate vulnerability indicators
+	const vulnerabilityWords = ['struggle', 'difficult', 'challenge', 'pain', 'hurt', 'broken', 'healing', 'recovery', 'vulnerable', 'afraid', 'scared', 'nervous', 'uncertain', 'doubt', 'question', 'wonder', 'maybe', 'perhaps', 'sometimes', 'often'];
+	const vulnerabilityCount = vulnerabilityWords.reduce((count, word) => {
+		const regex = new RegExp(`\\b${word}\\b`, 'gi');
+		return count + (content.match(regex) || []).length;
+	}, 0);
+	
+	// Calculate confidence indicators
+	const confidenceWords = ['know', 'believe', 'certain', 'sure', 'confident', 'clear', 'understand', 'realize', 'discover', 'learn', 'grow', 'improve', 'better', 'stronger', 'wiser', 'experience', 'practice', 'master', 'achieve', 'succeed'];
+	const confidenceCount = confidenceWords.reduce((count, word) => {
+		const regex = new RegExp(`\\b${word}\\b`, 'gi');
+		return count + (content.match(regex) || []).length;
+	}, 0);
+	
+	return {
+		title: post.data.title,
+		slug: post.id,
+		date: post.data.pubDate,
+		wordCount,
+		paragraphCount,
+		sentenceCount,
+		emotionalIntensity,
+		vulnerabilityScore: vulnerabilityCount,
+		confidenceScore: confidenceCount,
+		readingTime: post.data.readingTime || Math.ceil(wordCount / 200),
+		tags: post.data.tags || [],
+		categories: post.data.category || []
+	};
+});
+
+// Most emotionally intense posts
+const emotionalPosts = contentAnalysis
+	.sort((a, b) => b.emotionalIntensity - a.emotionalIntensity)
+	.slice(0, 10);
+
+// Most vulnerable posts
+const vulnerablePosts = contentAnalysis
+	.sort((a, b) => b.vulnerabilityScore - a.vulnerabilityScore)
+	.slice(0, 10);
+
+// Most confident posts
+const confidentPosts = contentAnalysis
+	.sort((a, b) => b.confidenceScore - a.confidenceScore)
+	.slice(0, 10);
+
+// Creative energy analysis (posts with most words as proxy for creative energy)
+const creativeEnergyPosts = contentAnalysis
+	.sort((a, b) => b.wordCount - a.wordCount)
+	.slice(0, 10);
+
+// Personal growth indicators
+const growthIndicators = posts.filter(post => {
+	const tags = post.data.tags || [];
+	const title = post.data.title.toLowerCase();
+	const content = post.body || '';
+	
+	// Look for growth-related indicators
+	const growthTags = ['personal-growth', 'transformation', 'healing', 'self-improvement', 'learning', 'consciousness', 'mindfulness', 'awareness'];
+	const growthKeywords = ['growth', 'change', 'transform', 'learn', 'evolve', 'improve', 'heal', 'discover', 'realize', 'understand', 'accept', 'forgive', 'let go', 'move forward', 'new perspective'];
+	
+	const hasGrowthTags = growthTags.some(tag => tags.includes(tag));
+	const hasGrowthKeywords = growthKeywords.some(keyword => 
+		title.includes(keyword) || content.toLowerCase().includes(keyword)
+	);
+	
+	return hasGrowthTags || hasGrowthKeywords;
+}).length;
+
+// Translation data for language toggle
+const translationData = {
+	translations: [
+		{
+			id: 'insights-en',
+			title: 'Personal Insights - Brain Science',
+			language: ['en'],
+			path: '/brain-science/insights'
+		},
+		{
+			id: 'insights-es',
+			title: 'Insights Personales - Ciencia Cerebral',
+			language: ['es'],
+			path: '/ciencia-cerebral/insights'
+		}
+	],
+	currentLanguage: 'es',
+	currentPath: '/ciencia-cerebral/insights',
+	hasTranslations: true
+};
+---
+
+<BaseLayout
+	title="Insights Personales - Ciencia Cerebral"
+	description="Descubre patrones en tu procesamiento emocional, vulnerabilidad y energía creativa a través de análisis cuantitativo de contenido."
+	path="/ciencia-cerebral/insights"
+	structuredDataType="website"
+>
+	<Container>
+		<Container maxWidth="container" padding="none">
+			{/* Breadcrumbs */}
+			<div class="mb-4 md:mb-6 hidden md:block">
+				<Breadcrumbs 
+					items={[
+						{ label: "Inicio", href: "/" },
+						{ label: "Ciencia Cerebral", href: "/ciencia-cerebral" },
+						{ label: "Insights Personales" }
+					]} 
+				/>
+			</div>
+
+			<div class="py-4 md:py-6 lg:py-8">
+				{/* Language Toggle */}
+				<LanguageToggle 
+					translations={translationData.translations}
+					currentLanguage={translationData.currentLanguage}
+					currentPath={translationData.currentPath}
+				/>
+
+				{/* Header */}
+				<div class="mb-6 md:mb-8 lg:mb-10">
+					<h1 class="text-display text-[rgb(var(--color-text))] mb-3 md:mb-4 lg:mb-5" transition:name="page-title">
+						💡 <span class="highlight-primary">Insights Personales</span>
+					</h1>
+					<p class="text-body-large text-[rgb(var(--color-text-muted))] leading-relaxed max-w-4xl" transition:name="page-description">
+						Análisis profundo de patrones emocionales, vulnerabilidad y energía creativa a través de métricas cuantitativas. 
+						Descubre cómo procesas emociones, expresas vulnerabilidad y canalizas tu energía creativa en diferentes momentos.
+					</p>
+				</div>
+
+				{/* Key Metrics Overview */}
+				<div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-8 md:mb-10 lg:mb-12">
+					<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-4 md:p-6 border border-[rgb(var(--color-border))]">
+						<div class="text-xl md:text-2xl font-bold text-[rgb(var(--color-text))] mb-1 md:mb-2">{emotionalPosts.length}</div>
+						<div class="text-xs md:text-sm text-[rgb(var(--color-text-muted))]">Posts Emocionales</div>
+						<div class="text-xs text-pink-500 mt-1">💜 Alta Intensidad</div>
+					</div>
+					<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-4 md:p-6 border border-[rgb(var(--color-border))]">
+						<div class="text-xl md:text-2xl font-bold text-[rgb(var(--color-text))] mb-1 md:mb-2">{vulnerablePosts.length}</div>
+						<div class="text-xs md:text-sm text-[rgb(var(--color-text-muted))]">Posts Vulnerables</div>
+						<div class="text-xs text-blue-500 mt-1">🫂 Honestidad</div>
+					</div>
+					<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-4 md:p-6 border border-[rgb(var(--color-border))]">
+						<div class="text-xl md:text-2xl font-bold text-[rgb(var(--color-text))] mb-1 md:mb-2">{confidentPosts.length}</div>
+						<div class="text-xs md:text-sm text-[rgb(var(--color-text-muted))]">Posts Seguros</div>
+						<div class="text-xs text-green-500 mt-1">💪 Confianza</div>
+					</div>
+					<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-4 md:p-6 border border-[rgb(var(--color-border))]">
+						<div class="text-xl md:text-2xl font-bold text-[rgb(var(--color-text))] mb-1 md:mb-2">{creativeEnergyPosts.length}</div>
+						<div class="text-xs md:text-sm text-[rgb(var(--color-text-muted))]">Posts Energéticos</div>
+						<div class="text-xs text-purple-500 mt-1">⚡ Creatividad</div>
+					</div>
+				</div>
+
+				{/* Emotional Processing Analysis */}
+				<div class="mb-12 md:mb-16">
+					<h2 class="text-lg md:text-xl font-semibold text-[rgb(var(--color-text))] mb-6 md:mb-8 flex items-center gap-2">
+						<span class="text-pink-500">💜</span>
+						Análisis de Procesamiento Emocional
+					</h2>
+					<p class="text-sm text-[rgb(var(--color-text-muted))] mb-6 md:mb-8 max-w-3xl">
+						Posts con mayor intensidad emocional, medidos por frecuencia de palabras emocionales y signos de exclamación.
+					</p>
+					
+					<div class="space-y-4 md:space-y-6">
+						{emotionalPosts.map((post, index) => (
+							<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-4 md:p-6 border border-[rgb(var(--color-border))]">
+								<div class="flex justify-between items-start mb-2 md:mb-3">
+									<div class="flex items-center gap-2 md:gap-3">
+										<span class="text-lg md:text-xl font-bold text-pink-500">#{index + 1}</span>
+										<a href={`/p/${post.slug}`} class="text-base md:text-lg font-semibold text-[rgb(var(--color-text))] hover:text-[rgb(var(--color-accent))] transition-colors">
+											{post.title}
+										</a>
+									</div>
+									<div class="text-right">
+										<div class="text-sm md:text-base font-bold text-pink-500">{post.emotionalIntensity}</div>
+										<div class="text-xs text-[rgb(var(--color-text-muted))]">Intensidad</div>
+									</div>
+								</div>
+								<div class="flex justify-between items-center text-xs md:text-sm text-[rgb(var(--color-text-muted))]">
+									<span>📅 {format(post.date, 'MMM d, yyyy')}</span>
+									<span>📝 {post.wordCount} palabras</span>
+									<span>⏱️ {post.readingTime} min</span>
+								</div>
+							</div>
+						))}
+					</div>
+				</div>
+
+				{/* Vulnerability Analysis */}
+				<div class="mb-12 md:mb-16">
+					<h2 class="text-lg md:text-xl font-semibold text-[rgb(var(--color-text))] mb-6 md:mb-8 flex items-center gap-2">
+						<span class="text-blue-500">🫂</span>
+						Análisis de Vulnerabilidad
+					</h2>
+					<p class="text-sm text-[rgb(var(--color-text-muted))] mb-6 md:mb-8 max-w-3xl">
+						Posts que muestran mayor vulnerabilidad y honestidad emocional, indicadores de crecimiento personal.
+					</p>
+					
+					<div class="space-y-4 md:space-y-6">
+						{vulnerablePosts.map((post, index) => (
+							<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-4 md:p-6 border border-[rgb(var(--color-border))]">
+								<div class="flex justify-between items-start mb-2 md:mb-3">
+									<div class="flex items-center gap-2 md:gap-3">
+										<span class="text-lg md:text-xl font-bold text-blue-500">#{index + 1}</span>
+										<a href={`/p/${post.slug}`} class="text-base md:text-lg font-semibold text-[rgb(var(--color-text))] hover:text-[rgb(var(--color-accent))] transition-colors">
+											{post.title}
+										</a>
+									</div>
+									<div class="text-right">
+										<div class="text-sm md:text-base font-bold text-blue-500">{post.vulnerabilityScore}</div>
+										<div class="text-xs text-[rgb(var(--color-text-muted))]">Vulnerabilidad</div>
+									</div>
+								</div>
+								<div class="flex justify-between items-center text-xs md:text-sm text-[rgb(var(--color-text-muted))]">
+									<span>📅 {format(post.date, 'MMM d, yyyy')}</span>
+									<span>📝 {post.wordCount} palabras</span>
+									<span>⏱️ {post.readingTime} min</span>
+								</div>
+							</div>
+						))}
+					</div>
+				</div>
+
+				{/* Confidence Analysis */}
+				<div class="mb-12 md:mb-16">
+					<h2 class="text-lg md:text-xl font-semibold text-[rgb(var(--color-text))] mb-6 md:mb-8 flex items-center gap-2">
+						<span class="text-green-500">💪</span>
+						Análisis de Confianza
+					</h2>
+					<p class="text-sm text-[rgb(var(--color-text-muted))] mb-6 md:mb-8 max-w-3xl">
+						Posts que muestran mayor confianza y seguridad en el conocimiento y experiencia personal.
+					</p>
+					
+					<div class="space-y-4 md:space-y-6">
+						{confidentPosts.map((post, index) => (
+							<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-4 md:p-6 border border-[rgb(var(--color-border))]">
+								<div class="flex justify-between items-start mb-2 md:mb-3">
+									<div class="flex items-center gap-2 md:gap-3">
+										<span class="text-lg md:text-xl font-bold text-green-500">#{index + 1}</span>
+										<a href={`/p/${post.slug}`} class="text-base md:text-lg font-semibold text-[rgb(var(--color-text))] hover:text-[rgb(var(--color-accent))] transition-colors">
+											{post.title}
+										</a>
+									</div>
+									<div class="text-right">
+										<div class="text-sm md:text-base font-bold text-green-500">{post.confidenceScore}</div>
+										<div class="text-xs text-[rgb(var(--color-text-muted))]">Confianza</div>
+									</div>
+								</div>
+								<div class="flex justify-between items-center text-xs md:text-sm text-[rgb(var(--color-text-muted))]">
+									<span>📅 {format(post.date, 'MMM d, yyyy')}</span>
+									<span>📝 {post.wordCount} palabras</span>
+									<span>⏱️ {post.readingTime} min</span>
+								</div>
+							</div>
+						))}
+					</div>
+				</div>
+
+				{/* Creative Energy Analysis */}
+				<div class="mb-12 md:mb-16">
+					<h2 class="text-lg md:text-xl font-semibold text-[rgb(var(--color-text))] mb-6 md:mb-8 flex items-center gap-2">
+						<span class="text-purple-500">⚡</span>
+						Análisis de Energía Creativa
+					</h2>
+					<p class="text-sm text-[rgb(var(--color-text-muted))] mb-6 md:mb-8 max-w-3xl">
+						Posts con mayor extensión como indicador de energía creativa y profundidad de pensamiento.
+					</p>
+					
+					<div class="space-y-4 md:space-y-6">
+						{creativeEnergyPosts.map((post, index) => (
+							<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-4 md:p-6 border border-[rgb(var(--color-border))]">
+								<div class="flex justify-between items-start mb-2 md:mb-3">
+									<div class="flex items-center gap-2 md:gap-3">
+										<span class="text-lg md:text-xl font-bold text-purple-500">#{index + 1}</span>
+										<a href={`/p/${post.slug}`} class="text-base md:text-lg font-semibold text-[rgb(var(--color-text))] hover:text-[rgb(var(--color-accent))] transition-colors">
+											{post.title}
+										</a>
+									</div>
+									<div class="text-right">
+										<div class="text-sm md:text-base font-bold text-purple-500">{post.wordCount}</div>
+										<div class="text-xs text-[rgb(var(--color-text-muted))]">Palabras</div>
+									</div>
+								</div>
+								<div class="flex justify-between items-center text-xs md:text-sm text-[rgb(var(--color-text-muted))]">
+									<span>📅 {format(post.date, 'MMM d, yyyy')}</span>
+									<span>📝 {post.wordCount} palabras</span>
+									<span>⏱️ {post.readingTime} min</span>
+								</div>
+							</div>
+						))}
+					</div>
+				</div>
+
+				{/* Navigation Links */}
+				<div class="mt-8 md:mt-12 pt-6 md:pt-8 border-t border-[rgb(var(--color-border))]">
+					<div class="flex flex-wrap gap-4 md:gap-6 justify-center">
+						<a href="/ciencia-cerebral" class="text-sm text-[rgb(var(--color-accent))] hover:text-[rgb(var(--color-accent-hover))] transition-colors">
+							🏠 Volver a Ciencia Cerebral
+						</a>
+						<a href="/ciencia-cerebral/evolution" class="text-sm text-[rgb(var(--color-accent))] hover:text-[rgb(var(--color-accent-hover))] transition-colors">
+							📈 Crecimiento Intelectual
+						</a>
+						<a href="/ciencia-cerebral/topics" class="text-sm text-[rgb(var(--color-accent))] hover:text-[rgb(var(--color-accent-hover))] transition-colors">
+							🏷️ Temas Principales
+						</a>
+						<a href="/ciencia-cerebral/cadence" class="text-sm text-[rgb(var(--color-accent))] hover:text-[rgb(var(--color-accent-hover))] transition-colors">
+							📅 Ritmos Creativos
+						</a>
+						<a href="/ciencia-cerebral/patterns" class="text-sm text-[rgb(var(--color-accent))] hover:text-[rgb(var(--color-accent-hover))] transition-colors">
+							🌀 Patrones Ocultos
+						</a>
+						<a href="/ciencia-cerebral/meta" class="text-sm text-[rgb(var(--color-accent))] hover:text-[rgb(var(--color-accent-hover))] transition-colors">
+							🔍 Auto-reflexión
+						</a>
+					</div>
+				</div>
+			</div>
+		</Container>
+	</Container>
+</BaseLayout>
