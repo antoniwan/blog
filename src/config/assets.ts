@@ -13,9 +13,9 @@ export const assetConfig = {
     // Site logo
     logo: "/sh-sh-logo.svg",
 
-    // Favicon
-    favicon: "/favicon.svg",
+    // Favicon (ICO takes priority for better browser compatibility)
     faviconIco: "/favicon.ico",
+    favicon: "/favicon.svg",
     appleTouchIcon: "/apple-touch-icon.png",
     favicon192: "/favicon-192x192.png",
     favicon512: "/favicon-512x512.png",
