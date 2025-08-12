@@ -71,7 +71,7 @@ const contentEvolution = posts.map(post => {
 				const match = post.data.minutesRead.match(/(\d+)/);
 				return match ? parseInt(match[1]) : Math.ceil(wordCount / 200);
 			}
-			return post.data.readingTime || Math.ceil(wordCount / 200);
+			return Math.ceil(wordCount / 200);
 		})(),
 		tags: post.data.tags || [],
 		categories: post.data.category || [],

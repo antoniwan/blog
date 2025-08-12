@@ -20,7 +20,6 @@ tags:
   - healing
   - therapy
   - emotional-regulation
-readingTime: 4
 draft: false
 featured: false
 published: true
@@ -55,7 +54,6 @@ The action, your step, truth be told, might take you closer or further from your
 Food for thought. Sharing is caring.
 
 I hope this is helpful to you. Feel free to send me a note with your ideas. Do you disagree? Also, let me know! Get it!
-
 ---
 
 _Originally published on [Medium](https://medium.com/@wizards777/on-overcoming-analysis-paralysis-d9281a526dc8)._

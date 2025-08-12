@@ -19,7 +19,6 @@ tags:
   - healing
   - social-issues
   - self-improvement
-readingTime: 1
 draft: false
 featured: false
 published: true
@@ -45,7 +44,6 @@ showComments: true
 I just hit delete on Meta — Instagram, Threads, Facebook — and I’m walking this path in real time. No filters. No performance. _Just presence_. I’ll document the whole thing over at Bluesky: 👉 [https://bsky.app/profile/antoniwan.online](https://bsky.app/profile/antoniwan.online)
 
 Peace — <br> Antonio Rodríguez Martínez
-
 ---
 
 _Originally published on [Medium](https://medium.com/@wizards777/what-happens-when-you-leave-the-algorithm-behind-4b606eb54cc0)._

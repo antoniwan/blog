@@ -7,6 +7,7 @@ import vercel from "@astrojs/vercel";
 import { SITE_URL } from "./src/consts";
 import { remarkReadingTime } from "./remark-reading-time.mjs";
 
+
 // https://astro.build/config
 export default defineConfig({
   site: SITE_URL,

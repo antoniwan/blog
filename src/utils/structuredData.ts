@@ -20,8 +20,7 @@ export interface StructuredDataOptions {
   updatedDate?: Date;
   heroImage?: string;
   keywords?: string[];
-  readingTime?: number; // Legacy field in minutes
-  minutesRead?: string; // New field from remark plugin
+  minutesRead?: string; // Reading time from remark plugin
   // Collection-specific fields
   posts?: CollectionEntry<"blog">[];
   identifier?: string;
@@ -38,8 +37,7 @@ export function generateStructuredData(options: StructuredDataOptions) {
     updatedDate,
     heroImage,
     keywords = [],
-    readingTime, // Legacy field
-    minutesRead, // New field
+    minutesRead, // Reading time from remark plugin
     posts = [],
     identifier,
   } = options;
@@ -148,7 +146,7 @@ export function generateStructuredData(options: StructuredDataOptions) {
           const match = minutesRead.match(/(\d+)/);
           return match ? `PT${match[1]}M` : undefined;
         }
-        return readingTime ? `PT${readingTime}M` : undefined;
+        return undefined;
       })(),
       url: url,
       inLanguage: "en-US",
@@ -189,7 +187,7 @@ export function generateStructuredData(options: StructuredDataOptions) {
                 const match = post.data.minutesRead.match(/(\d+)/);
                 return match ? `PT${match[1]}M` : undefined;
               }
-              return post.data.readingTime ? `PT${post.data.readingTime}M` : undefined;
+              return undefined;
             })(),
           },
         })),

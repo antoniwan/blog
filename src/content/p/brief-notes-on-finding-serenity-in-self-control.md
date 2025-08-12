@@ -21,7 +21,6 @@ tags:
   - personal-growth
   - discipline
   - healing
-readingTime: 1
 draft: false
 featured: false
 published: true
@@ -39,7 +38,6 @@ I’m aware this could very well be my past trauma manifesting and some process 
 ### Does this resonate with some of you? What are your thoughts about this idea?
 
 And to be extra precise, I do genuinely believe sexual intimacy or carnal desires are part of our natural life after all; it’s honest and essential for our lives and development as healthy human beings.
-
 ---
 
 _Originally published on [Medium](https://medium.com/@wizards777/brief-notes-on-finding-serenity-in-self-control-e2e489677baa)._

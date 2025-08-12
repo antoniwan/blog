@@ -21,7 +21,6 @@ tags:
   - transformation
   - self-improvement
   - metaspace
-readingTime: 1
 draft: false
 featured: false
 published: true
@@ -39,7 +38,6 @@ This truthfulness is what I call mental and emotional health.
 The better I practice and exercise my core values, the healthier I feel mentally and emotionally because I am truthful about what I value and how I want to live. Practicing my values makes me feel free, bringing me into situations where I consistently feel joy because I’m doing as I please. I’m doing what I want, ultimately!
 
 Therefore, practicing integrity brings me joy.
-
 ---
 
 _Originally published on [Medium](https://medium.com/@wizards777/the-definition-and-practice-of-my-core-values-make-me-free-a11ea789fc72)._

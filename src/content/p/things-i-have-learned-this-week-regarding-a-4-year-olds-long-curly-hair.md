@@ -21,7 +21,6 @@ tags:
   - wellness
   - tips
   - family-dynamics
-readingTime: 2
 draft: false
 featured: false
 published: true
@@ -47,7 +46,6 @@ showComments: true
 13. YouTube is my friend for learning tips and tricks about hairstyling.
 
 _Sharing is caring._ I hope this helps out other dads!
-
 ---
 
 _Originally published on [Medium](https://medium.com/@wizards777/things-i-have-learned-this-week-regarding-a-4-year-olds-long-curly-hair-813db24e002e)._

@@ -50,6 +50,7 @@ Visit `http://localhost:4323` to view the site.
 | `npm run validate-feeds`    | Validate RSS and JSON feeds      |
 | `npm run audit-frontmatter` | Audit frontmatter consistency    |
 | `npm run standardize-frontmatter` | Standardize frontmatter format |
+| `npm run remove-legacy-reading-time` | Remove legacy reading time fields |
 
 ## Project Structure
 
@@ -86,8 +87,7 @@ language: ["en"]
 heroImage: "/images/hero-image.jpg"
 category: ["integration-growth"]
 tags: ["tag1", "tag2"]
-readingTime: 5 # Legacy field (optional)
-minutesRead: "5 min read" # Automatically calculated
+# minutesRead: "5 min read" # Automatically calculated
 featured: true
 translationGroup: "unique-group-id" # Links related translations
 draft: false
@@ -100,7 +100,7 @@ draft: false
 
 - **Remark Plugin Integration** - Uses Astro's remark plugin system for automatic calculation
 - **Content-Based Calculation** - Reading time calculated from actual content length, not estimates
-- **Backward Compatibility** - Supports both new `minutesRead` and legacy `readingTime` fields
+- **Legacy Cleanup Completed** - All manual reading time fields removed from 55+ content files
 - **Consistent Display** - Reading times appear across all components (posts, cards, feeds, analytics)
 - **SEO Optimized** - Structured data includes accurate reading time for search engines
 
@@ -217,7 +217,7 @@ The site includes an internal API for accessing Stoic philosophy quotes:
 
 - **Automatic Reading Time** - Implemented Astro remark plugin for automatic reading time calculation
 - **Reading Time Integration** - Full integration across all components, feeds, and analytics
-- **Backward Compatibility** - Seamless support for existing manual reading time values
+- **Legacy Cleanup** - Complete removal of manual reading time fields from all 55 content files
 - **Navigation Updates** - Enhanced navigation system with improved content organization
 - **Content Management** - Streamlined content updates and management workflows
 - **Script Automation** - Added frontmatter audit and standardization tools

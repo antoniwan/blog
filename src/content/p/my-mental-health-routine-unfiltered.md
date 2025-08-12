@@ -21,7 +21,6 @@ tags:
   - emotional-regulation
   - self-improvement
   - routine
-readingTime: 2
 draft: false
 featured: false
 published: true
@@ -57,7 +56,6 @@ Here’s what’s keeping me mentally sharp, emotionally clean, and spiritually 
 You don’t need to copy this list. Make it sacred. Make it yours. Do it with your full attention. **Let it change your life. BROOO!!!!!** (achieve an emotionally regulated nervous system)
 
 🌱 From love. From breath. From truth. Let’s grow.
-
 ---
 
 _Originally published on [Medium](https://medium.com/@wizards777/my-mental-health-routine-unfiltered-1ebfc2b1bde9)._

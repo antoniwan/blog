@@ -20,7 +20,6 @@ tags:
   - resilience
   - self-improvement
   - mindfulness
-readingTime: 2
 draft: false
 featured: false
 published: true
@@ -44,7 +43,6 @@ Even when I am telling this person explicitly and with simple words, explaining 
 There's nothing as hurtful as talking candidly and openly about how I feel and what matters to me with your emotional abuser. They will tell you it's the other way around. They will tell you how you are projecting. They will tell you how nothing you are making makes sense. They will tell you your therapist doesn't know jack shit and that all the help you have, all the effort, and all the work you have put in are worthless. These fucking takers will take and take and take and take until there's nothing left of you. How can these emotional vampires lack such self-awareness? When will you stop taking?! Please stop; I need myself.
 
 You got this. One day at a time.
-
 ---
 
 _This post was originally published on [Medium](https://medium.com/@wizards777/reflections-from-a-tough-weekend-154e8c2a13b7)._

@@ -18,7 +18,6 @@ tags:
   - mindfulness
   - resilience
   - self-improvement
-readingTime: 3
 draft: false
 featured: false
 published: true
@@ -53,7 +52,6 @@ After avoiding conflict by using kindness or resisting the urge to react violent
 As life is so challenging, there s to feel overpowered. The most significant detail I’ve noticed is that quality input equals quality output in everything around and about our lives. Hard work, consistency, and drive pay off significantly. Delaying gratification works. All transformation and evolution have come from places of discomfort. Growth is uncomfortable and requires practice.
 
 As usual, writing these made me aware of all my privileges regarding accessibility, time, money, and resources. Being grateful for these privileges is critical for becoming and staying healthy and kind. Every human being should have all of this, but it does not happen, and I’m aware and can identify this as unjust, but I must accept this, and whenever I can share my privilege, I pledge to do so, and I do. Without self-sacrificing because I am important and I love myself. I love you, but I love myself more, and that’s ok.
-
 ---
 
 _Originally published on [Medium](https://medium.com/@wizards777/on-feeling-overpowered-d964cc32480a)._

@@ -25,7 +25,6 @@ tags:
   - metaspace
   - emotional-regulation
   - self-awareness
-readingTime: 4
 draft: false
 featured: true
 published: true
@@ -109,7 +108,6 @@ If you find it useful, take what works and ignore the rest. If you find it insuf
 The goal isn't to become someone admirable. The goal is to become someone safe. For my daughter, for the people who choose to be in my life, and for myself.
 
 Everything else is just documentation of that process.
-
 ---
 
 _If you're doing similar recovery work, I'm curious about your experience. What scaffolding have you built that you thought was weakness but turned out to be wisdom? What does learning to be human look like for you?_

@@ -20,7 +20,6 @@ tags:
   - transformation
   - metaspace
   - purpose
-readingTime: 1
 draft: false
 featured: false
 published: true
@@ -42,7 +41,6 @@ I can not control how you feel and react; I am not responsible for you. I can on
 Truth be told, I am exhausted with negativity and resentment, and hate is not my answer; Love and kindness are the answer. I’m letting the noise, manifested through these destructive and resentful thoughts and feelings, fade away, leaving the stress and anxiety behind them.
 
 This clarity is the power I have.
-
 ---
 
 _Originally published on [Medium](https://medium.com/@wizards777/note-to-self-to-be-or-what-not-to-be-aeff3569b5f2)._

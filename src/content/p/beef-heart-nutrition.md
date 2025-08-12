@@ -24,7 +24,6 @@ tags:
   - fitness
   - healthy-eating
   - micronutrients
-readingTime: 3
 draft: false
 featured: false
 published: true

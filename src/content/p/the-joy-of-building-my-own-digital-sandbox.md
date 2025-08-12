@@ -26,7 +26,6 @@ tags:
   - personal-projects
   - digital-art
   - craftsmanship
-readingTime: 8
 draft: false
 featured: true
 published: true
@@ -90,7 +89,6 @@ description: "One line that captures the essence"
 pubDate: "2025-01-29T00:00:00.000Z"
 category: ["systems-strategy", "diy-creation"]
 tags: ["astro", "typescript", "open-source"]
-readingTime: 5
 featured: true
 ---
 ```
@@ -133,7 +131,6 @@ I'm always tinkering. Always improving. Currently working on:
 - **Related posts algorithm** that surfaces genuinely relevant content instead of random suggestions
 - **Comment system** that doesn't suck (maybe Webmentions?)
 - **Performance optimizations** because fast can always be faster
-
 ---
 
 _Want to see how it all works? Check out the [source code](https://github.com/antoniwan/curious-chaos-journal) or just poke around this site. Everything you see was built with intention, iteration, and probably too much caffeine._

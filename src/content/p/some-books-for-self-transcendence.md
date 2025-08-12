@@ -21,7 +21,6 @@ tags:
   - transformation
   - healing
   - metaspace
-readingTime: 3
 draft: false
 featured: false
 published: true
@@ -77,7 +76,6 @@ From how I communicate to understanding the human brain, parenting, and my child
 - **The Five Love Languages: How to Express Heartfelt Commitment to Your Mate** by Gary Chapman
 
 Sharing is caring! Good luck!
-
 ---
 
 _This post was originally published on [Medium](https://medium.com/@wizards777/some-books-for-self-transcendence-35109667b82b)._

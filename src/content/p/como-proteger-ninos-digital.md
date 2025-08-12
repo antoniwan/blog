@@ -23,7 +23,6 @@ tags:
   - social-issues
   - education
   - family-dynamics
-readingTime: 3
 draft: false
 featured: false
 published: true
@@ -37,7 +36,6 @@ En Puerto Rico —y en el mundo entero— vivimos en una era donde el Internet e
 El Internet NO es un lugar hecho para niños. Es un campo abierto con belleza, pero también con basura, violencia, sexualidad extrema, y contenidos que un niño no está emocionalmente preparado para ver.
 
 > **La mente de un niño es como un campo fértil. Lo que siembres ahora, florecerá o se pudrirá más adelante.**
-
 ---
 
 ## 🛡️ ¿Por qué hay que proteger a los niños del Internet?
@@ -46,7 +44,6 @@ El Internet NO es un lugar hecho para niños. Es un campo abierto con belleza, p
 - **Las imágenes violentas o sexuales** pueden causar trauma, ansiedad, confusión de identidad o incluso adicción precoz.
 - **El algoritmo no tiene compasión.** Su único objetivo es mantener a tu hijo pegado a la pantalla.
 - **El porno moderno** no es educativo ni inofensivo. Es grotesco, violento y muchas veces humillante.
-
 ---
 
 ## ⚙️ ¿Cómo asegurarte que tu hijo esté seguro en Windows 11 o macOS?
@@ -72,7 +69,6 @@ El Internet NO es un lugar hecho para niños. Es un campo abierto con belleza, p
 
 - En **Chrome/Safari/Edge**, revisa el historial manualmente.
 - Usa apps como **Qustodio, Norton Family o Bark** si necesitas reportes automáticos.
-
 ---
 
 ## 🚨 ¿Y si descubro que mi hijo vio pornografía?
@@ -99,7 +95,6 @@ El Internet NO es un lugar hecho para niños. Es un campo abierto con belleza, p
 
 - Considera ayuda psicológica profesional.
 - Refuerza con cariño y presencia diaria.
-
 ---
 
 ## 💬 Cómo hablarles sobre estos temas sin miedo
@@ -107,7 +102,6 @@ El Internet NO es un lugar hecho para niños. Es un campo abierto con belleza, p
 - Usa cuentos, analogías, y juegos simbólicos.
 - Enséñales a decir "no" y confiar en su instinto.
 - Evita moralizar. Lo que queremos es enseñar límites, no vergüenza.
-
 ---
 
 ## 📚 Libros recomendados para educarnos como guías conscientes
@@ -117,7 +111,6 @@ El Internet NO es un lugar hecho para niños. Es un campo abierto con belleza, p
 - **"Cómo hablar para que los niños escuchen"** – Faber & Mazlish
 - **"Niños Adictos a las Pantallas"** – Nicholas Kardaras
 - **"Por Tu Propio Bien"** – Alice Miller
-
 ---
 
 ## 📖 Glosario esencial
@@ -127,7 +120,6 @@ El Internet NO es un lugar hecho para niños. Es un campo abierto con belleza, p
 - **Contenido explícito:** Imágenes sexuales, violentas o que promueven odio.
 - **Adicción digital:** Necesidad constante de estar conectado para sentir placer o evitar el aburrimiento.
 - **Sobreestimulación:** Cuando el cerebro recibe demasiados estímulos y no puede descansar.
-
 ---
 
 ## 🔗 Recursos útiles
@@ -137,7 +129,6 @@ El Internet NO es un lugar hecho para niños. Es un campo abierto con belleza, p
 - Kardaras, N. (2016). _Glow Kids: How Screen Addiction Is Hijacking Our Kids_. St. Martin's Press.
 - Common Sense Media. (2025). _Family Guides and Reviews_. https://www.commonsensemedia.org/
 - Qustodio. (2025). _Parental Control Tools for All Devices_. https://www.qustodio.com/
-
 ---
 
 ## 🌱 Conclusión: Protege ahora, educa siempre

@@ -4,6 +4,7 @@ import BlogLayout from '../../layouts/BlogLayout.astro';
 import { render } from 'astro:content';
 import { generateKeywords, generateImageAlt } from '../../utils/seo';
 import { getTranslationData } from '../../utils/translationUtils';
+import { calculateReadingTimeFromMarkdown } from '../../utils/readingTime';
 import { AUTHOR } from '../../consts';
 import { categories } from '../../data/categories';
 
@@ -22,10 +23,10 @@ interface Props {
 }
 
 const { post, allPosts } = Astro.props;
-const { Content, remarkPluginFrontmatter } = await render(post);
+const { Content } = await render(post);
 
-// Get reading time from remark plugin or fall back to manual field
-const readingTime = remarkPluginFrontmatter?.minutesRead || post.data.readingTime;
+// Calculate reading time from post content
+const readingTime = calculateReadingTimeFromMarkdown(post.body || '');
 
 // Auto-generate keywords from tags and categories
 const keywords = generateKeywords(
@@ -63,7 +64,7 @@ const translationData = await getTranslationData(post, allPosts);
 	pubDate={post.data.pubDate}
 	updatedDate={post.data.updatedDate}
 	heroImage={post.data.heroImage}
-	readingTime={post.data.readingTime}
+	minutesRead={readingTime}
 	tags={post.data.tags}
 	category={post.data.category}
 	categoryName={categoryName}

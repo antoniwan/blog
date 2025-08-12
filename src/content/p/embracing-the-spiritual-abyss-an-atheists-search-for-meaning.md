@@ -43,7 +43,6 @@ tags:
   - healing
   - resilience
   - self-discovery
-readingTime: 4
 draft: false
 featured: false
 published: true
@@ -63,11 +62,9 @@ I’ve made peace with the fact that the Universe is this idea that I, as a huma
 Coming back to the idea of a God or gods, ultimately, I refuse to think there’s an omni-powerful, omnipresent, omniscient, intelligent being out there just watching us all go through all of these shenanigans, unbothered. If I were to assume the existence of such a being, until which point and to what extent could I, as an individual participating in such an experiment (organic life on this planet), feel comfortable with the so-called “free will” such a powerful being bestowed upon us. How can I coincide the ethicality of giving living beings such “free will” with the capacity for such malicious harm? Does this make sense to you? To me, it’s fucking savage- it’s wild- how can we adore or follow such an entity? Nature is cruel and hardcore, it’s evident and apparent, so it means God, gods, and religion is fucking savage?
 
 Share your thoughts; my mind is open and receptive.
-
 ---
 
 Do note that by "spirit", I mean the non-physical part of myself. My emotions and my characters, or the “soul.”
-
 ---
 
 _Originally published on [Medium](https://medium.com/@wizards777/embracing-the-spiritual-abyss-an-atheists-search-for-meaning-ceff0465263b)._

@@ -21,7 +21,6 @@ tags:
   - self-reflection
   - healing
   - relationships
-readingTime: 1
 draft: false
 featured: false
 published: true
@@ -37,7 +36,6 @@ Empathy is such a double-edged sword — the death of a friend’s parent or
 The overwhelming sense of responsibility will cut the hand that grips too tight, and the spectrum of situations is vast and equally sharp along its edges.
 
 ### How much do we have to compromise ourselves and desensitize to move on and keep grinding onwards? At what point do we break down? Can we responsibly afford to break down?
-
 ---
 
 _Originally published on [Medium](https://medium.com/@wizards777/briefly-on-empathy-as-a-double-edged-sword-360276a9b2b9)._

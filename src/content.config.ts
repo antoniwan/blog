@@ -46,7 +46,6 @@ const blog = defineCollection({
       .optional()
       .default(true)
       .describe("Whether this post should be published on the site"),
-    readingTime: z.number().optional(), // in minutes (legacy field)
     minutesRead: z.string().optional(), // automatically calculated reading time
     author: z.string().optional(),
     authorImage: z.string().optional(),

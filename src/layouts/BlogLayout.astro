@@ -21,7 +21,7 @@ const {
   pubDate,
   updatedDate,
   heroImage,
-  readingTime,
+  minutesRead,
   tags,
   category,
   categoryName,
@@ -48,7 +48,7 @@ const postSlug = path?.replace('/p/', '').replace('/', '') || '';
   pubDate={pubDate}
   updatedDate={updatedDate}
   heroImage={heroImage}
-  readingTime={readingTime}
+  minutesRead={minutesRead}
   tags={tags}
   category={category}
   path={canonical}
@@ -143,14 +143,14 @@ const postSlug = path?.replace('/p/', '').replace('/', '') || '';
               </div>
               
               {/* Reading Time */}
-              {readingTime && (
+              {minutesRead && (
                 <div class="space-y-2">
                   <h3 class="text-xs font-semibold text-[rgb(var(--color-text-muted))] uppercase tracking-wider">
                     Reading Time
                   </h3>
                   <div class="flex items-center gap-2 text-base text-[rgb(var(--color-text))] leading-relaxed">
                     <span class="text-[rgb(var(--color-accent))]">⏱️</span>
-                    <span>{typeof readingTime === 'string' ? readingTime : `${readingTime} min read`}</span>
+                    <span>{minutesRead}</span>
                   </div>
                 </div>
               )}
@@ -313,14 +313,14 @@ const postSlug = path?.replace('/p/', '').replace('/', '') || '';
             </div>
             
             {/* Reading Time */}
-            {readingTime && (
+            {minutesRead && (
               <div class="space-y-2">
                 <h3 class="text-xs font-semibold text-[rgb(var(--color-text-muted))] uppercase tracking-wider">
                   Reading Time
                 </h3>
                 <div class="flex items-center gap-2 text-base text-[rgb(var(--color-text))] leading-relaxed">
-                  <span class="text-[rgb(var(--color-accent))]">⏱️</span>
-                  <span>{typeof readingTime === 'string' ? readingTime : `${readingTime} min read`}</span>
+                  <span class="text-[rgb(var(--color-text))]">⏱️</span>
+                  <span>{minutesRead}</span>
                 </div>
               </div>
             )}

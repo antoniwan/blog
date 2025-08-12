@@ -22,7 +22,6 @@ tags:
   - authenticity
   - truth
   - metaspace
-readingTime: 1
 draft: false
 featured: false
 published: true

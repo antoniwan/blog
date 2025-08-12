@@ -36,7 +36,6 @@ tags:
   - vulnerability
   - philosophy
   - psychology
-readingTime: 14
 draft: false
 featured: true
 published: true

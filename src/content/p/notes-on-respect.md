@@ -19,7 +19,6 @@ tags:
   - self-reflection
   - healing
   - authenticity
-readingTime: 3
 draft: false
 featured: false
 published: true
@@ -37,7 +36,6 @@ Active listening is yet another thing to be mindful of, as well as how important
 All in all, I hear so much noise about respect, but in this society where integrity is lacking, our media and government lie, bloat, obscure, and manipulate us; there's nowhere to go and see actual respect being practiced. It's up to us to gain that respect, apply it, reciprocate it, and model it. And being on the receiving end is so refreshing and awe-inspiring.
 
 Food for thought.
-
 ---
 
 _This post was originally published on [Medium](https://medium.com/@wizards777/notes-on-respect-0ff922fedccf)._

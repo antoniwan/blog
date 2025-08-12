@@ -25,7 +25,6 @@ tags:
   - metaspace
   - regulación-emocional
   - auto-conocimiento
-readingTime: 4
 draft: false
 featured: false
 published: true
@@ -109,7 +108,6 @@ Si lo encuentras útil, toma lo que funcione e ignora el resto. Si lo encuentras
 La meta no es convertirme en alguien admirable. La meta es convertirme en alguien seguro. Para mi hija, para las personas que eligen estar en mi vida, y para mí mismo.
 
 Todo lo demás es solo documentación de ese proceso.
-
 ---
 
 _Si estás haciendo trabajo de recuperación similar, tengo curiosidad sobre tu experiencia. ¿Qué andamiaje has construido que pensaste que era debilidad pero resultó ser sabiduría? ¿Cómo se ve aprender a ser humano para ti?_

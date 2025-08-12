@@ -20,7 +20,6 @@ tags:
   - diy-creation
   - consciousness
   - personal-growth
-readingTime: 1
 draft: false
 featured: false
 published: true
@@ -36,7 +35,6 @@ I used to require recipes whenever I cooked anything. About 16 years later, now 
 It’s funny how that works and applies to almost anything in life.
 
 Foundational knowledge and experiences change everything else on top of that foundation.
-
 ---
 
 _Originally published on [Medium](https://medium.com/@wizards777/on-cooking-on-everything-and-foundations-0ee089f3f238)._

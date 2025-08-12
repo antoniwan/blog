@@ -23,7 +23,6 @@ tags:
   - authenticity
   - self-improvement
   - metaspace
-readingTime: 2
 draft: false
 featured: false
 published: true

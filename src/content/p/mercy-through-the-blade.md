@@ -23,7 +23,6 @@ tags:
   - self-mastery
   - power
   - consciousness
-readingTime: 5
 draft: false
 featured: true
 published: true
@@ -208,7 +207,6 @@ It is simply time to lead anyway. **Quietly. Fiercely. Without regret.**
 </figure>
 
 P.S. After dropping this, I somehow found "The Leadership Blade" by Dr. Calvin McDowall… I swear on everything I love — I had never read his stuff before — and it's like we share a braincell lmao. It's fucking insane how aligned it is. If you're feeling what I'm saying, read his too. Legends recognize legends. 🐺
-
 ---
 
 _Originally published on [Medium](https://medium.com/@wizards777/mercy-through-the-blade-the-silent-law-of-leadership-24cef2df828a)._

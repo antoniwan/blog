@@ -13,7 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - **Remark Plugin Integration**: Custom Astro remark plugin for automatic content analysis
   - **Content-Based Calculation**: Reading time calculated from actual content length, not estimates
   - **Full System Integration**: Reading times appear across all components, feeds, and analytics
-  - **Backward Compatibility**: Seamless support for existing manual `readingTime` values
+  - **Legacy Cleanup**: Complete removal of manual `readingTime` fields from all 55 content files
   - **SEO Optimization**: Structured data includes accurate reading time for search engines
 
 ### Enhanced

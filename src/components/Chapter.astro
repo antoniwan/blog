@@ -1,5 +1,6 @@
 ---
 import { categories } from '../data/categories';
+import { calculateReadingTimeFromMarkdown } from '../utils/readingTime';
 
 export interface Props {
 	posts: any[];
@@ -81,11 +82,14 @@ function formatRelativeTime(dateString: string): string {
 										<span class="status-icon">⭕</span>
 										<span class="status-text">Unread</span>
 									</span>
-									{(post.data.readingTime || post.data.minutesRead) && (
-										<span class="reading-time" data-post-slug={post.id}>
-											{post.data.minutesRead || `${post.data.readingTime} min`}
-										</span>
-									)}
+									{(() => {
+										const readingTime = calculateReadingTimeFromMarkdown(post.body || '');
+										return readingTime ? (
+											<span class="reading-time" data-post-slug={post.id}>
+												{readingTime}
+											</span>
+										) : null;
+									})()}
 								</div>
 							</a>
 						</li>

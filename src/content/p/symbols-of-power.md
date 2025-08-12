@@ -24,7 +24,6 @@ tags:
   - consciousness
   - self-expression
   - metaspace
-readingTime: 7
 draft: false
 featured: true
 published: true
@@ -34,7 +33,6 @@ showComments: true
 I've been thinking about getting a tattoo—or many—but I can't pull the trigger. There's something about having a "clean" body that feels sacred. Still, the idea of _customizing_ it, of turning my body into a living archive of meaning, also deeply appeals to me.
 
 But I don't want just ink. I want **Symbols of Power** etched into my skin—reminders of who I am and who I'm becoming. They would be sigils of therapy, experience, insight, reading, integrating. Weapons and artifacts that offer strength: like armor, or a shield, like a sword, or a dagger, or the _Death Note_, or Narsil. Each depending on the occasion. Extra tools. Extra push.
-
 ---
 
 ### 🗡️ Narsil – the Sword that was Broken
@@ -42,7 +40,6 @@ But I don't want just ink. I want **Symbols of Power** etched into my skin—rem
 ![Narsil - the Sword that was Broken](/images/symbols/narsil.avif)
 
 **Narsil**, for me, represents the permanent struggle of human will against evil. The sword that was broken and reforged, becoming even stronger than before. It's a reminder that our greatest strength often comes from our brokenness, from the pieces we've picked up and reassembled. When I feel shattered, I remember Narsil—how it was reforged into Andúril, the Flame of the West, and became even more powerful than its original form.
-
 ---
 
 ### 🛡️ Master Sword – the Blade of Evil's Bane
@@ -50,7 +47,6 @@ But I don't want just ink. I want **Symbols of Power** etched into my skin—rem
 ![Young Link pullling the Master Sword out of its pedestal](/images/symbols/master-sword.avif)
 
 The Master Sword is iconic—a weapon that chooses its wielder, that tests their worthiness. It's not just about power, but about the heart and courage to wield it. The sword that seals the darkness, that stands as a beacon of hope. It represents the idea that true power comes with responsibility, that strength must be earned and maintained through constant vigilance and growth.
-
 ---
 
 ### 🔫 MA5C Assault Rifle – Halo's UNSC Standard
@@ -58,7 +54,6 @@ The Master Sword is iconic—a weapon that chooses its wielder, that tests their
 ![Master Chief + MA5C = magical fireworks lol](/images/symbols/ma5c.avif)
 
 The **MA5C** is my tool of precision—a weapon that represents human ingenuity and adaptability. In the face of overwhelming odds, it's the standard-issue rifle that helped humanity stand against the Covenant. It's a reminder that sometimes the most powerful tools are the ones we can rely on consistently, the ones we've mastered through practice and dedication.
-
 ---
 
 ### ⚡ Mjölnir – Hammer of Thunder
@@ -66,7 +61,6 @@ The **MA5C** is my tool of precision—a weapon that represents human ingenuity 
 ![Mjolnir, as depicted in the God of War games](/images/symbols/mjolnir.avif)
 
 **Mjölnir** needs no explanation—it's the hammer that commands the storm, the weapon of the god of thunder. But beyond its raw power, it represents the weight of responsibility. Only the worthy can lift it, and those who do must bear the burden of its power. It's a reminder that true strength comes with great responsibility, and that power must be earned through character and action.
-
 ---
 
 ### 🐉 Dragon Slayer – Guts' Weapon of Suffering
@@ -74,7 +68,6 @@ The **MA5C** is my tool of precision—a weapon that represents human ingenuity 
 ![Guts from Berserk, wielding Dragon Slayer!](/images/symbols/dragon-slayer.avif)
 
 **Dragon Slayer** is a sword made to kill dragons—a weapon so massive it was never meant to be wielded by a human. Yet Guts carries it, despite its weight, despite the pain. It's a symbol of perseverance, of carrying burdens that seem impossible, of transforming suffering into strength. The sword that was too big becomes the perfect weapon in the hands of someone who refuses to give up.
-
 ---
 
 ### 🧭 Vegvisir – the Wayfinder Rune
@@ -82,13 +75,11 @@ The **MA5C** is my tool of precision—a weapon that represents human ingenuity 
 ![Vegvisir – Icelandic magical stave](/images/symbols/vegvisir.avif)
 
 The **Vegvisir** is an Icelandic magical stave—a compass that guides its bearer through rough weather. It's a symbol of navigation, of finding your way when the path is unclear. In a world of uncertainty, it represents the inner compass that guides us, the wisdom to find our way even when the storms of life rage around us.
-
 ---
 
 ### 🌀 "Amor fati" – Phrase of Power
 
 "**Amor fati**" means _love of fate_—a Stoic concept that teaches us to embrace everything that happens to us. It's not about passive acceptance, but about actively loving our fate, about finding meaning and growth in every experience. It's a reminder that our power lies not in controlling what happens to us, but in how we respond to it.
-
 ---
 
 ### 🔦 Lightsaber – Weapon of Light, Shadow, and Will
@@ -106,7 +97,6 @@ The **lightsaber** is a weapon of will — forged not just by Jedi in serene tem
 Use the lightsaber symbol when you must cut through confusion. When you're forging identity. When your truth needs to shine or strike. Whether you're aligning with the Force, bending it, or breaking from it altogether — the saber is a reminder:
 
 **You are the crystal. You decide how it burns.**
-
 ---
 
 ## 🔥 MORE POWER: A Catalog of Power Symbols in Human Imagination
@@ -160,7 +150,6 @@ These symbols go beyond ink. They are **usable power icons** — to focus the mi
 | Witcher Medallion                 | Magic radar     | A reminder to listen to your instincts. "Tremors" = truth. |
 | Dovahkiin Sigil (_Skyrim_)        | Voice is weapon | Speak truth even if your voice shakes. Shout if you must.  |
 | Hidden Blade (_Assassin's Creed_) | Freedom, legacy | Used in stealth mode. Tactical patience, not weakness.     |
-
 ---
 
 ## 📘 Glossary
@@ -170,7 +159,6 @@ These symbols go beyond ink. They are **usable power icons** — to focus the mi
 - **Shadow Work**: Psychological integration of rejected parts of the self.
 - **Archetype**: A symbolic pattern or role shared across stories and cultures.
 - **Power Anchor**: A visual or physical reminder of a specific strength or state.
-
 ---
 
 ## 🎞 Referenced Materials (TV, Games, Anime, Film)
@@ -198,7 +186,6 @@ These symbols go beyond ink. They are **usable power icons** — to focus the mi
 | The Witcher                      | Game / Series     | https://www.imdb.com/title/tt5180504/             |
 | Skyrim                           | Video Game        | https://www.imdb.com/title/tt1814884/             |
 | Assassin's Creed                 | Video Game / Film | https://www.imdb.com/title/tt2094766/             |
-
 ---
 
 ## 🔮 Final Notes for the Seeker
@@ -208,5 +195,4 @@ These are more than fandom. They're _tools_. Build your own **Codex of Symbols**
 This is your inventory. Your magic. Your reminder:
 
 **Power isn't just what you have — it's what you remember.**
-
 ---

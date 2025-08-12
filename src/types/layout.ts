@@ -5,8 +5,7 @@ export interface BaseLayoutProps {
   pubDate?: Date;
   updatedDate?: Date;
   heroImage?: string; // Primary image for social sharing
-  readingTime?: number; // Legacy field in minutes
-  minutesRead?: string; // New field from remark plugin
+  minutesRead?: string; // Reading time from remark plugin
   tags?: string[];
   category?: string[];
   // SEO fields

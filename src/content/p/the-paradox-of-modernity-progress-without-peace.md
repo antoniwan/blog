@@ -25,7 +25,6 @@ tags:
   - emotional-health
   - self-reflection
   - philosophy
-readingTime: 4
 draft: false
 featured: false
 published: true
@@ -63,7 +62,6 @@ We've reached the point in our timeline where denial is no longer an option. The
 It's humbling to admit. It feels small compared to billion-dollar inventions. But it may be the only force left that resists monetization, gamification, and ideological capture.
 
 So yes, it's sad. Overwhelmingly sad, even. But maybe that sadness is sacred. And maybe — just maybe — if we sit with it long enough, it will show us the way out.
-
 ---
 
 ## Sources
