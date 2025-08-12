@@ -5,6 +5,7 @@ import sitemap from "@astrojs/sitemap";
 import tailwind from "@astrojs/tailwind";
 import vercel from "@astrojs/vercel";
 import { SITE_URL } from "./src/consts";
+import { remarkReadingTime } from "./remark-reading-time.mjs";
 
 // https://astro.build/config
 export default defineConfig({
@@ -25,6 +26,7 @@ export default defineConfig({
     },
     smartypants: true,
     gfm: true,
+    remarkPlugins: [remarkReadingTime],
     rehypePlugins: [
       // Removed rehype-image-size as it is not used
     ],

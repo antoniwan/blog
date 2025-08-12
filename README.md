@@ -1,6 +1,6 @@
 # Curious Chaos Journal
 
-[![Version](https://img.shields.io/badge/version-2.16.0-blue.svg)](https://github.com/antoniwan/curious-chaos-journal/releases)
+[![Version](https://img.shields.io/badge/version-2.17.0-blue.svg)](https://github.com/antoniwan/curious-chaos-journal/releases)
 
 A personal blog exploring fatherhood, masculinity, culture, and modern collapse through raw reflections on thinking, consciousness, and the soft heart inside the hard world.
 
@@ -13,6 +13,7 @@ A personal blog exploring fatherhood, masculinity, culture, and modern collapse 
 - **Responsive design** optimized for all devices
 - **SEO optimized** with structured data and Open Graph
 - **Advanced Reading System** - Smart progress tracking with toast notifications
+- **Automatic Reading Time** - Calculated reading times for all content using Astro remark plugin
 - **Guided Path** - Seasonal reading experience with privacy-first progress tracking
 
 ## Tech Stack
@@ -22,6 +23,7 @@ A personal blog exploring fatherhood, masculinity, culture, and modern collapse 
 - **Tailwind CSS 3.4.17** - Utility-first CSS
 - **MDX** - Markdown with JSX support
 - **Sharp 0.33.5** - Image optimization
+- **Reading Time Plugin** - Automatic reading time calculation using remark plugin
 - **Giscus** - GitHub Discussions-based comments
 - **Vercel** - Deployment platform
 
@@ -84,12 +86,23 @@ language: ["en"]
 heroImage: "/images/hero-image.jpg"
 category: ["integration-growth"]
 tags: ["tag1", "tag2"]
-readingTime: 5
+readingTime: 5 # Legacy field (optional)
+minutesRead: "5 min read" # Automatically calculated
 featured: true
 translationGroup: "unique-group-id" # Links related translations
 draft: false
 ---
 ```
+
+### Reading Time System
+
+**Automatic Reading Time Calculation:**
+
+- **Remark Plugin Integration** - Uses Astro's remark plugin system for automatic calculation
+- **Content-Based Calculation** - Reading time calculated from actual content length, not estimates
+- **Backward Compatibility** - Supports both new `minutesRead` and legacy `readingTime` fields
+- **Consistent Display** - Reading times appear across all components (posts, cards, feeds, analytics)
+- **SEO Optimized** - Structured data includes accurate reading time for search engines
 
 ### Reading Progress System
 
@@ -198,10 +211,13 @@ The site includes an internal API for accessing Stoic philosophy quotes:
 - **Purpose**: Returns random Stoic philosophy quotes with metadata
 - **Documentation**: [API Documentation](docs/quotes-api.md)
 
-## Recent Updates (v2.16.0)
+## Recent Updates (v2.17.0)
 
 ### 🚀 **Major Enhancements**
 
+- **Automatic Reading Time** - Implemented Astro remark plugin for automatic reading time calculation
+- **Reading Time Integration** - Full integration across all components, feeds, and analytics
+- **Backward Compatibility** - Seamless support for existing manual reading time values
 - **Navigation Updates** - Enhanced navigation system with improved content organization
 - **Content Management** - Streamlined content updates and management workflows
 - **Script Automation** - Added frontmatter audit and standardization tools
@@ -215,6 +231,9 @@ The site includes an internal API for accessing Stoic philosophy quotes:
 
 ### 🔧 **Technical Improvements**
 
+- **Reading Time Plugin** - Custom remark plugin for automatic content analysis
+- **Content Integration** - Full integration across feeds, structured data, and analytics
+- **Type Safety** - Enhanced TypeScript types for new reading time fields
 - Centralized storage constants across all components
 - Enhanced LocalStorageManager with quota management
 - Custom events for real-time reactivity (`reading-data-updated`)

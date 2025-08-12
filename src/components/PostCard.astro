@@ -60,10 +60,10 @@ const { data } = post;
 			<header class="space-y-3">
 				<div class="flex items-center gap-2 text-sm text-body-muted leading-relaxed">
 					<FormattedDate date={data.pubDate} />
-					{data.readingTime && (
+					{(data.readingTime || data.minutesRead) && (
 						<>
 							<span aria-hidden="true">•</span>
-							<span>{data.readingTime} min read</span>
+							<span>{data.minutesRead || `${data.readingTime} min read`}</span>
 						</>
 					)}
 					{featured && (

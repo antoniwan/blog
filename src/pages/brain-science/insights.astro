@@ -57,7 +57,14 @@ const contentAnalysis = posts.map(post => {
 		emotionalIntensity,
 		vulnerabilityScore: vulnerabilityCount,
 		confidenceScore: confidenceCount,
-		readingTime: post.data.readingTime || Math.ceil(wordCount / 200),
+		readingTime: (() => {
+			if (post.data.minutesRead && typeof post.data.minutesRead === 'string') {
+				// Extract minutes from "X min read" format
+				const match = post.data.minutesRead.match(/(\d+)/);
+				return match ? parseInt(match[1]) : Math.ceil(wordCount / 200);
+			}
+			return post.data.readingTime || Math.ceil(wordCount / 200);
+		})(),
 		tags: post.data.tags || [],
 		categories: post.data.category || []
 	};

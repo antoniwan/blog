@@ -43,9 +43,16 @@ export async function GET(context) {
         fullContent = `<img src="${imageUrl}" alt="${post.data.title}" style="max-width: 100%; height: auto; margin-bottom: 1rem;" />\n\n${fullContent}`;
       }
 
-      // Add reading time if available
-      if (post.data.readingTime) {
-        fullContent = `<p><em>Reading time: ${post.data.readingTime} minute${post.data.readingTime !== 1 ? 's' : ''}</em></p>\n\n${fullContent}`;
+      // Add reading time if available (use new minutesRead or fall back to legacy readingTime)
+      const readingTime = post.data.minutesRead || post.data.readingTime;
+      if (readingTime) {
+        if (typeof readingTime === 'string') {
+          // New format from remark plugin
+          fullContent = `<p><em>Reading time: ${readingTime}</em></p>\n\n${fullContent}`;
+        } else {
+          // Legacy format in minutes
+          fullContent = `<p><em>Reading time: ${readingTime} minute${readingTime !== 1 ? 's' : ''}</em></p>\n\n${fullContent}`;
+        }
       }
 
       return {

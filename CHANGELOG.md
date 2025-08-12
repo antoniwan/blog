@@ -5,6 +5,33 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.17.0] - 2025-01-15
+
+### Added
+
+- **Automatic Reading Time System**: Complete implementation of automatic reading time calculation
+  - **Remark Plugin Integration**: Custom Astro remark plugin for automatic content analysis
+  - **Content-Based Calculation**: Reading time calculated from actual content length, not estimates
+  - **Full System Integration**: Reading times appear across all components, feeds, and analytics
+  - **Backward Compatibility**: Seamless support for existing manual `readingTime` values
+  - **SEO Optimization**: Structured data includes accurate reading time for search engines
+
+### Enhanced
+
+- **Reading Time Display**: Consistent reading time display across all components
+  - **Blog Posts**: Reading time shown in sidebar and mobile metadata
+  - **Post Cards**: Reading time displayed in post previews
+  - **Feeds**: RSS and JSON feeds include reading time information
+  - **Analytics**: Brain science pages use real calculated reading times
+  - **Chapter Component**: Reading time display in chapter listings
+
+### Technical
+
+- **Dependencies**: Added `reading-time` and `mdast-util-to-string` packages
+- **Content Schema**: Enhanced to support both `minutesRead` and legacy `readingTime` fields
+- **Type Safety**: Updated TypeScript types for new reading time functionality
+- **Plugin System**: Custom remark plugin for content analysis during build time
+
 ## [2.16.0] - 2025-01-15
 
 ### Added

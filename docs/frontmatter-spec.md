@@ -2,6 +2,14 @@
 
 This document defines the frontmatter format for all blog posts in the Curious Chaos Journal.
 
+## Reading Time System
+
+**Automatic Calculation**: Reading times are now automatically calculated using an Astro remark plugin that analyzes the actual content length. This provides accurate, consistent reading time estimates across all posts.
+
+**Backward Compatibility**: Existing posts with manual `readingTime` values continue to work and will be used as fallbacks if automatic calculation fails.
+
+**Field Priority**: The system uses `minutesRead` (automatic) when available, falling back to `readingTime` (manual) if needed.
+
 ## Required Fields
 
 ### `title` (string)
@@ -60,10 +68,16 @@ Keywords and topics for the post
 tags: ["nutrition", "health", "wellness", "cooking"]
 ```
 
-### `readingTime` (number)
-Estimated reading time in minutes
+### `readingTime` (number, optional)
+Legacy field for estimated reading time in minutes. This field is now automatically calculated, but can still be used for manual overrides.
 ```yaml
 readingTime: 3
+```
+
+### `minutesRead` (string, optional)
+Automatically calculated reading time from the remark plugin. This field is generated during build time and should not be manually edited.
+```yaml
+minutesRead: "3 min read"
 ```
 
 ### `draft` (boolean)
@@ -90,7 +104,8 @@ heroImage: "/images/beef-heart-comparison-chart.png"
 category: ["integration-growth"]
 subcategory: "Nutrition"
 tags: ["nutrition", "health", "wellness", "cooking", "beef-heart"]
-readingTime: 3
+readingTime: 3  # Legacy field (optional)
+# minutesRead: "3 min read"  # Automatically calculated
 draft: false
 featured: false
 ---

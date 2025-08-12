@@ -150,7 +150,7 @@ const postSlug = path?.replace('/p/', '').replace('/', '') || '';
                   </h3>
                   <div class="flex items-center gap-2 text-base text-[rgb(var(--color-text))] leading-relaxed">
                     <span class="text-[rgb(var(--color-accent))]">⏱️</span>
-                    <span>{readingTime} min read</span>
+                    <span>{typeof readingTime === 'string' ? readingTime : `${readingTime} min read`}</span>
                   </div>
                 </div>
               )}
@@ -320,7 +320,7 @@ const postSlug = path?.replace('/p/', '').replace('/', '') || '';
                 </h3>
                 <div class="flex items-center gap-2 text-base text-[rgb(var(--color-text))] leading-relaxed">
                   <span class="text-[rgb(var(--color-accent))]">⏱️</span>
-                  <span>{readingTime} min read</span>
+                  <span>{typeof readingTime === 'string' ? readingTime : `${readingTime} min read`}</span>
                 </div>
               </div>
             )}

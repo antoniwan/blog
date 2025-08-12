@@ -81,8 +81,10 @@ function formatRelativeTime(dateString: string): string {
 										<span class="status-icon">⭕</span>
 										<span class="status-text">Unread</span>
 									</span>
-									{post.data.readingTime && (
-										<span class="reading-time" data-post-slug={post.id}>{post.data.readingTime} min</span>
+									{(post.data.readingTime || post.data.minutesRead) && (
+										<span class="reading-time" data-post-slug={post.id}>
+											{post.data.minutesRead || `${post.data.readingTime} min`}
+										</span>
 									)}
 								</div>
 							</a>

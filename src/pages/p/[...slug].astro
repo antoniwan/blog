@@ -22,7 +22,10 @@ interface Props {
 }
 
 const { post, allPosts } = Astro.props;
-const { Content } = await render(post);
+const { Content, remarkPluginFrontmatter } = await render(post);
+
+// Get reading time from remark plugin or fall back to manual field
+const readingTime = remarkPluginFrontmatter?.minutesRead || post.data.readingTime;
 
 // Auto-generate keywords from tags and categories
 const keywords = generateKeywords(

@@ -20,7 +20,8 @@ export interface StructuredDataOptions {
   updatedDate?: Date;
   heroImage?: string;
   keywords?: string[];
-  readingTime?: number;
+  readingTime?: number; // Legacy field in minutes
+  minutesRead?: string; // New field from remark plugin
   // Collection-specific fields
   posts?: CollectionEntry<"blog">[];
   identifier?: string;
@@ -37,7 +38,8 @@ export function generateStructuredData(options: StructuredDataOptions) {
     updatedDate,
     heroImage,
     keywords = [],
-    readingTime,
+    readingTime, // Legacy field
+    minutesRead, // New field
     posts = [],
     identifier,
   } = options;
@@ -140,7 +142,14 @@ export function generateStructuredData(options: StructuredDataOptions) {
         },
       },
       keywords: keywords.join(", "),
-      timeRequired: readingTime ? `PT${readingTime}M` : undefined,
+      timeRequired: (() => {
+        if (minutesRead && typeof minutesRead === 'string') {
+          // Extract minutes from "X min read" format
+          const match = minutesRead.match(/(\d+)/);
+          return match ? `PT${match[1]}M` : undefined;
+        }
+        return readingTime ? `PT${readingTime}M` : undefined;
+      })(),
       url: url,
       inLanguage: "en-US",
       articleSection: keywords.length > 0 ? keywords[0] : undefined,
@@ -174,7 +183,14 @@ export function generateStructuredData(options: StructuredDataOptions) {
             image: generateImageUrl(post.data.heroImage),
             keywords: post.data.tags?.join(", "),
             articleSection: post.data.category?.join(", "),
-            timeRequired: post.data.readingTime ? `PT${post.data.readingTime}M` : undefined,
+            timeRequired: (() => {
+              if (post.data.minutesRead && typeof post.data.minutesRead === 'string') {
+                // Extract minutes from "X min read" format
+                const match = post.data.minutesRead.match(/(\d+)/);
+                return match ? `PT${match[1]}M` : undefined;
+              }
+              return post.data.readingTime ? `PT${post.data.readingTime}M` : undefined;
+            })(),
           },
         })),
       },
