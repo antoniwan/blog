@@ -1,6 +1,6 @@
 # Curious Chaos Journal
 
-[![Version](https://img.shields.io/badge/version-2.17.0-blue.svg)](https://github.com/antoniwan/curious-chaos-journal/releases)
+[![Version](https://img.shields.io/badge/version-2.18.1-blue.svg)](https://github.com/antoniwan/curious-chaos-journal/releases)
 
 A personal blog exploring fatherhood, masculinity, culture, and modern collapse through raw reflections on thinking, consciousness, and the soft heart inside the hard world.
 
@@ -211,7 +211,7 @@ The site includes an internal API for accessing Stoic philosophy quotes:
 - **Purpose**: Returns random Stoic philosophy quotes with metadata
 - **Documentation**: [API Documentation](docs/quotes-api.md)
 
-## Recent Updates (v2.17.0)
+## Recent Updates (v2.18.1)
 
 ### 🚀 **Major Enhancements**
 
