@@ -33,6 +33,8 @@ export const TAG_WEIGHTS: Record<string, number> = {
   transformation: 9,
   authenticity: 9,
   values: 9,
+  love: 10,
+  revolution: 9,
 
   // Major life areas
   parenting: 8,
@@ -96,6 +98,11 @@ export const TAG_WEIGHTS: Record<string, number> = {
   "collective-healing": 5,
   fear: 5,
   control: 5,
+  "radical-love": 6,
+  "political-awakening": 5,
+  "systemic-critique": 5,
+  "fear-dissolution": 6,
+  "love-as-resistance": 6,
 
   // Creative & expressive
   "art-expression": 4,
@@ -255,6 +262,9 @@ export const MASLOW_CATEGORIES: TagCategory[] = [
       "child-development",
       "childhood",
       "vulnerability",
+      "love",
+      "radical-love",
+      "love-as-resistance",
     ],
   },
   {
@@ -325,6 +335,9 @@ export const MASLOW_CATEGORIES: TagCategory[] = [
       "writing",
       "digital-art",
       "customization",
+      "revolution",
+      "political-awakening",
+      "systemic-critique",
     ],
   },
   {
@@ -357,6 +370,7 @@ export const MASLOW_CATEGORIES: TagCategory[] = [
       "resilience",
       "ritual",
       "routine",
+      "fear-dissolution",
     ],
   },
 ];
