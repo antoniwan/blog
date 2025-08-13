@@ -34,8 +34,8 @@ export const mainNavigation: NavigationItem[] = [
           icon: "🛠️",
         },
         {
-          href: "/category/integration-growth/",
-          label: "Integration & Growth",
+          href: "/category/personal-growth/",
+          label: "Personal Growth",
           icon: "🧘🏽‍♂️",
         },
         {
@@ -44,8 +44,8 @@ export const mainNavigation: NavigationItem[] = [
           icon: "📚",
         },
         { href: "/category/metaspace/", label: "Metaspace", icon: "🌀" },
-        { href: "/category/parenting/", label: "Parenting", icon: "👨‍👩‍👧‍👦" },
-        { href: "/category/politics/", label: "Politics", icon: "⚖️" },
+        { href: "/category/family-relationships/", label: "Family & Relationships", icon: "👨‍👩‍👧‍👦" },
+        { href: "/category/society-culture/", label: "Society & Culture", icon: "⚖️" },
         { href: "/category/psychology/", label: "Psychology", icon: "🧠" },
         {
           href: "/category/systems-strategy/",

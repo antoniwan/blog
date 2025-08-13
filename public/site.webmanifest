@@ -1,7 +1,7 @@
 {
-  "name": "Curious Chaos Journal",
-  "short_name": "The CCJ",
-  "description": "Dispatches from a fractured mind navigating fatherhood, masculinity, cultura, and modern collapse. Raw reflections on thinking, culture, and the soft heart inside the hard world.",
+  "name": "Astro Personal Blog",
+  "short_name": "Astro Blog",
+  "description": "A modern platform for writers, thinkers, and creators to share their thoughts with the world.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
@@ -11,13 +11,13 @@
   "lang": "en",
   "categories": [
     "blog",
-    "thinking",
-    "fatherhood",
-    "masculinity",
-    "culture",
+    "writing",
+    "personal-growth",
+    "creativity",
+    "technology",
     "philosophy",
-    "parenting",
-    "personal-development"
+    "reflection",
+    "content-creation"
   ],
   "icons": [
     {
@@ -74,7 +74,7 @@
     {
       "name": "About",
       "short_name": "About",
-      "description": "Learn more about the Curious Chaos Journal",
+      "description": "Learn more about this blog",
       "url": "/about",
       "icons": [
         {

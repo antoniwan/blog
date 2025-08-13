@@ -18,8 +18,8 @@ export interface SocialLinks {
   github: string;
   linkedin: string;
   bluesky: string;
-  buildsSoftware: string;
-  strongHands: string;
+  website: string;
+  portfolio: string;
 }
 
 export interface SEOConfig {
@@ -37,43 +37,43 @@ export interface SEOConfig {
 }
 
 // Site Information
-export const SITE_TITLE = "Curious Chaos Journal";
-export const SHORT_SITE_TITLE = "Curious Chaos Journal";
+export const SITE_TITLE = "Astro Personal Blog";
+export const SHORT_SITE_TITLE = "Astro Blog";
 export const SITE_DESCRIPTION =
-  "Raw thoughts on fatherhood, masculinity, and modern life. No filter, some philosophy, occasional beauty. This is where I think out loud about the hard questions that keep me up at night.";
-export const SITE_URL = "https://blog.antoniwan.online";
+  "A modern personal blog built with Astro. Share your thoughts, ideas, and experiences with the world.";
+export const SITE_URL = "https://yourdomain.com";
 
 // Author Information
 export const AUTHOR: Author = {
-  name: "Antonio Rodriguez Martinez",
-  email: "antoniwan@antoniwan.online",
-  url: "https://antoniwan.online",
-  twitter: "@antoniwan",
-  github: "antoniwan",
-  linkedin: "antoniwan",
+  name: "Your Name",
+  email: "your.email@example.com",
+  url: "https://yourdomain.com",
+  twitter: "@yourusername",
+  github: "yourusername",
+  linkedin: "yourusername",
 };
 
 // Social Media Links
 export const SOCIAL_LINKS: SocialLinks = {
-  twitter: "https://twitter.com/antoniwan",
-  github: "https://github.com/antoniwan",
-  linkedin: "https://linkedin.com/in/antoniwan",
-  bluesky: "https://bsky.app/profile/antoniwan.online",
-  buildsSoftware: "https://builds.software",
-  strongHands: "https://stronghandssoftheart.com",
+  twitter: "https://twitter.com/yourusername",
+  github: "https://github.com/yourusername",
+  linkedin: "https://linkedin.com/in/yourusername",
+  bluesky: "https://bsky.app/profile/yourusername.bsky.social",
+  website: "https://yourdomain.com",
+  portfolio: "https://portfolio.yourdomain.com",
 };
 
 // SEO Configuration
 export const SEO_CONFIG: SEOConfig = {
   defaultImage: assetConfig.images.defaultSocial,
   defaultImageAlt:
-    "Curious Chaos Journal - Reality hurts. I look anyway. Raw reflections on fatherhood, masculinity, culture, and modern collapse.",
+    "Astro Personal Blog - A modern platform for sharing thoughts, ideas, and experiences.",
   defaultHeroImage: assetConfig.images.defaultHero,
   defaultLocale: "en_US",
   defaultRobots: "index, follow",
-  googleSiteVerification: "gUubXvBv6tFsaZTQd5vS1VUGHlaMTOyf110X3yn7jiY",
-  twitterHandle: "@antoniwan",
-  organizationName: "Curious Chaos Journal",
+  googleSiteVerification: "your-google-verification-code",
+  twitterHandle: "@yourusername",
+  organizationName: "Astro Personal Blog",
   organizationLogo: assetConfig.images.logo,
   organizationLogoWidth: 512,
   organizationLogoHeight: 512,
@@ -84,7 +84,7 @@ export const CATEGORY_EMOJIS: Record<string, string> = {
   tech: "💻",
   health: "🏥",
   food: "🍽️",
-  parenting: "👶",
+  family: "👶",
   personal: "👤",
   projects: "🚀",
   thoughts: "💭",
@@ -92,50 +92,50 @@ export const CATEGORY_EMOJIS: Record<string, string> = {
   reviews: "⭐",
   news: "📰",
   thinking: "🧠",
-  fatherhood: "👨‍👧‍👦",
-  masculinity: "⚔️",
+  relationships: "👨‍👩‍👧‍👦",
   culture: "🌍",
   philosophy: "🤔",
   "modern-life": "🏙️",
-  collapse: "🔥",
   reflection: "💭",
   growth: "🌱",
   identity: "🎭",
+  creativity: "🎨",
+  learning: "📖",
 };
 
 // Disclaimer Text
 export const DISCLAIMER_TEXT =
-  "The wisdom, practices, and digital alchemy shared here flow from personal experience and creative exploration. None of this constitutes medical, legal, psychological, or professional advice. Please consult qualified professionals for such guidance.";
+  "The content shared here represents personal opinions and experiences. This blog is for informational and entertainment purposes only. Please consult qualified professionals for professional advice.";
 
 // Site Taglines and Messaging
 export const SITE_TAGLINES = {
-  main: "Reality hurts. I look anyway.",
+  main: "Share Your Story",
   subtitle:
-    "Dispatches from a fractured mind navigating fatherhood, masculinity, cultura, and modern collapse — one burning question at a time.",
+    "A modern platform for writers, thinkers, and creators to share their thoughts with the world.",
   description:
-    "Raw reflections. No filter. Some philosophy. Occasional beauty.",
-  quote: "Notes from the soft heart inside the hard world.",
-  spanish: "Caos, cultura, y curiosidad sin permiso.",
-  mind: "A mind on fire. A soul at work.",
-  status: "Still learning. Still breaking. Still here.",
+    "Modern blogging. Clean design. Powerful features.",
+  quote: "Where ideas find their voice.",
+  spanish: "Comparte tu historia con el mundo.",
+  mind: "A platform for thoughtful content.",
+  status: "Always evolving. Always improving.",
 };
 
 // SEO Keywords for better discoverability
 export const SEO_KEYWORDS = [
-  "thinking",
-  "fatherhood",
-  "masculinity",
-  "culture",
-  "modern collapse",
-  "philosophy",
-  "personal reflection",
-  "parenting",
-  "identity",
-  "growth",
-  "raw thoughts",
-  "cultural navigation",
-  "mindfulness",
-  "self-improvement",
+  "blog",
+  "personal blog",
+  "writing",
+  "content creation",
+  "thoughts",
+  "ideas",
+  "personal growth",
+  "reflection",
+  "modern web",
+  "astro",
+  "blogging platform",
+  "content management",
+  "digital publishing",
+  "creative writing",
   "personal development",
   "modern life",
   "authenticity",

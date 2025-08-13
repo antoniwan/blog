@@ -1,17 +1,17 @@
-# Curious Chaos Journal
+# Astro Personal Blog
 
-[![Version](https://img.shields.io/badge/version-2.17.0-blue.svg)](https://github.com/antoniwan/curious-chaos-journal/releases)
+[![Version](https://img.shields.io/badge/version-2.18.1-blue.svg)](https://github.com/yourusername/astro-personal-blog/releases)
 
-A personal blog exploring fatherhood, masculinity, culture, and modern collapse through raw reflections on thinking, consciousness, and the soft heart inside the hard world.
+A modern, feature-rich personal blog built with Astro. Perfect for writers, thinkers, and creators who want to share their thoughts with the world.
 
 ## Overview
 
-- **55+ writings** exploring personal growth, consciousness, and modern life
-- **9 content categories** covering fatherhood, psychology, politics, and more
-- **Multilingual system** with translation linking (English/Spanis)
-- **Dark mode** with system preference detection
-- **Responsive design** optimized for all devices
-- **SEO optimized** with structured data and Open Graph
+- **Modern Blog Platform** - Built with Astro 5.11.0 for optimal performance
+- **Content Categories** - Organized content management system
+- **Multilingual Support** - Built-in translation linking system
+- **Dark/Light Mode** - Automatic theme switching with system preference detection
+- **Responsive Design** - Optimized for all devices and screen sizes
+- **SEO Optimized** - Structured data, Open Graph, and comprehensive meta tags
 - **Advanced Reading System** - Smart progress tracking with toast notifications
 - **Automatic Reading Time** - Calculated reading times for all content using Astro remark plugin
 - **Guided Path** - Seasonal reading experience with privacy-first progress tracking
@@ -30,8 +30,8 @@ A personal blog exploring fatherhood, masculinity, culture, and modern collapse 
 ## Quick Start
 
 ```bash
-git clone https://github.com/antoniwan/curious-chaos-journal.git
-cd curious-chaos-journal
+git clone https://github.com/yourusername/astro-personal-blog.git
+cd astro-personal-blog
 npm install
 npm run dev
 ```
@@ -55,7 +55,7 @@ Visit `http://localhost:4323` to view the site.
 ## Project Structure
 
 ```text
-curious-chaos-journal/
+astro-personal-blog/
 ├── public/                 # Static assets
 ├── src/
 │   ├── components/        # UI components
@@ -72,9 +72,9 @@ curious-chaos-journal/
 
 ## Content Management
 
-### Blog Writings
+### Blog Posts
 
-All writings follow a standardized frontmatter format. See [docs/frontmatter-spec.md](docs/frontmatter-spec.md) for details.
+All posts follow a standardized frontmatter format. See [docs/frontmatter-spec.md](docs/frontmatter-spec.md) for details.
 
 Example frontmatter:
 
@@ -85,7 +85,7 @@ description: "Post description"
 pubDate: "2025-01-01T00:00:00.000Z"
 language: ["en"]
 heroImage: "/images/hero-image.jpg"
-category: ["integration-growth"]
+category: ["personal-growth"]
 tags: ["tag1", "tag2"]
 # minutesRead: "5 min read" # Automatically calculated
 featured: true
@@ -100,7 +100,6 @@ draft: false
 
 - **Remark Plugin Integration** - Uses Astro's remark plugin system for automatic calculation
 - **Content-Based Calculation** - Reading time calculated from actual content length, not estimates
-- **Legacy Cleanup Completed** - All manual reading time fields removed from 55+ content files
 - **Consistent Display** - Reading times appear across all components (posts, cards, feeds, analytics)
 - **SEO Optimized** - Structured data includes accurate reading time for search engines
 
@@ -154,15 +153,15 @@ featured: false
 language: ["es"]
 ```
 
-### Categories
+### Default Categories
 
 - **Art & Expression** - Creative content and aesthetic exploration
 - **DIY & Creation** - Physical builds and handmade projects
-- **Integration & Growth** - Personal development and consciousness
+- **Personal Growth** - Personal development and consciousness
 - **Learning Projects** - Documentation of skill development
 - **Metaspace** - Reflections on the journey itself
-- **Parenting** - Family dynamics and child development
-- **Politics** - Social structures and power dynamics
+- **Family & Relationships** - Family dynamics and personal growth
+- **Society & Culture** - Social structures and cultural dynamics
 - **Psychology** - Human behavior and mental processes
 - **Systems & Strategy** - Technical and organizational systems
 
@@ -178,11 +177,11 @@ language: ["es"]
 
 ### 📚 **Content & Navigation**
 
-- **Search Functionality** - Intelligent content discovery across 55+ writings
+- **Search Functionality** - Intelligent content discovery across all writings
 - **Guided Path** - Seasonal reading experience with chapter progress tracking
 - **Breadcrumb Navigation** - Clear page hierarchy and location awareness
 - **Tag Management** - Advanced tag usage analytics and filtering
-- **Brain Science Analytics** - Writing pattern analysis and insights
+- **Writing Analytics** - Writing pattern analysis and insights
 
 ### 🔒 **Privacy & Security**
 
@@ -199,7 +198,7 @@ language: ["es"]
 - **Comments System** - Privacy-focused Giscus integration
 - **Social Sharing** - Multi-platform sharing (Twitter, BlueSky, Facebook, Threads, LinkedIn)
 - **Internal API** - Stoic quotes system for enhanced user experience
-- **Multilingual Support** - Translation linking with Puerto Rico flag for Spanish 🇵🇷
+- **Multilingual Support** - Translation linking with language toggles
 
 ## API
 
@@ -211,13 +210,12 @@ The site includes an internal API for accessing Stoic philosophy quotes:
 - **Purpose**: Returns random Stoic philosophy quotes with metadata
 - **Documentation**: [API Documentation](docs/quotes-api.md)
 
-## Recent Updates (v2.17.0)
+## Recent Updates (v2.18.1)
 
 ### 🚀 **Major Enhancements**
 
 - **Automatic Reading Time** - Implemented Astro remark plugin for automatic reading time calculation
 - **Reading Time Integration** - Full integration across all components, feeds, and analytics
-- **Legacy Cleanup** - Complete removal of manual reading time fields from all 55 content files
 - **Navigation Updates** - Enhanced navigation system with improved content organization
 - **Content Management** - Streamlined content updates and management workflows
 - **Script Automation** - Added frontmatter audit and standardization tools
@@ -226,7 +224,6 @@ The site includes an internal API for accessing Stoic philosophy quotes:
 - **Cross-Tab Sync** - Reading progress syncs instantly across browser tabs
 - **Security Hardening** - Fixed XSS vulnerabilities and added data validation
 - **Storage Optimization** - Centralized configuration with schema versioning
-- **Puerto Rico Flag** - Updated Spanish language toggle from Spain to Puerto Rico 🇵🇷
 - **Component Cleanup** - Memory leak prevention with proper event listener cleanup
 
 ### 🔧 **Technical Improvements**
@@ -237,7 +234,6 @@ The site includes an internal API for accessing Stoic philosophy quotes:
 - Centralized storage constants across all components
 - Enhanced LocalStorageManager with quota management
 - Custom events for real-time reactivity (`reading-data-updated`)
-- Improved collection handling (all 55 writings now properly displayed)
 - Performance optimizations with throttled scroll events
 
 ## Documentation
@@ -248,6 +244,17 @@ Essential documentation available in `docs/`:
 - [Comments Setup](docs/comments-setup.md)
 - [Quotes API](docs/quotes-api.md)
 - [Multilingual Setup](docs/multilingual-setup.md)
+
+## Customization
+
+This blog platform is designed to be easily customizable:
+
+1. **Update Site Information** - Modify `src/consts.ts` with your details
+2. **Replace Content** - Update the about page and sample posts
+3. **Customize Categories** - Modify `src/data/categories.ts` for your topics
+4. **Update Navigation** - Adjust `src/data/navigation.ts` for your structure
+5. **Personalize Styling** - Customize colors and themes in `src/styles/`
+6. **Add Your Content** - Replace sample posts with your own writings
 
 ## License
 
