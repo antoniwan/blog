@@ -51,7 +51,7 @@ In simple terms, it wrecked me.
 
 And yet, after tumbling down that rabbit hole, I can say with confidence: the thing that saved me was **love**. Self-love. Love for my family and friends. Redirecting my energy, focus, mind, and body into the people and moments I can actually touch with my five senses. That's what pulled me out of the black hole of despair.
 
-It took real shadow work to realize that presence, rooted in love and kindness, is the only sustainable way to face the cruelty of our human systems. My daughter's laughter, my girlfriend's affection, my ex-wife's empathy, nourishing my body and mind, and creating a home where kindness is our default — that is what I _can_ do.
+It took real shadow work to realize that presence, rooted in love and kindness, is the only sustainable way to face the cruelty of our human systems. My daughter's laughter, my girlfriend's affection, my ex-wife's empathy, nourishing my body and mind, and creating a home where kindness is our default — that is what I _can_ do. Love is, ultimately, the most revolutionary force we have.
 
 > **Love is, ultimately, the most revolutionary force we have.**
 
@@ -65,21 +65,20 @@ It reminds me of that moment in _V for Vendetta_ when Evey finally understands w
 
 Because love terrifies the powerful. It can't be taxed, sanctioned, or legislated away. It doesn't need permission, and it multiplies every time it's given. In a world built to keep us afraid and divided, the simple act of loving — fully, openly, without condition — is the loudest rebellion we can stage.
 
-That's the revolution. Love is the revolution!
+That's the revolution. *Love is the final revolution!*
 
 ---
 
 **More Materials:**
 
-- [Sudan's Civil War](https://www.theatlantic.com/magazine/archive/2025/09/sudan-civil-war-humanitarian-crisis/683563/)
-- [Trump Statement on U.S. Preparedness](https://www.yahoo.com/news/articles/trump-says-us-fully-prepared-233417929.html)
-- [Credit Card Limit Lowered](https://abc7.com/post/credit-card-limit-lowered-account-closed-lending-tree-crunch/10944794/)
-- [UNICEF: The Impact of Conflict on Children](https://www.unicef.org/protection/children-under-attack) — data on the toll of violence on the most vulnerable.
-- [WHO: Universal Health Coverage](https://www.who.int/news-room/fact-sheets/detail/universal-health-coverage-\(uhc\)) — context for Israel/U.S. healthcare gap.
+- <a href="https://www.theatlantic.com/magazine/archive/2025/09/sudan-civil-war-humanitarian-crisis/683563/" target="_blank" rel="noopener noreferrer">Sudan's Civil War</a>
+- <a href="https://www.yahoo.com/news/articles/trump-says-us-fully-prepared-233417929.html" target="_blank" rel="noopener noreferrer">Trump Statement on U.S. Preparedness</a>
+- <a href="https://abc7.com/post/credit-card-limit-lowered-account-closed-lending-tree-crunch/10944794/" target="_blank" rel="noopener noreferrer">Millions see credit card limits cut and accounts closed during COVID-19 pandemic</a>
+- <a href="https://www.who.int/news-room/fact-sheets/detail/universal-health-coverage-\(uhc\)" target="_blank" rel="noopener noreferrer">WHO: Universal Health Coverage</a> — context for Israel/U.S. healthcare gap.
 - **Matthew 22:39 (NIV)** — _"And the second is like it: 'Love your neighbor as yourself.'"_
 - **1 Corinthians 13:13 (NIV)** — _"And now these three remain: faith, hope and love. But the greatest of these is love."_
 - **John 15:12** — _"My command is this: Love each other as I have loved you."_
-- [Martin Luther King Jr., _Strength to Love_](https://kinginstitute.stanford.edu/strength-love) — sermons framing love as a weapon against injustice.
-- [The Power of Love in Social Justice Movements](https://nonviolenceinternational.net/power_of_love) — historical examples of love-driven activism.
-- [_V for Vendetta_ (2005)](https://en.wikipedia.org/wiki/V_for_Vendetta_(film)), Dir. James McTeigue — scene where Evey Hammond, after enduring captivity, realizes that love and a grounded sense of self make one fearless, even in the face of death.
-- [Does V for Vendetta Hold Up?](https://www.gq.com/story/does-v-for-vendetta-hold-up)
+- <a href="https://kinginstitute.stanford.edu/strength-love" target="_blank" rel="noopener noreferrer">Martin Luther King Jr., _Strength to Love_</a> — sermons framing love as a weapon against injustice.
+- <a href="https://letmegooglethat.com/?q=The+Power+of+Love+in+Social+Justice+Movements" target="_blank" rel="noopener noreferrer">Google Search on The Power of Love in Social Justice Movements</a> — historical examples of love-driven activism.
+- <a href="https://en.wikipedia.org/wiki/V_for_Vendetta_(film)" target="_blank" rel="noopener noreferrer">_V for Vendetta_ (2005)</a>, Dir. James McTeigue — scene where Evey Hammond, after enduring captivity, realizes that love and a grounded sense of self make one fearless, even in the face of death.
+- <a href="https://www.gq.com/story/does-v-for-vendetta-hold-up" target="_blank" rel="noopener noreferrer">Does V for Vendetta Hold Up?</a>
