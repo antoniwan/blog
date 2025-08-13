@@ -70,7 +70,7 @@ const contentAnalysis = posts.map(post => {
 	
 	return {
 		title: post.data.title,
-		slug: post.id,
+						slug: post.id.split('/').pop(),
 		date: post.data.pubDate,
 		dayOfWeek: getDay(post.data.pubDate),
 		month: getMonth(post.data.pubDate),

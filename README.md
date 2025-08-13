@@ -59,7 +59,9 @@ curious-chaos-journal/
 ├── public/                 # Static assets
 ├── src/
 │   ├── components/        # UI components
-│   ├── content/p/         # Blog posts
+│   ├── content/p/         # Blog posts organized by year
+│   │   ├── 2025/         # 29 posts from 2025
+│   │   └── 2024/         # 27 posts from 2024
 │   ├── data/             # Categories, navigation, and quotes
 │   ├── layouts/          # Page layouts
 │   ├── pages/            # Route components
@@ -71,6 +73,19 @@ curious-chaos-journal/
 ```
 
 ## Content Management
+
+### Content Organization
+
+The blog content is organized by publication year for better scalability and management:
+
+- **2025/** - 29 posts (current year)
+- **2024/** - 27 posts (previous year)
+
+This organization:
+- ✅ **Maintains same URLs** - No SEO impact or broken links
+- ✅ **Improves scalability** - Can handle hundreds more posts efficiently
+- ✅ **Better organization** - Easier content management and discovery
+- ✅ **Future-proof** - Ready for continued growth
 
 ### Blog Writings
 

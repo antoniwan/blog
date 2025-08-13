@@ -54,7 +54,7 @@ const contentEvolution = posts.map(post => {
 	
 	return {
 		title: post.data.title,
-		slug: post.id,
+						slug: post.id.split('/').pop(),
 		date: post.data.pubDate,
 		body: content,
 		wordCount,

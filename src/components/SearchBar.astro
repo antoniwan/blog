@@ -19,13 +19,13 @@ const posts = await getCollection('blog', ({ data }) => {
 // Prepare search data for posts
 const postSearchData = posts.map(post => ({
   type: 'post',
-  slug: post.id,
+  slug: post.id.split('/').pop(),
   title: post.data.title,
   description: post.data.description,
   category: post.data.category,
   tags: post.data.tags,
   heroImage: post.data.heroImage,
-  url: `/p/${post.id}/`,
+  url: `/p/${post.id.split('/').pop()}/`,
   author: post.data.author,
   keywords: post.data.keywords,
   language: post.data.language

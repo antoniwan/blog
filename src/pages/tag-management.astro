@@ -112,7 +112,7 @@ const lowFrequencyTags = sortedTags.filter(([, count]) => count <= 2);
                 <div class="p-3 bg-[rgb(var(--color-bg))] rounded border border-[rgb(var(--color-border))]/30">
                   <div class="flex items-center justify-between mb-2">
                     <a 
-                      href={`/p/${post.id}/`}
+                      							href={`/p/${post.id.split('/').pop()}/`}
                       class="text-[rgb(var(--color-accent))] hover:underline font-medium line-clamp-1"
                     >
                       {post.data.title}

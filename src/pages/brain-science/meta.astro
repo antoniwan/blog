@@ -32,7 +32,7 @@ const contentAnalysis = posts.map(post => {
 	
 	return {
 		title: post.data.title,
-		slug: post.id,
+		slug: post.id.split('/').pop(),
 		date: post.data.pubDate,
 		wordCount,
 		paragraphCount,
@@ -68,12 +68,12 @@ posts.forEach(post => {
 				crossReferences.push({
 					from: {
 						title: title,
-						slug: post.id,
+						slug: post.id.split('/').pop(),
 						date: post.data.pubDate
 					},
 					to: {
 						title: otherTitle,
-						slug: otherPost.id,
+						slug: otherPost.id.split('/').pop(),
 						date: otherPost.data.pubDate
 					},
 					type: 'title-reference'
@@ -102,7 +102,7 @@ const selfReferentialPosts = posts.filter(post => {
 	return hasWritingKeywords || hasMetaTags;
 }).map(post => ({
 	title: post.data.title,
-	slug: post.id,
+	slug: post.id.split('/').pop(),
 	date: post.data.pubDate,
 	wordCount: (post.body || '').split(/\s+/).length,
 	tags: post.data.tags || [],

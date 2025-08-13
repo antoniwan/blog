@@ -13,7 +13,7 @@ export const prerender = true;
 export async function getStaticPaths() {
 	const posts = await getCollection('blog');
 	return posts.map((post) => ({
-		params: { slug: post.id },
+		params: { slug: post.id.split('/').pop() }, // Extract just the filename without year folder
 		props: { post, allPosts: posts },
 	}));
 }
@@ -68,7 +68,7 @@ const translationData = await getTranslationData(post, allPosts);
 	tags={post.data.tags}
 	category={post.data.category}
 	categoryName={categoryName}
-	path={`/p/${post.id}`}
+	path={`/p/${post.id.split('/').pop()}`}
 	imageAlt={imageAlt}
 	author={author}
 	keywords={keywords}

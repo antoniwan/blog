@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [2.18.1] - 2025-01-15
 
+### Added
+
+- **Content Organization**: Reorganized 56+ blog posts into year-based folders for better scalability
+  - **2025/** - 29 posts from current year
+  - **2024/** - 27 posts from previous year
+  - **URL Preservation**: All existing URLs remain identical (no SEO impact)
+  - **Future Scalability**: Ready to handle hundreds more posts efficiently
+
 ### Changed
 
 - **Version Bump**: Updated to version 2.18.1 for consistency

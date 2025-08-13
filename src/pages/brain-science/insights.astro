@@ -49,7 +49,7 @@ const contentAnalysis = posts.map(post => {
 	
 	return {
 		title: post.data.title,
-		slug: post.id,
+		slug: post.id.split('/').pop(),
 		date: post.data.pubDate,
 		wordCount,
 		paragraphCount,
@@ -108,7 +108,7 @@ const growthIndicators = posts.filter(post => {
 	return hasGrowthTags || hasGrowthKeywords;
 }).map(post => ({
 	title: post.data.title,
-	slug: post.id,
+	slug: post.id.split('/').pop(),
 	date: post.data.pubDate,
 	wordCount: (post.body || '').split(/\s+/).length,
 	tags: post.data.tags || [],
@@ -122,12 +122,12 @@ const knowledgeAreas = MASLOW_CATEGORIES.map(category => {
 	);
 	
 	const earlyPosts = categoryPosts.filter(post => {
-		const postIndex = sortedPosts.findIndex(p => p.id === post.id);
+		const postIndex = sortedPosts.findIndex(p => p.id.split('/').pop() === post.id.split('/').pop());
 		return postIndex >= sortedPosts.length * 0.7; // Last 30% of posts
 	});
 	
 	const recentPosts = categoryPosts.filter(post => {
-		const postIndex = sortedPosts.findIndex(p => p.id === post.id);
+		const postIndex = sortedPosts.findIndex(p => p.id.split('/').pop() === post.id.split('/').pop());
 		return postIndex < sortedPosts.length * 0.3; // First 30% of posts
 	});
 	

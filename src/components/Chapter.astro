@@ -69,7 +69,7 @@ function formatRelativeTime(dateString: string): string {
 					const categoryName = getCategoryName(post.data.category);
 					return (
 						<li class="post-item">
-							<a href={`/p/${post.id}`} class="post-link" data-post-slug={post.id}>
+							<a href={`/p/${post.id.split('/').pop()}`} class="post-link" data-post-slug={post.id.split('/').pop()}>
 								<span class="post-number">{index + 1}.</span>
 								<div class="post-content">
 									<span class="post-title">{post.data.title}</span>
@@ -78,11 +78,11 @@ function formatRelativeTime(dateString: string): string {
 									)}
 								</div>
 								<div class="post-status">
-									<span class="read-status" data-post-slug={post.id}>
+									<span class="read-status" data-post-slug={post.id.split('/').pop()}>
 										<span class="status-icon">⭕</span>
 										<span class="status-text">Unread</span>
 									</span>
-									<span class="reading-time" data-post-slug={post.id}>
+									<span class="reading-time" data-post-slug={post.id.split('/').pop()}>
 										{calculateReadingTimeFromMarkdown(post.body || '')}
 									</span>
 								</div>
