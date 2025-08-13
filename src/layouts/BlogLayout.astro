@@ -144,7 +144,7 @@ const postSlug = path?.replace('/p/', '').replace('/', '') || '';
               
               {/* Reading Time */}
               {minutesRead && (
-                <div class="space-y-2">
+                <div class="space-y-2 reading-time-section" data-post-slug={postSlug}>
                   <h3 class="text-xs font-semibold text-[rgb(var(--color-text-muted))] uppercase tracking-wider">
                     Reading Time
                   </h3>
@@ -314,7 +314,7 @@ const postSlug = path?.replace('/p/', '').replace('/', '') || '';
             
             {/* Reading Time */}
             {minutesRead && (
-              <div class="space-y-2">
+              <div class="space-y-2 reading-time-section" data-post-slug={postSlug}>
                 <h3 class="text-xs font-semibold text-[rgb(var(--color-text-muted))] uppercase tracking-wider">
                   Reading Time
                 </h3>
@@ -484,6 +484,9 @@ const postSlug = path?.replace('/p/', '').replace('/', '') || '';
 			const mobileSection = document.getElementById('read-on-section-mobile');
 			const mobileDate = document.getElementById('read-on-date-mobile');
 			
+			// Reading time sections
+			const readingTimeSections = document.querySelectorAll(`.reading-time-section[data-post-slug="${postSlug}"]`);
+			
 			if (readData) {
 				const formattedDate = this.formatReadDate(readData.readAt);
 				
@@ -500,10 +503,20 @@ const postSlug = path?.replace('/p/', '').replace('/', '') || '';
 					mobileDate.textContent = formattedDate;
 					mobileDate.setAttribute('datetime', readData.readAt);
 				}
+				
+				// Hide reading time for read posts
+				readingTimeSections.forEach(section => {
+					section.style.display = 'none';
+				});
 			} else {
 				// Hide sections if not read
 				if (desktopSection) desktopSection.style.display = 'none';
 				if (mobileSection) mobileSection.style.display = 'none';
+				
+				// Show reading time for unread posts
+				readingTimeSections.forEach(section => {
+					section.style.display = 'block';
+				});
 			}
 		}
 

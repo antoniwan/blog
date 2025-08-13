@@ -82,14 +82,9 @@ function formatRelativeTime(dateString: string): string {
 										<span class="status-icon">⭕</span>
 										<span class="status-text">Unread</span>
 									</span>
-									{(() => {
-										const readingTime = calculateReadingTimeFromMarkdown(post.body || '');
-										return readingTime ? (
-											<span class="reading-time" data-post-slug={post.id}>
-												{readingTime}
-											</span>
-										) : null;
-									})()}
+									<span class="reading-time" data-post-slug={post.id}>
+										{calculateReadingTimeFromMarkdown(post.body || '')}
+									</span>
 								</div>
 							</a>
 						</li>

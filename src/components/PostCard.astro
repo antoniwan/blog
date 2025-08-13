@@ -64,12 +64,14 @@ const readingTime = calculateReadingTimeFromMarkdown(post.body || '');
 			<header class="space-y-3">
 				<div class="flex items-center gap-2 text-sm text-body-muted leading-relaxed">
 					<FormattedDate date={data.pubDate} />
-					{readingTime && (
-						<>
-							<span aria-hidden="true">•</span>
-							<span>{readingTime}</span>
-						</>
-					)}
+					<span class="reading-time-display" data-post-slug={post.id}>
+						{readingTime && (
+							<>
+								<span aria-hidden="true">•</span>
+								<span>{readingTime}</span>
+							</>
+						)}
+					</span>
 					{featured && (
 						<>
 							<span aria-hidden="true">•</span>
@@ -181,13 +183,22 @@ const readingTime = calculateReadingTimeFromMarkdown(post.body || '');
 				
 				if (postSlug && dot) {
 					const readData = this.getReadData(postSlug);
+					const readingTimeElement = document.querySelector(`.reading-time-display[data-post-slug="${postSlug}"]`) as HTMLElement;
 					
 					if (readData) {
 						dot.classList.add('read');
 						indicator.setAttribute('title', 'Read');
+						// Hide reading time for read posts
+						if (readingTimeElement) {
+							readingTimeElement.style.display = 'none';
+						}
 					} else {
 						dot.classList.remove('read');
 						indicator.setAttribute('title', 'Unread');
+						// Show reading time for unread posts
+						if (readingTimeElement) {
+							readingTimeElement.style.display = 'inline';
+						}
 					}
 				}
 			});
