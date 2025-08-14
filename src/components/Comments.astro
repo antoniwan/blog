@@ -82,40 +82,6 @@ const currentTitle = Astro.props.title || 'Untitled';
       >
       </script>
       
-      <!-- Debug info (remove in production) -->
-      <script>
-        console.log('Giscus Debug Info:', {
-          repo: '{repo}',
-          category: '{category}',
-          mapping: '{mapping}',
-          title: '{title}',
-          pathname: '{currentPath}',
-          url: '{currentUrl}'
-        });
-      </script>
-  </div>
-  
-  		<div class="mt-6 text-xs text-body-muted text-center">
-    <p>
-      Comments powered by 
-      <a 
-        href="https://giscus.app" 
-        target="_blank" 
-        rel="noopener noreferrer"
-        class="link"
-      >
-        Giscus
-      </a>
-      • 
-      <a 
-        href="https://github.com/giscus/giscus" 
-        target="_blank" 
-        rel="noopener noreferrer"
-        class="link"
-      >
-        Open Source
-      </a>
-    </p>
   </div>
 </div>
 
@@ -170,11 +136,7 @@ const currentTitle = Astro.props.title || 'Untitled';
   });
 </script>
 
-<style>
-  .giscus-container {
-    min-height: 400px;
-  }
-  
+<style> 
   /* Ensure proper theme switching */
   :global(.giscus) {
     background: transparent !important;

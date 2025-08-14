@@ -227,3 +227,67 @@ export function getTagStatistics(
     category,
   };
 }
+
+/**
+ * Find related posts based on tag similarity, category, and recency
+ */
+export function findRelatedPosts(
+  currentPost: CollectionEntry<"blog">,
+  allPosts: CollectionEntry<"blog">[],
+  maxCount: number = 3
+): CollectionEntry<"blog">[] {
+  // Filter out the current post and draft posts
+  const availablePosts = allPosts.filter(
+    (post) => post.id !== currentPost.id && !post.data.draft
+  );
+
+  if (availablePosts.length === 0) return [];
+
+  // Score posts based on multiple factors
+  const scoredPosts = availablePosts.map((post) => {
+    let score = 0;
+    
+    // Tag similarity (highest weight)
+    if (currentPost.data.tags && post.data.tags) {
+      const commonTags = currentPost.data.tags.filter(tag => 
+        post.data.tags!.includes(tag)
+      );
+      score += commonTags.length * 10; // 10 points per common tag
+      
+      // Bonus for high-weight tags
+      commonTags.forEach(tag => {
+        score += getTagWeight(tag);
+      });
+    }
+    
+    // Category similarity
+    if (currentPost.data.category && post.data.category) {
+      const commonCategories = currentPost.data.category.filter(cat => 
+        post.data.category!.includes(cat)
+      );
+      score += commonCategories.length * 5; // 5 points per common category
+    }
+    
+    // Recency bonus (newer posts get slight preference)
+    const daysSincePublished = Math.floor(
+      (Date.now() - post.data.pubDate.valueOf()) / (1000 * 60 * 60 * 24)
+    );
+    if (daysSincePublished <= 30) score += 2; // Recent posts get bonus
+    else if (daysSincePublished <= 90) score += 1; // Semi-recent posts get small bonus
+    
+    // Featured posts get bonus
+    if (post.data.featured) score += 3;
+    
+    return { post, score };
+  });
+
+  // Sort by score (highest first), then by date for ties
+  const sortedPosts = scoredPosts
+    .sort((a, b) => {
+      if (b.score !== a.score) return b.score - a.score;
+      return b.post.data.pubDate.valueOf() - a.post.data.pubDate.valueOf();
+    })
+    .map(item => item.post);
+
+  return sortedPosts.slice(0, maxCount);
+}

@@ -375,8 +375,6 @@ const postSlug = path?.replace('/p/', '').replace('/', '') || '';
             )}
           </div>
           
-          <RelatedPosts />
-          
           {/* Comments */}
           {showComments && (
             <Comments 
@@ -394,7 +392,11 @@ const postSlug = path?.replace('/p/', '').replace('/', '') || '';
               loading={giscusConfig.loading}
             />
           )}
-
+          
+          <RelatedPosts 
+            currentPost={rest.currentPost}
+            allPosts={rest.allPosts}
+          />
           
         </main>
       </div>

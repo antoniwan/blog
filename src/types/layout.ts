@@ -44,4 +44,6 @@ export interface BlogLayoutProps extends BaseLayoutProps {
   }[];
   showComments?: boolean;
   translationData?: TranslationData;
+  currentPost?: any; // Current blog post for related posts
+  allPosts?: any[]; // All posts for finding related content
 }

@@ -75,6 +75,8 @@ const translationData = await getTranslationData(post, allPosts);
 	tableOfContents={tableOfContents}
 	showComments={post.data.showComments}
 	translationData={translationData}
+	currentPost={post}
+	allPosts={allPosts}
 >
 	<Content />
 </BlogLayout> 
