@@ -191,44 +191,8 @@ const postSlug = path?.replace('/p/', '').replace('/', '') || '';
                 </div>
               )}
               
-              {/* Author */}
-              {author && (
-                <div class="space-y-2">
-                  <h3 class="text-xs font-semibold text-[rgb(var(--color-text-muted))] uppercase tracking-wider">
-                    Author
-                  </h3>
-                  <div class="flex items-center gap-2 text-base text-[rgb(var(--color-text))] leading-relaxed">
-                    <span class="text-[rgb(var(--color-accent))]">✍️</span>
-                    <span>{author}</span>
-                  </div>
-                </div>
-              )}
+
             </div>
-            
-            {/* Table of Contents - Only in sidebar on desktop */}
-            {tableOfContents && tableOfContents.length > 0 && (
-              <div class="space-y-3">
-                <h3 class="text-xs font-semibold text-[rgb(var(--color-text-muted))] uppercase tracking-wider">
-                  Table of Contents
-                </h3>
-                <nav>
-                  <ul class="space-y-1">
-                    {tableOfContents.map(item => (
-                      <li>
-                        <a 
-                          href={`#${item.slug}`}
-                          class={`block text-base hover:text-[rgb(var(--color-accent))] theme-transition leading-relaxed ${
-                            item.level === 3 ? 'ml-3 text-sm' : ''
-                          }`}
-                        >
-                          {item.text}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </nav>
-              </div>
-            )}
           </div>
         </aside>
         
