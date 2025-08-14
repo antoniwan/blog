@@ -180,13 +180,15 @@ const postSlug = path?.replace('/p/', '').replace('/', '') || '';
                   <h3 class="text-xs font-semibold text-[rgb(var(--color-text-muted))] uppercase tracking-wider">
                     Tags
                   </h3>
-                  <div class="flex flex-wrap gap-0.5">
-                    <TagDisplay 
-                      tags={tags} 
-                      maxVisible={tags.length} 
-                      showMoreIndicator={false}
-                      compact={true}
-                    />
+                  <div class="flex flex-wrap gap-1 text-sm">
+                    {tags.map(tag => (
+                      <a 
+                        href={`/tag/${tag}/`}
+                        class="text-[rgb(var(--color-accent))] hover:underline hover:text-[rgb(var(--color-accent))]/80 transition-colors"
+                      >
+                        #{tag}
+                      </a>
+                    ))}
                   </div>
                 </div>
               )}
@@ -314,13 +316,15 @@ const postSlug = path?.replace('/p/', '').replace('/', '') || '';
                 <h3 class="text-xs font-semibold text-[rgb(var(--color-text-muted))] uppercase tracking-wider">
                   Tags
                 </h3>
-                <div class="flex flex-wrap gap-0.5">
-                  <TagDisplay 
-                    tags={tags} 
-                    maxVisible={tags.length} 
-                    showMoreIndicator={false}
-                    compact={true}
-                  />
+                <div class="flex flex-wrap gap-1 text-sm">
+                  {tags.map(tag => (
+                    <a 
+                      href={`/tag/${tag}/`}
+                      class="text-[rgb(var(--color-accent))] hover:underline hover:text-[rgb(var(--color-accent))]/80 transition-colors"
+                    >
+                      #{tag}
+                    </a>
+                  ))}
                 </div>
               </div>
             )}
