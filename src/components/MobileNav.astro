@@ -1,5 +1,9 @@
 ---
 import { mainNavigation } from '../data/navigation';
+import { getSortedCategories } from '../utils/categoryUtils';
+
+// Get sorted categories for the mobile navigation
+const sortedCategories = await getSortedCategories();
 ---
 
 <!-- Hamburger Button -->
@@ -58,7 +62,25 @@ import { mainNavigation } from '../data/navigation';
               </svg>
             )}
           </a>
-          {item.dropdown && (
+          {item.dropdown && item.href === "/category/" && (
+            <div class="ml-4 space-y-1">
+              {sortedCategories.map((category) => (
+                <a
+                  href={`/category/${category.id}/`}
+                  class="flex items-center justify-between text-lg text-[rgb(var(--color-text-muted))] py-3 px-4 rounded-lg hover:bg-[rgb(var(--color-bg-alt))] theme-transition"
+                >
+                  <div class="flex items-center gap-3">
+                    {category.icon && <span class="text-xl" aria-hidden="true">{category.icon}</span>}
+                    <span>{category.name}</span>
+                  </div>
+                  <span class="text-sm text-[rgb(var(--color-text-muted))] bg-[rgb(var(--color-bg-alt))] px-2 py-1 rounded-full">
+                    {category.postCount}
+                  </span>
+                </a>
+              ))}
+            </div>
+          )}
+          {item.dropdown && item.href !== "/category/" && (
             <div class="ml-4 space-y-1">
               {item.dropdown.items.map((dropdownItem) => (
                 <a

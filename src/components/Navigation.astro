@@ -1,11 +1,15 @@
 ---
 import { mainNavigation } from '../data/navigation';
+import { getSortedCategories } from '../utils/categoryUtils';
 
 interface Props {
   class?: string;
 }
 
 const { class: className = '' } = Astro.props;
+
+// Get sorted categories for the dropdown
+const sortedCategories = await getSortedCategories();
 ---
 
 <nav 
@@ -35,7 +39,36 @@ const { class: className = '' } = Astro.props;
       </a>
       
       {/* Dropdown for categories */}
-      {item.dropdown && (
+      {item.dropdown && item.href === "/category/" && (
+        <div class="absolute top-full left-0 mt-1 w-64 bg-[rgb(var(--color-bg))] border border-[rgb(var(--color-border))] rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-in-out z-50">
+          <div class="p-2">
+            <div class="px-3 py-2 text-xs font-semibold text-[rgb(var(--color-text-muted))] uppercase tracking-wide border-b border-[rgb(var(--color-border))] mb-2">
+              {item.dropdown.label}
+            </div>
+            <div class="space-y-1">
+              {sortedCategories.map((category) => (
+                <a
+                  href={`/category/${category.id}/`}
+                  		class="flex items-center justify-between px-3 py-2 text-sm text-body-muted rounded-md hover:bg-[rgb(var(--color-bg-alt))] hover:text-[rgb(var(--color-accent))] transition-fast"
+                >
+                  <div class="flex items-center gap-3">
+                    {category.icon && (
+                      <span class="text-lg" aria-hidden="true">{category.icon}</span>
+                    )}
+                    <span>{category.name}</span>
+                  </div>
+                  <span class="text-xs text-[rgb(var(--color-text-muted))] bg-[rgb(var(--color-bg-alt))] px-2 py-1 rounded-full">
+                    {category.postCount}
+                  </span>
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+      
+      {/* Dropdown for other items (Resources, etc.) */}
+      {item.dropdown && item.href !== "/category/" && (
         <div class="absolute top-full left-0 mt-1 w-64 bg-[rgb(var(--color-bg))] border border-[rgb(var(--color-border))] rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-in-out z-50">
           <div class="p-2">
             <div class="px-3 py-2 text-xs font-semibold text-[rgb(var(--color-text-muted))] uppercase tracking-wide border-b border-[rgb(var(--color-border))] mb-2">
