@@ -11,12 +11,12 @@ const { items, class: className = '' } = Astro.props;
 ---
 
 <nav 
-  class:list={['flex items-center space-x-2 text-base leading-relaxed', className]}
+  class:list={['flex items-center space-x-2 text-base leading-relaxed m-0', className]}
   aria-label="Breadcrumb"
 >
-  <ol class="flex items-center space-x-2">
+  <ol class="flex items-center space-x-2 m-0 p-0 list-none">
     {items.map((item, index) => (
-      <li class="flex items-center">
+      <li class="flex items-center m-0 p-0">
         {index > 0 && (
           <svg class="h-4 w-4 text-[rgb(var(--color-text-muted))] mx-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
