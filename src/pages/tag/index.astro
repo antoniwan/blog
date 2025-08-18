@@ -1,23 +1,35 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHeader from '../../components/PageHeader.astro';
-import TagCloud from '../../components/TagCloud.astro';
+import TagCard from '../../components/TagCard.astro';
 import Container from '../../components/Container.astro';
 import { getCollection } from 'astro:content';
-import { calculateTagStats, categorizeTags } from '../../utils/tagProcessing';
 
 // Get all posts and calculate tag counts
 const posts = await getCollection('blog', ({ data }) => {
   return import.meta.env.PROD ? !data.draft : true;
 });
 
-const { tagCounts } = calculateTagStats(posts);
-const { categorized, uncategorized } = categorizeTags(tagCounts);
+// Calculate tag counts
+const tagCounts: Record<string, number> = {};
+posts.forEach((post) => {
+  post.data.tags?.forEach((tag) => {
+    tagCounts[tag] = (tagCounts[tag] || 0) + 1;
+  });
+});
+
+// Sort tags by count (most popular first)
+const sortedTagCounts = Object.entries(tagCounts)
+  .sort(([,a], [,b]) => b - a)
+  .map(([tag, count]) => ({ tag, count }));
+
+// Get top tags for quick access
+const topTags = sortedTagCounts.slice(0, 12);
 ---
 
 <BaseLayout
   title="Tags"
-  description="Browse posts by tag, organized by Maslow's Hierarchy of Needs. Each section represents different levels of human motivation, from basic survival to spiritual fulfillment."
+  description="Browse all tags to discover content by topic. Find posts about parenting, mental health, technology, philosophy, and more."
   path="/tag"
   structuredDataType="website"
 >
@@ -25,71 +37,37 @@ const { categorized, uncategorized } = categorizeTags(tagCounts);
     <Container maxWidth="container" padding="none">
       <PageHeader 
         title="Tags"
-        description="Browse posts by tag, organized by Maslow's Hierarchy of Needs. Each section represents different levels of human motivation, from basic survival to spiritual fulfillment."
+        description="Browse all tags to discover content by topic. Find posts about parenting, mental health, technology, philosophy, and more."
       />
       
-      {/* Maslow's Hierarchy Sections */}
-      <div class="space-y-20">
-        {categorized.map((category: any, index: number) => {
-          if (category.tags.length === 0) return null;
-          
-          return (
-            <section class={`relative ${index % 2 === 0 ? 'bg-[rgb(var(--color-bg-alt))]/30' : ''} rounded-2xl p-8 -mx-4`}>
-              <div class="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
-                {/* Icon and Header */}
-                <div class="flex-shrink-0 text-center lg:text-left lg:w-1/3">
-                  <div class="text-6xl mb-4">{category.icon}</div>
-                  <h3 class="text-2xl font-bold text-[rgb(var(--color-text))] mb-3">
-                    {category.title}
-                  </h3>
-                  <p class="text-[rgb(var(--color-text-muted))] leading-relaxed">
-                    {category.description}
-                  </p>
-                  <div class="mt-4 text-sm text-[rgb(var(--color-text-muted))]">
-                    {category.tags.length} tag{category.tags.length !== 1 ? 's' : ''}
-                  </div>
-                </div>
-                
-                {/* Tag Cloud */}
-                <div class="flex-1 w-full">
-                  <TagCloud tags={category.tags} />
-                </div>
-              </div>
-            </section>
-          );
-        })}
-        
-        {/* Uncategorized Tags */}
-        {uncategorized.length > 0 && (
-          <section class="relative bg-gradient-to-br from-[rgb(var(--color-accent))]/5 to-[rgb(var(--color-accent))]/10 rounded-2xl p-8 -mx-4">
-            <div class="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
-              {/* Icon and Header */}
-              <div class="flex-shrink-0 text-center lg:text-left lg:w-1/3">
-                <div class="text-6xl mb-4">🏷️</div>
-                <h2 class="text-2xl font-bold text-[rgb(var(--color-text))] mb-3">
-                  Other Topics
-                </h2>
-                <p class="text-[rgb(var(--color-text-muted))] leading-relaxed">
-                  Additional tags that don't fit neatly into the hierarchy but are still important to explore.
-                </p>
-                <div class="mt-4 text-sm text-[rgb(var(--color-text-muted))]">
-                  {uncategorized.length} tag{uncategorized.length !== 1 ? 's' : ''}
-                </div>
-              </div>
-              
-              {/* Tag Cloud */}
-              <div class="flex-1 w-full">
-                <TagCloud tags={uncategorized} />
-              </div>
-            </div>
-          </section>
-        )}
-      </div>
-      
+      {/* Popular Tags */}
+      {topTags.length > 0 && (
+        <section class="mb-12">
+          <h2 class="text-heading text-[rgb(var(--color-text))] mb-6">Popular Tags</h2>
+          <div class="flex flex-wrap gap-2">
+            {topTags.map(({ tag, count }) => (
+              <TagCard tag={tag} count={count} size="lg" showCount={true} />
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* All Tags */}
+      <section>
+        <h2 class="text-heading text-[rgb(var(--color-text))] mb-6">All Tags</h2>
+        <div class="bg-[rgb(var(--color-bg-alt))]/5 rounded-lg p-6">
+          <div class="flex flex-wrap gap-2">
+            {sortedTagCounts.map(({ tag, count }) => (
+              <TagCard tag={tag} count={count} size="md" variant="subtle" showCount={true} />
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Empty State */}
       {Object.keys(tagCounts).length === 0 && (
         <div class="text-center py-12">
-          <p class="text-body-large text-[rgb(var(--color-text-muted))] leading-relaxed">
+          <p class="text-body-large text-[rgb(var(--color-text-muted))]">
             No tags found yet.
           </p>
         </div>
@@ -106,14 +84,6 @@ const { categorized, uncategorized } = categorizeTags(tagCounts);
   @media (prefers-reduced-motion: reduce) {
     main {
       transition: none !important;
-    }
-  }
-  
-  @media (max-width: 1024px) {
-    section {
-      padding: 1.5rem !important;
-      margin-left: -1rem !important;
-      margin-right: -1rem !important;
     }
   }
 </style> 
