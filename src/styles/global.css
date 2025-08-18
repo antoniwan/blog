@@ -325,6 +325,17 @@
     @apply outline-none ring-2 ring-[rgb(var(--color-accent))] ring-offset-2;
   }
 
+  /* Animation variables for consistent transitions */
+  :root {
+    --animation-duration-fast: 150ms;
+    --animation-duration-normal: 200ms;
+    --animation-duration-slow: 300ms;
+    --animation-easing-default: cubic-bezier(0.4, 0, 0.2, 1);
+    --animation-easing-in: cubic-bezier(0.4, 0, 1, 1);
+    --animation-easing-out: cubic-bezier(0, 0, 0.2, 1);
+    --animation-easing-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
   /* Theme-specific transitions */
   .theme-transition {
     transition:
