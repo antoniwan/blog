@@ -4,6 +4,7 @@ import PostCard from '../components/PostCard.astro';
 import CategoryCard from '../components/CategoryCard.astro';
 import Container from '../components/Container.astro';
 import LazyPosts from '../components/LazyPosts.astro';
+import FeaturedWritingsRotator from '../components/FeaturedWritingsRotator.astro';
 import { getCollection } from 'astro:content';
 import { categories } from '../data/categories';
 
@@ -16,9 +17,9 @@ const posts = await getCollection('blog', ({ data }) => {
 const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
 // Get featured posts (posts marked as featured in frontmatter)
-const featuredPosts = sortedPosts.filter(post => post.data.featured).slice(0, 4);
+const featuredPosts = sortedPosts.filter(post => post.data.featured).slice(0, 10);
 
-// Get all remaining posts (including featured posts beyond the top 4)
+// Get all remaining posts (excluding featured posts)
 const featuredPostIds = featuredPosts.map(post => post.id);
 const remainingPosts = sortedPosts.filter(post => !featuredPostIds.includes(post.id));
 
@@ -51,7 +52,7 @@ const topCategories = categories
 >
 	{/* Hero Section */}
 	<Container maxWidth="container" padding="none">
-		<div class="py-6 md:py-8 lg:py-12 mb-8 md:mb-12">
+		<div class="py-6 md:py-8 lg:py-12">
 			<h1 class="text-display text-[rgb(var(--color-text))] mb-4 md:mb-6 psychedelic-title" transition:name="page-title">
 				Welcome to the <span class="highlight-primary">Curious Chaos Journal</span>.
 			</h1>
@@ -61,22 +62,16 @@ const topCategories = categories
 		</div>
 	</Container>
 
-	{/* Featured Writings Section */}
+		{/* Featured Writings Section */}
 	{featuredPosts.length > 0 && (
 		<Container maxWidth="container" padding="none" class="mb-16 md:mb-20">
-			<div class="mb-8 md:mb-12">
-				<h2 class="text-heading text-[rgb(var(--color-text))] mb-4">
-					Featured Writings
-				</h2>
-				<p class="text-body-large text-[rgb(var(--color-text-muted))] leading-relaxed">
-					Highlighted thoughts and reflections
-				</p>
-			</div>
-			<div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
-				{featuredPosts.map(post => (
-					<PostCard post={post} featured={true} />
-				))}
-			</div>
+			<FeaturedWritingsRotator 
+				posts={featuredPosts}
+				autoRotate={true}
+				rotationSpeed={6000}
+				showNavigation={true}
+				showThumbnails={true}
+			/>
 		</Container>
 	)}
 
@@ -87,9 +82,6 @@ const topCategories = categories
 				<h2 class="text-heading text-[rgb(var(--color-text))] mb-4">
 					Explore by Category
 				</h2>
-				<p class="text-body-large text-[rgb(var(--color-text-muted))] leading-relaxed">
-					Dive deeper into specific themes and topics
-				</p>
 			</div>
 			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
 				{topCategories.map((category, index) => (

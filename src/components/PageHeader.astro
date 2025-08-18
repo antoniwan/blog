@@ -10,7 +10,7 @@ interface Props {
 const { title, description, className = "" } = Astro.props;
 ---
 
-<Container maxWidth="container" padding="none" class={`py-6 md:py-8 lg:py-12 mb-8 md:mb-12 ${className}`}>
+<Container maxWidth="container" padding="none" class={`py-6 md:py-8 lg:py-12 ${className}`}>
   <h1 class="text-display text-[rgb(var(--color-text))] mb-4 md:mb-6" transition:name="page-title">
     {title}
   </h1>

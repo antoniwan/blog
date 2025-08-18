@@ -26,6 +26,11 @@ export const mainNavigation: NavigationItem[] = [
       label: "Tools & Resources",
       items: [
         {
+          href: "/tag/",
+          label: "All Tags",
+          icon: "🏷️",
+        },
+        {
           href: "/guided-path",
           label: "Guided Path",
           icon: "🗺️",
