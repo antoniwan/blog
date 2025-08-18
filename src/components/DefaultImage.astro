@@ -85,4 +85,12 @@ const fetchPriority = priority ? 'high' : 'auto';
     height: auto;
     display: block;
   }
+
+  /* Ensure consistent sizing when used in PostCard */
+  img[class*="object-cover"] {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
 </style> 

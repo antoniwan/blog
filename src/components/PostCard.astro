@@ -37,19 +37,19 @@ const readingTime = calculateReadingTimeFromMarkdown(post.body || '');
 	<!-- Enhanced gradient overlay with shocking highlights -->
 	<div class="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-[rgb(var(--color-primary))]/10 opacity-0 group-hover:opacity-100 transition-normal pointer-events-none"></div>
 	
-	<!-- Hero Image -->
-	<div class="relative overflow-hidden rounded-t-lg">
+	<!-- Hero Image Container - Enhanced for consistent sizing and coverage -->
+	<div class="relative overflow-hidden rounded-t-lg image-container">
 		{data.heroImage ? (
 			<img 
 				src={data.heroImage} 
 				alt={data.title}
-				class="w-full h-48 md:h-56 object-cover group-hover:opacity-85 transition-opacity duration-300"
+				class="w-full h-48 md:h-56 object-cover object-center group-hover:opacity-85 transition-opacity duration-300"
 				loading="lazy"
 			/>
 		) : (
 			<DefaultImage 
 				alt={data.title}
-				className="w-full h-48 md:h-56 object-cover group-hover:opacity-85 transition-opacity duration-300"
+				className="w-full h-48 md:h-56 object-cover object-center group-hover:opacity-85 transition-opacity duration-300"
 				loading="lazy"
 			/>
 		)}
@@ -304,6 +304,42 @@ const readingTime = calculateReadingTimeFromMarkdown(post.body || '');
 		box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px 0 rgb(0 0 0 / 0.06);
 	}
 
+	/* Enhanced image container styling for consistent sizing and coverage */
+	.image-container {
+		position: relative;
+		width: 100%;
+		height: 12rem; /* 192px - consistent height for mobile */
+		background: rgb(var(--color-bg-alt));
+		overflow: hidden;
+	}
+
+	/* Ensure images cover the entire container without any gaps or lines */
+	.image-container img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		object-position: center;
+		display: block;
+		/* Remove any potential borders or outlines */
+		border: none;
+		outline: none;
+		/* Ensure smooth scaling */
+		transform: scale(1);
+		transition: transform 0.3s ease, opacity 0.3s ease;
+	}
+
+	/* Hover effect for images */
+	.group:hover .image-container img {
+		transform: scale(1.05);
+	}
+
+	/* Responsive image heights */
+	@media (min-width: 768px) {
+		.image-container {
+			height: 14rem; /* 224px - consistent height for desktop */
+		}
+	}
+
 	/* Featured card styling */
 	.featured-card {
 		border: 2px solid rgb(var(--color-primary) / 0.3);
@@ -390,6 +426,10 @@ const readingTime = calculateReadingTimeFromMarkdown(post.body || '');
 
 		.read-dot {
 			transition: none !important;
+		}
+
+		.image-container img {
+			transition: opacity 0.3s ease !important;
 		}
 	}
 </style> 
