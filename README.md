@@ -1,6 +1,6 @@
 # Curious Chaos Journal
 
-[![Version](https://img.shields.io/badge/version-2.20.0-blue.svg)](https://github.com/antoniwan/curious-chaos-journal/releases)
+[![Version](https://img.shields.io/badge/version-2.22.0-blue.svg)](https://github.com/antoniwan/curious-chaos-journal/releases)
 
 A personal blog exploring fatherhood, masculinity, culture, and modern collapse through raw reflections on thinking, consciousness, and the soft heart inside the hard world.
 
@@ -194,7 +194,7 @@ language: ["es"]
 
 ### 🌐 **Technical Features**
 
-- **Image Optimization** - WebP conversion with clickable modals
+- **Image Optimization** - WebP conversion with clickable modals and image rotators
 - **RSS/JSON Feeds** - Full content syndication with enhanced metadata
 - **Comments System** - Privacy-focused Giscus integration
 - **Social Sharing** - Multi-platform sharing (Twitter, BlueSky, Facebook, Threads, LinkedIn)
@@ -211,10 +211,11 @@ The site includes an internal API for accessing Stoic philosophy quotes:
 - **Purpose**: Returns random Stoic philosophy quotes with metadata
 - **Documentation**: [API Documentation](docs/quotes-api.md)
 
-## Recent Updates (v2.18.1)
+## Recent Updates (v2.22.0)
 
 ### 🚀 **Major Enhancements**
 
+- **Image Rotators** - New interactive image rotation system for enhanced visual content
 - **Automatic Reading Time** - Implemented Astro remark plugin for automatic reading time calculation
 - **Reading Time Integration** - Full integration across all components, feeds, and analytics
 - **Legacy Cleanup** - Complete removal of manual reading time fields from all 55 content files
