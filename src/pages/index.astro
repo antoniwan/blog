@@ -19,6 +19,8 @@ const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDa
 // Get featured posts (posts marked as featured in frontmatter)
 const featuredPosts = sortedPosts.filter(post => post.data.featured).slice(0, 10);
 
+
+
 // Get all remaining posts (excluding featured posts)
 const featuredPostIds = featuredPosts.map(post => post.id);
 const remainingPosts = sortedPosts.filter(post => !featuredPostIds.includes(post.id));
@@ -70,7 +72,6 @@ const topCategories = categories
 				autoRotate={true}
 				rotationSpeed={6000}
 				showNavigation={true}
-				showThumbnails={true}
 			/>
 		</Container>
 	)}
