@@ -59,6 +59,15 @@ const updatedDateISO = updatedDate?.toISOString();
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="viewport-height" content="100vh" />
 
+<!-- Performance Optimizations -->
+<link rel="preload" href="https://fonts.gstatic.com/s/opensans/v40/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgsjZ0B4gaVI.woff2" as="font" type="font/woff2" crossorigin />
+<link rel="preload" href="https://fonts.gstatic.com/s/opensans/v40/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgsg-1x4gaVI.woff2" as="font" type="font/woff2" crossorigin />
+<link rel="preload" href="https://fonts.gstatic.com/s/sourceserifpro/v22/neIXzD-0qpwxpaWvjeD0X88SAOeauXo-oAGIyY0Wfw.woff2" as="font" type="font/woff2" crossorigin />
+
+<!-- Critical Resource Preloading -->
+{heroImage && <link rel="preload" href={heroImage} as="image" />}
+<link rel="preload" href="/images/default.avif" as="image" />
+
 <!-- Theme & Color -->
 <meta name="theme-color" content="#3b82f6" media="(prefers-color-scheme: light)" />
 <meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: dark)" />
@@ -149,3 +158,60 @@ const updatedDateISO = updatedDate?.toISOString();
 <link rel="dns-prefetch" href="//giscus.app" />
 <link rel="dns-prefetch" href="//fonts.googleapis.com" />
 <link rel="dns-prefetch" href="//fonts.gstatic.com" />
+
+<!-- Critical CSS Inline for Above-the-Fold Content -->
+<style>
+  /* Critical CSS for immediate rendering */
+  :root {
+    --color-bg: 255 255 255;
+    --color-text: 17 24 39;
+    --color-accent: 59 130 246;
+  }
+  
+  .dark {
+    --color-bg: 3 7 18;
+    --color-text: 248 250 252;
+    --color-accent: 96 165 250;
+  }
+  
+  html {
+    font-family: 'Open Sans', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background-color: rgb(var(--color-bg));
+    color: rgb(var(--color-text));
+    font-size: 16px;
+    line-height: 1.6;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Source Serif Pro', Georgia, serif;
+    font-weight: 600;
+    line-height: 1.2;
+    margin: 0 0 1rem 0;
+  }
+  
+  h1 { font-size: 2.5rem; }
+  h2 { font-size: 2rem; }
+  h3 { font-size: 1.5rem; }
+  
+  .animate-fade-in {
+    animation: fadeIn 0.3s ease-in-out;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  /* Prevent layout shift during font loading */
+  .font-loading {
+    font-display: swap;
+  }
+</style>

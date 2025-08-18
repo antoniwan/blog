@@ -1,5 +1,5 @@
 ---
-// DefaultImage component that randomly selects from default cover images
+// Enhanced DefaultImage component with performance optimizations
 // This provides variety for posts without specific hero images
 
 import { readdirSync } from 'fs';
@@ -10,9 +10,18 @@ interface Props {
   className?: string;
   loading?: 'lazy' | 'eager';
   seed?: string; // Optional seed for consistent randomization
+  sizes?: string; // Responsive image sizes
+  priority?: boolean; // Whether this is a priority image (above the fold)
 }
 
-const { alt = "Default cover image", className = "", loading = "lazy", seed } = Astro.props;
+const { 
+  alt = "Default cover image", 
+  className = "", 
+  loading = "lazy", 
+  seed,
+  sizes = "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw",
+  priority = false
+} = Astro.props;
 
 // Dynamically read default cover images from the directory
 const defaultCoversDir = join(process.cwd(), 'public', 'images', 'default_covers');
@@ -46,11 +55,34 @@ const hash = hashInput.split('').reduce((a, b) => {
   return a & a;
 }, 0);
 const selectedImage = defaultImages[Math.abs(hash) % defaultImages.length];
+
+// Determine loading strategy
+const finalLoading = priority ? 'eager' : loading;
+const fetchPriority = priority ? 'high' : 'auto';
 ---
 
 <img 
   src={selectedImage}
   alt={alt}
-  class={className}
-  loading={loading}
+  class={`${className} ${priority ? 'priority-image' : ''}`}
+  loading={finalLoading}
+  fetchpriority={fetchPriority}
+  sizes={sizes}
+  decoding="async"
+  style={priority ? 'content-visibility: auto; contain-intrinsic-size: 400px 300px;' : ''}
 /> 
+
+<style>
+  .priority-image {
+    /* Optimize priority images for LCP */
+    will-change: transform;
+    transform: translateZ(0);
+  }
+  
+  /* Prevent layout shift during image loading */
+  img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+</style> 

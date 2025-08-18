@@ -1,7 +1,7 @@
 {
   "name": "curious-chaos-journal",
   "type": "module",
-  "version": "2.23.0",
+  "version": "3.0.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/antoniwan/curious-chaos-journal.git"
@@ -18,7 +18,11 @@
     "validate-feeds": "node scripts/validate-feeds.js",
     "audit-frontmatter": "node scripts/audit-frontmatter.js",
     "standardize-frontmatter": "node scripts/standardize-frontmatter.js",
-    "remove-legacy-reading-time": "node scripts/remove-legacy-reading-time.js"
+    "remove-legacy-reading-time": "node scripts/remove-legacy-reading-time.js",
+    "analyze": "astro build && npx @astrojs/vercel/static-build",
+    "lighthouse": "npx lighthouse http://localhost:4321 --output=html --output-path=./lighthouse-report.html",
+    "performance": "npm run build && npm run analyze",
+    "audit-performance": "npm run build && npx lighthouse http://localhost:4321 --only-categories=performance --output=json --output-path=./performance-audit.json"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.2.6",
@@ -42,6 +46,7 @@
     "autoprefixer": "^10.4.16",
     "postcss": "^8.4.32",
     "tailwindcss": "^3.4.0",
+    "terser": "^5.43.1",
     "typescript": "^5.8.3"
   }
 }
