@@ -187,7 +187,7 @@ if (!posts || posts.length === 0) {
 <style>
   /* Mobile-first base styles */
   .featured-writings-rotator {
-    @apply w-full my-4;
+    @apply w-full mb-4;
   }
   
   .rotator-container {
@@ -244,6 +244,7 @@ if (!posts || posts.length === 0) {
       rgba(0, 0, 0, 0.2) 90%,
       transparent 100%
     );
+    z-index: 8;
   }
   
   .post-header {
@@ -287,6 +288,8 @@ if (!posts || posts.length === 0) {
     @apply hover:text-yellow-300 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-yellow-300 focus:ring-offset-2 focus:ring-offset-black/50 rounded;
     text-shadow: 0 3px 6px rgba(0, 0, 0, 0.95);
     filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.8));
+    position: relative;
+    z-index: 10;
   }
   
   .post-description {
@@ -306,6 +309,7 @@ if (!posts || posts.length === 0) {
   /* Mobile-first navigation */
   .navigation-controls {
     @apply absolute top-1/2 -translate-y-1/2 left-0 right-0 flex justify-between px-3;
+    z-index: 5;
   }
   
   .nav-arrow {
@@ -333,6 +337,7 @@ if (!posts || posts.length === 0) {
   
   .post-counter {
     @apply absolute top-3 right-3 bg-black/80 text-white px-3 py-1.5 rounded-full text-xs font-medium backdrop-blur-sm border border-white/20;
+    z-index: 6;
   }
   
 
@@ -381,7 +386,7 @@ if (!posts || posts.length === 0) {
   /* Tablet styles */
   @media (min-width: 768px) {
     .featured-writings-rotator {
-      @apply my-6;
+      @apply mb-6;
     }
     
     .main-post-container {

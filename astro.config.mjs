@@ -37,7 +37,7 @@ export default defineConfig({
     prefetchAll: false,
     defaultStrategy: "hover",
   },
-  // Enable image optimization
+  // Enhanced image optimization
   image: {
     service: {
       entrypoint: "astro/assets/services/sharp",
@@ -50,5 +50,37 @@ export default defineConfig({
         pathname: "/images/**",
       },
     ],
+  },
+  // Build optimizations
+  build: {
+    inlineStylesheets: "auto", // Inline small stylesheets
+  },
+  // Vite optimizations for better performance
+  vite: {
+    build: {
+      cssMinify: true,
+      minify: "terser",
+      terserOptions: {
+        compress: {
+          drop_console: true, // Remove console.log in production
+          drop_debugger: true,
+        },
+      },
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            // Split vendor chunks for better caching
+            vendor: ['astro', '@astrojs/mdx'],
+            utils: ['date-fns', 'reading-time'],
+          },
+        },
+      },
+    },
+    css: {
+      devSourcemap: false, // Disable sourcemaps in production
+    },
+    optimizeDeps: {
+      include: ['@astrojs/mdx', 'date-fns', 'reading-time'],
+    },
   },
 });

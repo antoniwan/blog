@@ -59,10 +59,78 @@ const updatedDateISO = updatedDate?.toISOString();
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="viewport-height" content="100vh" />
 
+<!-- Performance Optimizations -->
+<link rel="preload" href="https://fonts.gstatic.com/s/opensans/v40/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgsjZ0B4gaVI.woff2" as="font" type="font/woff2" crossorigin />
+<link rel="preload" href="https://fonts.gstatic.com/s/opensans/v40/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgsg-1x4gaVI.woff2" as="font" type="font/woff2" crossorigin />
+<link rel="preload" href="https://fonts.gstatic.com/s/sourceserifpro/v22/neIXzD-0qpwxpaWvjeD0X88SAOeauXo-oAGIyY0Wfw.woff2" as="font" type="font/woff2" crossorigin />
+
+<!-- Critical Resource Preloading -->
+{heroImage && <link rel="preload" href={heroImage} as="image" />}
+<link rel="preload" href="/images/default.avif" as="image" />
+
 <!-- Theme & Color -->
 <meta name="theme-color" content="#3b82f6" media="(prefers-color-scheme: light)" />
 <meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: dark)" />
 <meta name="color-scheme" content="light dark" />
+
+<!-- Theme Initialization Script - Prevents FOUC -->
+<script is:inline>
+  // Theme initialization - must run before any content renders
+  (function() {
+    try {
+      console.log('Theme initialization starting...');
+      
+      // Get stored theme preference or default to system preference
+      const storedTheme = localStorage.getItem('theme');
+      const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      
+      console.log('Stored theme:', storedTheme);
+      console.log('System prefers dark:', systemPrefersDark);
+      
+      // Determine initial theme
+      let theme = 'light';
+      if (storedTheme === 'dark' || (!storedTheme && systemPrefersDark)) {
+        theme = 'dark';
+      }
+      
+      console.log('Initial theme determined:', theme);
+      console.log('Before - has dark class:', document.documentElement.classList.contains('dark'));
+      
+      // Apply theme immediately to prevent FOUC
+      if (theme === 'dark') {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+      
+      console.log('After - has dark class:', document.documentElement.classList.contains('dark'));
+      console.log('Current classes:', document.documentElement.className);
+      
+      // Debug CSS variables after initialization
+      setTimeout(() => {
+        const computedStyle = getComputedStyle(document.documentElement);
+        console.log('CSS Variables after initialization:');
+        console.log('--color-bg:', computedStyle.getPropertyValue('--color-bg'));
+        console.log('--color-text:', computedStyle.getPropertyValue('--color-text'));
+        console.log('--color-bg-alt:', computedStyle.getPropertyValue('--color-bg-alt'));
+      }, 100);
+      
+      // Update meta theme-color
+      const metaThemeColor = document.querySelector('meta[name="theme-color"]');
+      if (metaThemeColor) {
+        metaThemeColor.setAttribute('content', theme === 'dark' ? '#0f172a' : '#ffffff');
+      }
+      
+      console.log('Theme initialization complete');
+    } catch (error) {
+      console.error('Theme initialization error:', error);
+      // Fallback to system preference if localStorage fails
+      if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.documentElement.classList.add('dark');
+      }
+    }
+  })();
+</script>
 
 <!-- Favicon & Icons -->
 <link rel="icon" type="image/x-icon" href="/favicon.ico" sizes="any" />
@@ -149,3 +217,48 @@ const updatedDateISO = updatedDate?.toISOString();
 <link rel="dns-prefetch" href="//giscus.app" />
 <link rel="dns-prefetch" href="//fonts.googleapis.com" />
 <link rel="dns-prefetch" href="//fonts.gstatic.com" />
+
+<!-- Critical CSS Inline for Above-the-Fold Content -->
+<style>
+  /* Critical CSS for immediate rendering - Minimal to avoid theme conflicts */
+  
+  html {
+    font-family: 'Open Sans', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  body {
+    margin: 0;
+    min-height: 100vh;
+    font-size: 16px;
+    line-height: 1.6;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Source Serif Pro', Georgia, serif;
+    font-weight: 600;
+    line-height: 1.2;
+    margin: 0 0 1rem 0;
+    color: inherit;
+  }
+  
+  h1 { font-size: 2.5rem; }
+  h2 { font-size: 2rem; }
+  h3 { font-size: 1.5rem; }
+  
+  .animate-fade-in {
+    animation: fadeIn 0.3s ease-in-out;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  /* Prevent layout shift during font loading */
+  .font-loading {
+    font-display: swap;
+  }
+</style>

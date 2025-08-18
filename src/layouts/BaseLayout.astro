@@ -5,6 +5,8 @@ import BaseHead from '../components/BaseHead.astro';
 import BackToTop from '../components/BackToTop.astro';
 import ReadingProgress from '../components/ReadingProgress.astro';
 import StructuredData from '../components/StructuredData.astro';
+import PerformanceMonitor from '../components/PerformanceMonitor.astro';
+import ServiceWorkerRegistration from '../components/ServiceWorkerRegistration.astro';
 import { SITE_TITLE, SITE_DESCRIPTION, AUTHOR } from '../consts';
 import { generateKeywords, generateImageAlt } from '../utils/seo';
 import { generateStructuredData } from '../utils/structuredData';
@@ -98,6 +100,12 @@ const structuredData = generateStructuredData({
     <Footer />
     <BackToTop />
     <Analytics />
+    
+    <!-- Performance Monitoring -->
+    <PerformanceMonitor />
+    
+    <!-- Service Worker Registration -->
+    <ServiceWorkerRegistration />
     
     <!-- Image Modal -->
     <div id="imageModal" class="image-modal">
