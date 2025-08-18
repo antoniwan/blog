@@ -126,6 +126,11 @@ export const TAG_WEIGHTS: Record<string, number> = {
   windows: 4,
   nvm: 4,
   fzf: 4,
+  "electric-vehicles": 4,
+  "automotive-design": 4,
+  "regulations": 4,
+  "innovation": 4,
+  "technology-policy": 4,
 
   // Mental health specific
   "analysis-paralysis": 4,

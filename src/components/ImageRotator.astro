@@ -1,0 +1,291 @@
+---
+export interface Props {
+  images: {
+    src: string;
+    alt: string;
+    caption?: string;
+  }[];
+  autoRotate?: boolean;
+  rotationSpeed?: number; // in milliseconds
+  showNavigation?: boolean;
+  showThumbnails?: boolean;
+  className?: string;
+}
+
+const {
+  images,
+  autoRotate = true,
+  rotationSpeed = 5000,
+  showNavigation = true,
+  showThumbnails = true,
+  className = "",
+} = Astro.props;
+
+if (!images || images.length === 0) {
+  return null;
+}
+---
+
+<div class={`image-rotator ${className}`} data-auto-rotate={autoRotate} data-rotation-speed={rotationSpeed}>
+  <div class="rotator-container">
+    <!-- Main image display -->
+    <div class="main-image-container">
+      {images.map((image, index) => (
+        <div 
+          class={`main-image ${index === 0 ? 'active' : ''}`} 
+          data-index={index}
+          style={`background-image: url('${image.src}')`}
+        >
+          <div class="image-overlay">
+            {image.caption && (
+              <div class="image-caption">
+                <p>{image.caption}</p>
+              </div>
+            )}
+          </div>
+        </div>
+      ))}
+      
+      <!-- Navigation arrows -->
+      {showNavigation && images.length > 1 && (
+        <>
+          <button class="nav-arrow nav-prev" aria-label="Previous image">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="15,18 9,12 15,6"></polyline>
+            </svg>
+          </button>
+          <button class="nav-arrow nav-next" aria-label="Next image">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="9,18 15,12 9,6"></polyline>
+            </svg>
+          </button>
+        </>
+      )}
+      
+      <!-- Image counter -->
+      {images.length > 1 && (
+        <div class="image-counter">
+          <span class="current-index">1</span>
+          <span class="separator">/</span>
+          <span class="total-count">{images.length}</span>
+        </div>
+      )}
+    </div>
+    
+    <!-- Thumbnail navigation -->
+    {showThumbnails && images.length > 1 && (
+      <div class="thumbnail-container">
+        {images.map((image, index) => (
+          <button 
+            class={`thumbnail ${index === 0 ? 'active' : ''}`} 
+            data-index={index}
+            aria-label={`Go to image ${index + 1}`}
+          >
+            <img src={image.src} alt={image.alt} loading="lazy" />
+          </button>
+        ))}
+      </div>
+    )}
+  </div>
+</div>
+
+<style>
+  .image-rotator {
+    @apply w-full max-w-4xl mx-auto my-8;
+  }
+  
+  .rotator-container {
+    @apply relative;
+  }
+  
+  .main-image-container {
+    @apply relative bg-gray-100 dark:bg-gray-800 rounded-lg overflow-hidden;
+    aspect-ratio: 16 / 9;
+  }
+  
+  .main-image {
+    @apply absolute inset-0 bg-cover bg-center bg-no-repeat transition-opacity duration-500 opacity-0;
+  }
+  
+  .main-image.active {
+    @apply opacity-100;
+  }
+  
+  .image-overlay {
+    @apply absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent p-4;
+  }
+  
+  .image-caption {
+    @apply text-white text-sm;
+  }
+  
+  .image-caption p {
+    @apply m-0;
+  }
+  
+  .nav-arrow {
+    @apply absolute top-1/2 -translate-y-1/2 bg-white/80 dark:bg-gray-800/80 hover:bg-white dark:hover:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-full p-2 shadow-lg transition-all duration-200 hover:scale-110;
+  }
+  
+  .nav-prev {
+    @apply left-4;
+  }
+  
+  .nav-next {
+    @apply right-4;
+  }
+  
+  .image-counter {
+    @apply absolute top-4 right-4 bg-black/50 text-white px-3 py-1 rounded-full text-sm font-medium;
+  }
+  
+  .thumbnail-container {
+    @apply flex gap-2 mt-4 overflow-x-auto pb-2;
+  }
+  
+  .thumbnail {
+    @apply flex-shrink-0 w-20 h-16 rounded-lg overflow-hidden border-2 border-transparent transition-all duration-200 hover:border-blue-500;
+  }
+  
+  .thumbnail.active {
+    @apply border-blue-500;
+  }
+  
+  .thumbnail img {
+    @apply w-full h-full object-cover;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .nav-arrow {
+      @apply p-1.5;
+    }
+    
+    .nav-arrow svg {
+      @apply w-5 h-5;
+    }
+    
+    .thumbnail {
+      @apply w-16 h-12;
+    }
+  }
+</style>
+
+<script>
+  class ImageRotator {
+    private container: HTMLElement;
+    private images: Element[];
+    private thumbnails: Element[];
+    private currentIndex: number;
+    private autoRotate: boolean;
+    private rotationSpeed: number;
+    private rotationInterval: number | null;
+    
+    constructor(container: HTMLElement) {
+      this.container = container;
+      this.images = Array.from(container.querySelectorAll('.main-image'));
+      this.thumbnails = Array.from(container.querySelectorAll('.thumbnail'));
+      this.currentIndex = 0;
+      this.autoRotate = container.dataset.autoRotate === 'true';
+      this.rotationSpeed = parseInt(container.dataset.rotationSpeed || '5000');
+      this.rotationInterval = null;
+      
+      this.init();
+    }
+    
+    private init(): void {
+      this.setupNavigation();
+      this.setupThumbnails();
+      this.setupAutoRotation();
+      this.updateDisplay();
+    }
+    
+    private setupNavigation(): void {
+      const prevBtn = this.container.querySelector('.nav-prev');
+      const nextBtn = this.container.querySelector('.nav-next');
+      
+      if (prevBtn) {
+        prevBtn.addEventListener('click', () => this.previous());
+      }
+      
+      if (nextBtn) {
+        nextBtn.addEventListener('click', () => this.next());
+      }
+    }
+    
+    private setupThumbnails(): void {
+      this.thumbnails.forEach((thumbnail: Element, index: number) => {
+        thumbnail.addEventListener('click', () => this.goTo(index));
+      });
+    }
+    
+    private setupAutoRotation(): void {
+      if (this.autoRotate && this.images.length > 1) {
+        this.startAutoRotation();
+        
+        // Pause auto-rotation on hover
+        this.container.addEventListener('mouseenter', () => this.stopAutoRotation());
+        this.container.addEventListener('mouseleave', () => this.startAutoRotation());
+      }
+    }
+    
+    private startAutoRotation(): void {
+      if (this.rotationInterval) return;
+      
+      this.rotationInterval = window.setInterval(() => {
+        this.next();
+      }, this.rotationSpeed);
+    }
+    
+    private stopAutoRotation(): void {
+      if (this.rotationInterval) {
+        clearInterval(this.rotationInterval);
+        this.rotationInterval = null;
+      }
+    }
+    
+    private goTo(index: number): void {
+      if (index < 0 || index >= this.images.length) return;
+      
+      this.currentIndex = index;
+      this.updateDisplay();
+    }
+    
+    private next(): void {
+      this.currentIndex = (this.currentIndex + 1) % this.images.length;
+      this.updateDisplay();
+    }
+    
+    private previous(): void {
+      this.currentIndex = this.currentIndex === 0 ? this.images.length - 1 : this.currentIndex - 1;
+      this.updateDisplay();
+    }
+    
+    private updateDisplay(): void {
+      // Update main images
+      this.images.forEach((image: Element, index: number) => {
+        image.classList.toggle('active', index === this.currentIndex);
+      });
+      
+      // Update thumbnails
+      this.thumbnails.forEach((thumbnail: Element, index: number) => {
+        thumbnail.classList.toggle('active', index === this.currentIndex);
+      });
+      
+      // Update counter
+      const counter = this.container.querySelector('.image-counter');
+      if (counter) {
+        const currentIndexEl = counter.querySelector('.current-index');
+        if (currentIndexEl) {
+          currentIndexEl.textContent = String(this.currentIndex + 1);
+        }
+      }
+    }
+  }
+  
+  // Initialize all image rotators on the page
+  document.addEventListener('DOMContentLoaded', () => {
+    const rotators = document.querySelectorAll('.image-rotator');
+    rotators.forEach(rotator => new ImageRotator(rotator as HTMLElement));
+  });
+</script>
