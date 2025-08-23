@@ -31,7 +31,7 @@ draft: false
 featured: true
 published: true
 showComments: true
-heroImage: /images/mia-long-hair.webp
+heroImage: /images/i-lose-mia.avif
 ---
 
 It's been several weeks since I returned my daughter to her mother, with whom she lives during the school year. We spent what I consider the most beautiful 85 days of summer together. We did what we wanted, when we wanted—always together.
