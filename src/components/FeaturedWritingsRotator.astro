@@ -118,7 +118,7 @@ if (!posts || posts.length === 0) {
             aria-label="Previous post"
             type="button"
           >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
               <polyline points="15,18 9,12 15,6"></polyline>
             </svg>
           </button>
@@ -127,7 +127,7 @@ if (!posts || posts.length === 0) {
             aria-label="Next post"
             type="button"
           >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
               <polyline points="9,18 15,12 9,6"></polyline>
             </svg>
           </button>
@@ -228,29 +228,29 @@ if (!posts || posts.length === 0) {
   
   /* Navigation controls */
   .nav-controls {
-    @apply absolute top-1/2 -translate-y-1/2 left-0 right-0 flex justify-between px-3;
+    @apply absolute top-1/2 -translate-y-1/2 left-0 right-0 flex justify-between px-2;
     z-index: 10;
   }
   
   .nav-btn {
-    @apply bg-white/95 dark:bg-gray-800/95 hover:bg-white dark:hover:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-full p-3 shadow-lg transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2 border border-white/20;
-    min-width: 48px;
-    min-height: 48px;
+    @apply bg-white/80 dark:bg-gray-800/80 text-gray-600 dark:text-gray-300 rounded-full p-2 shadow-sm transition-colors duration-150 hover:bg-white/90 dark:hover:bg-gray-700/90 focus:outline-none focus:ring-1 focus:ring-yellow-400;
+    min-width: 36px;
+    min-height: 36px;
     @apply flex items-center justify-center;
   }
   
   .nav-btn:active {
-    @apply scale-95;
+    @apply scale-100;
   }
   
   /* Slide counter */
   .slide-counter {
-    @apply absolute top-3 right-3 bg-black/80 text-white px-3 py-1.5 rounded-full text-xs font-medium backdrop-blur-sm border border-white/20;
+    @apply absolute top-2 right-2 bg-black/70 text-white px-2 py-1 rounded text-xs font-medium backdrop-blur-sm;
     z-index: 10;
   }
   
   .counter-separator {
-    @apply mx-1 text-white/70;
+    @apply mx-1 text-white/60;
   }
   
   /* Small tablet (640px+) */
@@ -269,6 +269,16 @@ if (!posts || posts.length === 0) {
     
     .post-description {
       @apply text-base;
+    }
+    
+    .nav-controls {
+      @apply px-3;
+    }
+    
+    .nav-btn {
+      @apply p-2.5;
+      min-width: 40px;
+      min-height: 40px;
     }
   }
   
@@ -295,13 +305,13 @@ if (!posts || posts.length === 0) {
     }
     
     .nav-btn {
-      @apply p-4;
-      min-width: 56px;
-      min-height: 56px;
+      @apply p-3;
+      min-width: 44px;
+      min-height: 44px;
     }
     
     .slide-counter {
-      @apply top-4 right-4 px-4 py-2 text-sm;
+      @apply top-3 right-3 px-3 py-1.5 text-sm;
     }
   }
   
@@ -320,9 +330,9 @@ if (!posts || posts.length === 0) {
     }
     
     .nav-btn {
-      @apply p-4;
-      min-width: 60px;
-      min-height: 60px;
+      @apply p-3;
+      min-width: 48px;
+      min-height: 48px;
     }
   }
   
@@ -337,22 +347,25 @@ if (!posts || posts.length === 0) {
     }
     
     .nav-btn {
-      @apply p-4;
-      min-width: 64px;
-      min-height: 64px;
+      @apply p-3;
+      min-width: 48px;
+      min-height: 48px;
     }
   }
   
   /* High contrast mode */
   @media (prefers-contrast: high) {
     .nav-btn {
-      @apply border-2 border-gray-800 dark:border-white;
+      @apply border border-gray-800 dark:border-white;
     }
   }
   
   /* Reduced motion */
   @media (prefers-reduced-motion: reduce) {
-    .carousel-slide,
+    .carousel-slide {
+      transition: opacity 0.2s ease-in-out !important;
+    }
+    
     .nav-btn {
       transition: none !important;
     }
@@ -365,11 +378,11 @@ if (!posts || posts.length === 0) {
   /* Dark mode enhancements */
   @media (prefers-color-scheme: dark) {
     .nav-btn {
-      @apply bg-gray-800/95 hover:bg-gray-700 text-gray-200 border-gray-600/30;
+      @apply bg-gray-800/80 hover:bg-gray-700/80 text-gray-300;
     }
     
     .slide-counter {
-      @apply bg-gray-900/90 border-gray-600/30;
+      @apply bg-gray-900/80;
     }
   }
   
