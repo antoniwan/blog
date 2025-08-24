@@ -53,7 +53,13 @@ const structuredData = generateStructuredData({
   updatedDate,
   heroImage,
   keywords: finalKeywords,
-  minutesRead
+  minutesRead,
+  category,
+  tags,
+  tableOfContents: false, // You can make this dynamic based on content
+  hasComments: false, // You can make this dynamic if you track comments
+  featured: false, // You can make this dynamic based on frontmatter
+  draft: false, // You can make this dynamic based on frontmatter
 });
 ---
 

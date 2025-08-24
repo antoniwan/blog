@@ -18,6 +18,11 @@ export interface BaseLayoutProps {
   structuredDataType?: "website" | "article" | "category" | "tag";
   structuredDataIdentifier?: string;
   posts?: any[]; // For category/tag pages
+  // Enhanced structured data options
+  tableOfContents?: boolean;
+  hasComments?: boolean;
+  featured?: boolean;
+  draft?: boolean;
 }
 
 export interface Translation {

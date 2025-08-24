@@ -58,6 +58,10 @@ const postSlug = path?.replace('/p/', '').replace('/', '') || '';
   keywords={keywords}
   type="article"
   structuredDataType="article"
+  tableOfContents={tableOfContents}
+  hasComments={showComments}
+  featured={rest.featured}
+  draft={rest.draft}
   {...rest}
 >
   <Container>
