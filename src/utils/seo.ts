@@ -73,7 +73,11 @@ export function generateMetaTags(config: SEOConfig): MetaTags {
     robots = SEO_CONFIG.defaultRobots,
   } = config;
 
-  const fullTitle = `${title} | ${SITE_TITLE}`;
+  // Special handling for homepage: use author name + blog descriptor
+  const isHomepage = path === "/" || path === "";
+  const fullTitle = isHomepage 
+    ? `${AUTHOR.name} | Personal Blog`
+    : `${title} | ${SITE_TITLE}`;
   const canonical = path ? generateCanonicalUrl(path) : "";
   const ogImage = generateImageUrl(heroImage);
   const ogImageAlt = imageAlt || `${title} - ${SITE_TITLE}`;
