@@ -36,7 +36,7 @@ try {
 // Check if config needs updating
 const needsUpdate =
   configContent.includes("YOUR_REPO_ID") ||
-  configContent.includes("your-username/curious-chaos-journal");
+  configContent.includes("your-username/blog");
 
 if (!needsUpdate) {
   console.log("✅ Giscus configuration appears to be already set up!");
@@ -73,7 +73,7 @@ try {
 
   // Update config
   let updatedConfig = configContent
-    .replace(/repo: "your-username\/curious-chaos-journal"/, `repo: "${repo}"`)
+    .replace(/repo: "your-username\/blog"/, `repo: "${repo}"`)
     .replace(/repoId: "YOUR_REPO_ID"/, `repoId: "${repoId}"`)
     .replace(/category: "Comments"/, `category: "${category}"`)
     .replace(/categoryId: "YOUR_CATEGORY_ID"/, `categoryId: "${categoryId}"`);

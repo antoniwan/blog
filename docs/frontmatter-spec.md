@@ -1,6 +1,6 @@
 # Frontmatter Specification
 
-This document defines the frontmatter format for all blog posts in the Curious Chaos Journal.
+This document defines the frontmatter format for all blog posts in the Blog.
 
 ## Reading Time System
 

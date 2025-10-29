@@ -1,7 +1,7 @@
-// Service Worker for Curious Chaos Journal
+// Service Worker for Blog
 // Implements advanced caching strategies for better performance
 
-const CACHE_NAME = 'curious-chaos-journal-v1';
+const CACHE_NAME = 'blog-v1';
 const STATIC_CACHE = 'static-v1';
 const DYNAMIC_CACHE = 'dynamic-v1';
 
@@ -185,7 +185,7 @@ async function handlePageRequest(request) {
         <head>
           <meta charset="utf-8">
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <title>Offline - Curious Chaos Journal</title>
+          <title>Offline - Blog</title>
           <style>
             body { 
               font-family: system-ui, sans-serif; 
@@ -263,7 +263,7 @@ self.addEventListener('push', (event) => {
     const data = event.data.json();
     
     const options = {
-      body: data.body || 'New content available on Curious Chaos Journal',
+      body: data.body || 'New content available on Blog',
       icon: '/favicon-192x192.png',
       badge: '/favicon-192x192.png',
       data: data.url || '/',
@@ -281,7 +281,7 @@ self.addEventListener('push', (event) => {
     };
     
     event.waitUntil(
-      self.registration.showNotification('Curious Chaos Journal', options)
+      self.registration.showNotification('Blog', options)
     );
   }
 });

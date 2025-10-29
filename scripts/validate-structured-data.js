@@ -87,7 +87,7 @@ const sampleSchemas = [
   {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    "name": "Curious Chaos Journal",
+    "name": "Blog",
     "description": "Raw thoughts on fatherhood, masculinity, and modern life...",
     "url": "https://blog.antoniwan.online",
     "inLanguage": "en-US",
@@ -111,7 +111,7 @@ const sampleSchemas = [
     },
     "publisher": {
       "@type": "Organization",
-      "name": "Curious Chaos Journal",
+      "name": "Blog",
       "url": "https://blog.antoniwan.online"
     },
     "url": "https://blog.antoniwan.online/p/empathy-as-a-shield",

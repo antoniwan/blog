@@ -4,7 +4,7 @@
 
 export const giscusConfig = {
   // Your GitHub repository in the format "username/repository"
-  repo: "antoniwan/curious-chaos-journal",
+  repo: "antoniwan/blog",
 
   // Repository ID - get this from giscus.app
   repoId: "R_kgDOOioNWQ",

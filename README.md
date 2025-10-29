@@ -1,6 +1,6 @@
-# Curious Chaos Journal
+# Blog
 
-[![Version](https://img.shields.io/badge/version-3.2.0-blue.svg)](https://github.com/antoniwan/curious-chaos-journal/releases)
+[![Version](https://img.shields.io/badge/version-3.2.0-blue.svg)](https://github.com/antoniwan/blog/releases)
 
 A personal blog exploring fatherhood, masculinity, culture, and modern collapse through raw reflections on thinking, consciousness, and the soft heart inside the hard world.
 
@@ -30,8 +30,8 @@ A personal blog exploring fatherhood, masculinity, culture, and modern collapse 
 ## Quick Start
 
 ```bash
-git clone https://github.com/antoniwan/curious-chaos-journal.git
-cd curious-chaos-journal
+git clone https://github.com/antoniwan/blog.git
+cd blog
 npm install
 npm run dev
 ```
@@ -56,7 +56,7 @@ Visit `http://localhost:4323` to view the site.
 ## Project Structure
 
 ```text
-curious-chaos-journal/
+blog/
 ├── public/                 # Static assets
 ├── src/
 │   ├── components/        # UI components

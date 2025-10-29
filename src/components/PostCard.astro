@@ -117,8 +117,8 @@ const readingTime = calculateReadingTimeFromMarkdown(post.body || '');
 <script>
 	// Read status indicator for PostCard
 		// Storage constants - using direct values since import doesn't work in Astro client scripts
-	const STORAGE_KEY = 'curious-chaos-read-posts-v1.0';
-	const FALLBACK_KEY = 'curious-chaos-read-posts';
+	const STORAGE_KEY = 'blog-read-posts-v1.0';
+	const FALLBACK_KEY = 'blog-read-posts';
 
 	class PostCardReadIndicator {
 		private storageKey: string;

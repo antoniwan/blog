@@ -1,6 +1,6 @@
 # Structured Data Optimization for Search Engine Discoverability
 
-This document outlines the comprehensive structured data implementation in the Curious Chaos Journal project, designed to maximize search engine discoverability and improve SEO performance.
+This document outlines the comprehensive structured data implementation in the Blog project, designed to maximize search engine discoverability and improve SEO performance.
 
 ## Overview
 
@@ -15,7 +15,7 @@ Our structured data implementation follows Schema.org standards and Google's str
 {
   "@context": "https://schema.org",
   "@type": "WebSite",
-  "name": "Curious Chaos Journal",
+  "name": "Blog",
   "description": "Raw thoughts on fatherhood, masculinity, and modern life...",
   "url": "https://blog.antoniwan.online",
   "inLanguage": "en-US",
@@ -33,7 +33,7 @@ Our structured data implementation follows Schema.org standards and Google's str
 {
   "@context": "https://schema.org",
   "@type": "Organization",
-  "name": "Curious Chaos Journal",
+  "name": "Blog",
   "url": "https://blog.antoniwan.online",
   "logo": { "@type": "ImageObject", "url": "...", "width": 512, "height": 512 },
   "sameAs": ["https://twitter.com/antoniwan", "https://github.com/antoniwan"],
@@ -52,7 +52,7 @@ Our structured data implementation follows Schema.org standards and Google's str
   "name": "Antonio Rodriguez Martinez",
   "url": "https://antoniwan.online",
   "jobTitle": "Software Engineer & Writer",
-  "worksFor": { "@type": "Organization", "name": "Curious Chaos Journal" },
+  "worksFor": { "@type": "Organization", "name": "Blog" },
   "knowsAbout": ["Software Development", "Personal Growth", "Mental Health", "Parenting"],
   "description": "Software engineer and writer exploring fatherhood, masculinity, and modern life...",
   "alumniOf": { "@type": "Organization", "name": "Software Engineering Community" },
@@ -77,7 +77,7 @@ Our structured data implementation follows Schema.org standards and Google's str
   "datePublished": "2025-01-01T00:00:00.000Z",
   "dateModified": "2025-01-01T00:00:00.000Z",
   "author": { "@type": "Person", "name": "Antonio Rodriguez Martinez" },
-  "publisher": { "@type": "Organization", "name": "Curious Chaos Journal" },
+  "publisher": { "@type": "Organization", "name": "Blog" },
   "keywords": "empathy, psychology, mental-health, consciousness",
   "timeRequired": "PT5M",
   "url": "https://blog.antoniwan.online/p/article-slug",
@@ -85,7 +85,7 @@ Our structured data implementation follows Schema.org standards and Google's str
   "articleSection": "psychology",
   "wordCount": 1500,
   "mainEntityOfPage": { "@type": "WebPage", "@id": "https://blog.antoniwan.online/p/article-slug" },
-  "isPartOf": { "@type": "Blog", "name": "Curious Chaos Journal", "url": "https://blog.antoniwan.online" },
+  "isPartOf": { "@type": "Blog", "name": "Blog", "url": "https://blog.antoniwan.online" },
   "about": [
     { "@type": "Thing", "name": "psychology" },
     { "@type": "Thing", "name": "integration-growth" }

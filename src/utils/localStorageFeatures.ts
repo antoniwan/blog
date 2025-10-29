@@ -57,7 +57,7 @@ class LocalStorageManager {
     for (let key in localStorage) {
       if (
         localStorage.hasOwnProperty(key) &&
-        key.startsWith("curious-chaos-")
+        key.startsWith("blog-")
       ) {
         totalSize += localStorage.getItem(key)?.length || 0;
       }
@@ -80,7 +80,7 @@ class LocalStorageManager {
     const oldKeys = [];
     for (let key in localStorage) {
       if (
-        (key.startsWith("curious-chaos-read-posts") || isReadPostsKey(key)) &&
+        (key.startsWith("blog-read-posts") || isReadPostsKey(key)) &&
         key !== this.READ_POSTS_KEY
       ) {
         oldKeys.push(key);

@@ -16,7 +16,7 @@ Giscus is a privacy-focused comment system that uses GitHub Discussions as the b
 
 ### 1. Enable GitHub Discussions
 
-1. Go to your GitHub repository: `https://github.com/your-username/curious-chaos-journal`
+1. Go to your GitHub repository: `https://github.com/your-username/blog`
 2. Click on **Settings** tab
 3. Scroll down to **Features** section
 4. Check the box for **Discussions**
@@ -35,7 +35,7 @@ Giscus is a privacy-focused comment system that uses GitHub Discussions as the b
 ### 3. Get Your Repository Information
 
 1. Go to [giscus.app](https://giscus.app)
-2. Enter your repository: `your-username/curious-chaos-journal`
+2. Enter your repository: `your-username/blog`
 3. Select the "Comments" category you just created
 4. Choose your preferred mapping (recommended: **pathname**)
 5. Copy the configuration values
@@ -47,7 +47,7 @@ Edit `src/config/giscus.ts` and replace the placeholder values:
 ```typescript
 export const giscusConfig = {
   // Your GitHub repository in the format "username/repository"
-  repo: "your-username/curious-chaos-journal",
+  repo: "your-username/blog",
 
   // Repository ID - get this from giscus.app
   repoId: "YOUR_ACTUAL_REPO_ID",

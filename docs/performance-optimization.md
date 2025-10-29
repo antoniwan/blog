@@ -2,7 +2,7 @@
 
 ## Overview
 
-This document outlines the comprehensive performance optimizations implemented for the Curious Chaos Journal to improve First Contentful Paint (FCP) and Largest Contentful Paint (LCP) metrics, following Astro blog best practices.
+This document outlines the comprehensive performance optimizations implemented for the Blog to improve First Contentful Paint (FCP) and Largest Contentful Paint (LCP) metrics, following Astro blog best practices.
 
 ## Core Web Vitals Targets
 

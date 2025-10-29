@@ -37,8 +37,8 @@ export interface SEOConfig {
 }
 
 // Site Information
-export const SITE_TITLE = "Curious Chaos Journal";
-export const SHORT_SITE_TITLE = "Curious Chaos Journal";
+export const SITE_TITLE = "Blog";
+export const SHORT_SITE_TITLE = "Blog";
 export const SITE_DESCRIPTION =
   "Raw thoughts on fatherhood, masculinity, and modern life. No filter, some philosophy, occasional beauty. This is where I think out loud about the hard questions that keep me up at night.";
 export const SITE_URL = "https://blog.antoniwan.online";
@@ -67,13 +67,13 @@ export const SOCIAL_LINKS: SocialLinks = {
 export const SEO_CONFIG: SEOConfig = {
   defaultImage: assetConfig.images.defaultSocial,
   defaultImageAlt:
-    "Curious Chaos Journal - Reality hurts. I look anyway. Raw reflections on fatherhood, masculinity, culture, and modern collapse.",
+    "Blog - Reality hurts. I look anyway. Raw reflections on fatherhood, masculinity, culture, and modern collapse.",
   defaultHeroImage: assetConfig.images.defaultHero,
   defaultLocale: "en_US",
   defaultRobots: "index, follow",
   googleSiteVerification: "gUubXvBv6tFsaZTQd5vS1VUGHlaMTOyf110X3yn7jiY",
   twitterHandle: "@antoniwan",
-  organizationName: "Curious Chaos Journal",
+  organizationName: "Blog",
   organizationLogo: assetConfig.images.logo,
   organizationLogoWidth: 512,
   organizationLogoHeight: 512,

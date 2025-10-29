@@ -1,6 +1,6 @@
 {
-  "name": "Curious Chaos Journal",
-  "short_name": "The CCJ",
+  "name": "Blog",
+  "short_name": "Blog",
   "description": "Dispatches from a fractured mind navigating fatherhood, masculinity, cultura, and modern collapse. Raw reflections on thinking, culture, and the soft heart inside the hard world.",
   "start_url": "/",
   "display": "standalone",
@@ -74,7 +74,7 @@
     {
       "name": "About",
       "short_name": "About",
-      "description": "Learn more about the Curious Chaos Journal",
+      "description": "Learn more about the Blog",
       "url": "/about",
       "icons": [
         {
