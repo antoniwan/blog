@@ -37,15 +37,8 @@ export interface SEOConfig {
 }
 
 // Site Information
-// SEO-optimized: Personal blog titles work best with author name for branding
-// Options considered:
-// - "Antonio Rodriguez Martinez" (full name branding, ~30 chars)
-// - "Antonio's Blog" (personal, friendly, ~13 chars)
-// - "Antonio Rodriguez Martinez | Blog" (descriptive but longer)
-// - "Blog by Antonio" (ownership clear, ~16 chars)
-// Selected: Full name for maximum SEO and personal branding value
-export const SITE_TITLE = "Antonio Rodriguez Martinez";
-export const SHORT_SITE_TITLE = "Antonio";
+export const SITE_TITLE = "antoniwan's Blog";
+export const SHORT_SITE_TITLE = "antoniwan's Blog";
 export const SITE_DESCRIPTION =
   "Raw thoughts on fatherhood, masculinity, and modern life. No filter, some philosophy, occasional beauty. This is where I think out loud about the hard questions that keep me up at night.";
 export const SITE_URL = "https://blog.antoniwan.online";
