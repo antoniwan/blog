@@ -23,7 +23,7 @@ tags:
   - relationships
   - philosophy
 draft: false
-featured: false
+featured: true
 published: true
 showComments: true
 ---
