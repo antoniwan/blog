@@ -1,16 +1,6 @@
 # Comments Setup
 
-This guide helps you set up the Giscus comment system for your Astro blog.
-
-## What is Giscus?
-
-Giscus is a privacy-focused comment system that uses GitHub Discussions as the backend. It's perfect for static sites because:
-
-- ✅ **Privacy-focused**: No tracking, no ads, no third-party data collection
-- ✅ **Open source**: GitHub-based, fully transparent
-- ✅ **Maintainable**: Uses GitHub Discussions, so you control the data
-- ✅ **Lightweight**: No database required, works with your static site
-- ✅ **Free**: No hosting costs beyond your existing GitHub account
+Setup for the Giscus comment system using GitHub Discussions.
 
 ## Setup Steps
 
@@ -62,14 +52,14 @@ export const giscusConfig = {
 };
 ```
 
-### 5. Install Giscus App (Optional but Recommended)
+### 5. Install Giscus App (optional)
 
 1. Go to [giscus.app](https://giscus.app)
 2. Click **Install giscus** button
 3. This will install the Giscus app to your repository
 4. This enables automatic discussion creation and better integration
 
-## Disable Comments on Specific Posts
+## Disable Comments on specific posts
 
 Add `showComments: false` to the frontmatter of any post:
 
@@ -82,11 +72,11 @@ showComments: false
 ---
 ```
 
-## Configuration Options
+## Configuration options
 
-- **mapping**: How to map pages to discussions (`pathname`, `url`, `title`, `og:title`)
-- **strict**: Only create discussions for pages with explicit frontmatter
-- **reactionsEnabled**: Enable/disable reactions
-- **inputPosition**: Position of the comment input (`top` or `bottom`)
-- **lang**: Language for the interface
-- **loading**: Loading strategy (`lazy` or `eager`) 
+- **mapping**: Mapping strategy (`pathname`, `url`, `title`, `og:title`)
+- **strict**: Create discussions only when explicitly configured
+- **reactionsEnabled**: Enable or disable reactions
+- **inputPosition**: `top` or `bottom`
+- **lang**: Interface language
+- **loading**: `lazy` or `eager`

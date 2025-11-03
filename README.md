@@ -282,7 +282,8 @@ Essential documentation available in `docs/`:
 - [Comments Setup](docs/comments-setup.md)
 - [Quotes API](docs/quotes-api.md)
 - [Multilingual Setup](docs/multilingual-setup.md)
-- [Structured Data Optimization](docs/structured-data-optimization.md) - **NEW!** Comprehensive SEO guide
+- [Structured Data Optimization](docs/structured-data-optimization.md)
+- [Performance Optimization](docs/performance-optimization.md)
 
 ## License
 

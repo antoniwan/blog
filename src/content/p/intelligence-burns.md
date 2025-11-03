@@ -44,8 +44,6 @@ Intellect without empathy is like heat without aim—it burns everything, even i
 
 So now I treat it like **Cyclops** from the X-Men. The power’s still there; the heat hasn’t gone anywhere. But I wear a visor. I choose where I aim. I decide when it’s safe to remove the filter. I used to scorch people in arguments, thinking I was “helping.” Now, I pause. I breathe. I aim. I learned to contain it. I aim before I fire. That’s maturity in my book—same fire, better target selection, or none at all. Sometimes the most intelligent move is restraint.
 
-!["Smile-and-wave... Sometimes just observe-and-wait..."](/images/2025/intelligence-burns-conversation.avif)
-
 I don’t try to “fit in” anymore. I look for people and environments built for my temperature—the ones who don’t flinch when I get passionate, who can spar without taking it personal, who know fire can forge, not just burn. Everybody else gets the smile-and-wave treatment.
 
 That’s it. No moral, no lecture. Just calibration.
