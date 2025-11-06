@@ -458,7 +458,7 @@
   }
 
   .search-result-description {
-    @apply mb-2.5 mt-0 text-xs leading-relaxed text-[rgb(var(--color-text-muted))];
+    @apply mb-2.5 mt-0 text-xs leading-relaxed text-body-muted;
     overflow: hidden;
     display: -webkit-box;
     -webkit-box-orient: vertical;
@@ -477,6 +477,11 @@
   /* Remove default p margins in search results */
   .search-result-item p {
     @apply mb-0 mt-0;
+  }
+
+  /* Text body muted utility - for excerpts, summaries, and descriptions */
+  .text-body-muted {
+    @apply text-[rgb(var(--color-text-muted))];
   }
 }
 
