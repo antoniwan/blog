@@ -119,9 +119,9 @@ import pkg from '../../package.json';
     <div class="mt-8 border-t border-[rgb(var(--color-border))]/30 pt-8 md:mt-12 md:pt-12">
       <div class="flex flex-col items-center justify-between gap-4 md:flex-row">
         <div
-          class="text-center text-xs leading-relaxed text-[rgb(var(--color-text-muted))] opacity-75 md:text-left"
+          class="text-center text-[0.7rem] leading-snug text-[rgb(var(--color-text-muted))] opacity-70 md:text-left"
         >
-          <p>
+          <p class="!mb-0 !mt-0 !text-[0.7rem] !leading-snug">
             © {new Date().getFullYear()}
             {SITE_TITLE}. All rights reserved. Content: <a
               href="https://creativecommons.org/licenses/by-nc-sa/4.0/"
@@ -130,22 +130,24 @@ import pkg from '../../package.json';
             > Code: <a
               href="https://opensource.org/licenses/MIT"
               target="_blank"
-              rel="noopener noreferrer">MIT</a>
+              rel="noopener noreferrer">MIT</a
+            >
           </p>
         </div>
 
         <!-- Additional Links -->
         <div
-          class="flex flex-wrap justify-center gap-4 text-sm leading-relaxed text-[rgb(var(--color-text-muted))] md:justify-end"
+          class="flex flex-wrap justify-center gap-4 text-[0.7rem] leading-snug text-[rgb(var(--color-text-muted))] md:justify-end"
         >
-          <a href="/sitemap-index.xml" class="link-muted">Sitemap</a>
           <div class="flex items-center gap-2">
+            <a href="/sitemap-index.xml" class="link-muted">Sitemap</a>
+            <span class="text-[rgb(var(--color-text-muted))]/50">•</span>
             <a href="/rss.xml" class="link-muted" title="RSS Feed">📡 RSS</a>
             <span class="text-[rgb(var(--color-text-muted))]/50">•</span>
             <a href="/feed.json" class="link-muted" title="JSON Feed">📄 JSON</a>
           </div>
           <span
-            class="inline-flex items-center rounded-full border border-[rgb(var(--color-primary))]/20 bg-[rgb(var(--color-primary))]/10 px-2 py-1 text-xs font-medium text-[rgb(var(--color-primary))]"
+            class="inline-flex items-center rounded-full border border-[rgb(var(--color-primary))]/20 bg-[rgb(var(--color-primary))]/10 px-2 py-1 text-[0.7rem] font-medium text-[rgb(var(--color-primary))]"
           >
             v{pkg.version}
           </span>
