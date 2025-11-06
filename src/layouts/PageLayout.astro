@@ -16,6 +16,7 @@ const {
   structuredDataType,
   structuredDataIdentifier,
   posts,
+  showTitle = true,
   ...rest
 } = Astro.props;
 ---
@@ -33,7 +34,7 @@ const {
   {...rest}
 >
   <Container>
-    <PageHeader title={title} description={description} />
+    <PageHeader title={title} description={description} showTitle={showTitle} />
 
     {/* Page Content */}
     <div class="prose prose-lg max-w-none">

@@ -36,6 +36,11 @@ export const mainNavigation: NavigationItem[] = [
           icon: '🗺️',
         },
         {
+          href: '/everything',
+          label: 'Everything (All Posts)',
+          icon: '📚',
+        },
+        {
           href: '/brain-science/',
           label: 'Writing Insights',
           icon: '🧠',

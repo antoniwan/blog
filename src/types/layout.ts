@@ -23,6 +23,8 @@ export interface BaseLayoutProps {
   hasComments?: boolean;
   featured?: boolean;
   draft?: boolean;
+  // PageHeader options
+  showTitle?: boolean; // Whether to show the H1 title in PageHeader (default: true)
 }
 
 export interface Translation {
