@@ -4,6 +4,7 @@
   "exclude": ["dist"],
   "compilerOptions": {
     "strict": true,
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "types": ["astro/client"]
   }
 }
