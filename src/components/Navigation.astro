@@ -18,7 +18,14 @@ const sortedCategories = await getSortedCategories();
   aria-label="Main navigation"
 >
   {
-    mainNavigation.map((item) => (
+    mainNavigation.map((item) => {
+      // Check if current path matches this nav item
+      // For category pages, check if pathname starts with /category/
+      const isActive = item.href === '/category/'
+        ? Astro.url.pathname.startsWith('/category/')
+        : Astro.url.pathname === item.href;
+
+      return (
       <div class="group relative">
         <a
           href={item.href}
@@ -27,14 +34,14 @@ const sortedCategories = await getSortedCategories();
             'text-[rgb(var(--color-text-muted))] hover:bg-[rgb(var(--color-bg-alt))] hover:text-[rgb(var(--color-accent))]',
             {
               'bg-[rgb(var(--color-accent))]/10 text-[rgb(var(--color-accent))] shadow-sm':
-                Astro.url.pathname === item.href,
+                isActive,
             },
           ]}
-          aria-current={Astro.url.pathname === item.href ? 'page' : undefined}
+          aria-current={isActive ? 'page' : undefined}
           transition:name={`nav-${item.href.replace('/', '').replace(/\/$/, '') || 'home'}`}
         >
           <span class="relative z-10">{item.label}</span>
-          {Astro.url.pathname === item.href && (
+          {isActive && (
             <span class="absolute inset-0 -z-10 rounded-lg bg-[rgb(var(--color-accent))]/10" />
           )}
         </a>
@@ -96,7 +103,8 @@ const sortedCategories = await getSortedCategories();
           </div>
         )}
       </div>
-    ))
+      );
+    })
   }
 </nav>
 
