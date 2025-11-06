@@ -6,7 +6,7 @@
     "type": "git",
     "url": "https://github.com/antoniwan/blog.git"
   },
-  "homepage": "https://blog.antoniwan.online",
+  "homepage": "https://notes.antoniwan.online",
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",

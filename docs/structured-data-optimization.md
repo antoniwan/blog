@@ -18,14 +18,14 @@ Our structured data implementation follows Schema.org standards and Google's str
   "@type": "WebSite",
   "name": "Blog",
   "description": "Raw thoughts on fatherhood, masculinity, and modern life...",
-  "url": "https://blog.antoniwan.online",
+  "url": "https://notes.antoniwan.online",
   "inLanguage": "en-US",
   "publisher": { "@type": "Person", "name": "Antonio Rodriguez Martinez" },
   "potentialAction": {
     "@type": "SearchAction",
     "target": {
       "@type": "EntryPoint",
-      "urlTemplate": "https://blog.antoniwan.online/search?q={search_term_string}"
+      "urlTemplate": "https://notes.antoniwan.online/search?q={search_term_string}"
     },
     "query-input": "required name=search_term_string"
   }
@@ -39,7 +39,7 @@ Our structured data implementation follows Schema.org standards and Google's str
   "@context": "https://schema.org",
   "@type": "Organization",
   "name": "Blog",
-  "url": "https://blog.antoniwan.online",
+  "url": "https://notes.antoniwan.online",
   "logo": { "@type": "ImageObject", "url": "...", "width": 512, "height": 512 },
   "sameAs": ["https://twitter.com/antoniwan", "https://github.com/antoniwan"],
   "description": "Personal Blog & Content Creation",
@@ -80,19 +80,19 @@ Our structured data implementation follows Schema.org standards and Google's str
   "@type": "BlogPosting",
   "headline": "Article Title",
   "description": "Article description...",
-  "image": "https://blog.antoniwan.online/images/hero-image.jpg",
+  "image": "https://notes.antoniwan.online/images/hero-image.jpg",
   "datePublished": "2025-01-01T00:00:00.000Z",
   "dateModified": "2025-01-01T00:00:00.000Z",
   "author": { "@type": "Person", "name": "Antonio Rodriguez Martinez" },
   "publisher": { "@type": "Organization", "name": "Blog" },
   "keywords": "empathy, psychology, mental-health, consciousness",
   "timeRequired": "PT5M",
-  "url": "https://blog.antoniwan.online/p/article-slug",
+  "url": "https://notes.antoniwan.online/p/article-slug",
   "inLanguage": "en-US",
   "articleSection": "psychology",
   "wordCount": 1500,
-  "mainEntityOfPage": { "@type": "WebPage", "@id": "https://blog.antoniwan.online/p/article-slug" },
-  "isPartOf": { "@type": "Blog", "name": "Blog", "url": "https://blog.antoniwan.online" },
+  "mainEntityOfPage": { "@type": "WebPage", "@id": "https://notes.antoniwan.online/p/article-slug" },
+  "isPartOf": { "@type": "Blog", "name": "Blog", "url": "https://notes.antoniwan.online" },
   "about": [
     { "@type": "Thing", "name": "psychology" },
     { "@type": "Thing", "name": "integration-growth" }
@@ -112,18 +112,18 @@ Our structured data implementation follows Schema.org standards and Google's str
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
   "itemListElement": [
-    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://blog.antoniwan.online" },
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://notes.antoniwan.online" },
     {
       "@type": "ListItem",
       "position": 2,
       "name": "psychology",
-      "item": "https://blog.antoniwan.online/category/psychology/"
+      "item": "https://notes.antoniwan.online/category/psychology/"
     },
     {
       "@type": "ListItem",
       "position": 3,
       "name": "Article Title",
-      "item": "https://blog.antoniwan.online/p/article-slug"
+      "item": "https://notes.antoniwan.online/p/article-slug"
     }
   ]
 }
@@ -139,7 +139,7 @@ Our structured data implementation follows Schema.org standards and Google's str
   "@type": "CollectionPage",
   "name": "Category Name",
   "description": "Category description...",
-  "url": "https://blog.antoniwan.online/category/category-name/",
+  "url": "https://notes.antoniwan.online/category/category-name/",
   "mainEntity": {
     "@type": "ItemList",
     "numberOfItems": 25,
@@ -151,7 +151,7 @@ Our structured data implementation follows Schema.org standards and Google's str
           "@type": "BlogPosting",
           "headline": "Post Title",
           "description": "Post description...",
-          "url": "https://blog.antoniwan.online/p/post-slug",
+          "url": "https://notes.antoniwan.online/p/post-slug",
           "datePublished": "2025-01-01T00:00:00.000Z",
           "author": { "@type": "Person", "name": "Antonio Rodriguez Martinez" }
         }

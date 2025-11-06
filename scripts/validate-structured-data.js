@@ -91,7 +91,7 @@ const sampleSchemas = [
     '@type': 'WebSite',
     name: 'Blog',
     description: 'Raw thoughts on fatherhood, masculinity, and modern life...',
-    url: 'https://blog.antoniwan.online',
+    url: 'https://notes.antoniwan.online',
     inLanguage: 'en-US',
     publisher: {
       '@type': 'Person',
@@ -105,7 +105,7 @@ const sampleSchemas = [
     headline: 'Empathy as a Shield',
     description:
       'How empathy serves as protective armor against judgment, bias, and emotional spirals.',
-    image: 'https://blog.antoniwan.online/images/waaaat.jpg',
+    image: 'https://notes.antoniwan.online/images/waaaat.jpg',
     datePublished: '2025-08-24T17:30:07.300Z',
     author: {
       '@type': 'Person',
@@ -115,9 +115,9 @@ const sampleSchemas = [
     publisher: {
       '@type': 'Organization',
       name: 'Blog',
-      url: 'https://blog.antoniwan.online',
+      url: 'https://notes.antoniwan.online',
     },
-    url: 'https://blog.antoniwan.online/p/empathy-as-a-shield',
+    url: 'https://notes.antoniwan.online/p/empathy-as-a-shield',
     inLanguage: 'en-US',
     articleSection: 'psychology',
   },
@@ -129,19 +129,19 @@ const sampleSchemas = [
         '@type': 'ListItem',
         position: 1,
         name: 'Home',
-        item: 'https://blog.antoniwan.online',
+        item: 'https://notes.antoniwan.online',
       },
       {
         '@type': 'ListItem',
         position: 2,
         name: 'psychology',
-        item: 'https://blog.antoniwan.online/category/psychology/',
+        item: 'https://notes.antoniwan.online/category/psychology/',
       },
       {
         '@type': 'ListItem',
         position: 3,
         name: 'Empathy as a Shield',
-        item: 'https://blog.antoniwan.online/p/empathy-as-a-shield',
+        item: 'https://notes.antoniwan.online/p/empathy-as-a-shield',
       },
     ],
   },
