@@ -1,6 +1,6 @@
 # Notes
 
-[![Version](https://img.shields.io/badge/version-4.4.0-blue.svg)](https://github.com/antoniwan/blog/releases)
+[![Version](https://img.shields.io/badge/version-4.4.0-blue.svg)](https://github.com/antoniwan/notes/releases)
 
 A personal notes site exploring fatherhood, masculinity, culture, and modern collapse through raw reflections on thinking, consciousness, and the soft heart inside the hard world.
 
@@ -30,7 +30,7 @@ A personal notes site exploring fatherhood, masculinity, culture, and modern col
 ## Quick Start
 
 ```bash
-git clone https://github.com/antoniwan/blog.git
+git clone https://github.com/antoniwan/notes.git
 cd blog
 npm install
 npm run dev

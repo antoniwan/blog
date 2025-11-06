@@ -1,10 +1,10 @@
 {
   "name": "blog",
   "type": "module",
-  "version": "4.5.0",
+  "version": "4.6.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/antoniwan/blog.git"
+    "url": "https://github.com/antoniwan/notes.git"
   },
   "homepage": "https://notes.antoniwan.online",
   "scripts": {
