@@ -24,9 +24,7 @@ const hasRelatedPosts = relatedPosts.length > 0;
         {/* Header */}
         <div class="mb-6">
           <h2 class="mb-3 text-2xl font-bold text-[rgb(var(--color-text))]">💡 Continue Reading</h2>
-          <p class="text-body-muted text-base leading-relaxed">
-            The rest is yours to explore.
-          </p>
+          <p class="text-body-muted text-base leading-relaxed">The rest is yours to explore.</p>
         </div>
 
         {/* Related Posts List */}
@@ -45,7 +43,7 @@ const hasRelatedPosts = relatedPosts.length > 0;
                   </div>
                   <div class="post-meta">
                     {readingTime && <span class="reading-time">{readingTime}</span>}
-                    {post.data.featured && <span class="featured-badge">⭐</span>}
+                    {post.data.featured && <span class="featured-badge">🫀</span>}
                   </div>
                 </a>
               </li>
@@ -56,7 +54,7 @@ const hasRelatedPosts = relatedPosts.length > 0;
         {/* Call to Action */}
         <div class="pt-2">
           <a
-            href="/"
+            href="/everything"
             class="inline-flex items-center gap-2 font-medium text-[rgb(var(--color-accent))] transition-colors hover:text-[rgb(var(--color-accent))]/80 hover:underline"
           >
             <span>Browse All Writings</span>
