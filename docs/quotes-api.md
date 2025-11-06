@@ -40,12 +40,12 @@ Returns a random Stoic philosophy quote with metadata.
 ## Usage Example
 
 ```javascript
-const response = await fetch("/api/quotes");
+const response = await fetch('/api/quotes');
 const data = await response.json();
 
 console.log(data.quote.text);
 console.log(`By ${data.quote.author}`);
-console.log(`Themes: ${data.quote.themes.join(", ")}`);
+console.log(`Themes: ${data.quote.themes.join(', ')}`);
 ```
 
 ## Quote Properties
@@ -63,4 +63,4 @@ console.log(`Themes: ${data.quote.themes.join(", ")}`);
 | `length`          | string   | Quote length (very_short, short, medium, long)   |
 | `popularity`      | string   | Popularity level (low, medium, high, very_high)  |
 | `context`         | string   | Historical context and background                |
-| `modernRelevance` | string   | Modern applications and relevance                | 
+| `modernRelevance` | string   | Modern applications and relevance                |

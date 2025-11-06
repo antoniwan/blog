@@ -14,14 +14,15 @@ const STATIC_FILES = [
   '/images/default.avif',
   '/favicon.ico',
   '/favicon.svg',
-  '/apple-touch-icon.png'
+  '/apple-touch-icon.png',
 ];
 
 // Install event - cache static files
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(STATIC_CACHE)
-      .then(cache => {
+    caches
+      .open(STATIC_CACHE)
+      .then((cache) => {
         console.log('Caching static files');
         return cache.addAll(STATIC_FILES);
       })
@@ -29,30 +30,31 @@ self.addEventListener('install', (event) => {
         console.log('Static files cached successfully');
         return self.skipWaiting();
       })
-      .catch(error => {
+      .catch((error) => {
         console.error('Failed to cache static files:', error);
-      })
+      }),
   );
 });
 
 // Activate event - clean up old caches
 self.addEventListener('activate', (event) => {
   event.waitUntil(
-    caches.keys()
-      .then(cacheNames => {
+    caches
+      .keys()
+      .then((cacheNames) => {
         return Promise.all(
-          cacheNames.map(cacheName => {
+          cacheNames.map((cacheName) => {
             if (cacheName !== STATIC_CACHE && cacheName !== DYNAMIC_CACHE) {
               console.log('Deleting old cache:', cacheName);
               return caches.delete(cacheName);
             }
-          })
+          }),
         );
       })
       .then(() => {
         console.log('Service Worker activated');
         return self.clients.claim();
-      })
+      }),
   );
 });
 
@@ -91,13 +93,13 @@ self.addEventListener('fetch', (event) => {
 async function handleApiRequest(request) {
   try {
     const response = await fetch(request);
-    
+
     // Cache successful API responses
     if (response.ok) {
       const cache = await caches.open(DYNAMIC_CACHE);
       cache.put(request, response.clone());
     }
-    
+
     return response;
   } catch (error) {
     // Fallback to cache
@@ -105,16 +107,13 @@ async function handleApiRequest(request) {
     if (cachedResponse) {
       return cachedResponse;
     }
-    
+
     // Return offline response
-    return new Response(
-      JSON.stringify({ error: 'Offline - data not available' }),
-      { 
-        status: 503, 
-        statusText: 'Service Unavailable',
-        headers: { 'Content-Type': 'application/json' }
-      }
-    );
+    return new Response(JSON.stringify({ error: 'Offline - data not available' }), {
+      status: 503,
+      statusText: 'Service Unavailable',
+      headers: { 'Content-Type': 'application/json' },
+    });
   }
 }
 
@@ -122,12 +121,12 @@ async function handleApiRequest(request) {
 async function handleStaticAsset(request) {
   const cache = await caches.open(STATIC_CACHE);
   const cachedResponse = await cache.match(request);
-  
+
   if (cachedResponse) {
     // Return cached version immediately
     return cachedResponse;
   }
-  
+
   try {
     // Fetch from network and cache
     const response = await fetch(request);
@@ -138,16 +137,13 @@ async function handleStaticAsset(request) {
   } catch (error) {
     // Return offline response for critical assets
     if (request.url.includes('/styles/') || request.url.includes('/fonts/')) {
-      return new Response(
-        '/* Offline - styles not available */',
-        { 
-          status: 200, 
-          statusText: 'OK',
-          headers: { 'Content-Type': 'text/css' }
-        }
-      );
+      return new Response('/* Offline - styles not available */', {
+        status: 200,
+        statusText: 'OK',
+        headers: { 'Content-Type': 'text/css' },
+      });
     }
-    
+
     throw error;
   }
 }
@@ -156,13 +152,13 @@ async function handleStaticAsset(request) {
 async function handlePageRequest(request) {
   try {
     const response = await fetch(request);
-    
+
     // Cache successful page responses
     if (response.ok) {
       const cache = await caches.open(DYNAMIC_CACHE);
       cache.put(request, response.clone());
     }
-    
+
     return response;
   } catch (error) {
     // Fallback to cache
@@ -170,13 +166,13 @@ async function handlePageRequest(request) {
     if (cachedResponse) {
       return cachedResponse;
     }
-    
+
     // Return offline page
     const offlineResponse = await caches.match('/offline.html');
     if (offlineResponse) {
       return offlineResponse;
     }
-    
+
     // Fallback offline content
     return new Response(
       `
@@ -216,11 +212,11 @@ async function handlePageRequest(request) {
         </body>
       </html>
       `,
-      { 
-        status: 200, 
+      {
+        status: 200,
         statusText: 'OK',
-        headers: { 'Content-Type': 'text/html' }
-      }
+        headers: { 'Content-Type': 'text/html' },
+      },
     );
   }
 }
@@ -237,11 +233,11 @@ async function doBackgroundSync() {
   try {
     // Perform any background tasks
     console.log('Performing background sync');
-    
+
     // Example: sync offline data
     const cache = await caches.open(DYNAMIC_CACHE);
     const requests = await cache.keys();
-    
+
     for (const request of requests) {
       if (request.url.includes('/api/')) {
         try {
@@ -261,7 +257,7 @@ async function doBackgroundSync() {
 self.addEventListener('push', (event) => {
   if (event.data) {
     const data = event.data.json();
-    
+
     const options = {
       body: data.body || 'New content available on Blog',
       icon: '/favicon-192x192.png',
@@ -271,29 +267,25 @@ self.addEventListener('push', (event) => {
         {
           action: 'view',
           title: 'View',
-          icon: '/favicon-192x192.png'
+          icon: '/favicon-192x192.png',
         },
         {
           action: 'dismiss',
-          title: 'Dismiss'
-        }
-      ]
+          title: 'Dismiss',
+        },
+      ],
     };
-    
-    event.waitUntil(
-      self.registration.showNotification('Blog', options)
-    );
+
+    event.waitUntil(self.registration.showNotification('Blog', options));
   }
 });
 
 // Handle notification clicks
 self.addEventListener('notificationclick', (event) => {
   event.notification.close();
-  
+
   if (event.action === 'view') {
-    event.waitUntil(
-      clients.openWindow(event.notification.data)
-    );
+    event.waitUntil(clients.openWindow(event.notification.data));
   }
 });
 
@@ -302,7 +294,7 @@ self.addEventListener('message', (event) => {
   if (event.data && event.data.type === 'SKIP_WAITING') {
     self.skipWaiting();
   }
-  
+
   if (event.data && event.data.type === 'GET_VERSION') {
     event.ports[0].postMessage({ version: CACHE_NAME });
   }

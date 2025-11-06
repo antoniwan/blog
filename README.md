@@ -40,18 +40,18 @@ Visit `http://localhost:4323` to view the site.
 
 ## Available Scripts
 
-| Command                     | Action                           |
-| --------------------------- | -------------------------------- |
-| `npm run dev`               | Start development server         |
-| `npm run build`             | Build for production             |
-| `npm run preview`           | Preview production build         |
-| `npm run setup-comments`    | Setup Giscus comment system      |
-| `npm run generate-favicons` | Generate favicon assets          |
-| `npm run validate-feeds`    | Validate RSS and JSON feeds      |
-| `npm run audit-frontmatter` | Audit frontmatter consistency    |
-| `npm run standardize-frontmatter` | Standardize frontmatter format |
-| `npm run remove-legacy-reading-time` | Remove legacy reading time fields |
-| `npm run validate-structured-data` | Validate structured data implementation |
+| Command                              | Action                                  |
+| ------------------------------------ | --------------------------------------- |
+| `npm run dev`                        | Start development server                |
+| `npm run build`                      | Build for production                    |
+| `npm run preview`                    | Preview production build                |
+| `npm run setup-comments`             | Setup Giscus comment system             |
+| `npm run generate-favicons`          | Generate favicon assets                 |
+| `npm run validate-feeds`             | Validate RSS and JSON feeds             |
+| `npm run audit-frontmatter`          | Audit frontmatter consistency           |
+| `npm run standardize-frontmatter`    | Standardize frontmatter format          |
+| `npm run remove-legacy-reading-time` | Remove legacy reading time fields       |
+| `npm run validate-structured-data`   | Validate structured data implementation |
 
 ## Project Structure
 
@@ -82,16 +82,16 @@ Example frontmatter:
 
 ```yaml
 ---
-title: "Post Title"
-description: "Post description"
-pubDate: "2025-01-01T00:00:00.000Z"
-language: ["en"]
-heroImage: "/images/hero-image.jpg"
-category: ["integration-growth"]
-tags: ["tag1", "tag2"]
+title: 'Post Title'
+description: 'Post description'
+pubDate: '2025-01-01T00:00:00.000Z'
+language: ['en']
+heroImage: '/images/hero-image.jpg'
+category: ['integration-growth']
+tags: ['tag1', 'tag2']
 # minutesRead: "5 min read" # Automatically calculated
 featured: true
-translationGroup: "unique-group-id" # Links related translations
+translationGroup: 'unique-group-id' # Links related translations
 draft: false
 ---
 ```

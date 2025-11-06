@@ -37,16 +37,16 @@ Edit `src/config/giscus.ts` and replace the placeholder values:
 ```typescript
 export const giscusConfig = {
   // Your GitHub repository in the format "username/repository"
-  repo: "your-username/blog",
+  repo: 'your-username/blog',
 
   // Repository ID - get this from giscus.app
-  repoId: "YOUR_ACTUAL_REPO_ID",
+  repoId: 'YOUR_ACTUAL_REPO_ID',
 
   // Category name for discussions
-  category: "Comments",
+  category: 'Comments',
 
   // Category ID - get this from giscus.app
-  categoryId: "YOUR_ACTUAL_CATEGORY_ID",
+  categoryId: 'YOUR_ACTUAL_CATEGORY_ID',
 
   // ... rest of the config
 };
@@ -65,9 +65,9 @@ Add `showComments: false` to the frontmatter of any post:
 
 ```yaml
 ---
-title: "My Post"
-description: "Post description"
-pubDate: "2025-01-01T00:00:00.000Z"
+title: 'My Post'
+description: 'Post description'
+pubDate: '2025-01-01T00:00:00.000Z'
 showComments: false
 ---
 ```

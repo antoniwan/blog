@@ -16,6 +16,7 @@ This document outlines the comprehensive performance optimizations implemented f
 ### 1. Font Loading Optimization
 
 #### Critical Font Preloading
+
 - Preload critical fonts (Open Sans 400, 600, Source Serif Pro 600) using `@font-face` with `font-display: swap`
 - Implement font preloading in HTML head for above-the-fold content
 - Use system font fallbacks to prevent invisible text during font loading
@@ -30,6 +31,7 @@ This document outlines the comprehensive performance optimizations implemented f
 ```
 
 #### Font Loading Strategy
+
 - **Critical fonts**: Loaded immediately with preload
 - **Additional weights**: Loaded asynchronously with `display=swap`
 - **Fallback fonts**: System fonts used until custom fonts load
@@ -37,11 +39,13 @@ This document outlines the comprehensive performance optimizations implemented f
 ### 2. Critical CSS Inlining
 
 #### Above-the-Fold CSS
+
 - Inline critical CSS for immediate rendering
 - Include essential styles for typography, layout, and theme
 - Reduce render-blocking CSS requests
 
 #### CSS Loading Strategy
+
 - **Critical CSS**: Inlined in HTML head
 - **Non-critical CSS**: Loaded asynchronously
 - **CSS splitting**: Separate critical and non-critical styles
@@ -49,12 +53,14 @@ This document outlines the comprehensive performance optimizations implemented f
 ### 3. Image Optimization
 
 #### Enhanced Image Component
+
 - Implement responsive image sizing with `sizes` attribute
 - Use `loading="eager"` for above-the-fold images
 - Implement `fetchpriority="high"` for LCP images
 - Support AVIF and WebP formats with fallbacks
 
 #### Image Loading Strategy
+
 - **Hero images**: Eager loading with high priority
 - **Below-the-fold**: Lazy loading with intersection observer
 - **Responsive images**: Multiple sizes for different viewports
@@ -62,12 +68,14 @@ This document outlines the comprehensive performance optimizations implemented f
 ### 4. Service Worker Implementation
 
 #### Caching Strategy
+
 - **Static assets**: Cache-first strategy
 - **Pages**: Network-first with cache fallback
 - **API requests**: Network-first with cache fallback
 - **Offline support**: Graceful degradation with offline page
 
 #### Cache Management
+
 - Versioned cache names for easy updates
 - Automatic cache cleanup for old versions
 - Background sync for offline actions
@@ -75,11 +83,13 @@ This document outlines the comprehensive performance optimizations implemented f
 ### 5. Performance Monitoring
 
 #### Core Web Vitals Tracking
+
 - Real-time FCP, LCP, FID, and CLS measurement
 - Performance metrics reporting to analytics
 - Development debugging panel (Ctrl+Shift+P)
 
 #### Performance Marks
+
 - Service worker registration timing
 - Critical rendering path measurement
 - User interaction timing
@@ -87,12 +97,14 @@ This document outlines the comprehensive performance optimizations implemented f
 ### 6. Build Optimizations
 
 #### Astro Configuration
+
 - Enable CSS minification and inlining
 - Implement code splitting for vendor chunks
 - Remove console logs in production
 - Enable view transitions for better UX
 
 #### Vite Optimizations
+
 - CSS source maps disabled in production
 - Terser minification with aggressive options
 - Manual chunk splitting for better caching
@@ -101,11 +113,13 @@ This document outlines the comprehensive performance optimizations implemented f
 ### 7. Resource Hints
 
 #### Preconnect and DNS Prefetch
+
 - Preconnect to external domains (fonts, analytics)
 - DNS prefetch for third-party resources
 - Resource priority hints for critical assets
 
 #### Preloading Strategy
+
 - Preload critical fonts and images
 - Preload above-the-fold resources
 - Defer non-critical resource loading
@@ -115,12 +129,14 @@ This document outlines the comprehensive performance optimizations implemented f
 ### Development Tools
 
 #### Lighthouse CI
+
 ```bash
 npm run lighthouse
 npm run audit-performance
 ```
 
 #### Build Analysis
+
 ```bash
 npm run analyze
 npm run performance
@@ -129,11 +145,13 @@ npm run performance
 ### Monitoring in Development
 
 #### Performance Debug Panel
+
 - Press `Ctrl+Shift+P` to toggle
 - Real-time Core Web Vitals display
 - Color-coded performance status
 
 #### Service Worker Status
+
 - Bottom-left indicator in development
 - Real-time service worker state
 - Update notification system
@@ -167,11 +185,13 @@ npm run performance
 ### 1. Performance Metrics
 
 #### Core Web Vitals
+
 - Monitor FCP, LCP, FID, and CLS in production
 - Set up alerts for performance regressions
 - Track performance trends over time
 
 #### User Experience Metrics
+
 - Time to interactive
 - First meaningful paint
 - Cumulative layout shift
@@ -180,12 +200,14 @@ npm run performance
 ### 2. Regular Audits
 
 #### Monthly Performance Reviews
+
 - Run Lighthouse audits on key pages
 - Analyze Core Web Vitals trends
 - Identify optimization opportunities
 - Review caching effectiveness
 
 #### Quarterly Optimization Updates
+
 - Update service worker caching strategies
 - Optimize image formats and sizes
 - Review and update critical CSS
@@ -194,12 +216,14 @@ npm run performance
 ### 3. Continuous Improvement
 
 #### Performance Budgets
+
 - Set targets for bundle sizes
 - Monitor image file sizes
 - Track CSS and JavaScript growth
 - Maintain performance standards
 
 #### A/B Testing
+
 - Test different optimization strategies
 - Measure impact on user engagement
 - Validate performance improvements
@@ -210,18 +234,21 @@ npm run performance
 ### Common Issues
 
 #### Font Loading Problems
+
 - Check font preload paths
 - Verify font-display settings
 - Monitor font loading timing
 - Test fallback font rendering
 
 #### Image Performance Issues
+
 - Verify image format support
 - Check responsive image sizing
 - Monitor image loading priority
 - Test lazy loading implementation
 
 #### Service Worker Issues
+
 - Check service worker registration
 - Verify cache strategies
 - Monitor offline functionality
@@ -230,12 +257,14 @@ npm run performance
 ### Debug Tools
 
 #### Browser DevTools
+
 - Performance tab for Core Web Vitals
 - Network tab for resource loading
 - Application tab for service worker
 - Console for performance marks
 
 #### Performance Monitoring
+
 - Real-time metrics in development
 - Performance debug panel
 - Service worker status indicator
@@ -246,16 +275,19 @@ npm run performance
 ### 1. Advanced Techniques
 
 #### HTTP/3 Support
+
 - Implement HTTP/3 when available
 - Optimize for multiplexing
 - Reduce connection overhead
 
 #### Advanced Caching
+
 - Implement stale-while-revalidate
 - Add background sync capabilities
 - Optimize cache invalidation
 
 #### Performance APIs
+
 - Use Performance Observer API
 - Implement user timing measurements
 - Add performance budgets
@@ -263,11 +295,13 @@ npm run performance
 ### 2. Emerging Standards
 
 #### Web Vitals
+
 - Monitor new Core Web Vitals
 - Implement INP (Interaction to Next Paint)
 - Track TTFB improvements
 
 #### Modern Formats
+
 - Evaluate new image formats
 - Test new font loading strategies
 - Implement new caching APIs

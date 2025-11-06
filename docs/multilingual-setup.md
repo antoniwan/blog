@@ -20,17 +20,17 @@ Use the same `translationGroup` value in both language versions:
 ```yaml
 # English version - featured in main listings
 ---
-title: "My Article"
-language: ["en"]
+title: 'My Article'
+language: ['en']
 featured: true
-translationGroup: "my-unique-article-id"
+translationGroup: 'my-unique-article-id'
 ---
 # Spanish version - hidden from main listings
 ---
-title: "Mi Artículo"
-language: ["es"]
+title: 'Mi Artículo'
+language: ['es']
 featured: false
-translationGroup: "my-unique-article-id"
+translationGroup: 'my-unique-article-id'
 ---
 ```
 

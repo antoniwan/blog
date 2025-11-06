@@ -1,0 +1,10 @@
+node_modules
+dist
+public/**/*.png
+public/**/*.jpg
+public/**/*.webp
+public/**/*.avif
+public/**/*.svg
+*.lock
+
+

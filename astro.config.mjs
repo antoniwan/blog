@@ -1,12 +1,11 @@
 // @ts-check
-import { defineConfig } from "astro/config";
-import mdx from "@astrojs/mdx";
-import sitemap from "@astrojs/sitemap";
-import tailwind from "@astrojs/tailwind";
-import vercel from "@astrojs/vercel";
-import { SITE_URL } from "./src/consts";
-import { remarkReadingTime } from "./remark-reading-time.mjs";
-
+import { defineConfig } from 'astro/config';
+import mdx from '@astrojs/mdx';
+import sitemap from '@astrojs/sitemap';
+import tailwind from '@astrojs/tailwind';
+import vercel from '@astrojs/vercel';
+import { SITE_URL } from './src/consts';
+import { remarkReadingTime } from './remark-reading-time.mjs';
 
 // https://astro.build/config
 export default defineConfig({
@@ -20,9 +19,9 @@ export default defineConfig({
   ],
   adapter: vercel(),
   markdown: {
-    syntaxHighlight: "shiki",
+    syntaxHighlight: 'shiki',
     shikiConfig: {
-      theme: "github-dark",
+      theme: 'github-dark',
       wrap: true,
     },
     smartypants: true,
@@ -35,31 +34,31 @@ export default defineConfig({
   // Enable built-in prefetch with optimized settings
   prefetch: {
     prefetchAll: false,
-    defaultStrategy: "hover",
+    defaultStrategy: 'hover',
   },
   // Enhanced image optimization
   image: {
     service: {
-      entrypoint: "astro/assets/services/sharp",
+      entrypoint: 'astro/assets/services/sharp',
     },
-    domains: ["blog.antoniwan.online"],
+    domains: ['blog.antoniwan.online'],
     remotePatterns: [
       {
-        protocol: "https",
-        hostname: "blog.antoniwan.online",
-        pathname: "/images/**",
+        protocol: 'https',
+        hostname: 'blog.antoniwan.online',
+        pathname: '/images/**',
       },
     ],
   },
   // Build optimizations
   build: {
-    inlineStylesheets: "auto", // Inline small stylesheets
+    inlineStylesheets: 'auto', // Inline small stylesheets
   },
   // Vite optimizations for better performance
   vite: {
     build: {
       cssMinify: true,
-      minify: "terser",
+      minify: 'terser',
       terserOptions: {
         compress: {
           drop_console: true, // Remove console.log in production

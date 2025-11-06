@@ -11,6 +11,7 @@ Our structured data implementation follows Schema.org standards and Google's str
 ### 1. Base Schemas (All Pages)
 
 #### WebSite Schema
+
 ```json
 {
   "@context": "https://schema.org",
@@ -22,13 +23,17 @@ Our structured data implementation follows Schema.org standards and Google's str
   "publisher": { "@type": "Person", "name": "Antonio Rodriguez Martinez" },
   "potentialAction": {
     "@type": "SearchAction",
-    "target": { "@type": "EntryPoint", "urlTemplate": "https://blog.antoniwan.online/search?q={search_term_string}" },
+    "target": {
+      "@type": "EntryPoint",
+      "urlTemplate": "https://blog.antoniwan.online/search?q={search_term_string}"
+    },
     "query-input": "required name=search_term_string"
   }
 }
 ```
 
 #### Organization Schema
+
 ```json
 {
   "@context": "https://schema.org",
@@ -45,6 +50,7 @@ Our structured data implementation follows Schema.org standards and Google's str
 ```
 
 #### Person Schema (Author)
+
 ```json
 {
   "@context": "https://schema.org",
@@ -67,6 +73,7 @@ Our structured data implementation follows Schema.org standards and Google's str
 ### 2. Enhanced Article Schema (Blog Posts)
 
 #### BlogPosting Schema
+
 ```json
 {
   "@context": "https://schema.org",
@@ -99,14 +106,25 @@ Our structured data implementation follows Schema.org standards and Google's str
 ```
 
 #### Breadcrumb Schema (for Blog Posts)
+
 ```json
 {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
   "itemListElement": [
     { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://blog.antoniwan.online" },
-    { "@type": "ListItem", "position": 2, "name": "psychology", "item": "https://blog.antoniwan.online/category/psychology/" },
-    { "@type": "ListItem", "position": 3, "name": "Article Title", "item": "https://blog.antoniwan.online/p/article-slug" }
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "psychology",
+      "item": "https://blog.antoniwan.online/category/psychology/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Article Title",
+      "item": "https://blog.antoniwan.online/p/article-slug"
+    }
   ]
 }
 ```
@@ -114,6 +132,7 @@ Our structured data implementation follows Schema.org standards and Google's str
 ### 3. Collection Page Schemas (Categories & Tags)
 
 #### CollectionPage Schema
+
 ```json
 {
   "@context": "https://schema.org",
@@ -146,6 +165,7 @@ Our structured data implementation follows Schema.org standards and Google's str
 ## Advanced Schema Types
 
 ### 1. FAQ Schema (Auto-detected)
+
 Automatically generated for content with Q&A patterns:
 
 ```json
@@ -166,6 +186,7 @@ Automatically generated for content with Q&A patterns:
 ```
 
 ### 2. HowTo Schema (for Tutorials)
+
 For instructional content:
 
 ```json
@@ -187,6 +208,7 @@ For instructional content:
 ```
 
 ### 3. Review Schema (for Reviews)
+
 For review content:
 
 ```json
@@ -209,16 +231,19 @@ For review content:
 ## Implementation Details
 
 ### 1. Automatic Generation
+
 - Structured data is automatically generated from content frontmatter
 - No manual schema creation required
 - Consistent implementation across all content types
 
 ### 2. Content Analysis
+
 - Automatic FAQ detection from markdown content
 - Content type classification for appropriate schema selection
 - Dynamic breadcrumb generation
 
 ### 3. Validation
+
 - Built-in validation for common structured data issues
 - Error and warning reporting
 - Circular reference detection
@@ -226,16 +251,19 @@ For review content:
 ## SEO Benefits
 
 ### 1. Enhanced Search Results
+
 - Rich snippets in search results
 - Featured snippet opportunities
 - Better click-through rates
 
 ### 2. Improved Crawling
+
 - Clear content structure for search engines
 - Better understanding of content relationships
 - Improved indexing efficiency
 
 ### 3. User Experience
+
 - Rich search result previews
 - Better content discovery
 - Enhanced social media sharing
@@ -243,16 +271,19 @@ For review content:
 ## Best Practices Implemented
 
 ### 1. Schema.org Compliance
+
 - All schemas follow official Schema.org specifications
 - Proper @context and @type usage
 - Valid property values
 
 ### 2. Google Guidelines
+
 - Follows Google's structured data guidelines
 - Proper nesting and relationships
 - Valid JSON-LD format
 
 ### 3. Performance
+
 - Efficient schema generation
 - Minimal impact on page load
 - Optimized for search engine parsing
@@ -260,6 +291,7 @@ For review content:
 ## Testing and Validation
 
 ### 1. Built-in Validation
+
 ```typescript
 import { validateStructuredData } from '../utils/structuredData';
 
@@ -270,11 +302,13 @@ console.log(validation.warnings); // array of warnings
 ```
 
 ### 2. Google Testing Tools
+
 - Use Google's Rich Results Test
 - Validate with Google Search Console
 - Monitor structured data performance
 
 ### 3. Debugging
+
 ```typescript
 import { generateStructuredDataSummary } from '../utils/structuredData';
 
@@ -285,16 +319,19 @@ console.log(summary); // Detailed validation report
 ## Future Enhancements
 
 ### 1. Content-Specific Schemas
+
 - Recipe schemas for food content
 - Event schemas for time-sensitive content
 - Product schemas for review content
 
 ### 2. Dynamic Content Analysis
+
 - AI-powered content classification
 - Automatic schema selection
 - Content quality scoring
 
 ### 3. Performance Monitoring
+
 - Schema performance tracking
 - Search result improvement metrics
 - User engagement correlation
