@@ -43,16 +43,11 @@
             const lastEntry = entries[entries.length - 1];
             this.metrics.lcp = lastEntry.startTime;
 
-            // Log LCP element for debugging
-            if (lastEntry.element) {
-              console.log('LCP Element:', lastEntry.element);
-              console.log('LCP Time:', lastEntry.startTime);
-            }
           });
 
           observer.observe({ entryTypes: ['largest-contentful-paint'] });
         } catch (e) {
-          console.warn('LCP observation failed:', e);
+          // LCP observation failed
         }
       }
     }
@@ -69,7 +64,7 @@
 
           observer.observe({ entryTypes: ['first-input'] });
         } catch (e) {
-          console.warn('FID observation failed:', e);
+          // FID observation failed
         }
       }
     }
@@ -89,7 +84,7 @@
 
           observer.observe({ entryTypes: ['layout-shift'] });
         } catch (e) {
-          console.warn('CLS observation failed:', e);
+          // CLS observation failed
         }
       }
     }
@@ -105,7 +100,7 @@
 
           observer.observe({ entryTypes: ['paint'] });
         } catch (e) {
-          console.warn('FCP measurement failed:', e);
+          // FCP measurement failed
         }
       }
     }
@@ -124,7 +119,7 @@
 
           observer.observe({ entryTypes: ['navigation'] });
         } catch (e) {
-          console.warn('TTFB measurement failed:', e);
+          // TTFB measurement failed
         }
       }
     }
@@ -132,8 +127,6 @@
     reportMetrics() {
       // Send metrics to analytics or log them
       if (Object.keys(this.metrics).length > 0) {
-        console.log('Performance Metrics:', this.metrics);
-
         // Send to Vercel Analytics if available
         if (window.va) {
           window.va.track('performance_metrics', this.metrics);

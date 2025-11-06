@@ -34,7 +34,6 @@ try {
     .map((file) => `/images/default_covers/${file}`);
 } catch (error) {
   // Fallback to single default image if directory doesn't exist
-  console.warn('Default covers directory not found, using fallback image');
   defaultImages = ['/images/default.avif'];
 }
 

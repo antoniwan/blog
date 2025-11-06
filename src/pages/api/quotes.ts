@@ -24,7 +24,6 @@ export const GET: APIRoute = async () => {
       },
     });
   } catch (error) {
-    console.error('Quotes API error:', error);
     return new Response(
       JSON.stringify({
         error: 'Internal server error',

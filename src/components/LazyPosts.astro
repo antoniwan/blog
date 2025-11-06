@@ -73,7 +73,7 @@ const { posts, initialCount = 6, loadMoreCount = 6 } = Astro.props;
       this.progressIndicator = document.getElementById('progress-indicator');
 
       if (this.loadMoreBtn) {
-        this.loadMoreBtn.addEventListener('click', () => this.loadMorePosts().catch(console.error));
+        this.loadMoreBtn.addEventListener('click', () => this.loadMorePosts().catch(() => {}));
       }
 
       // Initialize intersection observer for infinite scroll
@@ -87,7 +87,7 @@ const { posts, initialCount = 6, loadMoreCount = 6 } = Astro.props;
         (entries) => {
           entries.forEach((entry) => {
             if (entry.isIntersecting && !this.isLoading) {
-              this.loadMorePosts().catch(console.error);
+              this.loadMorePosts().catch(() => {});
             }
           });
         },

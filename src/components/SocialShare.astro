@@ -29,18 +29,6 @@ if (!currentUrl.startsWith('http')) {
 
 // Generate share URLs using utility
 const platforms = generateShareUrls(title, currentUrl, description);
-
-// Debug: log the URL being used for sharing
-console.log('SocialShare Debug:', {
-  title,
-  currentUrl,
-  canonical: Astro.url.href,
-  passedUrl: url,
-  siteUrl: SITE_URL
-});
-
-// Debug: log the generated share URLs
-console.log('Generated Share URLs:', platforms.map(p => ({ name: p.name, url: p.url })));
 ---
 
 <!-- Floating Action Button (Mobile) -->
@@ -257,8 +245,6 @@ console.log('Generated Share URLs:', platforms.map(p => ({ name: p.name, url: p.
           await copyToClipboard(pageUrl);
           showToast('Link copied to clipboard!');
         } else if (url && url !== '#') {
-          // Debug: log the share URL
-          console.log(`Sharing on ${platform}:`, url);
           window.open(url, '_blank', 'noopener,noreferrer');
         }
         
@@ -279,7 +265,7 @@ console.log('Generated Share URLs:', platforms.map(p => ({ name: p.name, url: p.
               url: window.location.href
             });
           } catch (err) {
-            console.log('Share cancelled or failed');
+            // Share cancelled or failed
           }
         } else {
           // Fallback: copy to clipboard

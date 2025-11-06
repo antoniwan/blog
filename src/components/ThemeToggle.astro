@@ -54,20 +54,8 @@ const { class: className = '' } = Astro.props;
   // Enhanced theme toggle function
   function setTheme(theme: 'dark' | 'light') {
     const root = document.documentElement;
-    console.log('Setting theme to:', theme);
-    console.log('Before - has dark class:', root.classList.contains('dark'));
 
     root.classList.toggle('dark', theme === 'dark');
-
-    console.log('After - has dark class:', root.classList.contains('dark'));
-    console.log('Current classes:', root.className);
-
-    // Debug CSS variables
-    const computedStyle = getComputedStyle(document.documentElement);
-    console.log('CSS Variables after theme change:');
-    console.log('--color-bg:', computedStyle.getPropertyValue('--color-bg'));
-    console.log('--color-text:', computedStyle.getPropertyValue('--color-text'));
-    console.log('--color-bg-alt:', computedStyle.getPropertyValue('--color-bg-alt'));
 
     localStorage.setItem('theme', theme);
 

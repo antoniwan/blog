@@ -460,7 +460,6 @@ const postSlug = path?.replace('/p/', '').replace('/', '') || '';
 
         // Validate data structure
         if (!Array.isArray(parsed)) {
-          console.warn('Invalid read posts format: expected array, got', typeof parsed);
           return [];
         }
 
@@ -472,14 +471,12 @@ const postSlug = path?.replace('/p/', '').replace('/', '') || '';
           const hasValidDate = typeof item.readAt === 'string' && !isNaN(Date.parse(item.readAt));
 
           if (!hasValidSlug || !hasValidDate) {
-            console.warn('Filtering out invalid read post item:', item);
             return false;
           }
 
           return true;
         });
       } catch (error) {
-        console.warn('Failed to parse read posts:', error);
         return [];
       }
     }

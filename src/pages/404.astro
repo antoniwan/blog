@@ -336,13 +336,11 @@ const existingTags = getAllTags();
       showContent();
       retryCount = 0; // Reset retry count on success
     } catch (error) {
-      console.error('Failed to fetch quote:', error);
       retryCount++;
 
       if (retryCount < maxRetries) {
         // Auto-retry with exponential backoff
         const delay = retryDelay * Math.pow(2, retryCount - 1);
-        console.log(`Retrying in ${delay}ms... (attempt ${retryCount}/${maxRetries})`);
         setTimeout(fetchAndDisplayQuote, delay);
       } else {
         // Show error state after max retries

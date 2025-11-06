@@ -1,6 +1,8 @@
 // Service Worker for Blog
 // Implements advanced caching strategies for better performance
 
+const DEBUG = self.location.hostname === 'localhost' || self.location.hostname === '127.0.0.1';
+
 const CACHE_NAME = 'blog-v1';
 const STATIC_CACHE = 'static-v1';
 const DYNAMIC_CACHE = 'dynamic-v1';
@@ -23,15 +25,15 @@ self.addEventListener('install', (event) => {
     caches
       .open(STATIC_CACHE)
       .then((cache) => {
-        console.log('Caching static files');
+        if (DEBUG) console.log('Caching static files');
         return cache.addAll(STATIC_FILES);
       })
       .then(() => {
-        console.log('Static files cached successfully');
+        if (DEBUG) console.log('Static files cached successfully');
         return self.skipWaiting();
       })
       .catch((error) => {
-        console.error('Failed to cache static files:', error);
+        if (DEBUG) console.error('Failed to cache static files:', error);
       }),
   );
 });
@@ -45,14 +47,14 @@ self.addEventListener('activate', (event) => {
         return Promise.all(
           cacheNames.map((cacheName) => {
             if (cacheName !== STATIC_CACHE && cacheName !== DYNAMIC_CACHE) {
-              console.log('Deleting old cache:', cacheName);
+              if (DEBUG) console.log('Deleting old cache:', cacheName);
               return caches.delete(cacheName);
             }
           }),
         );
       })
       .then(() => {
-        console.log('Service Worker activated');
+        if (DEBUG) console.log('Service Worker activated');
         return self.clients.claim();
       }),
   );
@@ -232,7 +234,7 @@ self.addEventListener('sync', (event) => {
 async function doBackgroundSync() {
   try {
     // Perform any background tasks
-    console.log('Performing background sync');
+    if (DEBUG) console.log('Performing background sync');
 
     // Example: sync offline data
     const cache = await caches.open(DYNAMIC_CACHE);
@@ -244,12 +246,12 @@ async function doBackgroundSync() {
           await fetch(request);
           await cache.delete(request);
         } catch (error) {
-          console.log('Failed to sync request:', request.url);
+          if (DEBUG) console.log('Failed to sync request:', request.url);
         }
       }
     }
   } catch (error) {
-    console.error('Background sync failed:', error);
+    if (DEBUG) console.error('Background sync failed:', error);
   }
 }
 

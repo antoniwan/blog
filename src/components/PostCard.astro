@@ -151,7 +151,6 @@ const readingTime = calculateReadingTimeFromMarkdown(post.body || '');
 
         // Validate data structure
         if (!Array.isArray(parsed)) {
-          console.warn('Invalid read posts format: expected array, got', typeof parsed);
           return [];
         }
 
@@ -163,14 +162,12 @@ const readingTime = calculateReadingTimeFromMarkdown(post.body || '');
           const hasValidDate = typeof item.readAt === 'string' && !isNaN(Date.parse(item.readAt));
 
           if (!hasValidSlug || !hasValidDate) {
-            console.warn('Filtering out invalid read post item:', item);
             return false;
           }
 
           return true;
         });
       } catch (error) {
-        console.warn('Failed to parse read posts:', error);
         return [];
       }
     }

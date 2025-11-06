@@ -69,7 +69,6 @@ const { class: className = '' } = Astro.props;
 
         const parsed = JSON.parse(stored);
         if (!Array.isArray(parsed)) {
-          console.warn('Invalid read data format: expected array, got', typeof parsed);
           return [];
         }
 
@@ -85,14 +84,12 @@ const { class: className = '' } = Astro.props;
             item.scrollDepth <= 100;
 
           if (!hasValidSlug || !hasValidDate || !hasValidReadTime || !hasValidScrollDepth) {
-            console.warn('Filtering out invalid read data item:', item);
             return false;
           }
 
           return true;
         });
       } catch (error) {
-        console.warn('Failed to parse read data:', error);
         return [];
       }
     }
@@ -110,7 +107,7 @@ const { class: className = '' } = Astro.props;
 
         localStorage.setItem(this.storageKey, JSON.stringify(this.readData));
       } catch (error) {
-        console.warn('Failed to save read data:', error);
+        // Failed to save read data
       }
     }
 

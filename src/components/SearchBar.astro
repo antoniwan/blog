@@ -142,10 +142,6 @@ const searchId = `search-${Math.random().toString(36).substr(2, 9)}`;
 // Serialize search data for client-side use
 const searchDataJson = JSON.stringify(searchData);
 
-// Debug: Log search data info
-console.log(
-  `SearchBar: ${posts.length} writings, ${categories.length} categories, ${Object.keys(tagCounts).length} tags, ${pageSearchData.length} pages available for search`,
-);
 ---
 
 <div class={`search-container relative ${className}`}>
@@ -345,7 +341,6 @@ console.log(
         const results = await this.searchPosts(query);
         this.displayResults(results);
       } catch (error) {
-        console.error('Search error:', error);
         this.showNoResults();
       } finally {
         this.isSearching = false;
@@ -356,10 +351,7 @@ console.log(
       // Get the search data from the global variable
       const searchData = (window as any).searchData || [];
 
-      console.log(`Searching for "${query}" with ${searchData.length} items available`);
-
       if (!searchData || searchData.length === 0) {
-        console.warn('No search data available');
         return [];
       }
 
@@ -692,7 +684,6 @@ console.log(
         highlightedItem.click();
       } else {
         // If no item is highlighted, submit the search (you could implement a search page here)
-        console.log('Search submitted:', this.input?.value);
       }
     }
 
