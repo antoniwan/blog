@@ -73,9 +73,19 @@ export function generateMetaTags(config: SEOConfig): MetaTags {
     robots = SEO_CONFIG.defaultRobots,
   } = config;
 
-  // Special handling for homepage: use site title
+  // Special handling for homepage and different page types
   const isHomepage = path === '/' || path === '';
-  const fullTitle = isHomepage ? SITE_TITLE : `${title} | ${SITE_TITLE}`;
+  const isAboutPage = path === '/about' || title.toLowerCase().includes('about antonio');
+  const titleSuffix = 'Notes by Antonio Rodriguez Martinez';
+  
+  let fullTitle: string;
+  if (isHomepage) {
+    fullTitle = titleSuffix;
+  } else if (isAboutPage) {
+    fullTitle = 'About Antonio Rodriguez Martinez';
+  } else {
+    fullTitle = `${title} | ${titleSuffix}`;
+  }
   const canonical = path ? generateCanonicalUrl(path) : '';
   const ogImage = generateImageUrl(heroImage);
   const ogImageAlt = imageAlt || `${title} - ${SITE_TITLE}`;

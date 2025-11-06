@@ -114,6 +114,38 @@ Whether the post should be featured on the homepage
 featured: false
 ```
 
+### `published` (boolean)
+
+Whether the post is published and should appear in production builds. Defaults to `true` if not specified.
+
+```yaml
+published: true
+```
+
+### `translationGroup` (string, optional)
+
+Unique identifier for linking related translations across languages. Posts with the same `translationGroup` value are automatically linked and display language toggles.
+
+```yaml
+translationGroup: 'recovery-progress-report'
+```
+
+See [Multilingual Setup](multilingual-setup.md) for detailed information on creating translation pairs.
+
+### `showComments` (boolean, optional)
+
+Whether to display the comments section on the post. Defaults to `true` if not specified.
+
+```yaml
+showComments: true
+```
+
+To disable comments on a specific post:
+
+```yaml
+showComments: false
+```
+
 ## Complete Example
 
 ```yaml
@@ -129,12 +161,16 @@ tags: ['nutrition', 'health', 'wellness', 'cooking', 'beef-heart']
 # minutesRead: "3 min read"  # Automatically calculated
 draft: false
 featured: false
+published: true
+showComments: true
+# translationGroup: 'unique-group-id'  # Optional: for multilingual content
 ---
 ```
 
 ## Available Categories
 
 - **art-expression** - Creative content and aesthetic exploration
+- **culture** - Social norms, collective behavior, and cultural critique
 - **diy-creation** - Physical builds and handmade projects
 - **integration-growth** - Personal development and consciousness
 - **learning-projects** - Documentation of skill development
