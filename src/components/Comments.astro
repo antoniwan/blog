@@ -78,8 +78,7 @@ const currentTitle = Astro.props.title || 'Untitled';
       data-theme={theme}
       crossorigin="anonymous"
       async
-      onerror="document.getElementById('giscus-fallback').classList.remove('hidden')"
-    ></script>
+      onerror="document.getElementById('giscus-fallback').classList.remove('hidden')"></script>
   </div>
 </div>
 
@@ -104,8 +103,11 @@ const currentTitle = Astro.props.title || 'Untitled';
   // Wait for Giscus to load before trying to update theme
   function waitForGiscus() {
     const giscusFrame = document.querySelector('iframe[src*="giscus.app"]') as HTMLIFrameElement;
-    if (giscusFrame) {
-      updateGiscusTheme();
+    if (giscusFrame && giscusFrame.contentWindow) {
+      // Wait a bit more to ensure Giscus is fully initialized
+      setTimeout(() => {
+        updateGiscusTheme();
+      }, 200);
     } else {
       // Retry after a short delay
       setTimeout(waitForGiscus, 100);
@@ -114,16 +116,24 @@ const currentTitle = Astro.props.title || 'Untitled';
 
   // Initialize theme on load
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', waitForGiscus);
+    document.addEventListener('DOMContentLoaded', () => {
+      // Wait a bit for Giscus script to load
+      setTimeout(waitForGiscus, 500);
+    });
   } else {
-    waitForGiscus();
+    setTimeout(waitForGiscus, 500);
   }
 
-  // Listen for theme changes
+  // Listen for theme changes via custom event (from ThemeToggle)
+  window.addEventListener('themechange', (event: Event) => {
+    setTimeout(updateGiscusTheme, 200);
+  });
+
+  // Also listen for DOM class changes as a fallback
   const observer = new MutationObserver((mutations) => {
     mutations.forEach((mutation) => {
       if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
-        setTimeout(updateGiscusTheme, 100); // Small delay to ensure DOM is updated
+        setTimeout(updateGiscusTheme, 200); // Small delay to ensure DOM is updated
       }
     });
   });
