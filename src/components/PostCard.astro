@@ -32,7 +32,6 @@ const readingTime = calculateReadingTimeFromMarkdown(post.body || '');
     <span class="read-dot"></span>
   </div>
 
-
   <!-- Hero Image Container - Enhanced for consistent sizing and coverage -->
   <div class="image-container relative overflow-hidden rounded-t-lg">
     {
@@ -46,7 +45,7 @@ const readingTime = calculateReadingTimeFromMarkdown(post.body || '');
       ) : (
         <DefaultImage
           alt={data.title}
-          className="w-full h-32 md:h-40 object-cover object-center"
+          className="h-32 w-full object-cover object-center md:h-40"
           loading="lazy"
         />
       )
@@ -79,7 +78,7 @@ const readingTime = calculateReadingTimeFromMarkdown(post.body || '');
                   role="img"
                   aria-label="Featured post"
                 >
-                  ⭐
+                  🫀
                 </span>
               </>
             )
@@ -87,9 +86,10 @@ const readingTime = calculateReadingTimeFromMarkdown(post.body || '');
         </div>
 
         <h2
-          class="text-base font-bold leading-tight text-[rgb(var(--color-text))] sm:text-lg md:text-xl"
+          id={`postcard-title-${post.id}`}
+          class="postcard-title text-base leading-tight text-[rgb(var(--color-text))] sm:text-lg md:text-xl"
         >
-          <a href={`/p/${post.id}/`} class="block">
+          <a href={`/p/${post.id}/`} class="block" style="font-weight: 700 !important;">
             {data.title}
           </a>
         </h2>
@@ -98,23 +98,13 @@ const readingTime = calculateReadingTimeFromMarkdown(post.body || '');
       <!-- Description -->
       {
         data.description && (
-          <p class="text-body-muted line-clamp-2 text-sm leading-relaxed sm:text-base md:line-clamp-2">
+          <p class="postcard-description text-body-muted line-clamp-2 text-sm leading-relaxed sm:text-base md:line-clamp-2">
             {data.description}
           </p>
         )
       }
-
-      <!-- Tags -->
-      {
-        data.tags && data.tags.length > 0 && (
-          <footer class="pt-1">
-            <TagDisplay tags={data.tags} maxVisible={3} showMoreIndicator={true} compact={true} />
-          </footer>
-        )
-      }
     </div>
   </div>
-
 </article>
 
 <script>
@@ -299,15 +289,95 @@ const readingTime = calculateReadingTimeFromMarkdown(post.body || '');
     box-shadow: 0 0 0 2px rgb(34, 197, 94, 0.2);
   }
 
-  /* Simplified card styling */
-  article {
-    transition: box-shadow 0.2s ease, border-color 0.2s ease;
-    border: 1px solid rgb(var(--color-border) / 0.2);
-    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+  /* Simplified card styling - isolated from parent context */
+  :global(.prose) article.interactive-card,
+  article.interactive-card {
+    transition:
+      box-shadow 0.2s ease,
+      border-color 0.2s ease;
+    border: 1px solid rgb(var(--color-border) / 0.2) !important;
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1) !important;
+    /* Ensure consistent sizing regardless of parent */
+    width: 100% !important;
+    display: block !important;
+    /* Reset any prose-inherited styles */
+    margin: 0 !important;
+    max-width: 100% !important;
+    /* Override prose * styles */
+    box-sizing: border-box !important;
+    /* Ensure consistent background */
+    background: rgb(var(--color-bg)) !important;
+  }
+
+  /* Isolate card content from prose typography - override prose styles and global h2 styles */
+  :global(.prose) article.interactive-card h2[id^='postcard-title-'],
+  :global(.prose) article.interactive-card .postcard-title,
+  article.interactive-card h2[id^='postcard-title-'],
+  article.interactive-card h2.postcard-title,
+  article.interactive-card .postcard-title {
+    margin: 0 !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    font-size: 1rem !important;
+    line-height: 1.25 !important;
+    font-weight: 700 !important; /* Bold - override prose h2 and global h2 styles */
+    letter-spacing: normal !important;
+  }
+
+  /* Responsive title sizes - override prose h2 styles */
+  @media (min-width: 640px) {
+    :global(.prose) article.interactive-card h2[id^='postcard-title-'],
+    :global(.prose) article.interactive-card .postcard-title,
+    article.interactive-card h2[id^='postcard-title-'],
+    article.interactive-card h2.postcard-title,
+    article.interactive-card .postcard-title {
+      font-size: 1.125rem !important;
+      font-weight: 700 !important;
+    }
+  }
+
+  @media (min-width: 768px) {
+    :global(.prose) article.interactive-card h2[id^='postcard-title-'],
+    :global(.prose) article.interactive-card .postcard-title,
+    article.interactive-card h2[id^='postcard-title-'],
+    article.interactive-card h2.postcard-title,
+    article.interactive-card .postcard-title {
+      font-size: 1.25rem !important;
+      font-weight: 700 !important;
+    }
+  }
+
+  :global(.prose) article.interactive-card .postcard-description,
+  article.interactive-card .postcard-description {
+    margin: 0 !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    font-size: 0.875rem !important;
+    line-height: 1.5 !important;
+  }
+
+  /* Responsive description sizes */
+  @media (min-width: 640px) {
+    :global(.prose) article.interactive-card .postcard-description,
+    article.interactive-card .postcard-description {
+      font-size: 1rem !important;
+    }
+  }
+
+  :global(.prose) article.interactive-card h2 a,
+  article.interactive-card h2 a {
+    text-decoration: none !important;
+    color: inherit !important;
+  }
+
+  /* Override prose * max-width for card content */
+  :global(.prose) article.interactive-card *,
+  article.interactive-card * {
+    max-width: 100% !important;
   }
 
   /* Enhanced image container styling for consistent sizing and coverage */
-  .image-container {
+  article.interactive-card .image-container {
     position: relative;
     width: 100%;
     height: 8rem; /* 128px - compact height for mobile */
@@ -315,21 +385,28 @@ const readingTime = calculateReadingTimeFromMarkdown(post.body || '');
     overflow: hidden;
   }
 
-  /* Ensure images cover the entire container */
-  .image-container img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-    display: block;
-    border: none;
-    outline: none;
-    margin: 0;
+  /* Ensure images cover the entire container - isolate from prose img styles */
+  :global(.prose) article.interactive-card .image-container img,
+  article.interactive-card .image-container img {
+    /* Force override all prose img !important styles */
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: center !important;
+    display: block !important;
+    border: none !important;
+    outline: none !important;
+    margin: 0 !important;
+    max-width: 100% !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    cursor: default !important;
+    overflow: visible !important;
   }
 
   /* Responsive image heights */
   @media (min-width: 768px) {
-    .image-container {
+    article.interactive-card .image-container {
       height: 10rem; /* 160px - compact height for desktop */
     }
   }
@@ -400,9 +477,16 @@ const readingTime = calculateReadingTimeFromMarkdown(post.body || '');
     margin-top: 1.25rem;
   }
 
+  /* Ensure postcard grids have consistent spacing regardless of parent context */
+  :global(.postcards-grid) {
+    /* Reset any prose or container inherited margins */
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
   /* Respect reduced motion preferences */
   @media (prefers-reduced-motion: reduce) {
-    article {
+    article.interactive-card {
       transition: none !important;
     }
 
@@ -413,6 +497,5 @@ const readingTime = calculateReadingTimeFromMarkdown(post.body || '');
     .read-dot {
       transition: none !important;
     }
-
   }
 </style>

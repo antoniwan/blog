@@ -16,7 +16,7 @@ const highlights = await getHighlights();
 >
   <h2>Highlights</h2>
 
-  <div class="grid grid-cols-1 gap-6 md:grid-cols-3 md:gap-8">
+  <div class="postcards-grid grid grid-cols-1 gap-6 md:grid-cols-3 md:gap-8">
     {
       highlights.map((highlight) => (
         <PostCard post={highlight.post} featured={highlight.post.data.featured} />
@@ -101,6 +101,12 @@ const highlights = await getHighlights();
 
   .prose a:hover {
     text-decoration: underline;
+  }
+
+  /* Isolate postcard grids from prose spacing */
+  .prose .postcards-grid {
+    margin-top: 0;
+    margin-bottom: 0;
   }
 
   /* Mobile adjustments */

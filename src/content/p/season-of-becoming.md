@@ -3,7 +3,7 @@ title: 'November 6, 2025 — Season of Becoming'
 description: >-
   A line in the sand. Moving from performing growth to living it, from
   articulation to embodiment, from insight to integration.
-pubDate: '2025-11-06T00:00:00.000Z'
+pubDate: '2025-11-06:12:00.000Z'
 language:
   - en
 heroImage: /images/2025/line-on-sand.avif
