@@ -1,5 +1,5 @@
 {
-  "name": "Antonio's Notes",
+  "name": "Notes",
   "short_name": "Notes",
   "description": "Dispatches from a fractured mind navigating fatherhood, masculinity, cultura, and modern collapse. Raw reflections on thinking, culture, and the soft heart inside the hard world.",
   "start_url": "/",
@@ -74,7 +74,7 @@
     {
       "name": "About",
       "short_name": "About",
-      "description": "Learn more about Antonio's Notes",
+      "description": "Learn more about Notes",
       "url": "/about",
       "icons": [
         {

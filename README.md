@@ -1,4 +1,4 @@
-# Antonio's Notes
+# Notes
 
 [![Version](https://img.shields.io/badge/version-3.2.0-blue.svg)](https://github.com/antoniwan/blog/releases)
 

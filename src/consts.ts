@@ -35,8 +35,8 @@ export interface SEOConfig {
 }
 
 // Site Information
-export const SITE_TITLE = "Antonio's Notes";
-export const SHORT_SITE_TITLE = "Antonio's Notes";
+export const SITE_TITLE = "Notes";
+export const SHORT_SITE_TITLE = "Notes";
 export const SITE_DESCRIPTION =
   'Raw thoughts on fatherhood, masculinity, and modern life. No filter, some philosophy, occasional beauty. This is where I think out loud about the hard questions that keep me up at night.';
 export const SITE_URL = 'https://notes.antoniwan.online';
@@ -63,7 +63,7 @@ export const SOCIAL_LINKS: SocialLinks = {
 export const SEO_CONFIG: SEOConfig = {
   defaultImage: assetConfig.images.defaultSocial,
   defaultImageAlt:
-    "Antonio's Notes - Reality hurts. I look anyway. Raw reflections on fatherhood, masculinity, culture, and modern collapse.",
+    "Reality hurts. I look anyway. Raw reflections on fatherhood, masculinity, culture, and modern collapse.",
   defaultHeroImage: assetConfig.images.defaultHero,
   defaultLocale: 'en_US',
   defaultRobots: 'index, follow',

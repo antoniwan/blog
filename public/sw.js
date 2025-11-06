@@ -183,7 +183,7 @@ async function handlePageRequest(request) {
         <head>
           <meta charset="utf-8">
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <title>Offline - Antonio's Notes</title>
+          <title>Offline - Notes</title>
           <style>
             body { 
               font-family: system-ui, sans-serif; 
