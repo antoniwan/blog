@@ -8,13 +8,11 @@ export interface Author {
   name: string;
   email: string;
   url: string;
-  twitter: string;
   github: string;
   linkedin: string;
 }
 
 export interface SocialLinks {
-  twitter: string;
   github: string;
   linkedin: string;
   bluesky: string;
@@ -37,25 +35,23 @@ export interface SEOConfig {
 }
 
 // Site Information
-export const SITE_TITLE = "antoniwan's Blog";
-export const SHORT_SITE_TITLE = "antoniwan's Blog";
+export const SITE_TITLE = "Notes";
+export const SHORT_SITE_TITLE = "Notes";
 export const SITE_DESCRIPTION =
   'Raw thoughts on fatherhood, masculinity, and modern life. No filter, some philosophy, occasional beauty. This is where I think out loud about the hard questions that keep me up at night.';
-export const SITE_URL = 'https://blog.antoniwan.online';
+export const SITE_URL = 'https://notes.antoniwan.online';
 
 // Author Information
 export const AUTHOR: Author = {
   name: 'Antonio Rodriguez Martinez',
-  email: 'antoniwan@antoniwan.online',
+  email: 'antoniwan@icloud.com',
   url: 'https://antoniwan.online',
-  twitter: '@antoniwan',
   github: 'antoniwan',
   linkedin: 'antoniwan',
 };
 
 // Social Media Links
 export const SOCIAL_LINKS: SocialLinks = {
-  twitter: 'https://twitter.com/antoniwan',
   github: 'https://github.com/antoniwan',
   linkedin: 'https://linkedin.com/in/antoniwan',
   bluesky: 'https://bsky.app/profile/antoniwan.online',
@@ -67,7 +63,7 @@ export const SOCIAL_LINKS: SocialLinks = {
 export const SEO_CONFIG: SEOConfig = {
   defaultImage: assetConfig.images.defaultSocial,
   defaultImageAlt:
-    'Blog - Reality hurts. I look anyway. Raw reflections on fatherhood, masculinity, culture, and modern collapse.',
+    "Reality hurts. I look anyway. Raw reflections on fatherhood, masculinity, culture, and modern collapse.",
   defaultHeroImage: assetConfig.images.defaultHero,
   defaultLocale: 'en_US',
   defaultRobots: 'index, follow',

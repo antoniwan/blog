@@ -57,12 +57,19 @@ const sortedCategories = await getSortedCategories();
     <!-- Primary Navigation -->
     <nav class="space-y-6 p-6" aria-label="Primary navigation">
       {
-        mainNavigation.map((item) => (
+        mainNavigation.map((item) => {
+          // Check if current path matches this nav item
+          // For category pages, check if pathname starts with /category/
+          const isActive = item.href === '/category/'
+            ? Astro.url.pathname.startsWith('/category/')
+            : Astro.url.pathname === item.href;
+
+          return (
           <div class="space-y-2">
             <a
               href={item.href}
               class="theme-transition flex items-center justify-between rounded-xl px-4 py-4 text-xl font-semibold text-[rgb(var(--color-text))] hover:bg-[rgb(var(--color-bg-alt))]"
-              aria-current={Astro.url.pathname === item.href ? 'page' : undefined}
+              aria-current={isActive ? 'page' : undefined}
             >
               <span>{item.label}</span>
               {item.dropdown && (
@@ -121,7 +128,8 @@ const sortedCategories = await getSortedCategories();
               </div>
             )}
           </div>
-        ))
+          );
+        })
       }
     </nav>
 

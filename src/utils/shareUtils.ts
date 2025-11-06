@@ -20,7 +20,7 @@ export function generateShareUrls(
     {
       name: 'Twitter',
       icon: '🐦',
-      url: `https://twitter.com/intent/tweet?text=${encodedTitle}&url=${encodedUrl}&via=antoniwan`,
+      url: `https://twitter.com/intent/tweet?text=${encodedTitle}&url=${encodedUrl}`,
       color: 'hover:bg-blue-500/10 hover:text-blue-500',
     },
     {

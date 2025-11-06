@@ -12,6 +12,7 @@ export interface NavigationItem {
 }
 
 export const mainNavigation: NavigationItem[] = [
+  { href: '/guided-path', label: 'Guided Path' },
   {
     href: '/category/',
     label: 'Categories',
@@ -19,8 +20,9 @@ export const mainNavigation: NavigationItem[] = [
       label: 'Browse Categories',
     },
   },
+  { href: '/everything', label: 'Everything' },
   {
-    href: '/guided-path',
+    href: '/tag/',
     label: 'Resources',
     dropdown: {
       label: 'Tools & Resources',
@@ -29,11 +31,6 @@ export const mainNavigation: NavigationItem[] = [
           href: '/tag/',
           label: 'All Tags',
           icon: '🏷️',
-        },
-        {
-          href: '/guided-path',
-          label: 'Guided Path',
-          icon: '🗺️',
         },
         {
           href: '/brain-science/',

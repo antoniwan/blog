@@ -41,11 +41,11 @@ export default defineConfig({
     service: {
       entrypoint: 'astro/assets/services/sharp',
     },
-    domains: ['blog.antoniwan.online'],
+    domains: ['notes.antoniwan.online'],
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'blog.antoniwan.online',
+        hostname: 'notes.antoniwan.online',
         pathname: '/images/**',
       },
     ],
