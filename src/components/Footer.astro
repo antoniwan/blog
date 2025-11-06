@@ -1,5 +1,5 @@
 ---
-import { SITE_TITLE, SITE_DESCRIPTION, SOCIAL_LINKS } from '../consts';
+import { SITE_TITLE, SOCIAL_LINKS } from '../consts';
 import Logo from './Logo.astro';
 import Container from './Container.astro';
 import pkg from '../../package.json';
@@ -21,9 +21,6 @@ import pkg from '../../package.json';
       <!-- Brand Section -->
       <div class="lg:col-span-1">
         <Logo size="xs" />
-        <p class="text-body-muted mt-4 text-base leading-relaxed md:text-lg">
-          {SITE_DESCRIPTION}
-        </p>
       </div>
 
       <!-- Quick Links -->
