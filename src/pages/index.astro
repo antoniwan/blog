@@ -14,7 +14,7 @@ const highlights = await getHighlights();
   structuredDataType="website"
   showTitle={false}
 >
-  <h2>Highlights</h2>
+  <h2 class="highlights-heading">Highlights</h2>
 
   <div class="postcards-grid grid grid-cols-1 gap-6 md:grid-cols-3 md:gap-8">
     {
@@ -123,6 +123,11 @@ const highlights = await getHighlights();
     .prose h2 {
       font-size: 1.75rem;
       margin-top: 2rem;
+    }
+
+    /* Extra spacing for Highlights section on mobile */
+    .prose .highlights-heading {
+      margin-top: 3rem;
     }
 
     .prose h3 {
