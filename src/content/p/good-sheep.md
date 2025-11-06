@@ -30,6 +30,7 @@ draft: false
 featured: true
 published: true
 showComments: true
+
 ---
 
 > ## A Note Before We Begin
@@ -290,6 +291,7 @@ Your instincts are right. Your body knows when food is poisoning it. Your mind k
 The sheep machine only works with our consent. And consent can be withdrawn, even when - especially when - the abuse feels good.
 
 So withdraw it. All of it. Trust yourself. Resist everything. We're not god-damned sheep.
+
 ---
 
 ## 📚 Research Sources & References
@@ -354,6 +356,7 @@ Professional guidance on recognizing various forms of abuse, including psycholog
 
 <a href="https://www.womenslaw.org/about-abuse/forms-abuse/emotional-and-psychological-abuse" target="_blank" rel="noopener">Emotional and Psychological Abuse - WomensLaw.org</a>  
 Legal and psychological framework for understanding abuse that uses non-physical behaviors to control, isolate, or frighten victims, often breaking down self-esteem to create dependency.
+
 ---
 
 ## 🎯 Key Terms Glossary

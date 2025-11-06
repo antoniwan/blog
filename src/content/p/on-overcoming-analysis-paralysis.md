@@ -24,6 +24,7 @@ draft: false
 featured: false
 published: true
 showComments: true
+
 ---
 
 I may not be a behavioral expert, but I’m an expert on overthinking and becoming paralyzed. Over time, and with much practice, I’m also slowly becoming adept at snapping out of this emotional and physical paralysis using a few simple steps — with what I think are very low-effort ideas.
@@ -54,6 +55,7 @@ The action, your step, truth be told, might take you closer or further from your
 Food for thought. Sharing is caring.
 
 I hope this is helpful to you. Feel free to send me a note with your ideas. Do you disagree? Also, let me know! Get it!
+
 ---
 
 _Originally published on [Medium](https://medium.com/@wizards777/on-overcoming-analysis-paralysis-d9281a526dc8)._

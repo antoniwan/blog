@@ -25,6 +25,7 @@ draft: false
 featured: false
 published: true
 showComments: true
+
 ---
 
 ![](https://cdn-images-1.medium.com/max/800/0*Mh3TRGWhAXK-E0_c)
@@ -75,6 +76,7 @@ Here’s a list of topics to sharpen yourself, dwell on, and understand deeper:
 - writing (the reason I do this type of work)
 
 Understand this idea, sharpen your tools, and get that unlimited power!
+
 ---
 
 _Originally published on [Medium](https://medium.com/@wizards777/sharpen-your-tools-ab027a02e0a5)._

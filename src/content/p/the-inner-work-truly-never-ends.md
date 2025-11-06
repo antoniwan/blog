@@ -25,6 +25,7 @@ draft: false
 featured: false
 published: true
 showComments: true
+
 ---
 
 ![](https://cdn-images-1.medium.com/max/800/0*oA98rX80LnOrfXPm)
@@ -40,6 +41,7 @@ One night, one of those memories, I was at a metal show by myself as usual, and 
 A friend recently wrote and shared, “There’s no such thing as’ a long time ago.’ There’s only memories that mean something and memories that don’t.” And boy, does this fit the bill. Ultimately, I’ve noticed that the experiences that align with my values become memories, and the experiences that do not align with my values become learnings.
 
 Food for thought!
+
 ---
 
 _Originally published on [Medium](https://medium.com/@wizards777/the-inner-work-truly-never-ends-6e88a81d6b33)._

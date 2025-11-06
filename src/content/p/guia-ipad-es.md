@@ -29,6 +29,7 @@ draft: false
 featured: false
 published: true
 showComments: true
+
 ---
 
 ## Introducción: Nuestra Responsabilidad, No la de Ellos
@@ -38,6 +39,7 @@ En un mundo donde la tecnología digital penetra todos los aspectos de la vida, 
 La respuesta no se encuentra en la prohibición total, sino en la preparación consciente. Esta guía no solo enseña a configurar un iPad para niños, sino que plantea una responsabilidad ética:
 
 > **Los niños no son responsables de su protección. Nosotros, los adultos, lo somos.**
+
 ---
 
 ## 1. Elección del iPad Según la Edad del Niño
@@ -49,6 +51,7 @@ La respuesta no se encuentra en la prohibición total, sino en la preparación c
 - **13+ años:** Puede considerarse un iPad Air con control parental más flexible.
 
 **Tip:** Compra un iPad usado o reacondicionado para reducir costos sin sacrificar calidad.
+
 ---
 
 ## 2. Configuración de Seguridad Inicial
@@ -71,6 +74,7 @@ La respuesta no se encuentra en la prohibición total, sino en la preparación c
 ### c. Desactivar Safari y App Store (opcional)
 
 Desactiva estas opciones desde `Tiempo en pantalla > Restricciones de contenido y privacidad`.
+
 ---
 
 ## 3. Configurar FaceTime con Horarios
@@ -83,6 +87,7 @@ Desactiva estas opciones desde `Tiempo en pantalla > Restricciones de contenido 
    - **Mañana:** 6:45 a.m. – 7:00 a.m.
    - **Noche:** 6:30 p.m. – 7:30 p.m. (cuentos, oración, conexión emocional).
 4. Si no puedes llamar, deja un videomensaje amoroso para ella.
+
 ---
 
 ## 4. Apps Recomendadas para Niños (5 a 8 Años)

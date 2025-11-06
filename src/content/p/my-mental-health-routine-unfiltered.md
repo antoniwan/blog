@@ -25,6 +25,7 @@ draft: false
 featured: false
 published: true
 showComments: true
+
 ---
 
 I’ve spent the last 14 days rebuilding my nervous system from the ground up after completing assessing and reviewing my intelligence and medical health, bloodwork, sexual health, cholesterol, prostate, who knows, I got so many things done on myself; I even got myself a vasectomy appointment in the process. LOL
@@ -56,6 +57,7 @@ Here’s what’s keeping me mentally sharp, emotionally clean, and spiritually 
 You don’t need to copy this list. Make it sacred. Make it yours. Do it with your full attention. **Let it change your life. BROOO!!!!!** (achieve an emotionally regulated nervous system)
 
 🌱 From love. From breath. From truth. Let’s grow.
+
 ---
 
 _Originally published on [Medium](https://medium.com/@wizards777/my-mental-health-routine-unfiltered-1ebfc2b1bde9)._

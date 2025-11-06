@@ -30,6 +30,7 @@ draft: false
 featured: false
 published: true
 showComments: true
+
 ---
 
 _Desde la paz, el respeto, y la crianza compartida_
@@ -45,6 +46,7 @@ Esta crianza es más que acuerdos o deberes.<br>Es sanar lo que no se dijo de ne
 Yo no vine a cambiar tu pasado.<br>Solo quiero que nuestras hijdas tenga a su lado<br>dos adultos que aprendieron a ser humanos,<br>aunque el camino haya sido entrecortado.
 
 Así que si un día flaqueas — como to’ el mundo — <br>yo sigo firme, sin juicio ninguno.<br>Porque la niña en ti… también merece ternura.<br>Y yo, como padre, te la ofrezco con altura.
+
 ---
 
 _Originally published on [Medium](https://medium.com/@wizards777/%EF%B8%8F-pa-la-nena-que-vive-en-ti-511949b6c3c0)._

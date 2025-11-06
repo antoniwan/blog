@@ -31,6 +31,7 @@ draft: false
 featured: true
 published: true
 showComments: true
+
 ---
 
 I asked an AI to look at my writing and tell me what it saw. Four years of posts — 47 pieces about therapy, boundaries, conscious parenting, all that shit. Roughly 150,000 words documenting my journey from unconscious living to... whatever this is. Just wanted some feedback, you know?

@@ -27,6 +27,7 @@ draft: false
 featured: false
 published: true
 showComments: true
+
 ---
 
 ## 🧠 If Your Politics Obsess Over Control, You're Not Well

@@ -27,6 +27,7 @@ draft: false
 featured: false
 published: true
 showComments: true
+
 ---
 
 At the end of March, an intrusive thought hit me hard: "Wow, you're such a loser; you have no pictures to share." This moment wasn't just startling—it was a sobering reminder of how quickly negative self-talk can undermine years of intentional inner work. Four years of therapy, countless hours of reflection, and a commitment to healthier mental paradigms hadn't prevented this destructive thought from appearing. It humbled me profoundly, reminding me that the journey of self-awareness and integration never truly ends. Confronting the ego is an ongoing battle; nourishing the soul, a daily necessity.

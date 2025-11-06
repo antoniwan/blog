@@ -26,6 +26,7 @@ draft: false
 featured: false
 published: true
 showComments: true
+
 ---
 
 ![](https://cdn-images-1.medium.com/max/1200/0*Qr5UWzrPHtajO6PM)
@@ -41,6 +42,7 @@ Sharing is caring! I hope you can apply this type of evidence-based journaling a
 If you notice you make many mistakes in your work, that’s an excellent opportunity to understand a lagoon you might want to work on intentionally. “The obstacle is the way!”
 
 Good luck!
+
 ---
 
 _Originally published on [Medium](https://medium.com/@wizards777/conquering-imposter-syndrome-with-evidence-based-journaling-2dcb62f64e3a)._

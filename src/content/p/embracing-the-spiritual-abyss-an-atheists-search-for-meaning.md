@@ -47,6 +47,7 @@ draft: false
 featured: false
 published: true
 showComments: true
+
 ---
 
 I’ve chosen to be an atheist most of my life, and the older I get, the more I feel a subliminal appetite to believe in a god or some higher power. This deep urge feels almost animalistic or savage — I don’t think my intellect is asking for this; my intuition, spirit, or mind wants to let go and leave everything in something else’s hands. Bluntly said, it feels like my ego, a savage animal — does not want to take the brunt responsibility of living my own life — somebody else- “Oh, dear god,” please take the wheel. Today, I look into the Universe and its energy, shared by all things, but something deep within me keeps thinking about God or gods. My intellect intends to build upon a foundation of humanism, but my soul wants to let go of that work. It’s the same part of me that wants to feel lonely and impotent about the cruelty of this World, seeking gods and the partial delegation of my personal responsibility. “God chose it this way”. My spirit is conflicted — It’s a fancy of powerlessness and hopefulness, like an impulse working to rationalize and defend itself against the bleakness of the World news and the macro-socio-political situations that one learns about studying history or watching the news. It’s a savage urge — lazy, violent, and rudimentary; religion is kind of for savages, isn’t it?
@@ -62,9 +63,11 @@ I’ve made peace with the fact that the Universe is this idea that I, as a huma
 Coming back to the idea of a God or gods, ultimately, I refuse to think there’s an omni-powerful, omnipresent, omniscient, intelligent being out there just watching us all go through all of these shenanigans, unbothered. If I were to assume the existence of such a being, until which point and to what extent could I, as an individual participating in such an experiment (organic life on this planet), feel comfortable with the so-called “free will” such a powerful being bestowed upon us. How can I coincide the ethicality of giving living beings such “free will” with the capacity for such malicious harm? Does this make sense to you? To me, it’s fucking savage- it’s wild- how can we adore or follow such an entity? Nature is cruel and hardcore, it’s evident and apparent, so it means God, gods, and religion is fucking savage?
 
 Share your thoughts; my mind is open and receptive.
+
 ---
 
 Do note that by "spirit", I mean the non-physical part of myself. My emotions and my characters, or the “soul.”
+
 ---
 
 _Originally published on [Medium](https://medium.com/@wizards777/embracing-the-spiritual-abyss-an-atheists-search-for-meaning-ceff0465263b)._

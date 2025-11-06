@@ -25,6 +25,7 @@ draft: false
 featured: false
 published: true
 showComments: true
+
 ---
 
 On Feeling Whole Without Owning Much<br>Or, _On Simplicity and Peace of Mind…_
@@ -86,6 +87,7 @@ Maybe the real brokenness is thinking we ever needed more than this:
 - A soul willing to dance.
 
 I smile. I breathe. I feel the air on my skin and the quiet beating of my heart. I realize: I’m not missing anything. I am — right now — complete.
+
 ---
 
 _Originally published on [Medium](https://medium.com/@wizards777/on-simplicity-and-peace-of-mind-885086031fe9)._

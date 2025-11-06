@@ -40,6 +40,7 @@ draft: false
 featured: true
 published: true
 showComments: true
+
 ---
 
 There was a time — not long ago — when I thought I could optimize my way to being the near-perfect human. I had **33 core values** mapped out like some kind of life operating system. Accountability, Authenticity, Balance, Efficiency, Honesty, Integrity, Kindness, Responsibility... the whole fucking alphabet of human virtue.

@@ -25,6 +25,7 @@ draft: false
 featured: false
 published: true
 showComments: true
+
 ---
 
 ![](https://cdn-images-1.medium.com/max/800/0*U4TRECnXiDzuJhe4)
@@ -65,6 +66,7 @@ Because social platforms aren’t enough. Because algorithms don’t deserve my 
 ![](https://cdn-images-1.medium.com/max/600/1*UGqAcZ0vaPOe3xIF882TRg.jpeg)
 
 <small>100/100 on Real Experience Score.<br> Desktop ✅ Mobile ✅<br> No layout shift. No delay. Just speed and intention.<br> — built for clarity, not clutter.</small>
+
 ---
 
 _Originally published on [Medium](https://medium.com/@wizards777/why-i-built-builds-software-and-what-im-building-next-8e9cda2c5043)._

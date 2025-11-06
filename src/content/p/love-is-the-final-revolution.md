@@ -39,6 +39,7 @@ draft: false
 featured: true
 published: true
 showComments: true
+
 ---
 
 For weeks, I've been drowning in the world's problems — and almost forgot to love my own life. My thoughts, writings, and ramblings have been almost entirely consumed by problems—both microscopic and massive. From dissecting my own self-sabotaging tendencies and the constant work of staying open to feedback, to learning about the ongoing civil war in Sudan, the reality that Israel has universal healthcare- and we don't..., the Gaza crisis, and the tangled mess that our own government officials describe and prescribe… somewhere in that constant stream of madness, I got lost in the sauce.

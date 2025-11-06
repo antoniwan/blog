@@ -26,6 +26,7 @@ draft: false
 featured: true
 published: true
 showComments: true
+
 ---
 
 People say they love intelligent people… until they actually have to deal with one.

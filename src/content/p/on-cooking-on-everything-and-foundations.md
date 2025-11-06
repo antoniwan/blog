@@ -24,6 +24,7 @@ draft: false
 featured: false
 published: true
 showComments: true
+
 ---
 
 ![](https://cdn-images-1.medium.com/max/800/0*5OwYe53tLWY_GA_g)
@@ -35,6 +36,7 @@ I used to require recipes whenever I cooked anything. About 16 years later, now 
 It’s funny how that works and applies to almost anything in life.
 
 Foundational knowledge and experiences change everything else on top of that foundation.
+
 ---
 
 _Originally published on [Medium](https://medium.com/@wizards777/on-cooking-on-everything-and-foundations-0ee089f3f238)._

@@ -26,6 +26,7 @@ draft: false
 featured: false
 published: true
 showComments: true
+
 ---
 
 ## 🎯 PURPOSE
@@ -139,6 +140,7 @@ This is per-project and auto-applies when opening that folder in VS Code.
   }
 }
 ```
+
 ---
 
 ## 🚀 SETUP INSTRUCTIONS
@@ -147,6 +149,7 @@ This is per-project and auto-applies when opening that folder in VS Code.
 2. Copy matching template to your project:
    cp ~/Developer/templates/vscode-green.json ~/Developer/projects/my-project/.vscode/settings.json
 3. Open the folder in VS Code — it will apply automatically.
+
 ---
 
 ## 🧠 GLOSSARY OF TERMS & VALUES
@@ -159,6 +162,7 @@ This is per-project and auto-applies when opening that folder in VS Code.
 <strong>Autonomy</strong> — control over your work rituals and pace  
 <strong>Symbolic UX</strong> — UI that encodes emotion, not just logic  
 <strong>Visual Metaphor</strong> — colors = meaning, aligned with mindset
+
 ---
 
 ## 📚 REFERENCES
@@ -169,6 +173,7 @@ This is per-project and auto-applies when opening that folder in VS Code.
 - <a href="https://code.visualstudio.com/api/references/theme-color" target="_blank" rel="noopener">VS Code Theme Color API (official)</a>
 
 Thank you for exploring these references!
+
 ---
 
 ## 🔮 NEW PARADIGMS THIS SUPPORTS
@@ -177,6 +182,7 @@ Thank you for exploring these references!
 - Tools as Ceremony — your editor becomes a ritual space
 - Neurodiversity Support — great for visual/spatial learners
 - AI & Context Awareness — layered states encoded visually
+
 ---
 
 ## 🔭 NEXT STEPS & IDEAS
@@ -184,6 +190,7 @@ Thank you for exploring these references!
 - Extend to terminal title bar colors (iTerm2, etc.)
 - CLI tool to switch project levels dynamically
 - Add icon and emoji indicators to VS Code explorer
+
 ---
 
 ## 🧭 SUMMARY

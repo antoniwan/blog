@@ -25,6 +25,7 @@ draft: false
 featured: false
 published: true
 showComments: true
+
 ---
 
 ![](https://cdn-images-1.medium.com/max/800/0*LGUj3QSKtde1imkk)
@@ -52,6 +53,7 @@ Now that I’m not turning my eye blind to my wants and needs, and I can underst
 My healing journey — which involves psychological therapy, reading, journaling, physical movement, meditation, and many other tools — has helped me identify, learn, relearn, and unlearn many concepts, values, and ideas. But I believe one of the main takeaways is that we are all so interconnected whether we like it or not, whether we want to acknowledge it or not. The “good” and the “bad” too. I was so naive and protected inside my bubble, people-pleasing and avoiding external conflict as much as I could, living a fake life, and lying to myself and others. Now that I’m not blind to nature, human nature, my own, and others, I have to admit that yeah, being healthy is fantastic, but having my eyes open opens up oneself to so much in this World — a very cruel World — which we, through action, must keep healing and making safe and kind for everyone — if this is what our values align with, of course. There’s so much work to be done. I hope this idea helps you, those around you, and your surroundings to be a kinder or safer place — which, in my humble opinion, makes us much more substantial, productive, efficient, and inspired.
 
 Also, now that our eyes are open, we can identify individuals with little to no interest in applying these concepts and values when dealing with us. Show some self-compassion and self-respect, and act accordingly.
+
 ---
 
 _Originally published on [Medium](https://medium.com/@wizards777/on-the-application-of-empathy-and-compassion-4da4330c0698)._

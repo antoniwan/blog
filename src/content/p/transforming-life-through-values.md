@@ -28,6 +28,7 @@ draft: false
 featured: true
 published: true
 showComments: true
+
 ---
 
 > Warning: The following essay is a lengthy humblebrag! Close your browser tab now if you are unable to experience freudenfreude. Close your browser tab now if you do not want to take responsibility for your life and are hurt when others can do so.
@@ -125,6 +126,7 @@ Power is achievable if you put your mind, body, and soul (and time) into it; I a
 And last but not least, I have to admit that I possess so much privilege in our society; I can afford therapy and time to think, read, write, and work on myself. Most of us can't even afford the time or the economic means to do so. This is so fucked up and is why we are so broken down as a society and even more reason to work even harder in yourself and love yourself — accepting yourself as is. I could not accept myself as I was because I was imbalanced and unfulfilled. I admit it. I had to transform because I hated that NPC dude; now, I accept myself with open arms because my actions align with what I value. I wish our governments, systems, and powers that would be aligned to values that benefit us directly and indirectly. I wish I could do more, like Garou or Saitama. Dreams are nice.
 
 Food for thought.
+
 ---
 
 _This article was originally published on [Medium](https://medium.com/@wizards777/transforming-my-life-through-the-application-of-what-i-value-aa000cad0312). I'm sharing it here as part of my journey of self-reflection and growth, hoping it might resonate with others on a similar path._

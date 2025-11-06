@@ -25,6 +25,7 @@ draft: false
 featured: false
 published: true
 showComments: true
+
 ---
 
 ![](https://cdn-images-1.medium.com/max/2560/0*BQJenuJis7weGzho)
@@ -50,6 +51,7 @@ Unbeknownst to them and independent of whatever happens to us, this person will 
 So many moments in my life come to mind where people around me told me things, insinuations, some direct, other indirect, felt, emotions, motions, messages, and communications that I dismissed, intentionally or unintentionally.
 
 “You are joking, right?” The pattern, the shield, the blind spot. The path I must walk now to understand, accept, feel, learn, heal, practice, and stop doing this nonsense looks fun. More work. The work never ends. I’m going to stop here for now. Sharing is caring.
+
 ---
 
 _Originally published on [Medium](https://medium.com/@wizards777/you-are-joking-right-69d482f85875)._

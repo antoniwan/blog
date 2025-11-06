@@ -28,6 +28,7 @@ featured: false
 published: true
 showComments: true
 translationGroup: toddler-internet-safety
+
 ---
 
 ## Our Digital Responsibility as Parents
@@ -36,6 +37,7 @@ In Puerto Rico—and across the world—we now raise children in an age where th
 The Internet is NOT made for children. It's a wild field filled with beauty, but also with garbage, violence, extreme sexuality, and content a young child is not ready to handle.
 
 > **A child's mind is like fertile soil. Whatever you plant now will either bloom—or rot—later.**
+
 ---
 
 ## 🛡️ Why do we need to protect kids from the Internet?
@@ -44,6 +46,7 @@ The Internet is NOT made for children. It's a wild field filled with beauty, but
 - **Violent or sexual content** can cause trauma, anxiety, identity confusion, or even early addiction.
 - **Algorithms have no compassion.** Their only goal is to keep your child watching.
 - **Modern porn** is not educational or harmless. It's often grotesque, violent, and degrading.
+
 ---
 
 ## ⚙️ How to keep your child safe on Windows 11 or macOS
@@ -69,6 +72,7 @@ The Internet is NOT made for children. It's a wild field filled with beauty, but
 
 - Use Chrome/Safari/Edge to manually check history.
 - Consider apps like **Qustodio, Norton Family, or Bark** for detailed monitoring.
+
 ---
 
 ## 🚨 What if I find out my child watched porn?
@@ -95,6 +99,7 @@ The Internet is NOT made for children. It's a wild field filled with beauty, but
 
 - Seek professional help if needed.
 - Reaffirm safety and connection daily.
+
 ---
 
 ## 💬 How to talk about hard topics without fear
@@ -102,6 +107,7 @@ The Internet is NOT made for children. It's a wild field filled with beauty, but
 - Use stories, analogies, and symbolic play.
 - Teach them to say "no" and trust their instincts.
 - Avoid moralizing. Teach boundaries, not shame.
+
 ---
 
 ## 📚 Recommended Reading for Conscious Parenting
@@ -111,6 +117,7 @@ The Internet is NOT made for children. It's a wild field filled with beauty, but
 - **"How to Talk So Kids Will Listen & Listen So Kids Will Talk"** – Adele Faber & Elaine Mazlish
 - **"Glow Kids"** – Nicholas Kardaras
 - **"For Your Own Good"** – Alice Miller
+
 ---
 
 ## 📖 Glossary
@@ -120,6 +127,7 @@ The Internet is NOT made for children. It's a wild field filled with beauty, but
 - **Explicit content:** Sexual, violent, or hateful content.
 - **Digital addiction:** A compulsive need to stay online to feel pleasure or avoid discomfort.
 - **Overstimulation:** When the brain receives too many stimuli and can't properly rest.
+
 ---
 
 ## 🔗 Useful Resources
@@ -129,6 +137,7 @@ The Internet is NOT made for children. It's a wild field filled with beauty, but
 - Kardaras, N. (2016). _Glow Kids: How Screen Addiction Is Hijacking Our Kids_. St. Martin's Press.
 - Common Sense Media. (2025). _Family Guides and Reviews_. https://www.commonsensemedia.org/
 - Qustodio. (2025). _Parental Control Tools for All Devices_. https://www.qustodio.com/
+
 ---
 
 ## 🌱 Final Thought: Protect Now, Educate Always

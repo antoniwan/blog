@@ -23,6 +23,7 @@ draft: false
 featured: false
 published: true
 showComments: true
+
 ---
 
 The respect people have treated me since becoming healthy is staggering to me. I feel that I went from being a ghost, somebody who just coasted through life behind the scenes, eyes glued to the ground, always smiling to appear content, docile, and pleasing, to be truthful to my wants and needs and recognized and respected by the people who interact around and with me, whether they like me or not. Respect, to me, is this mutual energy or aura that says, hey, I will treat you with consideration and kindness, even if I disagree with you, and be treated with reciprocity. That energy says, "I will give this my best, whatever it is," in every interaction. Even in conflict, beware; people will be aware and act accordingly. People understand this and reciprocate in form. It's beautiful and inspiring. Look for any dictionary definition of 'respect' and see how powerful this concept is!
@@ -36,6 +37,7 @@ Active listening is yet another thing to be mindful of, as well as how important
 All in all, I hear so much noise about respect, but in this society where integrity is lacking, our media and government lie, bloat, obscure, and manipulate us; there's nowhere to go and see actual respect being practiced. It's up to us to gain that respect, apply it, reciprocate it, and model it. And being on the receiving end is so refreshing and awe-inspiring.
 
 Food for thought.
+
 ---
 
 _This post was originally published on [Medium](https://medium.com/@wizards777/notes-on-respect-0ff922fedccf)._

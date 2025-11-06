@@ -26,12 +26,14 @@ draft: false
 featured: false
 published: true
 showComments: true
+
 ---
 
 _Created by Antonio. Logged by Beastiex._  
 _Date: May 2, 2025_
 
 #recipe #chicken
+
 ---
 
 ## 🥩 Ingredients:
@@ -42,6 +44,7 @@ _Date: May 2, 2025_
 - **1–2 lemons** (zest + juice)
 - **1–2 tbsp raw honey**
 - _(Optional)_: 1 garlic clove (minced), parsley, chili flakes, flaky salt
+
 ---
 
 ## 🛠️ Equipment:
@@ -50,6 +53,7 @@ _Date: May 2, 2025_
 - Baking sheet
 - Drip tray underneath (optional but recommended)
 - Oven preheated to **350°F**
+
 ---
 
 ## 🔥 Instructions:
@@ -82,6 +86,7 @@ _Date: May 2, 2025_
 - While hot, **brush raw honey** over the skin.
 - **Squeeze the roasted lemons** over the chicken for bright acidity.
 - _(Optional)_: Add extra pepper, flaky salt, or fresh parsley before serving.
+
 ---
 
 ## 💡 Tips & Variations:
@@ -89,6 +94,7 @@ _Date: May 2, 2025_
 - For sweet heat: add chili flakes to honey.
 - For stronger garlic: sauté garlic in oil, then mix into honey.
 - Serve with: roasted potatoes, couscous, broccolini, or arugula salad.
+
 ---
 
 ## 📦 Meal Prep Notes:

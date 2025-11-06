@@ -25,6 +25,7 @@ draft: false
 featured: false
 published: true
 showComments: true
+
 ---
 
 It finally clicked for me that being a mindful parent implies I have to model the behaviors I want my offspring to possess. Suppose I want my children to be excellent and happy. In that case, I must practice excellence and work to be a balanced and fulfilled individual. We set the tone! It's not the other way around — children learn everything from scratch!
@@ -46,6 +47,7 @@ Truth be told, I "knew" all of that stuff. I had read the books OK. I had heard 
 So, in conclusion, why is it so natural for me to wake up early and cook for the family? Ah, because that's what my mom did for me, making me feel loved. That's what I have known most of my life as a child. Why is it so fun for me to work? Ah, because my dad was nuts about work, I got that work ethic from him — he enjoys trying to perfect whatever skill or craft he's doing. So why am I (was) such a sourpuss? Ah, that's probably my dad's influence too.
 
 Food for thought.
+
 ---
 
 _This post was originally published on [Medium](https://medium.com/@wizards777/note-to-self-on-being-a-conscious-parent-a1c0e429f5fb)._

@@ -27,6 +27,7 @@ draft: false
 featured: true
 published: true
 showComments: true
+
 ---
 
 > This is a silent topic. Nobody really wants to talk about it. I think because it's uncomfortable. It exposes things most people would rather keep hidden. But here we go — no ego, no drama, just truth. If this resonates, or if it challenges you, leave a comment below. I'll reply to every comment personally. Let's sharpen each other the way warriors are supposed to — with presence, respect, and real conversation. ¡Gracias por leer!
@@ -207,6 +208,7 @@ It is simply time to lead anyway. **Quietly. Fiercely. Without regret.**
 </figure>
 
 P.S. After dropping this, I somehow found "The Leadership Blade" by Dr. Calvin McDowall… I swear on everything I love — I had never read his stuff before — and it's like we share a braincell lmao. It's fucking insane how aligned it is. If you're feeling what I'm saying, read his too. Legends recognize legends. 🐺
+
 ---
 
 _Originally published on [Medium](https://medium.com/@wizards777/mercy-through-the-blade-the-silent-law-of-leadership-24cef2df828a)._

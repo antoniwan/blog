@@ -31,6 +31,7 @@ draft: false
 featured: true
 published: true
 showComments: true
+
 ---
 
 My daughter has never cut her hair. She's five now, and it covers her entire back. When she stays with me, she refuses to brush it herself, so I do it for her. It takes about an hour every day.
