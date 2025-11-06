@@ -17,15 +17,8 @@ const { category, postCount, featured = false, compact = false } = Astro.props;
   class:list={{
     'featured-category': featured,
     'compact-category': compact,
-    'hover:-translate-y-2': !compact,
-    'hover:-translate-y-1': compact,
   }}
 >
-  <!-- Subtle gradient overlay -->
-  <div
-    class="transition-normal pointer-events-none absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-[rgb(var(--color-accent))]/5 opacity-0 group-hover:opacity-100"
-  >
-  </div>
 
   <!-- Card content -->
   <div class="relative p-6 md:p-8">
@@ -33,7 +26,7 @@ const { category, postCount, featured = false, compact = false } = Astro.props;
       <!-- Icon -->
       <div class="flex-shrink-0">
         <div
-          class="theme-transition flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-[rgb(var(--color-accent))]/10 to-[rgb(var(--color-accent))]/10 text-2xl group-hover:scale-110 md:h-14 md:w-14 md:text-3xl"
+          class="theme-transition flex h-12 w-12 items-center justify-center rounded-xl bg-[rgb(var(--color-accent))]/10 text-2xl md:h-14 md:w-14 md:text-3xl"
         >
           {category.icon}
         </div>
@@ -42,7 +35,7 @@ const { category, postCount, featured = false, compact = false } = Astro.props;
       <!-- Content -->
       <div class="min-w-0 flex-1">
         <h3
-          class="transition-normal mb-2 mt-0 text-xl font-semibold leading-tight text-[rgb(var(--color-text))] group-hover:text-[rgb(var(--color-accent))] md:text-2xl"
+          class="mb-2 mt-0 text-xl font-semibold leading-tight text-[rgb(var(--color-text))] md:text-2xl"
         >
           {category.name}
         </h3>
@@ -60,9 +53,7 @@ const { category, postCount, featured = false, compact = false } = Astro.props;
             {postCount}
             {postCount === 1 ? 'writing' : 'writings'}
           </span>
-          <span
-            class="transition-normal font-semibold text-[rgb(var(--color-accent))] group-hover:translate-x-1"
-          >
+          <span class="font-semibold text-[rgb(var(--color-accent))]">
             →
           </span>
         </div>
@@ -70,25 +61,18 @@ const { category, postCount, featured = false, compact = false } = Astro.props;
     </div>
   </div>
 
-  <!-- Hover indicator -->
-  <div
-    class="transition-normal absolute bottom-0 left-0 right-0 h-1 origin-left scale-x-0 transform bg-gradient-to-r from-[rgb(var(--color-accent))] to-[rgb(var(--color-accent))] group-hover:scale-x-100"
-  >
-  </div>
 </a>
 
 <style>
-  /* Enhanced category card styling */
+  /* Simplified category card styling */
   a {
-    transition: all 0.2s ease;
-    backdrop-filter: blur(8px);
+    transition: box-shadow 0.2s ease, border-color 0.2s ease;
   }
 
-  /* Featured category styling */
+  /* Simplified featured category styling */
   .featured-category {
     border-color: rgb(var(--color-accent) / 0.2);
-    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
-    background: linear-gradient(135deg, rgb(var(--color-bg)) 0%, rgb(var(--color-bg-alt)) 100%);
+    box-shadow: 0 2px 8px -2px rgb(0 0 0 / 0.1);
   }
 
   /* Compact category styling */
@@ -100,24 +84,17 @@ const { category, postCount, featured = false, compact = false } = Astro.props;
     @apply space-y-2;
   }
 
-  /* Enhanced hover effects */
+  /* Simplified hover effects */
   .group:hover {
-    box-shadow:
-      0 20px 25px -5px rgb(0 0 0 / 0.1),
-      0 10px 10px -5px rgb(0 0 0 / 0.04);
+    box-shadow: 0 4px 12px -2px rgb(0 0 0 / 0.15);
     border-color: rgb(var(--color-accent) / 0.2);
   }
 
-  /* Enhanced focus states */
+  /* Focus states */
   .group:focus {
     outline: 2px solid rgb(var(--color-accent));
     outline-offset: 2px;
     border-radius: 0.75rem;
-  }
-
-  /* Icon hover effects */
-  .group:hover .w-12 {
-    transform: scale(1.1);
   }
 
   /* Respect reduced motion preferences */
@@ -127,14 +104,6 @@ const { category, postCount, featured = false, compact = false } = Astro.props;
     }
 
     .group:hover {
-      transform: none;
-    }
-
-    .group:hover .scale-x-100 {
-      transform: none;
-    }
-
-    .group:hover .w-12 {
       transform: none;
     }
   }
@@ -150,11 +119,6 @@ const { category, postCount, featured = false, compact = false } = Astro.props;
 
   /* Responsive adjustments */
   @media (max-width: 768px) {
-    /* Smaller hover effect on mobile */
-    .group:hover {
-      transform: translateY(-1px);
-    }
-
     /* Adjust icon size for mobile */
     .w-12.h-12 {
       @apply h-10 w-10;

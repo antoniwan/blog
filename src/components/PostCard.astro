@@ -23,8 +23,6 @@ const readingTime = calculateReadingTimeFromMarkdown(post.body || '');
   class:list={{
     'featured-card': featured,
     'compact-card': compact,
-    'hover:-translate-y-2': !compact,
-    'hover:-translate-y-1': compact,
   }}
   role="article"
   data-post-slug={post.id}
@@ -34,11 +32,6 @@ const readingTime = calculateReadingTimeFromMarkdown(post.body || '');
     <span class="read-dot"></span>
   </div>
 
-  <!-- Enhanced gradient overlay with shocking highlights -->
-  <div
-    class="transition-normal pointer-events-none absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-[rgb(var(--color-primary))]/10 opacity-0 group-hover:opacity-100"
-  >
-  </div>
 
   <!-- Hero Image Container - Enhanced for consistent sizing and coverage -->
   <div class="image-container relative overflow-hidden rounded-t-lg">
@@ -47,22 +40,17 @@ const readingTime = calculateReadingTimeFromMarkdown(post.body || '');
         <img
           src={data.heroImage}
           alt={data.title}
-          class="h-48 w-full object-cover object-center transition-opacity duration-300 group-hover:opacity-85 md:h-56"
+          class="h-48 w-full object-cover object-center md:h-56"
           loading="lazy"
         />
       ) : (
         <DefaultImage
           alt={data.title}
-          className="w-full h-48 md:h-56 object-cover object-center group-hover:opacity-85 transition-opacity duration-300"
+          className="w-full h-48 md:h-56 object-cover object-center"
           loading="lazy"
         />
       )
     }
-    <!-- Image overlay gradient -->
-    <div
-      class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-    >
-    </div>
   </div>
 
   <!-- Card content -->
@@ -99,7 +87,7 @@ const readingTime = calculateReadingTimeFromMarkdown(post.body || '');
         </div>
 
         <h2
-          class="transition-normal text-xl font-bold leading-tight text-[rgb(var(--color-text))] group-hover:text-[rgb(var(--color-primary))] sm:text-2xl md:text-3xl"
+          class="text-xl font-bold leading-tight text-[rgb(var(--color-text))] sm:text-2xl md:text-3xl"
         >
           <a href={`/p/${post.id}/`} class="block">
             {data.title}
@@ -127,11 +115,6 @@ const readingTime = calculateReadingTimeFromMarkdown(post.body || '');
     </div>
   </div>
 
-  <!-- Hover indicator -->
-  <div
-    class="transition-normal absolute bottom-0 left-0 right-0 h-1 origin-left scale-x-0 transform bg-gradient-to-r from-[rgb(var(--color-primary))] to-[rgb(var(--color-primary))] group-hover:scale-x-100"
-  >
-  </div>
 </article>
 
 <script>
@@ -319,14 +302,11 @@ const readingTime = calculateReadingTimeFromMarkdown(post.body || '');
     box-shadow: 0 0 0 2px rgb(34, 197, 94, 0.2);
   }
 
-  /* Enhanced card styling */
+  /* Simplified card styling */
   article {
-    transition: all 0.2s ease;
-    backdrop-filter: blur(8px);
-    border: 1px solid rgb(var(--color-border) / 0.1);
-    box-shadow:
-      0 1px 3px 0 rgb(0 0 0 / 0.1),
-      0 1px 2px 0 rgb(0 0 0 / 0.06);
+    transition: box-shadow 0.2s ease, border-color 0.2s ease;
+    border: 1px solid rgb(var(--color-border) / 0.2);
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
   }
 
   /* Enhanced image container styling for consistent sizing and coverage */
@@ -338,26 +318,15 @@ const readingTime = calculateReadingTimeFromMarkdown(post.body || '');
     overflow: hidden;
   }
 
-  /* Ensure images cover the entire container without any gaps or lines */
+  /* Ensure images cover the entire container */
   .image-container img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     object-position: center;
     display: block;
-    /* Remove any potential borders or outlines */
     border: none;
     outline: none;
-    /* Ensure smooth scaling */
-    transform: scale(1);
-    transition:
-      transform 0.3s ease,
-      opacity 0.3s ease;
-  }
-
-  /* Hover effect for images */
-  .group:hover .image-container img {
-    transform: scale(1.05);
   }
 
   /* Responsive image heights */
@@ -367,13 +336,10 @@ const readingTime = calculateReadingTimeFromMarkdown(post.body || '');
     }
   }
 
-  /* Featured card styling */
+  /* Simplified featured card styling */
   .featured-card {
     border: 2px solid rgb(var(--color-primary) / 0.3);
-    box-shadow:
-      0 8px 25px -5px rgb(var(--color-primary) / 0.1),
-      0 4px 10px -5px rgb(var(--color-primary) / 0.05);
-    background: linear-gradient(135deg, rgb(var(--color-bg)) 0%, rgb(var(--color-bg-alt)) 100%);
+    box-shadow: 0 4px 12px -2px rgb(var(--color-primary) / 0.15);
   }
 
   /* Compact card styling */
@@ -393,13 +359,10 @@ const readingTime = calculateReadingTimeFromMarkdown(post.body || '');
     margin-top: 1.25rem;
   }
 
-  /* Enhanced hover effects */
+  /* Simplified hover effects */
   .group:hover {
-    box-shadow:
-      0 20px 25px -5px rgb(0 0 0 / 0.1),
-      0 10px 10px -5px rgb(0 0 0 / 0.04);
+    box-shadow: 0 4px 12px -2px rgb(0 0 0 / 0.15);
     border-color: rgb(var(--color-primary) / 0.3);
-    transform: translateY(-2px);
   }
 
   /* Enhanced focus states */
@@ -449,16 +412,9 @@ const readingTime = calculateReadingTimeFromMarkdown(post.body || '');
       transform: none;
     }
 
-    .group:hover img {
-      transform: none !important;
-    }
-
     .read-dot {
       transition: none !important;
     }
 
-    .image-container img {
-      transition: opacity 0.3s ease !important;
-    }
   }
 </style>

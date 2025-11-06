@@ -76,7 +76,7 @@ const paddingClasses = {
 <a
   href="/"
   class:list={[
-    'group inline-flex items-center gap-2.5 rounded-lg font-serif font-bold tracking-tight text-[rgb(var(--color-text))] transition-all duration-300 ease-out hover:text-[rgb(var(--color-accent))] focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:ring-offset-2 focus:ring-offset-[rgb(var(--color-bg))]',
+    'group inline-flex items-center gap-2.5 rounded-lg font-serif font-bold tracking-tight text-[rgb(var(--color-text))] transition-colors duration-200 ease-out hover:text-[rgb(var(--color-accent))] focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:ring-offset-2 focus:ring-offset-[rgb(var(--color-bg))]',
     showHoverBg && 'hover:bg-[rgb(var(--color-bg-alt))]',
     showHoverBg && paddingClasses[size],
     sizeClasses[size],
@@ -87,7 +87,7 @@ const paddingClasses = {
   <!-- Icon Section -->
   <span
     class:list={[
-      'text-[rgb(var(--color-accent))] transition-all duration-300 ease-out group-hover:rotate-3 group-hover:scale-110 group-hover:drop-shadow-sm',
+      'text-[rgb(var(--color-accent))]',
       iconSizeClasses[size],
       useSvg && 'flex items-center justify-center',
     ]}
@@ -134,10 +134,6 @@ const paddingClasses = {
 </a>
 
 <style>
-  /* Enhanced hover effects */
-  .group:hover {
-    transform: translateY(-1px);
-  }
 
   /* Respect reduced motion preferences */
   @media (prefers-reduced-motion: reduce) {

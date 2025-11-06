@@ -65,18 +65,7 @@
     line-height: 1.7;
   }
 
-  /* Drop cap for first paragraph - unique enhancement */
-  .prose > p:first-of-type::first-letter {
-    float: left;
-    font-size: 4.5em;
-    line-height: 0.8;
-    margin-right: 0.1em;
-    margin-bottom: 0.1em;
-    font-family: var(--font-serif);
-    color: rgb(var(--color-primary));
-  }
-
-  /* Enhanced blockquote styling - unique enhancement */
+  /* Simplified blockquote styling */
   .prose blockquote {
     border-left-width: 4px;
     border-left-color: rgb(var(--color-primary));
@@ -85,20 +74,8 @@
     background-color: rgb(var(--color-bg-alt));
     padding: 1.5rem;
     border-radius: 0 0.5rem 0.5rem 0;
-    position: relative;
     margin: 2rem 0;
     line-height: 1.7;
-  }
-
-  .prose blockquote::before {
-    content: '"';
-    font-size: 4em;
-    position: absolute;
-    left: 0.5rem;
-    top: -0.5rem;
-    color: rgb(var(--color-primary));
-    font-family: var(--font-serif);
-    opacity: 0.2;
   }
 
   /* Typography scale utilities - optimized for legibility */

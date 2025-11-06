@@ -56,6 +56,19 @@ export default defineConfig({
   },
   // Vite optimizations for better performance
   vite: {
+    server: {
+      watch: {
+        // Enable polling for better file watching on Windows
+        usePolling: true,
+        interval: 100,
+      },
+      hmr: {
+        // Ensure HMR works properly
+        protocol: 'ws',
+        host: 'localhost',
+        port: 4321,
+      },
+    },
     build: {
       cssMinify: true,
       minify: 'terser',
@@ -76,7 +89,7 @@ export default defineConfig({
       },
     },
     css: {
-      devSourcemap: false, // Disable sourcemaps in production
+      devSourcemap: true, // Enable sourcemaps in dev for better HMR
     },
     optimizeDeps: {
       include: ['@astrojs/mdx', 'date-fns', 'reading-time'],

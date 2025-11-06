@@ -173,23 +173,9 @@ const topCategories = categories
     margin-top: 2.5rem;
   }
 
-  /* Smooth hover transitions */
+  /* Simplified hover transitions */
   .group:hover {
-    transform: translateY(-2px);
-    box-shadow:
-      0 10px 25px -3px rgb(0 0 0 / 0.1),
-      0 4px 6px -2px rgb(0 0 0 / 0.05);
-  }
-
-  /* Category card enhancements */
-  .group:hover .text-[rgb(var(--color-accent))] {
-    transform: scale(1.05);
-  }
-
-  /* Smooth icon transitions */
-  .group .text-2xl,
-  .group .text-3xl {
-    transition: transform 0.2s ease;
+    box-shadow: 0 4px 12px -2px rgb(0 0 0 / 0.15);
   }
 
   /* Respect reduced motion preferences */
