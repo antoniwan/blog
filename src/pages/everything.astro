@@ -1,6 +1,5 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
-import Container from '../components/Container.astro';
 import LazyPosts from '../components/LazyPosts.astro';
 import { getCollection } from 'astro:content';
 
@@ -15,19 +14,12 @@ const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDa
 
 <PageLayout
   title="Everything (All Posts)"
-  description="The full record, newest to oldest."
+  description="The full record, newest to oldest. Scroll away! 📝"
   path="/everything"
   structuredDataType="website"
 >
-  <Container>
-    <div class="mb-8 md:mb-12">
-      <h1 class="text-heading mb-4 text-[rgb(var(--color-text))]">Everything (All Posts)</h1>
-      <p class="text-body-large leading-relaxed text-[rgb(var(--color-text-muted))]">
-        The full record, newest to oldest.
-      </p>
-    </div>
-
-    {sortedPosts.length > 0 ? (
+  {
+    sortedPosts.length > 0 ? (
       <LazyPosts posts={sortedPosts} initialCount={12} loadMoreCount={12} />
     ) : (
       <div class="py-16 text-center md:py-20">
@@ -39,7 +31,6 @@ const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDa
           </p>
         </div>
       </div>
-    )}
-  </Container>
+    )
+  }
 </PageLayout>
-
