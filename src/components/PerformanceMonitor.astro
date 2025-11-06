@@ -26,7 +26,7 @@
       this.observeCLS();
       this.measureFCP();
       this.measureTTFB();
-      
+
       // Report metrics when page is hidden (user navigates away)
       document.addEventListener('visibilitychange', () => {
         if (document.visibilityState === 'hidden') {
@@ -42,14 +42,14 @@
             const entries = list.getEntries();
             const lastEntry = entries[entries.length - 1];
             this.metrics.lcp = lastEntry.startTime;
-            
+
             // Log LCP element for debugging
             if (lastEntry.element) {
               console.log('LCP Element:', lastEntry.element);
               console.log('LCP Time:', lastEntry.startTime);
             }
           });
-          
+
           observer.observe({ entryTypes: ['largest-contentful-paint'] });
         } catch (e) {
           console.warn('LCP observation failed:', e);
@@ -62,11 +62,11 @@
         try {
           const observer = new PerformanceObserver((list) => {
             const entries = list.getEntries();
-            entries.forEach(entry => {
+            entries.forEach((entry) => {
               this.metrics.fid = entry.processingStart - entry.startTime;
             });
           });
-          
+
           observer.observe({ entryTypes: ['first-input'] });
         } catch (e) {
           console.warn('FID observation failed:', e);
@@ -86,7 +86,7 @@
             }
             this.metrics.cls = clsValue;
           });
-          
+
           observer.observe({ entryTypes: ['layout-shift'] });
         } catch (e) {
           console.warn('CLS observation failed:', e);
@@ -102,7 +102,7 @@
             const firstEntry = entries[0];
             this.metrics.fcp = firstEntry.startTime;
           });
-          
+
           observer.observe({ entryTypes: ['paint'] });
         } catch (e) {
           console.warn('FCP measurement failed:', e);
@@ -115,13 +115,13 @@
         try {
           const observer = new PerformanceObserver((list) => {
             const entries = list.getEntries();
-            entries.forEach(entry => {
+            entries.forEach((entry) => {
               if (entry.entryType === 'navigation') {
                 this.metrics.ttfb = entry.responseStart - entry.requestStart;
               }
             });
           });
-          
+
           observer.observe({ entryTypes: ['navigation'] });
         } catch (e) {
           console.warn('TTFB measurement failed:', e);
@@ -133,19 +133,19 @@
       // Send metrics to analytics or log them
       if (Object.keys(this.metrics).length > 0) {
         console.log('Performance Metrics:', this.metrics);
-        
+
         // Send to Vercel Analytics if available
         if (window.va) {
           window.va.track('performance_metrics', this.metrics);
         }
-        
+
         // Send to Google Analytics if available
         if (window.gtag) {
           window.gtag('event', 'performance_metrics', {
             event_category: 'Performance',
             event_label: 'Core Web Vitals',
             value: Math.round(this.metrics.lcp || 0),
-            custom_parameters: this.metrics
+            custom_parameters: this.metrics,
           });
         }
       }
@@ -158,10 +158,10 @@
 
   // Initialize performance monitoring
   const performanceMonitor = new PerformanceMonitor();
-  
+
   // Expose for debugging
   window.performanceMonitor = performanceMonitor;
-  
+
   // Log performance marks
   if ('performance' in window) {
     performance.mark('performance-monitor-init');
@@ -184,53 +184,71 @@
     z-index: 9999;
     display: none;
   }
-  
+
   .performance-debug.visible {
     display: block;
   }
-  
+
   .performance-debug h4 {
     margin: 0 0 5px 0;
     font-size: 14px;
   }
-  
+
   .performance-debug .metric {
     margin: 2px 0;
   }
-  
-  .performance-debug .good { color: #10b981; }
-  .performance-debug .needs-improvement { color: #f59e0b; }
-  .performance-debug .poor { color: #ef4444; }
+
+  .performance-debug .good {
+    color: #10b981;
+  }
+  .performance-debug .needs-improvement {
+    color: #f59e0b;
+  }
+  .performance-debug .poor {
+    color: #ef4444;
+  }
 </style>
 
 <!-- Debug panel (only visible in development) -->
-{import.meta.env.DEV && (
-  <div class="performance-debug" id="performance-debug">
-    <h4>Performance Metrics</h4>
-    <div class="metric" id="fcp-metric">FCP: --</div>
-    <div class="metric" id="lcp-metric">LCP: --</div>
-    <div class="metric" id="fid-metric">FID: --</div>
-    <div class="metric" id="cls-metric">CLS: --</div>
-    <div class="metric" id="ttfb-metric">TTFB: --</div>
-  </div>
-)}
+{
+  import.meta.env.DEV && (
+    <div class="performance-debug" id="performance-debug">
+      <h4>Performance Metrics</h4>
+      <div class="metric" id="fcp-metric">
+        FCP: --
+      </div>
+      <div class="metric" id="lcp-metric">
+        LCP: --
+      </div>
+      <div class="metric" id="fid-metric">
+        FID: --
+      </div>
+      <div class="metric" id="cls-metric">
+        CLS: --
+      </div>
+      <div class="metric" id="ttfb-metric">
+        TTFB: --
+      </div>
+    </div>
+  )
+}
 
 <script>
   // Debug panel functionality (development only)
   if (import.meta.env.DEV) {
     const debugPanel = document.getElementById('performance-debug');
     const metrics = ['fcp', 'lcp', 'fid', 'cls', 'ttfb'];
-    
+
     // Update debug panel every second
     setInterval(() => {
       const currentMetrics = window.performanceMonitor?.getMetrics() || {};
-      
-      metrics.forEach(metric => {
+
+      metrics.forEach((metric) => {
         const element = document.getElementById(`${metric}-metric`);
         if (element && currentMetrics[metric] !== undefined) {
           const value = currentMetrics[metric];
           let status = 'good';
-          
+
           // Determine status based on Core Web Vitals thresholds
           if (metric === 'lcp') {
             if (value > 4000) status = 'poor';
@@ -245,13 +263,13 @@
             if (value > 0.25) status = 'poor';
             else if (value > 0.1) status = 'needs-improvement';
           }
-          
+
           element.textContent = `${metric.toUpperCase()}: ${Math.round(value)}ms`;
           element.className = `metric ${status}`;
         }
       });
     }, 1000);
-    
+
     // Toggle debug panel with Ctrl+Shift+P
     document.addEventListener('keydown', (e) => {
       if (e.ctrlKey && e.shiftKey && e.key === 'P') {

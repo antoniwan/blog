@@ -1,137 +1,137 @@
 ---
 interface Props {
-	class?: string;
+  class?: string;
 }
 
 const { class: className = '' } = Astro.props;
 ---
 
 <button
-	type="button"
-	class:list={[
-		'inline-flex items-center justify-center p-2 rounded-lg text-[rgb(var(--color-text-muted))] hover:text-[rgb(var(--color-accent))] hover:bg-[rgb(var(--color-bg-alt))] theme-transition',
-		className
-	]}
-	aria-label="Toggle theme"
-	id="theme-toggle"
+  type="button"
+  class:list={[
+    'theme-transition inline-flex items-center justify-center rounded-lg p-2 text-[rgb(var(--color-text-muted))] hover:bg-[rgb(var(--color-bg-alt))] hover:text-[rgb(var(--color-accent))]',
+    className,
+  ]}
+  aria-label="Toggle theme"
+  id="theme-toggle"
 >
-	<!-- Sun icon for light mode -->
-	<svg
-		class="h-6 w-6 dark:hidden"
-		fill="none"
-		stroke="currentColor"
-		viewBox="0 0 24 24"
-		xmlns="http://www.w3.org/2000/svg"
-		aria-hidden="true"
-	>
-		<path
-			stroke-linecap="round"
-			stroke-linejoin="round"
-			stroke-width="2"
-			d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
-		/>
-	</svg>
-	
-	<!-- Moon icon for dark mode -->
-	<svg
-		class="hidden h-6 w-6 dark:block"
-		fill="none"
-		stroke="currentColor"
-		viewBox="0 0 24 24"
-		xmlns="http://www.w3.org/2000/svg"
-		aria-hidden="true"
-	>
-		<path
-			stroke-linecap="round"
-			stroke-linejoin="round"
-			stroke-width="2"
-			d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
-		/>
-	</svg>
+  <!-- Sun icon for light mode -->
+  <svg
+    class="h-6 w-6 dark:hidden"
+    fill="none"
+    stroke="currentColor"
+    viewBox="0 0 24 24"
+    xmlns="http://www.w3.org/2000/svg"
+    aria-hidden="true"
+  >
+    <path
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2"
+      d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
+    ></path>
+  </svg>
+
+  <!-- Moon icon for dark mode -->
+  <svg
+    class="hidden h-6 w-6 dark:block"
+    fill="none"
+    stroke="currentColor"
+    viewBox="0 0 24 24"
+    xmlns="http://www.w3.org/2000/svg"
+    aria-hidden="true"
+  >
+    <path
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2"
+      d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+    ></path>
+  </svg>
 </button>
 
 <script>
-	// Enhanced theme toggle function
-	function setTheme(theme: 'dark' | 'light') {
-		const root = document.documentElement;
-		console.log('Setting theme to:', theme);
-		console.log('Before - has dark class:', root.classList.contains('dark'));
-		
-		root.classList.toggle('dark', theme === 'dark');
-		
-		console.log('After - has dark class:', root.classList.contains('dark'));
-		console.log('Current classes:', root.className);
-		
-		// Debug CSS variables
-		const computedStyle = getComputedStyle(document.documentElement);
-		console.log('CSS Variables after theme change:');
-		console.log('--color-bg:', computedStyle.getPropertyValue('--color-bg'));
-		console.log('--color-text:', computedStyle.getPropertyValue('--color-text'));
-		console.log('--color-bg-alt:', computedStyle.getPropertyValue('--color-bg-alt'));
-		
-		localStorage.setItem('theme', theme);
-		
-		// Update meta theme-color
-		const metaThemeColor = document.querySelector('meta[name="theme-color"]');
-		if (metaThemeColor) {
-			metaThemeColor.setAttribute('content', theme === 'dark' ? '#0f172a' : '#ffffff');
-		}
-		
-		// Dispatch custom event for other components that might need to know about theme changes
-		window.dispatchEvent(new CustomEvent('themechange', { detail: { theme } }));
-	}
+  // Enhanced theme toggle function
+  function setTheme(theme: 'dark' | 'light') {
+    const root = document.documentElement;
+    console.log('Setting theme to:', theme);
+    console.log('Before - has dark class:', root.classList.contains('dark'));
 
-	// Toggle theme function
-	function toggleTheme() {
-		const isDark = document.documentElement.classList.contains('dark');
-		setTheme(isDark ? 'light' : 'dark');
-	}
-	
-	// Initialize theme toggle state on component mount
-	function initializeThemeToggle() {
-		const isDark = document.documentElement.classList.contains('dark');
-		// The button state will automatically reflect the current theme via CSS classes
-	}
-	
-	// Listen for system preference changes
-	function setupSystemPreferenceListener() {
-		const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-		
-		mediaQuery.addEventListener('change', (e) => {
-			// Only auto-update if user hasn't set a manual preference
-			const storedTheme = localStorage.getItem('theme');
-			if (!storedTheme) {
-				const newTheme = e.matches ? 'dark' : 'light';
-				setTheme(newTheme);
-			}
-		});
-	}
+    root.classList.toggle('dark', theme === 'dark');
 
-	// Add event listeners
-	const themeToggle = document.getElementById('theme-toggle');
-	if (themeToggle) {
-		// Initialize the toggle state
-		initializeThemeToggle();
-		
-		// Setup system preference listener
-		setupSystemPreferenceListener();
-		
-		themeToggle.addEventListener('click', toggleTheme);
-		
-		// Keyboard support
-		themeToggle.addEventListener('keydown', (e) => {
-			if (e.key === 'Enter' || e.key === ' ') {
-				e.preventDefault();
-				toggleTheme();
-			}
-		});
-	}
+    console.log('After - has dark class:', root.classList.contains('dark'));
+    console.log('Current classes:', root.className);
+
+    // Debug CSS variables
+    const computedStyle = getComputedStyle(document.documentElement);
+    console.log('CSS Variables after theme change:');
+    console.log('--color-bg:', computedStyle.getPropertyValue('--color-bg'));
+    console.log('--color-text:', computedStyle.getPropertyValue('--color-text'));
+    console.log('--color-bg-alt:', computedStyle.getPropertyValue('--color-bg-alt'));
+
+    localStorage.setItem('theme', theme);
+
+    // Update meta theme-color
+    const metaThemeColor = document.querySelector('meta[name="theme-color"]');
+    if (metaThemeColor) {
+      metaThemeColor.setAttribute('content', theme === 'dark' ? '#0f172a' : '#ffffff');
+    }
+
+    // Dispatch custom event for other components that might need to know about theme changes
+    window.dispatchEvent(new CustomEvent('themechange', { detail: { theme } }));
+  }
+
+  // Toggle theme function
+  function toggleTheme() {
+    const isDark = document.documentElement.classList.contains('dark');
+    setTheme(isDark ? 'light' : 'dark');
+  }
+
+  // Initialize theme toggle state on component mount
+  function initializeThemeToggle() {
+    const isDark = document.documentElement.classList.contains('dark');
+    // The button state will automatically reflect the current theme via CSS classes
+  }
+
+  // Listen for system preference changes
+  function setupSystemPreferenceListener() {
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+
+    mediaQuery.addEventListener('change', (e) => {
+      // Only auto-update if user hasn't set a manual preference
+      const storedTheme = localStorage.getItem('theme');
+      if (!storedTheme) {
+        const newTheme = e.matches ? 'dark' : 'light';
+        setTheme(newTheme);
+      }
+    });
+  }
+
+  // Add event listeners
+  const themeToggle = document.getElementById('theme-toggle');
+  if (themeToggle) {
+    // Initialize the toggle state
+    initializeThemeToggle();
+
+    // Setup system preference listener
+    setupSystemPreferenceListener();
+
+    themeToggle.addEventListener('click', toggleTheme);
+
+    // Keyboard support
+    themeToggle.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        toggleTheme();
+      }
+    });
+  }
 </script>
 
 <style>
-	@media (prefers-reduced-motion: reduce) {
-		button {
-			transition: none !important;
-		}
-	}
-</style> 
+  @media (prefers-reduced-motion: reduce) {
+    button {
+      transition: none !important;
+    }
+  }
+</style>

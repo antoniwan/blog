@@ -28,7 +28,7 @@ const {
   emitMetadata = false,
   inputPosition = 'bottom',
   lang = 'en',
-  loading = 'lazy'
+  loading = 'lazy',
 } = Astro.props;
 
 // Get the current page URL and title for mapping
@@ -38,50 +38,48 @@ const currentTitle = Astro.props.title || 'Untitled';
 ---
 
 <div class="comments-section mt-12 pt-8">
-  <h2 class="text-2xl font-bold mb-6 text-[rgb(var(--color-text))]">
-    💬 Join the Conversation
-  </h2>
-  		<p class="text-body-muted mb-8">
-    Share your thoughts, ask questions, or simply let me know what resonated with you. 
-    I read and respond to every comment personally.
+  <h2 class="mb-6 text-2xl font-bold text-[rgb(var(--color-text))]">💬 Join the Conversation</h2>
+  <p class="text-body-muted mb-8">
+    Share your thoughts, ask questions, or simply let me know what resonated with you. I read and
+    respond to every comment personally.
   </p>
-  
-  <div class="giscus-container bg-[rgb(var(--color-bg))] rounded-lg overflow-hidden">
-      <div id="giscus-fallback" class="hidden p-8 text-center text-[rgb(var(--color-text-muted))]">
-        <p>Comments are loading...</p>
-        <p class="text-sm mt-2">
-          If comments don't appear, you can 
-          <a href="https://github.com/antoniwan/blog/discussions" 
-             target="_blank" 
-             rel="noopener noreferrer"
-             class="link">
-            join the discussion on GitHub
-          </a>
-        </p>
-        <p class="text-xs mt-4 text-[rgb(var(--color-text-muted))]">
-          First-time visitors: A discussion thread will be created automatically when you comment.
-        </p>
-      </div>
-      <script 
-        src="https://giscus.app/client.js"
-        data-repo={repo}
-        data-repo-id={repoId}
-        data-category={category}
-        data-category-id={categoryId}
-        data-mapping={mapping}
-        data-strict={strict}
-        data-reactions-enabled={reactionsEnabled}
-        data-emit-metadata={emitMetadata}
-        data-input-position={inputPosition}
-        data-lang={lang}
-        data-loading={loading}
-        data-theme={theme}
-        crossorigin="anonymous"
-        async
-        onerror="document.getElementById('giscus-fallback').classList.remove('hidden')"
-      >
-      </script>
-      
+
+  <div class="giscus-container overflow-hidden rounded-lg bg-[rgb(var(--color-bg))]">
+    <div id="giscus-fallback" class="hidden p-8 text-center text-[rgb(var(--color-text-muted))]">
+      <p>Comments are loading...</p>
+      <p class="mt-2 text-sm">
+        If comments don't appear, you can
+        <a
+          href="https://github.com/antoniwan/blog/discussions"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="link"
+        >
+          join the discussion on GitHub
+        </a>
+      </p>
+      <p class="mt-4 text-xs text-[rgb(var(--color-text-muted))]">
+        First-time visitors: A discussion thread will be created automatically when you comment.
+      </p>
+    </div>
+    <script
+      src="https://giscus.app/client.js"
+      data-repo={repo}
+      data-repo-id={repoId}
+      data-category={category}
+      data-category-id={categoryId}
+      data-mapping={mapping}
+      data-strict={strict}
+      data-reactions-enabled={reactionsEnabled}
+      data-emit-metadata={emitMetadata}
+      data-input-position={inputPosition}
+      data-lang={lang}
+      data-loading={loading}
+      data-theme={theme}
+      crossorigin="anonymous"
+      async
+      onerror="document.getElementById('giscus-fallback').classList.remove('hidden')"
+    ></script>
   </div>
 </div>
 
@@ -90,12 +88,12 @@ const currentTitle = Astro.props.title || 'Untitled';
   function updateGiscusTheme() {
     const isDark = document.documentElement.classList.contains('dark');
     const giscusFrame = document.querySelector('iframe[src*="giscus.app"]') as HTMLIFrameElement;
-    
+
     if (giscusFrame && giscusFrame.contentWindow) {
       try {
         giscusFrame.contentWindow.postMessage(
           { giscus: { setConfig: { theme: isDark ? 'dark' : 'light' } } },
-          'https://giscus.app'
+          'https://giscus.app',
         );
       } catch (error) {
         console.warn('Failed to update Giscus theme:', error);
@@ -132,22 +130,22 @@ const currentTitle = Astro.props.title || 'Untitled';
 
   observer.observe(document.documentElement, {
     attributes: true,
-    attributeFilter: ['class']
+    attributeFilter: ['class'],
   });
 </script>
 
-<style> 
+<style>
   /* Ensure proper theme switching */
   :global(.giscus) {
     background: transparent !important;
   }
-  
+
   /* Dark mode adjustments - using the site's dark class system */
   :global(.dark .giscus) {
     color-scheme: dark;
   }
-  
+
   :global(.giscus:not(.dark)) {
     color-scheme: light;
   }
-</style> 
+</style>

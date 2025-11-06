@@ -1,300 +1,307 @@
 ---
 interface Props {
-	class?: string;
+  class?: string;
 }
 
 const { class: className = '' } = Astro.props;
 ---
 
 <div
-	class:list={[
-		'fixed top-0 left-0 w-full h-1 bg-[rgb(var(--color-bg-alt))] z-50',
-		className
-	]}
-	role="progressbar"
-	aria-label="Reading progress"
-	aria-valuemin="0"
-	aria-valuemax="100"
-	aria-valuenow="0"
+  class:list={['fixed left-0 top-0 z-50 h-1 w-full bg-[rgb(var(--color-bg-alt))]', className]}
+  role="progressbar"
+  aria-label="Reading progress"
+  aria-valuemin="0"
+  aria-valuemax="100"
+  aria-valuenow="0"
 >
-	<div
-		id="reading-progress"
-		class="h-full bg-[rgb(var(--color-primary))] transition-normal"
-		style="width: 0%"
-	></div>
+  <div
+    id="reading-progress"
+    class="transition-normal h-full bg-[rgb(var(--color-primary))]"
+    style="width: 0%"
+  >
+  </div>
 </div>
 
 <script>
-	const readingProgress = document.getElementById('reading-progress')!;
-	const progressBar = document.querySelector('[role="progressbar"]') as HTMLElement;
-	let ticking = false;
-	let lastProgress = 0;
-	let lastScrollY = 0;
-	let lastWindowHeight = 0;
-	let hasMarkedAsRead = false;
-	
-	// Reading tracker functionality
-	interface ReadData {
-		postSlug: string;
-		readAt: string;
-		readTime: number; // seconds spent reading
-		scrollDepth: number; // percentage scrolled
-		deviceInfo: {
-			userAgent: string;
-			screenSize: string;
-			timezone: string;
-		};
-	}
+  const readingProgress = document.getElementById('reading-progress')!;
+  const progressBar = document.querySelector('[role="progressbar"]') as HTMLElement;
+  let ticking = false;
+  let lastProgress = 0;
+  let lastScrollY = 0;
+  let lastWindowHeight = 0;
+  let hasMarkedAsRead = false;
 
-	// Import storage constants - using direct values since import doesn't work in Astro client scripts
-	const STORAGE_KEY = 'blog-read-posts-v1.0';
-	const FALLBACK_KEY = 'blog-read-posts';
-	const SAME_TAB_DELAY = 50;
+  // Reading tracker functionality
+  interface ReadData {
+    postSlug: string;
+    readAt: string;
+    readTime: number; // seconds spent reading
+    scrollDepth: number; // percentage scrolled
+    deviceInfo: {
+      userAgent: string;
+      screenSize: string;
+      timezone: string;
+    };
+  }
 
-	class ReadingTracker {
-		private readData: ReadData[] = [];
-		private startTime: number = 0;
-		public maxScrollDepth: number = 0;
-		private storageKey = STORAGE_KEY;
-		private fallbackKey = FALLBACK_KEY;
+  // Import storage constants - using direct values since import doesn't work in Astro client scripts
+  const STORAGE_KEY = 'blog-read-posts-v1.0';
+  const FALLBACK_KEY = 'blog-read-posts';
+  const SAME_TAB_DELAY = 50;
 
-		constructor() {
-			this.readData = this.loadReadData();
-			this.startTime = Date.now();
-		}
+  class ReadingTracker {
+    private readData: ReadData[] = [];
+    private startTime: number = 0;
+    public maxScrollDepth: number = 0;
+    private storageKey = STORAGE_KEY;
+    private fallbackKey = FALLBACK_KEY;
 
-			private loadReadData(): ReadData[] {
-		try {
-			const stored = localStorage.getItem(this.storageKey) || localStorage.getItem(this.fallbackKey);
-			if (!stored) return [];
-			
-			const parsed = JSON.parse(stored);
-			if (!Array.isArray(parsed)) {
-				console.warn('Invalid read data format: expected array, got', typeof parsed);
-				return [];
-			}
-			
-			return parsed.filter(item => {
-				if (!item || typeof item !== 'object') return false;
-				
-				const hasValidSlug = typeof item.postSlug === 'string' && item.postSlug.trim().length > 0;
-				const hasValidDate = typeof item.readAt === 'string' && !isNaN(Date.parse(item.readAt));
-				const hasValidReadTime = typeof item.readTime === 'number' && item.readTime >= 0;
-				const hasValidScrollDepth = typeof item.scrollDepth === 'number' && item.scrollDepth >= 0 && item.scrollDepth <= 100;
-				
-				if (!hasValidSlug || !hasValidDate || !hasValidReadTime || !hasValidScrollDepth) {
-					console.warn('Filtering out invalid read data item:', item);
-					return false;
-				}
-				
-				return true;
-			});
-		} catch (error) {
-			console.warn('Failed to parse read data:', error);
-			return [];
-		}
-	}
+    constructor() {
+      this.readData = this.loadReadData();
+      this.startTime = Date.now();
+    }
 
-			private saveReadData(): void {
-		try {
-			const dataSize = JSON.stringify(this.readData).length;
-			
-			// Simple size check - if over 1MB, prune data
-			if (dataSize > 1024 * 1024) {
-				this.readData = this.readData
-					.sort((a, b) => new Date(b.readAt).getTime() - new Date(a.readAt).getTime())
-					.slice(0, 50);
-			}
-			
-			localStorage.setItem(this.storageKey, JSON.stringify(this.readData));
-		} catch (error) {
-			console.warn('Failed to save read data:', error);
-		}
-	}
+    private loadReadData(): ReadData[] {
+      try {
+        const stored =
+          localStorage.getItem(this.storageKey) || localStorage.getItem(this.fallbackKey);
+        if (!stored) return [];
 
-		private getDeviceInfo(): ReadData['deviceInfo'] {
-			return {
-				userAgent: navigator.userAgent,
-				screenSize: `${screen.width}x${screen.height}`,
-				timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
-			};
-		}
+        const parsed = JSON.parse(stored);
+        if (!Array.isArray(parsed)) {
+          console.warn('Invalid read data format: expected array, got', typeof parsed);
+          return [];
+        }
 
-		markAsRead(postSlug: string, scrollDepth: number): void {
-			const existingIndex = this.readData.findIndex(data => data.postSlug === postSlug);
-			const readTime = Math.floor((Date.now() - this.startTime) / 1000);
-			
-			const readData: ReadData = {
-				postSlug,
-				readAt: new Date().toISOString(),
-				readTime,
-				scrollDepth,
-				deviceInfo: this.getDeviceInfo()
-			};
+        return parsed.filter((item) => {
+          if (!item || typeof item !== 'object') return false;
 
-			if (existingIndex >= 0) {
-				// Update existing entry with better data
-				this.readData[existingIndex] = readData;
-			} else {
-				// Add new entry
-				this.readData.push(readData);
-			}
+          const hasValidSlug = typeof item.postSlug === 'string' && item.postSlug.trim().length > 0;
+          const hasValidDate = typeof item.readAt === 'string' && !isNaN(Date.parse(item.readAt));
+          const hasValidReadTime = typeof item.readTime === 'number' && item.readTime >= 0;
+          const hasValidScrollDepth =
+            typeof item.scrollDepth === 'number' &&
+            item.scrollDepth >= 0 &&
+            item.scrollDepth <= 100;
 
-			this.saveReadData();
-			
-			// Analytics update would go here in a future enhancement
-			
-			// Dispatch enhanced custom events for better reactivity
-			window.dispatchEvent(new CustomEvent('post-read', { 
-				detail: { postSlug, readData } 
-			}));
-			
-			// Also dispatch a generic storage update event for immediate reactivity
-			window.dispatchEvent(new CustomEvent('reading-data-updated', {
-				detail: { type: 'post-read', postSlug, readData }
-			}));
-		}
+          if (!hasValidSlug || !hasValidDate || !hasValidReadTime || !hasValidScrollDepth) {
+            console.warn('Filtering out invalid read data item:', item);
+            return false;
+          }
 
-		isRead(postSlug: string): boolean {
-			return this.readData.some(data => data.postSlug === postSlug);
-		}
+          return true;
+        });
+      } catch (error) {
+        console.warn('Failed to parse read data:', error);
+        return [];
+      }
+    }
 
-		getReadStats(): { totalRead: number; totalTime: number; averageTime: number } {
-			const totalRead = this.readData.length;
-			const totalTime = this.readData.reduce((sum, data) => sum + data.readTime, 0);
-			const averageTime = totalRead > 0 ? Math.round(totalTime / totalRead) : 0;
-			
-			return { totalRead, totalTime, averageTime };
-		}
-	}
+    private saveReadData(): void {
+      try {
+        const dataSize = JSON.stringify(this.readData).length;
 
-	const tracker = new ReadingTracker();
-	
-	function getCurrentPostSlug(): string | null {
-		const path = window.location.pathname;
-		const match = path.match(/\/p\/(.+)/);
-		return match ? match[1] : null;
-	}
+        // Simple size check - if over 1MB, prune data
+        if (dataSize > 1024 * 1024) {
+          this.readData = this.readData
+            .sort((a, b) => new Date(b.readAt).getTime() - new Date(a.readAt).getTime())
+            .slice(0, 50);
+        }
 
-	function showReadToast() {
-		// Create lightweight toast notification
-		const toast = document.createElement('div');
-		toast.className = 'fixed bottom-32 left-1/2 transform -translate-x-1/2 bg-[rgb(var(--color-bg))] border border-[rgb(var(--color-border))] text-[rgb(var(--color-text))] px-3 py-2 rounded-lg shadow-lg z-40 theme-transition flex items-center gap-2 text-sm';
-		
-		// Add read icon and message
-		toast.innerHTML = `
+        localStorage.setItem(this.storageKey, JSON.stringify(this.readData));
+      } catch (error) {
+        console.warn('Failed to save read data:', error);
+      }
+    }
+
+    private getDeviceInfo(): ReadData['deviceInfo'] {
+      return {
+        userAgent: navigator.userAgent,
+        screenSize: `${screen.width}x${screen.height}`,
+        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+      };
+    }
+
+    markAsRead(postSlug: string, scrollDepth: number): void {
+      const existingIndex = this.readData.findIndex((data) => data.postSlug === postSlug);
+      const readTime = Math.floor((Date.now() - this.startTime) / 1000);
+
+      const readData: ReadData = {
+        postSlug,
+        readAt: new Date().toISOString(),
+        readTime,
+        scrollDepth,
+        deviceInfo: this.getDeviceInfo(),
+      };
+
+      if (existingIndex >= 0) {
+        // Update existing entry with better data
+        this.readData[existingIndex] = readData;
+      } else {
+        // Add new entry
+        this.readData.push(readData);
+      }
+
+      this.saveReadData();
+
+      // Analytics update would go here in a future enhancement
+
+      // Dispatch enhanced custom events for better reactivity
+      window.dispatchEvent(
+        new CustomEvent('post-read', {
+          detail: { postSlug, readData },
+        }),
+      );
+
+      // Also dispatch a generic storage update event for immediate reactivity
+      window.dispatchEvent(
+        new CustomEvent('reading-data-updated', {
+          detail: { type: 'post-read', postSlug, readData },
+        }),
+      );
+    }
+
+    isRead(postSlug: string): boolean {
+      return this.readData.some((data) => data.postSlug === postSlug);
+    }
+
+    getReadStats(): { totalRead: number; totalTime: number; averageTime: number } {
+      const totalRead = this.readData.length;
+      const totalTime = this.readData.reduce((sum, data) => sum + data.readTime, 0);
+      const averageTime = totalRead > 0 ? Math.round(totalTime / totalRead) : 0;
+
+      return { totalRead, totalTime, averageTime };
+    }
+  }
+
+  const tracker = new ReadingTracker();
+
+  function getCurrentPostSlug(): string | null {
+    const path = window.location.pathname;
+    const match = path.match(/\/p\/(.+)/);
+    return match ? match[1] : null;
+  }
+
+  function showReadToast() {
+    // Create lightweight toast notification
+    const toast = document.createElement('div');
+    toast.className =
+      'fixed bottom-32 left-1/2 transform -translate-x-1/2 bg-[rgb(var(--color-bg))] border border-[rgb(var(--color-border))] text-[rgb(var(--color-text))] px-3 py-2 rounded-lg shadow-lg z-40 theme-transition flex items-center gap-2 text-sm';
+
+    // Add read icon and message
+    toast.innerHTML = `
 			<svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
 				<path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
 			</svg>
 			<span>Read</span>
 		`;
-		
-		document.body.appendChild(toast);
-		
-		// Add entrance animation
-		toast.style.opacity = '0';
-		toast.style.transform = 'translate(-50%, 10px) scale(0.95)';
-		
-		requestAnimationFrame(() => {
-			toast.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
-			toast.style.opacity = '1';
-			toast.style.transform = 'translate(-50%, 0) scale(1)';
-		});
-		
-		// Remove after 2.5 seconds with exit animation
-		setTimeout(() => {
-			toast.style.opacity = '0';
-			toast.style.transform = 'translate(-50%, -10px) scale(0.95)';
-			setTimeout(() => {
-				toast.remove();
-			}, 300);
-		}, 2500);
-	}
-	
-	function updateReadingProgress() {
-		const windowHeight = window.innerHeight;
-		const documentHeight = document.documentElement.scrollHeight - windowHeight;
-		const scrolled = window.scrollY;
-		
-		// Skip update if scroll position and window size haven't changed significantly
-		if (Math.abs(scrolled - lastScrollY) < 10 && Math.abs(windowHeight - lastWindowHeight) < 10) {
-			ticking = false;
-			return;
-		}
-		
-		const progress = Math.min((scrolled / documentHeight) * 100, 100);
-		
-		// Only update if progress changed significantly (performance optimization)
-		if (Math.abs(progress - lastProgress) > 1.0) {
-			readingProgress.style.width = `${progress}%`;
-			lastProgress = progress;
-			
-			// Update ARIA attributes
-			if (progressBar) {
-				progressBar.setAttribute('aria-valuenow', Math.round(progress).toString());
-			}
-		}
-		
-		// Track max scroll depth for this session
-		if (progress > tracker.maxScrollDepth) {
-			tracker.maxScrollDepth = progress;
-		}
 
-		// Check if we should mark the post as read - simple percentage approach
-		if (!hasMarkedAsRead && progress >= 75) {
-			const currentPostSlug = getCurrentPostSlug();
-			if (currentPostSlug) {
-				tracker.markAsRead(currentPostSlug, progress);
-				hasMarkedAsRead = true;
-				showReadToast();
-			}
-		}
-		
-		lastScrollY = scrolled;
-		lastWindowHeight = windowHeight;
-		ticking = false;
-	}
+    document.body.appendChild(toast);
 
+    // Add entrance animation
+    toast.style.opacity = '0';
+    toast.style.transform = 'translate(-50%, 10px) scale(0.95)';
 
+    requestAnimationFrame(() => {
+      toast.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+      toast.style.opacity = '1';
+      toast.style.transform = 'translate(-50%, 0) scale(1)';
+    });
 
-	function throttledUpdate() {
-		if (!ticking) {
-			window.requestAnimationFrame(updateReadingProgress);
-			ticking = true;
-		}
-	}
+    // Remove after 2.5 seconds with exit animation
+    setTimeout(() => {
+      toast.style.opacity = '0';
+      toast.style.transform = 'translate(-50%, -10px) scale(0.95)';
+      setTimeout(() => {
+        toast.remove();
+      }, 300);
+    }, 2500);
+  }
 
-	// Use passive listeners for better performance
-	window.addEventListener('scroll', throttledUpdate, { passive: true });
-	window.addEventListener('resize', throttledUpdate, { passive: true });
-	
-	// Store references for cleanup
-	(window as any).readingProgressCleanup = () => {
-		window.removeEventListener('scroll', throttledUpdate);
-		window.removeEventListener('resize', throttledUpdate);
-	};
-	
-	// Initial update
-	updateReadingProgress();
-	
-	// Cleanup on page unload
-	window.addEventListener('beforeunload', () => {
-		if ((window as any).readingProgressCleanup) {
-			(window as any).readingProgressCleanup();
-		}
-	});
+  function updateReadingProgress() {
+    const windowHeight = window.innerHeight;
+    const documentHeight = document.documentElement.scrollHeight - windowHeight;
+    const scrolled = window.scrollY;
+
+    // Skip update if scroll position and window size haven't changed significantly
+    if (Math.abs(scrolled - lastScrollY) < 10 && Math.abs(windowHeight - lastWindowHeight) < 10) {
+      ticking = false;
+      return;
+    }
+
+    const progress = Math.min((scrolled / documentHeight) * 100, 100);
+
+    // Only update if progress changed significantly (performance optimization)
+    if (Math.abs(progress - lastProgress) > 1.0) {
+      readingProgress.style.width = `${progress}%`;
+      lastProgress = progress;
+
+      // Update ARIA attributes
+      if (progressBar) {
+        progressBar.setAttribute('aria-valuenow', Math.round(progress).toString());
+      }
+    }
+
+    // Track max scroll depth for this session
+    if (progress > tracker.maxScrollDepth) {
+      tracker.maxScrollDepth = progress;
+    }
+
+    // Check if we should mark the post as read - simple percentage approach
+    if (!hasMarkedAsRead && progress >= 75) {
+      const currentPostSlug = getCurrentPostSlug();
+      if (currentPostSlug) {
+        tracker.markAsRead(currentPostSlug, progress);
+        hasMarkedAsRead = true;
+        showReadToast();
+      }
+    }
+
+    lastScrollY = scrolled;
+    lastWindowHeight = windowHeight;
+    ticking = false;
+  }
+
+  function throttledUpdate() {
+    if (!ticking) {
+      window.requestAnimationFrame(updateReadingProgress);
+      ticking = true;
+    }
+  }
+
+  // Use passive listeners for better performance
+  window.addEventListener('scroll', throttledUpdate, { passive: true });
+  window.addEventListener('resize', throttledUpdate, { passive: true });
+
+  // Store references for cleanup
+  (window as any).readingProgressCleanup = () => {
+    window.removeEventListener('scroll', throttledUpdate);
+    window.removeEventListener('resize', throttledUpdate);
+  };
+
+  // Initial update
+  updateReadingProgress();
+
+  // Cleanup on page unload
+  window.addEventListener('beforeunload', () => {
+    if ((window as any).readingProgressCleanup) {
+      (window as any).readingProgressCleanup();
+    }
+  });
 </script>
 
 <style>
-	/* Smooth transitions for theme changes */
-	#reading-progress {
-		transition: width 0.2s ease, background-color 0.2s ease;
-	}
+  /* Smooth transitions for theme changes */
+  #reading-progress {
+    transition:
+      width 0.2s ease,
+      background-color 0.2s ease;
+  }
 
-	/* Respect reduced motion preferences */
-	@media (prefers-reduced-motion: reduce) {
-		#reading-progress {
-			transition: none !important;
-		}
-	}
-</style> 
+  /* Respect reduced motion preferences */
+  @media (prefers-reduced-motion: reduce) {
+    #reading-progress {
+      transition: none !important;
+    }
+  }
+</style>

@@ -10,36 +10,48 @@ interface Props {
 const { items, class: className = '' } = Astro.props;
 ---
 
-<nav 
-  class:list={['flex items-center space-x-2 text-base leading-relaxed m-0', className]}
+<nav
+  class:list={['m-0 flex items-center space-x-2 text-base leading-relaxed', className]}
   aria-label="Breadcrumb"
 >
-  <ol class="flex items-center space-x-2 m-0 p-0 list-none">
-    {items.map((item, index) => (
-      <li class="flex items-center m-0 p-0">
-        {index > 0 && (
-          <svg class="h-4 w-4 text-[rgb(var(--color-text-muted))] mx-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-          </svg>
-        )}
-        
-        {item.href ? (
-          <a
-            href={item.href}
-            		class="link-muted leading-relaxed"
-            aria-current={index === items.length - 1 ? 'page' : undefined}
-          >
-            {item.label}
-          </a>
-        ) : (
-          <span 
-            class="text-[rgb(var(--color-text))] font-medium leading-relaxed"
-            aria-current="page"
-          >
-            {item.label}
-          </span>
-        )}
-      </li>
-    ))}
+  <ol class="m-0 flex list-none items-center space-x-2 p-0">
+    {
+      items.map((item, index) => (
+        <li class="m-0 flex items-center p-0">
+          {index > 0 && (
+            <svg
+              class="mx-2 h-4 w-4 text-[rgb(var(--color-text-muted))]"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 5l7 7-7 7"
+              />
+            </svg>
+          )}
+
+          {item.href ? (
+            <a
+              href={item.href}
+              class="link-muted leading-relaxed"
+              aria-current={index === items.length - 1 ? 'page' : undefined}
+            >
+              {item.label}
+            </a>
+          ) : (
+            <span
+              class="font-medium leading-relaxed text-[rgb(var(--color-text))]"
+              aria-current="page"
+            >
+              {item.label}
+            </span>
+          )}
+        </li>
+      ))
+    }
   </ol>
-</nav> 
+</nav>

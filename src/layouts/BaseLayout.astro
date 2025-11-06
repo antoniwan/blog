@@ -10,14 +10,14 @@ import ServiceWorkerRegistration from '../components/ServiceWorkerRegistration.a
 import { SITE_TITLE, SITE_DESCRIPTION, AUTHOR } from '../consts';
 import { generateKeywords, generateImageAlt } from '../utils/seo';
 import { generateStructuredData } from '../utils/structuredData';
-import SpeedInsights from "@vercel/speed-insights/astro"
+import SpeedInsights from '@vercel/speed-insights/astro';
 import Analytics from '@vercel/analytics/astro';
 import type { BaseLayoutProps } from '../types/layout';
 
 interface Props extends BaseLayoutProps {}
 
-const { 
-  title, 
+const {
+  title,
   description = SITE_DESCRIPTION,
   pubDate,
   updatedDate,
@@ -30,9 +30,9 @@ const {
   author = AUTHOR.name,
   keywords,
   type,
-  structuredDataType = "website",
+  structuredDataType = 'website',
   structuredDataIdentifier,
-  posts = []
+  posts = [],
 } = Astro.props;
 
 // Auto-generate keywords if not provided
@@ -66,8 +66,8 @@ const structuredData = generateStructuredData({
 <!doctype html>
 <html lang="en" class="scroll-smooth">
   <head>
-    <BaseHead 
-      title={title} 
+    <BaseHead
+      title={title}
       description={description}
       path={path}
       heroImage={heroImage}
@@ -80,86 +80,92 @@ const structuredData = generateStructuredData({
     />
     <SpeedInsights />
   </head>
-  <body class="min-h-screen flex flex-col bg-[rgb(var(--color-bg))] text-[rgb(var(--color-text))] antialiased">
+  <body
+    class="flex min-h-screen flex-col bg-[rgb(var(--color-bg))] text-[rgb(var(--color-text))] antialiased"
+  >
     <script>
       // Prevent FOUC in Firefox
       document.documentElement.classList.add('ready');
     </script>
-    
-    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:bg-[rgb(var(--color-bg))] focus:px-4 focus:py-2 focus:rounded focus:shadow-lg focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:ring-offset-2">Skip to main content</a>
-    
+
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded focus:bg-[rgb(var(--color-bg))] focus:px-4 focus:py-2 focus:shadow-lg focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:ring-offset-2"
+      >Skip to main content</a
+    >
+
     <Header />
     <ReadingProgress />
-    
-    <main 
-      id="main-content" 
-      role="main" 
+
+    <main
+      id="main-content"
+      role="main"
       class="flex-grow animate-fade-in"
       transition:name="main-content"
     >
       <!-- Structured Data -->
       <StructuredData data={structuredData} />
-      
+
       <slot />
     </main>
-    
+
     <Footer />
     <BackToTop />
     <Analytics />
-    
+
     <!-- Performance Monitoring -->
     <PerformanceMonitor />
-    
+
     <!-- Service Worker Registration -->
     <ServiceWorkerRegistration />
-    
+
     <!-- Image Modal -->
     <div id="imageModal" class="image-modal">
       <button class="close-btn" onclick="closeImageModal()">&times;</button>
       <img id="modalImage" src="" alt="" />
     </div>
-    
+
     <script is:inline>
       // Image modal functionality
       function openImageModal(imageSrc, imageAlt) {
         const modal = document.getElementById('imageModal');
         const modalImage = document.getElementById('modalImage');
-        
+
         modalImage.src = imageSrc;
         modalImage.alt = imageAlt;
         modal.classList.add('show');
         document.body.style.overflow = 'hidden';
       }
-      
+
       function closeImageModal() {
         const modal = document.getElementById('imageModal');
         modal.classList.remove('show');
         document.body.style.overflow = 'auto';
       }
-      
+
       // Close modal when clicking outside the image
-      document.getElementById('imageModal').addEventListener('click', function(e) {
+      document.getElementById('imageModal').addEventListener('click', function (e) {
         if (e.target === this) {
           closeImageModal();
         }
       });
-      
+
       // Close modal with Escape key
-      document.addEventListener('keydown', function(e) {
+      document.addEventListener('keydown', function (e) {
         if (e.key === 'Escape') {
           closeImageModal();
         }
       });
-      
+
       // Make blog post images clickable for modal
-      document.addEventListener('DOMContentLoaded', function() {
+      document.addEventListener('DOMContentLoaded', function () {
         const proseImages = document.querySelectorAll('.prose img');
-        proseImages.forEach(function(img) {
-          img.addEventListener('click', function() {
+        proseImages.forEach(function (img) {
+          img.addEventListener('click', function () {
             openImageModal(this.src, this.alt);
           });
         });
       });
     </script>
   </body>
-</html> 
+</html>

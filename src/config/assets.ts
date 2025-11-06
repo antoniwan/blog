@@ -5,32 +5,32 @@ export const assetConfig = {
   // Default images
   images: {
     // Default hero image for blog posts without a specific hero image
-    defaultHero: "/images/default.avif",
+    defaultHero: '/images/default.avif',
 
     // Default social sharing image
-    defaultSocial: "/share-image.png",
+    defaultSocial: '/share-image.png',
 
     // Site logo
-    logo: "/sh-sh-logo.svg",
+    logo: '/sh-sh-logo.svg',
 
     // Favicon (ICO takes priority for better browser compatibility)
-    faviconIco: "/favicon.ico",
-    favicon: "/favicon.svg",
-    appleTouchIcon: "/apple-touch-icon.png",
-    favicon192: "/favicon-192x192.png",
-    favicon512: "/favicon-512x512.png",
+    faviconIco: '/favicon.ico',
+    favicon: '/favicon.svg',
+    appleTouchIcon: '/apple-touch-icon.png',
+    favicon192: '/favicon-192x192.png',
+    favicon512: '/favicon-512x512.png',
   },
 
   // Symbol images (for special content)
   symbols: {
-    lightsaber: "/symbols/lightsaber.avif",
+    lightsaber: '/symbols/lightsaber.avif',
   },
 
   // Site manifest
-  manifest: "/site.webmanifest",
+  manifest: '/site.webmanifest',
 
   // Robots file
-  robots: "/robots.txt",
+  robots: '/robots.txt',
 };
 
 // Type for asset configuration

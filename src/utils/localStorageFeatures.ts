@@ -6,12 +6,12 @@ import {
   dispatchClearEvents,
   getAllReadPostsKeys,
   isReadPostsKey,
-} from "../config/storage.js";
+} from '../config/storage.js';
 
 export interface UserPreferences {
-  theme: "light" | "dark" | "auto";
-  fontSize: "small" | "medium" | "large";
-  readingMode: "normal" | "focus" | "speed";
+  theme: 'light' | 'dark' | 'auto';
+  fontSize: 'small' | 'medium' | 'large';
+  readingMode: 'normal' | 'focus' | 'speed';
   autoSaveProgress: boolean;
   showReadingStats: boolean;
 }
@@ -32,8 +32,8 @@ export interface ReadingAnalytics {
   mostReadCategory: string;
   readingStreak: number;
   totalTimeSpent: number;
-  devicePreference: "mobile" | "desktop" | "tablet";
-  timeOfDayPreference: "morning" | "afternoon" | "evening" | "night";
+  devicePreference: 'mobile' | 'desktop' | 'tablet';
+  timeOfDayPreference: 'morning' | 'afternoon' | 'evening' | 'night';
 }
 
 class LocalStorageManager {
@@ -55,10 +55,7 @@ class LocalStorageManager {
   private getStorageUsage(): number {
     let totalSize = 0;
     for (let key in localStorage) {
-      if (
-        localStorage.hasOwnProperty(key) &&
-        key.startsWith("blog-")
-      ) {
+      if (localStorage.hasOwnProperty(key) && key.startsWith('blog-')) {
         totalSize += localStorage.getItem(key)?.length || 0;
       }
     }
@@ -66,7 +63,7 @@ class LocalStorageManager {
   }
 
   private handleStorageQuotaExceeded(): void {
-    console.warn("LocalStorage quota exceeded, attempting cleanup...");
+    console.warn('LocalStorage quota exceeded, attempting cleanup...');
     this.pruneOldData();
 
     // If still over quota, remove oldest read posts
@@ -80,7 +77,7 @@ class LocalStorageManager {
     const oldKeys = [];
     for (let key in localStorage) {
       if (
-        (key.startsWith("blog-read-posts") || isReadPostsKey(key)) &&
+        (key.startsWith('blog-read-posts') || isReadPostsKey(key)) &&
         key !== this.READ_POSTS_KEY
       ) {
         oldKeys.push(key);
@@ -95,19 +92,14 @@ class LocalStorageManager {
       if (readPosts.length > 100) {
         // Keep only the 50 most recent posts
         const pruned = readPosts
-          .sort(
-            (a, b) =>
-              new Date(b.readAt).getTime() - new Date(a.readAt).getTime()
-          )
+          .sort((a, b) => new Date(b.readAt).getTime() - new Date(a.readAt).getTime())
           .slice(0, 50);
 
         localStorage.setItem(this.READ_POSTS_KEY, JSON.stringify(pruned));
-        console.warn(
-          `Pruned read posts from ${readPosts.length} to ${pruned.length}`
-        );
+        console.warn(`Pruned read posts from ${readPosts.length} to ${pruned.length}`);
       }
     } catch (error) {
-      console.warn("Failed to prune read posts:", error);
+      console.warn('Failed to prune read posts:', error);
     }
   }
 
@@ -118,9 +110,9 @@ class LocalStorageManager {
       try {
         localStorage.setItem(this.READ_POSTS_KEY, oldReadPosts);
         localStorage.removeItem(STORAGE_KEYS.READ_POSTS_LEGACY);
-        console.log("Migrated read posts to versioned storage");
+        console.log('Migrated read posts to versioned storage');
       } catch (error) {
-        console.warn("Failed to migrate read posts:", error);
+        console.warn('Failed to migrate read posts:', error);
       }
     }
   }
@@ -135,13 +127,13 @@ class LocalStorageManager {
       localStorage.setItem(key, value);
       return true;
     } catch (error) {
-      if (error.name === "QuotaExceededError") {
+      if (error.name === 'QuotaExceededError') {
         this.handleStorageQuotaExceeded();
         try {
           localStorage.setItem(key, value);
           return true;
         } catch (retryError) {
-          console.error("Failed to save data even after cleanup:", retryError);
+          console.error('Failed to save data even after cleanup:', retryError);
           return false;
         }
       }
@@ -158,30 +150,25 @@ class LocalStorageManager {
 
       const parsed = JSON.parse(stored);
       if (!Array.isArray(parsed)) {
-        console.warn(
-          "Invalid read posts format: expected array, got",
-          typeof parsed
-        );
+        console.warn('Invalid read posts format: expected array, got', typeof parsed);
         return [];
       }
 
       return parsed.filter((item) => {
-        if (!item || typeof item !== "object") return false;
+        if (!item || typeof item !== 'object') return false;
 
-        const hasValidSlug =
-          typeof item.postSlug === "string" && item.postSlug.trim().length > 0;
-        const hasValidDate =
-          typeof item.readAt === "string" && !isNaN(Date.parse(item.readAt));
+        const hasValidSlug = typeof item.postSlug === 'string' && item.postSlug.trim().length > 0;
+        const hasValidDate = typeof item.readAt === 'string' && !isNaN(Date.parse(item.readAt));
 
         if (!hasValidSlug || !hasValidDate) {
-          console.warn("Filtering out invalid read post item:", item);
+          console.warn('Filtering out invalid read post item:', item);
           return false;
         }
 
         return true;
       });
     } catch (error) {
-      console.warn("Failed to parse read posts:", error);
+      console.warn('Failed to parse read posts:', error);
       return [];
     }
   }
@@ -190,7 +177,7 @@ class LocalStorageManager {
     try {
       return this.safeSetItem(this.READ_POSTS_KEY, JSON.stringify(readPosts));
     } catch (error) {
-      console.warn("Failed to update read posts:", error);
+      console.warn('Failed to update read posts:', error);
       return false;
     }
   }
@@ -204,37 +191,32 @@ class LocalStorageManager {
       const parsed = JSON.parse(stored);
 
       // Validate data structure
-      if (!parsed || typeof parsed !== "object") {
-        console.warn(
-          "Invalid preferences format: expected object, got",
-          typeof parsed
-        );
+      if (!parsed || typeof parsed !== 'object') {
+        console.warn('Invalid preferences format: expected object, got', typeof parsed);
         return this.getDefaultPreferences();
       }
 
       // Merge with defaults to ensure all required fields exist
       const defaults = this.getDefaultPreferences();
       return {
-        theme: ["light", "dark", "auto"].includes(parsed.theme)
-          ? parsed.theme
-          : defaults.theme,
-        fontSize: ["small", "medium", "large"].includes(parsed.fontSize)
+        theme: ['light', 'dark', 'auto'].includes(parsed.theme) ? parsed.theme : defaults.theme,
+        fontSize: ['small', 'medium', 'large'].includes(parsed.fontSize)
           ? parsed.fontSize
           : defaults.fontSize,
-        readingMode: ["normal", "focus", "speed"].includes(parsed.readingMode)
+        readingMode: ['normal', 'focus', 'speed'].includes(parsed.readingMode)
           ? parsed.readingMode
           : defaults.readingMode,
         autoSaveProgress:
-          typeof parsed.autoSaveProgress === "boolean"
+          typeof parsed.autoSaveProgress === 'boolean'
             ? parsed.autoSaveProgress
             : defaults.autoSaveProgress,
         showReadingStats:
-          typeof parsed.showReadingStats === "boolean"
+          typeof parsed.showReadingStats === 'boolean'
             ? parsed.showReadingStats
             : defaults.showReadingStats,
       };
     } catch (error) {
-      console.warn("Failed to parse preferences:", error);
+      console.warn('Failed to parse preferences:', error);
       return this.getDefaultPreferences();
     }
   }
@@ -245,15 +227,15 @@ class LocalStorageManager {
       const updated = { ...current, ...preferences };
       this.safeSetItem(this.PREFERENCES_KEY, JSON.stringify(updated));
     } catch (error) {
-      console.warn("Failed to save preferences:", error);
+      console.warn('Failed to save preferences:', error);
     }
   }
 
   private getDefaultPreferences(): UserPreferences {
     return {
-      theme: "auto",
-      fontSize: "medium",
-      readingMode: "normal",
+      theme: 'auto',
+      fontSize: 'medium',
+      readingMode: 'normal',
       autoSaveProgress: true,
       showReadingStats: true,
     };
@@ -275,7 +257,7 @@ class LocalStorageManager {
       const updated = { ...current, ...updates };
       this.safeSetItem(this.SESSION_KEY, JSON.stringify(updated));
     } catch (error) {
-      console.warn("Failed to update session data:", error);
+      console.warn('Failed to update session data:', error);
     }
   }
 
@@ -287,7 +269,7 @@ class LocalStorageManager {
       favoriteCategories: [],
       searchHistory: [],
       readingStreak: 0,
-      lastReadDate: "",
+      lastReadDate: '',
     };
   }
 
@@ -299,7 +281,7 @@ class LocalStorageManager {
       const updated = [query, ...filtered].slice(0, 10); // Keep last 10 searches
       this.safeSetItem(this.SEARCH_HISTORY_KEY, JSON.stringify(updated));
     } catch (error) {
-      console.warn("Failed to save search history:", error);
+      console.warn('Failed to save search history:', error);
     }
   }
 
@@ -328,7 +310,7 @@ class LocalStorageManager {
         return true;
       }
     } catch (error) {
-      console.warn("Failed to toggle bookmark:", error);
+      console.warn('Failed to toggle bookmark:', error);
       return false;
     }
   }
@@ -351,16 +333,14 @@ class LocalStorageManager {
     try {
       this.safeSetItem(this.READING_GOALS_KEY, JSON.stringify(goal));
     } catch (error) {
-      console.warn("Failed to save reading goal:", error);
+      console.warn('Failed to save reading goal:', error);
     }
   }
 
   getReadingGoal(): { postsPerWeek: number; minutesPerDay: number } {
     try {
       const stored = localStorage.getItem(this.READING_GOALS_KEY);
-      return stored
-        ? JSON.parse(stored)
-        : { postsPerWeek: 3, minutesPerDay: 15 };
+      return stored ? JSON.parse(stored) : { postsPerWeek: 3, minutesPerDay: 15 };
     } catch {
       return { postsPerWeek: 3, minutesPerDay: 15 };
     }
@@ -376,7 +356,7 @@ class LocalStorageManager {
       analytics.totalPostsRead++;
       analytics.totalTimeSpent += readData.readTime || 0;
       analytics.averageReadingTime = Math.round(
-        analytics.totalTimeSpent / analytics.totalPostsRead
+        analytics.totalTimeSpent / analytics.totalPostsRead,
       );
       analytics.devicePreference = deviceType;
       analytics.timeOfDayPreference = timeOfDay;
@@ -397,7 +377,7 @@ class LocalStorageManager {
 
       this.safeSetItem(this.ANALYTICS_KEY, JSON.stringify(analytics));
     } catch (error) {
-      console.warn("Failed to update analytics:", error);
+      console.warn('Failed to update analytics:', error);
     }
   }
 
@@ -414,27 +394,27 @@ class LocalStorageManager {
     return {
       totalPostsRead: 0,
       averageReadingTime: 0,
-      mostReadCategory: "",
+      mostReadCategory: '',
       readingStreak: 0,
       totalTimeSpent: 0,
-      devicePreference: "desktop",
-      timeOfDayPreference: "afternoon",
+      devicePreference: 'desktop',
+      timeOfDayPreference: 'afternoon',
     };
   }
 
-  private getTimeOfDay(): "morning" | "afternoon" | "evening" | "night" {
+  private getTimeOfDay(): 'morning' | 'afternoon' | 'evening' | 'night' {
     const hour = new Date().getHours();
-    if (hour < 12) return "morning";
-    if (hour < 17) return "afternoon";
-    if (hour < 21) return "evening";
-    return "night";
+    if (hour < 12) return 'morning';
+    if (hour < 17) return 'afternoon';
+    if (hour < 21) return 'evening';
+    return 'night';
   }
 
-  private getDeviceType(): "mobile" | "desktop" | "tablet" {
+  private getDeviceType(): 'mobile' | 'desktop' | 'tablet' {
     const width = window.innerWidth;
-    if (width < 768) return "mobile";
-    if (width < 1024) return "tablet";
-    return "desktop";
+    if (width < 768) return 'mobile';
+    if (width < 1024) return 'tablet';
+    return 'desktop';
   }
 
   private isConsecutiveDay(date1: string, date2: string): boolean {
@@ -460,9 +440,9 @@ class LocalStorageManager {
       localStorage.removeItem(STORAGE_KEYS.READ_POSTS_LEGACY);
 
       // Dispatch events for immediate UI reactivity
-      dispatchClearEvents("all-cleared");
+      dispatchClearEvents('all-cleared');
     } catch (error) {
-      console.warn("Failed to clear data:", error);
+      console.warn('Failed to clear data:', error);
     }
   }
 
@@ -472,9 +452,9 @@ class LocalStorageManager {
       localStorage.removeItem(STORAGE_KEYS.READ_POSTS_LEGACY);
 
       // Dispatch events for immediate UI reactivity
-      dispatchClearEvents("posts-cleared");
+      dispatchClearEvents('posts-cleared');
     } catch (error) {
-      console.warn("Failed to clear read posts:", error);
+      console.warn('Failed to clear read posts:', error);
     }
   }
 
@@ -494,8 +474,8 @@ class LocalStorageManager {
       };
       return JSON.stringify(data, null, 2);
     } catch (error) {
-      console.warn("Failed to export data:", error);
-      return "";
+      console.warn('Failed to export data:', error);
+      return '';
     }
   }
 }

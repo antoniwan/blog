@@ -1,4 +1,4 @@
-import { type CollectionEntry, getCollection } from "astro:content";
+import { type CollectionEntry, getCollection } from 'astro:content';
 
 export interface Translation {
   id: string;
@@ -15,7 +15,7 @@ export interface Translation {
  */
 export async function findTranslations(
   translationGroup: string | undefined,
-  allPosts?: CollectionEntry<"blog">[]
+  allPosts?: CollectionEntry<'blog'>[],
 ): Promise<Translation[]> {
   if (!translationGroup) {
     return [];
@@ -23,7 +23,7 @@ export async function findTranslations(
 
   // Fetch posts if not provided
   if (!allPosts) {
-    allPosts = await getCollection("blog");
+    allPosts = await getCollection('blog');
   }
 
   // Filter posts by translation group and only include published posts
@@ -32,12 +32,12 @@ export async function findTranslations(
       (post) =>
         post.data.translationGroup === translationGroup &&
         post.data.published !== false &&
-        !post.data.draft
+        !post.data.draft,
     )
     .map((post) => ({
       id: post.id,
       title: post.data.title,
-      language: post.data.language || ["en"],
+      language: post.data.language || ['en'],
       path: `/p/${post.id}`,
     }));
 
@@ -49,8 +49,8 @@ export async function findTranslations(
  * @param post - The current blog post
  * @returns The primary language code
  */
-export function getCurrentLanguage(post: CollectionEntry<"blog">): string {
-  return post.data.language?.[0] || "en";
+export function getCurrentLanguage(post: CollectionEntry<'blog'>): string {
+  return post.data.language?.[0] || 'en';
 }
 
 /**
@@ -61,7 +61,7 @@ export function getCurrentLanguage(post: CollectionEntry<"blog">): string {
  */
 export async function hasTranslations(
   translationGroup: string | undefined,
-  allPosts?: CollectionEntry<"blog">[]
+  allPosts?: CollectionEntry<'blog'>[],
 ): Promise<boolean> {
   const translations = await findTranslations(translationGroup, allPosts);
   return translations.length > 1;
@@ -74,13 +74,10 @@ export async function hasTranslations(
  * @returns Object with translations, current language, and current path
  */
 export async function getTranslationData(
-  currentPost: CollectionEntry<"blog">,
-  allPosts?: CollectionEntry<"blog">[]
+  currentPost: CollectionEntry<'blog'>,
+  allPosts?: CollectionEntry<'blog'>[],
 ) {
-  const translations = await findTranslations(
-    currentPost.data.translationGroup,
-    allPosts
-  );
+  const translations = await findTranslations(currentPost.data.translationGroup, allPosts);
   const currentLanguage = getCurrentLanguage(currentPost);
   const currentPath = `/p/${currentPost.id}`;
 

@@ -7,147 +7,158 @@ import { getCollection } from 'astro:content';
 import { categories } from '../../data/categories';
 
 export async function getStaticPaths() {
-	return categories.map(category => ({
-		params: { category: category.id },
-		props: { category },
-	}));
+  return categories.map((category) => ({
+    params: { category: category.id },
+    props: { category },
+  }));
 }
 
 const { category } = Astro.props;
 
 // Get all posts in this category
 const posts = await getCollection('blog', ({ data }) => {
-	return import.meta.env.PROD ? !data.draft : true;
+  return import.meta.env.PROD ? !data.draft : true;
 });
 
 // Filter posts by category and organize them
-const categoryPosts = posts.filter(post => post.data.category?.includes(category.id));
+const categoryPosts = posts.filter((post) => post.data.category?.includes(category.id));
 
 // Separate posts where this category is primary vs secondary
 const primaryCategoryPosts = categoryPosts
-	.filter(post => post.data.category?.[0] === category.id)
-	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+  .filter((post) => post.data.category?.[0] === category.id)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
 const secondaryCategoryPosts = categoryPosts
-	.filter(post => post.data.category?.[0] !== category.id && post.data.category?.includes(category.id))
-	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+  .filter(
+    (post) => post.data.category?.[0] !== category.id && post.data.category?.includes(category.id),
+  )
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 ---
 
 <BaseLayout
-	title={`${category.name} - Category`}
-	description={`Browse all writings in the ${category.name} category`}
-	path={`/category/${category.id}`}
-	structuredDataType="category"
-	structuredDataIdentifier={category.id}
-	posts={categoryPosts}
+  title={`${category.name} - Category`}
+  description={`Browse all writings in the ${category.name} category`}
+  path={`/category/${category.id}`}
+  structuredDataType="category"
+  structuredDataIdentifier={category.id}
+  posts={categoryPosts}
 >
-	<Container>
-		<Container maxWidth="container" padding="none">
-			{/* Category Header */}
-			<PageHeader 
-				title={`${category.icon} ${category.name}`}
-				description={`Browse all writings in the ${category.name} category`}
-			/>
-			
-			{/* Primary Category Posts Section */}
-			{primaryCategoryPosts.length > 0 && (
-				<div class="mb-16 md:mb-20">
-					<div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
-						{primaryCategoryPosts.map((post) => (
-							<PostCard post={post} featured={post.data.featured} />
-						))}
-					</div>
-				</div>
-			)}
+  <Container>
+    <Container maxWidth="container" padding="none">
+      {/* Category Header */}
+      <PageHeader
+        title={`${category.icon} ${category.name}`}
+        description={`Browse all writings in the ${category.name} category`}
+      />
 
-			{/* Secondary Category Posts Section */}
-			{secondaryCategoryPosts.length > 0 && (
-				<div class="mb-16 md:mb-20">
-					<div class="mb-8 md:mb-12">
-						<h2 class="text-heading text-[rgb(var(--color-text))] mb-4">
-							Related {category.name} Writings
-						</h2>
-						<p class="text-body-large text-[rgb(var(--color-text-muted))] leading-relaxed">
-							Writings that touch on {category.name} as a secondary topic
-						</p>
-					</div>
-					<div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
-						{secondaryCategoryPosts.map((post) => (
-							<PostCard post={post} featured={post.data.featured} />
-						))}
-					</div>
-				</div>
-			)}
-			
-			{/* Empty State */}
-			{categoryPosts.length === 0 && (
-				<div class="text-center py-12">
-					<p class="text-body-large text-[rgb(var(--color-text-muted))] leading-relaxed">
-						No writings found in this category yet.
-					</p>
-				</div>
-			)}
-		</Container>
-	</Container>
+      {/* Primary Category Posts Section */}
+      {
+        primaryCategoryPosts.length > 0 && (
+          <div class="mb-16 md:mb-20">
+            <div class="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-8">
+              {primaryCategoryPosts.map((post) => (
+                <PostCard post={post} featured={post.data.featured} />
+              ))}
+            </div>
+          </div>
+        )
+      }
+
+      {/* Secondary Category Posts Section */}
+      {
+        secondaryCategoryPosts.length > 0 && (
+          <div class="mb-16 md:mb-20">
+            <div class="mb-8 md:mb-12">
+              <h2 class="text-heading mb-4 text-[rgb(var(--color-text))]">
+                Related {category.name} Writings
+              </h2>
+              <p class="text-body-large leading-relaxed text-[rgb(var(--color-text-muted))]">
+                Writings that touch on {category.name} as a secondary topic
+              </p>
+            </div>
+            <div class="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-8">
+              {secondaryCategoryPosts.map((post) => (
+                <PostCard post={post} featured={post.data.featured} />
+              ))}
+            </div>
+          </div>
+        )
+      }
+
+      {/* Empty State */}
+      {
+        categoryPosts.length === 0 && (
+          <div class="py-12 text-center">
+            <p class="text-body-large leading-relaxed text-[rgb(var(--color-text-muted))]">
+              No writings found in this category yet.
+            </p>
+          </div>
+        )
+      }
+    </Container>
+  </Container>
 </BaseLayout>
 
 <style>
-	/* Smooth transitions for dark mode */
-	main {
-		transition: background-color 0.2s ease, color 0.2s ease;
-	}
+  /* Smooth transitions for dark mode */
+  main {
+    transition:
+      background-color 0.2s ease,
+      color 0.2s ease;
+  }
 
-	/* Enhanced spacing and typography */
-	.text-lg {
-		line-height: 1.7;
-	}
+  /* Enhanced spacing and typography */
+  .text-lg {
+    line-height: 1.7;
+  }
 
-	.text-xl {
-		line-height: 1.6;
-	}
+  .text-xl {
+    line-height: 1.6;
+  }
 
-	.text-2xl {
-		line-height: 1.5;
-	}
+  .text-2xl {
+    line-height: 1.5;
+  }
 
-	.text-3xl {
-		line-height: 1.4;
-	}
+  .text-3xl {
+    line-height: 1.4;
+  }
 
-	/* Enhanced spacing for better visual hierarchy */
-	.space-y-8 > * + * {
-		margin-top: 2rem;
-	}
+  /* Enhanced spacing for better visual hierarchy */
+  .space-y-8 > * + * {
+    margin-top: 2rem;
+  }
 
-	.space-y-10 > * + * {
-		margin-top: 2.5rem;
-	}
+  .space-y-10 > * + * {
+    margin-top: 2.5rem;
+  }
 
-	/* Respect reduced motion preferences */
-	@media (prefers-reduced-motion: reduce) {
-		main {
-			transition: none !important;
-		}
-	}
+  /* Respect reduced motion preferences */
+  @media (prefers-reduced-motion: reduce) {
+    main {
+      transition: none !important;
+    }
+  }
 
-	/* Responsive typography adjustments */
-	@media (max-width: 768px) {
-		/* Tighter spacing on mobile */
-		.space-y-8 > * + * {
-			margin-top: 1.5rem;
-		}
+  /* Responsive typography adjustments */
+  @media (max-width: 768px) {
+    /* Tighter spacing on mobile */
+    .space-y-8 > * + * {
+      margin-top: 1.5rem;
+    }
 
-		.space-y-10 > * + * {
-			margin-top: 2rem;
-		}
+    .space-y-10 > * + * {
+      margin-top: 2rem;
+    }
 
-		/* Mobile-specific spacing */
-		.mb-16 {
-			margin-bottom: 3rem;
-		}
+    /* Mobile-specific spacing */
+    .mb-16 {
+      margin-bottom: 3rem;
+    }
 
-		.mb-20 {
-			margin-bottom: 4rem;
-		}
-	}
-</style> 
+    .mb-20 {
+      margin-bottom: 4rem;
+    }
+  }
+</style>
+

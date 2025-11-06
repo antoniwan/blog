@@ -13,45 +13,45 @@ export interface NavigationItem {
 
 export const mainNavigation: NavigationItem[] = [
   {
-    href: "/category/",
-    label: "Categories",
+    href: '/category/',
+    label: 'Categories',
     dropdown: {
-      label: "Browse Categories",
+      label: 'Browse Categories',
     },
   },
   {
-    href: "/guided-path",
-    label: "Resources",
+    href: '/guided-path',
+    label: 'Resources',
     dropdown: {
-      label: "Tools & Resources",
+      label: 'Tools & Resources',
       items: [
         {
-          href: "/tag/",
-          label: "All Tags",
-          icon: "🏷️",
+          href: '/tag/',
+          label: 'All Tags',
+          icon: '🏷️',
         },
         {
-          href: "/guided-path",
-          label: "Guided Path",
-          icon: "🗺️",
+          href: '/guided-path',
+          label: 'Guided Path',
+          icon: '🗺️',
         },
         {
-          href: "/brain-science/",
-          label: "Writing Insights",
-          icon: "🧠",
+          href: '/brain-science/',
+          label: 'Writing Insights',
+          icon: '🧠',
         },
         {
-          href: "/tag-management",
-          label: "Tag Analytics",
-          icon: "🏷️",
+          href: '/tag-management',
+          label: 'Tag Analytics',
+          icon: '🏷️',
         },
         {
-          href: "/api/",
-          label: "Public API",
-          icon: "💬",
+          href: '/api/',
+          label: 'Public API',
+          icon: '💬',
         },
       ],
     },
   },
-  { href: "/about", label: "About" },
+  { href: '/about', label: 'About' },
 ];

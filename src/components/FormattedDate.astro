@@ -1,52 +1,49 @@
 ---
 interface Props {
-	/**
-	 * The date to format
-	 */
-	date: Date;
-	
-	/**
-	 * The format to use
-	 */
-	format?: 'short' | 'long' | 'relative';
-	
-	/**
-	 * Additional classes to apply
-	 */
-	class?: string;
+  /**
+   * The date to format
+   */
+  date: Date;
+
+  /**
+   * The format to use
+   */
+  format?: 'short' | 'long' | 'relative';
+
+  /**
+   * Additional classes to apply
+   */
+  class?: string;
 }
 
 const { date, format = 'long', class: className = '' } = Astro.props;
 
 const formatter = new Intl.DateTimeFormat('en-US', {
-	year: 'numeric',
-	month: format === 'short' ? 'short' : 'long',
-	day: 'numeric'
+  year: 'numeric',
+  month: format === 'short' ? 'short' : 'long',
+  day: 'numeric',
 });
 
 const relativeTimeFormatter = new Intl.RelativeTimeFormat('en-US', {
-	numeric: 'auto'
+  numeric: 'auto',
 });
 
 function getRelativeTime(date: Date): string {
-	const now = new Date();
-	const diff = date.getTime() - now.getTime();
-	const days = Math.round(diff / (1000 * 60 * 60 * 24));
-	
-	if (days === 0) return 'today';
-	if (days === -1) return 'yesterday';
-	if (days === 1) return 'tomorrow';
-	
-	return relativeTimeFormatter.format(days, 'day');
+  const now = new Date();
+  const diff = date.getTime() - now.getTime();
+  const days = Math.round(diff / (1000 * 60 * 60 * 24));
+
+  if (days === 0) return 'today';
+  if (days === -1) return 'yesterday';
+  if (days === 1) return 'tomorrow';
+
+  return relativeTimeFormatter.format(days, 'day');
 }
 ---
 
 <time
-	datetime={date.toISOString()}
-	class:list={[
-		'text-[rgb(var(--color-text-muted))] theme-transition',
-		className
-	]}
+  datetime={date.toISOString()}
+  class:list={['theme-transition text-[rgb(var(--color-text-muted))]', className]}
 >
-	{format === 'relative' ? getRelativeTime(date) : formatter.format(date)}
+  {format === 'relative' ? getRelativeTime(date) : formatter.format(date)}
 </time>

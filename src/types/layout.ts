@@ -13,9 +13,9 @@ export interface BaseLayoutProps {
   imageAlt?: string;
   author?: string;
   keywords?: string[];
-  type?: "website" | "article";
+  type?: 'website' | 'article';
   // Structured data specific
-  structuredDataType?: "website" | "article" | "category" | "tag";
+  structuredDataType?: 'website' | 'article' | 'category' | 'tag';
   structuredDataIdentifier?: string;
   posts?: any[]; // For category/tag pages
   // Enhanced structured data options

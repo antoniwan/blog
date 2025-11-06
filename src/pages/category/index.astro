@@ -12,14 +12,17 @@ const posts = await getCollection('blog', ({ data }) => {
 });
 
 // Get post counts by category
-const postCounts = categories.reduce((acc, category) => {
-  acc[category.id] = posts.filter(post => post.data.category?.includes(category.id)).length;
-  return acc;
-}, {} as Record<string, number>);
+const postCounts = categories.reduce(
+  (acc, category) => {
+    acc[category.id] = posts.filter((post) => post.data.category?.includes(category.id)).length;
+    return acc;
+  },
+  {} as Record<string, number>,
+);
 
 // Sort categories by post count (most popular first)
 const sortedCategories = categories
-  .filter(category => postCounts[category.id] > 0)
+  .filter((category) => postCounts[category.id] > 0)
   .sort((a, b) => postCounts[b.id] - postCounts[a.id]);
 ---
 
@@ -31,36 +34,37 @@ const sortedCategories = categories
 >
   <Container>
     <Container maxWidth="container" padding="none">
-      <PageHeader 
-        title="Categories"
-        description="Browse writings by category"
-      />
-      
+      <PageHeader title="Categories" description="Browse writings by category" />
+
       {/* Categories Grid */}
-      <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3 mt-12">
-        {sortedCategories.map((category, index) => (
-          <CategoryCard 
-            category={category}
-            postCount={postCounts[category.id]}
-            featured={index < 3}
-          />
-        ))}
+      <div class="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {
+          sortedCategories.map((category, index) => (
+            <CategoryCard
+              category={category}
+              postCount={postCounts[category.id]}
+              featured={index < 3}
+            />
+          ))
+        }
       </div>
-      
+
       {/* Empty State */}
-      {sortedCategories.length === 0 && (
-        <div class="text-center py-16">
-          <div class="max-w-md mx-auto">
-            <div class="text-4xl mb-4">📁</div>
-            <h3 class="text-xl font-semibold text-[rgb(var(--color-text))] mb-2">
-              No categories found
-            </h3>
-            <p class="text-[rgb(var(--color-text-muted))]">
-              Categories will appear here once writings are published.
-            </p>
+      {
+        sortedCategories.length === 0 && (
+          <div class="py-16 text-center">
+            <div class="mx-auto max-w-md">
+              <div class="mb-4 text-4xl">📁</div>
+              <h3 class="mb-2 text-xl font-semibold text-[rgb(var(--color-text))]">
+                No categories found
+              </h3>
+              <p class="text-[rgb(var(--color-text-muted))]">
+                Categories will appear here once writings are published.
+              </p>
+            </div>
           </div>
-        </div>
-      )}
+        )
+      }
     </Container>
   </Container>
 </BaseLayout>
@@ -68,7 +72,9 @@ const sortedCategories = categories
 <style>
   /* Smooth transitions for dark mode */
   main {
-    transition: background-color 0.2s ease, color 0.2s ease;
+    transition:
+      background-color 0.2s ease,
+      color 0.2s ease;
   }
 
   /* Respect reduced motion preferences */
@@ -77,4 +83,4 @@ const sortedCategories = categories
       transition: none !important;
     }
   }
-</style> 
+</style>

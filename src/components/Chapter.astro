@@ -3,578 +3,590 @@ import { categories } from '../data/categories';
 import { calculateReadingTimeFromMarkdown } from '../utils/readingTime';
 
 export interface Props {
-	posts: any[];
-	chapterTitle: string;
-	chapterId: string;
-	defaultExpanded?: boolean;
+  posts: any[];
+  chapterTitle: string;
+  chapterId: string;
+  defaultExpanded?: boolean;
 }
 
 const { posts, chapterTitle, chapterId, defaultExpanded = true } = Astro.props;
 
 // Helper function to get category name
 function getCategoryName(categoryIds: string[] | undefined): string | null {
-	if (!categoryIds || categoryIds.length === 0) return null;
-	const category = categories.find(cat => cat.id === categoryIds[0]);
-	return category ? category.name : categoryIds[0];
+  if (!categoryIds || categoryIds.length === 0) return null;
+  const category = categories.find((cat) => cat.id === categoryIds[0]);
+  return category ? category.name : categoryIds[0];
 }
 
 // Helper function to format relative time
 function formatRelativeTime(dateString: string): string {
-	const now = new Date();
-	const readDate = new Date(dateString);
-	const diffInMs = now.getTime() - readDate.getTime();
-	const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
-	const diffInHours = Math.floor(diffInMs / (1000 * 60 * 60));
-	const diffInMinutes = Math.floor(diffInMs / (1000 * 60));
+  const now = new Date();
+  const readDate = new Date(dateString);
+  const diffInMs = now.getTime() - readDate.getTime();
+  const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
+  const diffInHours = Math.floor(diffInMs / (1000 * 60 * 60));
+  const diffInMinutes = Math.floor(diffInMs / (1000 * 60));
 
-	if (diffInDays > 0) {
-		return diffInDays === 1 ? 'Read a day ago' : `Read ${diffInDays} days ago`;
-	} else if (diffInHours > 0) {
-		return diffInHours === 1 ? 'Read an hour ago' : `Read ${diffInHours} hours ago`;
-	} else if (diffInMinutes > 0) {
-		return diffInMinutes === 1 ? 'Read a minute ago' : `Read ${diffInMinutes} minutes ago`;
-	} else {
-		return 'Read just now';
-	}
+  if (diffInDays > 0) {
+    return diffInDays === 1 ? 'Read a day ago' : `Read ${diffInDays} days ago`;
+  } else if (diffInHours > 0) {
+    return diffInHours === 1 ? 'Read an hour ago' : `Read ${diffInHours} hours ago`;
+  } else if (diffInMinutes > 0) {
+    return diffInMinutes === 1 ? 'Read a minute ago' : `Read ${diffInMinutes} minutes ago`;
+  } else {
+    return 'Read just now';
+  }
 }
 ---
 
 <div class="book-chapter">
-	<button 
-		class="chapter-header" 
-		aria-expanded={defaultExpanded}
-		aria-controls={`chapter-${chapterId}`}
-	>
-		<div class="chapter-title-section">
-			<h2 class="chapter-title">{chapterTitle}</h2>
-			<div class="chapter-meta">
-				<span class="post-count">({posts.length} writings)</span>
-				<div class="chapter-progress" data-chapter-id={chapterId}>
-					<div class="progress-bar">
-						<div class="progress-fill" data-chapter-id={chapterId}></div>
-					</div>
-					<span class="progress-text" data-chapter-id={chapterId}>0%</span>
-				</div>
-			</div>
-		</div>
-		<svg class="expand-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={`transform: rotate(${defaultExpanded ? '180deg' : '0deg'})`}>
-			<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-		</svg>
-	</button>
-	
-	<div class={`chapter-content ${!defaultExpanded ? 'collapsed' : ''}`} id={`chapter-${chapterId}`}>
-		{posts.length > 0 ? (
-			<ol class="post-list">
-				{posts.map((post, index) => {
-					const categoryName = getCategoryName(post.data.category);
-					return (
-						<li class="post-item">
-							<a href={`/p/${post.id}`} class="post-link" data-post-slug={post.id}>
-								<span class="post-number">{index + 1}.</span>
-								<div class="post-content">
-									<span class="post-title">{post.data.title}</span>
-									{categoryName && (
-										<span class="post-category">{categoryName}</span>
-									)}
-								</div>
-								<div class="post-status">
-									<span class="read-status" data-post-slug={post.id}>
-										<span class="status-icon">⭕</span>
-										<span class="status-text">Unread</span>
-									</span>
-									<span class="reading-time" data-post-slug={post.id}>
-										{calculateReadingTimeFromMarkdown(post.body || '')}
-									</span>
-								</div>
-							</a>
-						</li>
-					);
-				})}
-			</ol>
-		) : (
-			<p class="empty-state">No writings yet in this chapter.</p>
-		)}
-	</div>
+  <button
+    class="chapter-header"
+    aria-expanded={defaultExpanded}
+    aria-controls={`chapter-${chapterId}`}
+  >
+    <div class="chapter-title-section">
+      <h2 class="chapter-title">{chapterTitle}</h2>
+      <div class="chapter-meta">
+        <span class="post-count">({posts.length} writings)</span>
+        <div class="chapter-progress" data-chapter-id={chapterId}>
+          <div class="progress-bar">
+            <div class="progress-fill" data-chapter-id={chapterId}></div>
+          </div>
+          <span class="progress-text" data-chapter-id={chapterId}>0%</span>
+        </div>
+      </div>
+    </div>
+    <svg
+      class="expand-icon"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+      style={`transform: rotate(${defaultExpanded ? '180deg' : '0deg'})`}
+    >
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"
+      ></path>
+    </svg>
+  </button>
+
+  <div class={`chapter-content ${!defaultExpanded ? 'collapsed' : ''}`} id={`chapter-${chapterId}`}>
+    {
+      posts.length > 0 ? (
+        <ol class="post-list">
+          {posts.map((post, index) => {
+            const categoryName = getCategoryName(post.data.category);
+            return (
+              <li class="post-item">
+                <a href={`/p/${post.id}`} class="post-link" data-post-slug={post.id}>
+                  <span class="post-number">{index + 1}.</span>
+                  <div class="post-content">
+                    <span class="post-title">{post.data.title}</span>
+                    {categoryName && <span class="post-category">{categoryName}</span>}
+                  </div>
+                  <div class="post-status">
+                    <span class="read-status" data-post-slug={post.id}>
+                      <span class="status-icon">⭕</span>
+                      <span class="status-text">Unread</span>
+                    </span>
+                    <span class="reading-time" data-post-slug={post.id}>
+                      {calculateReadingTimeFromMarkdown(post.body || '')}
+                    </span>
+                  </div>
+                </a>
+              </li>
+            );
+          })}
+        </ol>
+      ) : (
+        <p class="empty-state">No writings yet in this chapter.</p>
+      )
+    }
+  </div>
 </div>
 
 <script>
-	// Storage constants - using direct values since import doesn't work in Astro client scripts
-	const STORAGE_KEY = 'blog-read-posts-v1.0';
-	const FALLBACK_KEY = 'blog-read-posts';
+  // Storage constants - using direct values since import doesn't work in Astro client scripts
+  const STORAGE_KEY = 'blog-read-posts-v1.0';
+  const FALLBACK_KEY = 'blog-read-posts';
 
-	// Read/unread functionality using shared storage
-	class ReadTracker {
-		private storageKey = STORAGE_KEY;
-		private fallbackKey = FALLBACK_KEY;
-		private boundPostReadHandler: (event: any) => void;
-		private boundClearedHandler: () => void;
-		private boundStorageHandler: (event: any) => void;
-		private boundDataUpdatedHandler: (event: any) => void;
+  // Read/unread functionality using shared storage
+  class ReadTracker {
+    private storageKey = STORAGE_KEY;
+    private fallbackKey = FALLBACK_KEY;
+    private boundPostReadHandler: (event: any) => void;
+    private boundClearedHandler: () => void;
+    private boundStorageHandler: (event: any) => void;
+    private boundDataUpdatedHandler: (event: any) => void;
 
-		constructor() {
-			this.boundPostReadHandler = this.handlePostRead.bind(this);
-			this.boundClearedHandler = this.handleClearedPosts.bind(this);
-			this.boundStorageHandler = this.handleStorageChange.bind(this);
-			this.boundDataUpdatedHandler = this.handleDataUpdated.bind(this);
-			this.init();
-		}
+    constructor() {
+      this.boundPostReadHandler = this.handlePostRead.bind(this);
+      this.boundClearedHandler = this.handleClearedPosts.bind(this);
+      this.boundStorageHandler = this.handleStorageChange.bind(this);
+      this.boundDataUpdatedHandler = this.handleDataUpdated.bind(this);
+      this.init();
+    }
 
-			private loadReadPosts(): any[] {
-		try {
-			const stored = localStorage.getItem(this.storageKey) || localStorage.getItem(this.fallbackKey);
-			if (!stored) return [];
-			
-			const parsed = JSON.parse(stored);
-			
-			// Validate data structure
-			if (!Array.isArray(parsed)) {
-				console.warn('Invalid read posts format: expected array, got', typeof parsed);
-				return [];
-			}
-			
-			// Filter and validate individual items
-			return parsed.filter(item => {
-				if (!item || typeof item !== 'object') return false;
-				
-				const hasValidSlug = typeof item.postSlug === 'string' && item.postSlug.trim().length > 0;
-				const hasValidDate = typeof item.readAt === 'string' && !isNaN(Date.parse(item.readAt));
-				
-				if (!hasValidSlug || !hasValidDate) {
-					console.warn('Filtering out invalid read post item:', item);
-					return false;
-				}
-				
-				return true;
-			});
-		} catch (error) {
-			console.warn('Failed to parse read posts:', error);
-			return [];
-		}
-	}
+    private loadReadPosts(): any[] {
+      try {
+        const stored =
+          localStorage.getItem(this.storageKey) || localStorage.getItem(this.fallbackKey);
+        if (!stored) return [];
 
-		private getReadData(postSlug: string): any | null {
-			const readData = this.loadReadPosts();
-			return readData.find((data: any) => data.postSlug === postSlug) || null;
-		}
+        const parsed = JSON.parse(stored);
 
-		private formatRelativeTime(dateString: string): string {
-			const now = new Date();
-			const readDate = new Date(dateString);
-			const diffInMs = now.getTime() - readDate.getTime();
-			const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
-			const diffInHours = Math.floor(diffInMs / (1000 * 60 * 60));
-			const diffInMinutes = Math.floor(diffInMs / (1000 * 60));
+        // Validate data structure
+        if (!Array.isArray(parsed)) {
+          console.warn('Invalid read posts format: expected array, got', typeof parsed);
+          return [];
+        }
 
-			if (diffInDays > 0) {
-				return diffInDays === 1 ? 'Read a day ago' : `Read ${diffInDays} days ago`;
-			} else if (diffInHours > 0) {
-				return diffInHours === 1 ? 'Read an hour ago' : `Read ${diffInHours} hours ago`;
-			} else if (diffInMinutes > 0) {
-				return diffInMinutes === 1 ? 'Read a minute ago' : `Read ${diffInMinutes} minutes ago`;
-			} else {
-				return 'Read just now';
-			}
-		}
+        // Filter and validate individual items
+        return parsed.filter((item) => {
+          if (!item || typeof item !== 'object') return false;
 
-		private updateIndicators(): void {
-			document.querySelectorAll('.read-status').forEach(statusElement => {
-				const postSlug = (statusElement as HTMLElement).dataset.postSlug;
-				const iconElement = statusElement.querySelector('.status-icon') as HTMLElement;
-				const textElement = statusElement.querySelector('.status-text') as HTMLElement;
-				
-				if (postSlug) {
-					const readData = this.getReadData(postSlug);
-					const readingTimeElement = document.querySelector(`.reading-time[data-post-slug="${postSlug}"]`) as HTMLElement;
-					
-					if (readData) {
-						iconElement.textContent = '✅';
-						textElement.textContent = this.formatRelativeTime(readData.readAt);
-						statusElement.classList.add('read');
-						// Hide reading time for read posts
-						if (readingTimeElement) {
-							readingTimeElement.style.display = 'none';
-						}
-					} else {
-						iconElement.textContent = '⭕';
-						textElement.textContent = 'Unread';
-						statusElement.classList.remove('read');
-						// Show reading time for unread posts
-						if (readingTimeElement) {
-							readingTimeElement.style.display = 'inline';
-						}
-					}
-				}
-			});
-			
-			// Update chapter progress
-			this.updateChapterProgress();
-		}
+          const hasValidSlug = typeof item.postSlug === 'string' && item.postSlug.trim().length > 0;
+          const hasValidDate = typeof item.readAt === 'string' && !isNaN(Date.parse(item.readAt));
 
-		private updateChapterProgress(): void {
-			document.querySelectorAll('.chapter-progress').forEach(progressElement => {
-				const chapterId = (progressElement as HTMLElement).dataset.chapterId;
-				if (!chapterId) return;
-				
-				const chapterContent = document.getElementById(`chapter-${chapterId}`);
-				if (!chapterContent) return;
-				
-				const posts = chapterContent.querySelectorAll('.post-item');
-				const readPosts = chapterContent.querySelectorAll('.post-item .read-status.read');
-				
-				const totalPosts = posts.length;
-				const readCount = readPosts.length;
-				const percentage = totalPosts > 0 ? Math.round((readCount / totalPosts) * 100) : 0;
-				
-				// Update progress bar
-				const progressFill = progressElement.querySelector('.progress-fill') as HTMLElement;
-				if (progressFill) {
-					progressFill.style.width = `${percentage}%`;
-				}
-				
-				// Update progress text
-				const progressText = progressElement.querySelector('.progress-text') as HTMLElement;
-				if (progressText) {
-					progressText.textContent = `${percentage}%`;
-				}
-				
-				// Add completion class for styling
-				if (percentage === 100) {
-					progressElement.classList.add('completed');
-				} else {
-					progressElement.classList.remove('completed');
-				}
-			});
-		}
+          if (!hasValidSlug || !hasValidDate) {
+            console.warn('Filtering out invalid read post item:', item);
+            return false;
+          }
 
-			private handlePostRead(event: any): void {
-		this.updateIndicators();
-	}
-	
-	private handleClearedPosts(): void {
-		this.updateIndicators();
-	}
-	
-	private handleStorageChange(event: any): void {
-		// React to localStorage changes from other tabs/windows
-		if (event.key === this.storageKey || event.key === this.fallbackKey) {
-			this.updateIndicators();
-		}
-	}
-	
-	private handleDataUpdated(event: any): void {
-		// React to immediate data updates from same tab
-		if (event.detail?.type === 'post-read') {
-			this.updateIndicators();
-		}
-	}
-	
-	private init(): void {
-		// Update indicators on page load
-		this.updateIndicators();
+          return true;
+        });
+      } catch (error) {
+        console.warn('Failed to parse read posts:', error);
+        return [];
+      }
+    }
 
-		// Listen for post-read events from other components
-		window.addEventListener('post-read', this.boundPostReadHandler);
+    private getReadData(postSlug: string): any | null {
+      const readData = this.loadReadPosts();
+      return readData.find((data: any) => data.postSlug === postSlug) || null;
+    }
 
-		// Listen for read-posts-cleared events
-		window.addEventListener('read-posts-cleared', this.boundClearedHandler);
-		
-		// Listen for storage events (cross-tab synchronization)
-		window.addEventListener('storage', this.boundStorageHandler);
-		
-		// Listen for immediate data updates (same-tab reactivity)
-		window.addEventListener('reading-data-updated', this.boundDataUpdatedHandler);
-	}
-	
-	cleanup(): void {
-		window.removeEventListener('post-read', this.boundPostReadHandler);
-		window.removeEventListener('read-posts-cleared', this.boundClearedHandler);
-		window.removeEventListener('storage', this.boundStorageHandler);
-		window.removeEventListener('reading-data-updated', this.boundDataUpdatedHandler);
-	}
-	}
+    private formatRelativeTime(dateString: string): string {
+      const now = new Date();
+      const readDate = new Date(dateString);
+      const diffInMs = now.getTime() - readDate.getTime();
+      const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
+      const diffInHours = Math.floor(diffInMs / (1000 * 60 * 60));
+      const diffInMinutes = Math.floor(diffInMs / (1000 * 60));
 
-	// Chapter expand/collapse functionality
-	class ChapterManager {
-		constructor() {
-			this.init();
-		}
+      if (diffInDays > 0) {
+        return diffInDays === 1 ? 'Read a day ago' : `Read ${diffInDays} days ago`;
+      } else if (diffInHours > 0) {
+        return diffInHours === 1 ? 'Read an hour ago' : `Read ${diffInHours} hours ago`;
+      } else if (diffInMinutes > 0) {
+        return diffInMinutes === 1 ? 'Read a minute ago' : `Read ${diffInMinutes} minutes ago`;
+      } else {
+        return 'Read just now';
+      }
+    }
 
-		private init(): void {
-			// Add click handlers to chapter headers
-			document.querySelectorAll('.chapter-header').forEach(header => {
-				header.addEventListener('click', (e) => {
-					e.preventDefault();
-					this.toggleChapter(header as HTMLElement);
-				});
+    private updateIndicators(): void {
+      document.querySelectorAll('.read-status').forEach((statusElement) => {
+        const postSlug = (statusElement as HTMLElement).dataset.postSlug;
+        const iconElement = statusElement.querySelector('.status-icon') as HTMLElement;
+        const textElement = statusElement.querySelector('.status-text') as HTMLElement;
 
-				// Keyboard support can be added later if needed
-			});
-		}
+        if (postSlug) {
+          const readData = this.getReadData(postSlug);
+          const readingTimeElement = document.querySelector(
+            `.reading-time[data-post-slug="${postSlug}"]`,
+          ) as HTMLElement;
 
-		private toggleChapter(header: HTMLElement): void {
-			const isExpanded = header.getAttribute('aria-expanded') === 'true';
-			const contentId = header.getAttribute('aria-controls');
-			const content = document.getElementById(contentId!);
-			const icon = header.querySelector('.expand-icon') as HTMLElement;
+          if (readData) {
+            iconElement.textContent = '✅';
+            textElement.textContent = this.formatRelativeTime(readData.readAt);
+            statusElement.classList.add('read');
+            // Hide reading time for read posts
+            if (readingTimeElement) {
+              readingTimeElement.style.display = 'none';
+            }
+          } else {
+            iconElement.textContent = '⭕';
+            textElement.textContent = 'Unread';
+            statusElement.classList.remove('read');
+            // Show reading time for unread posts
+            if (readingTimeElement) {
+              readingTimeElement.style.display = 'inline';
+            }
+          }
+        }
+      });
 
-			if (isExpanded) {
-				// Collapse
-				header.setAttribute('aria-expanded', 'false');
-				content?.classList.add('collapsed');
-				icon.style.transform = 'rotate(0deg)';
-			} else {
-				// Expand
-				header.setAttribute('aria-expanded', 'true');
-				content?.classList.remove('collapsed');
-				icon.style.transform = 'rotate(180deg)';
-			}
-		}
-	}
+      // Update chapter progress
+      this.updateChapterProgress();
+    }
 
-	// Initialize when DOM is ready
-	let readTracker: ReadTracker;
-	let chapterManager: ChapterManager;
-	
-	if (document.readyState === 'loading') {
-		document.addEventListener('DOMContentLoaded', () => {
-			readTracker = new ReadTracker();
-			chapterManager = new ChapterManager();
-		});
-	} else {
-		readTracker = new ReadTracker();
-		chapterManager = new ChapterManager();
-	}
-	
-	// Cleanup on page unload
-	window.addEventListener('beforeunload', () => {
-		if (readTracker) {
-			readTracker.cleanup();
-		}
-	});
+    private updateChapterProgress(): void {
+      document.querySelectorAll('.chapter-progress').forEach((progressElement) => {
+        const chapterId = (progressElement as HTMLElement).dataset.chapterId;
+        if (!chapterId) return;
+
+        const chapterContent = document.getElementById(`chapter-${chapterId}`);
+        if (!chapterContent) return;
+
+        const posts = chapterContent.querySelectorAll('.post-item');
+        const readPosts = chapterContent.querySelectorAll('.post-item .read-status.read');
+
+        const totalPosts = posts.length;
+        const readCount = readPosts.length;
+        const percentage = totalPosts > 0 ? Math.round((readCount / totalPosts) * 100) : 0;
+
+        // Update progress bar
+        const progressFill = progressElement.querySelector('.progress-fill') as HTMLElement;
+        if (progressFill) {
+          progressFill.style.width = `${percentage}%`;
+        }
+
+        // Update progress text
+        const progressText = progressElement.querySelector('.progress-text') as HTMLElement;
+        if (progressText) {
+          progressText.textContent = `${percentage}%`;
+        }
+
+        // Add completion class for styling
+        if (percentage === 100) {
+          progressElement.classList.add('completed');
+        } else {
+          progressElement.classList.remove('completed');
+        }
+      });
+    }
+
+    private handlePostRead(event: any): void {
+      this.updateIndicators();
+    }
+
+    private handleClearedPosts(): void {
+      this.updateIndicators();
+    }
+
+    private handleStorageChange(event: any): void {
+      // React to localStorage changes from other tabs/windows
+      if (event.key === this.storageKey || event.key === this.fallbackKey) {
+        this.updateIndicators();
+      }
+    }
+
+    private handleDataUpdated(event: any): void {
+      // React to immediate data updates from same tab
+      if (event.detail?.type === 'post-read') {
+        this.updateIndicators();
+      }
+    }
+
+    private init(): void {
+      // Update indicators on page load
+      this.updateIndicators();
+
+      // Listen for post-read events from other components
+      window.addEventListener('post-read', this.boundPostReadHandler);
+
+      // Listen for read-posts-cleared events
+      window.addEventListener('read-posts-cleared', this.boundClearedHandler);
+
+      // Listen for storage events (cross-tab synchronization)
+      window.addEventListener('storage', this.boundStorageHandler);
+
+      // Listen for immediate data updates (same-tab reactivity)
+      window.addEventListener('reading-data-updated', this.boundDataUpdatedHandler);
+    }
+
+    cleanup(): void {
+      window.removeEventListener('post-read', this.boundPostReadHandler);
+      window.removeEventListener('read-posts-cleared', this.boundClearedHandler);
+      window.removeEventListener('storage', this.boundStorageHandler);
+      window.removeEventListener('reading-data-updated', this.boundDataUpdatedHandler);
+    }
+  }
+
+  // Chapter expand/collapse functionality
+  class ChapterManager {
+    constructor() {
+      this.init();
+    }
+
+    private init(): void {
+      // Add click handlers to chapter headers
+      document.querySelectorAll('.chapter-header').forEach((header) => {
+        header.addEventListener('click', (e) => {
+          e.preventDefault();
+          this.toggleChapter(header as HTMLElement);
+        });
+
+        // Keyboard support can be added later if needed
+      });
+    }
+
+    private toggleChapter(header: HTMLElement): void {
+      const isExpanded = header.getAttribute('aria-expanded') === 'true';
+      const contentId = header.getAttribute('aria-controls');
+      const content = document.getElementById(contentId!);
+      const icon = header.querySelector('.expand-icon') as HTMLElement;
+
+      if (isExpanded) {
+        // Collapse
+        header.setAttribute('aria-expanded', 'false');
+        content?.classList.add('collapsed');
+        icon.style.transform = 'rotate(0deg)';
+      } else {
+        // Expand
+        header.setAttribute('aria-expanded', 'true');
+        content?.classList.remove('collapsed');
+        icon.style.transform = 'rotate(180deg)';
+      }
+    }
+  }
+
+  // Initialize when DOM is ready
+  let readTracker: ReadTracker;
+  let chapterManager: ChapterManager;
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      readTracker = new ReadTracker();
+      chapterManager = new ChapterManager();
+    });
+  } else {
+    readTracker = new ReadTracker();
+    chapterManager = new ChapterManager();
+  }
+
+  // Cleanup on page unload
+  window.addEventListener('beforeunload', () => {
+    if (readTracker) {
+      readTracker.cleanup();
+    }
+  });
 </script>
 
 <style>
-	.book-chapter {
-		margin-bottom: 1rem;
-		border: 1px solid rgb(var(--color-border));
-		border-radius: 12px;
-		overflow: hidden;
-		background: rgb(var(--color-bg));
-	}
+  .book-chapter {
+    margin-bottom: 1rem;
+    border: 1px solid rgb(var(--color-border));
+    border-radius: 12px;
+    overflow: hidden;
+    background: rgb(var(--color-bg));
+  }
 
-	.chapter-header {
-		width: 100%;
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		padding: 1rem 1.5rem;
-		background: rgb(var(--color-bg-alt));
-		border: none;
-		cursor: pointer;
-		transition: background-color 0.2s ease;
-	}
+  .chapter-header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.5rem;
+    background: rgb(var(--color-bg-alt));
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
 
-	.chapter-header:hover {
-		background: rgb(var(--color-bg-alt));
-	}
+  .chapter-header:hover {
+    background: rgb(var(--color-bg-alt));
+  }
 
-	.chapter-header:focus {
-		outline: 2px solid rgb(var(--color-primary));
-		outline-offset: -2px;
-	}
+  .chapter-header:focus {
+    outline: 2px solid rgb(var(--color-primary));
+    outline-offset: -2px;
+  }
 
-	.chapter-title-section {
-		display: flex;
-		align-items: center;
-		gap: 0.75rem;
-		flex: 1;
-	}
+  .chapter-title-section {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex: 1;
+  }
 
-	.chapter-title {
-		font-size: 1.25rem;
-		font-weight: 600;
-		color: rgb(var(--color-text));
-		margin: 0;
-	}
+  .chapter-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: rgb(var(--color-text));
+    margin: 0;
+  }
 
-	.chapter-meta {
-		display: flex;
-		align-items: center;
-		gap: 1rem;
-		margin-left: auto;
-	}
+  .chapter-meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-left: auto;
+  }
 
-	.post-count {
-		font-size: 0.875rem;
-		color: rgb(var(--color-text-muted));
-		font-weight: 400;
-	}
+  .post-count {
+    font-size: 0.875rem;
+    color: rgb(var(--color-text-muted));
+    font-weight: 400;
+  }
 
-	.chapter-progress {
-		display: flex;
-		align-items: center;
-		gap: 0.5rem;
-		min-width: 120px;
-	}
+  .chapter-progress {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-width: 120px;
+  }
 
-	.progress-bar {
-		width: 60px;
-		height: 6px;
-		background: rgb(var(--color-border));
-		border-radius: 3px;
-		overflow: hidden;
-	}
+  .progress-bar {
+    width: 60px;
+    height: 6px;
+    background: rgb(var(--color-border));
+    border-radius: 3px;
+    overflow: hidden;
+  }
 
-	.progress-fill {
-		height: 100%;
-		background: rgb(var(--color-primary));
-		border-radius: 3px;
-		width: 0%;
-		transition: width 0.3s ease;
-	}
+  .progress-fill {
+    height: 100%;
+    background: rgb(var(--color-primary));
+    border-radius: 3px;
+    width: 0%;
+    transition: width 0.3s ease;
+  }
 
-	.chapter-progress.completed .progress-fill {
-		background: rgb(34, 197, 94);
-	}
+  .chapter-progress.completed .progress-fill {
+    background: rgb(34, 197, 94);
+  }
 
-	.progress-text {
-		font-size: 0.75rem;
-		font-weight: 500;
-		color: rgb(var(--color-text-muted));
-		min-width: 2rem;
-		text-align: right;
-	}
+  .progress-text {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: rgb(var(--color-text-muted));
+    min-width: 2rem;
+    text-align: right;
+  }
 
-	.chapter-progress.completed .progress-text {
-		color: rgb(34, 197, 94);
-		font-weight: 600;
-	}
+  .chapter-progress.completed .progress-text {
+    color: rgb(34, 197, 94);
+    font-weight: 600;
+  }
 
-	.expand-icon {
-		width: 1.25rem;
-		height: 1.25rem;
-		color: rgb(var(--color-text-muted));
-		transition: transform 0.2s ease;
-	}
+  .expand-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+    color: rgb(var(--color-text-muted));
+    transition: transform 0.2s ease;
+  }
 
-	.chapter-content {
-		transition: max-height 0.3s ease, opacity 0.3s ease;
-		max-height: 2000px;
-		opacity: 1;
-	}
+  .chapter-content {
+    transition:
+      max-height 0.3s ease,
+      opacity 0.3s ease;
+    max-height: 2000px;
+    opacity: 1;
+  }
 
-	.chapter-content.collapsed {
-		max-height: 0;
-		opacity: 0;
-		overflow: hidden;
-	}
+  .chapter-content.collapsed {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+  }
 
-	.post-list {
-		list-style: none;
-		padding: 0;
-		margin: 0;
-	}
+  .post-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
 
-	.post-item {
-		margin: 0;
-		border-bottom: 1px solid rgb(var(--color-border));
-	}
+  .post-item {
+    margin: 0;
+    border-bottom: 1px solid rgb(var(--color-border));
+  }
 
-	.post-item:last-child {
-		border-bottom: none;
-	}
+  .post-item:last-child {
+    border-bottom: none;
+  }
 
-	.post-link {
-		display: flex;
-		align-items: center;
-		gap: 0.75rem;
-		padding: 1rem 1.5rem;
-		text-decoration: none;
-		color: rgb(var(--color-text));
-		transition: background-color 0.2s ease;
-	}
+  .post-link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 1.5rem;
+    text-decoration: none;
+    color: rgb(var(--color-text));
+    transition: background-color 0.2s ease;
+  }
 
-	.post-link:hover {
-		background: rgb(var(--color-bg-alt));
-	}
+  .post-link:hover {
+    background: rgb(var(--color-bg-alt));
+  }
 
-	.post-number {
-		font-weight: 500;
-		color: rgb(var(--color-text-muted));
-		min-width: 2rem;
-	}
+  .post-number {
+    font-weight: 500;
+    color: rgb(var(--color-text-muted));
+    min-width: 2rem;
+  }
 
-	.post-content {
-		flex: 1;
-		display: flex;
-		flex-direction: column;
-		gap: 0.25rem;
-	}
+  .post-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
 
-	.post-title {
-		font-weight: 400;
-	}
+  .post-title {
+    font-weight: 400;
+  }
 
-	.post-category {
-		font-size: 0.75rem;
-		color: rgb(var(--color-primary));
-		font-weight: 500;
-		text-transform: uppercase;
-		letter-spacing: 0.05em;
-	}
+  .post-category {
+    font-size: 0.75rem;
+    color: rgb(var(--color-primary));
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
 
-	.post-status {
-		display: flex;
-		align-items: center;
-		gap: 0.75rem;
-	}
+  .post-status {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
 
-	.read-status {
-		display: flex;
-		align-items: center;
-		gap: 0.5rem;
-		padding: 0.25rem 0.75rem;
-		border-radius: 20px;
-		background: rgb(var(--color-bg-alt));
-		border: 1px solid rgb(var(--color-border));
-		transition: all 0.2s ease;
-	}
+  .read-status {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    background: rgb(var(--color-bg-alt));
+    border: 1px solid rgb(var(--color-border));
+    transition: all 0.2s ease;
+  }
 
-	.read-status.read {
-		/* Relaxing green color instead of attention-grabbing red */
-		background: rgb(34, 197, 94, 0.1);
-		color: rgb(34, 197, 94);
-		border-color: rgb(34, 197, 94, 0.2);
-	}
+  .read-status.read {
+    /* Relaxing green color instead of attention-grabbing red */
+    background: rgb(34, 197, 94, 0.1);
+    color: rgb(34, 197, 94);
+    border-color: rgb(34, 197, 94, 0.2);
+  }
 
-	.status-icon {
-		font-size: 0.875rem;
-	}
+  .status-icon {
+    font-size: 0.875rem;
+  }
 
-	.status-text {
-		font-size: 0.75rem;
-		font-weight: 500;
-		text-transform: uppercase;
-		letter-spacing: 0.05em;
-	}
+  .status-text {
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
 
-	.reading-time {
-		font-size: 0.875rem;
-		color: rgb(var(--color-text-muted));
-	}
+  .reading-time {
+    font-size: 0.875rem;
+    color: rgb(var(--color-text-muted));
+  }
 
-	.empty-state {
-		color: rgb(var(--color-text-muted));
-		font-style: italic;
-		padding: 1.5rem;
-		text-align: center;
-	}
+  .empty-state {
+    color: rgb(var(--color-text-muted));
+    font-style: italic;
+    padding: 1.5rem;
+    text-align: center;
+  }
 
-	/* Respect reduced motion preferences */
-	@media (prefers-reduced-motion: reduce) {
-		.chapter-content,
-		.expand-icon {
-			transition: none;
-		}
-	}
-</style> 
+  /* Respect reduced motion preferences */
+  @media (prefers-reduced-motion: reduce) {
+    .chapter-content,
+    .expand-icon {
+      transition: none;
+    }
+  }
+</style>

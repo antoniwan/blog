@@ -14,13 +14,13 @@ interface Props {
   priority?: boolean; // Whether this is a priority image (above the fold)
 }
 
-const { 
-  alt = "Default cover image", 
-  className = "", 
-  loading = "lazy", 
+const {
+  alt = 'Default cover image',
+  className = '',
+  loading = 'lazy',
   seed,
-  sizes = "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw",
-  priority = false
+  sizes = '(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw',
+  priority = false,
 } = Astro.props;
 
 // Dynamically read default cover images from the directory
@@ -30,12 +30,12 @@ let defaultImages: string[] = [];
 try {
   const files = readdirSync(defaultCoversDir);
   defaultImages = files
-    .filter(file => /\.(avif|webp|jpg|jpeg|png)$/i.test(file))
-    .map(file => `/images/default_covers/${file}`);
+    .filter((file) => /\.(avif|webp|jpg|jpeg|png)$/i.test(file))
+    .map((file) => `/images/default_covers/${file}`);
 } catch (error) {
   // Fallback to single default image if directory doesn't exist
   console.warn('Default covers directory not found, using fallback image');
-  defaultImages = ["/images/default.avif"];
+  defaultImages = ['/images/default.avif'];
 }
 
 // Select a random image from the array
@@ -47,11 +47,11 @@ if (seed) {
 } else {
   // Use the alt text as a seed - this will be different for each post
   // and provide consistent results for the same post
-  hashInput = alt || "default";
+  hashInput = alt || 'default';
 }
 
 const hash = hashInput.split('').reduce((a, b) => {
-  a = ((a << 5) - a) + b.charCodeAt(0);
+  a = (a << 5) - a + b.charCodeAt(0);
   return a & a;
 }, 0);
 const selectedImage = defaultImages[Math.abs(hash) % defaultImages.length];
@@ -61,7 +61,7 @@ const finalLoading = priority ? 'eager' : loading;
 const fetchPriority = priority ? 'high' : 'auto';
 ---
 
-<img 
+<img
   src={selectedImage}
   alt={alt}
   class={`${className} ${priority ? 'priority-image' : ''}`}
@@ -70,7 +70,7 @@ const fetchPriority = priority ? 'high' : 'auto';
   sizes={sizes}
   decoding="async"
   style={priority ? 'content-visibility: auto; contain-intrinsic-size: 400px 300px;' : ''}
-/> 
+/>
 
 <style>
   .priority-image {
@@ -78,7 +78,7 @@ const fetchPriority = priority ? 'high' : 'auto';
     will-change: transform;
     transform: translateZ(0);
   }
-  
+
   /* Prevent layout shift during image loading */
   img {
     max-width: 100%;
@@ -87,10 +87,10 @@ const fetchPriority = priority ? 'high' : 'auto';
   }
 
   /* Ensure consistent sizing when used in PostCard */
-  img[class*="object-cover"] {
+  img[class*='object-cover'] {
     width: 100%;
     height: 100%;
     object-fit: cover;
     object-position: center;
   }
-</style> 
+</style>

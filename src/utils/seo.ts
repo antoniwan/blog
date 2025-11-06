@@ -5,7 +5,7 @@ import {
   AUTHOR,
   SEO_CONFIG,
   SEO_KEYWORDS,
-} from "../consts";
+} from '../consts';
 
 // Simplified SEO configuration interface
 export interface SEOConfig {
@@ -18,7 +18,7 @@ export interface SEOConfig {
   keywords?: string[];
   pubDate?: Date;
   updatedDate?: Date;
-  type?: "website" | "article";
+  type?: 'website' | 'article';
   locale?: string;
   robots?: string;
 }
@@ -36,7 +36,7 @@ export interface MetaTags {
   updatedDate?: string;
   robots: string;
   locale: string;
-  ogType: "website" | "article";
+  ogType: 'website' | 'article';
 }
 
 // Generate canonical URL
@@ -52,8 +52,8 @@ export function generateImageUrl(heroImage?: string): string {
 }
 
 // Detect Open Graph type
-export function detectOGType(pubDate?: Date, type?: string): "article" | "website" {
-  return (pubDate || type === "article") ? "article" : "website";
+export function detectOGType(pubDate?: Date, type?: string): 'article' | 'website' {
+  return pubDate || type === 'article' ? 'article' : 'website';
 }
 
 // Generate optimized meta tags
@@ -74,11 +74,9 @@ export function generateMetaTags(config: SEOConfig): MetaTags {
   } = config;
 
   // Special handling for homepage: use author name + blog descriptor
-  const isHomepage = path === "/" || path === "";
-  const fullTitle = isHomepage 
-    ? `${AUTHOR.name} | Personal Blog`
-    : `${title} | ${SITE_TITLE}`;
-  const canonical = path ? generateCanonicalUrl(path) : "";
+  const isHomepage = path === '/' || path === '';
+  const fullTitle = isHomepage ? `${AUTHOR.name} | Personal Blog` : `${title} | ${SITE_TITLE}`;
+  const canonical = path ? generateCanonicalUrl(path) : '';
   const ogImage = generateImageUrl(heroImage);
   const ogImageAlt = imageAlt || `${title} - ${SITE_TITLE}`;
   const ogType = detectOGType(pubDate, type);
@@ -90,7 +88,7 @@ export function generateMetaTags(config: SEOConfig): MetaTags {
     ogImage,
     ogImageAlt,
     author,
-    keywords: keywords.join(", "),
+    keywords: keywords.join(', '),
     pubDate: pubDate?.toISOString(),
     updatedDate: updatedDate?.toISOString(),
     robots,
@@ -102,10 +100,10 @@ export function generateMetaTags(config: SEOConfig): MetaTags {
 // Generate keywords from tags and categories
 export function generateKeywords(tags?: string[], categories?: string[]): string[] {
   const keywords: string[] = [];
-  
+
   if (tags) keywords.push(...tags);
   if (categories) keywords.push(...categories);
-  
+
   return [...new Set(keywords)]; // Remove duplicates
 }
 
@@ -115,71 +113,73 @@ export function generateImageAlt(title: string): string {
 }
 
 // Generate enhanced sitemap data with priority and change frequency
-export function generateSitemapData(urls: Array<{
-  url: string;
-  lastmod?: Date;
-  changefreq?: "always" | "hourly" | "daily" | "weekly" | "monthly" | "yearly" | "never";
-  priority?: number;
-  type?: "article" | "category" | "tag" | "page";
-}>) {
+export function generateSitemapData(
+  urls: Array<{
+    url: string;
+    lastmod?: Date;
+    changefreq?: 'always' | 'hourly' | 'daily' | 'weekly' | 'monthly' | 'yearly' | 'never';
+    priority?: number;
+    type?: 'article' | 'category' | 'tag' | 'page';
+  }>,
+) {
   return urls.map(({ url, lastmod, changefreq, priority, type }) => ({
     url,
     lastmod: lastmod?.toISOString(),
-    changefreq: changefreq || (type === "article" ? "monthly" : "weekly"),
-    priority: priority || (type === "article" ? 0.8 : 0.6),
+    changefreq: changefreq || (type === 'article' ? 'monthly' : 'weekly'),
+    priority: priority || (type === 'article' ? 0.8 : 0.6),
   }));
 }
 
 // Generate robots.txt content with enhanced directives
 export function generateRobotsTxt(sitemapUrl: string, additionalRules?: string[]) {
   const baseRules = [
-    "User-agent: *",
-    "Allow: /",
-    "Disallow: /api/",
-    "Disallow: /admin/",
-    "Disallow: /private/",
-    "Disallow: /*.json$",
-    "Disallow: /*.xml$",
-    "Crawl-delay: 1",
+    'User-agent: *',
+    'Allow: /',
+    'Disallow: /api/',
+    'Disallow: /admin/',
+    'Disallow: /private/',
+    'Disallow: /*.json$',
+    'Disallow: /*.xml$',
+    'Crawl-delay: 1',
     `Sitemap: ${sitemapUrl}`,
   ];
 
-  return [...baseRules, ...(additionalRules || [])].join("\n");
+  return [...baseRules, ...(additionalRules || [])].join('\n');
 }
 
 // Generate enhanced meta description with better length optimization
 export function generateOptimizedDescription(description: string, maxLength: number = 160): string {
   if (description.length <= maxLength) return description;
-  
+
   // Try to break at sentence boundaries
   const sentences = description.split(/[.!?]+/);
-  let optimized = "";
-  
+  let optimized = '';
+
   for (const sentence of sentences) {
     const testLength = optimized.length + sentence.length + 1;
     if (testLength <= maxLength) {
-      optimized += (optimized ? ". " : "") + sentence;
+      optimized += (optimized ? '. ' : '') + sentence;
     } else {
       break;
     }
   }
-  
+
   // If we still don't have a good length, truncate at word boundary
   if (optimized.length < maxLength * 0.7) {
-    const words = description.split(" ");
-    optimized = "";
-    
+    const words = description.split(' ');
+    optimized = '';
+
     for (const word of words) {
       const testLength = optimized.length + word.length + 1;
       if (testLength <= maxLength) {
-        optimized += (optimized ? " " : "") + word;
+        optimized += (optimized ? ' ' : '') + word;
       } else {
         break;
       }
     }
   }
-  
-  return optimized || description.substring(0, maxLength - 3) + "...";
+
+  return optimized || description.substring(0, maxLength - 3) + '...';
 }
 
 // Constants for consistent usage

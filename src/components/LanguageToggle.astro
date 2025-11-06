@@ -16,7 +16,7 @@ const { translations, currentLanguage, currentPath } = Astro.props;
 
 // Filter out current post and sort by language
 const otherTranslations = translations
-  .filter(t => t.path !== currentPath)
+  .filter((t) => t.path !== currentPath)
   .sort((a, b) => {
     // Sort English first, then alphabetically
     if (a.language[0] === 'en') return -1;
@@ -26,35 +26,37 @@ const otherTranslations = translations
 
 // Language display names
 const languageNames: Record<string, string> = {
-  'en': 'English',
-  'es': 'Español'
+  en: 'English',
+  es: 'Español',
 };
 
 // Language flags
 const languageFlags: Record<string, string> = {
-  'en': '🇺🇸',
-  'es': '🇵🇷'
+  en: '🇺🇸',
+  es: '🇵🇷',
 };
 ---
 
-{otherTranslations.length > 0 && (
-  <div class="language-toggle">
-    <span class="language-label">Also available in:</span>
-    {otherTranslations.map(translation => (
-      <a 
-        href={translation.path}
-        class="language-link"
-        title={`Read in ${languageNames[translation.language[0]]}`}
-      >
-        {languageFlags[translation.language[0]]} {languageNames[translation.language[0]]}
-      </a>
-    ))}
-  </div>
-)}
+{
+  otherTranslations.length > 0 && (
+    <div class="language-toggle">
+      <span class="language-label">Also available in:</span>
+      {otherTranslations.map((translation) => (
+        <a
+          href={translation.path}
+          class="language-link"
+          title={`Read in ${languageNames[translation.language[0]]}`}
+        >
+          {languageFlags[translation.language[0]]} {languageNames[translation.language[0]]}
+        </a>
+      ))}
+    </div>
+  )
+}
 
 <style>
   .language-toggle {
-    @apply flex items-center gap-3 mb-8 text-sm text-[rgb(var(--color-text-muted))];
+    @apply mb-8 flex items-center gap-3 text-sm text-[rgb(var(--color-text-muted))];
   }
 
   .language-label {
@@ -62,7 +64,7 @@ const languageFlags: Record<string, string> = {
   }
 
   .language-link {
-    @apply text-[rgb(var(--color-accent))] hover:text-[rgb(var(--color-accent-hover))] font-medium no-underline transition-colors duration-200;
+    @apply font-medium text-[rgb(var(--color-accent))] no-underline transition-colors duration-200 hover:text-[rgb(var(--color-accent-hover))];
   }
 
   .language-link:hover {

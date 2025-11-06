@@ -59,27 +59,27 @@ export function validateRSSFeed(feed: any): FeedValidationResult {
 
   // Check required top-level elements
   if (!feed.title) {
-    result.errors.push("Missing required field: title");
+    result.errors.push('Missing required field: title');
     result.isValid = false;
   }
 
   if (!feed.description) {
-    result.errors.push("Missing required field: description");
+    result.errors.push('Missing required field: description');
     result.isValid = false;
   }
 
   if (!feed.site) {
-    result.errors.push("Missing required field: site");
+    result.errors.push('Missing required field: site');
     result.isValid = false;
   }
 
   // Check items
   if (!feed.items || !Array.isArray(feed.items)) {
-    result.errors.push("Missing or invalid items array");
+    result.errors.push('Missing or invalid items array');
     result.isValid = false;
   } else {
     result.itemCount = feed.items.length;
-    
+
     // Validate each item
     feed.items.forEach((item: RSSItem, index: number) => {
       if (!item.title) {
@@ -138,32 +138,32 @@ export function validateJSONFeed(feed: any): FeedValidationResult {
 
   // Check required top-level elements
   if (!feed.version) {
-    result.errors.push("Missing required field: version");
+    result.errors.push('Missing required field: version');
     result.isValid = false;
   }
 
   if (!feed.title) {
-    result.errors.push("Missing required field: title");
+    result.errors.push('Missing required field: title');
     result.isValid = false;
   }
 
   if (!feed.home_page_url) {
-    result.errors.push("Missing required field: home_page_url");
+    result.errors.push('Missing required field: home_page_url');
     result.isValid = false;
   }
 
   if (!feed.feed_url) {
-    result.errors.push("Missing required field: feed_url");
+    result.errors.push('Missing required field: feed_url');
     result.isValid = false;
   }
 
   // Check items
   if (!feed.items || !Array.isArray(feed.items)) {
-    result.errors.push("Missing or invalid items array");
+    result.errors.push('Missing or invalid items array');
     result.isValid = false;
   } else {
     result.itemCount = feed.items.length;
-    
+
     // Validate each item
     feed.items.forEach((item: JSONFeedItem, index: number) => {
       if (!item.id) {
@@ -200,7 +200,9 @@ export function validateJSONFeed(feed: any): FeedValidationResult {
     // Get last updated date
     if (feed.items.length > 0) {
       const latestItem = feed.items.reduce((latest: JSONFeedItem, current: JSONFeedItem) => {
-        return new Date(current.date_published) > new Date(latest.date_published) ? current : latest;
+        return new Date(current.date_published) > new Date(latest.date_published)
+          ? current
+          : latest;
       });
       result.lastUpdated = latestItem.date_published;
     }
@@ -214,51 +216,51 @@ export function validateJSONFeed(feed: any): FeedValidationResult {
  */
 export function generateFeedHealthReport(
   rssValidation: FeedValidationResult,
-  jsonValidation: FeedValidationResult
+  jsonValidation: FeedValidationResult,
 ): string {
   const report = [
-    "📡 Feed Health Report",
-    "==================",
-    "",
-    "RSS Feed:",
-    `  Status: ${rssValidation.isValid ? "✅ Valid" : "❌ Invalid"}`,
+    '📡 Feed Health Report',
+    '==================',
+    '',
+    'RSS Feed:',
+    `  Status: ${rssValidation.isValid ? '✅ Valid' : '❌ Invalid'}`,
     `  Items: ${rssValidation.itemCount}`,
-    `  Last Updated: ${rssValidation.lastUpdated || "Unknown"}`,
+    `  Last Updated: ${rssValidation.lastUpdated || 'Unknown'}`,
     `  Errors: ${rssValidation.errors.length}`,
     `  Warnings: ${rssValidation.warnings.length}`,
-    "",
-    "JSON Feed:",
-    `  Status: ${jsonValidation.isValid ? "✅ Valid" : "❌ Invalid"}`,
+    '',
+    'JSON Feed:',
+    `  Status: ${jsonValidation.isValid ? '✅ Valid' : '❌ Invalid'}`,
     `  Items: ${jsonValidation.itemCount}`,
-    `  Last Updated: ${jsonValidation.lastUpdated || "Unknown"}`,
+    `  Last Updated: ${jsonValidation.lastUpdated || 'Unknown'}`,
     `  Errors: ${jsonValidation.errors.length}`,
     `  Warnings: ${jsonValidation.warnings.length}`,
-    "",
+    '',
   ];
 
   if (rssValidation.errors.length > 0) {
-    report.push("RSS Errors:");
-    rssValidation.errors.forEach(error => report.push(`  ❌ ${error}`));
-    report.push("");
+    report.push('RSS Errors:');
+    rssValidation.errors.forEach((error) => report.push(`  ❌ ${error}`));
+    report.push('');
   }
 
   if (rssValidation.warnings.length > 0) {
-    report.push("RSS Warnings:");
-    rssValidation.warnings.forEach(warning => report.push(`  ⚠️  ${warning}`));
-    report.push("");
+    report.push('RSS Warnings:');
+    rssValidation.warnings.forEach((warning) => report.push(`  ⚠️  ${warning}`));
+    report.push('');
   }
 
   if (jsonValidation.errors.length > 0) {
-    report.push("JSON Feed Errors:");
-    jsonValidation.errors.forEach(error => report.push(`  ❌ ${error}`));
-    report.push("");
+    report.push('JSON Feed Errors:');
+    jsonValidation.errors.forEach((error) => report.push(`  ❌ ${error}`));
+    report.push('');
   }
 
   if (jsonValidation.warnings.length > 0) {
-    report.push("JSON Feed Warnings:");
-    jsonValidation.warnings.forEach(warning => report.push(`  ⚠️  ${warning}`));
-    report.push("");
+    report.push('JSON Feed Warnings:');
+    jsonValidation.warnings.forEach((warning) => report.push(`  ⚠️  ${warning}`));
+    report.push('');
   }
 
-  return report.join("\n");
-} 
+  return report.join('\n');
+}

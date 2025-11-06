@@ -7,102 +7,107 @@ import SearchBar from './SearchBar.astro';
 import Container from './Container.astro';
 ---
 
-<header 
-	class="sticky top-0 z-40 w-full bg-[rgb(var(--color-bg))]/95 backdrop-blur-md border-b border-[rgb(var(--color-border))]/30 shadow-sm theme-transition"
-	role="banner"
+<header
+  class="theme-transition sticky top-0 z-40 w-full border-b border-[rgb(var(--color-border))]/30 bg-[rgb(var(--color-bg))]/95 shadow-sm backdrop-blur-md"
+  role="banner"
 >
-	<Container padding="none">
-		<div class="flex h-16 md:h-18 items-center justify-between px-4 md:px-6 lg:px-8">
-			<!-- Logo and Primary Navigation -->
-			<div class="flex items-center gap-6 md:gap-8">
-				<Logo />
-				<div class="hidden xl:block">
-					<Navigation />
-				</div>
-			</div>
-			
-			<!-- Search Bar (Desktop) - More Prominent -->
-			<div class="hidden xl:block flex-1 max-w-md mx-8">
-				<SearchBar />
-			</div>
-			
-			<!-- Right Side Actions -->
-			<div class="flex items-center gap-3 md:gap-4">
-				<!-- Search Toggle for Mobile/Tablet -->
-				<button
-					id="mobile-search-toggle"
-					class="xl:hidden p-2 rounded-lg text-[rgb(var(--color-text-muted))] hover:text-[rgb(var(--color-accent))] hover:bg-[rgb(var(--color-bg-alt))] focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] theme-transition"
-					aria-label="Toggle search"
-				>
-					<svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-					</svg>
-				</button>
-				
-				<ThemeToggle />
-				<MobileNav class="xl:hidden" />
-			</div>
-		</div>
-		
-		<!-- Mobile/Tablet Search Bar (Hidden by default) -->
-		<div id="mobile-search-container" class="xl:hidden hidden pb-4">
-			<SearchBar />
-		</div>
-	</Container>
+  <Container padding="none">
+    <div class="md:h-18 flex h-16 items-center justify-between px-4 md:px-6 lg:px-8">
+      <!-- Logo and Primary Navigation -->
+      <div class="flex items-center gap-6 md:gap-8">
+        <Logo />
+        <div class="hidden xl:block">
+          <Navigation />
+        </div>
+      </div>
+
+      <!-- Search Bar (Desktop) - More Prominent -->
+      <div class="mx-8 hidden max-w-md flex-1 xl:block">
+        <SearchBar />
+      </div>
+
+      <!-- Right Side Actions -->
+      <div class="flex items-center gap-3 md:gap-4">
+        <!-- Search Toggle for Mobile/Tablet -->
+        <button
+          id="mobile-search-toggle"
+          class="theme-transition rounded-lg p-2 text-[rgb(var(--color-text-muted))] hover:bg-[rgb(var(--color-bg-alt))] hover:text-[rgb(var(--color-accent))] focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] xl:hidden"
+          aria-label="Toggle search"
+        >
+          <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+          </svg>
+        </button>
+
+        <ThemeToggle />
+        <MobileNav class="xl:hidden" />
+      </div>
+    </div>
+
+    <!-- Mobile/Tablet Search Bar (Hidden by default) -->
+    <div id="mobile-search-container" class="hidden pb-4 xl:hidden">
+      <SearchBar />
+    </div>
+  </Container>
 </header>
 
 <script>
-	// Mobile search toggle functionality
-	let mobileSearchToggle: HTMLElement | null = null;
-	let mobileSearchContainer: HTMLElement | null = null;
-	let isSearchVisible = false;
+  // Mobile search toggle functionality
+  let mobileSearchToggle: HTMLElement | null = null;
+  let mobileSearchContainer: HTMLElement | null = null;
+  let isSearchVisible = false;
 
-	function initializeMobileSearch() {
-		mobileSearchToggle = document.getElementById('mobile-search-toggle');
-		mobileSearchContainer = document.getElementById('mobile-search-container');
-		
-		if (!mobileSearchToggle || !mobileSearchContainer) return;
-		
-		mobileSearchToggle.addEventListener('click', toggleMobileSearch);
-	}
+  function initializeMobileSearch() {
+    mobileSearchToggle = document.getElementById('mobile-search-toggle');
+    mobileSearchContainer = document.getElementById('mobile-search-container');
 
-	function toggleMobileSearch() {
-		if (!mobileSearchContainer) return;
-		
-		isSearchVisible = !isSearchVisible;
-		
-		if (isSearchVisible) {
-			mobileSearchContainer.classList.remove('hidden');
-			// Focus the search input
-			const searchInput = mobileSearchContainer.querySelector('input');
-			if (searchInput) {
-				setTimeout(() => searchInput.focus(), 100);
-			}
-		} else {
-			mobileSearchContainer.classList.add('hidden');
-		}
-	}
+    if (!mobileSearchToggle || !mobileSearchContainer) return;
 
-	// Initialize when DOM is ready
-	if (document.readyState === 'loading') {
-		document.addEventListener('DOMContentLoaded', initializeMobileSearch);
-	} else {
-		initializeMobileSearch();
-	}
+    mobileSearchToggle.addEventListener('click', toggleMobileSearch);
+  }
+
+  function toggleMobileSearch() {
+    if (!mobileSearchContainer) return;
+
+    isSearchVisible = !isSearchVisible;
+
+    if (isSearchVisible) {
+      mobileSearchContainer.classList.remove('hidden');
+      // Focus the search input
+      const searchInput = mobileSearchContainer.querySelector('input');
+      if (searchInput) {
+        setTimeout(() => searchInput.focus(), 100);
+      }
+    } else {
+      mobileSearchContainer.classList.add('hidden');
+    }
+  }
+
+  // Initialize when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeMobileSearch);
+  } else {
+    initializeMobileSearch();
+  }
 </script>
 
 <style>
-	/* Smooth transitions for dark mode */
-	header {
-		transition: background-color var(--animation-duration-fast) var(--animation-easing-default),
-					border-color var(--animation-duration-fast) var(--animation-easing-default),
-					box-shadow var(--animation-duration-fast) var(--animation-easing-default);
-	}
+  /* Smooth transitions for dark mode */
+  header {
+    transition:
+      background-color var(--animation-duration-fast) var(--animation-easing-default),
+      border-color var(--animation-duration-fast) var(--animation-easing-default),
+      box-shadow var(--animation-duration-fast) var(--animation-easing-default);
+  }
 
-	/* Respect reduced motion preferences */
-	@media (prefers-reduced-motion: reduce) {
-		header {
-			transition: none !important;
-		}
-	}
-</style> 
+  /* Respect reduced motion preferences */
+  @media (prefers-reduced-motion: reduce) {
+    header {
+      transition: none !important;
+    }
+  }
+</style>

@@ -4,20 +4,20 @@
 
 export const giscusConfig = {
   // Your GitHub repository in the format "username/repository"
-  repo: "antoniwan/blog",
+  repo: 'antoniwan/blog',
 
   // Repository ID - get this from giscus.app
-  repoId: "R_kgDOOioNWQ",
+  repoId: 'R_kgDOOioNWQ',
 
   // Category name for discussions (default: "Announcements")
-  category: "Ideas",
+  category: 'Ideas',
 
   // Category ID - get this from giscus.app
-  categoryId: "DIC_kwDOOioNWc4CtgLt",
+  categoryId: 'DIC_kwDOOioNWc4CtgLt',
 
   // Mapping between pages and discussions
   // Options: "pathname", "url", "title", "og:title"
-  mapping: "title",
+  mapping: 'title',
 
   // Strict mapping - only create discussions for pages with explicit frontmatter
   strict: false, // Set to false to allow automatic discussion creation
@@ -29,14 +29,14 @@ export const giscusConfig = {
   emitMetadata: false,
 
   // Input position
-  inputPosition: "bottom" as const,
+  inputPosition: 'bottom' as const,
 
   // Language
-  lang: "en",
+  lang: 'en',
 
   // Loading strategy
-  loading: "lazy" as const,
+  loading: 'lazy' as const,
 
   // Theme - will automatically follow your site's theme
-  theme: "light" as const, // Will be dynamically updated by JavaScript
+  theme: 'light' as const, // Will be dynamically updated by JavaScript
 };

@@ -6,28 +6,28 @@
  */
 
 // Storage version for schema management
-export const STORAGE_VERSION = "1.0";
+export const STORAGE_VERSION = '1.0';
 
 // Storage keys
 export const STORAGE_KEYS = {
   // Reading progress system
   READ_POSTS: `blog-read-posts-v${STORAGE_VERSION}`,
-  READ_POSTS_LEGACY: "blog-read-posts", // For backwards compatibility
+  READ_POSTS_LEGACY: 'blog-read-posts', // For backwards compatibility
 
   // Other localStorage features (from LocalStorageManager)
-  PREFERENCES: "blog-preferences",
-  SESSION: "blog-session",
-  ANALYTICS: "blog-analytics",
-  SEARCH_HISTORY: "blog-search-history",
-  BOOKMARKED_POSTS: "blog-bookmarked-posts",
-  READING_GOALS: "blog-reading-goals",
+  PREFERENCES: 'blog-preferences',
+  SESSION: 'blog-session',
+  ANALYTICS: 'blog-analytics',
+  SEARCH_HISTORY: 'blog-search-history',
+  BOOKMARKED_POSTS: 'blog-bookmarked-posts',
+  READING_GOALS: 'blog-reading-goals',
 } as const;
 
 // Event names for cross-component communication
 export const STORAGE_EVENTS = {
-  POST_READ: "post-read",
-  READ_POSTS_CLEARED: "read-posts-cleared",
-  READING_DATA_UPDATED: "reading-data-updated",
+  POST_READ: 'post-read',
+  READ_POSTS_CLEARED: 'read-posts-cleared',
+  READING_DATA_UPDATED: 'reading-data-updated',
 } as const;
 
 // Timing constants (in milliseconds)
@@ -39,42 +39,38 @@ export const TIMING = {
 
 // Event detail types
 export interface ReadingDataUpdatedDetail {
-  type: "post-read" | "posts-cleared" | "all-cleared";
+  type: 'post-read' | 'posts-cleared' | 'all-cleared';
   postSlug?: string;
   readData?: any;
 }
 
 // Helper functions for event dispatching
-export function createReadingDataUpdatedEvent(
-  detail: ReadingDataUpdatedDetail
-): CustomEvent {
+export function createReadingDataUpdatedEvent(detail: ReadingDataUpdatedDetail): CustomEvent {
   return new CustomEvent(STORAGE_EVENTS.READING_DATA_UPDATED, { detail });
 }
 
 export function dispatchReadingEvents(postSlug: string, readData: any): void {
-  if (typeof window !== "undefined") {
+  if (typeof window !== 'undefined') {
     // Dispatch legacy event for compatibility
     window.dispatchEvent(
       new CustomEvent(STORAGE_EVENTS.POST_READ, {
         detail: { postSlug, readData },
-      })
+      }),
     );
 
     // Dispatch enhanced event for immediate reactivity
     window.dispatchEvent(
       createReadingDataUpdatedEvent({
-        type: "post-read",
+        type: 'post-read',
         postSlug,
         readData,
-      })
+      }),
     );
   }
 }
 
-export function dispatchClearEvents(
-  type: "posts-cleared" | "all-cleared"
-): void {
-  if (typeof window !== "undefined") {
+export function dispatchClearEvents(type: 'posts-cleared' | 'all-cleared'): void {
+  if (typeof window !== 'undefined') {
     window.dispatchEvent(new CustomEvent(STORAGE_EVENTS.READ_POSTS_CLEARED));
     window.dispatchEvent(createReadingDataUpdatedEvent({ type }));
   }
@@ -82,9 +78,7 @@ export function dispatchClearEvents(
 
 // Type guards and utilities
 export function isReadPostsKey(key: string): boolean {
-  return (
-    key === STORAGE_KEYS.READ_POSTS || key === STORAGE_KEYS.READ_POSTS_LEGACY
-  );
+  return key === STORAGE_KEYS.READ_POSTS || key === STORAGE_KEYS.READ_POSTS_LEGACY;
 }
 
 export function getAllReadPostsKeys(): string[] {

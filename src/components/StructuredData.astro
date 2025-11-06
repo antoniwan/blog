@@ -7,9 +7,13 @@ interface Props {
 const { data, additionalSchemas = [] } = Astro.props;
 
 // Combine main structured data with additional schemas
-const allSchemas = Array.isArray(data) ? [...data, ...additionalSchemas] : [data, ...additionalSchemas];
+const allSchemas = Array.isArray(data)
+  ? [...data, ...additionalSchemas]
+  : [data, ...additionalSchemas];
 ---
 
-{allSchemas.map((schema) => (
-  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
-))} 
+{
+  allSchemas.map((schema) => (
+    <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+  ))
+}

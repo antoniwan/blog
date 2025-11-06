@@ -2,151 +2,166 @@
 import type { Category } from '../data/categories';
 
 interface Props {
-	category: Category;
-	postCount: number;
-	featured?: boolean;
-	compact?: boolean;
+  category: Category;
+  postCount: number;
+  featured?: boolean;
+  compact?: boolean;
 }
 
 const { category, postCount, featured = false, compact = false } = Astro.props;
 ---
 
-<a 
-	href={`/category/${category.id}/`}
-	class="group relative block interactive-card overflow-hidden"
-	class:list={{
-		'featured-category': featured,
-		'compact-category': compact,
-		'hover:-translate-y-2': !compact,
-		'hover:-translate-y-1': compact
-	}}
+<a
+  href={`/category/${category.id}/`}
+  class="interactive-card group relative block overflow-hidden"
+  class:list={{
+    'featured-category': featured,
+    'compact-category': compact,
+    'hover:-translate-y-2': !compact,
+    'hover:-translate-y-1': compact,
+  }}
 >
-	<!-- Subtle gradient overlay -->
-					<div class="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-[rgb(var(--color-accent))]/5 opacity-0 group-hover:opacity-100 transition-normal pointer-events-none"></div>
-	
-	<!-- Card content -->
-	<div class="relative p-6 md:p-8">
-		<div class="flex items-start gap-4">
-			<!-- Icon -->
-			<div class="flex-shrink-0">
-				<div class="w-12 h-12 md:w-14 md:h-14 bg-gradient-to-br from-[rgb(var(--color-accent))]/10 to-[rgb(var(--color-accent))]/10 rounded-xl flex items-center justify-center text-2xl md:text-3xl group-hover:scale-110 theme-transition">
-					{category.icon}
-				</div>
-			</div>
-			
-			<!-- Content -->
-			<div class="flex-1 min-w-0">
-				<h3 class="text-xl md:text-2xl font-semibold text-[rgb(var(--color-text))] group-hover:text-[rgb(var(--color-accent))] transition-normal mb-2 leading-tight mt-0">
-					{category.name}
-				</h3>
-				
-				{!compact && (
-					<p class="text-base md:text-lg text-body-muted mb-3 line-clamp-2 leading-relaxed mt-0">
-						{category.description}
-					</p>
-				)}
-				
-				<div class="flex items-center justify-between">
-					<span class="text-base text-body-muted font-medium leading-relaxed">
-						{postCount} {postCount === 1 ? 'writing' : 'writings'}
-					</span>
-					<span class="text-[rgb(var(--color-accent))] group-hover:translate-x-1 transition-normal font-semibold">
-						→
-					</span>
-				</div>
-			</div>
-		</div>
-	</div>
-	
-	<!-- Hover indicator -->
-	<div class="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-[rgb(var(--color-accent))] to-[rgb(var(--color-accent))] transform scale-x-0 group-hover:scale-x-100 transition-normal origin-left"></div>
+  <!-- Subtle gradient overlay -->
+  <div
+    class="transition-normal pointer-events-none absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-[rgb(var(--color-accent))]/5 opacity-0 group-hover:opacity-100"
+  >
+  </div>
+
+  <!-- Card content -->
+  <div class="relative p-6 md:p-8">
+    <div class="flex items-start gap-4">
+      <!-- Icon -->
+      <div class="flex-shrink-0">
+        <div
+          class="theme-transition flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-[rgb(var(--color-accent))]/10 to-[rgb(var(--color-accent))]/10 text-2xl group-hover:scale-110 md:h-14 md:w-14 md:text-3xl"
+        >
+          {category.icon}
+        </div>
+      </div>
+
+      <!-- Content -->
+      <div class="min-w-0 flex-1">
+        <h3
+          class="transition-normal mb-2 mt-0 text-xl font-semibold leading-tight text-[rgb(var(--color-text))] group-hover:text-[rgb(var(--color-accent))] md:text-2xl"
+        >
+          {category.name}
+        </h3>
+
+        {
+          !compact && (
+            <p class="text-body-muted mb-3 mt-0 line-clamp-2 text-base leading-relaxed md:text-lg">
+              {category.description}
+            </p>
+          )
+        }
+
+        <div class="flex items-center justify-between">
+          <span class="text-body-muted text-base font-medium leading-relaxed">
+            {postCount}
+            {postCount === 1 ? 'writing' : 'writings'}
+          </span>
+          <span
+            class="transition-normal font-semibold text-[rgb(var(--color-accent))] group-hover:translate-x-1"
+          >
+            →
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hover indicator -->
+  <div
+    class="transition-normal absolute bottom-0 left-0 right-0 h-1 origin-left scale-x-0 transform bg-gradient-to-r from-[rgb(var(--color-accent))] to-[rgb(var(--color-accent))] group-hover:scale-x-100"
+  >
+  </div>
 </a>
 
 <style>
-	/* Enhanced category card styling */
-	a {
-		transition: all 0.2s ease;
-		backdrop-filter: blur(8px);
-	}
+  /* Enhanced category card styling */
+  a {
+    transition: all 0.2s ease;
+    backdrop-filter: blur(8px);
+  }
 
-	/* Featured category styling */
-	.featured-category {
-		border-color: rgb(var(--color-accent) / 0.2);
-		box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
-		background: linear-gradient(135deg, 
-			rgb(var(--color-bg)) 0%, 
-			rgb(var(--color-bg-alt)) 100%);
-	}
+  /* Featured category styling */
+  .featured-category {
+    border-color: rgb(var(--color-accent) / 0.2);
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+    background: linear-gradient(135deg, rgb(var(--color-bg)) 0%, rgb(var(--color-bg-alt)) 100%);
+  }
 
-	/* Compact category styling */
-	.compact-category {
-		@apply p-4 md:p-6;
-	}
+  /* Compact category styling */
+  .compact-category {
+    @apply p-4 md:p-6;
+  }
 
-	.compact-category .flex-1 {
-		@apply space-y-2;
-	}
+  .compact-category .flex-1 {
+    @apply space-y-2;
+  }
 
-	/* Enhanced hover effects */
-	.group:hover {
-		box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 10px 10px -5px rgb(0 0 0 / 0.04);
-		border-color: rgb(var(--color-accent) / 0.2);
-	}
+  /* Enhanced hover effects */
+  .group:hover {
+    box-shadow:
+      0 20px 25px -5px rgb(0 0 0 / 0.1),
+      0 10px 10px -5px rgb(0 0 0 / 0.04);
+    border-color: rgb(var(--color-accent) / 0.2);
+  }
 
-	/* Enhanced focus states */
-	.group:focus {
-		outline: 2px solid rgb(var(--color-accent));
-		outline-offset: 2px;
-		border-radius: 0.75rem;
-	}
+  /* Enhanced focus states */
+  .group:focus {
+    outline: 2px solid rgb(var(--color-accent));
+    outline-offset: 2px;
+    border-radius: 0.75rem;
+  }
 
-	/* Icon hover effects */
-	.group:hover .w-12 {
-		transform: scale(1.1);
-	}
+  /* Icon hover effects */
+  .group:hover .w-12 {
+    transform: scale(1.1);
+  }
 
-	/* Respect reduced motion preferences */
-	@media (prefers-reduced-motion: reduce) {
-		a {
-			transition: none !important;
-		}
+  /* Respect reduced motion preferences */
+  @media (prefers-reduced-motion: reduce) {
+    a {
+      transition: none !important;
+    }
 
-		.group:hover {
-			transform: none;
-		}
-		
-		.group:hover .scale-x-100 {
-			transform: none;
-		}
-		
-		.group:hover .w-12 {
-			transform: none;
-		}
-	}
+    .group:hover {
+      transform: none;
+    }
 
-	/* Override global h3 and p margins for category cards */
-	h3 {
-		margin-top: 0 !important;
-	}
+    .group:hover .scale-x-100 {
+      transform: none;
+    }
 
-	p {
-		margin-top: 0 !important;
-	}
+    .group:hover .w-12 {
+      transform: none;
+    }
+  }
 
-	/* Responsive adjustments */
-	@media (max-width: 768px) {
-		/* Smaller hover effect on mobile */
-		.group:hover {
-			transform: translateY(-1px);
-		}
-		
-		/* Adjust icon size for mobile */
-		.w-12.h-12 {
-			@apply w-10 h-10;
-		}
-		
-		.text-2xl {
-			@apply text-xl;
-		}
-	}
-</style> 
+  /* Override global h3 and p margins for category cards */
+  h3 {
+    margin-top: 0 !important;
+  }
+
+  p {
+    margin-top: 0 !important;
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    /* Smaller hover effect on mobile */
+    .group:hover {
+      transform: translateY(-1px);
+    }
+
+    /* Adjust icon size for mobile */
+    .w-12.h-12 {
+      @apply h-10 w-10;
+    }
+
+    .text-2xl {
+      @apply text-xl;
+    }
+  }
+</style>

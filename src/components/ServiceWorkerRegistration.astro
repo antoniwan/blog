@@ -7,10 +7,11 @@
   // Simple Service Worker Registration
   if ('serviceWorker' in navigator) {
     // Register service worker
-    navigator.serviceWorker.register('/sw.js', { scope: '/' })
-      .then(registration => {
+    navigator.serviceWorker
+      .register('/sw.js', { scope: '/' })
+      .then((registration) => {
         console.log('Service Worker registered successfully:', registration);
-        
+
         // Check for updates
         registration.addEventListener('updatefound', () => {
           const newWorker = registration.installing;
@@ -23,7 +24,7 @@
           }
         });
       })
-      .catch(error => {
+      .catch((error) => {
         console.error('Service Worker registration failed:', error);
       });
 
@@ -65,7 +66,7 @@
   function updateServiceWorker() {
     if (navigator.serviceWorker.controller) {
       navigator.serviceWorker.controller.postMessage({ type: 'SKIP_WAITING' });
-      
+
       // Show loading state
       const btn = document.querySelector('.sw-update-btn');
       if (btn) {
@@ -77,19 +78,20 @@
 
   // Expose update function globally
   (window as any).updateServiceWorker = updateServiceWorker;
-  
+
   // Performance mark for service worker registration
   if ('performance' in window) {
     performance.mark('sw-registration-complete');
   }
 </script>
 
-<!-- Service Worker Status Indicator (Development Only) -->
-{import.meta.env.DEV && (
-  <div class="sw-status-indicator" id="sw-status">
-    <span>SW: --</span>
-  </div>
-)}
+<!-- Service Worker Status Indicator (Development Only) -->{
+  import.meta.env.DEV && (
+    <div class="sw-status-indicator" id="sw-status">
+      <span>SW: --</span>
+    </div>
+  )
+}
 
 <style>
   .sw-update-notification {
@@ -106,14 +108,14 @@
     max-width: 300px;
     animation: slideIn 0.3s ease-out;
   }
-  
+
   .sw-update-content {
     display: flex;
     align-items: center;
     gap: 0.5rem;
     flex-wrap: wrap;
   }
-  
+
   .sw-update-btn {
     background: #10b981;
     color: white;
@@ -124,16 +126,16 @@
     font-size: 0.875rem;
     transition: background-color 0.2s ease;
   }
-  
+
   .sw-update-btn:hover {
     background: #059669;
   }
-  
+
   .sw-update-btn:disabled {
     background: #6b7280;
     cursor: not-allowed;
   }
-  
+
   .sw-dismiss-btn {
     background: transparent;
     color: white;
@@ -144,11 +146,11 @@
     border-radius: 4px;
     transition: background-color 0.2s ease;
   }
-  
+
   .sw-dismiss-btn:hover {
     background: rgba(255, 255, 255, 0.1);
   }
-  
+
   @keyframes slideIn {
     from {
       transform: translateX(100%);
@@ -159,7 +161,7 @@
       opacity: 1;
     }
   }
-  
+
   .sw-status-indicator {
     position: fixed;
     bottom: 20px;
@@ -174,11 +176,11 @@
     opacity: 0.7;
     transition: opacity 0.2s ease;
   }
-  
+
   .sw-status-indicator:hover {
     opacity: 1;
   }
-  
+
   @media (max-width: 768px) {
     .sw-update-notification {
       top: 10px;
@@ -186,7 +188,7 @@
       left: 10px;
       max-width: none;
     }
-    
+
     .sw-update-content {
       flex-direction: column;
       align-items: stretch;
@@ -204,7 +206,7 @@
         const controlled = !!navigator.serviceWorker.controller;
         const status = controlled ? 'active ✓' : 'inactive ✗';
         statusElement.innerHTML = `SW: ${status}`;
-        
+
         // Color coding
         if (controlled) {
           statusElement.style.background = 'rgba(16, 185, 129, 0.8)'; // Green

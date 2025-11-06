@@ -1,4 +1,4 @@
-@import "./fonts.css";
+@import './fonts.css';
 
 /*
   Enhanced Theme System
@@ -22,13 +22,12 @@
   :root {
     /* Font families */
     --font-sans:
-      "Open Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-      Roboto, Oxygen, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
-    --font-serif:
-      "Source Serif Pro", Georgia, Cambria, "Times New Roman", Times, serif;
+      'Open Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
+      Cantarell, 'Helvetica Neue', sans-serif;
+    --font-serif: 'Source Serif Pro', Georgia, Cambria, 'Times New Roman', Times, serif;
     --font-mono:
-      "Fira Code", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-      "Liberation Mono", "Courier New", monospace;
+      'Fira Code', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono',
+      'Courier New', monospace;
 
     /* Light theme colors - Serious & Professional */
     --color-bg: 255 255 255; /* Pure white background */
@@ -76,7 +75,7 @@
   }
 
   body {
-    @apply m-0 min-h-screen flex flex-col bg-[rgb(var(--color-bg))] text-[rgb(var(--color-text))];
+    @apply m-0 flex min-h-screen flex-col bg-[rgb(var(--color-bg))] text-[rgb(var(--color-text))];
   }
 
   /* Typography */
@@ -90,37 +89,37 @@
   }
 
   h1 {
-    @apply text-4xl md:text-5xl font-black tracking-tight;
+    @apply text-4xl font-black tracking-tight md:text-5xl;
     line-height: 1.2;
     margin-top: 2.5rem;
     margin-bottom: 1.5rem;
   }
   h2 {
-    @apply text-3xl md:text-4xl font-bold tracking-tight;
+    @apply text-3xl font-bold tracking-tight md:text-4xl;
     line-height: 1.3;
     margin-top: 2rem;
     margin-bottom: 1.25rem;
   }
   h3 {
-    @apply text-2xl md:text-3xl font-semibold tracking-tight;
+    @apply text-2xl font-semibold tracking-tight md:text-3xl;
     line-height: 1.4;
     margin-top: 1.75rem;
     margin-bottom: 1rem;
   }
   h4 {
-    @apply text-xl md:text-2xl font-semibold tracking-tight;
+    @apply text-xl font-semibold tracking-tight md:text-2xl;
     line-height: 1.5;
     margin-top: 1.5rem;
     margin-bottom: 0.75rem;
   }
   h5 {
-    @apply text-lg md:text-xl font-semibold;
+    @apply text-lg font-semibold md:text-xl;
     line-height: 1.6;
     margin-top: 1.25rem;
     margin-bottom: 0.5rem;
   }
   h6 {
-    @apply text-base md:text-lg font-semibold;
+    @apply text-base font-semibold md:text-lg;
     line-height: 1.6;
     margin-top: 1rem;
     margin-bottom: 0.5rem;
@@ -137,13 +136,13 @@
 
   /* Enhanced blockquote paragraph styles - matching disclaimer and blockquote styling */
   blockquote p {
-    @apply text-[rgb(var(--color-text-muted))] leading-relaxed m-0;
+    @apply m-0 leading-relaxed text-[rgb(var(--color-text-muted))];
     font-style: italic;
   }
 
   /* Blockquote paragraph with enhanced styling for better visual hierarchy */
   .prose blockquote p {
-    @apply text-[rgb(var(--color-text-muted))] leading-relaxed;
+    @apply leading-relaxed text-[rgb(var(--color-text-muted))];
     font-style: italic;
     margin: 0;
     position: relative;
@@ -166,7 +165,7 @@
 
   /* Links */
   a {
-    @apply text-[rgb(var(--color-accent))] hover:text-[rgb(var(--color-accent-hover))] no-underline;
+    @apply text-[rgb(var(--color-accent))] no-underline hover:text-[rgb(var(--color-accent-hover))];
   }
 
   a:focus {
@@ -177,7 +176,7 @@
   input,
   textarea,
   select {
-    @apply bg-[rgb(var(--color-bg-alt))] text-[rgb(var(--color-text))] border border-[rgb(var(--color-border))] rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))]/50;
+    @apply rounded-md border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg-alt))] px-3 py-2 text-[rgb(var(--color-text))] focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))]/50;
   }
 
   /* Enhanced Tables */
@@ -201,7 +200,7 @@
   }
 
   th {
-    @apply bg-[rgb(var(--color-bg-alt))] font-bold text-[rgb(var(--color-text))] text-left;
+    @apply bg-[rgb(var(--color-bg-alt))] text-left font-bold text-[rgb(var(--color-text))];
     font-size: 0.95rem;
     letter-spacing: 0.025em;
     text-transform: uppercase;
@@ -260,17 +259,13 @@
 
   /* Table header accent */
   th::after {
-    content: "";
+    content: '';
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
     height: 2px;
-    background: linear-gradient(
-      90deg,
-      rgb(var(--color-primary)),
-      rgb(var(--color-accent))
-    );
+    background: linear-gradient(90deg, rgb(var(--color-primary)), rgb(var(--color-accent)));
   }
 
   /* Responsive table improvements */
@@ -288,11 +283,11 @@
 
   /* Code blocks */
   code {
-    @apply font-mono text-sm bg-[rgb(var(--color-bg-alt))] px-1.5 py-0.5 rounded;
+    @apply rounded bg-[rgb(var(--color-bg-alt))] px-1.5 py-0.5 font-mono text-sm;
   }
 
   pre {
-    @apply bg-[rgb(var(--color-bg-alt))] p-4 md:p-6 rounded-lg overflow-x-auto;
+    @apply overflow-x-auto rounded-lg bg-[rgb(var(--color-bg-alt))] p-4 md:p-6;
     margin: 1.5rem 0;
   }
 
@@ -312,7 +307,7 @@
 
   /* Horizontal rule */
   hr {
-    @apply border-t border-[rgb(var(--color-border))] my-8;
+    @apply my-8 border-t border-[rgb(var(--color-border))];
   }
 
   /* Selection */
@@ -357,11 +352,11 @@
 @layer components {
   /* Enhanced typography utilities for better hierarchy */
   .text-heading {
-    @apply text-2xl md:text-3xl lg:text-4xl font-bold leading-tight tracking-tight;
+    @apply text-2xl font-bold leading-tight tracking-tight md:text-3xl lg:text-4xl;
   }
 
   .text-body-large {
-    @apply text-lg md:text-xl leading-relaxed;
+    @apply text-lg leading-relaxed md:text-xl;
   }
 
   /* Animation utilities */
@@ -371,66 +366,66 @@
 
   /* Button utilities */
   .btn-primary {
-    @apply inline-flex items-center gap-2 px-4 py-2 bg-[rgb(var(--color-primary))] text-white rounded-lg hover:bg-[rgb(var(--color-primary-hover))] transition-colors font-semibold;
+    @apply inline-flex items-center gap-2 rounded-lg bg-[rgb(var(--color-primary))] px-4 py-2 font-semibold text-white transition-colors hover:bg-[rgb(var(--color-primary-hover))];
   }
 
   .btn-secondary {
-    @apply inline-flex items-center gap-2 px-4 py-2 bg-[rgb(var(--color-bg-alt))] text-[rgb(var(--color-text))] border border-[rgb(var(--color-border))] rounded-lg hover:bg-[rgb(var(--color-bg-alt))]/80 transition-colors font-medium;
+    @apply inline-flex items-center gap-2 rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg-alt))] px-4 py-2 font-medium text-[rgb(var(--color-text))] transition-colors hover:bg-[rgb(var(--color-bg-alt))]/80;
   }
 
   .btn-accent {
-    @apply inline-flex items-center gap-2 px-4 py-2 bg-[rgb(var(--color-accent))] text-white rounded-lg hover:bg-[rgb(var(--color-accent-hover))] transition-colors font-semibold;
+    @apply inline-flex items-center gap-2 rounded-lg bg-[rgb(var(--color-accent))] px-4 py-2 font-semibold text-white transition-colors hover:bg-[rgb(var(--color-accent-hover))];
   }
 
   .btn-highlight {
-    @apply inline-flex items-center gap-2 px-4 py-2 bg-[rgb(var(--color-highlight))] text-[rgb(var(--color-text))] rounded-lg hover:bg-[rgb(var(--color-highlight))]/90 transition-colors font-bold;
+    @apply inline-flex items-center gap-2 rounded-lg bg-[rgb(var(--color-highlight))] px-4 py-2 font-bold text-[rgb(var(--color-text))] transition-colors hover:bg-[rgb(var(--color-highlight))]/90;
   }
 
   .btn-outline {
-    @apply inline-flex items-center gap-2 px-4 py-2 bg-transparent text-[rgb(var(--color-text))] border border-[rgb(var(--color-border))] rounded-lg hover:bg-[rgb(var(--color-bg-alt))] transition-colors font-medium;
+    @apply inline-flex items-center gap-2 rounded-lg border border-[rgb(var(--color-border))] bg-transparent px-4 py-2 font-medium text-[rgb(var(--color-text))] transition-colors hover:bg-[rgb(var(--color-bg-alt))];
   }
 
   /* Link utilities */
   .link {
-    @apply text-[rgb(var(--color-accent))] hover:text-[rgb(var(--color-accent-hover))] transition-colors;
+    @apply text-[rgb(var(--color-accent))] transition-colors hover:text-[rgb(var(--color-accent-hover))];
   }
 
   .link-muted {
-    @apply text-[rgb(var(--color-text-muted))] hover:text-[rgb(var(--color-accent))] transition-colors;
+    @apply text-[rgb(var(--color-text-muted))] transition-colors hover:text-[rgb(var(--color-accent))];
   }
 
   .link-primary {
-    @apply text-[rgb(var(--color-primary))] hover:text-[rgb(var(--color-primary-hover))] transition-colors font-semibold;
+    @apply font-semibold text-[rgb(var(--color-primary))] transition-colors hover:text-[rgb(var(--color-primary-hover))];
   }
 
   /* Highlight utilities for shocking/curious elements */
   .highlight-shock {
-    @apply bg-[rgb(var(--color-highlight))] text-[rgb(var(--color-text))] px-2 py-1 rounded font-bold;
+    @apply rounded bg-[rgb(var(--color-highlight))] px-2 py-1 font-bold text-[rgb(var(--color-text))];
   }
 
   .highlight-primary {
-    @apply bg-[rgb(var(--color-primary))] text-white px-2 py-1 rounded font-bold;
+    @apply rounded bg-[rgb(var(--color-primary))] px-2 py-1 font-bold text-white;
   }
 
   .highlight-accent {
-    @apply bg-[rgb(var(--color-accent))] text-white px-2 py-1 rounded font-semibold;
+    @apply rounded bg-[rgb(var(--color-accent))] px-2 py-1 font-semibold text-white;
   }
 
   .highlight-brain {
-    @apply bg-purple-600 text-white px-2 py-1 rounded font-semibold;
+    @apply rounded bg-purple-600 px-2 py-1 font-semibold text-white;
   }
 
   /* Status utilities */
   .status-success {
-    @apply text-[rgb(var(--color-success))] font-semibold;
+    @apply font-semibold text-[rgb(var(--color-success))];
   }
 
   .status-warning {
-    @apply text-[rgb(var(--color-warning))] font-semibold;
+    @apply font-semibold text-[rgb(var(--color-warning))];
   }
 
   .status-error {
-    @apply text-[rgb(var(--color-error))] font-semibold;
+    @apply font-semibold text-[rgb(var(--color-error))];
   }
 
   /* Search results enhancements */
@@ -444,7 +439,7 @@
 
   /* Search dropdown enhancements */
   .search-dropdown {
-    @apply backdrop-blur-sm border-[rgb(var(--color-border))] shadow-xl;
+    @apply border-[rgb(var(--color-border))] shadow-xl backdrop-blur-sm;
   }
 
   .search-dropdown-item {
@@ -462,15 +457,15 @@
   }
 
   .search-result-image {
-    @apply flex-shrink-0 w-16 h-16 bg-[rgb(var(--color-bg-alt))] rounded-lg overflow-hidden border border-[rgb(var(--color-border))]/50;
+    @apply h-16 w-16 flex-shrink-0 overflow-hidden rounded-lg border border-[rgb(var(--color-border))]/50 bg-[rgb(var(--color-bg-alt))];
   }
 
   .search-result-text {
-    @apply flex-1 min-w-0 pt-1;
+    @apply min-w-0 flex-1 pt-1;
   }
 
   .search-result-title {
-    @apply text-sm font-semibold text-[rgb(var(--color-text))] leading-tight mb-1.5 mt-0;
+    @apply mb-1.5 mt-0 text-sm font-semibold leading-tight text-[rgb(var(--color-text))];
     overflow: hidden;
     display: -webkit-box;
     -webkit-box-orient: vertical;
@@ -478,7 +473,7 @@
   }
 
   .search-result-description {
-    @apply text-xs text-[rgb(var(--color-text-muted))] leading-relaxed mb-2.5 mt-0;
+    @apply mb-2.5 mt-0 text-xs leading-relaxed text-[rgb(var(--color-text-muted))];
     overflow: hidden;
     display: -webkit-box;
     -webkit-box-orient: vertical;
@@ -486,7 +481,7 @@
   }
 
   .search-result-category {
-    @apply text-xs bg-[rgb(var(--color-bg-alt))] text-[rgb(var(--color-text-muted))] px-2 py-1 rounded-md border border-[rgb(var(--color-border))]/50 inline-block font-medium;
+    @apply inline-block rounded-md border border-[rgb(var(--color-border))]/50 bg-[rgb(var(--color-bg-alt))] px-2 py-1 text-xs font-medium text-[rgb(var(--color-text-muted))];
   }
 
   /* Remove default h3 margins in search results */
@@ -496,7 +491,7 @@
 
   /* Remove default p margins in search results */
   .search-result-item p {
-    @apply mt-0 mb-0;
+    @apply mb-0 mt-0;
   }
 }
 

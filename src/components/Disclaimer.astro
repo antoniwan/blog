@@ -10,7 +10,7 @@ interface Props {
 const { text = DISCLAIMER_TEXT, class: className = '', style = '' } = Astro.props;
 ---
 
-<div 
+<div
   class:list={[
     'bg-[rgb(var(--color-bg-alt))]/50',
     'border-l-4 border-[rgb(var(--color-primary))]',
@@ -19,15 +19,17 @@ const { text = DISCLAIMER_TEXT, class: className = '', style = '' } = Astro.prop
     'rounded-md',
     'shadow-sm',
     'theme-transition',
-    className
+    className,
   ]}
   role="complementary"
   aria-label="Disclaimer"
   style={style}
 >
-	<div class="flex items-center gap-2 mb-2">
-		<span class="text-xl" aria-hidden="true">🌟</span>
-		<span class="font-semibold text-[rgb(var(--color-text))] text-lg leading-tight">Sacred Disclaimer</span>
+  <div class="mb-2 flex items-center gap-2">
+    <span class="text-xl" aria-hidden="true">🌟</span>
+    <span class="text-lg font-semibold leading-tight text-[rgb(var(--color-text))]"
+      >Sacred Disclaimer</span
+    >
   </div>
-			<p class="text-body-muted m-0 leading-relaxed" set:html={text} />
-</div> 
+  <p class="text-body-muted m-0 leading-relaxed" set:html={text} />
+</div>

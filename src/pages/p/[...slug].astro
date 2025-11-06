@@ -11,15 +11,15 @@ import { categories } from '../../data/categories';
 export const prerender = true;
 
 export async function getStaticPaths() {
-	const posts = await getCollection('blog');
-	return posts.map((post) => ({
-		params: { slug: post.id },
-		props: { post, allPosts: posts },
-	}));
+  const posts = await getCollection('blog');
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post, allPosts: posts },
+  }));
 }
 interface Props {
-	post: CollectionEntry<'blog'>;
-	allPosts: CollectionEntry<'blog'>[];
+  post: CollectionEntry<'blog'>;
+  allPosts: CollectionEntry<'blog'>[];
 }
 
 const { post, allPosts } = Astro.props;
@@ -29,10 +29,7 @@ const { Content } = await render(post);
 const readingTime = calculateReadingTimeFromMarkdown(post.body || '');
 
 // Auto-generate keywords from tags and categories
-const keywords = generateKeywords(
-	post.data.tags || [],
-	post.data.category || []
-);
+const keywords = generateKeywords(post.data.tags || [], post.data.category || []);
 
 // Auto-generate image alt text
 const imageAlt = generateImageAlt(post.data.title);
@@ -41,42 +38,44 @@ const imageAlt = generateImageAlt(post.data.title);
 const author = post.data.author || AUTHOR.name;
 
 // Get category name from category ID
-const categoryName = post.data.category && post.data.category.length > 0 
-  ? categories.find(cat => cat.id === post.data.category![0])?.name || post.data.category![0]
-  : null;
+const categoryName =
+  post.data.category && post.data.category.length > 0
+    ? categories.find((cat) => cat.id === post.data.category![0])?.name || post.data.category![0]
+    : null;
 
 // Generate table of contents from headings
 const headings = post.body?.match(/<h[2-3][^>]*>.*?<\/h[2-3]>/g) || [];
-const tableOfContents = headings.map(heading => {
-	const text = heading.replace(/<[^>]+>/g, '');
-	const level = parseInt(heading.match(/<h([2-3])/)?.[1] || '2');
-	const slug = text.toLowerCase().replace(/[^a-z0-9]+/g, '-');
-	return { text, slug, level };
+const tableOfContents = headings.map((heading) => {
+  const text = heading.replace(/<[^>]+>/g, '');
+  const level = parseInt(heading.match(/<h([2-3])/)?.[1] || '2');
+  const slug = text.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+  return { text, slug, level };
 });
 
 // Get translation data
 const translationData = await getTranslationData(post, allPosts);
 ---
 
-<BlogLayout 
-	title={post.data.title}
-	description={post.data.description}
-	pubDate={post.data.pubDate}
-	updatedDate={post.data.updatedDate}
-	heroImage={post.data.heroImage}
-	minutesRead={readingTime}
-	tags={post.data.tags}
-	category={post.data.category}
-	categoryName={categoryName}
-	path={`/p/${post.id}`}
-	imageAlt={imageAlt}
-	author={author}
-	keywords={keywords}
-	tableOfContents={tableOfContents}
-	showComments={post.data.showComments}
-	translationData={translationData}
-	currentPost={post}
-	allPosts={allPosts}
+<BlogLayout
+  title={post.data.title}
+  description={post.data.description}
+  pubDate={post.data.pubDate}
+  updatedDate={post.data.updatedDate}
+  heroImage={post.data.heroImage}
+  minutesRead={readingTime}
+  tags={post.data.tags}
+  category={post.data.category}
+  categoryName={categoryName}
+  path={`/p/${post.id}`}
+  imageAlt={imageAlt}
+  author={author}
+  keywords={keywords}
+  tableOfContents={tableOfContents}
+  showComments={post.data.showComments}
+  translationData={translationData}
+  currentPost={post}
+  allPosts={allPosts}
 >
-	<Content />
-</BlogLayout> 
+  <Content />
+</BlogLayout>
+

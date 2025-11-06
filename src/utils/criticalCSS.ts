@@ -18,7 +18,7 @@ export function getCriticalCSS(options: CriticalCSSOptions = {}) {
     includeAboveFold = true,
     includeTypography = true,
     includeLayout = true,
-    includeTheme = true
+    includeTheme = true,
   } = options;
 
   let criticalCSS = '';

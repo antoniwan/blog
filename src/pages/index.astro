@@ -10,216 +10,230 @@ import { categories } from '../data/categories';
 
 // Get all posts
 const posts = await getCollection('blog', ({ data }) => {
-	return import.meta.env.PROD ? !data.draft : true;
+  return import.meta.env.PROD ? !data.draft : true;
 });
 
 // Sort posts by date
 const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
 // Get featured posts (posts marked as featured in frontmatter)
-const featuredPosts = sortedPosts.filter(post => post.data.featured).slice(0, 10);
+const featuredPosts = sortedPosts.filter((post) => post.data.featured).slice(0, 10);
 
 // Get all remaining posts (excluding featured posts)
-const featuredPostIds = featuredPosts.map(post => post.id);
-const remainingPosts = sortedPosts.filter(post => !featuredPostIds.includes(post.id));
+const featuredPostIds = featuredPosts.map((post) => post.id);
+const remainingPosts = sortedPosts.filter((post) => !featuredPostIds.includes(post.id));
 
 // Get post counts by category
-const postCounts = categories.reduce((acc, category) => {
-	acc[category.id] = posts.filter(post => post.data.category?.includes(category.id)).length;
-	return acc;
-}, {} as Record<string, number>);
+const postCounts = categories.reduce(
+  (acc, category) => {
+    acc[category.id] = posts.filter((post) => post.data.category?.includes(category.id)).length;
+    return acc;
+  },
+  {} as Record<string, number>,
+);
 
 // Get post counts by tag
-const tagCounts = posts.reduce((acc, post) => {
-	post.data.tags?.forEach(tag => {
-		acc[tag] = (acc[tag] || 0) + 1;
-	});
-	return acc;
-}, {} as Record<string, number>);
+const tagCounts = posts.reduce(
+  (acc, post) => {
+    post.data.tags?.forEach((tag) => {
+      acc[tag] = (acc[tag] || 0) + 1;
+    });
+    return acc;
+  },
+  {} as Record<string, number>,
+);
 
 // Get top categories (with most posts)
 const topCategories = categories
-	.filter(category => postCounts[category.id] > 0)
-	.sort((a, b) => postCounts[b.id] - postCounts[a.id])
-	.slice(0, 6);
+  .filter((category) => postCounts[category.id] > 0)
+  .sort((a, b) => postCounts[b.id] - postCounts[a.id])
+  .slice(0, 6);
 ---
 
 <HomeLayout
-	title="Home"
-	description="Welcome to my personal blog. I'm Antonio Rodriguez Martinez, and here I share raw reflections on fatherhood, masculinity, culture, and modern life. Explore my thoughts, questions, and dispatches from a mind navigating the complexities of contemporary existence."
-	path="/"
-	structuredDataType="website"
+  title="Home"
+  description="Welcome to my personal blog. I'm Antonio Rodriguez Martinez, and here I share raw reflections on fatherhood, masculinity, culture, and modern life. Explore my thoughts, questions, and dispatches from a mind navigating the complexities of contemporary existence."
+  path="/"
+  structuredDataType="website"
 >
-	{/* Hero Section */}
-	<Container maxWidth="container" padding="none">
-		<div class="py-6 md:py-8 lg:py-12">
-			<h1 class="sr-only" transition:name="page-title">
-				Welcome to my <span class="highlight-primary">Blog</span>.
-			</h1>
-			<p class="text-body text-[rgb(var(--color-text-muted))] italic leading-relaxed border-l-2 border-[rgb(var(--color-border))]/40 pl-4" transition:name="page-description">
-				Dispatches from a fractured mind navigating fatherhood, masculinity, cultura, and modern collapse — one burning question at a time.
-			</p>
-		</div>
-	</Container>
+  {/* Hero Section */}
+  <Container maxWidth="container" padding="none">
+    <div class="py-6 md:py-8 lg:py-12">
+      <h1 class="sr-only" transition:name="page-title">
+        Welcome to my <span class="highlight-primary">Blog</span>.
+      </h1>
+      <p
+        class="text-body border-l-2 border-[rgb(var(--color-border))]/40 pl-4 italic leading-relaxed text-[rgb(var(--color-text-muted))]"
+        transition:name="page-description"
+      >
+        Dispatches from a fractured mind navigating fatherhood, masculinity, cultura, and modern
+        collapse — one burning question at a time.
+      </p>
+    </div>
+  </Container>
 
-		{/* Featured Writings Section */}
-	{featuredPosts.length > 0 && (
-		<Container maxWidth="container" padding="none" class="mb-16 md:mb-20">
-			<FeaturedWritingsRotator 
-				posts={featuredPosts}
-				autoRotate={true}
-				rotationSpeed={6000}
-				showNavigation={true}
-			/>
-		</Container>
-	)}
+  {/* Featured Writings Section */}
+  {
+    featuredPosts.length > 0 && (
+      <Container maxWidth="container" padding="none" class="mb-16 md:mb-20">
+        <FeaturedWritingsRotator
+          posts={featuredPosts}
+          autoRotate={true}
+          rotationSpeed={6000}
+          showNavigation={true}
+        />
+      </Container>
+    )
+  }
 
-	{/* Category Highlights */}
-	{topCategories.length > 0 && (
-		<Container maxWidth="container" padding="none" class="mb-16 md:mb-20">
-			<div class="mb-8 md:mb-12">
-				<h2 class="text-heading text-[rgb(var(--color-text))] mb-4">
-					Explore by Category
-				</h2>
-			</div>
-			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-				{topCategories.map((category, index) => (
-					<CategoryCard 
-						category={category}
-						postCount={postCounts[category.id]}
-						featured={index < 3}
-					/>
-				))}
-			</div>
-		</Container>
-	)}
+  {/* Category Highlights */}
+  {
+    topCategories.length > 0 && (
+      <Container maxWidth="container" padding="none" class="mb-16 md:mb-20">
+        <div class="mb-8 md:mb-12">
+          <h2 class="text-heading mb-4 text-[rgb(var(--color-text))]">Explore by Category</h2>
+        </div>
+        <div class="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-8 lg:grid-cols-3">
+          {topCategories.map((category, index) => (
+            <CategoryCard
+              category={category}
+              postCount={postCounts[category.id]}
+              featured={index < 3}
+            />
+          ))}
+        </div>
+      </Container>
+    )
+  }
 
-	{/* All Posts Section */}
-	{remainingPosts.length > 0 && (
-		<Container maxWidth="container" padding="none">
-			<div class="mb-8 md:mb-12">
-				<h2 class="text-heading text-[rgb(var(--color-text))] mb-4">
-					Complete Archive
-				</h2>
-				<p class="text-body-large text-[rgb(var(--color-text-muted))] leading-relaxed">
-					Every thought, question, and reflection from the journey through thinking, fatherhood, and cultural navigation. Scroll to explore the complete collection.
-				</p>
-			</div>
-			<LazyPosts 
-				posts={remainingPosts} 
-				initialCount={6} 
-				loadMoreCount={6} 
-			/>
-		</Container>
-	)}
+  {/* All Posts Section */}
+  {
+    remainingPosts.length > 0 && (
+      <Container maxWidth="container" padding="none">
+        <div class="mb-8 md:mb-12">
+          <h2 class="text-heading mb-4 text-[rgb(var(--color-text))]">Complete Archive</h2>
+          <p class="text-body-large leading-relaxed text-[rgb(var(--color-text-muted))]">
+            Every thought, question, and reflection from the journey through thinking, fatherhood,
+            and cultural navigation. Scroll to explore the complete collection.
+          </p>
+        </div>
+        <LazyPosts posts={remainingPosts} initialCount={6} loadMoreCount={6} />
+      </Container>
+    )
+  }
 
-	{/* Empty State */}
-	{posts.length === 0 && (
-		<Container maxWidth="container" padding="none" class="text-center py-16 md:py-20">
-			<div class="max-w-md mx-auto">
-				<div class="text-6xl mb-6">🧠</div>
-				<h2 class="text-heading text-[rgb(var(--color-text))] mb-4">
-					The thinking begins soon
-				</h2>
-				<p class="text-body-large text-[rgb(var(--color-text-muted))] leading-relaxed">
-					Raw reflections on fatherhood, masculinity, cultura, and modern collapse are coming. The mind is at work.
-				</p>
-			</div>
-		</Container>
-	)}
+  {/* Empty State */}
+  {
+    posts.length === 0 && (
+      <Container maxWidth="container" padding="none" class="py-16 text-center md:py-20">
+        <div class="mx-auto max-w-md">
+          <div class="mb-6 text-6xl">🧠</div>
+          <h2 class="text-heading mb-4 text-[rgb(var(--color-text))]">The thinking begins soon</h2>
+          <p class="text-body-large leading-relaxed text-[rgb(var(--color-text-muted))]">
+            Raw reflections on fatherhood, masculinity, cultura, and modern collapse are coming. The
+            mind is at work.
+          </p>
+        </div>
+      </Container>
+    )
+  }
 </HomeLayout>
 
 <style>
-	/* Enhanced spacing and typography */
-	main {
-		transition: background-color 0.2s ease, color 0.2s ease;
-	}
+  /* Enhanced spacing and typography */
+  main {
+    transition:
+      background-color 0.2s ease,
+      color 0.2s ease;
+  }
 
-	/* Improved line height for better readability */
-	.text-lg {
-		line-height: 1.7;
-	}
+  /* Improved line height for better readability */
+  .text-lg {
+    line-height: 1.7;
+  }
 
-	.text-xl {
-		line-height: 1.6;
-	}
+  .text-xl {
+    line-height: 1.6;
+  }
 
-	.text-2xl {
-		line-height: 1.5;
-	}
+  .text-2xl {
+    line-height: 1.5;
+  }
 
-	.text-3xl {
-		line-height: 1.4;
-	}
+  .text-3xl {
+    line-height: 1.4;
+  }
 
-	/* Enhanced spacing for better visual hierarchy */
-	.space-y-8 > * + * {
-		margin-top: 2rem;
-	}
+  /* Enhanced spacing for better visual hierarchy */
+  .space-y-8 > * + * {
+    margin-top: 2rem;
+  }
 
-	.space-y-10 > * + * {
-		margin-top: 2.5rem;
-	}
+  .space-y-10 > * + * {
+    margin-top: 2.5rem;
+  }
 
-	/* Smooth hover transitions */
-	.group:hover {
-		transform: translateY(-2px);
-		box-shadow: 0 10px 25px -3px rgb(0 0 0 / 0.1), 0 4px 6px -2px rgb(0 0 0 / 0.05);
-	}
+  /* Smooth hover transitions */
+  .group:hover {
+    transform: translateY(-2px);
+    box-shadow:
+      0 10px 25px -3px rgb(0 0 0 / 0.1),
+      0 4px 6px -2px rgb(0 0 0 / 0.05);
+  }
 
-	/* Category card enhancements */
-	.group:hover .text-[rgb(var(--color-accent))] {
-		transform: scale(1.05);
-	}
+  /* Category card enhancements */
+  .group:hover .text-[rgb(var(--color-accent))] {
+    transform: scale(1.05);
+  }
 
-	/* Smooth icon transitions */
-	.group .text-2xl,
-	.group .text-3xl {
-		transition: transform 0.2s ease;
-	}
+  /* Smooth icon transitions */
+  .group .text-2xl,
+  .group .text-3xl {
+    transition: transform 0.2s ease;
+  }
 
-	/* Respect reduced motion preferences */
-	@media (prefers-reduced-motion: reduce) {
-		main {
-			transition: none !important;
-		}
-		
-		* {
-			transition: none !important;
-		}
-	}
+  /* Respect reduced motion preferences */
+  @media (prefers-reduced-motion: reduce) {
+    main {
+      transition: none !important;
+    }
 
-	/* Responsive typography adjustments */
-	@media (max-width: 768px) {
-		.hero-section h1 {
-			font-size: var(--font-size-3xl);
-		}
+    * {
+      transition: none !important;
+    }
+  }
 
-		.subtitle {
-			font-size: var(--font-size-lg);
-		}
+  /* Responsive typography adjustments */
+  @media (max-width: 768px) {
+    .hero-section h1 {
+      font-size: var(--font-size-3xl);
+    }
 
-		/* Tighter spacing on mobile */
-		.space-y-8 > * + * {
-			margin-top: 1.5rem;
-		}
+    .subtitle {
+      font-size: var(--font-size-lg);
+    }
 
-		.space-y-10 > * + * {
-			margin-top: 2rem;
-		}
+    /* Tighter spacing on mobile */
+    .space-y-8 > * + * {
+      margin-top: 1.5rem;
+    }
 
-		/* Mobile-specific spacing */
-		.mb-16 {
-			margin-bottom: 3rem;
-		}
+    .space-y-10 > * + * {
+      margin-top: 2rem;
+    }
 
-		.mb-20 {
-			margin-bottom: 4rem;
-		}
+    /* Mobile-specific spacing */
+    .mb-16 {
+      margin-bottom: 3rem;
+    }
 
-		/* Tighter category grid on mobile */
-		.grid-cols-1 > * {
-			margin-bottom: 1rem;
-		}
-	}
+    .mb-20 {
+      margin-bottom: 4rem;
+    }
+
+    /* Tighter category grid on mobile */
+    .grid-cols-1 > * {
+      margin-bottom: 1rem;
+    }
+  }
 </style>

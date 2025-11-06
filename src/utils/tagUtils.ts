@@ -5,7 +5,7 @@ export {
   getImportantTags,
   getRecommendedTags,
   getTagWeight,
-} from "./tagProcessing";
+} from './tagProcessing';
 
 // Legacy compatibility - keeping the old function name
-export { getTagWeight } from "../data/tags";
+export { getTagWeight } from '../data/tags';

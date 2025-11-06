@@ -3,12 +3,28 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Container from '../../components/Container.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import { getCollection } from 'astro:content';
-import { format, startOfMonth, endOfMonth, eachMonthOfInterval, eachWeekOfInterval, eachDayOfInterval, getDay, getMonth, differenceInDays, differenceInWeeks } from 'date-fns';
-import { generateDynamicInsights, calculateObjectiveMetrics, scoreToLetterGrade, letterGradeToColor } from '../../utils/insightGenerator';
+import {
+  format,
+  startOfMonth,
+  endOfMonth,
+  eachMonthOfInterval,
+  eachWeekOfInterval,
+  eachDayOfInterval,
+  getDay,
+  getMonth,
+  differenceInDays,
+  differenceInWeeks,
+} from 'date-fns';
+import {
+  generateDynamicInsights,
+  calculateObjectiveMetrics,
+  scoreToLetterGrade,
+  letterGradeToColor,
+} from '../../utils/insightGenerator';
 
 // Get all published posts
 const posts = await getCollection('blog', ({ data }) => {
-	return import.meta.env.PROD ? !data.draft && data.published : true;
+  return import.meta.env.PROD ? !data.draft && data.published : true;
 });
 
 // Sort posts by date
@@ -20,72 +36,87 @@ const lastPostDate = sortedPosts[0]?.data.pubDate;
 
 // Monthly posting frequency
 const monthlyPosts = eachMonthOfInterval({
-	start: firstPostDate || new Date(),
-	end: lastPostDate || new Date()
-}).map(month => {
-	const monthStart = startOfMonth(month);
-	const monthEnd = endOfMonth(month);
-	const postsInMonth = posts.filter(post => 
-		post.data.pubDate >= monthStart && post.data.pubDate <= monthEnd
-	).length;
-	return {
-		month: format(month, 'yyyy-MM'),
-		label: format(month, 'MMM yyyy'),
-		count: postsInMonth,
-		date: month
-	};
+  start: firstPostDate || new Date(),
+  end: lastPostDate || new Date(),
+}).map((month) => {
+  const monthStart = startOfMonth(month);
+  const monthEnd = endOfMonth(month);
+  const postsInMonth = posts.filter(
+    (post) => post.data.pubDate >= monthStart && post.data.pubDate <= monthEnd,
+  ).length;
+  return {
+    month: format(month, 'yyyy-MM'),
+    label: format(month, 'MMM yyyy'),
+    count: postsInMonth,
+    date: month,
+  };
 });
 
 // Weekly posting frequency
 const weeklyPosts = eachWeekOfInterval({
-	start: firstPostDate || new Date(),
-	end: lastPostDate || new Date()
-}).map(week => {
-	const weekStart = week;
-	const weekEnd = new Date(week.getTime() + 6 * 24 * 60 * 60 * 1000);
-	const postsInWeek = posts.filter(post => 
-		post.data.pubDate >= weekStart && post.data.pubDate <= weekEnd
-	).length;
-	return {
-		week: format(week, 'yyyy-MM-dd'),
-		label: format(week, 'MMM d'),
-		count: postsInWeek,
-		date: week
-	};
+  start: firstPostDate || new Date(),
+  end: lastPostDate || new Date(),
+}).map((week) => {
+  const weekStart = week;
+  const weekEnd = new Date(week.getTime() + 6 * 24 * 60 * 60 * 1000);
+  const postsInWeek = posts.filter(
+    (post) => post.data.pubDate >= weekStart && post.data.pubDate <= weekEnd,
+  ).length;
+  return {
+    week: format(week, 'yyyy-MM-dd'),
+    label: format(week, 'MMM d'),
+    count: postsInWeek,
+    date: week,
+  };
 });
 
 // Day of week analysis
-const dayOfWeekStats = [0, 1, 2, 3, 4, 5, 6].map(dayNum => {
-	const dayName = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][dayNum];
-	const postsOnDay = posts.filter(post => getDay(post.data.pubDate) === dayNum).length;
-	return {
-		day: dayNum,
-		name: dayName,
-		shortName: dayName.slice(0, 3),
-		count: postsOnDay,
-		percentage: Math.round((postsOnDay / posts.length) * 100)
-	};
+const dayOfWeekStats = [0, 1, 2, 3, 4, 5, 6].map((dayNum) => {
+  const dayName = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][
+    dayNum
+  ];
+  const postsOnDay = posts.filter((post) => getDay(post.data.pubDate) === dayNum).length;
+  return {
+    day: dayNum,
+    name: dayName,
+    shortName: dayName.slice(0, 3),
+    count: postsOnDay,
+    percentage: Math.round((postsOnDay / posts.length) * 100),
+  };
 });
 
 // Month of year analysis
-const monthOfYearStats = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map(monthNum => {
-	const monthName = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'][monthNum];
-	const postsInMonth = posts.filter(post => getMonth(post.data.pubDate) === monthNum).length;
-	return {
-		month: monthNum,
-		name: monthName,
-		shortName: monthName.slice(0, 3),
-		count: postsInMonth,
-		percentage: Math.round((postsInMonth / posts.length) * 100)
-	};
+const monthOfYearStats = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((monthNum) => {
+  const monthName = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+  ][monthNum];
+  const postsInMonth = posts.filter((post) => getMonth(post.data.pubDate) === monthNum).length;
+  return {
+    month: monthNum,
+    name: monthName,
+    shortName: monthName.slice(0, 3),
+    count: postsInMonth,
+    percentage: Math.round((postsInMonth / posts.length) * 100),
+  };
 });
 
 // Writing streaks analysis
 const streaks: Array<{
-	start: Date;
-	end: Date;
-	length: number;
-	days: number;
+  start: Date;
+  end: Date;
+  length: number;
+  days: number;
 }> = [];
 let currentStreak = 0;
 let longestStreak = 0;
@@ -93,39 +124,40 @@ let tempStreak = 0;
 let streakStart: Date | null = null;
 
 for (let i = 0; i < sortedPosts.length - 1; i++) {
-	const currentDate = sortedPosts[i].data.pubDate;
-	const nextDate = sortedPosts[i + 1].data.pubDate;
-	const daysDiff = differenceInDays(currentDate, nextDate);
-	
-	if (daysDiff <= 7) { // Consider posts within a week as a streak
-		if (tempStreak === 0) {
-			streakStart = currentDate;
-		}
-		tempStreak++;
-		longestStreak = Math.max(longestStreak, tempStreak);
-	} else {
-		if (tempStreak > 0 && streakStart) {
-			streaks.push({
-				start: streakStart,
-				end: currentDate,
-				length: tempStreak,
-				days: differenceInDays(currentDate, streakStart) + 1
-			});
-		}
-		tempStreak = 0;
-		streakStart = null;
-	}
+  const currentDate = sortedPosts[i].data.pubDate;
+  const nextDate = sortedPosts[i + 1].data.pubDate;
+  const daysDiff = differenceInDays(currentDate, nextDate);
+
+  if (daysDiff <= 7) {
+    // Consider posts within a week as a streak
+    if (tempStreak === 0) {
+      streakStart = currentDate;
+    }
+    tempStreak++;
+    longestStreak = Math.max(longestStreak, tempStreak);
+  } else {
+    if (tempStreak > 0 && streakStart) {
+      streaks.push({
+        start: streakStart,
+        end: currentDate,
+        length: tempStreak,
+        days: differenceInDays(currentDate, streakStart) + 1,
+      });
+    }
+    tempStreak = 0;
+    streakStart = null;
+  }
 }
 
 // Add the last streak if it's still active
 if (tempStreak > 0 && streakStart) {
-	streaks.push({
-		start: streakStart,
-		end: sortedPosts[0].data.pubDate,
-		length: tempStreak,
-		days: differenceInDays(sortedPosts[0].data.pubDate, streakStart) + 1
-	});
-	currentStreak = tempStreak;
+  streaks.push({
+    start: streakStart,
+    end: sortedPosts[0].data.pubDate,
+    length: tempStreak,
+    days: differenceInDays(sortedPosts[0].data.pubDate, streakStart) + 1,
+  });
+  currentStreak = tempStreak;
 }
 
 // Sort streaks by length
@@ -134,470 +166,743 @@ const sortedStreaks = streaks.sort((a, b) => b.length - a.length);
 // Dry spells analysis
 const drySpells = [];
 for (let i = 0; i < sortedPosts.length - 1; i++) {
-	const currentDate = sortedPosts[i].data.pubDate;
-	const nextDate = sortedPosts[i + 1].data.pubDate;
-	const daysDiff = differenceInDays(currentDate, nextDate);
-	
-	if (daysDiff > 30) { // Consider gaps longer than 30 days as dry spells
-		drySpells.push({
-			start: nextDate,
-			end: currentDate,
-			days: daysDiff
-		});
-	}
+  const currentDate = sortedPosts[i].data.pubDate;
+  const nextDate = sortedPosts[i + 1].data.pubDate;
+  const daysDiff = differenceInDays(currentDate, nextDate);
+
+  if (daysDiff > 30) {
+    // Consider gaps longer than 30 days as dry spells
+    drySpells.push({
+      start: nextDate,
+      end: currentDate,
+      days: daysDiff,
+    });
+  }
 }
 
 const sortedDrySpells = drySpells.sort((a, b) => b.days - a.days);
 
 // Productivity periods (months with most posts)
 const productiveMonths = monthlyPosts
-	.filter(month => month.count > 0)
-	.sort((a, b) => b.count - a.count)
-	.slice(0, 5);
+  .filter((month) => month.count > 0)
+  .sort((a, b) => b.count - a.count)
+  .slice(0, 5);
 
 // Recent activity (last 30 days)
 const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
-const recentPosts = posts.filter(post => post.data.pubDate >= thirtyDaysAgo);
+const recentPosts = posts.filter((post) => post.data.pubDate >= thirtyDaysAgo);
 
 // Calculate productivity metrics
-const avgPostsPerMonth = Math.round(posts.length / Math.max(1, differenceInDays(lastPostDate || new Date(), firstPostDate || new Date()) / 30));
+const avgPostsPerMonth = Math.round(
+  posts.length /
+    Math.max(1, differenceInDays(lastPostDate || new Date(), firstPostDate || new Date()) / 30),
+);
 const consistencyScore = streaks.length / Math.max(1, streaks.length + drySpells.length);
-const productivityTrend: 'improving' | 'declining' | 'stable' = recentPosts.length > avgPostsPerMonth ? 'improving' : recentPosts.length < avgPostsPerMonth * 0.5 ? 'declining' : 'stable';
+const productivityTrend: 'improving' | 'declining' | 'stable' =
+  recentPosts.length > avgPostsPerMonth
+    ? 'improving'
+    : recentPosts.length < avgPostsPerMonth * 0.5
+      ? 'declining'
+      : 'stable';
 
 // Calculate objective metrics
 const objectiveMetrics = calculateObjectiveMetrics(posts);
 
 // Generate dynamic insights
 const insightData = {
-	totalPosts: posts.length,
-	totalWords: posts.reduce((sum, post) => sum + (post.body || '').split(/\s+/).length, 0),
-	avgWordsPerPost: Math.round(posts.reduce((sum, post) => sum + (post.body || '').split(/\s+/).length, 0) / posts.length),
-	topTags: Object.entries(posts.reduce((acc, post) => {
-		post.data.tags?.forEach((tag: string) => {
-			acc[tag] = (acc[tag] || 0) + 1;
-		});
-		return acc;
-	}, {} as Record<string, number>))
-		.sort(([,a], [,b]) => b - a)
-		.slice(0, 5)
-		.map(([tag, count]) => ({ tag, count })),
-	emotionalPosts: 0, // Not calculated for cadence
-	growthPosts: 0, // Not calculated for cadence
-	complexityTrend: 'stable' as const, // Not calculated for cadence
-	productivityTrend: productivityTrend,
-	knowledgeAreas: [],
-	writingStreaks: sortedStreaks.map(streak => ({ length: streak.length, days: streak.days })),
-	drySpells: sortedDrySpells.map(spell => ({ days: spell.days })),
-	// Add objective metrics
-	...objectiveMetrics
+  totalPosts: posts.length,
+  totalWords: posts.reduce((sum, post) => sum + (post.body || '').split(/\s+/).length, 0),
+  avgWordsPerPost: Math.round(
+    posts.reduce((sum, post) => sum + (post.body || '').split(/\s+/).length, 0) / posts.length,
+  ),
+  topTags: Object.entries(
+    posts.reduce(
+      (acc, post) => {
+        post.data.tags?.forEach((tag: string) => {
+          acc[tag] = (acc[tag] || 0) + 1;
+        });
+        return acc;
+      },
+      {} as Record<string, number>,
+    ),
+  )
+    .sort(([, a], [, b]) => b - a)
+    .slice(0, 5)
+    .map(([tag, count]) => ({ tag, count })),
+  emotionalPosts: 0, // Not calculated for cadence
+  growthPosts: 0, // Not calculated for cadence
+  complexityTrend: 'stable' as const, // Not calculated for cadence
+  productivityTrend: productivityTrend,
+  knowledgeAreas: [],
+  writingStreaks: sortedStreaks.map((streak) => ({ length: streak.length, days: streak.days })),
+  drySpells: sortedDrySpells.map((spell) => ({ days: spell.days })),
+  // Add objective metrics
+  ...objectiveMetrics,
 };
 
 const { insights, summary, balancedAnalysis } = generateDynamicInsights(insightData, 'cadence');
 ---
 
 <BaseLayout
-	title="Writing Cadence - Brain Science"
-	description="Analyzing my publishing patterns, writing streaks, and seasonal rhythms."
-	path="/brain-science/cadence"
-	structuredDataType="website"
+  title="Writing Cadence - Brain Science"
+  description="Analyzing my publishing patterns, writing streaks, and seasonal rhythms."
+  path="/brain-science/cadence"
+  structuredDataType="website"
 >
-	<Container>
-		<Container maxWidth="container" padding="none">
-			{/* Breadcrumbs */}
-			<div class="mb-4 md:mb-6 hidden md:block">
-				<Breadcrumbs 
-					items={[
-						{ label: "Home", href: "/" },
-						{ label: "Brain Science", href: "/brain-science" },
-						{ label: "Writing Cadence" }
-					]} 
-				/>
-			</div>
+  <Container>
+    <Container maxWidth="container" padding="none">
+      {/* Breadcrumbs */}
+      <div class="mb-4 hidden md:mb-6 md:block">
+        <Breadcrumbs
+          items={[
+            { label: 'Home', href: '/' },
+            { label: 'Brain Science', href: '/brain-science' },
+            { label: 'Writing Cadence' },
+          ]}
+        />
+      </div>
 
-			<div class="py-4 md:py-6 lg:py-8">
-				{/* Header */}
-				<div class="mb-6 md:mb-8 lg:mb-10">
-					<h1 class="text-display text-[rgb(var(--color-text))] mb-3 md:mb-4 lg:mb-5" transition:name="page-title">
-						📅 <span class="highlight-accent">Writing Cadence</span>
-					</h1>
-					<p class="text-body-large text-[rgb(var(--color-text-muted))] leading-relaxed max-w-4xl" transition:name="page-description">
-						Understanding my publishing patterns, creative streaks, and the rhythms of my writing life.
-					</p>
-				</div>
+      <div class="py-4 md:py-6 lg:py-8">
+        {/* Header */}
+        <div class="mb-6 md:mb-8 lg:mb-10">
+          <h1
+            class="text-display mb-3 text-[rgb(var(--color-text))] md:mb-4 lg:mb-5"
+            transition:name="page-title"
+          >
+            📅 <span class="highlight-accent">Writing Cadence</span>
+          </h1>
+          <p
+            class="text-body-large max-w-4xl leading-relaxed text-[rgb(var(--color-text-muted))]"
+            transition:name="page-description"
+          >
+            Understanding my publishing patterns, creative streaks, and the rhythms of my writing
+            life.
+          </p>
+        </div>
 
-			{/* Key Metrics with Balanced Indicators */}
-			<div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-8 md:mb-10 lg:mb-12">
-				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-4 md:p-6 border border-[rgb(var(--color-border))]">
-					<div class="text-xl md:text-2xl font-bold text-[rgb(var(--color-text))] mb-1 md:mb-2" title="Longest consecutive streak of writings published within 7 days of each other">{longestStreak}</div>
-					<div class="text-xs md:text-sm text-[rgb(var(--color-text-muted))]">Longest Streak</div>
-					<div class="text-xs text-green-500 mt-1">🏆 Peak Performance</div>
-				</div>
-				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-4 md:p-6 border border-[rgb(var(--color-border))]">
-					<div class="text-xl md:text-2xl font-bold text-[rgb(var(--color-text))] mb-1 md:mb-2" title="Current active streak of writings published within 7 days of each other">{currentStreak}</div>
-					<div class="text-xs md:text-sm text-[rgb(var(--color-text-muted))]">Current Streak</div>
-					<div class="text-xs text-blue-500 mt-1">🔥 Active Momentum</div>
-				</div>
-				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-4 md:p-6 border border-[rgb(var(--color-border))]">
-					<div class="text-xl md:text-2xl font-bold text-[rgb(var(--color-text))] mb-1 md:mb-2" title="Longest gap between consecutive writings (days without publishing)">{sortedDrySpells[0]?.days || 0}</div>
-					<div class="text-xs md:text-sm text-[rgb(var(--color-text-muted))]">Longest Dry Spell</div>
-					<div class="text-xs text-red-500 mt-1">⚠️ Biggest Challenge</div>
-				</div>
-				<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-4 md:p-6 border border-[rgb(var(--color-border))]">
-							<div class="text-xl md:text-2xl font-bold text-[rgb(var(--color-text))] mb-1 md:mb-2" title="Number of writings published in the last 30 days">{recentPosts.length}</div>
-		<div class="text-xs md:text-sm text-[rgb(var(--color-text-muted))]">Writings (30 days)</div>
-					<div class={`text-xs mt-1 ${recentPosts.length > avgPostsPerMonth ? 'text-green-500' : recentPosts.length < avgPostsPerMonth * 0.5 ? 'text-red-500' : 'text-yellow-500'}`}>
-						{recentPosts.length > avgPostsPerMonth ? '📈 Above Average' : recentPosts.length < avgPostsPerMonth * 0.5 ? '📉 Below Average' : '➡️ On Track'}
-					</div>
-				</div>
-			</div>
+        {/* Key Metrics with Balanced Indicators */}
+        <div
+          class="mb-8 grid grid-cols-2 gap-4 md:mb-10 md:grid-cols-2 md:gap-6 lg:mb-12 lg:grid-cols-4"
+        >
+          <div
+            class="rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg-secondary))] p-4 md:p-6"
+          >
+            <div
+              class="mb-1 text-xl font-bold text-[rgb(var(--color-text))] md:mb-2 md:text-2xl"
+              title="Longest consecutive streak of writings published within 7 days of each other"
+            >
+              {longestStreak}
+            </div>
+            <div class="text-xs text-[rgb(var(--color-text-muted))] md:text-sm">Longest Streak</div>
+            <div class="mt-1 text-xs text-green-500">🏆 Peak Performance</div>
+          </div>
+          <div
+            class="rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg-secondary))] p-4 md:p-6"
+          >
+            <div
+              class="mb-1 text-xl font-bold text-[rgb(var(--color-text))] md:mb-2 md:text-2xl"
+              title="Current active streak of writings published within 7 days of each other"
+            >
+              {currentStreak}
+            </div>
+            <div class="text-xs text-[rgb(var(--color-text-muted))] md:text-sm">Current Streak</div>
+            <div class="mt-1 text-xs text-blue-500">🔥 Active Momentum</div>
+          </div>
+          <div
+            class="rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg-secondary))] p-4 md:p-6"
+          >
+            <div
+              class="mb-1 text-xl font-bold text-[rgb(var(--color-text))] md:mb-2 md:text-2xl"
+              title="Longest gap between consecutive writings (days without publishing)"
+            >
+              {sortedDrySpells[0]?.days || 0}
+            </div>
+            <div class="text-xs text-[rgb(var(--color-text-muted))] md:text-sm">
+              Longest Dry Spell
+            </div>
+            <div class="mt-1 text-xs text-red-500">⚠️ Biggest Challenge</div>
+          </div>
+          <div
+            class="rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg-secondary))] p-4 md:p-6"
+          >
+            <div
+              class="mb-1 text-xl font-bold text-[rgb(var(--color-text))] md:mb-2 md:text-2xl"
+              title="Number of writings published in the last 30 days"
+            >
+              {recentPosts.length}
+            </div>
+            <div class="text-xs text-[rgb(var(--color-text-muted))] md:text-sm">
+              Writings (30 days)
+            </div>
+            <div
+              class={`text-xs mt-1 ${recentPosts.length > avgPostsPerMonth ? 'text-green-500' : recentPosts.length < avgPostsPerMonth * 0.5 ? 'text-red-500' : 'text-yellow-500'}`}
+            >
+              {
+                recentPosts.length > avgPostsPerMonth
+                  ? '📈 Above Average'
+                  : recentPosts.length < avgPostsPerMonth * 0.5
+                    ? '📉 Below Average'
+                    : '➡️ On Track'
+              }
+            </div>
+          </div>
+        </div>
 
-			{/* Productivity Health Score */}
-			<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-4 md:p-6 border border-[rgb(var(--color-border))] mb-6 md:mb-8">
-				<h3 class="text-base md:text-lg font-semibold text-[rgb(var(--color-text))] mb-3 md:mb-4">📊 Productivity Health Score</h3>
-				<div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
-					<div class="text-center">
-						<div class="text-2xl md:text-3xl font-bold text-green-500 mb-1 md:mb-2" title="Consistency score calculated as: (number of writing streaks) / (total streaks + dry spells)">{Math.round(consistencyScore * 100)}%</div>
-						<div class="text-xs md:text-sm text-[rgb(var(--color-text-muted))]">Consistency Score</div>
-						<div class="text-xs text-[rgb(var(--color-text-muted))] mt-1">
-							{consistencyScore > 0.7 ? 'Excellent' : consistencyScore > 0.4 ? 'Good' : 'Needs Improvement'}
-						</div>
-					</div>
-					<div class="text-center">
-						<div class="text-2xl md:text-3xl font-bold text-blue-500 mb-1 md:mb-2" title="Average writings per month calculated as: total writings / (days since first writing / 30)">{avgPostsPerMonth}</div>
-						<div class="text-xs md:text-sm text-[rgb(var(--color-text-muted))]">Avg Writings/Month</div>
-						<div class="text-xs text-[rgb(var(--color-text-muted))] mt-1">
-							{avgPostsPerMonth > 4 ? 'High Output' : avgPostsPerMonth > 2 ? 'Moderate' : 'Low Output'}
-						</div>
-					</div>
-					<div class="text-center">
-						<div class={`text-2xl md:text-3xl font-bold mb-1 md:mb-2 ${productivityTrend === 'improving' ? 'text-green-500' : productivityTrend === 'declining' ? 'text-red-500' : 'text-yellow-500'}`}>
-							{productivityTrend === 'improving' ? '↗️' : productivityTrend === 'declining' ? '↘️' : '➡️'}
-						</div>
-						<div class="text-xs md:text-sm text-[rgb(var(--color-text-muted))]">Trend</div>
-						<div class="text-xs text-[rgb(var(--color-text-muted))] mt-1 capitalize">
-							{productivityTrend}
-						</div>
-					</div>
-				</div>
-			</div>
+        {/* Productivity Health Score */}
+        <div
+          class="mb-6 rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg-secondary))] p-4 md:mb-8 md:p-6"
+        >
+          <h3 class="mb-3 text-base font-semibold text-[rgb(var(--color-text))] md:mb-4 md:text-lg">
+            📊 Productivity Health Score
+          </h3>
+          <div class="grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-6">
+            <div class="text-center">
+              <div
+                class="mb-1 text-2xl font-bold text-green-500 md:mb-2 md:text-3xl"
+                title="Consistency score calculated as: (number of writing streaks) / (total streaks + dry spells)"
+              >
+                {Math.round(consistencyScore * 100)}%
+              </div>
+              <div class="text-xs text-[rgb(var(--color-text-muted))] md:text-sm">
+                Consistency Score
+              </div>
+              <div class="mt-1 text-xs text-[rgb(var(--color-text-muted))]">
+                {
+                  consistencyScore > 0.7
+                    ? 'Excellent'
+                    : consistencyScore > 0.4
+                      ? 'Good'
+                      : 'Needs Improvement'
+                }
+              </div>
+            </div>
+            <div class="text-center">
+              <div
+                class="mb-1 text-2xl font-bold text-blue-500 md:mb-2 md:text-3xl"
+                title="Average writings per month calculated as: total writings / (days since first writing / 30)"
+              >
+                {avgPostsPerMonth}
+              </div>
+              <div class="text-xs text-[rgb(var(--color-text-muted))] md:text-sm">
+                Avg Writings/Month
+              </div>
+              <div class="mt-1 text-xs text-[rgb(var(--color-text-muted))]">
+                {
+                  avgPostsPerMonth > 4
+                    ? 'High Output'
+                    : avgPostsPerMonth > 2
+                      ? 'Moderate'
+                      : 'Low Output'
+                }
+              </div>
+            </div>
+            <div class="text-center">
+              <div
+                class={`text-2xl md:text-3xl font-bold mb-1 md:mb-2 ${productivityTrend === 'improving' ? 'text-green-500' : productivityTrend === 'declining' ? 'text-red-500' : 'text-yellow-500'}`}
+              >
+                {
+                  productivityTrend === 'improving'
+                    ? '↗️'
+                    : productivityTrend === 'declining'
+                      ? '↘️'
+                      : '➡️'
+                }
+              </div>
+              <div class="text-xs text-[rgb(var(--color-text-muted))] md:text-sm">Trend</div>
+              <div class="mt-1 text-xs capitalize text-[rgb(var(--color-text-muted))]">
+                {productivityTrend}
+              </div>
+            </div>
+          </div>
+        </div>
 
-			{/* Monthly Activity Chart */}
-			<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-4 md:p-6 border border-[rgb(var(--color-border))] mb-6 md:mb-8">
-				<h3 class="text-base md:text-lg font-semibold text-[rgb(var(--color-text))] mb-4 md:mb-6">Monthly Publishing Activity</h3>
-				<div class="overflow-x-auto">
-					<div class="flex items-end gap-1 min-h-[150px] md:min-h-[200px]">
-						{monthlyPosts.map(month => (
-							<div class="flex flex-col items-center flex-1 min-w-0">
-								<div 
-									class={`w-full rounded-t transition-all hover:opacity-80 ${
-										month.count === 0 ? 'bg-gray-300 dark:bg-gray-600' :
-										month.count >= Math.max(...monthlyPosts.map(m => m.count)) * 0.8 ? 'bg-green-500' :
-										month.count >= Math.max(...monthlyPosts.map(m => m.count)) * 0.5 ? 'bg-blue-500' :
-										month.count >= Math.max(...monthlyPosts.map(m => m.count)) * 0.2 ? 'bg-yellow-500' : 'bg-red-500'
-									}`}
-									style={`height: ${Math.max(20, (month.count / Math.max(...monthlyPosts.map(m => m.count))) * 150)}px`}
-									title={`${month.label}: ${month.count} posts`}
-								></div>
-								<div class="text-xs text-[rgb(var(--color-text-muted))] mt-2 text-center transform -rotate-45 origin-left">
-									{month.label}
-								</div>
-							</div>
-						))}
-					</div>
-				</div>
-				<div class="flex justify-center gap-4 mt-4 text-xs text-[rgb(var(--color-text-muted))]">
-					<div class="flex items-center gap-1">
-						<div class="w-3 h-3 bg-green-500 rounded"></div>
-						<span>High Activity</span>
-					</div>
-					<div class="flex items-center gap-1">
-						<div class="w-3 h-3 bg-blue-500 rounded"></div>
-						<span>Moderate</span>
-					</div>
-					<div class="flex items-center gap-1">
-						<div class="w-3 h-3 bg-yellow-500 rounded"></div>
-						<span>Low</span>
-					</div>
-					<div class="flex items-center gap-1">
-						<div class="w-3 h-3 bg-red-500 rounded"></div>
-						<span>Very Low</span>
-					</div>
-					<div class="flex items-center gap-1">
-						<div class="w-3 h-3 bg-gray-300 dark:bg-gray-600 rounded"></div>
-						<span>No Posts</span>
-					</div>
-				</div>
-			</div>
+        {/* Monthly Activity Chart */}
+        <div
+          class="mb-6 rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg-secondary))] p-4 md:mb-8 md:p-6"
+        >
+          <h3 class="mb-4 text-base font-semibold text-[rgb(var(--color-text))] md:mb-6 md:text-lg">
+            Monthly Publishing Activity
+          </h3>
+          <div class="overflow-x-auto">
+            <div class="flex min-h-[150px] items-end gap-1 md:min-h-[200px]">
+              {
+                monthlyPosts.map((month) => (
+                  <div class="flex min-w-0 flex-1 flex-col items-center">
+                    <div
+                      class={`w-full rounded-t transition-all hover:opacity-80 ${
+                        month.count === 0
+                          ? 'bg-gray-300 dark:bg-gray-600'
+                          : month.count >= Math.max(...monthlyPosts.map((m) => m.count)) * 0.8
+                            ? 'bg-green-500'
+                            : month.count >= Math.max(...monthlyPosts.map((m) => m.count)) * 0.5
+                              ? 'bg-blue-500'
+                              : month.count >= Math.max(...monthlyPosts.map((m) => m.count)) * 0.2
+                                ? 'bg-yellow-500'
+                                : 'bg-red-500'
+                      }`}
+                      style={`height: ${Math.max(20, (month.count / Math.max(...monthlyPosts.map((m) => m.count))) * 150)}px`}
+                      title={`${month.label}: ${month.count} posts`}
+                    />
+                    <div class="mt-2 origin-left -rotate-45 transform text-center text-xs text-[rgb(var(--color-text-muted))]">
+                      {month.label}
+                    </div>
+                  </div>
+                ))
+              }
+            </div>
+          </div>
+          <div class="mt-4 flex justify-center gap-4 text-xs text-[rgb(var(--color-text-muted))]">
+            <div class="flex items-center gap-1">
+              <div class="h-3 w-3 rounded bg-green-500"></div>
+              <span>High Activity</span>
+            </div>
+            <div class="flex items-center gap-1">
+              <div class="h-3 w-3 rounded bg-blue-500"></div>
+              <span>Moderate</span>
+            </div>
+            <div class="flex items-center gap-1">
+              <div class="h-3 w-3 rounded bg-yellow-500"></div>
+              <span>Low</span>
+            </div>
+            <div class="flex items-center gap-1">
+              <div class="h-3 w-3 rounded bg-red-500"></div>
+              <span>Very Low</span>
+            </div>
+            <div class="flex items-center gap-1">
+              <div class="h-3 w-3 rounded bg-gray-300 dark:bg-gray-600"></div>
+              <span>No Posts</span>
+            </div>
+          </div>
+        </div>
 
-			{/* Day of Week Analysis */}
-			<div class="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 mb-6 md:mb-8 lg:mb-10">
-				<div>
-					<h3 class="text-base md:text-lg font-semibold text-[rgb(var(--color-text))] mb-4 md:mb-6">Day of Week Preferences</h3>
-					<div class="space-y-4">
-						{dayOfWeekStats.map(day => (
-							<div class="flex items-center justify-between">
-								<span class="text-sm text-[rgb(var(--color-text))] font-medium w-20">{day.shortName}</span>
-								<div class="flex items-center gap-3 flex-1">
-									<div class="flex-1 bg-[rgb(var(--color-border))] rounded-full h-3">
-										<div 
-											class={`h-3 rounded-full transition-all ${
-												day.count >= Math.max(...dayOfWeekStats.map(d => d.count)) * 0.8 ? 'bg-green-500' :
-												day.count >= Math.max(...dayOfWeekStats.map(d => d.count)) * 0.5 ? 'bg-blue-500' :
-												day.count >= Math.max(...dayOfWeekStats.map(d => d.count)) * 0.2 ? 'bg-yellow-500' : 'bg-red-500'
-											}`}
-											style={`width: ${(day.count / Math.max(...dayOfWeekStats.map(d => d.count))) * 100}%`}
-										></div>
-									</div>
-									<span class="text-xs text-[rgb(var(--color-text-muted))] w-8 text-right" title={`${day.count} posts (${day.percentage}% of total) published on ${day.name}`}>{day.count}</span>
-								</div>
-							</div>
-						))}
-					</div>
-				</div>
+        {/* Day of Week Analysis */}
+        <div class="mb-6 grid grid-cols-1 gap-6 md:mb-8 md:gap-8 lg:mb-10 lg:grid-cols-2">
+          <div>
+            <h3
+              class="mb-4 text-base font-semibold text-[rgb(var(--color-text))] md:mb-6 md:text-lg"
+            >
+              Day of Week Preferences
+            </h3>
+            <div class="space-y-4">
+              {
+                dayOfWeekStats.map((day) => (
+                  <div class="flex items-center justify-between">
+                    <span class="w-20 text-sm font-medium text-[rgb(var(--color-text))]">
+                      {day.shortName}
+                    </span>
+                    <div class="flex flex-1 items-center gap-3">
+                      <div class="h-3 flex-1 rounded-full bg-[rgb(var(--color-border))]">
+                        <div
+                          class={`h-3 rounded-full transition-all ${
+                            day.count >= Math.max(...dayOfWeekStats.map((d) => d.count)) * 0.8
+                              ? 'bg-green-500'
+                              : day.count >= Math.max(...dayOfWeekStats.map((d) => d.count)) * 0.5
+                                ? 'bg-blue-500'
+                                : day.count >= Math.max(...dayOfWeekStats.map((d) => d.count)) * 0.2
+                                  ? 'bg-yellow-500'
+                                  : 'bg-red-500'
+                          }`}
+                          style={`width: ${(day.count / Math.max(...dayOfWeekStats.map((d) => d.count))) * 100}%`}
+                        />
+                      </div>
+                      <span
+                        class="w-8 text-right text-xs text-[rgb(var(--color-text-muted))]"
+                        title={`${day.count} posts (${day.percentage}% of total) published on ${day.name}`}
+                      >
+                        {day.count}
+                      </span>
+                    </div>
+                  </div>
+                ))
+              }
+            </div>
+          </div>
 
-				<div>
-					<h3 class="text-base md:text-lg font-semibold text-[rgb(var(--color-text))] mb-4 md:mb-6">Seasonal Patterns</h3>
-					<div class="space-y-4">
-						{monthOfYearStats.map(month => (
-							<div class="flex items-center justify-between">
-								<span class="text-sm text-[rgb(var(--color-text))] font-medium w-20">{month.shortName}</span>
-								<div class="flex items-center gap-3 flex-1">
-									<div class="flex-1 bg-[rgb(var(--color-border))] rounded-full h-3">
-										<div 
-											class={`h-3 rounded-full transition-all ${
-												month.count >= Math.max(...monthOfYearStats.map(m => m.count)) * 0.8 ? 'bg-green-500' :
-												month.count >= Math.max(...monthOfYearStats.map(m => m.count)) * 0.5 ? 'bg-blue-500' :
-												month.count >= Math.max(...monthOfYearStats.map(m => m.count)) * 0.2 ? 'bg-yellow-500' : 'bg-red-500'
-											}`}
-											style={`width: ${(month.count / Math.max(...monthOfYearStats.map(m => m.count))) * 100}%`}
-										></div>
-									</div>
-									<span class="text-xs text-[rgb(var(--color-text-muted))] w-8 text-right" title={`${month.count} posts (${month.percentage}% of total) published in ${month.name}`}>{month.count}</span>
-								</div>
-							</div>
-						))}
-					</div>
-				</div>
-			</div>
+          <div>
+            <h3
+              class="mb-4 text-base font-semibold text-[rgb(var(--color-text))] md:mb-6 md:text-lg"
+            >
+              Seasonal Patterns
+            </h3>
+            <div class="space-y-4">
+              {
+                monthOfYearStats.map((month) => (
+                  <div class="flex items-center justify-between">
+                    <span class="w-20 text-sm font-medium text-[rgb(var(--color-text))]">
+                      {month.shortName}
+                    </span>
+                    <div class="flex flex-1 items-center gap-3">
+                      <div class="h-3 flex-1 rounded-full bg-[rgb(var(--color-border))]">
+                        <div
+                          class={`h-3 rounded-full transition-all ${
+                            month.count >= Math.max(...monthOfYearStats.map((m) => m.count)) * 0.8
+                              ? 'bg-green-500'
+                              : month.count >=
+                                  Math.max(...monthOfYearStats.map((m) => m.count)) * 0.5
+                                ? 'bg-blue-500'
+                                : month.count >=
+                                    Math.max(...monthOfYearStats.map((m) => m.count)) * 0.2
+                                  ? 'bg-yellow-500'
+                                  : 'bg-red-500'
+                          }`}
+                          style={`width: ${(month.count / Math.max(...monthOfYearStats.map((m) => m.count))) * 100}%`}
+                        />
+                      </div>
+                      <span
+                        class="w-8 text-right text-xs text-[rgb(var(--color-text-muted))]"
+                        title={`${month.count} posts (${month.percentage}% of total) published in ${month.name}`}
+                      >
+                        {month.count}
+                      </span>
+                    </div>
+                  </div>
+                ))
+              }
+            </div>
+          </div>
+        </div>
 
-			{/* Writing Streaks */}
-			<div class="mb-6 md:mb-8 lg:mb-10">
-				<h3 class="text-base md:text-lg font-semibold text-[rgb(var(--color-text))] mb-4 md:mb-6">🏃‍♂️ Writing Streaks (Creative Bursts)</h3>
-				<div class="space-y-4">
-					{sortedStreaks.slice(0, 10).map((streak, index) => (
-						<div class="flex items-center justify-between p-4 bg-[rgb(var(--color-bg))] rounded-lg">
-							<div class="flex items-center gap-4">
-								<div class={`text-lg font-bold ${
-									index === 0 ? 'text-yellow-500' : 
-									index === 1 ? 'text-gray-400' : 
-									index === 2 ? 'text-amber-600' : 'text-[rgb(var(--color-accent))]'
-								}`}>
-									{index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : `#${index + 1}`}
-								</div>
-								<div>
-									<div class="text-sm font-medium text-[rgb(var(--color-text))]">
-										{streak.length} posts in {streak.days} days
-									</div>
-									<div class="text-xs text-[rgb(var(--color-text-muted))]">
-										{format(streak.start, 'MMM d, yyyy')} - {format(streak.end, 'MMM d, yyyy')}
-									</div>
-								</div>
-							</div>
-							<div class="text-right">
-								<div class="text-sm font-medium text-[rgb(var(--color-text))]" title="Average posts per day during this streak">
-									{Math.round((streak.length / streak.days) * 100) / 100} posts/day
-								</div>
-								<div class="text-xs text-[rgb(var(--color-text-muted))]">
-									{streak.length > 5 ? '🔥 Intense' : streak.length > 3 ? '⚡ Strong' : '📝 Steady'}
-								</div>
-							</div>
-						</div>
-					))}
-				</div>
-			</div>
+        {/* Writing Streaks */}
+        <div class="mb-6 md:mb-8 lg:mb-10">
+          <h3 class="mb-4 text-base font-semibold text-[rgb(var(--color-text))] md:mb-6 md:text-lg">
+            🏃‍♂️ Writing Streaks (Creative Bursts)
+          </h3>
+          <div class="space-y-4">
+            {
+              sortedStreaks.slice(0, 10).map((streak, index) => (
+                <div class="flex items-center justify-between rounded-lg bg-[rgb(var(--color-bg))] p-4">
+                  <div class="flex items-center gap-4">
+                    <div
+                      class={`text-lg font-bold ${
+                        index === 0
+                          ? 'text-yellow-500'
+                          : index === 1
+                            ? 'text-gray-400'
+                            : index === 2
+                              ? 'text-amber-600'
+                              : 'text-[rgb(var(--color-accent))]'
+                      }`}
+                    >
+                      {index === 0
+                        ? '🥇'
+                        : index === 1
+                          ? '🥈'
+                          : index === 2
+                            ? '🥉'
+                            : `#${index + 1}`}
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-[rgb(var(--color-text))]">
+                        {streak.length} posts in {streak.days} days
+                      </div>
+                      <div class="text-xs text-[rgb(var(--color-text-muted))]">
+                        {format(streak.start, 'MMM d, yyyy')} - {format(streak.end, 'MMM d, yyyy')}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="text-right">
+                    <div
+                      class="text-sm font-medium text-[rgb(var(--color-text))]"
+                      title="Average posts per day during this streak"
+                    >
+                      {Math.round((streak.length / streak.days) * 100) / 100} posts/day
+                    </div>
+                    <div class="text-xs text-[rgb(var(--color-text-muted))]">
+                      {streak.length > 5
+                        ? '🔥 Intense'
+                        : streak.length > 3
+                          ? '⚡ Strong'
+                          : '📝 Steady'}
+                    </div>
+                  </div>
+                </div>
+              ))
+            }
+          </div>
+        </div>
 
-			{/* Dry Spells */}
-			<div class="mb-6 md:mb-8 lg:mb-10">
-				<h3 class="text-base md:text-lg font-semibold text-[rgb(var(--color-text))] mb-4 md:mb-6">🌵 Longest Dry Spells (Challenges)</h3>
-				<div class="space-y-4">
-					{sortedDrySpells.slice(0, 5).map((spell, index) => (
-						<div class="flex items-center justify-between p-4 bg-[rgb(var(--color-bg))] rounded-lg">
-							<div class="flex items-center gap-4">
-								<div class="text-lg font-bold text-red-500">#{index + 1}</div>
-								<div>
-									<div class="text-sm font-medium text-[rgb(var(--color-text))]">
-										{spell.days} days without posting
-									</div>
-									<div class="text-xs text-[rgb(var(--color-text-muted))]">
-										{format(spell.start, 'MMM d, yyyy')} - {format(spell.end, 'MMM d, yyyy')}
-									</div>
-								</div>
-							</div>
-							<div class="text-right">
-								<div class="text-sm text-[rgb(var(--color-text-muted))]" title="Duration converted to weeks">
-									{Math.round(spell.days / 7)} weeks
-								</div>
-								<div class="text-xs text-[rgb(var(--color-text-muted))]">
-									{spell.days > 90 ? '🚨 Critical' : spell.days > 60 ? '⚠️ Concerning' : '📉 Notable'}
-								</div>
-							</div>
-						</div>
-					))}
-				</div>
-			</div>
+        {/* Dry Spells */}
+        <div class="mb-6 md:mb-8 lg:mb-10">
+          <h3 class="mb-4 text-base font-semibold text-[rgb(var(--color-text))] md:mb-6 md:text-lg">
+            🌵 Longest Dry Spells (Challenges)
+          </h3>
+          <div class="space-y-4">
+            {
+              sortedDrySpells.slice(0, 5).map((spell, index) => (
+                <div class="flex items-center justify-between rounded-lg bg-[rgb(var(--color-bg))] p-4">
+                  <div class="flex items-center gap-4">
+                    <div class="text-lg font-bold text-red-500">#{index + 1}</div>
+                    <div>
+                      <div class="text-sm font-medium text-[rgb(var(--color-text))]">
+                        {spell.days} days without posting
+                      </div>
+                      <div class="text-xs text-[rgb(var(--color-text-muted))]">
+                        {format(spell.start, 'MMM d, yyyy')} - {format(spell.end, 'MMM d, yyyy')}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="text-right">
+                    <div
+                      class="text-sm text-[rgb(var(--color-text-muted))]"
+                      title="Duration converted to weeks"
+                    >
+                      {Math.round(spell.days / 7)} weeks
+                    </div>
+                    <div class="text-xs text-[rgb(var(--color-text-muted))]">
+                      {spell.days > 90
+                        ? '🚨 Critical'
+                        : spell.days > 60
+                          ? '⚠️ Concerning'
+                          : '📉 Notable'}
+                    </div>
+                  </div>
+                </div>
+              ))
+            }
+          </div>
+        </div>
 
-			{/* Most Productive Months */}
-			<div class="mb-8">
-				<h3 class="text-lg font-semibold text-[rgb(var(--color-text))] mb-6">📈 Most Productive Months</h3>
-				<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-					{productiveMonths.map((month, index) => (
-						<div class="p-4 bg-[rgb(var(--color-bg))] rounded-lg">
-							<div class="flex items-center justify-between mb-2">
-								<span class="text-sm font-medium text-[rgb(var(--color-text))]">{month.label}</span>
-								<span class={`text-lg font-bold ${
-									index === 0 ? 'text-yellow-500' : 
-									index === 1 ? 'text-gray-400' : 
-									index === 2 ? 'text-amber-600' : 'text-[rgb(var(--color-accent))]'
-								}`}>
-									{index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : `#${index + 1}`}
-								</span>
-							</div>
-							<div class="text-2xl font-bold text-[rgb(var(--color-text))]" title={`${month.count} posts published in ${month.label}`}>{month.count}</div>
-							<div class="text-xs text-[rgb(var(--color-text-muted))]">posts</div>
-						</div>
-					))}
-				</div>
-			</div>
+        {/* Most Productive Months */}
+        <div class="mb-8">
+          <h3 class="mb-6 text-lg font-semibold text-[rgb(var(--color-text))]">
+            📈 Most Productive Months
+          </h3>
+          <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {
+              productiveMonths.map((month, index) => (
+                <div class="rounded-lg bg-[rgb(var(--color-bg))] p-4">
+                  <div class="mb-2 flex items-center justify-between">
+                    <span class="text-sm font-medium text-[rgb(var(--color-text))]">
+                      {month.label}
+                    </span>
+                    <span
+                      class={`text-lg font-bold ${
+                        index === 0
+                          ? 'text-yellow-500'
+                          : index === 1
+                            ? 'text-gray-400'
+                            : index === 2
+                              ? 'text-amber-600'
+                              : 'text-[rgb(var(--color-accent))]'
+                      }`}
+                    >
+                      {index === 0
+                        ? '🥇'
+                        : index === 1
+                          ? '🥈'
+                          : index === 2
+                            ? '🥉'
+                            : `#${index + 1}`}
+                    </span>
+                  </div>
+                  <div
+                    class="text-2xl font-bold text-[rgb(var(--color-text))]"
+                    title={`${month.count} posts published in ${month.label}`}
+                  >
+                    {month.count}
+                  </div>
+                  <div class="text-xs text-[rgb(var(--color-text-muted))]">posts</div>
+                </div>
+              ))
+            }
+          </div>
+        </div>
 
-			{/* Balanced Analysis Section */}
-			<div class="mb-6 md:mb-8 lg:mb-10">
-				<h2 class="text-lg md:text-xl font-semibold text-[rgb(var(--color-text))] mb-4 md:mb-6 flex items-center gap-2">
-					<span class="text-gray-600 dark:text-gray-400">⚖️</span>
-					Balanced Analysis
-				</h2>
-				<p class="text-sm text-[rgb(var(--color-text-muted))] mb-4 md:mb-6">
-					Objective assessment showing strengths, challenges, and neutral metrics without bias toward positive outcomes.
-				</p>
-				
-				{/* Consistency Grades */}
-				<div class="mb-6 md:mb-8">
-					<h3 class="text-lg font-medium text-[rgb(var(--color-text))] mb-4">📊 Consistency Grades</h3>
-					<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-						<div>
-							<div class="text-sm text-[rgb(var(--color-text-muted))] mb-1">Posting Regularity</div>
-							<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-1">{objectiveMetrics.consistencyMetrics.postingRegularity}/100</div>
-							<div class={`text-sm font-semibold ${letterGradeToColor(scoreToLetterGrade(objectiveMetrics.consistencyMetrics.postingRegularity))}`}>
-								Grade: {scoreToLetterGrade(objectiveMetrics.consistencyMetrics.postingRegularity)}
-							</div>
-						</div>
-						<div>
-							<div class="text-sm text-[rgb(var(--color-text-muted))] mb-1">Topic Consistency</div>
-							<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-1">{objectiveMetrics.consistencyMetrics.topicConsistency}/100</div>
-							<div class={`text-sm font-semibold ${letterGradeToColor(scoreToLetterGrade(objectiveMetrics.consistencyMetrics.topicConsistency))}`}>
-								Grade: {scoreToLetterGrade(objectiveMetrics.consistencyMetrics.topicConsistency)}
-							</div>
-						</div>
-						<div>
-							<div class="text-sm text-[rgb(var(--color-text-muted))] mb-1">Quality Consistency</div>
-							<div class="text-2xl font-bold text-[rgb(var(--color-text))] mb-1">{100 - objectiveMetrics.consistencyMetrics.qualityVariance}/100</div>
-							<div class={`text-sm font-semibold ${letterGradeToColor(scoreToLetterGrade(100 - objectiveMetrics.consistencyMetrics.qualityVariance))}`}>
-								Grade: {scoreToLetterGrade(100 - objectiveMetrics.consistencyMetrics.qualityVariance)}
-							</div>
-						</div>
-					</div>
-				</div>
+        {/* Balanced Analysis Section */}
+        <div class="mb-6 md:mb-8 lg:mb-10">
+          <h2
+            class="mb-4 flex items-center gap-2 text-lg font-semibold text-[rgb(var(--color-text))] md:mb-6 md:text-xl"
+          >
+            <span class="text-gray-600 dark:text-gray-400">⚖️</span>
+            Balanced Analysis
+          </h2>
+          <p class="mb-4 text-sm text-[rgb(var(--color-text-muted))] md:mb-6">
+            Objective assessment showing strengths, challenges, and neutral metrics without bias
+            toward positive outcomes.
+          </p>
 
-				{/* Strengths */}
-				{balancedAnalysis.strengths.length > 0 && (
-					<div class="mb-6 md:mb-8">
-						<h3 class="text-lg font-medium text-[rgb(var(--color-text))] mb-4 text-green-600 dark:text-green-400">✅ Strengths</h3>
-						<div class="space-y-3">
-							{balancedAnalysis.strengths.map((insight, index) => (
-								<div class="py-3 border-b border-[rgb(var(--color-border))] last:border-b-0">
-									<div class="text-sm text-[rgb(var(--color-text))]" set:html={insight.text}></div>
-								</div>
-							))}
-						</div>
-					</div>
-				)}
+          {/* Consistency Grades */}
+          <div class="mb-6 md:mb-8">
+            <h3 class="mb-4 text-lg font-medium text-[rgb(var(--color-text))]">
+              📊 Consistency Grades
+            </h3>
+            <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
+              <div>
+                <div class="mb-1 text-sm text-[rgb(var(--color-text-muted))]">
+                  Posting Regularity
+                </div>
+                <div class="mb-1 text-2xl font-bold text-[rgb(var(--color-text))]">
+                  {objectiveMetrics.consistencyMetrics.postingRegularity}/100
+                </div>
+                <div
+                  class={`text-sm font-semibold ${letterGradeToColor(scoreToLetterGrade(objectiveMetrics.consistencyMetrics.postingRegularity))}`}
+                >
+                  Grade: {scoreToLetterGrade(objectiveMetrics.consistencyMetrics.postingRegularity)}
+                </div>
+              </div>
+              <div>
+                <div class="mb-1 text-sm text-[rgb(var(--color-text-muted))]">
+                  Topic Consistency
+                </div>
+                <div class="mb-1 text-2xl font-bold text-[rgb(var(--color-text))]">
+                  {objectiveMetrics.consistencyMetrics.topicConsistency}/100
+                </div>
+                <div
+                  class={`text-sm font-semibold ${letterGradeToColor(scoreToLetterGrade(objectiveMetrics.consistencyMetrics.topicConsistency))}`}
+                >
+                  Grade: {scoreToLetterGrade(objectiveMetrics.consistencyMetrics.topicConsistency)}
+                </div>
+              </div>
+              <div>
+                <div class="mb-1 text-sm text-[rgb(var(--color-text-muted))]">
+                  Quality Consistency
+                </div>
+                <div class="mb-1 text-2xl font-bold text-[rgb(var(--color-text))]">
+                  {100 - objectiveMetrics.consistencyMetrics.qualityVariance}/100
+                </div>
+                <div
+                  class={`text-sm font-semibold ${letterGradeToColor(scoreToLetterGrade(100 - objectiveMetrics.consistencyMetrics.qualityVariance))}`}
+                >
+                  Grade: {
+                    scoreToLetterGrade(100 - objectiveMetrics.consistencyMetrics.qualityVariance)
+                  }
+                </div>
+              </div>
+            </div>
+          </div>
 
-				{/* Challenges */}
-				{balancedAnalysis.challenges.length > 0 && (
-					<div class="mb-6 md:mb-8">
-						<h3 class="text-lg font-medium text-[rgb(var(--color-text))] mb-4 text-red-600 dark:text-red-400">❌ Challenges</h3>
-						<div class="space-y-3">
-							{balancedAnalysis.challenges.map((insight, index) => (
-								<div class="py-3 border-b border-[rgb(var(--color-border))] last:border-b-0">
-									<div class="text-sm text-[rgb(var(--color-text))]" set:html={insight.text}></div>
-								</div>
-							))}
-						</div>
-					</div>
-				)}
+          {/* Strengths */}
+          {
+            balancedAnalysis.strengths.length > 0 && (
+              <div class="mb-6 md:mb-8">
+                <h3 class="mb-4 text-lg font-medium text-[rgb(var(--color-text))] text-green-600 dark:text-green-400">
+                  ✅ Strengths
+                </h3>
+                <div class="space-y-3">
+                  {balancedAnalysis.strengths.map((insight, index) => (
+                    <div class="border-b border-[rgb(var(--color-border))] py-3 last:border-b-0">
+                      <div class="text-sm text-[rgb(var(--color-text))]" set:html={insight.text} />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )
+          }
 
-				{/* Neutral/Objective */}
-				{balancedAnalysis.neutral.length > 0 && (
-					<div class="mb-6 md:mb-8">
-						<h3 class="text-lg font-medium text-[rgb(var(--color-text))] mb-4 text-gray-600 dark:text-gray-400">ℹ️ Objective Metrics</h3>
-						<div class="space-y-3">
-							{balancedAnalysis.neutral.map((insight, index) => (
-								<div class="py-3 border-b border-[rgb(var(--color-border))] last:border-b-0">
-									<div class="text-sm text-[rgb(var(--color-text))]" set:html={insight.text}></div>
-								</div>
-							))}
-						</div>
-					</div>
-				)}
-			</div>
+          {/* Challenges */}
+          {
+            balancedAnalysis.challenges.length > 0 && (
+              <div class="mb-6 md:mb-8">
+                <h3 class="mb-4 text-lg font-medium text-[rgb(var(--color-text))] text-red-600 dark:text-red-400">
+                  ❌ Challenges
+                </h3>
+                <div class="space-y-3">
+                  {balancedAnalysis.challenges.map((insight, index) => (
+                    <div class="border-b border-[rgb(var(--color-border))] py-3 last:border-b-0">
+                      <div class="text-sm text-[rgb(var(--color-text))]" set:html={insight.text} />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )
+          }
 
-			{/* Analysis Conclusion */}
-			<div class="bg-[rgb(var(--color-bg-secondary))] rounded-lg p-4 md:p-6 border border-[rgb(var(--color-border))]">
-				<h3 class="text-base md:text-lg font-semibold text-[rgb(var(--color-text))] mb-4 md:mb-6">📊 Writing Cadence Analysis</h3>
-				<div class="space-y-4">
-					{/* Dynamic Insights */}
-					<div class="space-y-2">
-						{insights.map((insight, index) => (
-							<div class={`flex items-center gap-2 ${insight.color}`}>
-								<span class="text-sm">
-									{insight.type === 'positive' ? '✅' : 
-									 insight.type === 'negative' ? '❌' : 
-									 insight.type === 'warning' ? '⚠️' : 'ℹ️'}
-								</span>
-								<span class="text-sm" set:html={insight.text}></span>
-							</div>
-						))}
-					</div>
-					
-					{/* Summary */}
-					<div class="pt-4">
-						<p class="text-sm text-[rgb(var(--color-text-muted))]" set:html={summary}></p>
-					</div>
-				</div>
-			</div>
+          {/* Neutral/Objective */}
+          {
+            balancedAnalysis.neutral.length > 0 && (
+              <div class="mb-6 md:mb-8">
+                <h3 class="mb-4 text-lg font-medium text-[rgb(var(--color-text))] text-gray-600 dark:text-gray-400">
+                  ℹ️ Objective Metrics
+                </h3>
+                <div class="space-y-3">
+                  {balancedAnalysis.neutral.map((insight, index) => (
+                    <div class="border-b border-[rgb(var(--color-border))] py-3 last:border-b-0">
+                      <div class="text-sm text-[rgb(var(--color-text))]" set:html={insight.text} />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )
+          }
+        </div>
 
-			{/* Navigation Links */}
-			<div class="mt-8 md:mt-12 pt-6 md:pt-8 border-t border-[rgb(var(--color-border))]">
-				<div class="flex flex-wrap gap-4 md:gap-6 justify-center">
-					<a href="/brain-science" class="text-sm text-[rgb(var(--color-accent))] hover:text-[rgb(var(--color-accent-hover))] transition-colors">
-						🏠 Brain Science Dashboard
-					</a>
-					<a href="/brain-science/insights" class="text-sm text-[rgb(var(--color-accent))] hover:text-[rgb(var(--color-accent-hover))] transition-colors">
-						📊 Emotional Processing Analytics
-					</a>
-					<a href="/brain-science/evolution" class="text-sm text-[rgb(var(--color-accent))] hover:text-[rgb(var(--color-accent-hover))] transition-colors">
-						📈 Intellectual Growth Analytics
-					</a>
-					<a href="/brain-science/topics" class="text-sm text-[rgb(var(--color-accent))] hover:text-[rgb(var(--color-accent-hover))] transition-colors">
-						🏷️ Core Themes Analysis
-					</a>
-					<a href="/brain-science/patterns" class="text-sm text-[rgb(var(--color-accent))] hover:text-[rgb(var(--color-accent-hover))] transition-colors">
-						🌀 Pattern Recognition
-					</a>
-					<a href="/brain-science/meta" class="text-sm text-[rgb(var(--color-accent))] hover:text-[rgb(var(--color-accent-hover))] transition-colors">
-						🔍 Meta Analysis
-					</a>
-				</div>
-			</div>
-		</Container>
-	</Container>
-</BaseLayout> 
+        {/* Analysis Conclusion */}
+        <div
+          class="rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg-secondary))] p-4 md:p-6"
+        >
+          <h3 class="mb-4 text-base font-semibold text-[rgb(var(--color-text))] md:mb-6 md:text-lg">
+            📊 Writing Cadence Analysis
+          </h3>
+          <div class="space-y-4">
+            {/* Dynamic Insights */}
+            <div class="space-y-2">
+              {
+                insights.map((insight, index) => (
+                  <div class={`flex items-center gap-2 ${insight.color}`}>
+                    <span class="text-sm">
+                      {insight.type === 'positive'
+                        ? '✅'
+                        : insight.type === 'negative'
+                          ? '❌'
+                          : insight.type === 'warning'
+                            ? '⚠️'
+                            : 'ℹ️'}
+                    </span>
+                    <span class="text-sm" set:html={insight.text} />
+                  </div>
+                ))
+              }
+            </div>
+
+            {/* Summary */}
+            <div class="pt-4">
+              <p class="text-sm text-[rgb(var(--color-text-muted))]" set:html={summary} />
+            </div>
+          </div>
+        </div>
+
+        {/* Navigation Links */}
+        <div class="mt-8 border-t border-[rgb(var(--color-border))] pt-6 md:mt-12 md:pt-8">
+          <div class="flex flex-wrap justify-center gap-4 md:gap-6">
+            <a
+              href="/brain-science"
+              class="text-sm text-[rgb(var(--color-accent))] transition-colors hover:text-[rgb(var(--color-accent-hover))]"
+            >
+              🏠 Brain Science Dashboard
+            </a>
+            <a
+              href="/brain-science/insights"
+              class="text-sm text-[rgb(var(--color-accent))] transition-colors hover:text-[rgb(var(--color-accent-hover))]"
+            >
+              📊 Emotional Processing Analytics
+            </a>
+            <a
+              href="/brain-science/evolution"
+              class="text-sm text-[rgb(var(--color-accent))] transition-colors hover:text-[rgb(var(--color-accent-hover))]"
+            >
+              📈 Intellectual Growth Analytics
+            </a>
+            <a
+              href="/brain-science/topics"
+              class="text-sm text-[rgb(var(--color-accent))] transition-colors hover:text-[rgb(var(--color-accent-hover))]"
+            >
+              🏷️ Core Themes Analysis
+            </a>
+            <a
+              href="/brain-science/patterns"
+              class="text-sm text-[rgb(var(--color-accent))] transition-colors hover:text-[rgb(var(--color-accent-hover))]"
+            >
+              🌀 Pattern Recognition
+            </a>
+            <a
+              href="/brain-science/meta"
+              class="text-sm text-[rgb(var(--color-accent))] transition-colors hover:text-[rgb(var(--color-accent-hover))]"
+            >
+              🔍 Meta Analysis
+            </a>
+          </div>
+        </div>
+      </div>
+    </Container>
+  </Container>
+</BaseLayout>

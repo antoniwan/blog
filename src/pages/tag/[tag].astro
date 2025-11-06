@@ -7,20 +7,20 @@ import { getCollection } from 'astro:content';
 import { getAllUniqueTags, getTagStatistics } from '../../utils/tagProcessing';
 
 export async function getStaticPaths() {
-	const posts = await getCollection('blog');
-	const tags = getAllUniqueTags(posts);
+  const posts = await getCollection('blog');
+  const tags = getAllUniqueTags(posts);
 
-	return tags.map(tag => ({
-		params: { tag },
-		props: { tag },
-	}));
+  return tags.map((tag) => ({
+    params: { tag },
+    props: { tag },
+  }));
 }
 
 const { tag } = Astro.props;
 
 // Get all posts
 const posts = await getCollection('blog', ({ data }) => {
-	return import.meta.env.PROD ? !data.draft : true;
+  return import.meta.env.PROD ? !data.draft : true;
 });
 
 // Get tag statistics
@@ -28,123 +28,132 @@ const { totalPosts, relatedTags, category } = getTagStatistics(tag, posts);
 
 // Filter posts by tag and sort by date
 const tagPosts = posts
-	.filter(post => post.data.tags?.includes(tag))
-	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+  .filter((post) => post.data.tags?.includes(tag))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 ---
 
 <BaseLayout
-	title={`${tag} - Tag`}
-			description={`Browse all writings tagged with ${tag}`}
-	path={`/tag/${tag}`}
-	structuredDataType="tag"
-	structuredDataIdentifier={tag}
-	posts={tagPosts}
+  title={`${tag} - Tag`}
+  description={`Browse all writings tagged with ${tag}`}
+  path={`/tag/${tag}`}
+  structuredDataType="tag"
+  structuredDataIdentifier={tag}
+  posts={tagPosts}
 >
-	<Container>
-		<Container maxWidth="container" padding="none">
-			{/* Tag Header with Stats */}
-			<div class="mb-8">
-				<PageHeader 
-					title={`#${tag}`}
-					description={`Browse all writings tagged with ${tag}`}
-				/>
-				
-				{/* Tag Statistics */}
-				<div class="mt-6 flex flex-wrap gap-4 items-center">
-					<div class="flex items-center gap-2 px-4 py-2 bg-[rgb(var(--color-accent))]/10 border border-[rgb(var(--color-accent))]/20 rounded-lg">
-  <span class="text-[rgb(var(--color-accent))]" aria-hidden="true">📊</span>
-  <span class="text-base font-medium text-[rgb(var(--color-accent))] leading-relaxed">
-							{totalPosts} {totalPosts === 1 ? 'writing' : 'writings'}
-						</span>
-					</div>
-					
-					{relatedTags.length > 0 && (
-						<div class="flex items-center gap-2 px-4 py-2 bg-[rgb(var(--color-bg-alt))] border border-[rgb(var(--color-border))] rounded-lg">
-							<span class="text-[rgb(var(--color-text-muted))]" aria-hidden="true">🔗</span>
-							<span class="text-base font-medium text-[rgb(var(--color-text))] leading-relaxed">
-								{relatedTags.length} related tags
-							</span>
-						</div>
-					)}
-				</div>
-			</div>
-			
-			{/* Related Tags */}
-			{relatedTags.length > 0 && (
-				<div class="mb-8">
-					<h3 class="text-subheading text-[rgb(var(--color-text))] mb-4">
-						Related Tags
-					</h3>
-					<div class="flex flex-wrap gap-1.5">
-						{relatedTags.map(({ tag: relatedTag, count }: { tag: string; count: number }) => (
-							<a
-								href={`/tag/${relatedTag}/`}
-								class="inline-flex items-center gap-1.5 px-2.5 py-1 text-sm bg-[rgb(var(--color-bg-alt))] border border-[rgb(var(--color-border))]/30 rounded-full text-[rgb(var(--color-text))] hover:bg-[rgb(var(--color-accent))]/10 hover:border-[rgb(var(--color-accent))]/30 hover:text-[rgb(var(--color-accent))] theme-transition"
-							>
-								<span aria-hidden="true">🏷️</span>
-								<span>#{relatedTag}</span>
-								<span class="text-xs text-[rgb(var(--color-text-muted))]">({count})</span>
-							</a>
-						))}
-					</div>
-				</div>
-			)}
-			
-			{/* Tag Posts */}
-			<div class="space-y-6">
-				{tagPosts.length > 0 && (
-					<div class="flex items-center justify-between mb-6">
-						<h2 class="text-heading text-[rgb(var(--color-text))]">
-							Writings tagged with #{tag}
-						</h2>
-						<div class="text-base text-[rgb(var(--color-text-muted))] leading-relaxed">
-							Sorted by date
-						</div>
-					</div>
-				)}
-				
-				<div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
-					{tagPosts.map((post) => (
-						<PostCard post={post} featured={post.data.featured} />
-					))}
-				</div>
-			</div>
-			
-			{/* Empty State */}
-			{tagPosts.length === 0 && (
-				<div class="text-center py-12">
-					<div class="max-w-md mx-auto">
-						<div class="text-4xl mb-4" aria-hidden="true">🏷️</div>
-						<h3 class="text-subheading text-[rgb(var(--color-text))] mb-2">
-							No writings found
-						</h3>
-						<p class="text-body-large text-[rgb(var(--color-text-muted))] leading-relaxed mb-6">
-							No writings have been tagged with "#{tag}" yet.
-						</p>
-						<a 
-							href="/tag/"
-							class="inline-flex items-center gap-2 px-4 py-2 bg-[rgb(var(--color-accent))] text-white rounded-lg hover:bg-[rgb(var(--color-accent-hover))] theme-transition text-base leading-relaxed"
-						>
-							<span>←</span>
-							<span>Browse all tags</span>
-						</a>
-					</div>
-				</div>
-			)}
-		</Container>
-	</Container>
+  <Container>
+    <Container maxWidth="container" padding="none">
+      {/* Tag Header with Stats */}
+      <div class="mb-8">
+        <PageHeader title={`#${tag}`} description={`Browse all writings tagged with ${tag}`} />
+
+        {/* Tag Statistics */}
+        <div class="mt-6 flex flex-wrap items-center gap-4">
+          <div
+            class="flex items-center gap-2 rounded-lg border border-[rgb(var(--color-accent))]/20 bg-[rgb(var(--color-accent))]/10 px-4 py-2"
+          >
+            <span class="text-[rgb(var(--color-accent))]" aria-hidden="true">📊</span>
+            <span class="text-base font-medium leading-relaxed text-[rgb(var(--color-accent))]">
+              {totalPosts}
+              {totalPosts === 1 ? 'writing' : 'writings'}
+            </span>
+          </div>
+
+          {
+            relatedTags.length > 0 && (
+              <div class="flex items-center gap-2 rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg-alt))] px-4 py-2">
+                <span class="text-[rgb(var(--color-text-muted))]" aria-hidden="true">
+                  🔗
+                </span>
+                <span class="text-base font-medium leading-relaxed text-[rgb(var(--color-text))]">
+                  {relatedTags.length} related tags
+                </span>
+              </div>
+            )
+          }
+        </div>
+      </div>
+
+      {/* Related Tags */}
+      {
+        relatedTags.length > 0 && (
+          <div class="mb-8">
+            <h3 class="text-subheading mb-4 text-[rgb(var(--color-text))]">Related Tags</h3>
+            <div class="flex flex-wrap gap-1.5">
+              {relatedTags.map(({ tag: relatedTag, count }: { tag: string; count: number }) => (
+                <a
+                  href={`/tag/${relatedTag}/`}
+                  class="theme-transition inline-flex items-center gap-1.5 rounded-full border border-[rgb(var(--color-border))]/30 bg-[rgb(var(--color-bg-alt))] px-2.5 py-1 text-sm text-[rgb(var(--color-text))] hover:border-[rgb(var(--color-accent))]/30 hover:bg-[rgb(var(--color-accent))]/10 hover:text-[rgb(var(--color-accent))]"
+                >
+                  <span aria-hidden="true">🏷️</span>
+                  <span>#{relatedTag}</span>
+                  <span class="text-xs text-[rgb(var(--color-text-muted))]">({count})</span>
+                </a>
+              ))}
+            </div>
+          </div>
+        )
+      }
+
+      {/* Tag Posts */}
+      <div class="space-y-6">
+        {
+          tagPosts.length > 0 && (
+            <div class="mb-6 flex items-center justify-between">
+              <h2 class="text-heading text-[rgb(var(--color-text))]">
+                Writings tagged with #{tag}
+              </h2>
+              <div class="text-base leading-relaxed text-[rgb(var(--color-text-muted))]">
+                Sorted by date
+              </div>
+            </div>
+          )
+        }
+
+        <div class="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-8">
+          {tagPosts.map((post) => <PostCard post={post} featured={post.data.featured} />)}
+        </div>
+      </div>
+
+      {/* Empty State */}
+      {
+        tagPosts.length === 0 && (
+          <div class="py-12 text-center">
+            <div class="mx-auto max-w-md">
+              <div class="mb-4 text-4xl" aria-hidden="true">
+                🏷️
+              </div>
+              <h3 class="text-subheading mb-2 text-[rgb(var(--color-text))]">No writings found</h3>
+              <p class="text-body-large mb-6 leading-relaxed text-[rgb(var(--color-text-muted))]">
+                No writings have been tagged with "#{tag}" yet.
+              </p>
+              <a
+                href="/tag/"
+                class="theme-transition inline-flex items-center gap-2 rounded-lg bg-[rgb(var(--color-accent))] px-4 py-2 text-base leading-relaxed text-white hover:bg-[rgb(var(--color-accent-hover))]"
+              >
+                <span>←</span>
+                <span>Browse all tags</span>
+              </a>
+            </div>
+          </div>
+        )
+      }
+    </Container>
+  </Container>
 </BaseLayout>
 
 <style>
-	/* Smooth transitions for dark mode */
-	main {
-		transition: background-color 0.2s ease, color 0.2s ease;
-	}
+  /* Smooth transitions for dark mode */
+  main {
+    transition:
+      background-color 0.2s ease,
+      color 0.2s ease;
+  }
 
-	/* Respect reduced motion preferences */
-	@media (prefers-reduced-motion: reduce) {
-		main {
-			transition: none !important;
-		}
-	}
-</style> 
+  /* Respect reduced motion preferences */
+  @media (prefers-reduced-motion: reduce) {
+    main {
+      transition: none !important;
+    }
+  }
+</style>
+
