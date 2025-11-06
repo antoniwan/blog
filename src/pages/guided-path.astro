@@ -388,6 +388,7 @@ const sortedChapters = nonEmptyChapters.sort(
   .progress-header h3 {
     font-size: 1.25rem;
     font-weight: 600;
+    line-height: 1.3;
     color: rgb(var(--color-text));
     margin: 0;
   }
@@ -452,6 +453,7 @@ const sortedChapters = nonEmptyChapters.sort(
 
   .stat-label {
     font-size: 0.875rem;
+    line-height: 1.6;
     color: rgb(var(--color-text-muted));
     text-transform: uppercase;
     letter-spacing: 0.05em;
@@ -472,9 +474,14 @@ const sortedChapters = nonEmptyChapters.sort(
   }
 
   .completion-message p {
+    margin-top: 1rem;
     margin-bottom: 1rem;
-    line-height: 1.6;
+    line-height: 1.8;
     color: rgb(var(--color-text-muted));
+  }
+
+  .completion-message p:first-child {
+    margin-top: 0;
   }
 
   .completion-message p:last-child {
@@ -494,7 +501,7 @@ const sortedChapters = nonEmptyChapters.sort(
   .privacy-notice p {
     margin: 0;
     font-size: 0.875rem;
-    line-height: 1.6;
+    line-height: 1.7;
     color: rgb(var(--color-text-muted));
   }
 

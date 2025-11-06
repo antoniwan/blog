@@ -68,11 +68,11 @@ const secondaryCategoryPosts = categoryPosts
       {
         secondaryCategoryPosts.length > 0 && (
           <div class="mb-16 md:mb-20">
-            <div class="mb-8 md:mb-12">
-              <h2 class="text-heading mb-4 text-[rgb(var(--color-text))]">
+            <div class="mb-8 md:mb-12 space-y-2">
+              <h2 class="text-heading text-[rgb(var(--color-text))]" style="line-height: 1.3; margin: 0;">
                 Related {category.name} Writings
               </h2>
-              <p class="text-body-large leading-relaxed text-[rgb(var(--color-text-muted))]">
+              <p class="text-body-large leading-relaxed text-[rgb(var(--color-text-muted))]" style="margin: 0; line-height: 1.6;">
                 Writings that touch on {category.name} as a secondary topic
               </p>
             </div>
@@ -109,7 +109,7 @@ const secondaryCategoryPosts = categoryPosts
 
   /* Enhanced spacing and typography */
   .text-lg {
-    line-height: 1.7;
+    line-height: 1.75;
   }
 
   .text-xl {
@@ -117,11 +117,11 @@ const secondaryCategoryPosts = categoryPosts
   }
 
   .text-2xl {
-    line-height: 1.5;
+    line-height: 1.4;
   }
 
   .text-3xl {
-    line-height: 1.4;
+    line-height: 1.3;
   }
 
   /* Enhanced spacing for better visual hierarchy */
