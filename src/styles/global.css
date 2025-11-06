@@ -85,6 +85,7 @@
   h4,
   h5,
   h6 {
+    font-family: 'Lora', Georgia, Cambria, 'Times New Roman', Times, serif;
     @apply font-bold text-[rgb(var(--color-text))];
   }
 

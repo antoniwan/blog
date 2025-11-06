@@ -131,6 +131,7 @@ export default {
           'sans-serif',
         ],
         serif: ['Source Serif Pro', 'Georgia', 'Times New Roman', 'serif'],
+        heading: ['Lora', 'Georgia', 'Cambria', 'Times New Roman', 'Times', 'serif'],
         mono: [
           'Fira Code',
           'ui-monospace',
