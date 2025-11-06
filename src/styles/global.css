@@ -55,10 +55,10 @@
   .dark {
     /* Dark theme colors - Serious & Professional */
     --color-bg: 3 7 18; /* Very dark navy background */
-    --color-bg-alt: 15 23 42; /* Dark slate background */
-    --color-text: 248 250 252; /* Very light gray for maximum contrast */
-    --color-text-muted: 148 163 184; /* Medium gray for secondary text */
-    --color-border: 51 65 85; /* Dark gray borders */
+    --color-bg-alt: 20 30 50; /* Dark slate background - enhanced for better separation */
+    --color-text: 255 255 255; /* Pure white for maximum contrast */
+    --color-text-muted: 200 210 220; /* Lighter gray for better readability */
+    --color-border: 71 85 105; /* Lighter border for better visibility */
     --color-primary: 239 68 68; /* Bright red for shocking highlights */
     --color-primary-hover: 220 38 38; /* Slightly darker red on hover */
     --color-accent: 96 165 250; /* Blue accent for links */
