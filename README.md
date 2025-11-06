@@ -6,8 +6,8 @@ A personal notes site exploring fatherhood, masculinity, culture, and modern col
 
 ## Overview
 
-- **55+ writings** exploring personal growth, consciousness, and modern life
-- **9 content categories** covering fatherhood, psychology, politics, and more
+- **60+ writings** exploring personal growth, consciousness, and modern life
+- **10 content categories** covering fatherhood, psychology, politics, and more
 - **Multilingual system** with translation linking (English/Spanish)
 - **Dark mode** with system preference detection
 - **Responsive design** optimized for all devices
@@ -52,6 +52,7 @@ Visit `http://localhost:4323` to view the site.
 | `npm run standardize-frontmatter`    | Standardize frontmatter format          |
 | `npm run remove-legacy-reading-time` | Remove legacy reading time fields       |
 | `npm run validate-structured-data`   | Validate structured data implementation |
+| `npm run fix:hr-spacing`             | Fix horizontal rule spacing in content |
 
 ## Project Structure
 
@@ -158,15 +159,16 @@ language: ["es"]
 
 ### Categories
 
-- **Art & Expression** - Creative content and aesthetic exploration
-- **DIY & Creation** - Physical builds and handmade projects
-- **Integration & Growth** - Personal development and consciousness
-- **Learning Projects** - Documentation of skill development
-- **Metaspace** - Reflections on the journey itself
-- **Parenting** - Family dynamics and child development
-- **Politics** - Social structures and power dynamics
-- **Psychology** - Human behavior and mental processes
-- **Systems & Strategy** - Technical and organizational systems
+- **Art & Expression** - Creative soul, aesthetic power, truth-telling
+- **Culture** - Social norms, collective behavior, and cultural critique
+- **DIY & Creation** - Physical builds, handmade goods, crafting
+- **Integration & Growth** - Inner mastery, parenting, masculine leadership
+- **Learning Projects** - Documentation of mastery in progress
+- **Metaspace** - Reflections on the journey itself — the why, the how, the code of life
+- **Parenting** - Raising resilient children, family dynamics, and personal growth
+- **Politics** - Power dynamics, social structures, and collective healing
+- **Psychology** - Human behavior, social dynamics, and mental processes
+- **Systems & Strategy** - Digital power, code, and strategic design
 
 ## Features
 
@@ -180,11 +182,20 @@ language: ["es"]
 
 ### 📚 **Content & Navigation**
 
-- **Search Functionality** - Intelligent content discovery across 55+ writings
+- **Search Functionality** - Intelligent content discovery across 60+ writings
+- **Highlights System** - Curated featured posts displayed on homepage via `highlights.json` configuration
+- **Everything Page** - Complete chronological archive of all posts with lazy loading (12 posts per load)
 - **Guided Path** - Seasonal reading experience with chapter progress tracking
 - **Breadcrumb Navigation** - Clear page hierarchy and location awareness
 - **Tag Management** - Advanced tag usage analytics and filtering
-- **Brain Science Analytics** - Writing pattern analysis and insights
+- **Brain Science Analytics** - Comprehensive writing pattern analysis with 6 sub-sections:
+  - **Insights** - Personal insights and emotional processing analytics
+  - **Evolution** - Intellectual growth and knowledge area evolution tracking
+  - **Topics** - Core themes and topic analysis
+  - **Cadence** - Creative rhythms and publishing patterns
+  - **Patterns** - Hidden pattern recognition and creative correlations
+  - **Meta** - Self-reflection on thinking and writing relationship
+- **Featured Writings Rotator** - Interactive carousel component for showcasing featured posts with auto-rotation and keyboard navigation
 
 ### 🔒 **Privacy & Security**
 
