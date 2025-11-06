@@ -11,8 +11,6 @@ const DYNAMIC_CACHE = 'dynamic-v1';
 const STATIC_FILES = [
   '/',
   '/offline.html',
-  '/styles/global.css',
-  '/styles/fonts.css',
   '/images/default.avif',
   '/favicon.ico',
   '/favicon.svg',
