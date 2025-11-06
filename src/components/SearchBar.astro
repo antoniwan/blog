@@ -147,9 +147,9 @@ const searchDataJson = JSON.stringify(searchData);
   <!-- Search Input -->
   <div class="relative">
     <!-- Search Icon -->
-    <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+    <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-2.5">
       <svg
-        class="h-5 w-5 text-[rgb(var(--color-text-muted))]"
+        class="h-4 w-4 text-[rgb(var(--color-text-muted))]"
         fill="none"
         stroke="currentColor"
         viewBox="0 0 24 24"
@@ -166,7 +166,7 @@ const searchDataJson = JSON.stringify(searchData);
     <input
       type="text"
       id={searchId}
-      class="theme-transition w-full rounded-lg border border-[rgb(var(--color-border))]/30 bg-[rgb(var(--color-bg-alt))]/50 px-4 py-2.5 pl-10 pr-10 text-base text-[rgb(var(--color-text))] placeholder-[rgb(var(--color-text-muted))] focus:border-[rgb(var(--color-border))]/50 focus:bg-[rgb(var(--color-bg))] focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))]/20 md:w-64 md:pr-4 lg:w-80"
+      class="theme-transition w-full rounded-lg border border-[rgb(var(--color-border))]/30 bg-[rgb(var(--color-bg-alt))]/50 px-3 py-2 pl-8 pr-8 text-sm text-[rgb(var(--color-text))] placeholder-[rgb(var(--color-text-muted))] focus:border-[rgb(var(--color-border))]/50 focus:bg-[rgb(var(--color-bg))] focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))]/20 md:w-64 md:pr-3 lg:w-80"
       placeholder={placeholder}
       aria-label="Search writings"
     />
@@ -174,10 +174,10 @@ const searchDataJson = JSON.stringify(searchData);
     <!-- Clear Button -->
     <button
       id={`${searchId}-clear`}
-      class="absolute inset-y-0 right-0 flex hidden items-center pr-3 text-[rgb(var(--color-text-muted))] hover:text-[rgb(var(--color-accent))]"
+      class="absolute inset-y-0 right-0 flex hidden items-center pr-2.5 text-[rgb(var(--color-text-muted))] hover:text-[rgb(var(--color-accent))]"
       aria-label="Clear search"
     >
-      <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path
           stroke-linecap="round"
           stroke-linejoin="round"
