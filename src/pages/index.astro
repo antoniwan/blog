@@ -16,27 +16,36 @@ const highlights = await getHighlights();
 >
   <h2>Highlights</h2>
 
-      <div class="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-8">
-        {highlights.map((highlight) => (
-          <PostCard post={highlight.post} featured={highlight.post.data.featured} />
-        ))}
-      </div>
+  <div class="grid grid-cols-1 gap-6 md:grid-cols-3 md:gap-8">
+    {
+      highlights.map((highlight) => (
+        <PostCard post={highlight.post} featured={highlight.post.data.featured} />
+      ))
+    }
+  </div>
 
   <p class="mt-8">
-    <a href="/guided-path" class="text-[rgb(var(--color-primary))] hover:underline"><strong>Start Here</strong></a>
+    If those highlights landed for you, the rest is yours to explore. Start with context, follow a
+    topic, or go through everything as it unfolded.
+  </p><p>
+    <a href="/guided-path" class="text-[rgb(var(--color-primary))] hover:underline"
+      ><strong>Start Here</strong></a
+    >
     {' • '}
-    <a href="/everything" class="text-[rgb(var(--color-primary))] hover:underline"><strong>Everything (All Posts)</strong></a>
+    <a href="/everything" class="text-[rgb(var(--color-primary))] hover:underline"
+      ><strong>Everything (All Posts)</strong></a
+    >
   </p>
 
   <h2>Why This Space Exists (This Season)</h2>
 
   <p>
-    I'm reshaping how I think, speak, and show up. These notes help me see myself clearly, track my evolution, and stay accountable to truth over performance. You're welcome to read along, but this space exists first to keep me honest as I grow.
+    I'm reshaping how I think, speak, and show up. These notes help me see myself clearly, track my
+    evolution, and stay accountable to truth over performance. You're welcome to read along, but
+    this space exists first to keep me honest as I grow.
   </p>
 
-  <p>
-    I'll refine and distill this into more permanent work when it's ready.
-  </p>
+  <p>I'll refine and distill this into more permanent work when it's ready.</p>
 </PageLayout>
 
 <style>
