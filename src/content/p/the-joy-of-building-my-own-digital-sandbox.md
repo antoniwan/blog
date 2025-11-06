@@ -120,7 +120,7 @@ Just fast, clean, intentional web pages that work everywhere.
 
 ## Open Source by Default
 
-The whole thing is [open source on GitHub](https://github.com/antoniwan/blog). Not because I think it'll change the world, but because hoarding knowledge is pointless.
+The whole thing is [open source on GitHub](https://github.com/antoniwan/notes). Not because I think it'll change the world, but because hoarding knowledge is pointless.
 
 If someone wants to see how I built the reading progress indicator or category system, the code is right there. Take it. Improve it. Make it yours.
 
@@ -137,4 +137,4 @@ I'm always tinkering. Always improving. Currently working on:
 
 ---
 
-_Want to see how it all works? Check out the [source code](https://github.com/antoniwan/blog) or just poke around this site. Everything you see was built with intention, iteration, and probably too much caffeine._
+_Want to see how it all works? Check out the [source code](https://github.com/antoniwan/notes) or just poke around this site. Everything you see was built with intention, iteration, and probably too much caffeine._
