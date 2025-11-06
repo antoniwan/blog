@@ -12,6 +12,7 @@ export interface NavigationItem {
 }
 
 export const mainNavigation: NavigationItem[] = [
+  { href: '/guided-path', label: 'Guided Path' },
   {
     href: '/category/',
     label: 'Categories',
@@ -19,7 +20,6 @@ export const mainNavigation: NavigationItem[] = [
       label: 'Browse Categories',
     },
   },
-  { href: '/guided-path', label: 'Guided Path' },
   { href: '/everything', label: 'Everything' },
   {
     href: '/tag/',
