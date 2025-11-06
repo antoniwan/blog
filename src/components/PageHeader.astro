@@ -11,9 +11,9 @@ interface Props {
 const { title, description, className = '', showTitle = true } = Astro.props;
 ---
 
-<Container maxWidth="container" padding="none" class={`py-6 md:py-8 lg:py-12 ${className}`}>
+<Container maxWidth="container" padding="none" class={`py-3 md:py-8 lg:py-12 ${className}`}>
   <h1
-    class={`text-display mb-4 text-[rgb(var(--color-text))] md:mb-6${!showTitle ? ' sr-only' : ''}`}
+    class={`text-display mb-2 text-[rgb(var(--color-text))] md:mb-6${!showTitle ? ' sr-only' : ''}`}
     transition:name="page-title"
   >
     {title}
@@ -21,7 +21,7 @@ const { title, description, className = '', showTitle = true } = Astro.props;
   {
     description && (
       <p
-        class="text-body-large leading-relaxed text-[rgb(var(--color-text-muted))]"
+        class="text-base leading-relaxed text-[rgb(var(--color-text-muted))] md:text-body-large"
         transition:name="page-description"
       >
         {description}
