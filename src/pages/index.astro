@@ -1,5 +1,6 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
+import PostCard from '../components/PostCard.astro';
 import { getHighlights } from '../utils/highlights';
 
 // Get highlights
@@ -15,20 +16,11 @@ const highlights = await getHighlights();
 >
   <h2>Highlights</h2>
 
-      <ul class="list-none space-y-6 pl-0">
+      <div class="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-8">
         {highlights.map((highlight) => (
-          <li>
-            <h3>
-              <a href={`/p/${highlight.post.id}/`} class="text-[rgb(var(--color-text))] hover:text-[rgb(var(--color-primary))]">
-                {highlight.title}
-              </a>
-            </h3>
-            <p class="text-[rgb(var(--color-text-muted))] leading-relaxed">
-              {highlight.summary}
-            </p>
-          </li>
+          <PostCard post={highlight.post} featured={highlight.post.data.featured} />
         ))}
-      </ul>
+      </div>
 
   <p class="mt-8">
     <a href="/guided-path" class="text-[rgb(var(--color-primary))] hover:underline"><strong>Start Here</strong></a>
