@@ -39,6 +39,7 @@ tags:
 featured: true
 published: true
 showComments: true
+translationGroup: invitation-end-wealth-worship-human-future
 ---
 
 Let's stop lying to ourselves about the world we've built.
