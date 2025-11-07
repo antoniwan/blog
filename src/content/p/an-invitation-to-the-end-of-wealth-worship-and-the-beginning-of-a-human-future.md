@@ -1,12 +1,11 @@
 ---
 title: An Invitation to the End of Wealth Worship — and the Beginning of a Human Future
 description: >-
-  A call to build a society where safety, dignity, and love are non-negotiable for all. 
-
-  Challenging the systems that measure worth by productivity and wealth by virtue.
+  A call to build a society where safety, dignity, and love are non-negotiable for all.
 pubDate: '2025-11-07T15:29:00.000Z'
 language:
   - en
+heroImage: /images/2025/trillion.avif
 category:
   - politics
   - culture
@@ -44,7 +43,7 @@ showComments: true
 
 Let's stop lying to ourselves about the world we've built.
 
-I'm not saying that with anger for the sake of anger. I'm saying it because I've watched enough of this reality to finally admit something I used to ignore: what we call *"normal"* is costing us our humanity. And the more we pretend that this is simply *"the way the world works,"* the more we participate in a silent agreement that leaves millions living without dignity.
+I'm not saying that with anger for the sake of anger. I'm saying it because I've watched enough of this reality to finally admit something I used to ignore: what we call *"normal"* is costing us our humanity. And the more we pretend that this is simply *"the way the world works,"* the more we participate in a silent agreement that leaves **millions living without dignity**.
 
 I didn't arrive here through rebellion or ideology. I arrived here because I kept noticing a pattern I could no longer unsee. We live surrounded by abundance—food, technology, comfort, innovation, knowledge. Humanity has never had more capability than we do now. And yet dignity is treated like a luxury. Safety is conditional. And worth? Worth is measured by how much a person can endure, produce, or sacrifice for systems that do not love them back.
 
@@ -58,9 +57,9 @@ I used to think the problem was just unfairness or inequality. But it goes deepe
 
 It's not that ambition is wrong. Growth isn't the enemy. Progress is not the issue. But somewhere along the way, we began worshipping the outcomes instead of the people living through them. We praise the ones who "win" at the economic game as if they are a higher form of human. We look at wealth as evidence of virtue, intelligence, superiority—even destiny. As if comfort is earned by character, and hardship is a personal failure. As if dignity must be deserved.
 
-**What a painful lie.**
+Y'all lying and playing...
 
-Because if dignity must be earned, then we are not a society—we are a competition disguised as one.
+**Because if dignity must be _earned_, then we are not a society—we are a _competition disguised as one_.**
 
 And here's the truth that keeps echoing in me: a truly developed world would not require a person to earn the right to be treated with dignity.
 
@@ -72,7 +71,7 @@ And if we can build rockets, cure diseases, and automate half of life, then we a
 
 So why don't we?
 
-Because the current story benefits from staying in place. It keeps us striving, comparing, competing, and never questioning. If we stay busy chasing worth, we don't ask who decided the rules. We don't ask who benefits from the exhaustion. We don't ask why we treat basic human needs like privileges.
+Because the _current_ story benefits from staying in place. It keeps us striving, comparing, competing, and never questioning. If we stay busy chasing worth, we don't ask who decided the rules. We don't ask who benefits from the exhaustion. We don't ask why we treat basic human needs like privileges.
 
 The conditioning runs deep. And the most effective conditioning is the kind people defend as *"normal."*
 
@@ -98,9 +97,26 @@ You don't have to reject ambition. You don't have to abandon progress. You don't
 
 What if the measure of a good life wasn't how much you achieve, but how deeply you feel alive while living it? What if the measure of a society wasn't wealth, but how safe people feel to be fully themselves? What if progress wasn't defined by power, but by the presence of compassion?
 
-These questions don't require permission. They only require willingness.
+These questions don't require permission. They only require _willingness_.
 
 I'm not asking you to agree with me. I'm asking you to sit with the discomfort that rises when you stop pretending everything is fine. You don't need to fix the world or fix yourself. Just stop lying to yourself about what you already know feels wrong.
 
 Go think about this.
 
+---
+
+## Related... if you want to keep going...
+
+- [Love Is the Final Revolution](/p/love-is-the-final-revolution) — After nearly losing myself to global chaos, I found the most radical act isn't outrage — it's love. A reflection on politics, fear, and why building a home rooted in kindness may be the ultimate rebellion.
+
+- [The Paradox of Modernity: Progress Without Peace](/p/the-paradox-of-modernity-progress-without-peace) — We are living in the most advanced moment in human history. And yet, we are also arguably the most confused, alienated, addicted, manipulated, and emotionally starved generation ever to exist.
+
+- [What Are We Even Calling Democracy Anymore?](/p/what-are-we-even-calling-democracy) — A raw reflection on the state of democracy, the gap between rhetoric and reality, and the need for genuine systemic change.
+
+- [Good Sheep](/p/good-sheep) — How we've been conditioned to love our own systematic exploitation — from theme parks to algorithmic playlists, we pay premium prices to be herded through corporate processing systems while calling it freedom.
+
+- [If Your Politics Obsess Over Control, You're Not Well](/p/fear-control-politics) — Analysis of how fear and trauma manifest in control-based political ideologies. Explores the relationship between personal insecurity and authoritarian policy positions.
+
+- [Transforming My Life Through the Application of What I Value](/p/transforming-life-through-values) — Personal story of four years of therapy and habit changes. Shows how aligning daily actions with core values led to improved mental health and relationships.
+
+- [On the Application of Empathy and Compassion](/p/on-the-application-of-empathy-and-compassion) — How learning empathy and compassion transformed my approach to conflict, relationships, and self-understanding.
