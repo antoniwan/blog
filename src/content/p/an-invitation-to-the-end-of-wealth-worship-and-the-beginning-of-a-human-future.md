@@ -105,7 +105,7 @@ What now?
 
 Stop performing “fine.” Stop playing along. Pick one place in your life where you’ve been betraying yourself for acceptance, productivity, or status — and refuse to continue the lie. Change one behavior in the direction of dignity. If you won’t fight for your own humanity, why would the system ever offer it to you?
 
-Your life is the first place the new story must become true — and others follow what they can feel, not what they are told.
+Your life is the first place the new story must become real — and others follow what they can feel, not what they are told.
 
 ---
 
