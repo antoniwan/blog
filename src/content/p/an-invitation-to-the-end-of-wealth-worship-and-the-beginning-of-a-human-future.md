@@ -65,7 +65,7 @@ And here's the truth that keeps echoing in me: a truly developed world would not
 
 We rarely say this out loud, but we live in a culture that teaches: *"Your worth is what you can produce. Your value is how much you can endure. Your success is how much you can accumulate."* This story trains us to see ourselves as instruments, not beings. It conditions us to ask "How can I become more valuable?" instead of "Do I feel alive in my own life?"
 
-If dignity is only available to the lucky, the relentless, or the already advantaged, then we have mistaken privilege for progress.
+If dignity is reserved for the lucky, the relentless, or the already advantaged, then what we call “progress” is just privilege with better PR.
 
 And if we can build rockets, cure diseases, and automate half of life, then we are capable of building a world where people don't have to suffer to be seen as worthy.
 
@@ -101,7 +101,11 @@ These questions don't require permission. They only require _willingness_.
 
 I'm not asking you to agree with me. I'm asking you to sit with the discomfort that rises when you stop pretending everything is fine. You don't need to fix the world or fix yourself. Just stop lying to yourself about what you already know feels wrong.
 
-Go think about this.
+What now? 
+
+Stop performing “fine.” Stop playing along. Pick one place in your life where you’ve been betraying yourself for acceptance, productivity, or status — and refuse to continue the lie. Change one behavior in the direction of dignity. If you won’t fight for your own humanity, why would the system ever offer it to you?
+
+Your life is the first place the new story must become true — and others follow what they can feel, not what they are told.
 
 ---
 
