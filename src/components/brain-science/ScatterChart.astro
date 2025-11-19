@@ -141,12 +141,19 @@ const chartData = {
       const chartTheme = {
         text: isDark ? 'rgb(255, 255, 255)' : 'rgb(17, 24, 39)',
         textMuted: isDark ? 'rgb(200, 210, 220)' : 'rgb(107, 114, 128)',
-        border: isDark ? 'rgb(71, 85, 105)' : 'rgb(209, 213, 219)',
+        border: isDark ? 'rgba(148, 163, 184, 0.3)' : 'rgb(209, 213, 219)',
         bgAlt: isDark ? 'rgb(20, 30, 50)' : 'rgb(249, 250, 251)',
       };
 
-      // Consistent dataset color palette
-      const datasetColors = [
+      // Dataset color palette - brighter in dark mode for better visibility
+      const datasetColors = isDark ? [
+        { border: 'rgba(96, 165, 250, 0.9)', background: 'rgba(96, 165, 250, 0.5)' }, // Blue
+        { border: 'rgba(248, 113, 113, 0.9)', background: 'rgba(248, 113, 113, 0.5)' }, // Red
+        { border: 'rgba(74, 222, 128, 0.9)', background: 'rgba(74, 222, 128, 0.5)' }, // Green
+        { border: 'rgba(251, 191, 36, 0.9)', background: 'rgba(251, 191, 36, 0.5)' }, // Amber
+        { border: 'rgba(167, 139, 250, 0.9)', background: 'rgba(167, 139, 250, 0.5)' }, // Purple
+        { border: 'rgba(244, 114, 182, 0.9)', background: 'rgba(244, 114, 182, 0.5)' }, // Pink
+      ] : [
         { border: 'rgba(59, 130, 246, 0.7)', background: 'rgba(59, 130, 246, 0.4)' }, // Blue
         { border: 'rgba(220, 38, 38, 0.7)', background: 'rgba(220, 38, 38, 0.4)' }, // Red
         { border: 'rgba(34, 197, 94, 0.7)', background: 'rgba(34, 197, 94, 0.4)' }, // Green
@@ -196,7 +203,7 @@ const chartData = {
         if (ds.label === 'Regression Line') {
           return {
             ...ds,
-            borderColor: 'rgba(220, 38, 38, 0.8)', // Red
+            borderColor: isDark ? 'rgba(248, 113, 113, 0.9)' : 'rgba(220, 38, 38, 0.8)', // Red
             backgroundColor: 'transparent',
             borderWidth: ds.borderWidth ?? 2,
             pointRadius: 0,

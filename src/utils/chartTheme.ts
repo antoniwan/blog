@@ -3,14 +3,24 @@
  * Provides consistent theming for all charts
  */
 
-// Consistent color palette for all chart types
-const DATASET_COLORS = [
+// Light mode color palette
+const DATASET_COLORS_LIGHT = [
   { border: 'rgba(59, 130, 246, 0.8)', background: 'rgba(59, 130, 246, 0.5)' }, // Blue
   { border: 'rgba(220, 38, 38, 0.8)', background: 'rgba(220, 38, 38, 0.5)' }, // Red
   { border: 'rgba(34, 197, 94, 0.8)', background: 'rgba(34, 197, 94, 0.5)' }, // Green
   { border: 'rgba(245, 158, 11, 0.8)', background: 'rgba(245, 158, 11, 0.5)' }, // Amber
   { border: 'rgba(147, 51, 234, 0.8)', background: 'rgba(147, 51, 234, 0.5)' }, // Purple
   { border: 'rgba(236, 72, 153, 0.8)', background: 'rgba(236, 72, 153, 0.5)' }, // Pink
+];
+
+// Dark mode color palette - brighter for better visibility
+const DATASET_COLORS_DARK = [
+  { border: 'rgba(96, 165, 250, 1)', background: 'rgba(96, 165, 250, 0.6)' }, // Blue
+  { border: 'rgba(248, 113, 113, 1)', background: 'rgba(248, 113, 113, 0.6)' }, // Red
+  { border: 'rgba(74, 222, 128, 1)', background: 'rgba(74, 222, 128, 0.6)' }, // Green
+  { border: 'rgba(251, 191, 36, 1)', background: 'rgba(251, 191, 36, 0.6)' }, // Amber
+  { border: 'rgba(167, 139, 250, 1)', background: 'rgba(167, 139, 250, 0.6)' }, // Purple
+  { border: 'rgba(244, 114, 182, 1)', background: 'rgba(244, 114, 182, 0.6)' }, // Pink
 ];
 
 /**
@@ -24,9 +34,9 @@ export function getChartTheme() {
   return {
     text: isDark ? 'rgb(255, 255, 255)' : 'rgb(17, 24, 39)',
     textMuted: isDark ? 'rgb(200, 210, 220)' : 'rgb(107, 114, 128)',
-    border: isDark ? 'rgb(71, 85, 105)' : 'rgb(209, 213, 219)',
+    border: isDark ? 'rgba(148, 163, 184, 0.3)' : 'rgb(209, 213, 219)',
     bgAlt: isDark ? 'rgb(20, 30, 50)' : 'rgb(249, 250, 251)',
-    datasetColors: DATASET_COLORS,
+    datasetColors: isDark ? DATASET_COLORS_DARK : DATASET_COLORS_LIGHT,
   };
 }
 
