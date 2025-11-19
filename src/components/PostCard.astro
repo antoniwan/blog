@@ -59,7 +59,11 @@ const readingTime = calculateReadingTimeFromMarkdown(post.body || '');
       <header class="space-y-2">
         <div class="text-body-muted flex items-center gap-1.5 text-xs leading-relaxed">
           <FormattedDate date={data.pubDate} />
-          <span class="reading-time-display" data-post-slug={post.id}>
+          <span
+            class="reading-time-display"
+            data-post-slug={post.id}
+            data-original-reading-time={readingTime || ''}
+          >
             {
               readingTime && (
                 <>
@@ -108,157 +112,90 @@ const readingTime = calculateReadingTimeFromMarkdown(post.body || '');
 </article>
 
 <script>
-  // Read status indicator for PostCard
-  // Storage constants - using direct values since import doesn't work in Astro client scripts
-  const STORAGE_KEY = 'blog-read-posts-v1.0';
-  const FALLBACK_KEY = 'blog-read-posts';
+  // ReadStateService is initialized by ReadStateServiceInit component in BaseLayout
+  // Get the singleton instance
+  const readStateService = (window as any).ReadStateService?.getInstance();
 
-  class PostCardReadIndicator {
-    private storageKey: string;
-    private fallbackKey: string;
-    private boundPostReadHandler: () => void;
-    private boundClearedHandler: () => void;
-    private boundStorageHandler: (event: any) => void;
-    private boundDataUpdatedHandler: (event: any) => void;
+  // Update indicators for all post cards
+  function updateIndicators() {
+    if (!readStateService) return; // Exit early if service not available
 
-    constructor() {
-      this.storageKey = STORAGE_KEY;
-      this.fallbackKey = FALLBACK_KEY;
-      this.boundPostReadHandler = this.handlePostRead.bind(this);
-      this.boundClearedHandler = this.handleClearedPosts.bind(this);
-      this.boundStorageHandler = this.handleStorageChange.bind(this);
-      this.boundDataUpdatedHandler = this.handleDataUpdated.bind(this);
-      this.init();
-    }
+    document.querySelectorAll('.read-indicator').forEach((indicator) => {
+      const postSlug = (indicator as HTMLElement).dataset.postSlug;
+      const dot = indicator.querySelector('.read-dot');
 
-    loadReadPosts() {
-      try {
-        const stored =
-          localStorage.getItem(this.storageKey) || localStorage.getItem(this.fallbackKey);
-        if (!stored) return [];
+      if (postSlug && dot) {
+        const isRead = readStateService.isRead(postSlug);
+        const readingTimeElement = document.querySelector(
+          `.reading-time-display[data-post-slug="${postSlug}"]`,
+        );
 
-        const parsed = JSON.parse(stored);
+        if (isRead) {
+          dot.classList.add('read');
+          indicator.setAttribute('title', 'Read');
 
-        // Validate data structure
-        if (!Array.isArray(parsed)) {
-          return [];
-        }
-
-        // Filter and validate individual items
-        return parsed.filter((item) => {
-          if (!item || typeof item !== 'object') return false;
-
-          const hasValidSlug = typeof item.postSlug === 'string' && item.postSlug.trim().length > 0;
-          const hasValidDate = typeof item.readAt === 'string' && !isNaN(Date.parse(item.readAt));
-
-          if (!hasValidSlug || !hasValidDate) {
-            return false;
-          }
-
-          return true;
-        });
-      } catch (error) {
-        return [];
-      }
-    }
-
-    getReadData(postSlug: string) {
-      const readData = this.loadReadPosts();
-      return readData.find((data) => data.postSlug === postSlug) || null;
-    }
-
-    updateIndicators() {
-      document.querySelectorAll('.read-indicator').forEach((indicator) => {
-        const postSlug = (indicator as HTMLElement).dataset.postSlug;
-        const dot = indicator.querySelector('.read-dot');
-
-        if (postSlug && dot) {
-          const readData = this.getReadData(postSlug);
-          const readingTimeElement = document.querySelector(
-            `.reading-time-display[data-post-slug="${postSlug}"]`,
-          ) as HTMLElement;
-
-          if (readData) {
-            dot.classList.add('read');
-            indicator.setAttribute('title', 'Read');
-            // Hide reading time for read posts
-            if (readingTimeElement) {
-              readingTimeElement.style.display = 'none';
+          // Replace reading time with "Read" for read posts
+          if (readingTimeElement) {
+            let timeSpan = readingTimeElement.querySelector('span:last-child');
+            if (!timeSpan) {
+              const separator = document.createElement('span');
+              separator.setAttribute('aria-hidden', 'true');
+              separator.textContent = '•';
+              timeSpan = document.createElement('span');
+              readingTimeElement.appendChild(separator);
+              readingTimeElement.appendChild(timeSpan);
             }
-          } else {
-            dot.classList.remove('read');
-            indicator.setAttribute('title', 'Unread');
-            // Show reading time for unread posts
-            if (readingTimeElement) {
-              readingTimeElement.style.display = 'inline';
+            timeSpan.textContent = 'Read';
+            (readingTimeElement as HTMLElement).style.display = 'inline';
+          }
+        } else {
+          dot.classList.remove('read');
+          indicator.setAttribute('title', 'Unread');
+
+          // Restore original reading time for unread posts
+          if (readingTimeElement) {
+            const originalReadingTime = readingTimeElement.getAttribute(
+              'data-original-reading-time',
+            );
+            if (originalReadingTime) {
+              let timeSpan = readingTimeElement.querySelector('span:last-child');
+              if (!timeSpan) {
+                const separator = document.createElement('span');
+                separator.setAttribute('aria-hidden', 'true');
+                separator.textContent = '•';
+                timeSpan = document.createElement('span');
+                readingTimeElement.appendChild(separator);
+                readingTimeElement.appendChild(timeSpan);
+              }
+              timeSpan.textContent = originalReadingTime;
+            } else {
+              (readingTimeElement as HTMLElement).style.display = 'none';
             }
           }
         }
-      });
-    }
-
-    handlePostRead() {
-      this.updateIndicators();
-    }
-
-    handleClearedPosts() {
-      this.updateIndicators();
-    }
-
-    handleStorageChange(event: any) {
-      // React to localStorage changes from other tabs/windows
-      if (event.key === this.storageKey || event.key === this.fallbackKey) {
-        this.updateIndicators();
       }
-    }
-
-    handleDataUpdated(event: any) {
-      // React to immediate data updates from same tab
-      if (event.detail?.type === 'post-read') {
-        this.updateIndicators();
-      }
-    }
-
-    init() {
-      // Update indicators on page load
-      this.updateIndicators();
-
-      // Listen for post-read events from other components
-      window.addEventListener('post-read', this.boundPostReadHandler);
-
-      // Listen for read-posts-cleared events
-      window.addEventListener('read-posts-cleared', this.boundClearedHandler);
-
-      // Listen for storage events (cross-tab synchronization)
-      window.addEventListener('storage', this.boundStorageHandler);
-
-      // Listen for immediate data updates (same-tab reactivity)
-      window.addEventListener('reading-data-updated', this.boundDataUpdatedHandler);
-    }
-
-    cleanup() {
-      window.removeEventListener('post-read', this.boundPostReadHandler);
-      window.removeEventListener('read-posts-cleared', this.boundClearedHandler);
-      window.removeEventListener('storage', this.boundStorageHandler);
-      window.removeEventListener('reading-data-updated', this.boundDataUpdatedHandler);
-    }
+    });
   }
 
-  // Initialize when DOM is ready
-  let postCardIndicator: PostCardReadIndicator;
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
-      postCardIndicator = new PostCardReadIndicator();
+  // Subscribe to all read state changes (only if service is available)
+  let unsubscribe: (() => void) | null = null;
+  if (readStateService) {
+    unsubscribe = readStateService.subscribeToAll(() => {
+      updateIndicators();
     });
-  } else {
-    postCardIndicator = new PostCardReadIndicator();
+
+    // Initial update
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', updateIndicators);
+    } else {
+      updateIndicators();
+    }
   }
 
   // Cleanup on page unload
   window.addEventListener('beforeunload', () => {
-    if (postCardIndicator) {
-      postCardIndicator.cleanup();
+    if (unsubscribe) {
+      unsubscribe();
     }
   });
 </script>

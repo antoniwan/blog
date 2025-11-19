@@ -1,0 +1,181 @@
+---
+/**
+ * Shared ReadStateService initialization component
+ * 
+ * This component initializes the ReadStateService singleton once
+ * and makes it available to all components via window.ReadStateService
+ * 
+ * Include this component in your base layout to ensure the service
+ * is available before any components try to use it.
+ */
+---
+
+<script is:inline>
+  // Initialize ReadStateService singleton - shared across all components
+  // This ensures the service is only initialized once, even if multiple components load
+  (function() {
+    // Return early if already initialized (prevents duplicate initialization)
+    if (window.ReadStateService) return;
+    
+    // Constants - match src/config/storage.ts
+    const STORAGE_KEYS = {
+      READ_POSTS: 'blog-read-posts-v1.0',
+      READ_POSTS_LEGACY: 'blog-read-posts',
+    };
+
+    const STORAGE_EVENTS = {
+      POST_READ: 'post-read',
+      READ_POSTS_CLEARED: 'read-posts-cleared',
+      READING_DATA_UPDATED: 'reading-data-updated',
+    };
+
+    const TIMING = {
+      CROSS_TAB_UPDATE_DELAY: 100,
+      SAME_TAB_UPDATE_DELAY: 50,
+    };
+
+    class ReadStateService {
+      static instance = null;
+      readDataCache = null;
+      subscribers = new Set();
+      allStateSubscribers = new Set();
+
+      constructor() {
+        this.boundStorageHandler = this.handleStorageChange.bind(this);
+        this.boundDataUpdatedHandler = this.handleDataUpdated.bind(this);
+        this.init();
+      }
+
+      static getInstance() {
+        if (!ReadStateService.instance) {
+          ReadStateService.instance = new ReadStateService();
+        }
+        return ReadStateService.instance;
+      }
+
+      init() {
+        if (typeof window === 'undefined') return;
+        window.addEventListener('storage', this.boundStorageHandler);
+        window.addEventListener(STORAGE_EVENTS.READING_DATA_UPDATED, this.boundDataUpdatedHandler);
+        window.addEventListener(STORAGE_EVENTS.POST_READ, this.boundDataUpdatedHandler);
+        window.addEventListener(STORAGE_EVENTS.READ_POSTS_CLEARED, this.boundDataUpdatedHandler);
+      }
+
+      cleanup() {
+        if (typeof window === 'undefined') return;
+        window.removeEventListener('storage', this.boundStorageHandler);
+        window.removeEventListener(STORAGE_EVENTS.READING_DATA_UPDATED, this.boundDataUpdatedHandler);
+        window.removeEventListener(STORAGE_EVENTS.POST_READ, this.boundDataUpdatedHandler);
+        window.removeEventListener(STORAGE_EVENTS.READ_POSTS_CLEARED, this.boundDataUpdatedHandler);
+      }
+
+      loadReadPosts() {
+        if (this.readDataCache !== null) return this.readDataCache;
+        try {
+          const stored = localStorage.getItem(STORAGE_KEYS.READ_POSTS) || localStorage.getItem(STORAGE_KEYS.READ_POSTS_LEGACY);
+          if (!stored) {
+            this.readDataCache = [];
+            return this.readDataCache;
+          }
+          const parsed = JSON.parse(stored);
+          if (!Array.isArray(parsed)) {
+            this.readDataCache = [];
+            return this.readDataCache;
+          }
+          const validData = parsed.filter((item) => {
+            if (!item || typeof item !== 'object') return false;
+            const hasValidSlug = typeof item.postSlug === 'string' && item.postSlug.trim().length > 0;
+            const hasValidDate = typeof item.readAt === 'string' && !isNaN(Date.parse(item.readAt));
+            return hasValidSlug && hasValidDate;
+          });
+          this.readDataCache = validData;
+          return this.readDataCache;
+        } catch (error) {
+          this.readDataCache = [];
+          return this.readDataCache;
+        }
+      }
+
+      invalidateCache() {
+        this.readDataCache = null;
+      }
+
+      isRead(postSlug) {
+        const readData = this.loadReadPosts();
+        return readData.some((data) => data.postSlug === postSlug);
+      }
+
+      getReadData(postSlug) {
+        const readData = this.loadReadPosts();
+        return readData.find((data) => data.postSlug === postSlug) || null;
+      }
+
+      getAllReadPosts() {
+        return [...this.loadReadPosts()];
+      }
+
+      subscribe(callback) {
+        this.subscribers.add(callback);
+        return () => this.subscribers.delete(callback);
+      }
+
+      subscribeToAll(callback) {
+        this.allStateSubscribers.add(callback);
+        return () => this.allStateSubscribers.delete(callback);
+      }
+
+      notifySubscribers(postSlug = null) {
+        if (postSlug) {
+          const readData = this.getReadData(postSlug);
+          const isRead = readData !== null;
+          this.subscribers.forEach((callback) => {
+            try {
+              callback(postSlug, isRead, readData);
+            } catch (error) {
+              console.error('Error in read state subscriber:', error);
+            }
+          });
+        }
+        this.allStateSubscribers.forEach((callback) => {
+          try {
+            callback();
+          } catch (error) {
+            console.error('Error in all-state subscriber:', error);
+          }
+        });
+      }
+
+      handleStorageChange(event) {
+        if (STORAGE_KEYS.READ_POSTS === event.key || STORAGE_KEYS.READ_POSTS_LEGACY === event.key) {
+          setTimeout(() => {
+            this.invalidateCache();
+            this.notifySubscribers();
+          }, TIMING.CROSS_TAB_UPDATE_DELAY);
+        }
+      }
+
+      handleDataUpdated(event) {
+        const customEvent = event;
+        if (customEvent.detail?.type === 'post-read' && customEvent.detail?.postSlug) {
+          setTimeout(() => {
+            this.invalidateCache();
+            this.notifySubscribers(customEvent.detail.postSlug);
+          }, TIMING.SAME_TAB_UPDATE_DELAY);
+        } else if (
+          customEvent.type === STORAGE_EVENTS.READ_POSTS_CLEARED ||
+          customEvent.detail?.type === 'posts-cleared' ||
+          customEvent.detail?.type === 'all-cleared'
+        ) {
+          setTimeout(() => {
+            this.invalidateCache();
+            this.notifySubscribers();
+          }, TIMING.SAME_TAB_UPDATE_DELAY);
+        }
+      }
+    }
+
+    // Expose to window for use in other components
+    window.ReadStateService = ReadStateService;
+  })();
+</script>
+

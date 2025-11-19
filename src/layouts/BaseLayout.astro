@@ -7,6 +7,7 @@ import ReadingProgress from '../components/ReadingProgress.astro';
 import StructuredData from '../components/StructuredData.astro';
 import PerformanceMonitor from '../components/PerformanceMonitor.astro';
 import ServiceWorkerRegistration from '../components/ServiceWorkerRegistration.astro';
+import ReadStateServiceInit from '../components/ReadStateServiceInit.astro';
 import { SITE_TITLE, SITE_DESCRIPTION, AUTHOR } from '../consts';
 import { generateKeywords, generateImageAlt } from '../utils/seo';
 import { generateStructuredData } from '../utils/structuredData';
@@ -33,6 +34,7 @@ const {
   structuredDataType = 'website',
   structuredDataIdentifier,
   posts = [],
+  postId,
 } = Astro.props;
 
 // Auto-generate keywords if not provided
@@ -94,8 +96,9 @@ const structuredData = generateStructuredData({
       >Skip to main content</a
     >
 
+    <ReadStateServiceInit />
     <Header />
-    <ReadingProgress />
+    <ReadingProgress postId={postId} />
 
     <main
       id="main-content"

@@ -39,8 +39,9 @@ const {
 // Generate canonical URL automatically
 const canonical = path || generateCanonicalUrl(Astro.url.pathname);
 
-// Extract post slug from path for read status
-const postSlug = path?.replace('/p/', '').replace('/', '') || '';
+// Use Astro's native post.id directly (no regex, no normalization)
+const postId = rest.currentPost?.id || '';
+const postSlug = postId; // Alias for backward compatibility in template
 ---
 
 <BaseLayout
@@ -62,6 +63,7 @@ const postSlug = path?.replace('/p/', '').replace('/', '') || '';
   hasComments={showComments}
   featured={rest.featured}
   draft={rest.draft}
+  postId={postId}
   {...rest}
 >
   <Container>
@@ -175,13 +177,13 @@ const postSlug = path?.replace('/p/', '').replace('/', '') || '';
               {/* Reading Time */}
               {
                 minutesRead && (
-                  <div class="reading-time-section space-y-2" data-post-slug={postSlug}>
+                  <div class="reading-time-section space-y-2" data-post-slug={postSlug} data-original-reading-time={minutesRead}>
                     <h3 class="text-xs font-semibold uppercase tracking-wider text-[rgb(var(--color-text-muted))]">
                       Reading Time
                     </h3>
                     <div class="flex items-center gap-2 text-base leading-relaxed text-[rgb(var(--color-text))]">
                       <span class="text-[rgb(var(--color-accent))]">⏱️</span>
-                      <span>{minutesRead}</span>
+                      <span class="reading-time-value">{minutesRead}</span>
                     </div>
                   </div>
                 )
@@ -336,13 +338,13 @@ const postSlug = path?.replace('/p/', '').replace('/', '') || '';
             {/* Reading Time */}
             {
               minutesRead && (
-                <div class="reading-time-section space-y-2" data-post-slug={postSlug}>
+                <div class="reading-time-section space-y-2" data-post-slug={postSlug} data-original-reading-time={minutesRead}>
                   <h3 class="text-xs font-semibold uppercase tracking-wider text-[rgb(var(--color-text-muted))]">
                     Reading Time
                   </h3>
                   <div class="flex items-center gap-2 text-base leading-relaxed text-[rgb(var(--color-text))]">
                     <span class="text-[rgb(var(--color-text))]">⏱️</span>
-                    <span>{minutesRead}</span>
+                    <span class="reading-time-value">{minutesRead}</span>
                   </div>
                 </div>
               )
@@ -433,192 +435,121 @@ const postSlug = path?.replace('/p/', '').replace('/', '') || '';
 </BaseLayout>
 
 <script define:vars={{ postSlug }}>
-  // Storage constants - using direct values since import doesn't work in Astro client scripts
-  const STORAGE_KEY = 'blog-read-posts-v1.0';
-  const FALLBACK_KEY = 'blog-read-posts';
-  const CROSS_TAB_DELAY = 100;
-  const SAME_TAB_DELAY = 50;
+  // ReadStateService is initialized by ReadStateServiceInit component in BaseLayout
+  // Get the singleton instance
+  const readStateService = (window as any).ReadStateService?.getInstance();
 
-  // Read status display for blog posts
-  class ReadStatusDisplay {
-    constructor() {
-      this.storageKey = STORAGE_KEY;
-      this.fallbackKey = FALLBACK_KEY;
-      this.boundPostReadHandler = this.handlePostRead.bind(this);
-      this.boundClearedHandler = this.handleClearedPosts.bind(this);
-      this.boundStorageHandler = this.handleStorageChange.bind(this);
-      this.boundDataUpdatedHandler = this.handleDataUpdated.bind(this);
-      this.init();
-    }
+  function formatReadDate(dateString) {
+    const readDate = new Date(dateString);
+    const now = new Date();
+    const diffInMs = now.getTime() - readDate.getTime();
+    const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
+    const diffInHours = Math.floor(diffInMs / (1000 * 60 * 60));
+    const diffInMinutes = Math.floor(diffInMs / (1000 * 60));
 
-    loadReadPosts() {
-      try {
-        const stored =
-          localStorage.getItem(this.storageKey) || localStorage.getItem(this.fallbackKey);
-        if (!stored) return [];
-
-        const parsed = JSON.parse(stored);
-
-        // Validate data structure
-        if (!Array.isArray(parsed)) {
-          return [];
-        }
-
-        // Filter and validate individual items
-        return parsed.filter((item) => {
-          if (!item || typeof item !== 'object') return false;
-
-          const hasValidSlug = typeof item.postSlug === 'string' && item.postSlug.trim().length > 0;
-          const hasValidDate = typeof item.readAt === 'string' && !isNaN(Date.parse(item.readAt));
-
-          if (!hasValidSlug || !hasValidDate) {
-            return false;
-          }
-
-          return true;
-        });
-      } catch (error) {
-        return [];
-      }
-    }
-
-    getReadData(postSlug) {
-      const readData = this.loadReadPosts();
-      return readData.find((data) => data.postSlug === postSlug) || null;
-    }
-
-    formatReadDate(dateString) {
-      const readDate = new Date(dateString);
-      const now = new Date();
-      const diffInMs = now.getTime() - readDate.getTime();
-      const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
-      const diffInHours = Math.floor(diffInMs / (1000 * 60 * 60));
-      const diffInMinutes = Math.floor(diffInMs / (1000 * 60));
-
-      if (diffInDays > 0) {
-        return diffInDays === 1 ? 'Yesterday' : `${diffInDays} days ago`;
-      } else if (diffInHours > 0) {
-        return diffInHours === 1 ? 'An hour ago' : `${diffInHours} hours ago`;
-      } else if (diffInMinutes > 0) {
-        return diffInMinutes === 1 ? 'A minute ago' : `${diffInMinutes} minutes ago`;
-      } else {
-        return 'Just now';
-      }
-    }
-
-    updateReadStatus() {
-      const readData = this.getReadData(postSlug);
-
-      // Desktop version
-      const desktopSection = document.getElementById('read-on-section');
-      const desktopDate = document.getElementById('read-on-date');
-
-      // Mobile version
-      const mobileSection = document.getElementById('read-on-section-mobile');
-      const mobileDate = document.getElementById('read-on-date-mobile');
-
-      // Reading time sections
-      const readingTimeSections = document.querySelectorAll(
-        `.reading-time-section[data-post-slug="${postSlug}"]`,
-      );
-
-      if (readData) {
-        const formattedDate = this.formatReadDate(readData.readAt);
-
-        // Show desktop section
-        if (desktopSection && desktopDate) {
-          desktopSection.style.display = 'block';
-          desktopDate.textContent = formattedDate;
-          desktopDate.setAttribute('datetime', readData.readAt);
-        }
-
-        // Show mobile section
-        if (mobileSection && mobileDate) {
-          mobileSection.style.display = 'block';
-          mobileDate.textContent = formattedDate;
-          mobileDate.setAttribute('datetime', readData.readAt);
-        }
-
-        // Hide reading time for read posts
-        readingTimeSections.forEach((section) => {
-          section.style.display = 'none';
-        });
-      } else {
-        // Hide sections if not read
-        if (desktopSection) desktopSection.style.display = 'none';
-        if (mobileSection) mobileSection.style.display = 'none';
-
-        // Show reading time for unread posts
-        readingTimeSections.forEach((section) => {
-          section.style.display = 'block';
-        });
-      }
-    }
-
-    handlePostRead(event) {
-      if (event.detail?.postSlug === postSlug) {
-        setTimeout(() => this.updateReadStatus(), CROSS_TAB_DELAY);
-      }
-    }
-
-    handleClearedPosts() {
-      setTimeout(() => this.updateReadStatus(), CROSS_TAB_DELAY);
-    }
-
-    handleStorageChange(event) {
-      // React to localStorage changes from other tabs/windows
-      if (event.key === this.storageKey || event.key === this.fallbackKey) {
-        setTimeout(() => this.updateReadStatus(), CROSS_TAB_DELAY);
-      }
-    }
-
-    handleDataUpdated(event) {
-      // React to immediate data updates from same tab
-      if (event.detail?.type === 'post-read') {
-        setTimeout(() => this.updateReadStatus(), SAME_TAB_DELAY);
-      }
-    }
-
-    init() {
-      // Update on page load
-      this.updateReadStatus();
-
-      // Listen for post-read events
-      window.addEventListener('post-read', this.boundPostReadHandler);
-
-      // Listen for read-posts-cleared events
-      window.addEventListener('read-posts-cleared', this.boundClearedHandler);
-
-      // Listen for storage events (cross-tab synchronization)
-      window.addEventListener('storage', this.boundStorageHandler);
-
-      // Listen for immediate data updates (same-tab reactivity)
-      window.addEventListener('reading-data-updated', this.boundDataUpdatedHandler);
-    }
-
-    cleanup() {
-      window.removeEventListener('post-read', this.boundPostReadHandler);
-      window.removeEventListener('read-posts-cleared', this.boundClearedHandler);
-      window.removeEventListener('storage', this.boundStorageHandler);
-      window.removeEventListener('reading-data-updated', this.boundDataUpdatedHandler);
+    if (diffInDays > 0) {
+      return diffInDays === 1 ? 'Yesterday' : `${diffInDays} days ago`;
+    } else if (diffInHours > 0) {
+      return diffInHours === 1 ? 'An hour ago' : `${diffInHours} hours ago`;
+    } else if (diffInMinutes > 0) {
+      return diffInMinutes === 1 ? 'A minute ago' : `${diffInMinutes} minutes ago`;
+    } else {
+      return 'Just now';
     }
   }
 
-  // Initialize when DOM is ready
-  let readStatusDisplay;
+  function updateReadStatus() {
+    if (!readStateService) return; // Exit early if service not available
+    const readData = readStateService.getReadData(postSlug);
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
-      readStatusDisplay = new ReadStatusDisplay();
+    // Desktop version
+    const desktopSection = document.getElementById('read-on-section');
+    const desktopDate = document.getElementById('read-on-date');
+
+    // Mobile version
+    const mobileSection = document.getElementById('read-on-section-mobile');
+    const mobileDate = document.getElementById('read-on-date-mobile');
+
+    // Reading time sections
+    const readingTimeSections = document.querySelectorAll(
+      `.reading-time-section[data-post-slug="${postSlug}"]`,
+    );
+
+    if (readData) {
+      const formattedDate = formatReadDate(readData.readAt);
+
+      // Show desktop section
+      if (desktopSection && desktopDate) {
+        desktopSection.style.display = 'block';
+        desktopDate.textContent = formattedDate;
+        desktopDate.setAttribute('datetime', readData.readAt);
+      }
+
+      // Show mobile section
+      if (mobileSection && mobileDate) {
+        mobileSection.style.display = 'block';
+        mobileDate.textContent = formattedDate;
+        mobileDate.setAttribute('datetime', readData.readAt);
+      }
+
+      // Change reading time to "Read" for read posts
+      readingTimeSections.forEach((section) => {
+        const timeValueElement = section.querySelector('.reading-time-value');
+        if (timeValueElement) {
+          timeValueElement.textContent = 'Read';
+        }
+        // Change the icon to indicate read status
+        const flexContainer = section.querySelector('.flex.items-center');
+        if (flexContainer) {
+          const iconElement = flexContainer.querySelector('span:first-child');
+          if (iconElement) {
+            iconElement.textContent = '✓';
+          }
+        }
+      });
+    } else {
+      // Hide sections if not read
+      if (desktopSection) desktopSection.style.display = 'none';
+      if (mobileSection) mobileSection.style.display = 'none';
+
+      // Restore original reading time for unread posts
+      readingTimeSections.forEach((section) => {
+        const originalReadingTime = section.getAttribute('data-original-reading-time');
+        const timeValueElement = section.querySelector('.reading-time-value');
+        if (timeValueElement && originalReadingTime) {
+          timeValueElement.textContent = originalReadingTime;
+        }
+        // Restore the icon
+        const flexContainer = section.querySelector('.flex.items-center');
+        if (flexContainer) {
+          const iconElement = flexContainer.querySelector('span:first-child');
+          if (iconElement) {
+            iconElement.textContent = '⏱️';
+          }
+        }
+      });
+    }
+  }
+
+  // Subscribe to read state changes (only if service is available)
+  let unsubscribe: (() => void) | null = null;
+  if (readStateService) {
+    unsubscribe = readStateService.subscribeToAll(() => {
+      updateReadStatus();
     });
-  } else {
-    readStatusDisplay = new ReadStatusDisplay();
+
+    // Initial update
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', updateReadStatus);
+    } else {
+      updateReadStatus();
+    }
   }
 
   // Cleanup on page unload
   window.addEventListener('beforeunload', () => {
-    if (readStatusDisplay) {
-      readStatusDisplay.cleanup();
+    if (unsubscribe) {
+      unsubscribe();
     }
   });
 </script>

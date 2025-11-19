@@ -1,9 +1,10 @@
 ---
 interface Props {
   class?: string;
+  postId?: string;
 }
 
-const { class: className = '' } = Astro.props;
+const { class: className = '', postId } = Astro.props;
 ---
 
 <div
@@ -13,6 +14,7 @@ const { class: className = '' } = Astro.props;
   aria-valuemin="0"
   aria-valuemax="100"
   aria-valuenow="0"
+  data-post-id={postId}
 >
   <div
     id="reading-progress"
@@ -173,9 +175,15 @@ const { class: className = '' } = Astro.props;
 
   const tracker = new ReadingTracker();
 
-  function getCurrentPostSlug(): string | null {
+  function getCurrentPostId(): string | null {
+    // Use Astro's native post.id from data attribute (primary method)
+    const progressBar = document.querySelector('[role="progressbar"]') as HTMLElement;
+    const postId = progressBar?.dataset?.postId;
+    if (postId) return postId;
+    
+    // Fallback: extract from URL path (stops at first slash, no trailing slash)
     const path = window.location.pathname;
-    const match = path.match(/\/p\/(.+)/);
+    const match = path.match(/\/p\/([^\/]+)/);
     return match ? match[1] : null;
   }
 
@@ -246,9 +254,9 @@ const { class: className = '' } = Astro.props;
 
     // Check if we should mark the post as read - simple percentage approach
     if (!hasMarkedAsRead && progress >= 75) {
-      const currentPostSlug = getCurrentPostSlug();
-      if (currentPostSlug) {
-        tracker.markAsRead(currentPostSlug, progress);
+      const currentPostId = getCurrentPostId();
+      if (currentPostId) {
+        tracker.markAsRead(currentPostId, progress);
         hasMarkedAsRead = true;
         showReadToast();
       }
