@@ -149,8 +149,12 @@ import pkg from '../../package.json';
           <span
             class="inline-flex items-center rounded-full border border-[rgb(var(--color-primary))]/20 bg-[rgb(var(--color-primary))]/10 px-2 py-1 text-[0.7rem] font-medium text-[rgb(var(--color-primary))]"
           >
-            v{pkg.version}
-          </span>
+            <a
+              href={`https://github.com/antoniwan/notes/releases/tag/v${pkg.version}`}
+              target="_blank"
+              rel="noopener noreferrer">v{pkg.version}</a
+            ></span
+          >
         </div>
       </div>
     </div>
