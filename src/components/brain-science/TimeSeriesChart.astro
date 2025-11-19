@@ -1,0 +1,197 @@
+---
+interface Props {
+  id: string;
+  labels: string[];
+  datasets: Array<{
+    label: string;
+    data: number[];
+    borderColor?: string;
+    backgroundColor?: string;
+    tension?: number;
+  }>;
+  title?: string;
+  yAxisLabel?: string;
+}
+
+const { id, labels, datasets, title, yAxisLabel } = Astro.props;
+
+// Serialize data for script
+const chartData = {
+  labels,
+  datasets,
+  yAxisLabel: yAxisLabel || '',
+};
+---
+
+<div class="mb-6">
+  {title && (
+    <h3 class="mb-4 text-base font-semibold text-[rgb(var(--color-text))] md:text-lg">
+      {title}
+    </h3>
+  )}
+  <div
+    class="relative h-64 w-full md:h-80"
+    id={`chart-container-${id}`}
+    style="min-height: 256px;"
+  >
+    <canvas id={id} style="display: block; max-width: 100%; height: 100%;"></canvas>
+  </div>
+</div>
+
+<script define:vars={{ id, chartData }}>
+  (async function initChart() {
+    try {
+      // Wait for DOM to be ready
+      if (document.readyState === 'loading') {
+        await new Promise((resolve) => {
+          if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', resolve, { once: true });
+          } else {
+            resolve(null);
+          }
+        });
+      }
+
+      // Additional small delay to ensure canvas is rendered
+      await new Promise((resolve) => setTimeout(resolve, 100));
+
+      // Dynamically import Chart.js
+      const { Chart, registerables } = await import('chart.js');
+      Chart.register(...registerables);
+
+      const container = document.getElementById(`chart-container-${id}`);
+      const canvas = document.getElementById(id);
+      
+      if (!canvas || !container) {
+        console.error(`Chart elements not found for id "${id}"`);
+        if (container) {
+          container.style.display = 'none';
+        }
+        return;
+      }
+
+      if (!chartData || !chartData.labels || !chartData.datasets) {
+        console.error('Chart data not found or invalid:', chartData);
+        container.style.display = 'none';
+        return;
+      }
+
+      const { labels, datasets, yAxisLabel } = chartData;
+
+      if (!labels || !Array.isArray(labels) || labels.length === 0) {
+        console.warn('Chart labels are empty or invalid');
+        container.style.display = 'none';
+        return;
+      }
+
+      if (!datasets || !Array.isArray(datasets) || datasets.length === 0) {
+        console.warn('Chart datasets are empty or invalid');
+        container.style.display = 'none';
+        return;
+      }
+
+      // Check if datasets have valid data
+      const hasValidData = datasets.some(
+        (ds) => Array.isArray(ds.data) && ds.data.length > 0 && ds.data.some((val) => val != null)
+      );
+      
+      if (!hasValidData) {
+        console.warn('Chart datasets contain no valid data');
+        container.style.display = 'none';
+        return;
+      }
+
+      const ctx = canvas.getContext('2d');
+      if (!ctx) {
+        console.error('Could not get 2d context from canvas');
+        container.style.display = 'none';
+        return;
+      }
+
+      // Destroy existing chart if it exists
+      if (canvas.chart) {
+        canvas.chart.destroy();
+      }
+
+      const processedDatasets = datasets.map((ds) => ({
+        ...ds,
+        borderColor: ds.borderColor || 'rgb(var(--color-accent))',
+        backgroundColor: ds.backgroundColor || 'rgba(var(--color-accent), 0.1)',
+        tension: ds.tension ?? 0.4,
+        fill: true,
+      }));
+
+      const chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: processedDatasets,
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              display: true,
+              position: 'top',
+              labels: {
+                color: 'rgb(var(--color-text))',
+                usePointStyle: true,
+                padding: 15,
+              },
+            },
+            tooltip: {
+              backgroundColor: 'rgb(var(--color-bg-secondary))',
+              titleColor: 'rgb(var(--color-text))',
+              bodyColor: 'rgb(var(--color-text))',
+              borderColor: 'rgb(var(--color-border))',
+              borderWidth: 1,
+              padding: 12,
+            },
+          },
+          scales: {
+            x: {
+              ticks: {
+                color: 'rgb(var(--color-text-muted))',
+                maxRotation: 45,
+                minRotation: 45,
+              },
+              grid: {
+                color: 'rgb(var(--color-border))',
+              },
+            },
+            y: {
+              beginAtZero: true,
+              ticks: {
+                color: 'rgb(var(--color-text-muted))',
+              },
+              grid: {
+                color: 'rgb(var(--color-border))',
+              },
+              title: {
+                display: !!yAxisLabel,
+                text: yAxisLabel,
+                color: 'rgb(var(--color-text-muted))',
+              },
+            },
+          },
+        },
+      });
+
+      // Store chart instance on canvas for cleanup
+      canvas.chart = chart;
+    } catch (err) {
+      console.error('Failed to initialize chart:', err);
+      const container = document.getElementById(`chart-container-${id}`);
+      if (container) {
+        container.style.display = 'none';
+      }
+      // Also hide parent wrapper if it exists
+      const wrapper = container?.parentElement;
+      if (wrapper && wrapper.classList.contains('mb-6')) {
+        wrapper.style.display = 'none';
+      }
+    }
+  })();
+</script>
+

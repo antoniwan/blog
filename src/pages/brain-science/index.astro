@@ -218,101 +218,74 @@ const pageInfo = BRAIN_SCIENCE_PAGES.find((p) => p.id === 'index');
       </div>
 
       {/* Challenge Areas */}
-      {objectiveMetrics.challengeAreas.length > 0 && (
-        <div class="mb-6 md:mb-8">
-          <h3 class="mb-3 text-base font-medium text-[rgb(var(--color-text))] md:mb-4 md:text-lg">
-            Challenge Areas
-          </h3>
-          <div class="space-y-2 overflow-hidden rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg-secondary))] md:space-y-3">
-            {objectiveMetrics.challengeAreas.map((challenge) => (
-              <div class="flex items-center justify-between border-b border-[rgb(var(--color-border))] px-4 py-3 last:border-b-0 md:px-6 md:py-4">
-                <div>
-                  <span class="text-sm font-medium text-[rgb(var(--color-text))] md:text-base">
-                    {challenge.area}
-                  </span>
-                  <div class="text-xs text-[rgb(var(--color-text-muted))] md:text-sm">
-                    Frequency: {challenge.frequency}%
+      {
+        objectiveMetrics.challengeAreas.length > 0 && (
+          <div class="mb-6 md:mb-8">
+            <h3 class="mb-3 text-base font-medium text-[rgb(var(--color-text))] md:mb-4 md:text-lg">
+              Challenge Areas
+            </h3>
+            <div class="space-y-2 overflow-hidden rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg-secondary))] md:space-y-3">
+              {objectiveMetrics.challengeAreas.map((challenge) => (
+                <div class="flex items-center justify-between border-b border-[rgb(var(--color-border))] px-4 py-3 last:border-b-0 md:px-6 md:py-4">
+                  <div>
+                    <span class="text-sm font-medium text-[rgb(var(--color-text))] md:text-base">
+                      {challenge.area}
+                    </span>
+                    <div class="text-xs text-[rgb(var(--color-text-muted))] md:text-sm">
+                      Frequency: {challenge.frequency}%
+                    </div>
                   </div>
+                  <span
+                    class={`rounded-full px-2 py-1 text-xs md:px-3 md:text-sm ${
+                      challenge.severity === 'high'
+                        ? 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300'
+                        : challenge.severity === 'medium'
+                          ? 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-300'
+                          : 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300'
+                    }`}
+                  >
+                    {challenge.severity}
+                  </span>
                 </div>
-                <span
-                  class={`rounded-full px-2 py-1 text-xs md:px-3 md:text-sm ${
-                    challenge.severity === 'high'
-                      ? 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300'
-                      : challenge.severity === 'medium'
-                        ? 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-300'
-                        : 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300'
-                  }`}
-                >
-                  {challenge.severity}
-                </span>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
-      )}
+        )
+      }
 
       {/* Improvement Areas */}
-      {objectiveMetrics.improvementAreas.length > 0 && (
-        <div class="mb-6 md:mb-8">
-          <h3 class="mb-3 text-base font-medium text-[rgb(var(--color-text))] md:mb-4 md:text-lg">
-            Improvement Opportunities
-          </h3>
-          <div class="space-y-3 rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg-secondary))] p-4 md:space-y-4 md:p-6">
-            {objectiveMetrics.improvementAreas.map((improvement) => (
-              <div>
-                <div class="mb-2 flex items-center justify-between">
-                  <span class="text-sm font-medium text-[rgb(var(--color-text))] md:text-base">
-                    {improvement.area}
-                  </span>
-                  <span class="text-xs text-[rgb(var(--color-text-muted))] md:text-sm">
-                    {improvement.current} / {improvement.target}
-                  </span>
+      {
+        objectiveMetrics.improvementAreas.length > 0 && (
+          <div class="mb-6 md:mb-8">
+            <h3 class="mb-3 text-base font-medium text-[rgb(var(--color-text))] md:mb-4 md:text-lg">
+              Improvement Opportunities
+            </h3>
+            <div class="space-y-3 rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg-secondary))] p-4 md:space-y-4 md:p-6">
+              {objectiveMetrics.improvementAreas.map((improvement) => (
+                <div>
+                  <div class="mb-2 flex items-center justify-between">
+                    <span class="text-sm font-medium text-[rgb(var(--color-text))] md:text-base">
+                      {improvement.area}
+                    </span>
+                    <span class="text-xs text-[rgb(var(--color-text-muted))] md:text-sm">
+                      {improvement.current} / {improvement.target}
+                    </span>
+                  </div>
+                  <div class="mb-1 h-2 w-full rounded-full bg-gray-200 dark:bg-gray-700">
+                    <div
+                      class="h-2 rounded-full bg-blue-500 transition-all duration-300"
+                      style={`width: ${Math.min(100, (improvement.current / improvement.target) * 100)}%`}
+                    />
+                  </div>
+                  <div class="text-xs text-[rgb(var(--color-text-muted))] md:text-sm">
+                    Gap: {improvement.gap.toFixed(1)}
+                  </div>
                 </div>
-                <div class="mb-1 h-2 w-full rounded-full bg-gray-200 dark:bg-gray-700">
-                  <div
-                    class="h-2 rounded-full bg-blue-500 transition-all duration-300"
-                    style={`width: ${Math.min(100, (improvement.current / improvement.target) * 100)}%`}
-                  />
-                </div>
-                <div class="text-xs text-[rgb(var(--color-text-muted))] md:text-sm">
-                  Gap: {improvement.gap.toFixed(1)}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-    </div>
-
-    {/* Analytics Navigation Cards */}
-    <div class="mb-12 md:mb-16">
-      <h2
-        class="mb-6 flex items-center gap-2 text-lg font-semibold text-[rgb(var(--color-text))] md:mb-8 md:text-xl"
-      >
-        <span class="text-[rgb(var(--color-accent))]">🔬</span>
-        Analytics & Insights
-      </h2>
-      <div class="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 lg:grid-cols-3 lg:gap-8">
-        {BRAIN_SCIENCE_PAGES.filter((page) => page.id !== 'index').map((page) => (
-          <a href={page.path} class="group block">
-            <div
-              class="h-full cursor-pointer rounded-lg border border-[rgb(var(--color-border))] p-4 transition-all duration-200 hover:border-[rgb(var(--color-accent))] hover:bg-[rgb(var(--color-accent))]/5 md:p-6"
-            >
-              <div class="mb-2 text-xl md:mb-3 md:text-2xl">{page.emoji}</div>
-              <h3
-                class="mb-2 text-base font-semibold text-[rgb(var(--color-text))] transition-colors group-hover:text-[rgb(var(--color-accent))] md:text-lg"
-              >
-                {page.title.replace(' - Brain Science', '').replace('Analytics', '').trim()}
-              </h3>
-              <p
-                class="text-xs text-[rgb(var(--color-text-muted))] transition-colors group-hover:text-[rgb(var(--color-text))] md:text-sm"
-              >
-                {page.description}
-              </p>
+              ))}
             </div>
-          </a>
-        ))}
-      </div>
+          </div>
+        )
+      }
     </div>
 
     {/* Data Insights */}
@@ -321,33 +294,33 @@ const pageInfo = BRAIN_SCIENCE_PAGES.find((p) => p.id === 'index');
       <div
         class="rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg-secondary))] p-4 md:p-6"
       >
-        <h3
-          class="mb-3 text-base font-semibold text-[rgb(var(--color-text))] md:mb-4 md:text-lg"
-        >
+        <h3 class="mb-3 text-base font-semibold text-[rgb(var(--color-text))] md:mb-4 md:text-lg">
           What Matters Most to You
         </h3>
         <div class="space-y-2 md:space-y-3">
-          {topTags.map(({ tag, count }) => (
-            <div class="flex items-center justify-between">
-              <span class="text-xs font-medium text-[rgb(var(--color-text))] md:text-sm">
-                {tag}
-              </span>
-              <div class="flex items-center gap-2">
-                <div class="h-2 w-12 rounded-full bg-[rgb(var(--color-border))] md:w-16">
-                  <div
-                    class="h-2 rounded-full bg-[rgb(var(--color-accent))]"
-                    style={`width: ${topTags[0] ? (count / topTags[0].count) * 100 : 0}%`}
-                  />
-                </div>
-                <span
-                  class="w-6 text-right text-xs text-[rgb(var(--color-text-muted))] md:w-8"
-                  title={`${count} posts tagged with "${tag}"`}
-                >
-                  {count}
+          {
+            topTags.map(({ tag, count }) => (
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-medium text-[rgb(var(--color-text))] md:text-sm">
+                  {tag}
                 </span>
+                <div class="flex items-center gap-2">
+                  <div class="h-2 w-12 rounded-full bg-[rgb(var(--color-border))] md:w-16">
+                    <div
+                      class="h-2 rounded-full bg-[rgb(var(--color-accent))]"
+                      style={`width: ${topTags[0] ? (count / topTags[0].count) * 100 : 0}%`}
+                    />
+                  </div>
+                  <span
+                    class="w-6 text-right text-xs text-[rgb(var(--color-text-muted))] md:w-8"
+                    title={`${count} posts tagged with "${tag}"`}
+                  >
+                    {count}
+                  </span>
+                </div>
               </div>
-            </div>
-          ))}
+            ))
+          }
         </div>
       </div>
 
@@ -355,36 +328,36 @@ const pageInfo = BRAIN_SCIENCE_PAGES.find((p) => p.id === 'index');
       <div
         class="rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg-secondary))] p-4 md:p-6"
       >
-        <h3
-          class="mb-3 text-base font-semibold text-[rgb(var(--color-text))] md:mb-4 md:text-lg"
-        >
+        <h3 class="mb-3 text-base font-semibold text-[rgb(var(--color-text))] md:mb-4 md:text-lg">
           Your Life Areas Focus
         </h3>
         <div class="space-y-2 md:space-y-3">
-          {maslowAnalysis.map((category) => (
-            <div class="flex items-center justify-between">
-              <div class="flex items-center gap-2">
-                <span class="text-base md:text-lg">{category.icon}</span>
-                <span class="text-xs font-medium text-[rgb(var(--color-text))] md:text-sm">
-                  {category.title}
-                </span>
-              </div>
-              <div class="flex items-center gap-2">
-                <div class="h-2 w-12 rounded-full bg-[rgb(var(--color-border))] md:w-16">
-                  <div
-                    class="h-2 rounded-full"
-                    style={`width: ${category.percentage}%; background-color: rgb(var(--color-accent))`}
-                  />
+          {
+            maslowAnalysis.map((category) => (
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <span class="text-base md:text-lg">{category.icon}</span>
+                  <span class="text-xs font-medium text-[rgb(var(--color-text))] md:text-sm">
+                    {category.title}
+                  </span>
                 </div>
-                <span
-                  class="w-6 text-right text-xs text-[rgb(var(--color-text-muted))] md:w-8"
-                  title={`${category.postCount} posts (${category.percentage}% of total) in ${category.title} category`}
-                >
-                  {category.percentage}%
-                </span>
+                <div class="flex items-center gap-2">
+                  <div class="h-2 w-12 rounded-full bg-[rgb(var(--color-border))] md:w-16">
+                    <div
+                      class="h-2 rounded-full"
+                      style={`width: ${category.percentage}%; background-color: rgb(var(--color-accent))`}
+                    />
+                  </div>
+                  <span
+                    class="w-6 text-right text-xs text-[rgb(var(--color-text-muted))] md:w-8"
+                    title={`${category.postCount} posts (${category.percentage}% of total) in ${category.title} category`}
+                  >
+                    {category.percentage}%
+                  </span>
+                </div>
               </div>
-            </div>
-          ))}
+            ))
+          }
         </div>
       </div>
     </div>

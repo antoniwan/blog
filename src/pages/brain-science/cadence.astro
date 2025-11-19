@@ -57,7 +57,7 @@ const avgPostsPerMonth = Math.round(
   posts.length /
     Math.max(1, differenceInDays(lastPostDate || new Date(), firstPostDate || new Date()) / 30),
 );
-const consistencyScore = streaks.length / Math.max(1, streaks.length + drySpells.length);
+const consistencyScore = sortedStreaks.length / Math.max(1, sortedStreaks.length + sortedDrySpells.length);
 const productivityTrend: 'improving' | 'declining' | 'stable' =
   recentPosts.length > avgPostsPerMonth
     ? 'improving'

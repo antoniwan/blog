@@ -3,97 +3,45 @@ import { BRAIN_SCIENCE_PAGES } from '../../data/brainScience';
 
 interface Props {
   currentPage: string; // Path of current page (e.g., '/brain-science' or '/brain-science/insights')
-  showBreadcrumb?: boolean; // Whether to show breadcrumb-style navigation
   showNavLinks?: boolean; // Whether to show navigation links
 }
 
-const { currentPage, showBreadcrumb = true, showNavLinks = true } = Astro.props;
+const { currentPage, showNavLinks = true } = Astro.props;
 
 // Get current page info
 const currentPageInfo = BRAIN_SCIENCE_PAGES.find((page) => page.path === currentPage);
 const isIndexPage = currentPage === '/brain-science';
 
-// Build breadcrumb items
-const breadcrumbItems = [
-  { label: 'Home', href: '/' },
-  ...(isIndexPage
-    ? [{ label: 'Brain Science' }]
-    : [
-        { label: 'Brain Science', href: '/brain-science' },
-        { label: currentPageInfo?.title || 'Page' },
-      ]),
-];
-
-// Get all pages except current for nav links
-const navPages = BRAIN_SCIENCE_PAGES.filter((page) => page.path !== currentPage);
+// Get all pages for navigation
+const allPages = BRAIN_SCIENCE_PAGES;
 ---
 
-{showBreadcrumb && (
-  <nav
-    class="mb-6 hidden md:mb-8 md:block"
-    aria-label="Breadcrumb"
-  >
-    <ol class="m-0 flex list-none items-center space-x-2 p-0">
-      {breadcrumbItems.map((item, index) => (
-        <li class="m-0 flex items-center p-0">
-          {index > 0 && (
-            <svg
-              class="mx-2 h-4 w-4 text-[rgb(var(--color-text-muted))]"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M9 5l7 7-7 7"
-              />
-            </svg>
-          )}
-
-          {item.href ? (
+{
+  showNavLinks && (
+    <nav
+      class="mb-8 border-b border-[rgb(var(--color-border))] md:mb-10"
+      aria-label="Brain Science Navigation"
+    >
+      <div class="flex flex-wrap gap-1 overflow-x-auto pb-2 md:gap-2">
+        {allPages.map((page) => {
+          const isActive = page.path === currentPage;
+          return (
             <a
-              href={item.href}
-              class="link-muted leading-relaxed"
-              aria-current={index === breadcrumbItems.length - 1 ? 'page' : undefined}
+              href={page.path}
+              class={`whitespace-nowrap rounded-t-lg px-3 py-2 text-sm font-medium transition-colors md:px-4 md:py-2.5 md:text-base ${
+                isActive
+                  ? 'border-b-2 border-[rgb(var(--color-accent))] bg-[rgb(var(--color-bg-secondary))] text-[rgb(var(--color-accent))]'
+                  : 'text-[rgb(var(--color-text-muted))] hover:bg-[rgb(var(--color-bg-secondary))] hover:text-[rgb(var(--color-text))]'
+              }`}
+              aria-current={isActive ? 'page' : undefined}
             >
-              {item.label}
+              <span class="mr-1.5">{page.emoji}</span>
+              <span class="hidden sm:inline">{page.title}</span>
+              <span class="sm:hidden">{page.title.split(' ')[0]}</span>
             </a>
-          ) : (
-            <span
-              class="font-medium leading-relaxed text-[rgb(var(--color-text))]"
-              aria-current="page"
-            >
-              {item.label}
-            </span>
-          )}
-        </li>
-      ))}
-    </ol>
-  </nav>
-)}
-
-{showNavLinks && (
-  <div class="mt-8 border-t border-[rgb(var(--color-border))] pt-6 md:mt-12 md:pt-8">
-    <div class="flex flex-wrap justify-center gap-4 md:gap-6">
-      {!isIndexPage && (
-        <a
-          href="/brain-science"
-          class="text-sm text-[rgb(var(--color-accent))] transition-colors hover:text-[rgb(var(--color-accent-hover))]"
-        >
-          🏠 Brain Science Dashboard
-        </a>
-      )}
-      {navPages.map((page) => (
-        <a
-          href={page.path}
-          class="text-sm text-[rgb(var(--color-accent))] transition-colors hover:text-[rgb(var(--color-accent-hover))]"
-        >
-          {page.emoji} {page.title}
-        </a>
-      ))}
-    </div>
-  </div>
-)}
-
+          );
+        })}
+      </div>
+    </nav>
+  )
+}

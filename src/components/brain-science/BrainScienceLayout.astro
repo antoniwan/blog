@@ -8,18 +8,10 @@ interface Props {
   title: string;
   description: string;
   emoji?: string;
-  showBreadcrumb?: boolean;
   showNavLinks?: boolean;
 }
 
-const {
-  currentPage,
-  title,
-  description,
-  emoji,
-  showBreadcrumb = true,
-  showNavLinks = true,
-} = Astro.props;
+const { currentPage, title, description, emoji, showNavLinks = true } = Astro.props;
 
 const pageInfo = getBrainSciencePage(currentPage);
 const displayEmoji = emoji || pageInfo?.emoji || '🧠';
@@ -27,11 +19,7 @@ const displayEmoji = emoji || pageInfo?.emoji || '🧠';
 
 <Container>
   <Container maxWidth="container" padding="none">
-    <BrainScienceNav
-      currentPage={currentPage}
-      showBreadcrumb={showBreadcrumb}
-      showNavLinks={showNavLinks}
-    />
+    <BrainScienceNav currentPage={currentPage} showNavLinks={showNavLinks} />
 
     <div class="py-4 md:py-6 lg:py-8">
       {/* Header */}
@@ -40,7 +28,8 @@ const displayEmoji = emoji || pageInfo?.emoji || '🧠';
           class="text-display mb-3 text-[rgb(var(--color-text))] md:mb-4 lg:mb-5"
           transition:name="page-title"
         >
-          {displayEmoji} <span class="highlight-primary">{title}</span>
+          {displayEmoji}
+          <span class="highlight-primary">{title}</span>
         </h1>
         <p
           class="text-body-large max-w-4xl leading-relaxed text-[rgb(var(--color-text-muted))]"
@@ -54,4 +43,3 @@ const displayEmoji = emoji || pageInfo?.emoji || '🧠';
     </div>
   </Container>
 </Container>
-
