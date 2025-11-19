@@ -137,159 +137,95 @@ const chartData = {
         canvas.chart.destroy();
       }
 
-      // Chart theme helper functions (inlined for client-side compatibility)
-      const getRGB = (varName) => {
-        const value = getComputedStyle(document.documentElement).getPropertyValue(varName).trim();
-        return `rgb(${value})`;
-      };
-      const getRGBA = (varName, alpha) => {
-        const value = getComputedStyle(document.documentElement).getPropertyValue(varName).trim();
-        return `rgba(${value}, ${alpha})`;
-      };
-      const theme = {
-        text: getRGB('--color-text'),
-        textMuted: getRGB('--color-text-muted'),
-        border: getRGB('--color-border'),
-        bgAlt: getRGB('--color-bg-alt'),
-        accent: getRGB('--color-accent'),
-      };
-      // Helper to resolve CSS variable strings to actual RGB values
-      // Always returns a valid color string, never null
-      const resolveCSSVariable = (color, fallbackColor) => {
-        if (!color || typeof color !== 'string') {
-          return fallbackColor || theme.accent;
-        }
-
-        // If it contains CSS variable syntax like rgb(var(--color-accent))
-        if (color.includes('var(--')) {
-          try {
-            // Handle rgba(var(--color), alpha) format
-            const rgbaMatch = color.match(/rgba\(var\((--[^)]+)\)\s*,\s*([\d.]+)\)/);
-            if (rgbaMatch) {
-              const varName = rgbaMatch[1];
-              const alpha = parseFloat(rgbaMatch[2]);
-              const resolved = getRGBA(varName, alpha);
-              // Validate the resolved color
-              if (resolved && resolved.startsWith('rgba(')) {
-                return resolved;
-              }
-            }
-
-            // Handle rgb(var(--color)) format
-            const rgbMatch = color.match(/rgb\(var\((--[^)]+)\)\)/);
-            if (rgbMatch) {
-              const varName = rgbMatch[1];
-              const resolved = getRGB(varName);
-              // Validate the resolved color
-              if (resolved && resolved.startsWith('rgb(')) {
-                return resolved;
-              }
-            }
-          } catch (error) {
-            console.warn('Failed to resolve CSS variable:', color, error);
-          }
-
-          // If resolution failed, return fallback
-          return fallbackColor || theme.accent;
-        }
-
-        return color;
+      // Hardcoded chart color palette (independent of site theme)
+      // Using actual RGB/RGBA values that Chart.js can use directly
+      const chartTheme = {
+        // Text colors (adapt to light/dark mode)
+        text: document.documentElement.classList.contains('dark')
+          ? 'rgb(255, 255, 255)'
+          : 'rgb(17, 24, 39)',
+        textMuted: document.documentElement.classList.contains('dark')
+          ? 'rgb(200, 210, 220)'
+          : 'rgb(107, 114, 128)',
+        border: document.documentElement.classList.contains('dark')
+          ? 'rgb(71, 85, 105)'
+          : 'rgb(209, 213, 219)',
+        bgAlt: document.documentElement.classList.contains('dark')
+          ? 'rgb(20, 30, 50)'
+          : 'rgb(249, 250, 251)',
       };
 
-      // Helper to ensure colors have transparency (never solid/opaque)
-      // Always returns a valid rgba() color string, never null
-      const ensureTransparent = (color, defaultAlpha = 0.7, fallbackColor) => {
-        // If no color provided, use fallback
-        if (!color || typeof color !== 'string') {
-          const fallback = fallbackColor || theme.accent;
-          // Ensure fallback is also transparent
-          if (fallback.startsWith('rgb(')) {
-            return fallback.replace('rgb(', 'rgba(').replace(')', `, ${defaultAlpha})`);
-          }
-          return fallback;
-        }
-
-        // First resolve CSS variables if present
-        const resolvedColor = resolveCSSVariable(color, fallbackColor);
-
-        // If it's already rgba with alpha, return as is (but validate it's not black)
-        if (resolvedColor.includes('rgba')) {
-          // Check if it's black and replace with theme color
-          if (resolvedColor.includes('rgba(0, 0, 0') || resolvedColor.includes('rgba(0,0,0')) {
-            const fallback = fallbackColor || theme.accent;
-            return fallback.startsWith('rgba(')
-              ? fallback
-              : getRGBA('--color-accent', defaultAlpha);
-          }
-          return resolvedColor;
-        }
-
-        // If it's transparent, return as is
-        if (resolvedColor === 'transparent') {
-          return resolvedColor;
-        }
-
-        // If it's rgb, convert to rgba with transparency
-        if (resolvedColor.startsWith('rgb(')) {
-          // Check if it's black and replace with theme color
-          if (resolvedColor.includes('rgb(0, 0, 0') || resolvedColor.includes('rgb(0,0,0')) {
-            const fallback = fallbackColor || theme.accent;
-            return fallback.startsWith('rgba(')
-              ? fallback
-              : getRGBA('--color-accent', defaultAlpha);
-          }
-          return resolvedColor.replace('rgb(', 'rgba(').replace(')', `, ${defaultAlpha})`);
-        }
-
-        // Handle named colors and hex
-        if (resolvedColor === 'black' || resolvedColor === '#000000' || resolvedColor === '#000') {
-          const fallback = fallbackColor || theme.accent;
-          return fallback.startsWith('rgba(') ? fallback : getRGBA('--color-accent', defaultAlpha);
-        }
-
-        // For any other invalid color, use fallback
-        const fallback = fallbackColor || theme.accent;
-        return fallback.startsWith('rgba(') ? fallback : getRGBA('--color-accent', defaultAlpha);
-      };
-
+      // Chart dataset color palette - hardcoded RGBA values with transparency
       const datasetColors = [
-        { border: getRGBA('--color-accent', 0.8), background: getRGBA('--color-accent', 0.15) },
-        { border: getRGBA('--color-primary', 0.8), background: getRGBA('--color-primary', 0.15) },
-        { border: getRGBA('--color-success', 0.8), background: getRGBA('--color-success', 0.15) },
-        { border: getRGBA('--color-warning', 0.8), background: getRGBA('--color-warning', 0.15) },
-        {
-          border: getRGBA('--color-highlight', 0.8),
-          background: getRGBA('--color-highlight', 0.15),
-        },
+        { border: 'rgba(59, 130, 246, 0.8)', background: 'rgba(59, 130, 246, 0.15)' }, // Blue
+        { border: 'rgba(220, 38, 38, 0.8)', background: 'rgba(220, 38, 38, 0.15)' }, // Red
+        { border: 'rgba(34, 197, 94, 0.8)', background: 'rgba(34, 197, 94, 0.15)' }, // Green
+        { border: 'rgba(245, 158, 11, 0.8)', background: 'rgba(245, 158, 11, 0.15)' }, // Amber
+        { border: 'rgba(147, 51, 234, 0.8)', background: 'rgba(147, 51, 234, 0.15)' }, // Purple
+        { border: 'rgba(236, 72, 153, 0.8)', background: 'rgba(236, 72, 153, 0.15)' }, // Pink
       ];
+
+      // Helper to convert any color input to a valid chart color
+      // Always returns a valid rgba() string, never black
+      const normalizeChartColor = (color, defaultColor, alpha = 0.8) => {
+        // If no color provided, use default
+        if (!color || typeof color !== 'string') {
+          return defaultColor;
+        }
+
+        // If it's already a valid rgba, check if it's black and replace
+        if (color.startsWith('rgba(')) {
+          if (color.includes('rgba(0, 0, 0') || color.includes('rgba(0,0,0')) {
+            return defaultColor;
+          }
+          return color;
+        }
+
+        // If it's rgb, convert to rgba and check for black
+        if (color.startsWith('rgb(')) {
+          if (color.includes('rgb(0, 0, 0') || color.includes('rgb(0,0,0')) {
+            return defaultColor;
+          }
+          return color.replace('rgb(', 'rgba(').replace(')', `, ${alpha})`);
+        }
+
+        // Handle CSS variable strings - replace with default
+        if (color.includes('var(--')) {
+          return defaultColor;
+        }
+
+        // Handle named colors
+        if (color === 'black' || color === '#000000' || color === '#000') {
+          return defaultColor;
+        }
+
+        // Handle hex colors (basic conversion)
+        if (color.startsWith('#')) {
+          const hex = color.replace('#', '');
+          if (hex === '000' || hex === '000000') {
+            return defaultColor;
+          }
+          // Simple hex to rgba conversion
+          const r = parseInt(hex.substring(0, 2), 16) || 59;
+          const g = parseInt(hex.substring(2, 4), 16) || 130;
+          const b = parseInt(hex.substring(4, 6), 16) || 246;
+          return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+        }
+
+        // For any other format, use default
+        return defaultColor;
+      };
 
       const processedDatasets = datasets.map((ds, index) => {
         const colorIndex = index % datasetColors.length;
         const themeColor = datasetColors[colorIndex];
 
-        // Always ensure we have valid colors with transparency
-        // Use theme color as fallback if custom color fails
-        const borderColor = ds.borderColor
-          ? ensureTransparent(ds.borderColor, 0.8, themeColor.border)
-          : themeColor.border;
-        const backgroundColor = ds.backgroundColor
-          ? ensureTransparent(ds.backgroundColor, 0.15, themeColor.background)
-          : themeColor.background;
-
-        // Final validation - ensure we never pass null or invalid colors
-        const finalBorderColor =
-          borderColor && typeof borderColor === 'string' && borderColor.length > 0
-            ? borderColor
-            : themeColor.border;
-        const finalBackgroundColor =
-          backgroundColor && typeof backgroundColor === 'string' && backgroundColor.length > 0
-            ? backgroundColor
-            : themeColor.background;
-
+        // ALWAYS use hardcoded palette colors - ignore any custom colors to prevent black
+        // This ensures Chart.js always gets valid RGBA colors it can use directly
         return {
           ...ds,
-          borderColor: finalBorderColor,
-          backgroundColor: finalBackgroundColor,
+          borderColor: themeColor.border,
+          backgroundColor: themeColor.background,
           borderWidth: ds.borderWidth ?? 2,
           tension: ds.tension ?? 0.4,
           fill: true,
@@ -310,17 +246,17 @@ const chartData = {
               display: true,
               position: 'top',
               labels: {
-                color: theme.text,
+                color: chartTheme.text,
                 usePointStyle: true,
                 padding: 15,
                 font: { family: 'Open Sans, system-ui, sans-serif', size: 12 },
               },
             },
             tooltip: {
-              backgroundColor: theme.bgAlt,
-              titleColor: theme.text,
-              bodyColor: theme.text,
-              borderColor: theme.border,
+              backgroundColor: chartTheme.bgAlt,
+              titleColor: chartTheme.text,
+              bodyColor: chartTheme.text,
+              borderColor: chartTheme.border,
               borderWidth: 1,
               padding: 12,
               titleFont: { family: 'Open Sans, system-ui, sans-serif', size: 13, weight: '600' },
@@ -331,32 +267,32 @@ const chartData = {
           scales: {
             x: {
               ticks: {
-                color: theme.textMuted,
+                color: chartTheme.textMuted,
                 maxRotation: 45,
                 minRotation: 0,
                 font: { family: 'Open Sans, system-ui, sans-serif', size: 11 },
               },
               grid: {
-                color: theme.border,
+                color: chartTheme.border,
                 drawBorder: true,
-                borderColor: theme.border,
+                borderColor: chartTheme.border,
               },
             },
             y: {
               beginAtZero: true,
               ticks: {
-                color: theme.textMuted,
+                color: chartTheme.textMuted,
                 font: { family: 'Open Sans, system-ui, sans-serif', size: 11 },
               },
               grid: {
-                color: theme.border,
+                color: chartTheme.border,
                 drawBorder: true,
-                borderColor: theme.border,
+                borderColor: chartTheme.border,
               },
               title: {
                 display: !!yAxisLabel,
                 text: yAxisLabel,
-                color: theme.textMuted,
+                color: chartTheme.textMuted,
                 font: { family: 'Open Sans, system-ui, sans-serif', size: 12, weight: '500' },
                 padding: { top: 0, bottom: 10 },
               },
