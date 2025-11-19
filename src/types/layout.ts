@@ -25,6 +25,8 @@ export interface BaseLayoutProps {
   draft?: boolean;
   // PageHeader options
   showTitle?: boolean; // Whether to show the H1 title in PageHeader (default: true)
+  // Reading progress
+  postId?: string; // Astro's native post.id for reading progress tracking
 }
 
 export interface Translation {
