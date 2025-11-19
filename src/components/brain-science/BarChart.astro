@@ -41,7 +41,7 @@ const chartData = {
     <!-- Loading State -->
     <div
       id={`chart-loading-${id}`}
-      class="absolute inset-0 flex flex-col items-center justify-center bg-[rgb(var(--color-bg-secondary))] rounded-lg border border-[rgb(var(--color-border))]"
+      class="absolute inset-0 flex flex-col items-center justify-center bg-[rgb(var(--color-bg-alt))] rounded-lg border border-[rgb(var(--color-border))]"
     >
       <div class="flex flex-col items-center space-y-3">
         <div class="relative">
@@ -144,12 +144,60 @@ const chartData = {
         canvas.chart.destroy();
       }
 
-      const processedDatasets = datasets.map((ds, index) => ({
-        ...ds,
-        backgroundColor: ds.backgroundColor || `rgba(var(--color-accent), ${0.6 - index * 0.1})`,
-        borderColor: ds.borderColor || 'rgb(var(--color-accent))',
-        borderWidth: ds.borderWidth ?? 1,
-      }));
+      // Chart theme helper functions (inlined for client-side compatibility)
+      const getRGB = (varName) => {
+        const value = getComputedStyle(document.documentElement).getPropertyValue(varName).trim();
+        return `rgb(${value})`;
+      };
+      const getRGBA = (varName, alpha) => {
+        const value = getComputedStyle(document.documentElement).getPropertyValue(varName).trim();
+        return `rgba(${value}, ${alpha})`;
+      };
+      const theme = {
+        text: getRGB('--color-text'),
+        textMuted: getRGB('--color-text-muted'),
+        border: getRGB('--color-border'),
+        bgAlt: getRGB('--color-bg-alt'),
+        accent: getRGB('--color-accent'),
+      };
+      // Helper to ensure colors have transparency (never solid/opaque)
+      const ensureTransparent = (color, defaultAlpha = 0.8) => {
+        if (!color) return null;
+        // If it's already rgba with alpha, return as is
+        if (color.includes('rgba') || color.includes('transparent')) return color;
+        // If it's rgb or hex, convert to rgba with transparency
+        if (color.startsWith('rgb(')) {
+          return color.replace('rgb(', 'rgba(').replace(')', `, ${defaultAlpha})`);
+        }
+        // For hex colors, we'd need more complex parsing, but for now ensure rgba
+        return color;
+      };
+      
+      const datasetColors = [
+        { border: getRGBA('--color-accent', 0.8), background: getRGBA('--color-accent', 0.5) },
+        { border: getRGBA('--color-primary', 0.8), background: getRGBA('--color-primary', 0.5) },
+        { border: getRGBA('--color-success', 0.8), background: getRGBA('--color-success', 0.5) },
+        { border: getRGBA('--color-warning', 0.8), background: getRGBA('--color-warning', 0.5) },
+        { border: getRGBA('--color-highlight', 0.8), background: getRGBA('--color-highlight', 0.5) },
+      ];
+      
+      const processedDatasets = datasets.map((ds, index) => {
+        const colorIndex = index % datasetColors.length;
+        const themeColor = datasetColors[colorIndex];
+        // Ensure custom colors also have transparency to prevent blocking
+        const borderColor = ds.borderColor 
+          ? ensureTransparent(ds.borderColor, 0.8) 
+          : themeColor.border;
+        const backgroundColor = ds.backgroundColor 
+          ? ensureTransparent(ds.backgroundColor, 0.5) 
+          : themeColor.background;
+        return {
+          ...ds,
+          borderColor: borderColor,
+          backgroundColor: backgroundColor,
+          borderWidth: ds.borderWidth ?? 2,
+        };
+      });
 
       const chart = new Chart(ctx, {
         type: 'bar',
@@ -165,50 +213,64 @@ const chartData = {
               display: datasets.length > 1,
               position: 'top',
               labels: {
-                color: 'rgb(var(--color-text))',
+                color: theme.text,
                 usePointStyle: true,
                 padding: 15,
+                font: { family: 'Open Sans, system-ui, sans-serif', size: 12 },
               },
             },
             tooltip: {
-              backgroundColor: 'rgb(var(--color-bg-secondary))',
-              titleColor: 'rgb(var(--color-text))',
-              bodyColor: 'rgb(var(--color-text))',
-              borderColor: 'rgb(var(--color-border))',
+              backgroundColor: theme.bgAlt,
+              titleColor: theme.text,
+              bodyColor: theme.text,
+              borderColor: theme.border,
               borderWidth: 1,
               padding: 12,
+              titleFont: { family: 'Open Sans, system-ui, sans-serif', size: 13, weight: '600' },
+              bodyFont: { family: 'Open Sans, system-ui, sans-serif', size: 12 },
+              cornerRadius: 6,
             },
           },
           scales: {
             x: {
               stacked: stacked,
               ticks: {
-                color: 'rgb(var(--color-text-muted))',
+                color: theme.textMuted,
                 maxRotation: 45,
                 minRotation: 0,
+                font: { family: 'Open Sans, system-ui, sans-serif', size: 11 },
               },
               grid: {
-                color: 'rgb(var(--color-border))',
+                color: theme.border,
+                drawBorder: true,
+                borderColor: theme.border,
               },
               title: {
                 display: !!xAxisLabel,
                 text: xAxisLabel,
-                color: 'rgb(var(--color-text-muted))',
+                color: theme.textMuted,
+                font: { family: 'Open Sans, system-ui, sans-serif', size: 12, weight: '500' },
+                padding: { top: 10, bottom: 0 },
               },
             },
             y: {
               beginAtZero: true,
               stacked: stacked,
               ticks: {
-                color: 'rgb(var(--color-text-muted))',
+                color: theme.textMuted,
+                font: { family: 'Open Sans, system-ui, sans-serif', size: 11 },
               },
               grid: {
-                color: 'rgb(var(--color-border))',
+                color: theme.border,
+                drawBorder: true,
+                borderColor: theme.border,
               },
               title: {
                 display: !!yAxisLabel,
                 text: yAxisLabel,
-                color: 'rgb(var(--color-text-muted))',
+                color: theme.textMuted,
+                font: { family: 'Open Sans, system-ui, sans-serif', size: 12, weight: '500' },
+                padding: { top: 0, bottom: 10 },
               },
             },
           },
