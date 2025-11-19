@@ -235,12 +235,17 @@ const postSlug = postId; // Alias for backward compatibility in template
                   alt={imageAlt || title}
                   class="h-[450px] w-full rounded-lg object-cover shadow-lg md:rounded-xl"
                   loading="eager"
+                  fetchpriority="high"
+                  decoding="async"
+                  width="1200"
+                  height="450"
                 />
               ) : (
                 <DefaultImage
                   alt={imageAlt || title}
                   className="w-full h-[450px] object-cover rounded-lg shadow-lg md:rounded-xl"
                   loading="eager"
+                  priority={true}
                 />
               )
             }

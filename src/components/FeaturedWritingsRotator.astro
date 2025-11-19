@@ -57,13 +57,16 @@ if (!posts || posts.length === 0) {
                     src={data.heroImage}
                     alt={`Hero image for ${data.title}`}
                     class="hero-img"
-                    loading="lazy"
+                    loading={isActive ? 'eager' : 'lazy'}
+                    fetchpriority={isActive ? 'high' : 'auto'}
+                    decoding="async"
                   />
                 ) : (
                   <DefaultImage
                     alt={`Default image for ${data.title}`}
                     className="hero-img"
-                    loading="lazy"
+                    loading={isActive ? 'eager' : 'lazy'}
+                    priority={isActive}
                   />
                 )}
 
