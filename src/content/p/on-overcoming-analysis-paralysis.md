@@ -24,7 +24,6 @@ draft: false
 featured: false
 published: true
 showComments: true
-
 ---
 
 I may not be a behavioral expert, but I’m an expert on overthinking and becoming paralyzed. Over time, and with much practice, I’m also slowly becoming adept at snapping out of this emotional and physical paralysis using a few simple steps — with what I think are very low-effort ideas.

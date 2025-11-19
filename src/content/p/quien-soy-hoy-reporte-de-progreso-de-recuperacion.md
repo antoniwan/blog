@@ -30,7 +30,6 @@ featured: false
 published: true
 showComments: true
 translationGroup: recovery-progress-report
-
 ---
 
 Soy un boricua de 38 años en recuperación del narcisismo, documentando cómo se ve reconstruir un ser humano desde cero.

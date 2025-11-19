@@ -1,0 +1,48 @@
+---
+interface Props {
+  value: string | number;
+  label: string;
+  subtitle?: string;
+  title?: string; // Tooltip title
+  emoji?: string;
+  color?: string; // Color class for subtitle (e.g., 'text-blue-500')
+  class?: string;
+}
+
+const {
+  value,
+  label,
+  subtitle,
+  title,
+  emoji,
+  color = 'text-[rgb(var(--color-text-muted))]',
+  class: className = '',
+} = Astro.props;
+
+const displayValue =
+  typeof value === 'number' && value > 1000 ? value.toLocaleString() : String(value);
+---
+
+<div
+  class:list={[
+    'rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg-secondary))] p-4 md:p-6',
+    className,
+  ]}
+  title={title}
+>
+  <div
+    class="mb-1 text-xl font-bold text-[rgb(var(--color-text))] md:mb-2 md:text-2xl"
+    title={title}
+  >
+    {displayValue}
+  </div>
+  <div class="text-xs text-[rgb(var(--color-text-muted))] md:text-sm">{label}</div>
+  {
+    subtitle && (
+      <div class:list={['mt-1 text-xs', color]}>
+        {emoji && `${emoji} `}
+        {subtitle}
+      </div>
+    )
+  }
+</div>

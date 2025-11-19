@@ -26,7 +26,6 @@ draft: false
 featured: false
 published: true
 showComments: true
-
 ---
 
 ![](https://cdn-images-1.medium.com/max/1200/0*Qr5UWzrPHtajO6PM)

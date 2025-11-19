@@ -1,7 +1,7 @@
 {
   "name": "notes blog",
   "type": "module",
-  "version": "4.9.5",
+  "version": "4.10.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/antoniwan/notes.git"
@@ -37,10 +37,12 @@
     "@vercel/analytics": "^1.5.0",
     "@vercel/speed-insights": "^1.2.0",
     "astro": "5.15.3",
+    "compromise": "^14.14.4",
     "date-fns": "^4.1.0",
     "js-yaml": "^4.1.0",
     "mdast-util-to-string": "^4.0.0",
     "reading-time": "^1.5.0",
+    "sentiment": "^5.0.2",
     "sharp": "^0.33.5"
   },
   "devDependencies": {

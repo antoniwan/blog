@@ -19,7 +19,6 @@ const { category, postCount, featured = false, compact = false } = Astro.props;
     'compact-category': compact,
   }}
 >
-
   <!-- Card content -->
   <div class="relative p-6 md:p-8">
     <div class="flex items-start gap-4">
@@ -53,20 +52,19 @@ const { category, postCount, featured = false, compact = false } = Astro.props;
             {postCount}
             {postCount === 1 ? 'writing' : 'writings'}
           </span>
-          <span class="font-semibold text-[rgb(var(--color-accent))]">
-            →
-          </span>
+          <span class="font-semibold text-[rgb(var(--color-accent))]"> → </span>
         </div>
       </div>
     </div>
   </div>
-
 </a>
 
 <style>
   /* Simplified category card styling */
   a {
-    transition: box-shadow 0.2s ease, border-color 0.2s ease;
+    transition:
+      box-shadow 0.2s ease,
+      border-color 0.2s ease;
   }
 
   /* Simplified featured category styling */

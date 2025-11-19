@@ -44,13 +44,13 @@ translationGroup: invitation-end-wealth-worship-human-future
 
 Let's stop lying to ourselves about the world we've built.
 
-I'm not saying that with anger for the sake of anger. I'm saying it because I've watched enough of this reality to finally admit something I used to ignore: what we call *"normal"* is costing us our humanity. And the more we pretend that this is simply *"the way the world works,"* the more we participate in a silent agreement that leaves **millions living without dignity**.
+I'm not saying that with anger for the sake of anger. I'm saying it because I've watched enough of this reality to finally admit something I used to ignore: what we call _"normal"_ is costing us our humanity. And the more we pretend that this is simply _"the way the world works,"_ the more we participate in a silent agreement that leaves **millions living without dignity**.
 
 I didn't arrive here through rebellion or ideology. I arrived here because I kept noticing a pattern I could no longer unsee. We live surrounded by abundance—food, technology, comfort, innovation, knowledge. Humanity has never had more capability than we do now. And yet dignity is treated like a luxury. Safety is conditional. And worth? Worth is measured by how much a person can endure, produce, or sacrifice for systems that do not love them back.
 
 This is the part I can't pretend not to see anymore.
 
-Somewhere along the way, we replaced the idea of being human with the idea of being *"useful."* We built a world where people are valued for what they can do, not for who they are. A world where suffering is romanticized as hard work, exhaustion is virtue, and needing rest or help is weakness. We applaud those who "push through" and quietly judge those who fall apart under the weight. We've normalized emotional numbness as resilience, burnout as ambition, and self-abandonment as discipline.
+Somewhere along the way, we replaced the idea of being human with the idea of being _"useful."_ We built a world where people are valued for what they can do, not for who they are. A world where suffering is romanticized as hard work, exhaustion is virtue, and needing rest or help is weakness. We applaud those who "push through" and quietly judge those who fall apart under the weight. We've normalized emotional numbness as resilience, burnout as ambition, and self-abandonment as discipline.
 
 And then we wonder why so many feel disconnected, anxious, or lost.
 
@@ -64,7 +64,7 @@ Y'all lying and playing...
 
 And here's the truth that keeps echoing in me: a truly developed world would not require a person to earn the right to be treated with dignity.
 
-We rarely say this out loud, but we live in a culture that teaches: *"Your worth is what you can produce. Your value is how much you can endure. Your success is how much you can accumulate."* This story trains us to see ourselves as instruments, not beings. It conditions us to ask "How can I become more valuable?" instead of "Do I feel alive in my own life?"
+We rarely say this out loud, but we live in a culture that teaches: _"Your worth is what you can produce. Your value is how much you can endure. Your success is how much you can accumulate."_ This story trains us to see ourselves as instruments, not beings. It conditions us to ask "How can I become more valuable?" instead of "Do I feel alive in my own life?"
 
 If dignity is reserved for the lucky, the relentless, or the already advantaged, then what we call “progress” is just privilege with better PR.
 
@@ -74,11 +74,11 @@ So why don't we?
 
 Because the _current_ story benefits from staying in place. It keeps us striving, comparing, competing, and never questioning. If we stay busy chasing worth, we don't ask who decided the rules. We don't ask who benefits from the exhaustion. We don't ask why we treat basic human needs like privileges.
 
-The conditioning runs deep. And the most effective conditioning is the kind people defend as *"normal."*
+The conditioning runs deep. And the most effective conditioning is the kind people defend as _"normal."_
 
 It's uncomfortable to admit that we built a world that does not align with human well-being. It's uncomfortable to question the story we were raised inside. But discomfort is not a sign that we are wrong. It's a sign that something true is being touched.
 
-There is nothing *"natural"* about a society where people feel they must prove their right to exist.
+There is nothing _"natural"_ about a society where people feel they must prove their right to exist.
 
 This system is not ancient or inevitable. It is a story—repeated long enough to feel like truth. But stories can evolve. Stories can be rewritten. And maybe the real work of this time is not to achieve more, but to remember what we lost while chasing what we were told matters.
 
@@ -92,7 +92,7 @@ So here is the discomfort I am sitting with: if a society can produce extraordin
 
 And it won't become humane until we remember that systems exist to serve people—not the other way around.
 
-Changing this won't begin with policies, debates, revolutions, or new ideologies. It begins with honesty. It begins with the courage to stop pretending everything is fine. It begins with noticing where the story of worthiness has shaped our identity. It begins with questioning the voice inside us that says, *"I must do more to be enough."*
+Changing this won't begin with policies, debates, revolutions, or new ideologies. It begins with honesty. It begins with the courage to stop pretending everything is fine. It begins with noticing where the story of worthiness has shaped our identity. It begins with questioning the voice inside us that says, _"I must do more to be enough."_
 
 You don't have to reject ambition. You don't have to abandon progress. You don't have to "opt out of society." This isn't about becoming less—it's about becoming human again.
 
@@ -102,7 +102,7 @@ These questions don't require permission. They only require _willingness_.
 
 I'm not asking you to agree with me. I'm asking you to sit with the discomfort that rises when you stop pretending everything is fine. You don't need to fix the world or fix yourself. Just stop lying to yourself about what you already know feels wrong.
 
-What now? 
+What now?
 
 Stop performing “fine.” Stop playing along. Pick one place in your life where you’ve been betraying yourself for acceptance, productivity, or status — and refuse to continue the lie. Change one behavior in the direction of dignity. If you won’t fight for your own humanity, why would the system ever offer it to you?
 

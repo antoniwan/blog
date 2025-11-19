@@ -1,0 +1,311 @@
+---
+interface Props {
+  id: string;
+  labels: string[];
+  datasets: Array<{
+    label: string;
+    data: number[];
+    backgroundColor?: string | string[];
+    borderColor?: string | string[];
+    borderWidth?: number;
+  }>;
+  title?: string;
+  yAxisLabel?: string;
+  xAxisLabel?: string;
+  stacked?: boolean;
+}
+
+const { id, labels, datasets, title, yAxisLabel, xAxisLabel, stacked = false } = Astro.props;
+
+// Serialize data for script
+const chartData = {
+  labels,
+  datasets,
+  yAxisLabel: yAxisLabel || '',
+  xAxisLabel: xAxisLabel || '',
+  stacked,
+};
+---
+
+<div class="mb-6">
+  {
+    title && (
+      <h3 class="mb-4 text-base font-semibold text-[rgb(var(--color-text))] md:text-lg">{title}</h3>
+    )
+  }
+  <div class="relative h-64 w-full md:h-80" id={`chart-container-${id}`} style="min-height: 256px;">
+    <!-- Loading State -->
+    <div
+      id={`chart-loading-${id}`}
+      class="absolute inset-0 flex flex-col items-center justify-center rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg-alt))]"
+    >
+      <div class="flex flex-col items-center space-y-3">
+        <div class="relative">
+          <div
+            class="h-8 w-8 animate-spin rounded-full border-4 border-[rgb(var(--color-border))] border-t-[rgb(var(--color-accent))]"
+          >
+          </div>
+        </div>
+        <p class="text-sm text-[rgb(var(--color-text-muted))]">Calculating data...</p>
+      </div>
+    </div>
+    <canvas id={id} style="display: block; max-width: 100%; height: 100%;"></canvas>
+  </div>
+</div>
+
+<script define:vars={{ id, chartData }}>
+  async function initChart() {
+    try {
+      // Wait for DOM to be ready
+      if (document.readyState === 'loading') {
+        await new Promise((resolve) => {
+          if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', resolve, { once: true });
+          } else {
+            resolve(null);
+          }
+        });
+      }
+
+      // Additional small delay to ensure canvas is rendered
+      await new Promise((resolve) => setTimeout(resolve, 100));
+
+      // Load Chart.js from CDN
+      if (typeof window.Chart === 'undefined') {
+        await new Promise((resolve, reject) => {
+          const script = document.createElement('script');
+          script.src = 'https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js';
+          script.onload = resolve;
+          script.onerror = reject;
+          document.head.appendChild(script);
+        });
+      }
+
+      const Chart = window.Chart;
+      // Register components if registerables exists, otherwise Chart.js from CDN already has everything registered
+      if (Chart.registerables && Array.isArray(Chart.registerables)) {
+        Chart.register(...Chart.registerables);
+      }
+
+      const container = document.getElementById(`chart-container-${id}`);
+      const canvas = document.getElementById(id);
+
+      // Destroy existing chart before re-initializing
+      if (canvas?.chart) {
+        canvas.chart.destroy();
+        canvas.chart = null;
+      }
+
+      if (!canvas || !container) {
+        console.error(`Chart elements not found for id "${id}"`);
+        if (container) {
+          container.style.display = 'none';
+        }
+        return;
+      }
+
+      if (!chartData || !chartData.labels || !chartData.datasets) {
+        console.error('Chart data not found or invalid:', chartData);
+        container.style.display = 'none';
+        return;
+      }
+
+      const { labels, datasets, yAxisLabel, xAxisLabel, stacked } = chartData;
+
+      if (!labels || !Array.isArray(labels) || labels.length === 0) {
+        console.warn('Chart labels are empty or invalid');
+        container.style.display = 'none';
+        return;
+      }
+
+      if (!datasets || !Array.isArray(datasets) || datasets.length === 0) {
+        console.warn('Chart datasets are empty or invalid');
+        container.style.display = 'none';
+        return;
+      }
+
+      // Check if datasets have valid data
+      const hasValidData = datasets.some(
+        (ds) => Array.isArray(ds.data) && ds.data.length > 0 && ds.data.some((val) => val != null),
+      );
+
+      if (!hasValidData) {
+        console.warn('Chart datasets contain no valid data');
+        container.style.display = 'none';
+        return;
+      }
+
+      const ctx = canvas.getContext('2d');
+      if (!ctx) {
+        console.error('Could not get 2d context from canvas');
+        container.style.display = 'none';
+        return;
+      }
+
+      // Get theme based on light/dark mode
+      const isDark = document.documentElement.classList.contains('dark');
+      const chartTheme = {
+        text: isDark ? 'rgb(255, 255, 255)' : 'rgb(17, 24, 39)',
+        textMuted: isDark ? 'rgb(200, 210, 220)' : 'rgb(107, 114, 128)',
+        border: isDark ? 'rgba(148, 163, 184, 0.3)' : 'rgb(209, 213, 219)',
+        bgAlt: isDark ? 'rgb(20, 30, 50)' : 'rgb(249, 250, 251)',
+      };
+
+      // Dataset color palette - brighter in dark mode for better visibility
+      const datasetColors = isDark
+        ? [
+            { border: 'rgba(96, 165, 250, 1)', background: 'rgba(96, 165, 250, 0.6)' }, // Blue
+            { border: 'rgba(248, 113, 113, 1)', background: 'rgba(248, 113, 113, 0.6)' }, // Red
+            { border: 'rgba(74, 222, 128, 1)', background: 'rgba(74, 222, 128, 0.6)' }, // Green
+            { border: 'rgba(251, 191, 36, 1)', background: 'rgba(251, 191, 36, 0.6)' }, // Amber
+            { border: 'rgba(167, 139, 250, 1)', background: 'rgba(167, 139, 250, 0.6)' }, // Purple
+            { border: 'rgba(244, 114, 182, 1)', background: 'rgba(244, 114, 182, 0.6)' }, // Pink
+          ]
+        : [
+            { border: 'rgba(59, 130, 246, 0.8)', background: 'rgba(59, 130, 246, 0.5)' }, // Blue
+            { border: 'rgba(220, 38, 38, 0.8)', background: 'rgba(220, 38, 38, 0.5)' }, // Red
+            { border: 'rgba(34, 197, 94, 0.8)', background: 'rgba(34, 197, 94, 0.5)' }, // Green
+            { border: 'rgba(245, 158, 11, 0.8)', background: 'rgba(245, 158, 11, 0.5)' }, // Amber
+            { border: 'rgba(147, 51, 234, 0.8)', background: 'rgba(147, 51, 234, 0.5)' }, // Purple
+            { border: 'rgba(236, 72, 153, 0.8)', background: 'rgba(236, 72, 153, 0.5)' }, // Pink
+          ];
+
+      // Apply consistent colors to datasets
+      const processedDatasets = datasets.map((ds, index) => {
+        const colorIndex = index % datasetColors.length;
+        const themeColor = datasetColors[colorIndex];
+        return {
+          ...ds,
+          borderColor: themeColor.border,
+          backgroundColor: themeColor.background,
+          borderWidth: ds.borderWidth ?? 2,
+        };
+      });
+
+      const chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: processedDatasets,
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              display: datasets.length > 1,
+              position: 'top',
+              labels: {
+                color: chartTheme.text,
+                usePointStyle: true,
+                padding: 15,
+                font: { family: 'Open Sans, system-ui, sans-serif', size: 12 },
+              },
+            },
+            tooltip: {
+              backgroundColor: chartTheme.bgAlt,
+              titleColor: chartTheme.text,
+              bodyColor: chartTheme.text,
+              borderColor: chartTheme.border,
+              borderWidth: 1,
+              padding: 12,
+              titleFont: { family: 'Open Sans, system-ui, sans-serif', size: 13, weight: '600' },
+              bodyFont: { family: 'Open Sans, system-ui, sans-serif', size: 12 },
+              cornerRadius: 6,
+            },
+          },
+          scales: {
+            x: {
+              stacked: stacked,
+              ticks: {
+                color: chartTheme.textMuted,
+                maxRotation: 45,
+                minRotation: 0,
+                font: { family: 'Open Sans, system-ui, sans-serif', size: 11 },
+              },
+              grid: {
+                color: chartTheme.border,
+                drawBorder: true,
+                borderColor: chartTheme.border,
+              },
+              title: {
+                display: !!xAxisLabel,
+                text: xAxisLabel,
+                color: chartTheme.textMuted,
+                font: { family: 'Open Sans, system-ui, sans-serif', size: 12, weight: '500' },
+                padding: { top: 10, bottom: 0 },
+              },
+            },
+            y: {
+              beginAtZero: true,
+              stacked: stacked,
+              ticks: {
+                color: chartTheme.textMuted,
+                font: { family: 'Open Sans, system-ui, sans-serif', size: 11 },
+              },
+              grid: {
+                color: chartTheme.border,
+                drawBorder: true,
+                borderColor: chartTheme.border,
+              },
+              title: {
+                display: !!yAxisLabel,
+                text: yAxisLabel,
+                color: chartTheme.textMuted,
+                font: { family: 'Open Sans, system-ui, sans-serif', size: 12, weight: '500' },
+                padding: { top: 0, bottom: 10 },
+              },
+            },
+          },
+        },
+      });
+
+      // Store chart instance on canvas for cleanup
+      canvas.chart = chart;
+
+      // Hide loading state
+      const loadingEl = document.getElementById(`chart-loading-${id}`);
+      if (loadingEl) {
+        loadingEl.style.display = 'none';
+      }
+    } catch (err) {
+      console.error('Failed to initialize chart:', err);
+      const container = document.getElementById(`chart-container-${id}`);
+      const loadingEl = document.getElementById(`chart-loading-${id}`);
+
+      if (loadingEl) {
+        loadingEl.innerHTML = `
+          <div class="flex flex-col items-center space-y-2 text-center p-4">
+            <p class="text-sm font-medium text-red-500">Failed to load chart</p>
+            <p class="text-xs text-[rgb(var(--color-text-muted))]">Data may be unavailable</p>
+          </div>
+        `;
+      }
+
+      if (container) {
+        container.style.display = 'none';
+      }
+      // Also hide parent wrapper if it exists
+      const wrapper = container?.parentElement;
+      if (wrapper && wrapper.classList.contains('mb-6')) {
+        wrapper.style.display = 'none';
+      }
+    }
+  }
+
+  // Error handler for chart initialization
+  function handleChartError(error) {
+    // Error handling - console will be stripped in production via terser
+    if (typeof console !== 'undefined' && console.error) {
+      console.error('Failed to initialize chart:', error);
+    }
+  }
+
+  // Initialize chart on load
+  initChart().catch(handleChartError);
+
+  // Re-initialize chart when theme changes
+  window.addEventListener('themechange', () => {
+    initChart().catch(handleChartError);
+  });
+</script>

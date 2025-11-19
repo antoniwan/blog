@@ -30,7 +30,6 @@ draft: false
 featured: false
 published: true
 showComments: true
-
 ---
 
 _Desde la paz, el respeto, y la crianza compartida_

@@ -25,7 +25,6 @@ draft: false
 featured: false
 published: true
 showComments: true
-
 ---
 
 On Feeling Whole Without Owning Much<br>Or, _On Simplicity and Peace of Mind…_

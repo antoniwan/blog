@@ -27,9 +27,13 @@ export function formatRelativeReadTime(dateString: string): string {
       return years === 1 ? 'You read this a year ago' : `You read this ${years} years ago`;
     }
   } else if (diffInHours > 0) {
-    return diffInHours === 1 ? 'You read this an hour ago' : `You read this ${diffInHours} hours ago`;
+    return diffInHours === 1
+      ? 'You read this an hour ago'
+      : `You read this ${diffInHours} hours ago`;
   } else if (diffInMinutes > 0) {
-    return diffInMinutes === 1 ? 'You read this a minute ago' : `You read this ${diffInMinutes} minutes ago`;
+    return diffInMinutes === 1
+      ? 'You read this a minute ago'
+      : `You read this ${diffInMinutes} minutes ago`;
   } else {
     return 'You read this just now';
   }
@@ -70,4 +74,3 @@ export function formatRelativeReadTimeShort(dateString: string): string {
     return 'Read just now';
   }
 }
-

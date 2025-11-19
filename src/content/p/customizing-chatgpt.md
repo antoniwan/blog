@@ -27,7 +27,6 @@ draft: false
 featured: false
 published: true
 showComments: true
-
 ---
 
 Some people use ChatGPT like a vending machine.  

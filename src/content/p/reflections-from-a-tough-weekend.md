@@ -24,7 +24,6 @@ draft: false
 featured: false
 published: true
 showComments: true
-
 ---
 
 I wrote this on April 10, 2023, to regulate painful emotions.

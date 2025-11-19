@@ -68,11 +68,17 @@ const secondaryCategoryPosts = categoryPosts
       {
         secondaryCategoryPosts.length > 0 && (
           <div class="mb-16 md:mb-20">
-            <div class="mb-8 md:mb-12 space-y-2">
-              <h2 class="text-heading text-[rgb(var(--color-text))]" style="line-height: 1.3; margin: 0;">
+            <div class="mb-8 space-y-2 md:mb-12">
+              <h2
+                class="text-heading text-[rgb(var(--color-text))]"
+                style="line-height: 1.3; margin: 0;"
+              >
                 Related {category.name} Writings
               </h2>
-              <p class="text-body-large leading-relaxed text-[rgb(var(--color-text-muted))]" style="margin: 0; line-height: 1.6;">
+              <p
+                class="text-body-large leading-relaxed text-[rgb(var(--color-text-muted))]"
+                style="margin: 0; line-height: 1.6;"
+              >
                 Writings that touch on {category.name} as a secondary topic
               </p>
             </div>
@@ -161,4 +167,3 @@ const secondaryCategoryPosts = categoryPosts
     }
   }
 </style>
-

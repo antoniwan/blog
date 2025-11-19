@@ -1,22 +1,23 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import Container from '../../components/Container.astro';
-import Breadcrumbs from '../../components/Breadcrumbs.astro';
-import { getCollection } from 'astro:content';
+import BrainScienceLayout from '../../components/brain-science/BrainScienceLayout.astro';
+import TimeSeriesChart from '../../components/brain-science/TimeSeriesChart.astro';
+import BarChart from '../../components/brain-science/BarChart.astro';
+import { getBrainSciencePosts } from '../../utils/brainScience/data';
 import { categories } from '../../data/categories';
 import { getTagWeight, MASLOW_CATEGORIES, getTagCategory, getTagMetadata } from '../../data/tags';
-import { format } from 'date-fns';
+import { format, eachQuarterOfInterval, startOfQuarter, endOfQuarter } from 'date-fns';
 import {
   generateDynamicInsights,
   calculateObjectiveMetrics,
   scoreToLetterGrade,
   letterGradeToColor,
 } from '../../utils/insightGenerator';
+import { BRAIN_SCIENCE_PAGES } from '../../data/brainScience';
+import nlp from 'compromise';
 
 // Get all published posts
-const posts = await getCollection('blog', ({ data }) => {
-  return import.meta.env.PROD ? !data.draft && data.published : true;
-});
+const posts = await getBrainSciencePosts();
 
 // Sort posts by date
 const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
@@ -252,6 +253,73 @@ const insightData = {
 };
 
 const { insights, summary, balancedAnalysis } = generateDynamicInsights(insightData, 'topics');
+
+// Prepare time series for top 5 topics over quarters
+const top5Tags = topTags.slice(0, 5);
+const topicTimeSeriesData = quarters.map((quarter) => {
+  const quarterLabel = quarter.label;
+  const data: Record<string, number> = {};
+
+  top5Tags.forEach((tag) => {
+    const tagInQuarter = quarter.topTags.find((t) => t.tag === tag.tag);
+    data[tag.tag] = tagInQuarter?.count || 0;
+  });
+
+  return {
+    label: quarterLabel,
+    ...data,
+  };
+});
+
+// Calculate topic growth rates (comparing early vs recent periods)
+const earlyQuarters = quarters.slice(0, Math.floor(quarters.length / 3));
+const recentQuarters = quarters.slice(-Math.floor(quarters.length / 3));
+
+const earlyTagCounts: Record<string, number> = {};
+earlyQuarters.forEach((quarter) => {
+  quarter.topTags.forEach(({ tag, count }) => {
+    earlyTagCounts[tag] = (earlyTagCounts[tag] || 0) + count;
+  });
+});
+
+const recentTagCounts: Record<string, number> = {};
+recentQuarters.forEach((quarter) => {
+  quarter.topTags.forEach(({ tag, count }) => {
+    recentTagCounts[tag] = (recentTagCounts[tag] || 0) + count;
+  });
+});
+
+const growingTopics = Object.keys({ ...earlyTagCounts, ...recentTagCounts })
+  .map((tag) => {
+    const earlyCount = earlyTagCounts[tag] || 0;
+    const recentCount = recentTagCounts[tag] || 0;
+    const growthRate =
+      earlyCount > 0 ? ((recentCount - earlyCount) / earlyCount) * 100 : recentCount > 0 ? 100 : 0;
+    return {
+      tag,
+      earlyCount,
+      recentCount,
+      growthRate,
+    };
+  })
+  .filter((t) => t.growthRate > 0)
+  .sort((a, b) => b.growthRate - a.growthRate);
+
+// Prepare bar chart for topic growth rates
+const topicGrowthChart = {
+  labels: growingTopics.slice(0, 10).map((t) => t.tag),
+  datasets: [
+    {
+      label: 'Growth Rate (%)',
+      data: growingTopics.slice(0, 10).map((t) => Math.round(t.growthRate)),
+      backgroundColor: 'rgba(34, 197, 94, 0.6)',
+      borderColor: 'rgb(34, 197, 94)',
+    },
+  ],
+};
+
+// Get page info
+const pageInfo = BRAIN_SCIENCE_PAGES.find((p) => p.id === 'topics');
 ---
 
 <BaseLayout
@@ -260,512 +328,495 @@ const { insights, summary, balancedAnalysis } = generateDynamicInsights(insightD
   path="/brain-science/topics"
   structuredDataType="website"
 >
-  <Container>
-    <Container maxWidth="container" padding="none">
-      {/* Breadcrumbs */}
-      <div class="mb-4 hidden md:mb-6 md:block">
-        <Breadcrumbs
-          items={[
-            { label: 'Home', href: '/' },
-            { label: 'Brain Science', href: '/brain-science' },
-            { label: 'Core Themes' },
-          ]}
-        />
+  <BrainScienceLayout
+    currentPage="/brain-science/topics"
+    title={pageInfo?.title || 'Core Themes Analysis'}
+    description="Quantitative analysis of writing themes, topic relationships, and interest patterns. Data-driven insights into content focus and thematic evolution over time."
+  >
+    {/* Topic Overview Metrics */}
+    <div
+      class="mb-8 grid grid-cols-2 gap-4 md:mb-10 md:grid-cols-2 md:gap-6 lg:mb-12 lg:grid-cols-4"
+    >
+      <div
+        class="rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg-secondary))] p-4 md:p-6"
+      >
+        <div
+          class="mb-1 text-xl font-bold text-[rgb(var(--color-text))] md:mb-2 md:text-2xl"
+          title="Total number of unique topics you've written about"
+        >
+          {Object.keys(tagFrequency).length}
+        </div>
+        <div class="text-xs text-[rgb(var(--color-text-muted))] md:text-sm">Unique Topics</div>
+        <div class="mt-1 text-xs text-blue-500">🎯 Areas of Interest</div>
       </div>
+      <div
+        class="rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg-secondary))] p-4 md:p-6"
+      >
+        <div
+          class="mb-1 text-xl font-bold text-[rgb(var(--color-text))] md:mb-2 md:text-2xl"
+          title="Number of life areas you explore in your writing"
+        >
+          {maslowAnalysis.length}
+        </div>
+        <div class="text-xs text-[rgb(var(--color-text-muted))] md:text-sm">Life Areas</div>
+        <div class="mt-1 text-xs text-green-500">🌍 Life Dimensions</div>
+      </div>
+      <div
+        class="rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg-secondary))] p-4 md:p-6"
+      >
+        <div
+          class="mb-1 text-xl font-bold text-[rgb(var(--color-text))] md:mb-2 md:text-2xl"
+          title="Number of strong topic relationships identified"
+        >
+          {tagRelationships.length}
+        </div>
+        <div class="text-xs text-[rgb(var(--color-text-muted))] md:text-sm">Topic Connections</div>
+        <div class="mt-1 text-xs text-purple-500">🔗 Interest Networks</div>
+      </div>
+      <div
+        class="rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg-secondary))] p-4 md:p-6"
+      >
+        <div
+          class="mb-1 text-xl font-bold text-[rgb(var(--color-text))] md:mb-2 md:text-2xl"
+          title="Percentage of writings in your top 5 topics"
+        >
+          {
+            Math.round(
+              (topTags.slice(0, 5).reduce((sum, tag) => sum + tag.count, 0) / posts.length) * 100,
+            )
+          }%
+        </div>
+        <div class="text-xs text-[rgb(var(--color-text-muted))] md:text-sm">Core Focus</div>
+        <div class="mt-1 text-xs text-yellow-500">⭐ Primary Interests</div>
+      </div>
+    </div>
 
-      <div class="py-4 md:py-6 lg:py-8">
-        {/* Header */}
-        <div class="mb-6 md:mb-8 lg:mb-10">
-          <h1
-            class="text-display mb-3 text-[rgb(var(--color-text))] md:mb-4 lg:mb-5"
-            transition:name="page-title"
-          >
-            🏷️ <span class="highlight-accent">Topic Analysis Analytics</span>
-          </h1>
-          <p
-            class="text-body-large max-w-4xl leading-relaxed text-[rgb(var(--color-text-muted))]"
-            transition:name="page-description"
-          >
-            Quantitative analysis of writing themes, topic relationships, and interest patterns.
-            Data-driven insights into content focus and thematic evolution over time.
+    {/* Topic Frequency Over Time */}
+    {
+      topicTimeSeriesData.length > 0 && top5Tags.length > 0 && (
+        <div class="mb-8 md:mb-10 lg:mb-12">
+          <h2 class="mb-4 text-lg font-semibold text-[rgb(var(--color-text))] md:mb-6 md:text-xl">
+            📈 Top Topics Frequency Over Time
+          </h2>
+          <p class="mb-6 max-w-3xl text-sm text-[rgb(var(--color-text-muted))]">
+            Quarterly frequency of top 5 topics. Formula: frequency(tag, quarter) = count(posts in
+            quarter where tag ∈ post.tags)
           </p>
+          <TimeSeriesChart
+            id="topic-frequency-timeline"
+            labels={topicTimeSeriesData.map((q) => q.label)}
+            datasets={top5Tags.map((tag, index) => ({
+              label: tag.tag,
+              data: topicTimeSeriesData.map((q) => (q as any)[tag.tag] || 0),
+              borderColor: `hsl(${index * 60}, 70%, 50%)`,
+              backgroundColor: `hsla(${index * 60}, 70%, 50%, 0.1)`,
+            }))}
+            title="Top 5 Topics Frequency Per Quarter"
+            yAxisLabel="Post Count"
+          />
         </div>
+      )
+    }
 
-        {/* Topic Overview Metrics */}
-        <div
-          class="mb-8 grid grid-cols-2 gap-4 md:mb-10 md:grid-cols-2 md:gap-6 lg:mb-12 lg:grid-cols-4"
-        >
-          <div
-            class="rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg-secondary))] p-4 md:p-6"
-          >
-            <div
-              class="mb-1 text-xl font-bold text-[rgb(var(--color-text))] md:mb-2 md:text-2xl"
-              title="Total number of unique topics you've written about"
-            >
-              {Object.keys(tagFrequency).length}
-            </div>
-            <div class="text-xs text-[rgb(var(--color-text-muted))] md:text-sm">Unique Topics</div>
-            <div class="mt-1 text-xs text-blue-500">🎯 Areas of Interest</div>
-          </div>
-          <div
-            class="rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg-secondary))] p-4 md:p-6"
-          >
-            <div
-              class="mb-1 text-xl font-bold text-[rgb(var(--color-text))] md:mb-2 md:text-2xl"
-              title="Number of life areas you explore in your writing"
-            >
-              {maslowAnalysis.length}
-            </div>
-            <div class="text-xs text-[rgb(var(--color-text-muted))] md:text-sm">Life Areas</div>
-            <div class="mt-1 text-xs text-green-500">🌍 Life Dimensions</div>
-          </div>
-          <div
-            class="rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg-secondary))] p-4 md:p-6"
-          >
-            <div
-              class="mb-1 text-xl font-bold text-[rgb(var(--color-text))] md:mb-2 md:text-2xl"
-              title="Number of strong topic relationships identified"
-            >
-              {tagRelationships.length}
-            </div>
-            <div class="text-xs text-[rgb(var(--color-text-muted))] md:text-sm">
-              Topic Connections
-            </div>
-            <div class="mt-1 text-xs text-purple-500">🔗 Interest Networks</div>
-          </div>
-          <div
-            class="rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg-secondary))] p-4 md:p-6"
-          >
-            <div
-              class="mb-1 text-xl font-bold text-[rgb(var(--color-text))] md:mb-2 md:text-2xl"
-              title="Percentage of writings in your top 5 topics"
-            >
-              {
-                Math.round(
-                  (topTags.slice(0, 5).reduce((sum, tag) => sum + tag.count, 0) / posts.length) *
-                    100,
-                )
-              }%
-            </div>
-            <div class="text-xs text-[rgb(var(--color-text-muted))] md:text-sm">Core Focus</div>
-            <div class="mt-1 text-xs text-yellow-500">⭐ Primary Interests</div>
-          </div>
+    {/* Topic Growth Rates */}
+    {
+      topicGrowthChart.labels.length > 0 && (
+        <div class="mb-8 md:mb-10 lg:mb-12">
+          <h2 class="mb-4 text-lg font-semibold text-[rgb(var(--color-text))] md:mb-6 md:text-xl">
+            📊 Topic Growth Rates
+          </h2>
+          <p class="mb-6 max-w-3xl text-sm text-[rgb(var(--color-text-muted))]">
+            Topics with highest growth rates. Formula: growth_rate = ((recent_count - early_count) /
+            early_count) × 100
+          </p>
+          <BarChart
+            id="topic-growth-chart"
+            labels={topicGrowthChart.labels}
+            datasets={topicGrowthChart.datasets}
+            title="Top 10 Growing Topics"
+            yAxisLabel="Growth Rate (%)"
+          />
         </div>
+      )
+    }
 
-        {/* Personal Insights About Your Topics */}
-        <div class="mb-6 md:mb-8">
-          <h3 class="mb-4 text-base font-semibold text-[rgb(var(--color-text))] md:mb-6 md:text-lg">
-            🔍 Insights About What Matters to You
-          </h3>
-          <div class="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6">
-            {
-              topicInsights.map((insight, index) => (
-                <div class="rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg-secondary))] p-4">
-                  <div class="mb-3 flex items-center gap-3">
-                    <div class="text-base font-bold text-[rgb(var(--color-accent))] md:text-lg">
-                      #{index + 1}
-                    </div>
-                    <span
-                      class={`rounded px-2 py-1 text-xs ${
-                        insight.impact === 'High'
-                          ? 'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400'
-                          : insight.impact === 'Medium'
-                            ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400'
-                            : 'bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400'
-                      }`}
-                    >
-                      {insight.impact} Impact
-                    </span>
-                  </div>
-                  <div class="mb-2 text-sm font-medium text-[rgb(var(--color-text))]">
-                    {insight.insight}
-                  </div>
-                  <div class="mb-3 text-xs text-[rgb(var(--color-text-muted))]">
-                    {insight.evidence}
-                  </div>
-                  <div class="text-xs font-medium text-[rgb(var(--color-accent))]">
-                    💭 {insight.reflection}
-                  </div>
+    {/* Statistical Analysis */}
+    <div class="mb-6 md:mb-8">
+      <h3 class="mb-4 text-base font-semibold text-[rgb(var(--color-text))] md:mb-6 md:text-lg">
+        📊 Topic Distribution Analysis
+      </h3>
+      <div class="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6">
+        {
+          topicInsights.map((insight, index) => (
+            <div class="rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg-secondary))] p-4">
+              <div class="mb-3 flex items-center gap-3">
+                <div class="text-base font-bold text-[rgb(var(--color-accent))] md:text-lg">
+                  #{index + 1}
                 </div>
-              ))
-            }
-          </div>
-        </div>
-
-        {/* Your Core Topics */}
-        <div class="mb-6 md:mb-8 lg:mb-10">
-          <h3 class="mb-4 text-base font-semibold text-[rgb(var(--color-text))] md:mb-6 md:text-lg">
-            ⭐ Your Most Important Topics
-          </h3>
-          <div class="space-y-4">
-            {
-              topTags.slice(0, 10).map((tag, index) => (
-                <div class="flex items-center justify-between rounded-lg bg-[rgb(var(--color-bg))] p-4">
-                  <div class="flex items-center gap-4">
-                    <div
-                      class={`text-lg font-bold ${
-                        index === 0
-                          ? 'text-yellow-500'
-                          : index === 1
-                            ? 'text-gray-400'
-                            : index === 2
-                              ? 'text-amber-600'
-                              : 'text-[rgb(var(--color-accent))]'
-                      }`}
-                    >
-                      {index === 0
-                        ? '🥇'
-                        : index === 1
-                          ? '🥈'
-                          : index === 2
-                            ? '🥉'
-                            : `#${index + 1}`}
-                    </div>
-                    <div>
-                      <div class="text-sm font-medium text-[rgb(var(--color-text))]">{tag.tag}</div>
-                      <div class="text-xs text-[rgb(var(--color-text-muted))]">
-                        {tag.category?.title || 'Uncategorized'} • Weight: {tag.weight}
-                      </div>
-                    </div>
-                  </div>
-                  <div class="text-right">
-                    <div
-                      class="text-sm font-medium text-[rgb(var(--color-text))]"
-                      title={`${tag.count} writings tagged with "${tag.tag}"`}
-                    >
-                      {tag.count}
-                    </div>
-                    <div class="text-xs text-[rgb(var(--color-text-muted))]">
-                      {Math.round((tag.count / posts.length) * 100)}% of writings
-                    </div>
-                  </div>
-                </div>
-              ))
-            }
-          </div>
-        </div>
-
-        {/* Topic Clusters */}
-        <div class="mb-6 md:mb-8 lg:mb-10">
-          <h3 class="mb-4 text-base font-semibold text-[rgb(var(--color-text))] md:mb-6 md:text-lg">
-            🎯 Your Interest Clusters
-          </h3>
-          <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
-            {
-              topicClusters.map((cluster) => (
-                <div class="rounded-lg bg-[rgb(var(--color-bg))] p-4">
-                  <div class="mb-4 flex items-center gap-3">
-                    <span class="text-2xl">{cluster.icon}</span>
-                    <div>
-                      <div class="text-lg font-semibold text-[rgb(var(--color-text))]">
-                        {cluster.name}
-                      </div>
-                      <div class="text-sm text-[rgb(var(--color-text-muted))]">
-                        {cluster.topics.length} topics •{' '}
-                        {cluster.topics.reduce((sum, tag) => sum + tag.count, 0)} writings
-                      </div>
-                    </div>
-                  </div>
-                  <div class="space-y-2">
-                    {cluster.topics.map((tag) => (
-                      <div class="flex items-center justify-between">
-                        <span class="text-sm text-[rgb(var(--color-text))]">{tag.tag}</span>
-                        <div class="flex items-center gap-2">
-                          <div class="h-2 w-16 rounded-full bg-[rgb(var(--color-border))]">
-                            <div
-                              class={`h-2 rounded-full ${cluster.color.replace('text-', 'bg-')}`}
-                              style={`width: ${(tag.count / Math.max(...cluster.topics.map((t) => t.count))) * 100}%`}
-                            />
-                          </div>
-                          <span class="w-8 text-right text-xs text-[rgb(var(--color-text-muted))]">
-                            {tag.count}
-                          </span>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              ))
-            }
-          </div>
-        </div>
-
-        {/* Life Areas Focus */}
-        <div class="mb-6 md:mb-8 lg:mb-10">
-          <h3 class="mb-4 text-base font-semibold text-[rgb(var(--color-text))] md:mb-6 md:text-lg">
-            🌍 Your Life Areas Focus
-          </h3>
-          <div class="space-y-4">
-            {
-              maslowAnalysis.map((category) => (
-                <div class="flex items-center justify-between rounded-lg bg-[rgb(var(--color-bg))] p-4">
-                  <div class="flex items-center gap-4">
-                    <span class="text-2xl">{category.icon}</span>
-                    <div>
-                      <div class="text-sm font-medium text-[rgb(var(--color-text))]">
-                        {category.title}
-                      </div>
-                      <div class="text-xs text-[rgb(var(--color-text-muted))]">
-                        {category.description}
-                      </div>
-                    </div>
-                  </div>
-                  <div class="text-right">
-                    <div
-                      class="text-sm font-medium text-[rgb(var(--color-text))]"
-                      title={`${category.postCount} writings in ${category.title} category`}
-                    >
-                      {category.postCount}
-                    </div>
-                    <div class="text-xs text-[rgb(var(--color-text-muted))]">
-                      {category.percentage}% of writings
-                    </div>
-                  </div>
-                </div>
-              ))
-            }
-          </div>
-        </div>
-
-        {/* Strongest Topic Relationships */}
-        <div class="mb-6 md:mb-8 lg:mb-10">
-          <h3 class="mb-4 text-base font-semibold text-[rgb(var(--color-text))] md:mb-6 md:text-lg">
-            🔗 How Your Interests Connect
-          </h3>
-          <div class="space-y-4">
-            {
-              tagRelationships.slice(0, 10).map((relationship, index) => (
-                <div class="flex items-center justify-between rounded-lg bg-[rgb(var(--color-bg))] p-4">
-                  <div class="flex items-center gap-4">
-                    <div class="text-lg font-bold text-[rgb(var(--color-accent))]">
-                      #{index + 1}
-                    </div>
-                    <div>
-                      <div class="text-sm font-medium text-[rgb(var(--color-text))]">
-                        {relationship.tag1} ↔ {relationship.tag2}
-                      </div>
-                      <div class="text-xs text-[rgb(var(--color-text-muted))]">
-                        Strength: {Math.round(relationship.strength * 100)}%
-                      </div>
-                    </div>
-                  </div>
-                  <div class="text-right">
-                    <div
-                      class="text-sm font-medium text-[rgb(var(--color-text))]"
-                      title={`${relationship.count} writings contain both "${relationship.tag1}" and "${relationship.tag2}"`}
-                    >
-                      {relationship.count}
-                    </div>
-                    <div class="text-xs text-[rgb(var(--color-text-muted))]">co-occurrences</div>
-                  </div>
-                </div>
-              ))
-            }
-          </div>
-        </div>
-
-        {/* Core Themes Formulas */}
-        <div class="mb-6 md:mb-8 lg:mb-10">
-          <h3
-            class="mb-4 flex items-center gap-3 text-lg font-semibold text-[rgb(var(--color-text))] md:mb-6 md:text-xl"
-          >
-            <span class="text-2xl text-[rgb(var(--color-accent))]">📊</span>
-            Core Themes Formulas
-          </h3>
-          <div class="space-y-6 md:space-y-8">
-            <div class="grid grid-cols-1 gap-6 md:gap-8 lg:grid-cols-2">
-              <div>
-                <h4
-                  class="mb-4 flex items-center gap-2 text-lg font-semibold text-[rgb(var(--color-text))]"
+                <span
+                  class={`rounded px-2 py-1 text-xs ${
+                    insight.impact === 'High'
+                      ? 'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400'
+                      : insight.impact === 'Medium'
+                        ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400'
+                        : 'bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400'
+                  }`}
                 >
-                  <span class="text-blue-500">🏷️</span>
-                  Topic Analysis
-                </h4>
-                <div class="space-y-3 text-[rgb(var(--color-text-muted))]">
-                  <p>
-                    <strong class="text-[rgb(var(--color-text))]">Topic Frequency:</strong> Posts per
-                    tag / Total posts
-                  </p>
-                  <p>
-                    <strong class="text-[rgb(var(--color-text))]">Top Topic Concentration:</strong>
-                    <code class="font-mono text-xs md:text-sm"
-                      >Most frequent tag / Total posts × 100</code>
-                  </p>
-                  <p>
-                    <strong class="text-[rgb(var(--color-text))]">Topic Diversity:</strong> Number of
-                    unique tags used
-                  </p>
-                  <p>
-                    <strong class="text-[rgb(var(--color-text))]">Topic Balance:</strong>
-                    <code class="font-mono text-xs md:text-sm"
-                      >Stable areas / Total areas × 100</code>
-                  </p>
+                  {insight.impact} Significance
+                </span>
+              </div>
+              <div class="mb-2 text-sm font-medium text-[rgb(var(--color-text))]">
+                {insight.insight}
+              </div>
+              <div class="mb-3 text-xs text-[rgb(var(--color-text-muted))]">{insight.evidence}</div>
+              <div class="text-xs text-[rgb(var(--color-text-muted))]">
+                Statistical observation: {insight.evidence}
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+
+    {/* Core Topics */}
+    <div class="mb-6 md:mb-8 lg:mb-10">
+      <h3 class="mb-4 text-base font-semibold text-[rgb(var(--color-text))] md:mb-6 md:text-lg">
+        📊 Most Frequent Topics
+      </h3>
+      <p class="mb-4 text-xs text-[rgb(var(--color-text-muted))]">
+        Topics ranked by frequency. Formula: frequency(tag) = count(posts where tag ∈ post.tags) /
+        total_posts
+      </p>
+      <div class="space-y-4">
+        {
+          topTags.slice(0, 10).map((tag, index) => (
+            <div class="flex items-center justify-between rounded-lg bg-[rgb(var(--color-bg))] p-4">
+              <div class="flex items-center gap-4">
+                <div
+                  class={`text-lg font-bold ${
+                    index === 0
+                      ? 'text-yellow-500'
+                      : index === 1
+                        ? 'text-gray-400'
+                        : index === 2
+                          ? 'text-amber-600'
+                          : 'text-[rgb(var(--color-accent))]'
+                  }`}
+                >
+                  {index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : `#${index + 1}`}
+                </div>
+                <div>
+                  <div class="text-sm font-medium text-[rgb(var(--color-text))]">{tag.tag}</div>
+                  <div class="text-xs text-[rgb(var(--color-text-muted))]">
+                    {tag.category?.title || 'Uncategorized'} • Weight: {tag.weight}
+                  </div>
                 </div>
               </div>
-              <div>
-                <h4
-                  class="mb-4 flex items-center gap-2 text-lg font-semibold text-[rgb(var(--color-text))]"
+              <div class="text-right">
+                <div
+                  class="text-sm font-medium text-[rgb(var(--color-text))]"
+                  title={`${tag.count} writings tagged with "${tag.tag}"`}
                 >
-                  <span class="text-green-500">📈</span>
-                  Topic Trends
-                </h4>
-                <div class="space-y-3 text-[rgb(var(--color-text-muted))]">
-                  <p>
-                    <strong class="text-[rgb(var(--color-text))]">Growth Areas:</strong> Topics with
-                    increasing post frequency
-                  </p>
-                  <p>
-                    <strong class="text-[rgb(var(--color-text))]">Declining Areas:</strong> Topics with
-                    decreasing post frequency
-                  </p>
-                  <p>
-                    <strong class="text-[rgb(var(--color-text))]">Stable Areas:</strong> Topics with
-                    consistent post frequency
-                  </p>
-                  <p>
-                    <strong class="text-[rgb(var(--color-text))]">Trend Distribution:</strong> Growing/Declining/Stable
-                    topic counts
-                  </p>
+                  {tag.count}
+                </div>
+                <div class="text-xs text-[rgb(var(--color-text-muted))]">
+                  {Math.round((tag.count / posts.length) * 100)}% of writings
                 </div>
               </div>
             </div>
+          ))
+        }
+      </div>
+    </div>
 
-            <div class="grid grid-cols-1 gap-6 md:gap-8 lg:grid-cols-2">
-              <div>
-                <h4
-                  class="mb-4 flex items-center gap-2 text-lg font-semibold text-[rgb(var(--color-text))]"
-                >
-                  <span class="text-purple-500">🔗</span>
-                  Topic Relationships
-                </h4>
-                <div class="space-y-3 text-[rgb(var(--color-text-muted))]">
-                  <p>
-                    <strong class="text-[rgb(var(--color-text))]">Co-occurrence Strength:</strong> Shared
-                    posts / Total posts with either tag
-                  </p>
-                  <p>
-                    <strong class="text-[rgb(var(--color-text))]">Relationship Percentage:</strong>
-                    <code class="font-mono text-xs md:text-sm"
-                      >Co-occurrence count / Total posts × 100</code>
-                  </p>
-                  <p>
-                    <strong class="text-[rgb(var(--color-text))]">Topic Clusters:</strong> Groups of
-                    frequently co-occurring tags
-                  </p>
-                  <p>
-                    <strong class="text-[rgb(var(--color-text))]">Cross-pollination:</strong> Tags that
-                    appear together across different posts
-                  </p>
-                </div>
-              </div>
-              <div>
-                <h4
-                  class="mb-4 flex items-center gap-2 text-lg font-semibold text-[rgb(var(--color-text))]"
-                >
-                  <span class="text-orange-500">🎯</span>
-                  Life Areas Focus
-                </h4>
-                <div class="space-y-3 text-[rgb(var(--color-text-muted))]">
-                  <p>
-                    <strong class="text-[rgb(var(--color-text))]">Maslow Distribution:</strong>
-                    <code class="font-mono text-xs md:text-sm"
-                      >Posts per life area / Total posts × 100</code>
-                  </p>
-                  <p>
-                    <strong class="text-[rgb(var(--color-text))]">Area Concentration:</strong> Most focused
-                    life area percentage
-                  </p>
-                  <p>
-                    <strong class="text-[rgb(var(--color-text))]">Balance Score:</strong> Evenness of
-                    distribution across life areas
-                  </p>
-                  <p>
-                    <strong class="text-[rgb(var(--color-text))]">Growth Trajectory:</strong> Life area
-                    focus trends over time
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Analysis Conclusion */}
-        <div
-          class="rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg-secondary))] p-4 md:p-6"
-        >
-          <h3 class="mb-4 text-base font-semibold text-[rgb(var(--color-text))] md:mb-6 md:text-lg">
-            🏷️ Core Themes Summary
-          </h3>
-          <div class="space-y-4">
-            {/* Dynamic Insights */}
-            <div class="space-y-2">
-              {
-                insights.map((insight, index) => (
-                  <div class={`flex items-center gap-2 ${insight.color}`}>
-                    <span class="text-sm">
-                      {insight.type === 'positive'
-                        ? '✅'
-                        : insight.type === 'negative'
-                          ? '❌'
-                          : insight.type === 'warning'
-                            ? '⚠️'
-                            : 'ℹ️'}
-                    </span>
-                    <span class="text-sm" set:html={insight.text} />
+    {/* Topic Clusters */}
+    <div class="mb-6 md:mb-8 lg:mb-10">
+      <h3 class="mb-4 text-base font-semibold text-[rgb(var(--color-text))] md:mb-6 md:text-lg">
+        📊 Topic Clusters
+      </h3>
+      <p class="mb-4 text-xs text-[rgb(var(--color-text-muted))]">
+        Grouped topics by semantic similarity. Clusters determined by tag co-occurrence patterns.
+      </p>
+      <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+        {
+          topicClusters.map((cluster) => (
+            <div class="rounded-lg bg-[rgb(var(--color-bg))] p-4">
+              <div class="mb-4 flex items-center gap-3">
+                <span class="text-2xl">{cluster.icon}</span>
+                <div>
+                  <div class="text-lg font-semibold text-[rgb(var(--color-text))]">
+                    {cluster.name}
                   </div>
-                ))
-              }
+                  <div class="text-sm text-[rgb(var(--color-text-muted))]">
+                    {cluster.topics.length} topics •{' '}
+                    {cluster.topics.reduce((sum, tag) => sum + tag.count, 0)} writings
+                  </div>
+                </div>
+              </div>
+              <div class="space-y-2">
+                {cluster.topics.map((tag) => (
+                  <div class="flex items-center justify-between">
+                    <span class="text-sm text-[rgb(var(--color-text))]">{tag.tag}</span>
+                    <div class="flex items-center gap-2">
+                      <div class="h-2 w-16 rounded-full bg-[rgb(var(--color-border))]">
+                        <div
+                          class={`h-2 rounded-full ${cluster.color.replace('text-', 'bg-')}`}
+                          style={`width: ${(tag.count / Math.max(...cluster.topics.map((t) => t.count))) * 100}%`}
+                        />
+                      </div>
+                      <span class="w-8 text-right text-xs text-[rgb(var(--color-text-muted))]">
+                        {tag.count}
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
+          ))
+        }
+      </div>
+    </div>
 
-            {/* Summary */}
-            <div class="pt-4">
-              <p class="text-sm text-[rgb(var(--color-text-muted))]" set:html={summary} />
+    {/* Life Areas Focus */}
+    <div class="mb-6 md:mb-8 lg:mb-10">
+      <h3 class="mb-4 text-base font-semibold text-[rgb(var(--color-text))] md:mb-6 md:text-lg">
+        📊 Maslow Hierarchy Distribution
+      </h3>
+      <p class="mb-4 text-xs text-[rgb(var(--color-text-muted))]">
+        Content distribution across Maslow's hierarchy categories. Formula: category_percentage =
+        (posts_in_category / total_posts) × 100
+      </p>
+      <div class="space-y-4">
+        {
+          maslowAnalysis.map((category) => (
+            <div class="flex items-center justify-between rounded-lg bg-[rgb(var(--color-bg))] p-4">
+              <div class="flex items-center gap-4">
+                <span class="text-2xl">{category.icon}</span>
+                <div>
+                  <div class="text-sm font-medium text-[rgb(var(--color-text))]">
+                    {category.title}
+                  </div>
+                  <div class="text-xs text-[rgb(var(--color-text-muted))]">
+                    {category.description}
+                  </div>
+                </div>
+              </div>
+              <div class="text-right">
+                <div
+                  class="text-sm font-medium text-[rgb(var(--color-text))]"
+                  title={`${category.postCount} writings in ${category.title} category`}
+                >
+                  {category.postCount}
+                </div>
+                <div class="text-xs text-[rgb(var(--color-text-muted))]">
+                  {category.percentage}% of writings
+                </div>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+
+    {/* Strongest Topic Relationships */}
+    <div class="mb-6 md:mb-8 lg:mb-10">
+      <h3 class="mb-4 text-base font-semibold text-[rgb(var(--color-text))] md:mb-6 md:text-lg">
+        🔗 Topic Co-occurrence Analysis
+      </h3>
+      <p class="mb-4 text-xs text-[rgb(var(--color-text-muted))]">
+        Tag pairs that frequently appear together. Strength formula: strength = co_occurrence_count
+        / min(frequency(tag1), frequency(tag2))
+      </p>
+      <div class="space-y-4">
+        {
+          tagRelationships.slice(0, 10).map((relationship, index) => (
+            <div class="flex items-center justify-between rounded-lg bg-[rgb(var(--color-bg))] p-4">
+              <div class="flex items-center gap-4">
+                <div class="text-lg font-bold text-[rgb(var(--color-accent))]">#{index + 1}</div>
+                <div>
+                  <div class="text-sm font-medium text-[rgb(var(--color-text))]">
+                    {relationship.tag1} ↔ {relationship.tag2}
+                  </div>
+                  <div class="text-xs text-[rgb(var(--color-text-muted))]">
+                    Strength: {Math.round(relationship.strength * 100)}%
+                  </div>
+                </div>
+              </div>
+              <div class="text-right">
+                <div
+                  class="text-sm font-medium text-[rgb(var(--color-text))]"
+                  title={`${relationship.count} writings contain both "${relationship.tag1}" and "${relationship.tag2}"`}
+                >
+                  {relationship.count}
+                </div>
+                <div class="text-xs text-[rgb(var(--color-text-muted))]">co-occurrences</div>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+
+    {/* Core Themes Formulas */}
+    <div class="mb-6 md:mb-8 lg:mb-10">
+      <h3
+        class="mb-4 flex items-center gap-3 text-lg font-semibold text-[rgb(var(--color-text))] md:mb-6 md:text-xl"
+      >
+        <span class="text-2xl text-[rgb(var(--color-accent))]">📊</span>
+        Core Themes Formulas
+      </h3>
+      <div class="space-y-6 md:space-y-8">
+        <div class="grid grid-cols-1 gap-6 md:gap-8 lg:grid-cols-2">
+          <div>
+            <h4
+              class="mb-4 flex items-center gap-2 text-lg font-semibold text-[rgb(var(--color-text))]"
+            >
+              <span class="text-blue-500">🏷️</span>
+              Topic Analysis
+            </h4>
+            <div class="space-y-3 text-[rgb(var(--color-text-muted))]">
+              <p>
+                <strong class="text-[rgb(var(--color-text))]">Topic Frequency:</strong> Posts per tag
+                / Total posts
+              </p>
+              <p>
+                <strong class="text-[rgb(var(--color-text))]">Top Topic Concentration:</strong>
+                <code class="font-mono text-xs md:text-sm"
+                  >Most frequent tag / Total posts × 100</code
+                >
+              </p>
+              <p>
+                <strong class="text-[rgb(var(--color-text))]">Topic Diversity:</strong> Number of unique
+                tags used
+              </p>
+              <p>
+                <strong class="text-[rgb(var(--color-text))]">Topic Balance:</strong>
+                <code class="font-mono text-xs md:text-sm">Stable areas / Total areas × 100</code>
+              </p>
+            </div>
+          </div>
+          <div>
+            <h4
+              class="mb-4 flex items-center gap-2 text-lg font-semibold text-[rgb(var(--color-text))]"
+            >
+              <span class="text-green-500">📈</span>
+              Topic Trends
+            </h4>
+            <div class="space-y-3 text-[rgb(var(--color-text-muted))]">
+              <p>
+                <strong class="text-[rgb(var(--color-text))]">Growth Areas:</strong> Topics with increasing
+                post frequency
+              </p>
+              <p>
+                <strong class="text-[rgb(var(--color-text))]">Declining Areas:</strong> Topics with decreasing
+                post frequency
+              </p>
+              <p>
+                <strong class="text-[rgb(var(--color-text))]">Stable Areas:</strong> Topics with consistent
+                post frequency
+              </p>
+              <p>
+                <strong class="text-[rgb(var(--color-text))]">Trend Distribution:</strong> Growing/Declining/Stable
+                topic counts
+              </p>
             </div>
           </div>
         </div>
 
-        {/* Navigation Links */}
-        <div class="mt-8 border-t border-[rgb(var(--color-border))] pt-6 md:mt-12 md:pt-8">
-          <div class="flex flex-wrap justify-center gap-4 md:gap-6">
-            <a
-              href="/brain-science"
-              class="text-sm text-[rgb(var(--color-accent))] transition-colors hover:text-[rgb(var(--color-accent-hover))]"
+        <div class="grid grid-cols-1 gap-6 md:gap-8 lg:grid-cols-2">
+          <div>
+            <h4
+              class="mb-4 flex items-center gap-2 text-lg font-semibold text-[rgb(var(--color-text))]"
             >
-              🏠 Brain Science Dashboard
-            </a>
-            <a
-              href="/brain-science/insights"
-              class="text-sm text-[rgb(var(--color-accent))] transition-colors hover:text-[rgb(var(--color-accent-hover))]"
+              <span class="text-purple-500">🔗</span>
+              Topic Relationships
+            </h4>
+            <div class="space-y-3 text-[rgb(var(--color-text-muted))]">
+              <p>
+                <strong class="text-[rgb(var(--color-text))]">Co-occurrence Strength:</strong> Shared
+                posts / Total posts with either tag
+              </p>
+              <p>
+                <strong class="text-[rgb(var(--color-text))]">Relationship Percentage:</strong>
+                <code class="font-mono text-xs md:text-sm"
+                  >Co-occurrence count / Total posts × 100</code
+                >
+              </p>
+              <p>
+                <strong class="text-[rgb(var(--color-text))]">Topic Clusters:</strong> Groups of frequently
+                co-occurring tags
+              </p>
+              <p>
+                <strong class="text-[rgb(var(--color-text))]">Cross-pollination:</strong> Tags that appear
+                together across different posts
+              </p>
+            </div>
+          </div>
+          <div>
+            <h4
+              class="mb-4 flex items-center gap-2 text-lg font-semibold text-[rgb(var(--color-text))]"
             >
-              📊 Emotional Processing Analytics
-            </a>
-            <a
-              href="/brain-science/evolution"
-              class="text-sm text-[rgb(var(--color-accent))] transition-colors hover:text-[rgb(var(--color-accent-hover))]"
-            >
-              📈 Intellectual Growth Analytics
-            </a>
-            <a
-              href="/brain-science/cadence"
-              class="text-sm text-[rgb(var(--color-accent))] transition-colors hover:text-[rgb(var(--color-accent-hover))]"
-            >
-              📅 Writing Cadence Patterns
-            </a>
-            <a
-              href="/brain-science/patterns"
-              class="text-sm text-[rgb(var(--color-accent))] transition-colors hover:text-[rgb(var(--color-accent-hover))]"
-            >
-              🌀 Pattern Recognition
-            </a>
-            <a
-              href="/brain-science/meta"
-              class="text-sm text-[rgb(var(--color-accent))] transition-colors hover:text-[rgb(var(--color-accent-hover))]"
-            >
-              🔍 Meta Analysis
-            </a>
+              <span class="text-orange-500">🎯</span>
+              Life Areas Focus
+            </h4>
+            <div class="space-y-3 text-[rgb(var(--color-text-muted))]">
+              <p>
+                <strong class="text-[rgb(var(--color-text))]">Maslow Distribution:</strong>
+                <code class="font-mono text-xs md:text-sm"
+                  >Posts per life area / Total posts × 100</code
+                >
+              </p>
+              <p>
+                <strong class="text-[rgb(var(--color-text))]">Area Concentration:</strong> Most focused
+                life area percentage
+              </p>
+              <p>
+                <strong class="text-[rgb(var(--color-text))]">Balance Score:</strong> Evenness of distribution
+                across life areas
+              </p>
+              <p>
+                <strong class="text-[rgb(var(--color-text))]">Growth Trajectory:</strong> Life area focus
+                trends over time
+              </p>
+            </div>
           </div>
         </div>
       </div>
-    </Container>
-  </Container>
+    </div>
+
+    {/* Analysis Conclusion */}
+    <div
+      class="rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg-secondary))] p-4 md:p-6"
+    >
+      <h3 class="mb-4 text-base font-semibold text-[rgb(var(--color-text))] md:mb-6 md:text-lg">
+        🏷️ Core Themes Summary
+      </h3>
+      <div class="space-y-4">
+        {/* Dynamic Insights */}
+        <div class="space-y-2">
+          {
+            insights.map((insight, index) => (
+              <div class={`flex items-center gap-2 ${insight.color}`}>
+                <span class="text-sm">
+                  {insight.type === 'positive'
+                    ? '✅'
+                    : insight.type === 'negative'
+                      ? '❌'
+                      : insight.type === 'warning'
+                        ? '⚠️'
+                        : 'ℹ️'}
+                </span>
+                <span class="text-sm" set:html={insight.text} />
+              </div>
+            ))
+          }
+        </div>
+
+        {/* Summary */}
+        <div class="pt-4">
+          <p class="text-sm text-[rgb(var(--color-text-muted))]" set:html={summary} />
+        </div>
+      </div>
+    </div>
+  </BrainScienceLayout>
 </BaseLayout>

@@ -1,22 +1,31 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import Container from '../../components/Container.astro';
-import Breadcrumbs from '../../components/Breadcrumbs.astro';
-import { getCollection } from 'astro:content';
+import BrainScienceLayout from '../../components/brain-science/BrainScienceLayout.astro';
+import TimeSeriesChart from '../../components/brain-science/TimeSeriesChart.astro';
+import BarChart from '../../components/brain-science/BarChart.astro';
+import { getBrainSciencePosts } from '../../utils/brainScience/data';
 import { categories } from '../../data/categories';
 import { getTagWeight, MASLOW_CATEGORIES } from '../../data/tags';
-import { format, startOfMonth, endOfMonth, eachMonthOfInterval } from 'date-fns';
+import {
+  format,
+  startOfMonth,
+  endOfMonth,
+  eachMonthOfInterval,
+  eachQuarterOfInterval,
+  startOfQuarter,
+  endOfQuarter,
+} from 'date-fns';
 import {
   generateDynamicInsights,
   calculateObjectiveMetrics,
   scoreToLetterGrade,
   letterGradeToColor,
 } from '../../utils/insightGenerator';
+import { BRAIN_SCIENCE_PAGES } from '../../data/brainScience';
+import nlp from 'compromise';
 
 // Get all published posts
-const posts = await getCollection('blog', ({ data }) => {
-  return import.meta.env.PROD ? !data.draft && data.published : true;
-});
+const posts = await getBrainSciencePosts();
 
 // Sort posts by date
 const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
@@ -442,6 +451,67 @@ const insightData = {
 };
 
 const { insights, summary, balancedAnalysis } = generateDynamicInsights(insightData, 'evolution');
+
+// Prepare time series data for complexity evolution
+const sortedContentEvolution = contentEvolution.sort((a, b) => a.date.valueOf() - b.date.valueOf());
+const firstDate = sortedContentEvolution[0]?.date || new Date();
+const lastDate = sortedContentEvolution[sortedContentEvolution.length - 1]?.date || new Date();
+const complexityQuarters = eachQuarterOfInterval({ start: firstDate, end: lastDate });
+
+const complexityTimeSeries = complexityQuarters
+  .map((quarterStart) => {
+    const quarterEnd = endOfQuarter(quarterStart);
+    const quarterLabel = `Q${Math.floor(quarterStart.getMonth() / 3) + 1} ${quarterStart.getFullYear()}`;
+
+    const quarterPosts = sortedContentEvolution.filter(
+      (post) => post.date >= quarterStart && post.date <= quarterEnd,
+    );
+
+    const avgComplexity =
+      quarterPosts.length > 0
+        ? quarterPosts.reduce((sum, post) => sum + post.fleschScore, 0) / quarterPosts.length
+        : 0;
+
+    const avgIntellectualDepth =
+      quarterPosts.length > 0
+        ? quarterPosts.reduce((sum, post) => sum + post.intellectualDepth, 0) / quarterPosts.length
+        : 0;
+
+    return {
+      label: quarterLabel,
+      complexity: Math.round(avgComplexity * 100) / 100,
+      intellectualDepth: Math.round(avgIntellectualDepth * 100) / 100,
+    };
+  })
+  .filter((q) => q.complexity > 0 || q.intellectualDepth > 0);
+
+// Prepare bar chart for period comparison
+const periodComparisonChart = {
+  labels: periodStats.map((p) => p.period),
+  datasets: [
+    {
+      label: 'Avg Word Count',
+      data: periodStats.map((p) => p.avgWordCount),
+      backgroundColor: 'rgba(59, 130, 246, 0.6)',
+      borderColor: 'rgb(59, 130, 246)',
+    },
+    {
+      label: 'Avg Complexity',
+      data: periodStats.map((p) => p.avgComplexity),
+      backgroundColor: 'rgba(147, 51, 234, 0.6)',
+      borderColor: 'rgb(147, 51, 234)',
+    },
+    {
+      label: 'Avg Intellectual Depth',
+      data: periodStats.map((p) => p.avgIntellectualDepth),
+      backgroundColor: 'rgba(34, 197, 94, 0.6)',
+      borderColor: 'rgb(34, 197, 94)',
+    },
+  ],
+};
+
+// Get page info
+const pageInfo = BRAIN_SCIENCE_PAGES.find((p) => p.id === 'evolution');
 ---
 
 <BaseLayout
@@ -450,624 +520,608 @@ const { insights, summary, balancedAnalysis } = generateDynamicInsights(insightD
   path="/brain-science/evolution"
   structuredDataType="website"
 >
-  <Container>
-    <Container maxWidth="container" padding="none">
-      {/* Breadcrumbs */}
-      <div class="mb-4 hidden md:mb-6 md:block">
-        <Breadcrumbs
-          items={[
-            { label: 'Home', href: '/' },
-            { label: 'Brain Science', href: '/brain-science' },
-            { label: 'Intellectual Growth' },
-          ]}
-        />
+  <BrainScienceLayout
+    currentPage="/brain-science/evolution"
+    title={pageInfo?.title || 'Intellectual Growth Analytics'}
+    description="Quantitative analysis of thinking style evolution, knowledge progression, and intellectual depth metrics over time. Data-driven insights into cognitive development patterns."
+  >
+    {/* Intellectual Growth Metrics */}
+    <div
+      class="mb-8 grid grid-cols-2 gap-4 md:mb-10 md:grid-cols-2 md:gap-6 lg:mb-12 lg:grid-cols-4"
+    >
+      <div
+        class="rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg-secondary))] p-4 md:p-6"
+      >
+        <div
+          class="mb-1 text-xl font-bold text-[rgb(var(--color-text))] md:mb-2 md:text-2xl"
+          title="Number of quarters analyzed (3-month periods with published posts)"
+        >
+          {quarters.length}
+        </div>
+        <div class="text-xs text-[rgb(var(--color-text-muted))] md:text-sm">Quarters Analyzed</div>
+        <div class="mt-1 text-xs text-blue-500">📊 Time Periods</div>
       </div>
+      <div
+        class="rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg-secondary))] p-4 md:p-6"
+      >
+        <div
+          class="mb-1 text-xl font-bold text-[rgb(var(--color-text))] md:mb-2 md:text-2xl"
+          title="Average maturity score across all posts (based on code, links, images, quotes, and word count)"
+        >
+          {avgMaturityScore}
+        </div>
+        <div class="text-xs text-[rgb(var(--color-text-muted))] md:text-sm">Avg Maturity Score</div>
+        <div class="mt-1 text-xs text-green-500">🧠 Intellectual Growth</div>
+      </div>
+      <div
+        class="rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg-secondary))] p-4 md:p-6"
+      >
+        <div
+          class="mb-1 text-xl font-bold text-[rgb(var(--color-text))] md:mb-2 md:text-2xl"
+          title="Number of topics that have increased in frequency over time"
+        >
+          {growingTopics.length}
+        </div>
+        <div class="text-xs text-[rgb(var(--color-text-muted))] md:text-sm">Growing Topics</div>
+        <div class="mt-1 text-xs text-green-500">📈 Expanding Interests</div>
+      </div>
+      <div
+        class="rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg-secondary))] p-4 md:p-6"
+      >
+        <div
+          class="mb-1 text-xl font-bold text-[rgb(var(--color-text))] md:mb-2 md:text-2xl"
+          title="Number of topics that have decreased in frequency over time"
+        >
+          {decliningTopics.length}
+        </div>
+        <div class="text-xs text-[rgb(var(--color-text-muted))] md:text-sm">Declining Topics</div>
+        <div class="mt-1 text-xs text-red-500">📉 Shifting Focus</div>
+      </div>
+    </div>
 
-      <div class="py-4 md:py-6 lg:py-8">
-        {/* Header */}
-        <div class="mb-6 md:mb-8 lg:mb-10">
-          <h1
-            class="text-display mb-3 text-[rgb(var(--color-text))] md:mb-4 lg:mb-5"
-            transition:name="page-title"
-          >
-            📈 <span class="highlight-accent">Intellectual Growth Analytics</span>
-          </h1>
-          <p
-            class="text-body-large max-w-4xl leading-relaxed text-[rgb(var(--color-text-muted))]"
-            transition:name="page-description"
-          >
-            Quantitative analysis of thinking style evolution, knowledge progression, and
-            intellectual depth metrics over time. Data-driven insights into cognitive development
-            patterns.
+    {/* Complexity and Intellectual Depth Evolution */}
+    {
+      complexityTimeSeries.length > 0 && (
+        <div class="mb-8 md:mb-10 lg:mb-12">
+          <h2 class="mb-4 text-lg font-semibold text-[rgb(var(--color-text))] md:mb-6 md:text-xl">
+            📈 Complexity and Intellectual Depth Evolution
+          </h2>
+          <p class="mb-6 max-w-3xl text-sm text-[rgb(var(--color-text-muted))]">
+            Flesch reading ease score and intellectual depth metrics over time. Complexity formula:
+            206.835 - 1.015 × (words/sentences) - 84.6 × (syllables/words). Intellectual depth:
+            Σ(intellectual_words + curiosity_words + wisdom_words) + word_count/50
           </p>
-        </div>
-
-        {/* Intellectual Growth Metrics */}
-        <div
-          class="mb-8 grid grid-cols-2 gap-4 md:mb-10 md:grid-cols-2 md:gap-6 lg:mb-12 lg:grid-cols-4"
-        >
-          <div
-            class="rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg-secondary))] p-4 md:p-6"
-          >
-            <div
-              class="mb-1 text-xl font-bold text-[rgb(var(--color-text))] md:mb-2 md:text-2xl"
-              title="Number of quarters analyzed (3-month periods with published posts)"
-            >
-              {quarters.length}
-            </div>
-            <div class="text-xs text-[rgb(var(--color-text-muted))] md:text-sm">
-              Quarters Analyzed
-            </div>
-            <div class="mt-1 text-xs text-blue-500">📊 Time Periods</div>
-          </div>
-          <div
-            class="rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg-secondary))] p-4 md:p-6"
-          >
-            <div
-              class="mb-1 text-xl font-bold text-[rgb(var(--color-text))] md:mb-2 md:text-2xl"
-              title="Average maturity score across all posts (based on code, links, images, quotes, and word count)"
-            >
-              {avgMaturityScore}
-            </div>
-            <div class="text-xs text-[rgb(var(--color-text-muted))] md:text-sm">
-              Avg Maturity Score
-            </div>
-            <div class="mt-1 text-xs text-green-500">🧠 Intellectual Growth</div>
-          </div>
-          <div
-            class="rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg-secondary))] p-4 md:p-6"
-          >
-            <div
-              class="mb-1 text-xl font-bold text-[rgb(var(--color-text))] md:mb-2 md:text-2xl"
-              title="Number of topics that have increased in frequency over time"
-            >
-              {growingTopics.length}
-            </div>
-            <div class="text-xs text-[rgb(var(--color-text-muted))] md:text-sm">Growing Topics</div>
-            <div class="mt-1 text-xs text-green-500">📈 Expanding Interests</div>
-          </div>
-          <div
-            class="rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg-secondary))] p-4 md:p-6"
-          >
-            <div
-              class="mb-1 text-xl font-bold text-[rgb(var(--color-text))] md:mb-2 md:text-2xl"
-              title="Number of topics that have decreased in frequency over time"
-            >
-              {decliningTopics.length}
-            </div>
-            <div class="text-xs text-[rgb(var(--color-text-muted))] md:text-sm">
-              Declining Topics
-            </div>
-            <div class="mt-1 text-xs text-red-500">📉 Shifting Focus</div>
-          </div>
-        </div>
-
-        {/* Intellectual Growth Insights */}
-        <div class="mb-6 md:mb-8 lg:mb-10">
-          <h3 class="mb-4 text-base font-semibold text-[rgb(var(--color-text))] md:mb-6 md:text-lg">
-            🔍 Key Insights About Your Intellectual Growth
-          </h3>
-          <div class="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6">
-            {
-              intellectualInsights.map((insight, index) => (
-                <div class="rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg-secondary))] p-4">
-                  <div class="mb-3 flex items-center gap-3">
-                    <div class="text-base font-bold text-[rgb(var(--color-accent))] md:text-lg">
-                      #{index + 1}
-                    </div>
-                    <span
-                      class={`rounded px-2 py-1 text-xs ${
-                        insight.impact === 'High'
-                          ? 'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400'
-                          : insight.impact === 'Medium'
-                            ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400'
-                            : 'bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400'
-                      }`}
-                    >
-                      {insight.impact} Impact
-                    </span>
-                  </div>
-                  <div class="mb-2 text-sm font-medium text-[rgb(var(--color-text))]">
-                    {insight.insight}
-                  </div>
-                  <div class="mb-3 text-xs text-[rgb(var(--color-text-muted))]">
-                    {insight.evidence}
-                  </div>
-                  <div class="text-xs font-medium text-[rgb(var(--color-accent))]">
-                    💭 {insight.reflection}
-                  </div>
-                </div>
-              ))
-            }
-          </div>
-        </div>
-
-        {/* Thinking Style Evolution */}
-        <div
-          class="mb-6 rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg-secondary))] p-4 md:mb-8 md:p-6 lg:mb-10"
-        >
-          <h3 class="mb-4 text-base font-semibold text-[rgb(var(--color-text))] md:mb-6 md:text-lg">
-            🧠 How Your Thinking Style Has Evolved
-          </h3>
-          <div class="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 lg:grid-cols-3">
-            {
-              periodStats.map((period) => (
-                <div class="rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg))] p-4">
-                  <div class="mb-3 text-base font-semibold text-[rgb(var(--color-text))] md:mb-4 md:text-lg">
-                    {period.period} Period
-                  </div>
-                  <div class="space-y-2 md:space-y-3">
-                    <div class="flex justify-between">
-                      <span class="text-xs text-[rgb(var(--color-text-muted))] md:text-sm">
-                        Avg Words:
-                      </span>
-                      <span
-                        class="text-xs font-medium text-[rgb(var(--color-text))] md:text-sm"
-                        title={`Average word count per post in ${period.period} period`}
-                      >
-                        {period.avgWordCount}
-                      </span>
-                    </div>
-                    <div class="flex justify-between">
-                      <span class="text-xs text-[rgb(var(--color-text-muted))] md:text-sm">
-                        Complexity:
-                      </span>
-                      <span
-                        class={`text-xs font-medium md:text-sm ${
-                          period.avgComplexity >=
-                          Math.max(...periodStats.map((p) => p.avgComplexity)) * 0.8
-                            ? 'text-green-500'
-                            : period.avgComplexity >=
-                                Math.max(...periodStats.map((p) => p.avgComplexity)) * 0.5
-                              ? 'text-blue-500'
-                              : period.avgComplexity >=
-                                  Math.max(...periodStats.map((p) => p.avgComplexity)) * 0.2
-                                ? 'text-yellow-500'
-                                : 'text-red-500'
-                        }`}
-                        title={`Average Flesch reading ease score in ${period.period} period (higher = easier to read)`}
-                      >
-                        {period.avgComplexity}
-                      </span>
-                    </div>
-                    <div class="flex justify-between">
-                      <span class="text-xs text-[rgb(var(--color-text-muted))] md:text-sm">
-                        Intellectual Depth:
-                      </span>
-                      <span
-                        class="text-xs font-medium text-[rgb(var(--color-text))] md:text-sm"
-                        title={`Average intellectual depth score in ${period.period} period`}
-                      >
-                        {period.avgIntellectualDepth}
-                      </span>
-                    </div>
-                    <div class="flex justify-between">
-                      <span class="text-xs text-[rgb(var(--color-text-muted))] md:text-sm">
-                        Curiosity:
-                      </span>
-                      <span
-                        class="text-xs font-medium text-[rgb(var(--color-text))] md:text-sm"
-                        title={`Average curiosity indicators per post in ${period.period} period`}
-                      >
-                        {period.avgCuriosityCount}
-                      </span>
-                    </div>
-                    <div class="flex justify-between">
-                      <span class="text-xs text-[rgb(var(--color-text-muted))] md:text-sm">
-                        Wisdom:
-                      </span>
-                      <span
-                        class="text-xs font-medium text-[rgb(var(--color-text))] md:text-sm"
-                        title={`Average wisdom indicators per post in ${period.period} period`}
-                      >
-                        {period.avgWisdomCount}
-                      </span>
-                    </div>
-                    <div class="flex justify-between">
-                      <span class="text-xs text-[rgb(var(--color-text-muted))] md:text-sm">
-                        Writings:
-                      </span>
-                      <span
-                        class="text-xs font-medium text-[rgb(var(--color-text))] md:text-sm"
-                        title={`Number of writings in ${period.period} period`}
-                      >
-                        {period.postCount}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              ))
-            }
-          </div>
-        </div>
-
-        {/* Topic Growth vs Decline Analysis */}
-        <div class="mb-6 grid grid-cols-1 gap-6 md:mb-8 md:gap-8 lg:mb-10 lg:grid-cols-2">
-          <div>
-            <h3
-              class="mb-4 text-base font-semibold text-[rgb(var(--color-text))] md:mb-6 md:text-lg"
-            >
-              📈 Topics You're Exploring More
-            </h3>
-            <div class="space-y-4">
+          <TimeSeriesChart
+            id="complexity-evolution"
+            labels={complexityTimeSeries.map((q) => q.label)}
+            datasets={[
               {
-                growingTopics.map((topic, index) => (
-                  <div class="flex items-center justify-between rounded-lg bg-[rgb(var(--color-bg))] p-3">
-                    <div class="flex items-center gap-3">
-                      <div
-                        class={`text-lg font-bold ${
-                          index === 0
+                label: 'Complexity Score',
+                data: complexityTimeSeries.map((q) => q.complexity),
+                borderColor: 'rgb(147, 51, 234)',
+                backgroundColor: 'rgba(147, 51, 234, 0.1)',
+              },
+              {
+                label: 'Intellectual Depth',
+                data: complexityTimeSeries.map((q) => q.intellectualDepth),
+                borderColor: 'rgb(34, 197, 94)',
+                backgroundColor: 'rgba(34, 197, 94, 0.1)',
+              },
+            ]}
+            title="Complexity and Intellectual Depth Over Time"
+            yAxisLabel="Score"
+          />
+        </div>
+      )
+    }
+
+    {/* Period Comparison */}
+    {
+      periodComparisonChart.labels.length > 0 && (
+        <div class="mb-8 md:mb-10 lg:mb-12">
+          <h2 class="mb-4 text-lg font-semibold text-[rgb(var(--color-text))] md:mb-6 md:text-xl">
+            📊 Metrics Comparison by Period
+          </h2>
+          <p class="mb-6 max-w-3xl text-sm text-[rgb(var(--color-text-muted))]">
+            Comparative analysis of writing metrics across Early, Middle, and Recent periods. Data
+            shows mean values for word count, complexity, and intellectual depth.
+          </p>
+          <BarChart
+            id="period-comparison-chart"
+            labels={periodComparisonChart.labels}
+            datasets={periodComparisonChart.datasets}
+            title="Writing Metrics by Period"
+            yAxisLabel="Score / Count"
+          />
+        </div>
+      )
+    }
+
+    {/* Intellectual Growth Analysis */}
+    <div class="mb-6 md:mb-8 lg:mb-10">
+      <h3 class="mb-4 text-base font-semibold text-[rgb(var(--color-text))] md:mb-6 md:text-lg">
+        📊 Statistical Analysis of Intellectual Growth
+      </h3>
+      <div class="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6">
+        {
+          intellectualInsights.map((insight, index) => (
+            <div class="rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg-secondary))] p-4">
+              <div class="mb-3 flex items-center gap-3">
+                <div class="text-base font-bold text-[rgb(var(--color-accent))] md:text-lg">
+                  #{index + 1}
+                </div>
+                <span
+                  class={`rounded px-2 py-1 text-xs ${
+                    insight.impact === 'High'
+                      ? 'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400'
+                      : insight.impact === 'Medium'
+                        ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400'
+                        : 'bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400'
+                  }`}
+                >
+                  {insight.impact} Significance
+                </span>
+              </div>
+              <div class="mb-2 text-sm font-medium text-[rgb(var(--color-text))]">
+                {insight.insight}
+              </div>
+              <div class="mb-3 text-xs text-[rgb(var(--color-text-muted))]">{insight.evidence}</div>
+              <div class="text-xs text-[rgb(var(--color-text-muted))]">
+                Statistical observation: {insight.evidence}
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+
+    {/* Thinking Style Metrics by Period */}
+    <div
+      class="mb-6 rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg-secondary))] p-4 md:mb-8 md:p-6 lg:mb-10"
+    >
+      <h3 class="mb-4 text-base font-semibold text-[rgb(var(--color-text))] md:mb-6 md:text-lg">
+        📊 Writing Metrics by Period
+      </h3>
+      <p class="mb-4 text-xs text-[rgb(var(--color-text-muted))]">
+        Quantitative comparison of writing characteristics across time periods. Metrics calculated
+        using mean values for each period.
+      </p>
+      <div class="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 lg:grid-cols-3">
+        {
+          periodStats.map((period) => (
+            <div class="rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg))] p-4">
+              <div class="mb-3 text-base font-semibold text-[rgb(var(--color-text))] md:mb-4 md:text-lg">
+                {period.period} Period
+              </div>
+              <div class="space-y-2 md:space-y-3">
+                <div class="flex justify-between">
+                  <span class="text-xs text-[rgb(var(--color-text-muted))] md:text-sm">
+                    Avg Words:
+                  </span>
+                  <span
+                    class="text-xs font-medium text-[rgb(var(--color-text))] md:text-sm"
+                    title={`Average word count per post in ${period.period} period`}
+                  >
+                    {period.avgWordCount}
+                  </span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-xs text-[rgb(var(--color-text-muted))] md:text-sm">
+                    Complexity:
+                  </span>
+                  <span
+                    class={`text-xs font-medium md:text-sm ${
+                      period.avgComplexity >=
+                      Math.max(...periodStats.map((p) => p.avgComplexity)) * 0.8
+                        ? 'text-green-500'
+                        : period.avgComplexity >=
+                            Math.max(...periodStats.map((p) => p.avgComplexity)) * 0.5
+                          ? 'text-blue-500'
+                          : period.avgComplexity >=
+                              Math.max(...periodStats.map((p) => p.avgComplexity)) * 0.2
                             ? 'text-yellow-500'
-                            : index === 1
-                              ? 'text-gray-400'
-                              : index === 2
-                                ? 'text-amber-600'
-                                : 'text-green-500'
-                        }`}
-                      >
-                        {index === 0
-                          ? '🥇'
-                          : index === 1
-                            ? '🥈'
-                            : index === 2
-                              ? '🥉'
-                              : `#${index + 1}`}
-                      </div>
-                      <div>
-                        <div class="text-sm font-medium text-[rgb(var(--color-text))]">
-                          {topic.tag}
-                        </div>
-                        <div class="text-xs text-[rgb(var(--color-text-muted))]">
-                          {topic.earlyCount} → {topic.recentCount} writings
-                        </div>
-                      </div>
-                    </div>
-                    <div
-                      class="text-sm font-medium text-green-500"
-                      title={`Growth rate: ${Math.round(topic.growthRate)}% increase from early to recent periods`}
-                    >
-                      +{Math.round(topic.growthRate)}%
-                    </div>
-                  </div>
-                ))
-              }
+                            : 'text-red-500'
+                    }`}
+                    title={`Average Flesch reading ease score in ${period.period} period (higher = easier to read)`}
+                  >
+                    {period.avgComplexity}
+                  </span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-xs text-[rgb(var(--color-text-muted))] md:text-sm">
+                    Intellectual Depth:
+                  </span>
+                  <span
+                    class="text-xs font-medium text-[rgb(var(--color-text))] md:text-sm"
+                    title={`Average intellectual depth score in ${period.period} period`}
+                  >
+                    {period.avgIntellectualDepth}
+                  </span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-xs text-[rgb(var(--color-text-muted))] md:text-sm">
+                    Curiosity:
+                  </span>
+                  <span
+                    class="text-xs font-medium text-[rgb(var(--color-text))] md:text-sm"
+                    title={`Average curiosity indicators per post in ${period.period} period`}
+                  >
+                    {period.avgCuriosityCount}
+                  </span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-xs text-[rgb(var(--color-text-muted))] md:text-sm">
+                    Wisdom:
+                  </span>
+                  <span
+                    class="text-xs font-medium text-[rgb(var(--color-text))] md:text-sm"
+                    title={`Average wisdom indicators per post in ${period.period} period`}
+                  >
+                    {period.avgWisdomCount}
+                  </span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-xs text-[rgb(var(--color-text-muted))] md:text-sm">
+                    Writings:
+                  </span>
+                  <span
+                    class="text-xs font-medium text-[rgb(var(--color-text))] md:text-sm"
+                    title={`Number of writings in ${period.period} period`}
+                  >
+                    {period.postCount}
+                  </span>
+                </div>
+              </div>
             </div>
-          </div>
+          ))
+        }
+      </div>
+    </div>
 
-          <div>
-            <h3
-              class="mb-4 text-base font-semibold text-[rgb(var(--color-text))] md:mb-6 md:text-lg"
-            >
-              📉 Topics You're Focusing Less On
-            </h3>
-            <div class="space-y-4">
-              {
-                decliningTopics.map((topic, index) => (
-                  <div class="flex items-center justify-between rounded-lg bg-[rgb(var(--color-bg))] p-3">
-                    <div class="flex items-center gap-3">
-                      <div class="text-lg font-bold text-red-500">#{index + 1}</div>
-                      <div>
-                        <div class="text-sm font-medium text-[rgb(var(--color-text))]">
-                          {topic.tag}
-                        </div>
-                        <div class="text-xs text-[rgb(var(--color-text-muted))]">
-                          {topic.earlyCount} → {topic.recentCount} writings
-                        </div>
-                      </div>
-                    </div>
-                    <div
-                      class="text-sm font-medium text-red-500"
-                      title={`Decline rate: ${Math.round(topic.growthRate)}% decrease from early to recent periods`}
-                    >
-                      {Math.round(topic.growthRate)}%
-                    </div>
-                  </div>
-                ))
-              }
-            </div>
-          </div>
-        </div>
-
-        {/* Topic Evolution Timeline */}
-        <div class="mb-6 md:mb-8 lg:mb-10">
-          <h3 class="mb-4 text-base font-semibold text-[rgb(var(--color-text))] md:mb-6 md:text-lg">
-            📅 Your Intellectual Journey Timeline
-          </h3>
-          <div class="space-y-6">
-            {
-              quarters.slice(-8).map((quarter) => (
-                <div class="rounded-lg bg-[rgb(var(--color-bg))] p-4">
-                  <div class="mb-3 flex items-center justify-between">
-                    <h4 class="text-sm font-medium text-[rgb(var(--color-text))]">
-                      {quarter.label}
-                    </h4>
-                    <div
-                      class="text-xs text-[rgb(var(--color-text-muted))]"
-                      title={`${quarter.posts} writings with average ${quarter.avgWordCount} words and ${quarter.avgComplexity} complexity score`}
-                    >
-                      {quarter.posts} writings • {quarter.avgWordCount} avg words •{' '}
-                      {quarter.avgComplexity} complexity
-                    </div>
-                  </div>
-                  <div class="mb-3">
-                    <div class="mb-2 text-xs text-[rgb(var(--color-text-muted))]">Top Topics:</div>
-                    <div class="flex flex-wrap gap-2">
-                      {quarter.topTags.map((tag) => (
-                        <span
-                          class="rounded bg-[rgb(var(--color-accent))] px-2 py-1 text-xs text-white"
-                          title={`${tag.count} writings tagged with "${tag.tag}" in ${quarter.label}`}
-                        >
-                          {tag.tag} ({tag.count})
-                        </span>
-                      ))}
-                    </div>
+    {/* Topic Growth vs Decline Analysis */}
+    <div class="mb-6 grid grid-cols-1 gap-6 md:mb-8 md:gap-8 lg:mb-10 lg:grid-cols-2">
+      <div>
+        <h3 class="mb-4 text-base font-semibold text-[rgb(var(--color-text))] md:mb-6 md:text-lg">
+          📈 Topics with Increasing Frequency
+        </h3>
+        <p class="mb-4 text-xs text-[rgb(var(--color-text-muted))]">
+          Topics showing positive growth rate. Formula: growth_rate = ((recent_count - early_count)
+          / early_count) × 100
+        </p>
+        <div class="space-y-4">
+          {
+            growingTopics.map((topic, index) => (
+              <div class="flex items-center justify-between rounded-lg bg-[rgb(var(--color-bg))] p-3">
+                <div class="flex items-center gap-3">
+                  <div
+                    class={`text-lg font-bold ${
+                      index === 0
+                        ? 'text-yellow-500'
+                        : index === 1
+                          ? 'text-gray-400'
+                          : index === 2
+                            ? 'text-amber-600'
+                            : 'text-green-500'
+                    }`}
+                  >
+                    {index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : `#${index + 1}`}
                   </div>
                   <div>
-                    <div class="mb-2 text-xs text-[rgb(var(--color-text-muted))]">Categories:</div>
-                    <div class="flex flex-wrap gap-2">
-                      {quarter.topCategories.map((cat) => (
-                        <span
-                          class="rounded border bg-[rgb(var(--color-bg-secondary))] px-2 py-1 text-xs text-[rgb(var(--color-text))]"
-                          title={`${cat.count} writings in "${cat.cat}" category in ${quarter.label}`}
-                        >
-                          {cat.cat} ({cat.count})
-                        </span>
-                      ))}
+                    <div class="text-sm font-medium text-[rgb(var(--color-text))]">{topic.tag}</div>
+                    <div class="text-xs text-[rgb(var(--color-text-muted))]">
+                      {topic.earlyCount} → {topic.recentCount} writings
                     </div>
                   </div>
                 </div>
-              ))
-            }
-          </div>
+                <div
+                  class="text-sm font-medium text-green-500"
+                  title={`Growth rate: ${Math.round(topic.growthRate)}% increase from early to recent periods`}
+                >
+                  +{Math.round(topic.growthRate)}%
+                </div>
+              </div>
+            ))
+          }
         </div>
+      </div>
 
-        {/* Writing Maturity */}
-        <div class="mb-6 md:mb-8 lg:mb-10">
-          <h3 class="mb-4 text-base font-semibold text-[rgb(var(--color-text))] md:mb-6 md:text-lg">
-            🎓 Your Writing Maturity Indicators
-          </h3>
-          <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
-            <div class="rounded-lg bg-[rgb(var(--color-bg))] p-4 text-center">
-              <div
-                class="mb-2 text-2xl font-bold text-[rgb(var(--color-text))]"
-                title="Writings containing code blocks or inline code"
-              >
-                {maturityIndicators.filter((post) => post.hasCode).length}
-              </div>
-              <div class="text-sm text-[rgb(var(--color-text-muted))]">Writings with Code</div>
-              <div class="mt-1 text-xs text-blue-500">💻 Technical Depth</div>
-            </div>
-            <div class="rounded-lg bg-[rgb(var(--color-bg))] p-4 text-center">
-              <div
-                class="mb-2 text-2xl font-bold text-[rgb(var(--color-text))]"
-                title="Writings containing external links or URLs"
-              >
-                {maturityIndicators.filter((post) => post.hasLinks).length}
-              </div>
-              <div class="text-sm text-[rgb(var(--color-text-muted))]">Writings with Links</div>
-              <div class="mt-1 text-xs text-green-500">🔗 Research Quality</div>
-            </div>
-            <div class="rounded-lg bg-[rgb(var(--color-bg))] p-4 text-center">
-              <div
-                class="mb-2 text-2xl font-bold text-[rgb(var(--color-text))]"
-                title="Writings containing questions"
-              >
-                {maturityIndicators.filter((post) => post.hasQuestions).length}
-              </div>
-              <div class="text-sm text-[rgb(var(--color-text-muted))]">Writings with Questions</div>
-              <div class="mt-1 text-xs text-purple-500">❓ Curiosity</div>
-            </div>
-            <div class="rounded-lg bg-[rgb(var(--color-bg))] p-4 text-center">
-              <div
-                class="mb-2 text-2xl font-bold text-[rgb(var(--color-text))]"
-                title="Writings with more than 1000 words"
-              >
-                {maturityIndicators.filter((post) => post.wordCount > 1000).length}
-              </div>
-              <div class="text-sm text-[rgb(var(--color-text-muted))]">Long-form Writings</div>
-              <div class="mt-1 text-xs text-yellow-500">📝 Depth of Thought</div>
-            </div>
-          </div>
-        </div>
-
-        {/* Intellectual Growth Formulas */}
-        <div class="mb-6 md:mb-8 lg:mb-10">
-          <h3
-            class="mb-4 flex items-center gap-3 text-lg font-semibold text-[rgb(var(--color-text))] md:mb-6 md:text-xl"
-          >
-            <span class="text-2xl text-[rgb(var(--color-accent))]">📊</span>
-            Intellectual Growth Formulas
-          </h3>
-          <div class="space-y-6 md:space-y-8">
-            <div class="grid grid-cols-1 gap-6 md:gap-8 lg:grid-cols-2">
-              <div>
-                <h4
-                  class="mb-4 flex items-center gap-2 text-lg font-semibold text-[rgb(var(--color-text))]"
-                >
-                  <span class="text-blue-500">🧠</span>
-                  Complexity Analysis
-                </h4>
-                <div class="space-y-3 text-[rgb(var(--color-text-muted))]">
-                  <p>
-                    <strong class="text-[rgb(var(--color-text))]">Writing Complexity Trend:</strong>
-                    Increasing/Decreasing/Stable over time
-                  </p>
-                  <p>
-                    <strong class="text-[rgb(var(--color-text))]">Content Depth:</strong> Average words
-                    per post
-                  </p>
-                  <p>
-                    <strong class="text-[rgb(var(--color-text))]">Technical Depth:</strong> Posts with
-                    code blocks / Total posts
-                  </p>
-                  <p>
-                    <strong class="text-[rgb(var(--color-text))]">Research Quality:</strong> Posts with
-                    external links / Total posts
-                  </p>
-                </div>
-              </div>
-              <div>
-                <h4
-                  class="mb-4 flex items-center gap-2 text-lg font-semibold text-[rgb(var(--color-text))]"
-                >
-                  <span class="text-purple-500">📚</span>
-                  Knowledge Area Evolution
-                </h4>
-                <div class="space-y-3 text-[rgb(var(--color-text-muted))]">
-                  <p>
-                    <strong class="text-[rgb(var(--color-text))]">Topic Diversity:</strong> Number of
-                    distinct knowledge areas
-                  </p>
-                  <p>
-                    <strong class="text-[rgb(var(--color-text))]">Growth Trends:</strong> Growing/Declining/Stable
-                    topic areas
-                  </p>
-                  <p>
-                    <strong class="text-[rgb(var(--color-text))]">Focus Concentration:</strong> Top topic
-                    percentage of total posts
-                  </p>
-                  <p>
-                    <strong class="text-[rgb(var(--color-text))]">Exploration Depth:</strong> Average
-                    posts per knowledge area
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div class="grid grid-cols-1 gap-6 md:gap-8 lg:grid-cols-2">
-              <div>
-                <h4
-                  class="mb-4 flex items-center gap-2 text-lg font-semibold text-[rgb(var(--color-text))]"
-                >
-                  <span class="text-green-500">🎓</span>
-                  Maturity Indicators
-                </h4>
-                <div class="space-y-3 text-[rgb(var(--color-text-muted))]">
-                  <p>
-                    <strong class="text-[rgb(var(--color-text))]">Long-form Content:</strong> Posts >1000
-                    words / Total posts
-                  </p>
-                  <p>
-                    <strong class="text-[rgb(var(--color-text))]">Curiosity Level:</strong> Posts with
-                    questions / Total posts
-                  </p>
-                  <p>
-                    <strong class="text-[rgb(var(--color-text))]">Technical Integration:</strong> Code-containing
-                    posts / Total posts
-                  </p>
-                  <p>
-                    <strong class="text-[rgb(var(--color-text))]">Research Integration:</strong> Link-containing
-                    posts / Total posts
-                  </p>
-                </div>
-              </div>
-              <div>
-                <h4
-                  class="mb-4 flex items-center gap-2 text-lg font-semibold text-[rgb(var(--color-text))]"
-                >
-                  <span class="text-orange-500">📈</span>
-                  Learning Trajectory
-                </h4>
-                <div class="space-y-3 text-[rgb(var(--color-text-muted))]">
-                  <p>
-                    <strong class="text-[rgb(var(--color-text))]">Quarterly Growth:</strong> Post count
-                    and word count per quarter
-                  </p>
-                  <p>
-                    <strong class="text-[rgb(var(--color-text))]">Topic Evolution:</strong> Category
-                    distribution over time periods
-                  </p>
-                  <p>
-                    <strong class="text-[rgb(var(--color-text))]">Depth Progression:</strong> Average
-                    post length trend
-                  </p>
-                  <p>
-                    <strong class="text-[rgb(var(--color-text))]">Complexity Progression:</strong> Technical
-                    content frequency trend
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Analysis Conclusion */}
-        <div
-          class="rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg-secondary))] p-4 md:p-6"
-        >
-          <h3 class="mb-4 text-base font-semibold text-[rgb(var(--color-text))] md:mb-6 md:text-lg">
-            📈 Intellectual Growth Summary
-          </h3>
-          <div class="space-y-4">
-            {/* Dynamic Insights */}
-            <div class="space-y-2">
-              {
-                insights.map((insight, index) => (
-                  <div class={`flex items-center gap-2 ${insight.color}`}>
-                    <span class="text-sm">
-                      {insight.type === 'positive'
-                        ? '✅'
-                        : insight.type === 'negative'
-                          ? '❌'
-                          : insight.type === 'warning'
-                            ? '⚠️'
-                            : 'ℹ️'}
-                    </span>
-                    <span class="text-sm" set:html={insight.text} />
+      <div>
+        <h3 class="mb-4 text-base font-semibold text-[rgb(var(--color-text))] md:mb-6 md:text-lg">
+          📉 Topics with Decreasing Frequency
+        </h3>
+        <p class="mb-4 text-xs text-[rgb(var(--color-text-muted))]">
+          Topics showing negative growth rate. Formula: growth_rate = ((recent_count - early_count)
+          / early_count) × 100
+        </p>
+        <div class="space-y-4">
+          {
+            decliningTopics.map((topic, index) => (
+              <div class="flex items-center justify-between rounded-lg bg-[rgb(var(--color-bg))] p-3">
+                <div class="flex items-center gap-3">
+                  <div class="text-lg font-bold text-red-500">#{index + 1}</div>
+                  <div>
+                    <div class="text-sm font-medium text-[rgb(var(--color-text))]">{topic.tag}</div>
+                    <div class="text-xs text-[rgb(var(--color-text-muted))]">
+                      {topic.earlyCount} → {topic.recentCount} writings
+                    </div>
                   </div>
-                ))
-              }
-            </div>
+                </div>
+                <div
+                  class="text-sm font-medium text-red-500"
+                  title={`Decline rate: ${Math.round(topic.growthRate)}% decrease from early to recent periods`}
+                >
+                  {Math.round(topic.growthRate)}%
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </div>
 
-            {/* Summary */}
-            <div class="pt-4">
-              <p class="text-sm text-[rgb(var(--color-text-muted))]" set:html={summary} />
+    {/* Topic Evolution Timeline */}
+    <div class="mb-6 md:mb-8 lg:mb-10">
+      <h3 class="mb-4 text-base font-semibold text-[rgb(var(--color-text))] md:mb-6 md:text-lg">
+        📅 Topic Frequency Timeline by Quarter
+      </h3>
+      <p class="mb-4 text-xs text-[rgb(var(--color-text-muted))]">
+        Quarterly analysis of topic distribution and content metrics. Data shows post count, average
+        word count, and complexity score per quarter.
+      </p>
+      <div class="space-y-6">
+        {
+          quarters.slice(-8).map((quarter) => (
+            <div class="rounded-lg bg-[rgb(var(--color-bg))] p-4">
+              <div class="mb-3 flex items-center justify-between">
+                <h4 class="text-sm font-medium text-[rgb(var(--color-text))]">{quarter.label}</h4>
+                <div
+                  class="text-xs text-[rgb(var(--color-text-muted))]"
+                  title={`${quarter.posts} writings with average ${quarter.avgWordCount} words and ${quarter.avgComplexity} complexity score`}
+                >
+                  {quarter.posts} writings • {quarter.avgWordCount} avg words •{' '}
+                  {quarter.avgComplexity} complexity
+                </div>
+              </div>
+              <div class="mb-3">
+                <div class="mb-2 text-xs text-[rgb(var(--color-text-muted))]">Top Topics:</div>
+                <div class="flex flex-wrap gap-2">
+                  {quarter.topTags.map((tag) => (
+                    <span
+                      class="rounded bg-[rgb(var(--color-accent))] px-2 py-1 text-xs text-white"
+                      title={`${tag.count} writings tagged with "${tag.tag}" in ${quarter.label}`}
+                    >
+                      {tag.tag} ({tag.count})
+                    </span>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <div class="mb-2 text-xs text-[rgb(var(--color-text-muted))]">Categories:</div>
+                <div class="flex flex-wrap gap-2">
+                  {quarter.topCategories.map((cat) => (
+                    <span
+                      class="rounded border bg-[rgb(var(--color-bg-secondary))] px-2 py-1 text-xs text-[rgb(var(--color-text))]"
+                      title={`${cat.count} writings in "${cat.cat}" category in ${quarter.label}`}
+                    >
+                      {cat.cat} ({cat.count})
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+
+    {/* Writing Maturity */}
+    <div class="mb-6 md:mb-8 lg:mb-10">
+      <h3 class="mb-4 text-base font-semibold text-[rgb(var(--color-text))] md:mb-6 md:text-lg">
+        📊 Writing Maturity Metrics
+      </h3>
+      <p class="mb-4 text-xs text-[rgb(var(--color-text-muted))]">
+        Quantitative indicators of content maturity. Maturity score calculated as: (has_code × 2) +
+        has_links + has_images + has_quotes + has_questions + has_examples + (word_count > 1000 ? 2
+        : 0) + (intellectual_depth > 10 ? 2 : 0)
+      </p>
+      <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <div class="rounded-lg bg-[rgb(var(--color-bg))] p-4 text-center">
+          <div
+            class="mb-2 text-2xl font-bold text-[rgb(var(--color-text))]"
+            title="Writings containing code blocks or inline code"
+          >
+            {maturityIndicators.filter((post) => post.hasCode).length}
+          </div>
+          <div class="text-sm text-[rgb(var(--color-text-muted))]">Writings with Code</div>
+          <div class="mt-1 text-xs text-blue-500">💻 Technical Depth</div>
+        </div>
+        <div class="rounded-lg bg-[rgb(var(--color-bg))] p-4 text-center">
+          <div
+            class="mb-2 text-2xl font-bold text-[rgb(var(--color-text))]"
+            title="Writings containing external links or URLs"
+          >
+            {maturityIndicators.filter((post) => post.hasLinks).length}
+          </div>
+          <div class="text-sm text-[rgb(var(--color-text-muted))]">Writings with Links</div>
+          <div class="mt-1 text-xs text-green-500">🔗 Research Quality</div>
+        </div>
+        <div class="rounded-lg bg-[rgb(var(--color-bg))] p-4 text-center">
+          <div
+            class="mb-2 text-2xl font-bold text-[rgb(var(--color-text))]"
+            title="Writings containing questions"
+          >
+            {maturityIndicators.filter((post) => post.hasQuestions).length}
+          </div>
+          <div class="text-sm text-[rgb(var(--color-text-muted))]">Writings with Questions</div>
+          <div class="mt-1 text-xs text-purple-500">❓ Curiosity</div>
+        </div>
+        <div class="rounded-lg bg-[rgb(var(--color-bg))] p-4 text-center">
+          <div
+            class="mb-2 text-2xl font-bold text-[rgb(var(--color-text))]"
+            title="Writings with more than 1000 words"
+          >
+            {maturityIndicators.filter((post) => post.wordCount > 1000).length}
+          </div>
+          <div class="text-sm text-[rgb(var(--color-text-muted))]">Long-form Writings</div>
+          <div class="mt-1 text-xs text-yellow-500">📝 Depth of Thought</div>
+        </div>
+      </div>
+    </div>
+
+    {/* Intellectual Growth Formulas */}
+    <div class="mb-6 md:mb-8 lg:mb-10">
+      <h3
+        class="mb-4 flex items-center gap-3 text-lg font-semibold text-[rgb(var(--color-text))] md:mb-6 md:text-xl"
+      >
+        <span class="text-2xl text-[rgb(var(--color-accent))]">📊</span>
+        Intellectual Growth Formulas
+      </h3>
+      <div class="space-y-6 md:space-y-8">
+        <div class="grid grid-cols-1 gap-6 md:gap-8 lg:grid-cols-2">
+          <div>
+            <h4
+              class="mb-4 flex items-center gap-2 text-lg font-semibold text-[rgb(var(--color-text))]"
+            >
+              <span class="text-blue-500">🧠</span>
+              Complexity Analysis
+            </h4>
+            <div class="space-y-3 text-[rgb(var(--color-text-muted))]">
+              <p>
+                <strong class="text-[rgb(var(--color-text))]">Writing Complexity Trend:</strong>
+                Increasing/Decreasing/Stable over time
+              </p>
+              <p>
+                <strong class="text-[rgb(var(--color-text))]">Content Depth:</strong> Average words per
+                post
+              </p>
+              <p>
+                <strong class="text-[rgb(var(--color-text))]">Technical Depth:</strong> Posts with code
+                blocks / Total posts
+              </p>
+              <p>
+                <strong class="text-[rgb(var(--color-text))]">Research Quality:</strong> Posts with external
+                links / Total posts
+              </p>
+            </div>
+          </div>
+          <div>
+            <h4
+              class="mb-4 flex items-center gap-2 text-lg font-semibold text-[rgb(var(--color-text))]"
+            >
+              <span class="text-purple-500">📚</span>
+              Knowledge Area Evolution
+            </h4>
+            <div class="space-y-3 text-[rgb(var(--color-text-muted))]">
+              <p>
+                <strong class="text-[rgb(var(--color-text))]">Topic Diversity:</strong> Number of distinct
+                knowledge areas
+              </p>
+              <p>
+                <strong class="text-[rgb(var(--color-text))]">Growth Trends:</strong> Growing/Declining/Stable
+                topic areas
+              </p>
+              <p>
+                <strong class="text-[rgb(var(--color-text))]">Focus Concentration:</strong> Top topic
+                percentage of total posts
+              </p>
+              <p>
+                <strong class="text-[rgb(var(--color-text))]">Exploration Depth:</strong> Average posts
+                per knowledge area
+              </p>
             </div>
           </div>
         </div>
 
-        {/* Navigation Links */}
-        <div class="mt-8 border-t border-[rgb(var(--color-border))] pt-6 md:mt-12 md:pt-8">
-          <div class="flex flex-wrap justify-center gap-4 md:gap-6">
-            <a
-              href="/brain-science"
-              class="text-sm text-[rgb(var(--color-accent))] transition-colors hover:text-[rgb(var(--color-accent-hover))]"
+        <div class="grid grid-cols-1 gap-6 md:gap-8 lg:grid-cols-2">
+          <div>
+            <h4
+              class="mb-4 flex items-center gap-2 text-lg font-semibold text-[rgb(var(--color-text))]"
             >
-              🏠 Brain Science Dashboard
-            </a>
-            <a
-              href="/brain-science/insights"
-              class="text-sm text-[rgb(var(--color-accent))] transition-colors hover:text-[rgb(var(--color-accent-hover))]"
+              <span class="text-green-500">🎓</span>
+              Maturity Indicators
+            </h4>
+            <div class="space-y-3 text-[rgb(var(--color-text-muted))]">
+              <p>
+                <strong class="text-[rgb(var(--color-text))]">Long-form Content:</strong> Posts >1000
+                words / Total posts
+              </p>
+              <p>
+                <strong class="text-[rgb(var(--color-text))]">Curiosity Level:</strong> Posts with questions
+                / Total posts
+              </p>
+              <p>
+                <strong class="text-[rgb(var(--color-text))]">Technical Integration:</strong> Code-containing
+                posts / Total posts
+              </p>
+              <p>
+                <strong class="text-[rgb(var(--color-text))]">Research Integration:</strong> Link-containing
+                posts / Total posts
+              </p>
+            </div>
+          </div>
+          <div>
+            <h4
+              class="mb-4 flex items-center gap-2 text-lg font-semibold text-[rgb(var(--color-text))]"
             >
-              📊 Emotional Processing Analytics
-            </a>
-            <a
-              href="/brain-science/topics"
-              class="text-sm text-[rgb(var(--color-accent))] transition-colors hover:text-[rgb(var(--color-accent-hover))]"
-            >
-              🏷️ Core Themes Analysis
-            </a>
-            <a
-              href="/brain-science/cadence"
-              class="text-sm text-[rgb(var(--color-accent))] transition-colors hover:text-[rgb(var(--color-accent-hover))]"
-            >
-              📅 Writing Cadence Patterns
-            </a>
-            <a
-              href="/brain-science/patterns"
-              class="text-sm text-[rgb(var(--color-accent))] transition-colors hover:text-[rgb(var(--color-accent-hover))]"
-            >
-              🌀 Pattern Recognition
-            </a>
-            <a
-              href="/brain-science/meta"
-              class="text-sm text-[rgb(var(--color-accent))] transition-colors hover:text-[rgb(var(--color-accent-hover))]"
-            >
-              🔍 Meta Analysis
-            </a>
+              <span class="text-orange-500">📈</span>
+              Learning Trajectory
+            </h4>
+            <div class="space-y-3 text-[rgb(var(--color-text-muted))]">
+              <p>
+                <strong class="text-[rgb(var(--color-text))]">Quarterly Growth:</strong> Post count and
+                word count per quarter
+              </p>
+              <p>
+                <strong class="text-[rgb(var(--color-text))]">Topic Evolution:</strong> Category distribution
+                over time periods
+              </p>
+              <p>
+                <strong class="text-[rgb(var(--color-text))]">Depth Progression:</strong> Average post
+                length trend
+              </p>
+              <p>
+                <strong class="text-[rgb(var(--color-text))]">Complexity Progression:</strong> Technical
+                content frequency trend
+              </p>
+            </div>
           </div>
         </div>
       </div>
-    </Container>
-  </Container>
+    </div>
+
+    {/* Analysis Conclusion */}
+    <div
+      class="rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg-secondary))] p-4 md:p-6"
+    >
+      <h3 class="mb-4 text-base font-semibold text-[rgb(var(--color-text))] md:mb-6 md:text-lg">
+        📈 Intellectual Growth Summary
+      </h3>
+      <div class="space-y-4">
+        {/* Dynamic Insights */}
+        <div class="space-y-2">
+          {
+            insights.map((insight, index) => (
+              <div class={`flex items-center gap-2 ${insight.color}`}>
+                <span class="text-sm">
+                  {insight.type === 'positive'
+                    ? '✅'
+                    : insight.type === 'negative'
+                      ? '❌'
+                      : insight.type === 'warning'
+                        ? '⚠️'
+                        : 'ℹ️'}
+                </span>
+                <span class="text-sm" set:html={insight.text} />
+              </div>
+            ))
+          }
+        </div>
+
+        {/* Summary */}
+        <div class="pt-4">
+          <p class="text-sm text-[rgb(var(--color-text-muted))]" set:html={summary} />
+        </div>
+      </div>
+    </div>
+  </BrainScienceLayout>
 </BaseLayout>

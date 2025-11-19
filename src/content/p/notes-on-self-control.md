@@ -24,7 +24,6 @@ draft: false
 featured: false
 published: true
 showComments: true
-
 ---
 
 Self-control and curiosity are vessels for growth and peace. This world wants everything from us: our health, our attention, our wealth, and our time. It's such a hassle, and it's hard.

@@ -39,7 +39,6 @@ draft: false
 featured: true
 published: true
 showComments: true
-
 ---
 
 I've been thinking a lot about who raised me to be who I am. And I'm preparing an essay about that. _But this one is not about that._ This one is about the **fictional characters** that raised me.

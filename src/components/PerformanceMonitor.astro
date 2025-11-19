@@ -42,7 +42,6 @@
             const entries = list.getEntries();
             const lastEntry = entries[entries.length - 1];
             this.metrics.lcp = lastEntry.startTime;
-
           });
 
           observer.observe({ entryTypes: ['largest-contentful-paint'] });

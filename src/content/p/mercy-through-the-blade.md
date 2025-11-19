@@ -27,7 +27,6 @@ draft: false
 featured: true
 published: true
 showComments: true
-
 ---
 
 > This is a silent topic. Nobody really wants to talk about it. I think because it's uncomfortable. It exposes things most people would rather keep hidden. But here we go — no ego, no drama, just truth. If this resonates, or if it challenges you, leave a comment below. I'll reply to every comment personally. Let's sharpen each other the way warriors are supposed to — with presence, respect, and real conversation. ¡Gracias por leer!

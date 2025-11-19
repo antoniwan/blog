@@ -1,0 +1,80 @@
+---
+import { BRAIN_SCIENCE_PAGES } from '../../data/brainScience';
+
+interface Props {
+  currentPage: string; // Path of current page (e.g., '/brain-science' or '/brain-science/insights')
+  showNavLinks?: boolean; // Whether to show navigation links
+}
+
+const { currentPage, showNavLinks = true } = Astro.props;
+
+// Get current page info
+const currentPageInfo = BRAIN_SCIENCE_PAGES.find((page) => page.path === currentPage);
+const isIndexPage = currentPage === '/brain-science';
+
+// Get all pages for navigation
+const allPages = BRAIN_SCIENCE_PAGES;
+---
+
+{
+  showNavLinks && (
+    <nav
+      class="mb-8 border-b border-[rgb(var(--color-border))] md:mb-10"
+      aria-label="Brain Science Navigation"
+    >
+      <div class="flex flex-wrap gap-1 overflow-x-auto pb-2 md:gap-2">
+        {allPages.map((page) => {
+          const isActive = page.path === currentPage;
+          return (
+            <a
+              href={page.path}
+              class={`whitespace-nowrap rounded-t-lg px-3 py-2 text-sm font-medium transition-colors md:px-4 md:py-2.5 md:text-base ${
+                isActive
+                  ? 'border-b-2 border-[rgb(var(--color-accent))] bg-[rgb(var(--color-bg-alt))] text-[rgb(var(--color-accent))]'
+                  : 'text-[rgb(var(--color-text-muted))] hover:bg-[rgb(var(--color-bg-alt))] hover:text-[rgb(var(--color-text))]'
+              }`}
+              aria-current={isActive ? 'page' : undefined}
+            >
+              <span class="mr-1.5">{page.emoji}</span>
+              <span class="nav-text" data-short={page.title.split(' ')[0]} data-full={page.title}>
+                <span class="nav-text-mobile">{page.title.split(' ')[0]}</span>
+                <span class="nav-text-desktop">{page.title}</span>
+              </span>
+            </a>
+          );
+        })}
+      </div>
+    </nav>
+  )
+}
+
+<style>
+  /* Prevent layout shift by using absolute positioning for hidden text */
+  .nav-text {
+    position: relative;
+    display: inline-block;
+  }
+
+  .nav-text-mobile {
+    display: inline;
+  }
+
+  .nav-text-desktop {
+    display: none;
+  }
+
+  @media (min-width: 640px) {
+    .nav-text-mobile {
+      display: none;
+    }
+
+    .nav-text-desktop {
+      display: inline;
+    }
+  }
+
+  /* Ensure links don't cause layout recalculation */
+  nav a {
+    contain: layout;
+  }
+</style>

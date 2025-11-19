@@ -29,7 +29,6 @@ draft: false
 featured: false
 published: true
 showComments: true
-
 ---
 
 We are living in the most advanced moment in human history. That statement is fact, not fantasy. By nearly every measurable indicator — lifespan, access to education, reduction in absolute poverty, technological capability, global connectivity — humanity has reached its peak.

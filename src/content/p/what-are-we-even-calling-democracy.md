@@ -26,7 +26,6 @@ draft: false
 featured: false
 published: true
 showComments: true
-
 ---
 
 They keep calling it democracy.

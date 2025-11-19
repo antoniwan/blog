@@ -1,6 +1,6 @@
 # Notes
 
-[![Version](https://img.shields.io/badge/version-4.9.5-blue.svg)](https://github.com/antoniwan/notes/releases)
+[![Version](https://img.shields.io/badge/version-4.10.0-blue.svg)](https://github.com/antoniwan/notes/releases)
 
 A personal notes site exploring fatherhood, masculinity, culture, and modern collapse through raw reflections on thinking, consciousness, and the soft heart inside the hard world.
 
@@ -52,7 +52,7 @@ Visit `http://localhost:4321` to view the site.
 | `npm run standardize-frontmatter`    | Standardize frontmatter format          |
 | `npm run remove-legacy-reading-time` | Remove legacy reading time fields       |
 | `npm run validate-structured-data`   | Validate structured data implementation |
-| `npm run fix:hr-spacing`             | Fix horizontal rule spacing in content |
+| `npm run fix:hr-spacing`             | Fix horizontal rule spacing in content  |
 
 ## Project Structure
 

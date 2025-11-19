@@ -25,7 +25,6 @@ draft: false
 featured: false
 published: true
 showComments: true
-
 ---
 
 It finally clicked for me that being a mindful parent implies I have to model the behaviors I want my offspring to possess. Suppose I want my children to be excellent and happy. In that case, I must practice excellence and work to be a balanced and fulfilled individual. We set the tone! It's not the other way around — children learn everything from scratch!

@@ -6,7 +6,7 @@ description: >-
 pubDate: '2025-10-31T00:00:00.000Z'
 language:
   - en
-heroImage: "/images/2025/intelligence-burn.avif"
+heroImage: '/images/2025/intelligence-burn.avif'
 category:
   - psychology
   - integration-growth
@@ -26,7 +26,6 @@ draft: false
 featured: true
 published: true
 showComments: true
-
 ---
 
 People say they love intelligent people… until they actually have to deal with one.
@@ -58,5 +57,3 @@ Not just smart—steady.
 They want your light? Fine.
 
 But remember... **intelligence fucking burns.**
-
-

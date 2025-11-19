@@ -12,7 +12,7 @@ async function listFilesRecursive(dir) {
       const fullPath = path.join(dir, entry.name);
       if (entry.isDirectory()) return listFilesRecursive(fullPath);
       return fullPath;
-    })
+    }),
   );
   return files.flat();
 }
@@ -104,5 +104,3 @@ async function main() {
 main().catch((err) => {
   process.exitCode = 1;
 });
-
-

@@ -62,4 +62,3 @@ export function getExcerpt(content: string, maxLength: number = 160): string {
 
   return excerpt;
 }
-

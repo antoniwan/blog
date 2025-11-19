@@ -39,7 +39,6 @@ draft: false
 featured: true
 published: true
 showComments: true
-
 ---
 
 For weeks, I've been drowning in the world's problems — and almost forgot to love my own life. My thoughts, writings, and ramblings have been almost entirely consumed by problems—both microscopic and massive. From dissecting my own self-sabotaging tendencies and the constant work of staying open to feedback, to learning about the ongoing civil war in Sudan, the reality that Israel has universal healthcare- and we don't..., the Gaza crisis, and the tangled mess that our own government officials describe and prescribe… somewhere in that constant stream of madness, I got lost in the sauce.
@@ -66,7 +65,7 @@ It reminds me of that moment in _V for Vendetta_ when Evey finally understands w
 
 Because love terrifies the powerful. It can't be taxed, sanctioned, or legislated away. It doesn't need permission, and it multiplies every time it's given. In a world built to keep us afraid and divided, the simple act of loving — fully, openly, without condition — is the loudest rebellion we can stage.
 
-That's the revolution. *Love is the final revolution!*
+That's the revolution. _Love is the final revolution!_
 
 ---
 

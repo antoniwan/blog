@@ -22,7 +22,6 @@ draft: false
 featured: false
 published: true
 showComments: true
-
 ---
 
 Note-to-self!

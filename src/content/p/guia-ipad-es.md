@@ -29,7 +29,6 @@ draft: false
 featured: false
 published: true
 showComments: true
-
 ---
 
 ## Introducción: Nuestra Responsabilidad, No la de Ellos

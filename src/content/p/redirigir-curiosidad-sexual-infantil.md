@@ -29,7 +29,6 @@ draft: false
 featured: false
 published: true
 showComments: true
-
 ---
 
 Tengo una hija de 5 años y un hijastro que crié desde los 7 — hoy tiene 20. He criado con mucha curiosidad, observando, equivocándome, aprendiendo. Además, tengo sobrines con quienes he compartido desde juegos corporales hasta preguntas existenciales.
