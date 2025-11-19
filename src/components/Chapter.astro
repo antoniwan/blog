@@ -105,199 +105,115 @@ function formatRelativeTime(dateString: string): string {
 </div>
 
 <script>
-  // Storage constants - using direct values since import doesn't work in Astro client scripts
-  const STORAGE_KEY = 'blog-read-posts-v1.0';
-  const FALLBACK_KEY = 'blog-read-posts';
+  // ReadStateService is initialized by ReadStateServiceInit component in BaseLayout
+  // Get the singleton instance
+  const readStateService = (window as any).ReadStateService?.getInstance();
 
-  // Read/unread functionality using shared storage
-  class ReadTracker {
-    private storageKey = STORAGE_KEY;
-    private fallbackKey = FALLBACK_KEY;
-    private boundPostReadHandler: (event: any) => void;
-    private boundClearedHandler: () => void;
-    private boundStorageHandler: (event: any) => void;
-    private boundDataUpdatedHandler: (event: any) => void;
+  // Format relative read time (short format for Guided Path)
+  function formatRelativeTime(dateString: string): string {
+    const now = new Date();
+    const readDate = new Date(dateString);
+    const diffInMs = now.getTime() - readDate.getTime();
+    const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
+    const diffInHours = Math.floor(diffInMs / (1000 * 60 * 60));
+    const diffInMinutes = Math.floor(diffInMs / (1000 * 60));
 
-    constructor() {
-      this.boundPostReadHandler = this.handlePostRead.bind(this);
-      this.boundClearedHandler = this.handleClearedPosts.bind(this);
-      this.boundStorageHandler = this.handleStorageChange.bind(this);
-      this.boundDataUpdatedHandler = this.handleDataUpdated.bind(this);
-      this.init();
-    }
-
-    private loadReadPosts(): any[] {
-      try {
-        const stored =
-          localStorage.getItem(this.storageKey) || localStorage.getItem(this.fallbackKey);
-        if (!stored) return [];
-
-        const parsed = JSON.parse(stored);
-
-        // Validate data structure
-        if (!Array.isArray(parsed)) {
-          return [];
-        }
-
-        // Filter and validate individual items
-        return parsed.filter((item) => {
-          if (!item || typeof item !== 'object') return false;
-
-          const hasValidSlug = typeof item.postSlug === 'string' && item.postSlug.trim().length > 0;
-          const hasValidDate = typeof item.readAt === 'string' && !isNaN(Date.parse(item.readAt));
-
-          if (!hasValidSlug || !hasValidDate) {
-            return false;
-          }
-
-          return true;
-        });
-      } catch (error) {
-        return [];
-      }
-    }
-
-    private getReadData(postSlug: string): any | null {
-      const readData = this.loadReadPosts();
-      return readData.find((data: any) => data.postSlug === postSlug) || null;
-    }
-
-    private formatRelativeTime(dateString: string): string {
-      const now = new Date();
-      const readDate = new Date(dateString);
-      const diffInMs = now.getTime() - readDate.getTime();
-      const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
-      const diffInHours = Math.floor(diffInMs / (1000 * 60 * 60));
-      const diffInMinutes = Math.floor(diffInMs / (1000 * 60));
-
-      if (diffInDays > 0) {
-        return diffInDays === 1 ? 'Read a day ago' : `Read ${diffInDays} days ago`;
-      } else if (diffInHours > 0) {
-        return diffInHours === 1 ? 'Read an hour ago' : `Read ${diffInHours} hours ago`;
-      } else if (diffInMinutes > 0) {
-        return diffInMinutes === 1 ? 'Read a minute ago' : `Read ${diffInMinutes} minutes ago`;
+    if (diffInDays > 0) {
+      if (diffInDays === 1) {
+        return 'Read a day ago';
+      } else if (diffInDays < 7) {
+        return `Read ${diffInDays} days ago`;
+      } else if (diffInDays < 30) {
+        const weeks = Math.floor(diffInDays / 7);
+        return weeks === 1 ? 'Read a week ago' : `Read ${weeks} weeks ago`;
+      } else if (diffInDays < 365) {
+        const months = Math.floor(diffInDays / 30);
+        return months === 1 ? 'Read a month ago' : `Read ${months} months ago`;
       } else {
-        return 'Read just now';
+        const years = Math.floor(diffInDays / 365);
+        return years === 1 ? 'Read a year ago' : `Read ${years} years ago`;
       }
+    } else if (diffInHours > 0) {
+      return diffInHours === 1 ? 'Read an hour ago' : `Read ${diffInHours} hours ago`;
+    } else if (diffInMinutes > 0) {
+      return diffInMinutes === 1 ? 'Read a minute ago' : `Read ${diffInMinutes} minutes ago`;
+    } else {
+      return 'Read just now';
     }
+  }
 
-    private updateIndicators(): void {
-      document.querySelectorAll('.read-status').forEach((statusElement) => {
-        const postSlug = (statusElement as HTMLElement).dataset.postSlug;
-        const iconElement = statusElement.querySelector('.status-icon') as HTMLElement;
-        const textElement = statusElement.querySelector('.status-text') as HTMLElement;
+  function updateIndicators(): void {
+    if (!readStateService) return; // Exit early if service not available
 
-        if (postSlug) {
-          const readData = this.getReadData(postSlug);
-          const readingTimeElement = document.querySelector(
-            `.reading-time[data-post-slug="${postSlug}"]`,
-          ) as HTMLElement;
+    document.querySelectorAll('.read-status').forEach((statusElement) => {
+      const postSlug = (statusElement as HTMLElement).dataset.postSlug;
+      const iconElement = statusElement.querySelector('.status-icon') as HTMLElement;
+      const textElement = statusElement.querySelector('.status-text') as HTMLElement;
 
-          if (readData) {
-            iconElement.textContent = '✅';
-            textElement.textContent = this.formatRelativeTime(readData.readAt);
-            statusElement.classList.add('read');
-            // Hide reading time for read posts
-            if (readingTimeElement) {
-              readingTimeElement.style.display = 'none';
-            }
-          } else {
-            iconElement.textContent = '⭕';
-            textElement.textContent = 'Unread';
-            statusElement.classList.remove('read');
-            // Show reading time for unread posts
-            if (readingTimeElement) {
-              readingTimeElement.style.display = 'inline';
-            }
+      if (postSlug) {
+        const readData = readStateService.getReadData(postSlug);
+        const readingTimeElement = document.querySelector(
+          `.reading-time[data-post-slug="${postSlug}"]`,
+        ) as HTMLElement;
+
+        if (readData) {
+          iconElement.textContent = '✅';
+          textElement.textContent = formatRelativeTime(readData.readAt);
+          statusElement.classList.add('read');
+          // Hide reading time for read posts
+          if (readingTimeElement) {
+            readingTimeElement.style.display = 'none';
+          }
+        } else {
+          iconElement.textContent = '⭕';
+          textElement.textContent = 'Unread';
+          statusElement.classList.remove('read');
+          // Show reading time for unread posts
+          if (readingTimeElement) {
+            readingTimeElement.style.display = 'inline';
           }
         }
-      });
-
-      // Update chapter progress
-      this.updateChapterProgress();
-    }
-
-    private updateChapterProgress(): void {
-      document.querySelectorAll('.chapter-progress').forEach((progressElement) => {
-        const chapterId = (progressElement as HTMLElement).dataset.chapterId;
-        if (!chapterId) return;
-
-        const chapterContent = document.getElementById(`chapter-${chapterId}`);
-        if (!chapterContent) return;
-
-        const posts = chapterContent.querySelectorAll('.post-item');
-        const readPosts = chapterContent.querySelectorAll('.post-item .read-status.read');
-
-        const totalPosts = posts.length;
-        const readCount = readPosts.length;
-        const percentage = totalPosts > 0 ? Math.round((readCount / totalPosts) * 100) : 0;
-
-        // Update progress bar
-        const progressFill = progressElement.querySelector('.progress-fill') as HTMLElement;
-        if (progressFill) {
-          progressFill.style.width = `${percentage}%`;
-        }
-
-        // Update progress text
-        const progressText = progressElement.querySelector('.progress-text') as HTMLElement;
-        if (progressText) {
-          progressText.textContent = `${percentage}%`;
-        }
-
-        // Add completion class for styling
-        if (percentage === 100) {
-          progressElement.classList.add('completed');
-        } else {
-          progressElement.classList.remove('completed');
-        }
-      });
-    }
-
-    private handlePostRead(event: any): void {
-      this.updateIndicators();
-    }
-
-    private handleClearedPosts(): void {
-      this.updateIndicators();
-    }
-
-    private handleStorageChange(event: any): void {
-      // React to localStorage changes from other tabs/windows
-      if (event.key === this.storageKey || event.key === this.fallbackKey) {
-        this.updateIndicators();
       }
-    }
+    });
 
-    private handleDataUpdated(event: any): void {
-      // React to immediate data updates from same tab
-      if (event.detail?.type === 'post-read') {
-        this.updateIndicators();
+    // Update chapter progress
+    updateChapterProgress();
+  }
+
+  function updateChapterProgress(): void {
+    document.querySelectorAll('.chapter-progress').forEach((progressElement) => {
+      const chapterId = (progressElement as HTMLElement).dataset.chapterId;
+      if (!chapterId) return;
+
+      const chapterContent = document.getElementById(`chapter-${chapterId}`);
+      if (!chapterContent) return;
+
+      const posts = chapterContent.querySelectorAll('.post-item');
+      const readPosts = chapterContent.querySelectorAll('.post-item .read-status.read');
+
+      const totalPosts = posts.length;
+      const readCount = readPosts.length;
+      const percentage = totalPosts > 0 ? Math.round((readCount / totalPosts) * 100) : 0;
+
+      // Update progress bar
+      const progressFill = progressElement.querySelector('.progress-fill') as HTMLElement;
+      if (progressFill) {
+        progressFill.style.width = `${percentage}%`;
       }
-    }
 
-    private init(): void {
-      // Update indicators on page load
-      this.updateIndicators();
+      // Update progress text
+      const progressText = progressElement.querySelector('.progress-text') as HTMLElement;
+      if (progressText) {
+        progressText.textContent = `${percentage}%`;
+      }
 
-      // Listen for post-read events from other components
-      window.addEventListener('post-read', this.boundPostReadHandler);
-
-      // Listen for read-posts-cleared events
-      window.addEventListener('read-posts-cleared', this.boundClearedHandler);
-
-      // Listen for storage events (cross-tab synchronization)
-      window.addEventListener('storage', this.boundStorageHandler);
-
-      // Listen for immediate data updates (same-tab reactivity)
-      window.addEventListener('reading-data-updated', this.boundDataUpdatedHandler);
-    }
-
-    cleanup(): void {
-      window.removeEventListener('post-read', this.boundPostReadHandler);
-      window.removeEventListener('read-posts-cleared', this.boundClearedHandler);
-      window.removeEventListener('storage', this.boundStorageHandler);
-      window.removeEventListener('reading-data-updated', this.boundDataUpdatedHandler);
-    }
+      // Add completion class for styling
+      if (percentage === 100) {
+        progressElement.classList.add('completed');
+      } else {
+        progressElement.classList.remove('completed');
+      }
+    });
   }
 
   // Chapter expand/collapse functionality
@@ -338,24 +254,40 @@ function formatRelativeTime(dateString: string): string {
     }
   }
 
-  // Initialize when DOM is ready
-  let readTracker: ReadTracker;
+  // Subscribe to read state changes (only if service is available)
+  let unsubscribe: (() => void) | null = null;
   let chapterManager: ChapterManager;
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
-      readTracker = new ReadTracker();
-      chapterManager = new ChapterManager();
+  if (readStateService) {
+    unsubscribe = readStateService.subscribeToAll(() => {
+      updateIndicators();
     });
+
+    // Initial update
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', () => {
+        updateIndicators();
+        chapterManager = new ChapterManager();
+      });
+    } else {
+      updateIndicators();
+      chapterManager = new ChapterManager();
+    }
   } else {
-    readTracker = new ReadTracker();
-    chapterManager = new ChapterManager();
+    // Initialize chapter manager even if service not available
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', () => {
+        chapterManager = new ChapterManager();
+      });
+    } else {
+      chapterManager = new ChapterManager();
+    }
   }
 
   // Cleanup on page unload
   window.addEventListener('beforeunload', () => {
-    if (readTracker) {
-      readTracker.cleanup();
+    if (unsubscribe) {
+      unsubscribe();
     }
   });
 </script>
