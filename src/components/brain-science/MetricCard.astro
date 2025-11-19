@@ -37,8 +37,12 @@ const displayValue =
     {displayValue}
   </div>
   <div class="text-xs text-[rgb(var(--color-text-muted))] md:text-sm">{label}</div>
-  {subtitle && (
-    <div class:list={['mt-1 text-xs', color]}>{emoji && `${emoji} `}{subtitle}</div>
-  )}
+  {
+    subtitle && (
+      <div class:list={['mt-1 text-xs', color]}>
+        {emoji && `${emoji} `}
+        {subtitle}
+      </div>
+    )
+  }
 </div>
-

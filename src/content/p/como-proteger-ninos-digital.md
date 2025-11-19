@@ -28,7 +28,6 @@ featured: false
 published: true
 showComments: true
 translationGroup: toddler-internet-safety
-
 ---
 
 ## Nuestra responsabilidad digital como padres y madres

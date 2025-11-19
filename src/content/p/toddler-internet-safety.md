@@ -28,7 +28,6 @@ featured: false
 published: true
 showComments: true
 translationGroup: toddler-internet-safety
-
 ---
 
 ## Our Digital Responsibility as Parents
@@ -89,7 +88,7 @@ The Internet is NOT made for children. It's a wild field filled with beauty, but
 
 - Ask gently:
 
-  > How did it feel to see that?" 
+  > How did it feel to see that?"
   > Did someone show it to you, or did it pop up by accident?
 
 - Explain:

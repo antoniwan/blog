@@ -21,88 +21,89 @@ const sortedCategories = await getSortedCategories();
     mainNavigation.map((item) => {
       // Check if current path matches this nav item
       // For category pages, check if pathname starts with /category/
-      const isActive = item.href === '/category/'
-        ? Astro.url.pathname.startsWith('/category/')
-        : Astro.url.pathname === item.href;
+      const isActive =
+        item.href === '/category/'
+          ? Astro.url.pathname.startsWith('/category/')
+          : Astro.url.pathname === item.href;
 
       return (
-      <div class="group relative">
-        <a
-          href={item.href}
-          class="transition-normal relative rounded-lg px-3 py-2 text-sm font-medium"
-          class:list={[
-            'text-[rgb(var(--color-text-muted))] hover:bg-[rgb(var(--color-bg-alt))] hover:text-[rgb(var(--color-accent))]',
-            {
-              'bg-[rgb(var(--color-accent))]/10 text-[rgb(var(--color-accent))] shadow-sm':
-                isActive,
-            },
-          ]}
-          aria-current={isActive ? 'page' : undefined}
-          transition:name={`nav-${item.href.replace('/', '').replace(/\/$/, '') || 'home'}`}
-        >
-          <span class="relative z-10">{item.label}</span>
-          {isActive && (
-            <span class="absolute inset-0 -z-10 rounded-lg bg-[rgb(var(--color-accent))]/10" />
-          )}
-        </a>
+        <div class="group relative">
+          <a
+            href={item.href}
+            class="transition-normal relative rounded-lg px-3 py-2 text-sm font-medium"
+            class:list={[
+              'text-[rgb(var(--color-text-muted))] hover:bg-[rgb(var(--color-bg-alt))] hover:text-[rgb(var(--color-accent))]',
+              {
+                'bg-[rgb(var(--color-accent))]/10 text-[rgb(var(--color-accent))] shadow-sm':
+                  isActive,
+              },
+            ]}
+            aria-current={isActive ? 'page' : undefined}
+            transition:name={`nav-${item.href.replace('/', '').replace(/\/$/, '') || 'home'}`}
+          >
+            <span class="relative z-10">{item.label}</span>
+            {isActive && (
+              <span class="absolute inset-0 -z-10 rounded-lg bg-[rgb(var(--color-accent))]/10" />
+            )}
+          </a>
 
-        {/* Dropdown for categories */}
-        {item.dropdown && item.href === '/category/' && (
-          <div class="invisible absolute left-0 top-full z-50 mt-1 w-64 rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg))] opacity-0 shadow-lg transition-all duration-200 ease-in-out group-hover:visible group-hover:opacity-100">
-            <div class="p-2">
-              <div class="mb-2 border-b border-[rgb(var(--color-border))] px-3 py-2 text-xs font-semibold uppercase tracking-wide text-[rgb(var(--color-text-muted))]">
-                {item.dropdown.label}
+          {/* Dropdown for categories */}
+          {item.dropdown && item.href === '/category/' && (
+            <div class="invisible absolute left-0 top-full z-50 mt-1 w-64 rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg))] opacity-0 shadow-lg transition-all duration-200 ease-in-out group-hover:visible group-hover:opacity-100">
+              <div class="p-2">
+                <div class="mb-2 border-b border-[rgb(var(--color-border))] px-3 py-2 text-xs font-semibold uppercase tracking-wide text-[rgb(var(--color-text-muted))]">
+                  {item.dropdown.label}
+                </div>
+                <div class="space-y-1">
+                  {sortedCategories.map((category) => (
+                    <a
+                      href={`/category/${category.id}/`}
+                      class="text-body-muted transition-fast flex items-center justify-between rounded-md px-3 py-2 text-sm hover:bg-[rgb(var(--color-bg-alt))] hover:text-[rgb(var(--color-accent))]"
+                    >
+                      <div class="flex items-center gap-3">
+                        {category.icon && (
+                          <span class="text-lg" aria-hidden="true">
+                            {category.icon}
+                          </span>
+                        )}
+                        <span>{category.name}</span>
+                      </div>
+                      <span class="rounded-full bg-[rgb(var(--color-bg-alt))] px-2 py-1 text-xs text-[rgb(var(--color-text-muted))]">
+                        {category.postCount}
+                      </span>
+                    </a>
+                  ))}
+                </div>
               </div>
-              <div class="space-y-1">
-                {sortedCategories.map((category) => (
-                  <a
-                    href={`/category/${category.id}/`}
-                    class="text-body-muted transition-fast flex items-center justify-between rounded-md px-3 py-2 text-sm hover:bg-[rgb(var(--color-bg-alt))] hover:text-[rgb(var(--color-accent))]"
-                  >
-                    <div class="flex items-center gap-3">
-                      {category.icon && (
+            </div>
+          )}
+
+          {/* Dropdown for other items (Resources, etc.) */}
+          {item.dropdown && item.href !== '/category/' && (
+            <div class="invisible absolute left-0 top-full z-50 mt-1 w-64 rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg))] opacity-0 shadow-lg transition-all duration-200 ease-in-out group-hover:visible group-hover:opacity-100">
+              <div class="p-2">
+                <div class="mb-2 border-b border-[rgb(var(--color-border))] px-3 py-2 text-xs font-semibold uppercase tracking-wide text-[rgb(var(--color-text-muted))]">
+                  {item.dropdown.label}
+                </div>
+                <div class="space-y-1">
+                  {item.dropdown.items.map((dropdownItem) => (
+                    <a
+                      href={dropdownItem.href}
+                      class="text-body-muted transition-fast flex items-center gap-3 rounded-md px-3 py-2 text-sm hover:bg-[rgb(var(--color-bg-alt))] hover:text-[rgb(var(--color-accent))]"
+                    >
+                      {dropdownItem.icon && (
                         <span class="text-lg" aria-hidden="true">
-                          {category.icon}
+                          {dropdownItem.icon}
                         </span>
                       )}
-                      <span>{category.name}</span>
-                    </div>
-                    <span class="rounded-full bg-[rgb(var(--color-bg-alt))] px-2 py-1 text-xs text-[rgb(var(--color-text-muted))]">
-                      {category.postCount}
-                    </span>
-                  </a>
-                ))}
+                      <span>{dropdownItem.label}</span>
+                    </a>
+                  ))}
+                </div>
               </div>
             </div>
-          </div>
-        )}
-
-        {/* Dropdown for other items (Resources, etc.) */}
-        {item.dropdown && item.href !== '/category/' && (
-          <div class="invisible absolute left-0 top-full z-50 mt-1 w-64 rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg))] opacity-0 shadow-lg transition-all duration-200 ease-in-out group-hover:visible group-hover:opacity-100">
-            <div class="p-2">
-              <div class="mb-2 border-b border-[rgb(var(--color-border))] px-3 py-2 text-xs font-semibold uppercase tracking-wide text-[rgb(var(--color-text-muted))]">
-                {item.dropdown.label}
-              </div>
-              <div class="space-y-1">
-                {item.dropdown.items.map((dropdownItem) => (
-                  <a
-                    href={dropdownItem.href}
-                    class="text-body-muted transition-fast flex items-center gap-3 rounded-md px-3 py-2 text-sm hover:bg-[rgb(var(--color-bg-alt))] hover:text-[rgb(var(--color-accent))]"
-                  >
-                    {dropdownItem.icon && (
-                      <span class="text-lg" aria-hidden="true">
-                        {dropdownItem.icon}
-                      </span>
-                    )}
-                    <span>{dropdownItem.label}</span>
-                  </a>
-                ))}
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
+          )}
+        </div>
       );
     })
   }

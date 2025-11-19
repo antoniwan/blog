@@ -92,9 +92,7 @@ export async function getBrainSciencePosts(): Promise<CollectionEntry<'blog'>[]>
 /**
  * Calculate base metrics from posts
  */
-export function calculateBaseMetrics(
-  posts: CollectionEntry<'blog'>[],
-): BaseMetrics {
+export function calculateBaseMetrics(posts: CollectionEntry<'blog'>[]): BaseMetrics {
   const totalPosts = posts.length;
   const totalWords = posts.reduce((sum, post) => {
     const content = post.body;
@@ -102,13 +100,16 @@ export function calculateBaseMetrics(
   }, 0);
   const averageWordsPerPost = totalPosts > 0 ? Math.round(totalWords / totalPosts) : 0;
 
-  const sortedPosts = [...posts].sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+  const sortedPosts = [...posts].sort(
+    (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+  );
   const firstPostDate = sortedPosts[sortedPosts.length - 1]?.data.pubDate;
   const lastPostDate = sortedPosts[0]?.data.pubDate;
   const daysSinceFirstPost = firstPostDate
     ? Math.floor((Date.now() - firstPostDate.getTime()) / (1000 * 60 * 60 * 24))
     : 0;
-  const postsPerDay = daysSinceFirstPost > 0 ? Number((totalPosts / daysSinceFirstPost).toFixed(2)) : 0;
+  const postsPerDay =
+    daysSinceFirstPost > 0 ? Number((totalPosts / daysSinceFirstPost).toFixed(2)) : 0;
 
   return {
     totalPosts,
@@ -175,9 +176,7 @@ export function calculateCategoryFrequency(
 /**
  * Calculate Maslow hierarchy analysis
  */
-export function calculateMaslowAnalysis(
-  posts: CollectionEntry<'blog'>[],
-): Array<{
+export function calculateMaslowAnalysis(posts: CollectionEntry<'blog'>[]): Array<{
   key: string;
   title: string;
   description: string;
@@ -209,7 +208,9 @@ export function calculateMonthlyPosts(
   lastPostDate?: Date,
 ): MonthlyPostData[] {
   if (!firstPostDate || !lastPostDate) {
-    const sortedPosts = [...posts].sort((a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf());
+    const sortedPosts = [...posts].sort(
+      (a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf(),
+    );
     firstPostDate = sortedPosts[0]?.data.pubDate;
     lastPostDate = sortedPosts[sortedPosts.length - 1]?.data.pubDate;
   }
@@ -245,7 +246,9 @@ export function calculateWeeklyPosts(
   lastPostDate?: Date,
 ): WeeklyPostData[] {
   if (!firstPostDate || !lastPostDate) {
-    const sortedPosts = [...posts].sort((a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf());
+    const sortedPosts = [...posts].sort(
+      (a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf(),
+    );
     firstPostDate = sortedPosts[0]?.data.pubDate;
     lastPostDate = sortedPosts[sortedPosts.length - 1]?.data.pubDate;
   }
@@ -325,8 +328,10 @@ export function calculateMonthOfYearStats(posts: CollectionEntry<'blog'>[]): Mon
  * Calculate writing streaks and dry spells
  */
 export function calculateStreakMetrics(posts: CollectionEntry<'blog'>[]): StreakMetrics {
-  const sortedPosts = [...posts].sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
-  
+  const sortedPosts = [...posts].sort(
+    (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+  );
+
   if (sortedPosts.length < 2) {
     return {
       currentStreak: sortedPosts.length,
@@ -342,8 +347,10 @@ export function calculateStreakMetrics(posts: CollectionEntry<'blog'>[]): Streak
   for (let i = 0; i < sortedPosts.length - 1; i++) {
     const currentDate = sortedPosts[i].data.pubDate;
     const nextDate = sortedPosts[i + 1].data.pubDate;
-    const daysDiff = Math.floor((currentDate.getTime() - nextDate.getTime()) / (1000 * 60 * 60 * 24));
-    
+    const daysDiff = Math.floor(
+      (currentDate.getTime() - nextDate.getTime()) / (1000 * 60 * 60 * 24),
+    );
+
     if (daysDiff <= 7) {
       currentStreak++;
     } else {
@@ -362,7 +369,9 @@ export function calculateStreakMetrics(posts: CollectionEntry<'blog'>[]): Streak
   for (let i = 0; i < sortedPosts.length - 1; i++) {
     const currentDate = sortedPosts[i].data.pubDate;
     const nextDate = sortedPosts[i + 1].data.pubDate;
-    const daysDiff = Math.floor((currentDate.getTime() - nextDate.getTime()) / (1000 * 60 * 60 * 24));
+    const daysDiff = Math.floor(
+      (currentDate.getTime() - nextDate.getTime()) / (1000 * 60 * 60 * 24),
+    );
 
     if (daysDiff <= 7) {
       // Within streak
@@ -465,7 +474,10 @@ export function calculateGrowthPosts(posts: CollectionEntry<'blog'>[]): number {
 /**
  * Calculate emotional posts (posts with high emotional intensity)
  */
-export function calculateEmotionalPosts(posts: CollectionEntry<'blog'>[], threshold: number = 5): number {
+export function calculateEmotionalPosts(
+  posts: CollectionEntry<'blog'>[],
+  threshold: number = 5,
+): number {
   const emotionalWords = [
     'love',
     'hate',
@@ -503,7 +515,9 @@ export function prepareTimeSeriesData(
 ): Array<{ label: string; date: Date; value: number }> {
   if (posts.length === 0) return [];
 
-  const sortedPosts = [...posts].sort((a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf());
+  const sortedPosts = [...posts].sort(
+    (a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf(),
+  );
   const firstDate = sortedPosts[0].data.pubDate;
   const lastDate = sortedPosts[sortedPosts.length - 1].data.pubDate;
 
@@ -512,7 +526,7 @@ export function prepareTimeSeriesData(
 
   while (currentDate <= lastDate) {
     intervals.push(new Date(currentDate));
-    
+
     if (interval === 'month') {
       currentDate.setMonth(currentDate.getMonth() + 1);
     } else if (interval === 'quarter') {
@@ -525,7 +539,7 @@ export function prepareTimeSeriesData(
   return intervals.map((intervalDate) => {
     const intervalStart = new Date(intervalDate);
     const intervalEnd = new Date(intervalDate);
-    
+
     if (interval === 'month') {
       intervalEnd.setMonth(intervalEnd.getMonth() + 1);
     } else if (interval === 'quarter') {
@@ -538,9 +552,10 @@ export function prepareTimeSeriesData(
       (post) => post.data.pubDate >= intervalStart && post.data.pubDate < intervalEnd,
     );
 
-    const value = postsInInterval.length > 0
-      ? postsInInterval.reduce((sum, post) => sum + metricFn(post), 0) / postsInInterval.length
-      : 0;
+    const value =
+      postsInInterval.length > 0
+        ? postsInInterval.reduce((sum, post) => sum + metricFn(post), 0) / postsInInterval.length
+        : 0;
 
     let label: string;
     if (interval === 'month') {
@@ -587,4 +602,3 @@ export function calculateCorrelation(
   const denominator = Math.sqrt(sumSq1 * sumSq2);
   return denominator === 0 ? 0 : numerator / denominator;
 }
-

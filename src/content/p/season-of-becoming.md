@@ -32,7 +32,7 @@ published: true
 showComments: true
 ---
 
-*A line in the sand.*
+_A line in the sand._
 
 If you're reading anything I wrote before this date, do it at your own risk.
 

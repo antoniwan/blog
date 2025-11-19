@@ -28,8 +28,8 @@ const DATASET_COLORS_DARK = [
  * This function is designed to be called from client-side scripts
  */
 export function getChartTheme() {
-  const isDark = typeof document !== 'undefined' && 
-    document.documentElement.classList.contains('dark');
+  const isDark =
+    typeof document !== 'undefined' && document.documentElement.classList.contains('dark');
 
   return {
     text: isDark ? 'rgb(255, 255, 255)' : 'rgb(17, 24, 39)',
@@ -43,16 +43,18 @@ export function getChartTheme() {
 /**
  * Get default Chart.js options with consistent theming
  */
-export function getChartOptions(config: {
-  yAxisLabel?: string;
-  xAxisLabel?: string;
-  showLegend?: boolean;
-  stacked?: boolean;
-  beginAtZero?: boolean;
-  xAxisRotation?: { max?: number; min?: number };
-} = {}) {
+export function getChartOptions(
+  config: {
+    yAxisLabel?: string;
+    xAxisLabel?: string;
+    showLegend?: boolean;
+    stacked?: boolean;
+    beginAtZero?: boolean;
+    xAxisRotation?: { max?: number; min?: number };
+  } = {},
+) {
   const theme = getChartTheme();
-  
+
   const {
     yAxisLabel = '',
     xAxisLabel = '',
@@ -165,7 +167,7 @@ export function getChartOptions(config: {
 export function applyDatasetTheme(
   dataset: any,
   index: number,
-  defaultColors?: { border?: string; background?: string }
+  defaultColors?: { border?: string; background?: string },
 ) {
   const theme = getChartTheme();
   const colorIndex = index % theme.datasetColors.length;
@@ -178,4 +180,3 @@ export function applyDatasetTheme(
     borderWidth: dataset.borderWidth ?? 2,
   };
 }
-

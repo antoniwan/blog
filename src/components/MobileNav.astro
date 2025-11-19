@@ -60,74 +60,75 @@ const sortedCategories = await getSortedCategories();
         mainNavigation.map((item) => {
           // Check if current path matches this nav item
           // For category pages, check if pathname starts with /category/
-          const isActive = item.href === '/category/'
-            ? Astro.url.pathname.startsWith('/category/')
-            : Astro.url.pathname === item.href;
+          const isActive =
+            item.href === '/category/'
+              ? Astro.url.pathname.startsWith('/category/')
+              : Astro.url.pathname === item.href;
 
           return (
-          <div class="space-y-2">
-            <a
-              href={item.href}
-              class="theme-transition flex items-center justify-between rounded-xl px-4 py-4 text-xl font-semibold text-[rgb(var(--color-text))] hover:bg-[rgb(var(--color-bg-alt))]"
-              aria-current={isActive ? 'page' : undefined}
-            >
-              <span>{item.label}</span>
-              {item.dropdown && (
-                <svg
-                  class="h-5 w-5 text-[rgb(var(--color-text-muted))]"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M9 5l7 7-7 7"
-                  />
-                </svg>
-              )}
-            </a>
-            {item.dropdown && item.href === '/category/' && (
-              <div class="ml-4 space-y-1">
-                {sortedCategories.map((category) => (
-                  <a
-                    href={`/category/${category.id}/`}
-                    class="theme-transition flex items-center justify-between rounded-lg px-4 py-3 text-lg text-[rgb(var(--color-text-muted))] hover:bg-[rgb(var(--color-bg-alt))]"
+            <div class="space-y-2">
+              <a
+                href={item.href}
+                class="theme-transition flex items-center justify-between rounded-xl px-4 py-4 text-xl font-semibold text-[rgb(var(--color-text))] hover:bg-[rgb(var(--color-bg-alt))]"
+                aria-current={isActive ? 'page' : undefined}
+              >
+                <span>{item.label}</span>
+                {item.dropdown && (
+                  <svg
+                    class="h-5 w-5 text-[rgb(var(--color-text-muted))]"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
                   >
-                    <div class="flex items-center gap-3">
-                      {category.icon && (
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M9 5l7 7-7 7"
+                    />
+                  </svg>
+                )}
+              </a>
+              {item.dropdown && item.href === '/category/' && (
+                <div class="ml-4 space-y-1">
+                  {sortedCategories.map((category) => (
+                    <a
+                      href={`/category/${category.id}/`}
+                      class="theme-transition flex items-center justify-between rounded-lg px-4 py-3 text-lg text-[rgb(var(--color-text-muted))] hover:bg-[rgb(var(--color-bg-alt))]"
+                    >
+                      <div class="flex items-center gap-3">
+                        {category.icon && (
+                          <span class="text-xl" aria-hidden="true">
+                            {category.icon}
+                          </span>
+                        )}
+                        <span>{category.name}</span>
+                      </div>
+                      <span class="rounded-full bg-[rgb(var(--color-bg-alt))] px-2 py-1 text-sm text-[rgb(var(--color-text-muted))]">
+                        {category.postCount}
+                      </span>
+                    </a>
+                  ))}
+                </div>
+              )}
+              {item.dropdown && item.href !== '/category/' && (
+                <div class="ml-4 space-y-1">
+                  {item.dropdown.items.map((dropdownItem) => (
+                    <a
+                      href={dropdownItem.href}
+                      class="theme-transition flex items-center gap-3 rounded-lg px-4 py-3 text-lg text-[rgb(var(--color-text-muted))] hover:bg-[rgb(var(--color-bg-alt))]"
+                    >
+                      {dropdownItem.icon && (
                         <span class="text-xl" aria-hidden="true">
-                          {category.icon}
+                          {dropdownItem.icon}
                         </span>
                       )}
-                      <span>{category.name}</span>
-                    </div>
-                    <span class="rounded-full bg-[rgb(var(--color-bg-alt))] px-2 py-1 text-sm text-[rgb(var(--color-text-muted))]">
-                      {category.postCount}
-                    </span>
-                  </a>
-                ))}
-              </div>
-            )}
-            {item.dropdown && item.href !== '/category/' && (
-              <div class="ml-4 space-y-1">
-                {item.dropdown.items.map((dropdownItem) => (
-                  <a
-                    href={dropdownItem.href}
-                    class="theme-transition flex items-center gap-3 rounded-lg px-4 py-3 text-lg text-[rgb(var(--color-text-muted))] hover:bg-[rgb(var(--color-bg-alt))]"
-                  >
-                    {dropdownItem.icon && (
-                      <span class="text-xl" aria-hidden="true">
-                        {dropdownItem.icon}
-                      </span>
-                    )}
-                    <span>{dropdownItem.label}</span>
-                  </a>
-                ))}
-              </div>
-            )}
-          </div>
+                      <span>{dropdownItem.label}</span>
+                    </a>
+                  ))}
+                </div>
+              )}
+            </div>
           );
         })
       }

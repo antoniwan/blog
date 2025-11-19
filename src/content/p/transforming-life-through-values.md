@@ -28,7 +28,6 @@ draft: false
 featured: true
 published: true
 showComments: true
-
 ---
 
 > Warning: The following essay is a lengthy humblebrag! Close your browser tab now if you are unable to experience freudenfreude. Close your browser tab now if you do not want to take responsibility for your life and are hurt when others can do so.

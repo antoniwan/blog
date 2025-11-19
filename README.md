@@ -52,7 +52,7 @@ Visit `http://localhost:4321` to view the site.
 | `npm run standardize-frontmatter`    | Standardize frontmatter format          |
 | `npm run remove-legacy-reading-time` | Remove legacy reading time fields       |
 | `npm run validate-structured-data`   | Validate structured data implementation |
-| `npm run fix:hr-spacing`             | Fix horizontal rule spacing in content |
+| `npm run fix:hr-spacing`             | Fix horizontal rule spacing in content  |
 
 ## Project Structure
 

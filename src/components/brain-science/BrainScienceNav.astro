@@ -36,11 +36,7 @@ const allPages = BRAIN_SCIENCE_PAGES;
               aria-current={isActive ? 'page' : undefined}
             >
               <span class="mr-1.5">{page.emoji}</span>
-              <span 
-                class="nav-text" 
-                data-short={page.title.split(' ')[0]}
-                data-full={page.title}
-              >
+              <span class="nav-text" data-short={page.title.split(' ')[0]} data-full={page.title}>
                 <span class="nav-text-mobile">{page.title.split(' ')[0]}</span>
                 <span class="nav-text-desktop">{page.title}</span>
               </span>

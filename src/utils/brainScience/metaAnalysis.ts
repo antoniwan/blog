@@ -44,17 +44,14 @@ export interface MetaEvolutionData {
 /**
  * Detect meta-language patterns using compromise.js NLP
  */
-export function detectMetaLanguage(
-  content: string,
-  title: string,
-): MetaLanguagePattern[] {
+export function detectMetaLanguage(content: string, title: string): MetaLanguagePattern[] {
   const patterns: MetaLanguagePattern[] = [];
   const doc = nlp(content);
 
   // Writing-about-writing patterns
   const writingVerbs = doc.match('#Verb+ (writing|write|wrote|written)');
   const writingNouns = doc.match('(writing|post|blog|article|piece|essay)');
-  
+
   writingVerbs.forEach((match: any) => {
     const sentence = match.sentence().text();
     if (sentence.toLowerCase().includes('writing') || sentence.toLowerCase().includes('write')) {
@@ -161,9 +158,7 @@ export function detectMetaLanguage(
 /**
  * Analyze writing philosophy for a single post
  */
-export function analyzeWritingPhilosophy(
-  post: CollectionEntry<'blog'>,
-): WritingPhilosophyAnalysis {
+export function analyzeWritingPhilosophy(post: CollectionEntry<'blog'>): WritingPhilosophyAnalysis {
   const content = post.body || '';
   const title = post.data.title;
   const metaPatterns = detectMetaLanguage(content, title);
@@ -171,16 +166,17 @@ export function analyzeWritingPhilosophy(
   // Calculate self-awareness score (0-100)
   const selfAwarenessScore = Math.min(
     100,
-    (metaPatterns.length * 10) +
-      (metaPatterns.filter((p) => p.type === 'self-reflection').length * 15) +
-      (metaPatterns.filter((p) => p.type === 'recursive-thinking').length * 20),
+    metaPatterns.length * 10 +
+      metaPatterns.filter((p) => p.type === 'self-reflection').length * 15 +
+      metaPatterns.filter((p) => p.type === 'recursive-thinking').length * 20,
   );
 
   // Determine if writing is discussed as subject vs tool
   const writingAsSubject = metaPatterns.some(
     (p) => p.type === 'writing-about-writing' && p.context !== 'title',
   );
-  const writingAsTool = content.toLowerCase().includes('writing helps') ||
+  const writingAsTool =
+    content.toLowerCase().includes('writing helps') ||
     content.toLowerCase().includes('writing allows') ||
     content.toLowerCase().includes('writing enables');
 
@@ -217,9 +213,7 @@ export function analyzeAllWritingPhilosophy(
 /**
  * Calculate evolution of writing relationship over time
  */
-export function analyzeWritingEvolution(
-  posts: CollectionEntry<'blog'>[],
-): MetaEvolutionData[] {
+export function analyzeWritingEvolution(posts: CollectionEntry<'blog'>[]): MetaEvolutionData[] {
   const analyses = analyzeAllWritingPhilosophy(posts);
   const sortedAnalyses = analyses.sort((a, b) => a.postDate.valueOf() - b.postDate.valueOf());
 
@@ -229,54 +223,51 @@ export function analyzeWritingEvolution(
   const lastDate = sortedAnalyses[sortedAnalyses.length - 1].postDate;
   const quarters = eachQuarterOfInterval({ start: firstDate, end: lastDate });
 
-  return quarters.map((quarterStart) => {
-    const quarterEnd = endOfQuarter(quarterStart);
-    const quarterLabel = `Q${Math.floor(quarterStart.getMonth() / 3) + 1} ${quarterStart.getFullYear()}`;
+  return quarters
+    .map((quarterStart) => {
+      const quarterEnd = endOfQuarter(quarterStart);
+      const quarterLabel = `Q${Math.floor(quarterStart.getMonth() / 3) + 1} ${quarterStart.getFullYear()}`;
 
-    const quarterAnalyses = sortedAnalyses.filter(
-      (analysis) =>
-        analysis.postDate >= quarterStart && analysis.postDate <= quarterEnd,
-    );
+      const quarterAnalyses = sortedAnalyses.filter(
+        (analysis) => analysis.postDate >= quarterStart && analysis.postDate <= quarterEnd,
+      );
 
-    if (quarterAnalyses.length === 0) {
+      if (quarterAnalyses.length === 0) {
+        return {
+          quarter: quarterLabel,
+          label: quarterLabel,
+          date: quarterStart,
+          metaLanguageFrequency: 0,
+          selfAwarenessScore: 0,
+          writingAsSubjectRatio: 0,
+          recursiveThinkingCount: 0,
+          avgSentiment: 0,
+          postCount: 0,
+        };
+      }
+
+      const totalMetaLanguage = quarterAnalyses.reduce((sum, a) => sum + a.metaLanguageCount, 0);
+      const avgSelfAwareness =
+        quarterAnalyses.reduce((sum, a) => sum + a.selfAwarenessScore, 0) / quarterAnalyses.length;
+      const writingAsSubjectCount = quarterAnalyses.filter((a) => a.writingAsSubject).length;
+      const recursiveThinkingCount = quarterAnalyses.filter((a) => a.recursiveThinking).length;
+      const avgSentiment =
+        quarterAnalyses.reduce((sum, a) => sum + a.sentiment.comparative, 0) /
+        quarterAnalyses.length;
+
       return {
         quarter: quarterLabel,
         label: quarterLabel,
         date: quarterStart,
-        metaLanguageFrequency: 0,
-        selfAwarenessScore: 0,
-        writingAsSubjectRatio: 0,
-        recursiveThinkingCount: 0,
-        avgSentiment: 0,
-        postCount: 0,
+        metaLanguageFrequency: totalMetaLanguage / quarterAnalyses.length,
+        selfAwarenessScore: Math.round(avgSelfAwareness),
+        writingAsSubjectRatio: (writingAsSubjectCount / quarterAnalyses.length) * 100,
+        recursiveThinkingCount,
+        avgSentiment: Math.round(avgSentiment * 100) / 100,
+        postCount: quarterAnalyses.length,
       };
-    }
-
-    const totalMetaLanguage = quarterAnalyses.reduce(
-      (sum, a) => sum + a.metaLanguageCount,
-      0,
-    );
-    const avgSelfAwareness =
-      quarterAnalyses.reduce((sum, a) => sum + a.selfAwarenessScore, 0) /
-      quarterAnalyses.length;
-    const writingAsSubjectCount = quarterAnalyses.filter((a) => a.writingAsSubject).length;
-    const recursiveThinkingCount = quarterAnalyses.filter((a) => a.recursiveThinking).length;
-    const avgSentiment =
-      quarterAnalyses.reduce((sum, a) => sum + a.sentiment.comparative, 0) /
-      quarterAnalyses.length;
-
-    return {
-      quarter: quarterLabel,
-      label: quarterLabel,
-      date: quarterStart,
-      metaLanguageFrequency: totalMetaLanguage / quarterAnalyses.length,
-      selfAwarenessScore: Math.round(avgSelfAwareness),
-      writingAsSubjectRatio: (writingAsSubjectCount / quarterAnalyses.length) * 100,
-      recursiveThinkingCount,
-      avgSentiment: Math.round(avgSentiment * 100) / 100,
-      postCount: quarterAnalyses.length,
-    };
-  }).filter((q) => q.postCount > 0);
+    })
+    .filter((q) => q.postCount > 0);
 }
 
 /**
@@ -287,9 +278,7 @@ export function getMostSelfAwarePosts(
   limit: number = 10,
 ): WritingPhilosophyAnalysis[] {
   const analyses = analyzeAllWritingPhilosophy(posts);
-  return analyses
-    .sort((a, b) => b.selfAwarenessScore - a.selfAwarenessScore)
-    .slice(0, limit);
+  return analyses.sort((a, b) => b.selfAwarenessScore - a.selfAwarenessScore).slice(0, limit);
 }
 
 /**
@@ -305,9 +294,7 @@ export function getWritingAboutWritingPosts(
 /**
  * Calculate overall meta metrics
  */
-export function calculateMetaMetrics(
-  posts: CollectionEntry<'blog'>[],
-): {
+export function calculateMetaMetrics(posts: CollectionEntry<'blog'>[]): {
   totalPosts: number;
   postsWithMetaLanguage: number;
   avgSelfAwarenessScore: number;
@@ -329,11 +316,11 @@ export function calculateMetaMetrics(
     writingAsSubjectCount: analyses.filter((a) => a.writingAsSubject).length,
     writingAsToolCount: analyses.filter((a) => a.writingAsTool).length,
     recursiveThinkingCount: analyses.filter((a) => a.recursiveThinking).length,
-    avgMetaSentiment: Math.round(
-      (analyses.reduce((sum, a) => sum + a.sentiment.comparative, 0) / analyses.length) * 100,
-    ) / 100,
+    avgMetaSentiment:
+      Math.round(
+        (analyses.reduce((sum, a) => sum + a.sentiment.comparative, 0) / analyses.length) * 100,
+      ) / 100,
     metaLanguageFrequency:
       analyses.reduce((sum, a) => sum + a.metaLanguageCount, 0) / analyses.length,
   };
 }
-

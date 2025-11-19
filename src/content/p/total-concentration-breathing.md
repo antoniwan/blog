@@ -25,7 +25,6 @@ draft: false
 featured: false
 published: true
 showComments: true
-
 ---
 
 ## 🔄 Breathing Cycle

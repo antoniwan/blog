@@ -28,7 +28,6 @@ draft: false
 featured: true
 published: true
 showComments: true
-
 ---
 
 I've been thinking about getting a tattoo—or many—but I can't pull the trigger. There's something about having a "clean" body that feels sacred. Still, the idea of _customizing_ it, of turning my body into a living archive of meaning, also deeply appeals to me.

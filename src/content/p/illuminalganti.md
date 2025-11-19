@@ -26,7 +26,6 @@ draft: false
 featured: false
 published: true
 showComments: true
-
 ---
 
 I opened my Bluesky account for the first time.

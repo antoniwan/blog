@@ -180,7 +180,7 @@ const { class: className = '', postId } = Astro.props;
     const progressBar = document.querySelector('[role="progressbar"]') as HTMLElement;
     const postId = progressBar?.dataset?.postId;
     if (postId) return postId;
-    
+
     // Fallback: extract from URL path (stops at first slash, no trailing slash)
     const path = window.location.pathname;
     const match = path.match(/\/p\/([^\/]+)/);

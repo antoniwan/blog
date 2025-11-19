@@ -58,7 +58,8 @@ export const BRAIN_SCIENCE_PAGES: BrainSciencePage[] = [
     id: 'index',
     path: '/brain-science',
     title: 'Writing Analytics & Self-Discovery',
-    description: 'Scientific analysis of writing patterns, measurable insights, and data-driven self-discovery.',
+    description:
+      'Scientific analysis of writing patterns, measurable insights, and data-driven self-discovery.',
     icon: '🧠',
     emoji: '🧠',
   },
@@ -66,7 +67,8 @@ export const BRAIN_SCIENCE_PAGES: BrainSciencePage[] = [
     id: 'insights',
     path: '/brain-science/insights',
     title: 'Emotional Processing Analytics',
-    description: 'Objective analysis of emotional patterns, vulnerability indicators, and confidence metrics in writing.',
+    description:
+      'Objective analysis of emotional patterns, vulnerability indicators, and confidence metrics in writing.',
     icon: '💡',
     emoji: '💡',
   },
@@ -174,4 +176,3 @@ export function getAllBrainSciencePages(): BrainSciencePage[] {
 export function getBrainScienceConfig(): BrainScienceConfig {
   return BRAIN_SCIENCE_CONFIG;
 }
-

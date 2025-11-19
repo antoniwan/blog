@@ -30,7 +30,6 @@ featured: true
 published: true
 showComments: true
 translationGroup: recovery-progress-report
-
 ---
 
 I'm a 38-year-old recovering narcissist documenting what it looks like to rebuild a human being from scratch.

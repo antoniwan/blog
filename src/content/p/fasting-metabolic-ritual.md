@@ -25,7 +25,6 @@ draft: false
 featured: false
 published: true
 showComments: true
-
 ---
 
 ## 🌄 From Hunger to Power: Fasting as a Metabolic Reset

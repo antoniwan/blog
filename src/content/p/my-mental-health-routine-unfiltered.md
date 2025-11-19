@@ -25,7 +25,6 @@ draft: false
 featured: false
 published: true
 showComments: true
-
 ---
 
 I’ve spent the last 14 days rebuilding my nervous system from the ground up after completing assessing and reviewing my intelligence and medical health, bloodwork, sexual health, cholesterol, prostate, who knows, I got so many things done on myself; I even got myself a vasectomy appointment in the process. LOL

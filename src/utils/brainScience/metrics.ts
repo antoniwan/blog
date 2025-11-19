@@ -133,9 +133,7 @@ export const SENTIMENT_WORDS = {
 /**
  * Calculate sentiment analysis for posts
  */
-export function calculateSentiment(
-  posts: CollectionEntry<'blog'>[],
-): {
+export function calculateSentiment(posts: CollectionEntry<'blog'>[]): {
   positive: number;
   negative: number;
   neutral: number;
@@ -187,7 +185,9 @@ export function calculateSentiment(
 export function calculatePostingRegularity(posts: CollectionEntry<'blog'>[]): number {
   if (posts.length < 2) return 100;
 
-  const sortedPosts = [...posts].sort((a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf());
+  const sortedPosts = [...posts].sort(
+    (a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf(),
+  );
   const intervals: number[] = [];
 
   for (let i = 1; i < sortedPosts.length; i++) {
@@ -202,7 +202,7 @@ export function calculatePostingRegularity(posts: CollectionEntry<'blog'>[]): nu
   const variance =
     intervals.reduce((sum, interval) => sum + Math.pow(interval - avgInterval, 2), 0) /
     intervals.length;
-  
+
   // Lower variance = higher consistency
   // Normalize to 0-100 scale
   const consistency = Math.max(0, 100 - variance / 10);
@@ -245,7 +245,7 @@ export function calculateQualityVariance(posts: CollectionEntry<'blog'>[]): numb
   const variance =
     wordCounts.reduce((sum, count) => sum + Math.pow(count - avgWordCount, 2), 0) /
     wordCounts.length;
-  
+
   // Normalize variance to 0-100 scale
   const normalizedVariance = Math.min(100, Math.round(variance / 10));
   return normalizedVariance;
@@ -427,4 +427,3 @@ export function getSentimentThresholds() {
 export function getImprovementTargets() {
   return config.improvementTargets;
 }
-

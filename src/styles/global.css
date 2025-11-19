@@ -252,7 +252,6 @@
     border-bottom: none;
   }
 
-
   /* Responsive table improvements */
   @media (max-width: 768px) {
     table {
@@ -458,7 +457,7 @@
   }
 
   .search-result-description {
-    @apply mb-2.5 mt-0 text-xs leading-relaxed text-body-muted;
+    @apply text-body-muted mb-2.5 mt-0 text-xs leading-relaxed;
     overflow: hidden;
     display: -webkit-box;
     -webkit-box-orient: vertical;
@@ -494,7 +493,6 @@
     opacity: 1;
   }
 }
-
 
 /* Image Modal Styles */
 .image-modal {

@@ -77,7 +77,7 @@ export function generateMetaTags(config: SEOConfig): MetaTags {
   const isHomepage = path === '/' || path === '';
   const isAboutPage = path === '/about' || title.toLowerCase().includes('about antonio');
   const titleSuffix = 'Notes by Antonio Rodriguez Martinez';
-  
+
   let fullTitle: string;
   if (isHomepage) {
     fullTitle = titleSuffix;

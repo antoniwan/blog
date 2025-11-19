@@ -71,4 +71,3 @@ export async function getHighlights(): Promise<Highlight[]> {
 
   return highlights;
 }
-

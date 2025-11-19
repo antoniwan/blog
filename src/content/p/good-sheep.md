@@ -30,16 +30,16 @@ draft: false
 featured: true
 published: true
 showComments: true
-
 ---
 
 > ## A Note Before We Begin
+>
 > This essay might trigger you. If it does, please stop reading rather than lashing out at the messenger.
 > Let me be clear: I enjoyed my Universal Studios experience. My daughter loved it. We spent 9:30am to 5pm and only got on two rides - the second queue we waited in for over 40 minutes before the machine broke down right in front of us. I wish I was making this up for dramatic effect, but that's exactly what happened. My daughter still had a magical day, and I'm glad we went.
 > This essay is not about you or me personally. It's not about individual experiences or personal choices. It's not an attack on anyone who enjoys theme parks, fast food, or pre-recorded concerts. This is observational analysis - a report on systems and patterns that exist regardless of how any individual feels about them.
 > I'm not "flaunting about being better" or claiming moral superiority. I participate in these systems too. I've eaten the fast food, waited in the lines, enjoyed the algorithmic playlists. The point isn't to shame anyone for finding pleasure in these experiences - the point is to examine what these systems are doing to us collectively.
 > The fact that people derive genuine pleasure from these experiences doesn't invalidate the systemic critique. In fact, as you'll see, that pleasure is often part of the mechanism itself. We can acknowledge that something feels good while also examining what it's doing to us collectively.
->So let's talk shop, shall we?
+> So let's talk shop, shall we?
 
 ## The Moment of Recognition
 
@@ -56,7 +56,7 @@ The sheep machine isn't just processing our time and money - it's processing our
 Universal Studios was just the moment of clarity. The sheep machine is everywhere, and it's been running for over 150 years. And we've been conditioned to love our own systematic abuse.
 
 ![Fun times](/images/lord-take-us-all.avif)
-*Whenever you are ready Lord, take us all*
+_Whenever you are ready Lord, take us all_
 
 ## The Taste of Our Own Destruction
 
@@ -170,13 +170,13 @@ Sound familiar? We pay to wait in lines for hours because it temporarily distrac
 
 The sheep machine exploits the same psychological vulnerabilities that drive clinical self-destruction: the desire "to feel something, especially if they feel numb or empty," "to block out painful memories or emotions," and "to release unpleasant emotions such as anger, hopelessness or depression."
 
-> BTW, whenever I bring this up in a group of normies, I will be attacked, I will trigger people, this topic is so touch-feely nasty, while we just should be objective and observe, and talk about what we see, experience, feel, think, a lot, plenty, we must talk about this shit!! 
+> BTW, whenever I bring this up in a group of normies, I will be attacked, I will trigger people, this topic is so touch-feely nasty, while we just should be objective and observe, and talk about what we see, experience, feel, think, a lot, plenty, we must talk about this shit!!
 
 But here's the crucial difference: clinical self-destructive behavior is recognized as harmful and treated. When it's recognized right? We know how this song and dance goes. But ironically, Corporate-induced self-destructive behavior is celebrated as consumer choice and economic participation. What?!
 
 Psychological abuse is characterized by "the systematic diminishment of another" and often involves withholding as a form of control. The sheep machine operates exactly this way - systematically diminishing our **agency** while withholding authentic experience unless we pay increasingly steep prices for increasingly hollow substitutes.
 
-When you pay $13 for beer and wait 2.5 hours for a 5-minute ride, when you applaud pre-recorded concerts, when you let algorithms choose your music, you're engaging in conditioned self-destructive behavior. When you eat the lies our systems, governments, and world leaders tell us when we are WATCHING HISTORY UNFOLD FOR OURSELVES. The immediate "relief" - the brief entertainment, the social belonging, the decision fatigue reduction - masks the long-term harm to your autonomy, your time, and your capacity for authentic experience. 
+When you pay $13 for beer and wait 2.5 hours for a 5-minute ride, when you applaud pre-recorded concerts, when you let algorithms choose your music, you're engaging in conditioned self-destructive behavior. When you eat the lies our systems, governments, and world leaders tell us when we are WATCHING HISTORY UNFOLD FOR OURSELVES. The immediate "relief" - the brief entertainment, the social belonging, the decision fatigue reduction - masks the long-term harm to your autonomy, your time, and your capacity for authentic experience.
 
 Each acceptance of corporate overreach makes the next one easier. We're being slowly poisoned, and we've learned to call it dining. The food's getting worse, but we've forgotten what real nutrition tastes like.
 
@@ -379,4 +379,4 @@ Legal and psychological framework for understanding abuse that uses non-physical
 
 **Fast-Pass Mentality** - Paying extra to avoid artificial suffering that shouldn't exist, while accepting the system that creates it.
 
-**Endorphin Exploitation** - Systems that provide genuine pleasure from ultimately harmful behaviors, masking long-term damage. 
+**Endorphin Exploitation** - Systems that provide genuine pleasure from ultimately harmful behaviors, masking long-term damage.

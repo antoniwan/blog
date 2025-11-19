@@ -27,7 +27,6 @@ draft: false
 featured: false
 published: true
 showComments: true
-
 ---
 
 Found this interesting note in my archives:

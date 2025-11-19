@@ -506,7 +506,9 @@ export function calculateObjectiveMetrics(posts: CollectionEntry<'blog'>[]): {
   const qualityVariance = calculateQualityVariance(posts);
 
   // Get dates for improvement calculations
-  const sortedPosts = [...posts].sort((a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf());
+  const sortedPosts = [...posts].sort(
+    (a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf(),
+  );
   const firstPostDate = sortedPosts[0]?.data.pubDate;
   const lastPostDate = sortedPosts[sortedPosts.length - 1]?.data.pubDate;
 

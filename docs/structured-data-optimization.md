@@ -91,7 +91,10 @@ Our structured data implementation follows Schema.org standards and Google's str
   "inLanguage": "en-US",
   "articleSection": "psychology",
   "wordCount": 1500,
-  "mainEntityOfPage": { "@type": "WebPage", "@id": "https://notes.antoniwan.online/p/article-slug" },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://notes.antoniwan.online/p/article-slug"
+  },
   "isPartOf": { "@type": "Blog", "name": "Blog", "url": "https://notes.antoniwan.online" },
   "about": [
     { "@type": "Thing", "name": "psychology" },
@@ -112,7 +115,12 @@ Our structured data implementation follows Schema.org standards and Google's str
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
   "itemListElement": [
-    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://notes.antoniwan.online" },
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://notes.antoniwan.online"
+    },
     {
       "@type": "ListItem",
       "position": 2,

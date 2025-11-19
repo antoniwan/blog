@@ -282,11 +282,19 @@ const chartData = {
     }
   }
 
+  // Error handler for chart initialization
+  function handleChartError(error) {
+    // Error handling - console will be stripped in production via terser
+    if (typeof console !== 'undefined' && console.error) {
+      console.error('Failed to initialize chart:', error);
+    }
+  }
+
   // Initialize chart on load
-  initChart().catch(console.error);
+  initChart().catch(handleChartError);
 
   // Re-initialize chart when theme changes
   window.addEventListener('themechange', () => {
-    initChart().catch(console.error);
+    initChart().catch(handleChartError);
   });
 </script>

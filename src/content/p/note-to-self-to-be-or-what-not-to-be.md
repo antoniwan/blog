@@ -24,7 +24,6 @@ draft: false
 featured: false
 published: true
 showComments: true
-
 ---
 
 To be negative, I must assume negativity; to be resentful, I must bear affliction; to be hateful, I must bring hate into my life. To be petty, I must force myself to behave inconsequentially.

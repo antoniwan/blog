@@ -25,7 +25,6 @@ draft: false
 featured: false
 published: true
 showComments: true
-
 ---
 
 These books have given me the tools and techniques to be a conscious and powerful human being. A stoic whose life is entirely up to myself (or so I think, right?!). My days have intention and focus. My values are reflected in every single decision that I take throughout my day. Walking the talk, I call it.

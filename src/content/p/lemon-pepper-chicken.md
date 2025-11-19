@@ -26,7 +26,6 @@ draft: false
 featured: false
 published: true
 showComments: true
-
 ---
 
 _Created by Antonio. Logged by Beastiex._  
