@@ -84,7 +84,7 @@ const updatedDateISO = updatedDate?.toISOString();
 
 <!-- Critical Resource Preloading -->
 {heroImage && <link rel="preload" href={heroImage} as="image" />}
-<link rel="preload" href="/images/default.avif" as="image" />
+{!heroImage && <link rel="preload" href="/images/default.avif" as="image" />}
 
 <!-- Theme & Color -->
 <meta name="theme-color" content="#3b82f6" media="(prefers-color-scheme: light)" />
@@ -207,30 +207,99 @@ const updatedDateISO = updatedDate?.toISOString();
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="preconnect" href="https://giscus.app" />
+<link rel="preconnect" href="https://vitals.vercel-insights.com" />
+<link rel="preconnect" href="https://va.vercel-scripts.com" />
 
 <!-- DNS Prefetch for external resources -->
 <link rel="dns-prefetch" href="//giscus.app" />
 <link rel="dns-prefetch" href="//fonts.googleapis.com" />
 <link rel="dns-prefetch" href="//fonts.gstatic.com" />
+<link rel="dns-prefetch" href="//vitals.vercel-insights.com" />
+<link rel="dns-prefetch" href="//va.vercel-scripts.com" />
 
-<!-- Load fonts with display=swap to prevent render-blocking -->
-<!-- Using link tags instead of @import for better performance -->
+<!-- Load fonts asynchronously to prevent render-blocking -->
+<!-- Using media="print" trick: load fonts as print stylesheet, then switch to screen after load -->
 <link
   rel="stylesheet"
   href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap"
+  media="print"
+  onload="this.media='all'"
 />
 <link
   rel="stylesheet"
   href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap"
+  media="print"
+  onload="this.media='all'"
 />
 <link
   rel="stylesheet"
   href="https://fonts.googleapis.com/css2?family=Source+Serif+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,400;1,600;1,700;1,900&display=swap"
+  media="print"
+  onload="this.media='all'"
 />
 <link
   rel="stylesheet"
   href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap"
+  media="print"
+  onload="this.media='all'"
 />
+<!-- Fallback for browsers that don't support onload -->
+<noscript>
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap"
+  />
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap"
+  />
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Source+Serif+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,400;1,600;1,700;1,900&display=swap"
+  />
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap"
+  />
+</noscript>
+<!-- Polyfill for browsers that don't support onload on link elements -->
+<script is:inline>
+  // Only apply polyfill if onload didn't fire (media still 'print' after delay)
+  // This ensures async loading works correctly - fonts load as print, then switch to all
+  (function () {
+    function checkAndApplyFonts() {
+      var fontLinks = document.querySelectorAll('link[media="print"][onload]');
+      fontLinks.forEach(function (link) {
+        // Only change if still 'print' (onload didn't fire)
+        if (link.media === 'print') {
+          // Check if stylesheet is actually loaded (has rules or is accessible)
+          var sheet = link.sheet || link.styleSheet;
+          if (sheet) {
+            // Verify stylesheet is loaded by checking if it has rules or is not null
+            // sheet.cssRules or sheet.rules will throw if stylesheet is from different origin,
+            // but that's okay - we can still apply it
+            try {
+              if (sheet.cssRules || sheet.rules || sheet.cssText) {
+                link.media = 'all';
+              }
+            } catch (e) {
+              // Cross-origin stylesheet - apply anyway as it's likely loaded
+              link.media = 'all';
+            }
+          }
+        }
+      });
+    }
+
+    // Wait a short time to see if onload fires naturally
+    setTimeout(checkAndApplyFonts, 100);
+
+    // Also check on DOMContentLoaded as a fallback
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', checkAndApplyFonts);
+    }
+  })();
+</script>
 
 <!-- Critical CSS Inline for Above-the-Fold Content -->
 <style>
