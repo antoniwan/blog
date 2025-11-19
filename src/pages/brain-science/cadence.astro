@@ -1,186 +1,46 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import Container from '../../components/Container.astro';
-import Breadcrumbs from '../../components/Breadcrumbs.astro';
-import { getCollection } from 'astro:content';
+import BrainScienceLayout from '../../components/brain-science/BrainScienceLayout.astro';
+import MetricCard from '../../components/brain-science/MetricCard.astro';
 import {
-  format,
-  startOfMonth,
-  endOfMonth,
-  eachMonthOfInterval,
-  eachWeekOfInterval,
-  eachDayOfInterval,
-  getDay,
-  getMonth,
-  differenceInDays,
-  differenceInWeeks,
-} from 'date-fns';
+  getBrainSciencePosts,
+  calculateBaseMetrics,
+  calculateMonthlyPosts,
+  calculateWeeklyPosts,
+  calculateDayOfWeekStats,
+  calculateMonthOfYearStats,
+  calculateStreakMetrics,
+} from '../../utils/brainScience/data';
 import {
   generateDynamicInsights,
   calculateObjectiveMetrics,
   scoreToLetterGrade,
   letterGradeToColor,
 } from '../../utils/insightGenerator';
+import { format, differenceInDays } from 'date-fns';
+import { BRAIN_SCIENCE_PAGES } from '../../data/brainScience';
 
 // Get all published posts
-const posts = await getCollection('blog', ({ data }) => {
-  return import.meta.env.PROD ? !data.draft && data.published : true;
-});
+const posts = await getBrainSciencePosts();
 
-// Sort posts by date
-const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+// Calculate base metrics using shared utilities
+const baseMetrics = calculateBaseMetrics(posts);
+const firstPostDate = baseMetrics.firstPostDate;
+const lastPostDate = baseMetrics.lastPostDate;
+const sortedPosts = [...posts].sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
-// Date range analysis
-const firstPostDate = sortedPosts[sortedPosts.length - 1]?.data.pubDate;
-const lastPostDate = sortedPosts[0]?.data.pubDate;
+// Use shared utilities for calculations
+const monthlyPosts = calculateMonthlyPosts(posts, firstPostDate, lastPostDate);
+const weeklyPosts = calculateWeeklyPosts(posts, firstPostDate, lastPostDate);
+const dayOfWeekStats = calculateDayOfWeekStats(posts);
+const monthOfYearStats = calculateMonthOfYearStats(posts);
+const streakMetrics = calculateStreakMetrics(posts);
 
-// Monthly posting frequency
-const monthlyPosts = eachMonthOfInterval({
-  start: firstPostDate || new Date(),
-  end: lastPostDate || new Date(),
-}).map((month) => {
-  const monthStart = startOfMonth(month);
-  const monthEnd = endOfMonth(month);
-  const postsInMonth = posts.filter(
-    (post) => post.data.pubDate >= monthStart && post.data.pubDate <= monthEnd,
-  ).length;
-  return {
-    month: format(month, 'yyyy-MM'),
-    label: format(month, 'MMM yyyy'),
-    count: postsInMonth,
-    date: month,
-  };
-});
-
-// Weekly posting frequency
-const weeklyPosts = eachWeekOfInterval({
-  start: firstPostDate || new Date(),
-  end: lastPostDate || new Date(),
-}).map((week) => {
-  const weekStart = week;
-  const weekEnd = new Date(week.getTime() + 6 * 24 * 60 * 60 * 1000);
-  const postsInWeek = posts.filter(
-    (post) => post.data.pubDate >= weekStart && post.data.pubDate <= weekEnd,
-  ).length;
-  return {
-    week: format(week, 'yyyy-MM-dd'),
-    label: format(week, 'MMM d'),
-    count: postsInWeek,
-    date: week,
-  };
-});
-
-// Day of week analysis
-const dayOfWeekStats = [0, 1, 2, 3, 4, 5, 6].map((dayNum) => {
-  const dayName = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][
-    dayNum
-  ];
-  const postsOnDay = posts.filter((post) => getDay(post.data.pubDate) === dayNum).length;
-  return {
-    day: dayNum,
-    name: dayName,
-    shortName: dayName.slice(0, 3),
-    count: postsOnDay,
-    percentage: Math.round((postsOnDay / posts.length) * 100),
-  };
-});
-
-// Month of year analysis
-const monthOfYearStats = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((monthNum) => {
-  const monthName = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December',
-  ][monthNum];
-  const postsInMonth = posts.filter((post) => getMonth(post.data.pubDate) === monthNum).length;
-  return {
-    month: monthNum,
-    name: monthName,
-    shortName: monthName.slice(0, 3),
-    count: postsInMonth,
-    percentage: Math.round((postsInMonth / posts.length) * 100),
-  };
-});
-
-// Writing streaks analysis
-const streaks: Array<{
-  start: Date;
-  end: Date;
-  length: number;
-  days: number;
-}> = [];
-let currentStreak = 0;
-let longestStreak = 0;
-let tempStreak = 0;
-let streakStart: Date | null = null;
-
-for (let i = 0; i < sortedPosts.length - 1; i++) {
-  const currentDate = sortedPosts[i].data.pubDate;
-  const nextDate = sortedPosts[i + 1].data.pubDate;
-  const daysDiff = differenceInDays(currentDate, nextDate);
-
-  if (daysDiff <= 7) {
-    // Consider posts within a week as a streak
-    if (tempStreak === 0) {
-      streakStart = currentDate;
-    }
-    tempStreak++;
-    longestStreak = Math.max(longestStreak, tempStreak);
-  } else {
-    if (tempStreak > 0 && streakStart) {
-      streaks.push({
-        start: streakStart,
-        end: currentDate,
-        length: tempStreak,
-        days: differenceInDays(currentDate, streakStart) + 1,
-      });
-    }
-    tempStreak = 0;
-    streakStart = null;
-  }
-}
-
-// Add the last streak if it's still active
-if (tempStreak > 0 && streakStart) {
-  streaks.push({
-    start: streakStart,
-    end: sortedPosts[0].data.pubDate,
-    length: tempStreak,
-    days: differenceInDays(sortedPosts[0].data.pubDate, streakStart) + 1,
-  });
-  currentStreak = tempStreak;
-}
-
-// Sort streaks by length
-const sortedStreaks = streaks.sort((a, b) => b.length - a.length);
-
-// Dry spells analysis
-const drySpells = [];
-for (let i = 0; i < sortedPosts.length - 1; i++) {
-  const currentDate = sortedPosts[i].data.pubDate;
-  const nextDate = sortedPosts[i + 1].data.pubDate;
-  const daysDiff = differenceInDays(currentDate, nextDate);
-
-  if (daysDiff > 30) {
-    // Consider gaps longer than 30 days as dry spells
-    drySpells.push({
-      start: nextDate,
-      end: currentDate,
-      days: daysDiff,
-    });
-  }
-}
-
-const sortedDrySpells = drySpells.sort((a, b) => b.days - a.days);
+// Extract streak data
+const sortedStreaks = streakMetrics.streaks;
+const sortedDrySpells = streakMetrics.drySpells;
+const currentStreak = streakMetrics.currentStreak;
+const longestStreak = streakMetrics.longestStreak;
 
 // Productivity periods (months with most posts)
 const productiveMonths = monthlyPosts
@@ -241,6 +101,9 @@ const insightData = {
 };
 
 const { insights, summary, balancedAnalysis } = generateDynamicInsights(insightData, 'cadence');
+
+// Get page info
+const pageInfo = BRAIN_SCIENCE_PAGES.find((p) => p.id === 'cadence');
 ---
 
 <BaseLayout
@@ -249,103 +112,48 @@ const { insights, summary, balancedAnalysis } = generateDynamicInsights(insightD
   path="/brain-science/cadence"
   structuredDataType="website"
 >
-  <Container>
-    <Container maxWidth="container" padding="none">
-      {/* Breadcrumbs */}
-      <div class="mb-4 hidden md:mb-6 md:block">
-        <Breadcrumbs
-          items={[
-            { label: 'Home', href: '/' },
-            { label: 'Brain Science', href: '/brain-science' },
-            { label: 'Writing Cadence' },
-          ]}
-        />
-      </div>
-
-      <div class="py-4 md:py-6 lg:py-8">
-        {/* Header */}
-        <div class="mb-6 md:mb-8 lg:mb-10">
-          <h1
-            class="text-display mb-3 text-[rgb(var(--color-text))] md:mb-4 lg:mb-5"
-            transition:name="page-title"
-          >
-            📅 <span class="highlight-accent">Writing Cadence</span>
-          </h1>
-          <p
-            class="text-body-large max-w-4xl leading-relaxed text-[rgb(var(--color-text-muted))]"
-            transition:name="page-description"
-          >
-            Understanding my publishing patterns, creative streaks, and the rhythms of my writing
-            life.
-          </p>
-        </div>
+  <BrainScienceLayout
+    currentPage="/brain-science/cadence"
+    title={pageInfo?.title || 'Writing Cadence'}
+    description="Understanding my publishing patterns, creative streaks, and the rhythms of my writing life."
+  >
 
         {/* Key Metrics with Balanced Indicators */}
         <div
           class="mb-8 grid grid-cols-2 gap-4 md:mb-10 md:grid-cols-2 md:gap-6 lg:mb-12 lg:grid-cols-4"
         >
-          <div
-            class="rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg-secondary))] p-4 md:p-6"
-          >
-            <div
-              class="mb-1 text-xl font-bold text-[rgb(var(--color-text))] md:mb-2 md:text-2xl"
-              title="Longest consecutive streak of writings published within 7 days of each other"
-            >
-              {longestStreak}
-            </div>
-            <div class="text-xs text-[rgb(var(--color-text-muted))] md:text-sm">Longest Streak</div>
-            <div class="mt-1 text-xs text-green-500">🏆 Peak Performance</div>
-          </div>
-          <div
-            class="rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg-secondary))] p-4 md:p-6"
-          >
-            <div
-              class="mb-1 text-xl font-bold text-[rgb(var(--color-text))] md:mb-2 md:text-2xl"
-              title="Current active streak of writings published within 7 days of each other"
-            >
-              {currentStreak}
-            </div>
-            <div class="text-xs text-[rgb(var(--color-text-muted))] md:text-sm">Current Streak</div>
-            <div class="mt-1 text-xs text-blue-500">🔥 Active Momentum</div>
-          </div>
-          <div
-            class="rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg-secondary))] p-4 md:p-6"
-          >
-            <div
-              class="mb-1 text-xl font-bold text-[rgb(var(--color-text))] md:mb-2 md:text-2xl"
-              title="Longest gap between consecutive writings (days without publishing)"
-            >
-              {sortedDrySpells[0]?.days || 0}
-            </div>
-            <div class="text-xs text-[rgb(var(--color-text-muted))] md:text-sm">
-              Longest Dry Spell
-            </div>
-            <div class="mt-1 text-xs text-red-500">⚠️ Biggest Challenge</div>
-          </div>
-          <div
-            class="rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg-secondary))] p-4 md:p-6"
-          >
-            <div
-              class="mb-1 text-xl font-bold text-[rgb(var(--color-text))] md:mb-2 md:text-2xl"
-              title="Number of writings published in the last 30 days"
-            >
-              {recentPosts.length}
-            </div>
-            <div class="text-xs text-[rgb(var(--color-text-muted))] md:text-sm">
-              Writings (30 days)
-            </div>
-            <div
-              class={`text-xs mt-1 ${recentPosts.length > avgPostsPerMonth ? 'text-green-500' : recentPosts.length < avgPostsPerMonth * 0.5 ? 'text-red-500' : 'text-yellow-500'}`}
-            >
-              {
-                recentPosts.length > avgPostsPerMonth
-                  ? '📈 Above Average'
-                  : recentPosts.length < avgPostsPerMonth * 0.5
-                    ? '📉 Below Average'
-                    : '➡️ On Track'
-              }
-            </div>
-          </div>
+          <MetricCard
+            value={longestStreak}
+            label="Longest Streak"
+            subtitle="Peak Performance"
+            emoji="🏆"
+            color="text-green-500"
+            title="Longest consecutive streak of writings published within 7 days of each other"
+          />
+          <MetricCard
+            value={currentStreak}
+            label="Current Streak"
+            subtitle="Active Momentum"
+            emoji="🔥"
+            color="text-blue-500"
+            title="Current active streak of writings published within 7 days of each other"
+          />
+          <MetricCard
+            value={sortedDrySpells[0]?.days || 0}
+            label="Longest Dry Spell"
+            subtitle="Biggest Challenge"
+            emoji="⚠️"
+            color="text-red-500"
+            title="Longest gap between consecutive writings (days without publishing)"
+          />
+          <MetricCard
+            value={recentPosts.length}
+            label="Writings (30 days)"
+            subtitle={recentPosts.length > avgPostsPerMonth ? 'Above Average' : recentPosts.length < avgPostsPerMonth * 0.5 ? 'Below Average' : 'Average'}
+            emoji={recentPosts.length > avgPostsPerMonth ? '📈' : recentPosts.length < avgPostsPerMonth * 0.5 ? '📉' : '➡️'}
+            color={recentPosts.length > avgPostsPerMonth ? 'text-green-500' : recentPosts.length < avgPostsPerMonth * 0.5 ? 'text-red-500' : 'text-yellow-500'}
+            title="Number of writings published in the last 30 days"
+          />
         </div>
 
         {/* Productivity Health Score */}
@@ -861,48 +669,5 @@ const { insights, summary, balancedAnalysis } = generateDynamicInsights(insightD
           </div>
         </div>
 
-        {/* Navigation Links */}
-        <div class="mt-8 border-t border-[rgb(var(--color-border))] pt-6 md:mt-12 md:pt-8">
-          <div class="flex flex-wrap justify-center gap-4 md:gap-6">
-            <a
-              href="/brain-science"
-              class="text-sm text-[rgb(var(--color-accent))] transition-colors hover:text-[rgb(var(--color-accent-hover))]"
-            >
-              🏠 Brain Science Dashboard
-            </a>
-            <a
-              href="/brain-science/insights"
-              class="text-sm text-[rgb(var(--color-accent))] transition-colors hover:text-[rgb(var(--color-accent-hover))]"
-            >
-              📊 Emotional Processing Analytics
-            </a>
-            <a
-              href="/brain-science/evolution"
-              class="text-sm text-[rgb(var(--color-accent))] transition-colors hover:text-[rgb(var(--color-accent-hover))]"
-            >
-              📈 Intellectual Growth Analytics
-            </a>
-            <a
-              href="/brain-science/topics"
-              class="text-sm text-[rgb(var(--color-accent))] transition-colors hover:text-[rgb(var(--color-accent-hover))]"
-            >
-              🏷️ Core Themes Analysis
-            </a>
-            <a
-              href="/brain-science/patterns"
-              class="text-sm text-[rgb(var(--color-accent))] transition-colors hover:text-[rgb(var(--color-accent-hover))]"
-            >
-              🌀 Pattern Recognition
-            </a>
-            <a
-              href="/brain-science/meta"
-              class="text-sm text-[rgb(var(--color-accent))] transition-colors hover:text-[rgb(var(--color-accent-hover))]"
-            >
-              🔍 Meta Analysis
-            </a>
-          </div>
-        </div>
-      </div>
-    </Container>
-  </Container>
+  </BrainScienceLayout>
 </BaseLayout>

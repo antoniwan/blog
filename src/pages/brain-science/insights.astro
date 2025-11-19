@@ -1,8 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import Container from '../../components/Container.astro';
-import Breadcrumbs from '../../components/Breadcrumbs.astro';
-import { getCollection } from 'astro:content';
+import BrainScienceLayout from '../../components/brain-science/BrainScienceLayout.astro';
+import { getBrainSciencePosts } from '../../utils/brainScience/data';
 import { categories } from '../../data/categories';
 import { getTagWeight, MASLOW_CATEGORIES } from '../../data/tags';
 import { format } from 'date-fns';
@@ -12,11 +11,10 @@ import {
   scoreToLetterGrade,
   letterGradeToColor,
 } from '../../utils/insightGenerator';
+import { BRAIN_SCIENCE_PAGES } from '../../data/brainScience';
 
 // Get all published posts
-const posts = await getCollection('blog', ({ data }) => {
-  return import.meta.env.PROD ? !data.draft && data.published : true;
-});
+const posts = await getBrainSciencePosts();
 
 // Sort posts by date
 const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
@@ -374,6 +372,9 @@ const insightData = {
 };
 
 const { insights, summary, balancedAnalysis } = generateDynamicInsights(insightData, 'insights');
+
+// Get page info
+const pageInfo = BRAIN_SCIENCE_PAGES.find((p) => p.id === 'insights');
 ---
 
 <BaseLayout
@@ -382,37 +383,11 @@ const { insights, summary, balancedAnalysis } = generateDynamicInsights(insightD
   path="/brain-science/insights"
   structuredDataType="website"
 >
-  <Container>
-    <Container maxWidth="container" padding="none">
-      {/* Breadcrumbs */}
-      <div class="mb-4 hidden md:mb-6 md:block">
-        <Breadcrumbs
-          items={[
-            { label: 'Home', href: '/' },
-            { label: 'Brain Science', href: '/brain-science' },
-            { label: 'Personal Insights' },
-          ]}
-        />
-      </div>
-
-      <div class="py-4 md:py-6 lg:py-8">
-        {/* Header */}
-        <div class="mb-6 md:mb-8 lg:mb-10">
-          <h1
-            class="text-display mb-3 text-[rgb(var(--color-text))] md:mb-4 lg:mb-5"
-            transition:name="page-title"
-          >
-            💡 <span class="highlight-accent">Emotional Processing Analytics</span>
-          </h1>
-          <p
-            class="text-body-large max-w-4xl leading-relaxed text-[rgb(var(--color-text-muted))]"
-            transition:name="page-description"
-          >
-            Objective analysis of emotional patterns, vulnerability indicators, and confidence
-            metrics in writing. Balanced data-driven insights into emotional processing and
-            psychological patterns without bias toward positive outcomes.
-          </p>
-        </div>
+  <BrainScienceLayout
+    currentPage="/brain-science/insights"
+    title={pageInfo?.title || 'Emotional Processing Analytics'}
+    description="Objective analysis of emotional patterns, vulnerability indicators, and confidence metrics in writing. Balanced data-driven insights into emotional processing and psychological patterns without bias toward positive outcomes."
+  >
 
         {/* Emotional Processing Overview */}
         <div
@@ -1133,48 +1108,5 @@ const { insights, summary, balancedAnalysis } = generateDynamicInsights(insightD
           </div>
         </div>
 
-        {/* Navigation Links */}
-        <div class="mt-8 border-t border-[rgb(var(--color-border))] pt-6 md:mt-12 md:pt-8">
-          <div class="flex flex-wrap justify-center gap-4 md:gap-6">
-            <a
-              href="/brain-science"
-              class="text-sm text-[rgb(var(--color-accent))] transition-colors hover:text-[rgb(var(--color-accent-hover))]"
-            >
-              🏠 Brain Science Dashboard
-            </a>
-            <a
-              href="/brain-science/evolution"
-              class="text-sm text-[rgb(var(--color-accent))] transition-colors hover:text-[rgb(var(--color-accent-hover))]"
-            >
-              📈 Intellectual Growth Analytics
-            </a>
-            <a
-              href="/brain-science/topics"
-              class="text-sm text-[rgb(var(--color-accent))] transition-colors hover:text-[rgb(var(--color-accent-hover))]"
-            >
-              🏷️ Core Themes Analysis
-            </a>
-            <a
-              href="/brain-science/cadence"
-              class="text-sm text-[rgb(var(--color-accent))] transition-colors hover:text-[rgb(var(--color-accent-hover))]"
-            >
-              📅 Writing Cadence Patterns
-            </a>
-            <a
-              href="/brain-science/patterns"
-              class="text-sm text-[rgb(var(--color-accent))] transition-colors hover:text-[rgb(var(--color-accent-hover))]"
-            >
-              🌀 Pattern Recognition
-            </a>
-            <a
-              href="/brain-science/meta"
-              class="text-sm text-[rgb(var(--color-accent))] transition-colors hover:text-[rgb(var(--color-accent-hover))]"
-            >
-              🔍 Meta Analysis
-            </a>
-          </div>
-        </div>
-      </div>
-    </Container>
-  </Container>
+  </BrainScienceLayout>
 </BaseLayout>

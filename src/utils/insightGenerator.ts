@@ -1,3 +1,13 @@
+import {
+  calculateSentiment,
+  calculatePostingRegularity,
+  calculateTopicConsistency,
+  calculateQualityVariance,
+  calculateChallengeAreas,
+  calculateImprovementAreas,
+} from './brainScience/metrics';
+import type { CollectionEntry } from 'astro:content';
+
 export interface InsightData {
   totalPosts: number;
   totalWords: number;
@@ -479,7 +489,7 @@ export function letterGradeToColor(grade: string): string {
   return 'text-red-600 dark:text-red-400';
 }
 
-export function calculateObjectiveMetrics(posts: any[]): {
+export function calculateObjectiveMetrics(posts: CollectionEntry<'blog'>[]): {
   sentimentAnalysis: { positive: number; negative: number; neutral: number; mixed: number };
   consistencyMetrics: {
     postingRegularity: number;
@@ -489,273 +499,34 @@ export function calculateObjectiveMetrics(posts: any[]): {
   challengeAreas: Array<{ area: string; frequency: number; severity: 'high' | 'medium' | 'low' }>;
   improvementAreas: Array<{ area: string; current: number; target: number; gap: number }>;
 } {
-  // Sentiment analysis
-  const sentimentAnalysis = {
-    positive: 0,
-    negative: 0,
-    neutral: 0,
-    mixed: 0,
-  };
+  // Use centralized metric calculations
+  const sentimentAnalysis = calculateSentiment(posts);
+  const postingRegularity = calculatePostingRegularity(posts);
+  const topicConsistency = calculateTopicConsistency(posts);
+  const qualityVariance = calculateQualityVariance(posts);
 
-  const positiveWords = [
-    'love',
-    'joy',
-    'excited',
-    'happy',
-    'grateful',
-    'inspired',
-    'confident',
-    'proud',
-    'accomplished',
-    'fulfilled',
-    'peaceful',
-    'content',
-    'optimistic',
-    'hopeful',
-    'energized',
-    'motivated',
-    'successful',
-    'achieved',
-    'breakthrough',
-    'transformation',
-    'growth',
-    'improvement',
-    'better',
-    'stronger',
-    'wiser',
-  ];
-  const negativeWords = [
-    'hate',
-    'fear',
-    'sadness',
-    'anger',
-    'anxiety',
-    'despair',
-    'frustration',
-    'worried',
-    'confused',
-    'overwhelmed',
-    'restless',
-    'pain',
-    'hurt',
-    'broken',
-    'struggle',
-    'difficult',
-    'challenge',
-    'failure',
-    'disappointed',
-    'defeated',
-    'hopeless',
-    'lost',
-    'stuck',
-    'trapped',
-    'suffering',
-  ];
-  const neutralWords = [
-    'think',
-    'believe',
-    'understand',
-    'realize',
-    'observe',
-    'notice',
-    'consider',
-    'reflect',
-    'analyze',
-    'examine',
-    'study',
-    'learn',
-    'discover',
-    'explore',
-    'investigate',
-    'research',
-    'find',
-    'determine',
-    'conclude',
-    'decide',
-  ];
+  // Get dates for improvement calculations
+  const sortedPosts = [...posts].sort((a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf());
+  const firstPostDate = sortedPosts[0]?.data.pubDate;
+  const lastPostDate = sortedPosts[sortedPosts.length - 1]?.data.pubDate;
 
-  posts.forEach((post) => {
-    const content = (post.body || '').toLowerCase();
-    const title = (post.data.title || '').toLowerCase();
-    const fullText = `${title} ${content}`;
-
-    const positiveCount = positiveWords.reduce((count, word) => {
-      const regex = new RegExp(`\\b${word}\\b`, 'gi');
-      return count + (fullText.match(regex) || []).length;
-    }, 0);
-
-    const negativeCount = negativeWords.reduce((count, word) => {
-      const regex = new RegExp(`\\b${word}\\b`, 'gi');
-      return count + (fullText.match(regex) || []).length;
-    }, 0);
-
-    const neutralCount = neutralWords.reduce((count, word) => {
-      const regex = new RegExp(`\\b${word}\\b`, 'gi');
-      return count + (fullText.match(regex) || []).length;
-    }, 0);
-
-    // Determine sentiment based on word frequency
-    if (positiveCount > negativeCount && positiveCount > neutralCount) {
-      sentimentAnalysis.positive++;
-    } else if (negativeCount > positiveCount && negativeCount > neutralCount) {
-      sentimentAnalysis.negative++;
-    } else if (neutralCount > positiveCount && neutralCount > negativeCount) {
-      sentimentAnalysis.neutral++;
-    } else {
-      sentimentAnalysis.mixed++;
-    }
-  });
-
-  // Consistency metrics
-  const sortedPosts = posts.sort((a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf());
-
-  // Posting regularity (0-100 score)
-  let postingRegularity = 100;
-  if (sortedPosts.length > 1) {
-    const intervals = [];
-    for (let i = 1; i < sortedPosts.length; i++) {
-      const daysDiff = Math.floor(
-        (sortedPosts[i].data.pubDate.getTime() - sortedPosts[i - 1].data.pubDate.getTime()) /
-          (1000 * 60 * 60 * 24),
-      );
-      intervals.push(daysDiff);
-    }
-    const avgInterval = intervals.reduce((sum, interval) => sum + interval, 0) / intervals.length;
-    const variance =
-      intervals.reduce((sum, interval) => sum + Math.pow(interval - avgInterval, 2), 0) /
-      intervals.length;
-    const consistency = Math.max(0, 100 - variance / 10); // Lower variance = higher consistency
-    postingRegularity = Math.round(consistency);
-  }
-
-  // Topic consistency (0-100 score)
-  const tagFrequency = posts.reduce(
-    (acc, post) => {
-      post.data.tags?.forEach((tag: string) => {
-        acc[tag] = (acc[tag] || 0) + 1;
-      });
-      return acc;
-    },
-    {} as Record<string, number>,
+  // Calculate challenge and improvement areas using configurable thresholds
+  const challengeAreas = calculateChallengeAreas(
+    posts,
+    postingRegularity,
+    qualityVariance,
+    sentimentAnalysis,
+    topicConsistency,
   );
 
-  const topTagCount = Math.max(...Object.values(tagFrequency).map((val) => val as number));
-  const totalPosts = posts.length;
-  const topicConsistency = Math.round((topTagCount / totalPosts) * 100);
-
-  // Quality variance (0-100 score, lower = more consistent)
-  const wordCounts = posts.map((post) => {
-    const content = post.body || '';
-    return content.split(/\s+/).length;
-  });
-
-  const avgWordCount = wordCounts.reduce((sum, count) => sum + count, 0) / wordCounts.length;
-  const qualityVariance =
-    wordCounts.reduce((sum, count) => sum + Math.pow(count - avgWordCount, 2), 0) /
-    wordCounts.length;
-  const normalizedVariance = Math.min(100, Math.round(qualityVariance / 10));
-
-  // Challenge areas
-  const challengeAreas: Array<{
-    area: string;
-    frequency: number;
-    severity: 'high' | 'medium' | 'low';
-  }> = [];
-
-  // Inconsistency challenges
-  if (postingRegularity < 50) {
-    challengeAreas.push({
-      area: 'Posting Inconsistency',
-      frequency: Math.round(100 - postingRegularity),
-      severity: postingRegularity < 30 ? 'high' : postingRegularity < 50 ? 'medium' : 'low',
-    });
-  }
-
-  // Quality variance challenges
-  if (normalizedVariance > 70) {
-    challengeAreas.push({
-      area: 'Content Quality Variance',
-      frequency: normalizedVariance,
-      severity: normalizedVariance > 90 ? 'high' : normalizedVariance > 70 ? 'medium' : 'low',
-    });
-  }
-
-  // Emotional imbalance challenges
-  const totalSentiment =
-    sentimentAnalysis.positive +
-    sentimentAnalysis.negative +
-    sentimentAnalysis.neutral +
-    sentimentAnalysis.mixed;
-  if (totalSentiment > 0) {
-    const negativeRatio = sentimentAnalysis.negative / totalSentiment;
-    if (negativeRatio > 0.4) {
-      challengeAreas.push({
-        area: 'High Negative Sentiment',
-        frequency: Math.round(negativeRatio * 100),
-        severity: negativeRatio > 0.6 ? 'high' : negativeRatio > 0.4 ? 'medium' : 'low',
-      });
-    }
-  }
-
-  // Topic focus challenges
-  if (topicConsistency > 80) {
-    challengeAreas.push({
-      area: 'Over-focus on Single Topic',
-      frequency: topicConsistency,
-      severity: topicConsistency > 90 ? 'high' : topicConsistency > 80 ? 'medium' : 'low',
-    });
-  }
-
-  // Improvement areas
-  const improvementAreas: Array<{ area: string; current: number; target: number; gap: number }> =
-    [];
-
-  // Posting frequency improvement
-  const currentPostsPerMonth =
-    totalPosts /
-    Math.max(1, (Date.now() - sortedPosts[0]?.data.pubDate.getTime()) / (1000 * 60 * 60 * 24 * 30));
-  improvementAreas.push({
-    area: 'Monthly Posting Rate',
-    current: Math.round(currentPostsPerMonth * 10) / 10,
-    target: 4, // Target 4 posts per month
-    gap: Math.max(0, 4 - currentPostsPerMonth),
-  });
-
-  // Content depth improvement
-  const avgWordsPerPost = wordCounts.reduce((sum, count) => sum + count, 0) / wordCounts.length;
-  improvementAreas.push({
-    area: 'Average Post Length',
-    current: Math.round(avgWordsPerPost),
-    target: 800, // Target 800 words per post
-    gap: Math.max(0, 800 - avgWordsPerPost),
-  });
-
-  // Topic diversity improvement
-  const uniqueTags = Object.keys(tagFrequency).length;
-  improvementAreas.push({
-    area: 'Topic Diversity',
-    current: uniqueTags,
-    target: 15, // Target 15 different topics
-    gap: Math.max(0, 15 - uniqueTags),
-  });
-
-  // Sentiment balance improvement
-  if (totalSentiment > 0) {
-    const neutralRatio = sentimentAnalysis.neutral / totalSentiment;
-    improvementAreas.push({
-      area: 'Balanced Sentiment',
-      current: Math.round(neutralRatio * 100),
-      target: 40, // Target 40% neutral content
-      gap: Math.max(0, 40 - neutralRatio * 100),
-    });
-  }
+  const improvementAreas = calculateImprovementAreas(posts, firstPostDate, lastPostDate);
 
   return {
     sentimentAnalysis,
     consistencyMetrics: {
       postingRegularity,
       topicConsistency,
-      qualityVariance: normalizedVariance,
+      qualityVariance,
     },
     challengeAreas,
     improvementAreas,

@@ -1,0 +1,478 @@
+import { getCollection } from 'astro:content';
+import {
+  format,
+  startOfMonth,
+  endOfMonth,
+  eachMonthOfInterval,
+  eachWeekOfInterval,
+  getDay,
+  getMonth,
+  differenceInDays,
+} from 'date-fns';
+import { getTagWeight, MASLOW_CATEGORIES } from '../../data/tags';
+import { categories } from '../../data/categories';
+import type { CollectionEntry } from 'astro:content';
+
+export interface BaseMetrics {
+  totalPosts: number;
+  totalWords: number;
+  averageWordsPerPost: number;
+  firstPostDate: Date | undefined;
+  lastPostDate: Date | undefined;
+  daysSinceFirstPost: number;
+  postsPerDay: number;
+}
+
+export interface TagFrequency {
+  tag: string;
+  count: number;
+  weight: number;
+}
+
+export interface MonthlyPostData {
+  month: string;
+  label: string;
+  count: number;
+  date: Date;
+}
+
+export interface WeeklyPostData {
+  week: string;
+  label: string;
+  count: number;
+  date: Date;
+}
+
+export interface DayOfWeekStats {
+  day: number;
+  name: string;
+  shortName: string;
+  count: number;
+  percentage: number;
+}
+
+export interface MonthOfYearStats {
+  month: number;
+  name: string;
+  shortName: string;
+  count: number;
+  percentage: number;
+}
+
+export interface WritingStreak {
+  length: number;
+  days: number;
+  startDate: Date;
+  endDate: Date;
+}
+
+export interface DrySpell {
+  days: number;
+  startDate: Date;
+  endDate: Date;
+}
+
+export interface StreakMetrics {
+  currentStreak: number;
+  longestStreak: number;
+  streaks: WritingStreak[];
+  drySpells: DrySpell[];
+}
+
+/**
+ * Get all published blog posts
+ */
+export async function getBrainSciencePosts(): Promise<CollectionEntry<'blog'>[]> {
+  const posts = await getCollection('blog', ({ data }) => {
+    return import.meta.env.PROD ? !data.draft && data.published : true;
+  });
+  return posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+}
+
+/**
+ * Calculate base metrics from posts
+ */
+export function calculateBaseMetrics(
+  posts: CollectionEntry<'blog'>[],
+): BaseMetrics {
+  const totalPosts = posts.length;
+  const totalWords = posts.reduce((sum, post) => {
+    const content = post.body;
+    return sum + (content ? content.split(/\s+/).length : 0);
+  }, 0);
+  const averageWordsPerPost = totalPosts > 0 ? Math.round(totalWords / totalPosts) : 0;
+
+  const sortedPosts = [...posts].sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+  const firstPostDate = sortedPosts[sortedPosts.length - 1]?.data.pubDate;
+  const lastPostDate = sortedPosts[0]?.data.pubDate;
+  const daysSinceFirstPost = firstPostDate
+    ? Math.floor((Date.now() - firstPostDate.getTime()) / (1000 * 60 * 60 * 24))
+    : 0;
+  const postsPerDay = daysSinceFirstPost > 0 ? Number((totalPosts / daysSinceFirstPost).toFixed(2)) : 0;
+
+  return {
+    totalPosts,
+    totalWords,
+    averageWordsPerPost,
+    firstPostDate,
+    lastPostDate,
+    daysSinceFirstPost,
+    postsPerDay,
+  };
+}
+
+/**
+ * Calculate tag frequency
+ */
+export function calculateTagFrequency(
+  posts: CollectionEntry<'blog'>[],
+  limit?: number,
+): TagFrequency[] {
+  const tagFrequency = posts.reduce(
+    (acc, post) => {
+      post.data.tags?.forEach((tag) => {
+        acc[tag] = (acc[tag] || 0) + 1;
+      });
+      return acc;
+    },
+    {} as Record<string, number>,
+  );
+
+  const topTags = Object.entries(tagFrequency)
+    .sort(([, a], [, b]) => b - a)
+    .slice(0, limit || 10)
+    .map(([tag, count]) => ({ tag, count, weight: getTagWeight(tag) }));
+
+  return topTags;
+}
+
+/**
+ * Calculate category frequency
+ */
+export function calculateCategoryFrequency(
+  posts: CollectionEntry<'blog'>[],
+): Array<{ id: string; name: string; count: number; percentage: number }> {
+  const categoryFrequency = posts.reduce(
+    (acc, post) => {
+      post.data.category?.forEach((cat) => {
+        acc[cat] = (acc[cat] || 0) + 1;
+      });
+      return acc;
+    },
+    {} as Record<string, number>,
+  );
+
+  return categories
+    .map((category) => ({
+      id: category.id,
+      name: category.name,
+      count: categoryFrequency[category.id] || 0,
+      percentage: Math.round(((categoryFrequency[category.id] || 0) / posts.length) * 100),
+    }))
+    .filter((cat) => cat.count > 0);
+}
+
+/**
+ * Calculate Maslow hierarchy analysis
+ */
+export function calculateMaslowAnalysis(
+  posts: CollectionEntry<'blog'>[],
+): Array<{
+  key: string;
+  title: string;
+  description: string;
+  icon: string;
+  color?: string;
+  tags: string[];
+  postCount: number;
+  percentage: number;
+}> {
+  const totalPosts = posts.length;
+  return MASLOW_CATEGORIES.map((category) => {
+    const categoryPosts = posts.filter((post) =>
+      post.data.tags?.some((tag) => category.tags.includes(tag)),
+    ).length;
+    return {
+      ...category,
+      postCount: categoryPosts,
+      percentage: Math.round((categoryPosts / totalPosts) * 100),
+    };
+  }).filter((cat) => cat.postCount > 0);
+}
+
+/**
+ * Calculate monthly posting frequency
+ */
+export function calculateMonthlyPosts(
+  posts: CollectionEntry<'blog'>[],
+  firstPostDate?: Date,
+  lastPostDate?: Date,
+): MonthlyPostData[] {
+  if (!firstPostDate || !lastPostDate) {
+    const sortedPosts = [...posts].sort((a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf());
+    firstPostDate = sortedPosts[0]?.data.pubDate;
+    lastPostDate = sortedPosts[sortedPosts.length - 1]?.data.pubDate;
+  }
+
+  if (!firstPostDate || !lastPostDate) {
+    return [];
+  }
+
+  return eachMonthOfInterval({
+    start: firstPostDate,
+    end: lastPostDate,
+  }).map((month) => {
+    const monthStart = startOfMonth(month);
+    const monthEnd = endOfMonth(month);
+    const postsInMonth = posts.filter(
+      (post) => post.data.pubDate >= monthStart && post.data.pubDate <= monthEnd,
+    ).length;
+    return {
+      month: format(month, 'yyyy-MM'),
+      label: format(month, 'MMM yyyy'),
+      count: postsInMonth,
+      date: month,
+    };
+  });
+}
+
+/**
+ * Calculate weekly posting frequency
+ */
+export function calculateWeeklyPosts(
+  posts: CollectionEntry<'blog'>[],
+  firstPostDate?: Date,
+  lastPostDate?: Date,
+): WeeklyPostData[] {
+  if (!firstPostDate || !lastPostDate) {
+    const sortedPosts = [...posts].sort((a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf());
+    firstPostDate = sortedPosts[0]?.data.pubDate;
+    lastPostDate = sortedPosts[sortedPosts.length - 1]?.data.pubDate;
+  }
+
+  if (!firstPostDate || !lastPostDate) {
+    return [];
+  }
+
+  return eachWeekOfInterval({
+    start: firstPostDate,
+    end: lastPostDate,
+  }).map((week) => {
+    const weekStart = week;
+    const weekEnd = new Date(week.getTime() + 6 * 24 * 60 * 60 * 1000);
+    const postsInWeek = posts.filter(
+      (post) => post.data.pubDate >= weekStart && post.data.pubDate <= weekEnd,
+    ).length;
+    return {
+      week: format(week, 'yyyy-MM-dd'),
+      label: format(week, 'MMM d'),
+      count: postsInWeek,
+      date: week,
+    };
+  });
+}
+
+/**
+ * Calculate day of week statistics
+ */
+export function calculateDayOfWeekStats(posts: CollectionEntry<'blog'>[]): DayOfWeekStats[] {
+  return [0, 1, 2, 3, 4, 5, 6].map((dayNum) => {
+    const dayName = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][
+      dayNum
+    ];
+    const postsOnDay = posts.filter((post) => getDay(post.data.pubDate) === dayNum).length;
+    return {
+      day: dayNum,
+      name: dayName,
+      shortName: dayName.slice(0, 3),
+      count: postsOnDay,
+      percentage: posts.length > 0 ? Math.round((postsOnDay / posts.length) * 100) : 0,
+    };
+  });
+}
+
+/**
+ * Calculate month of year statistics
+ */
+export function calculateMonthOfYearStats(posts: CollectionEntry<'blog'>[]): MonthOfYearStats[] {
+  return [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((monthNum) => {
+    const monthName = [
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December',
+    ][monthNum];
+    const postsInMonth = posts.filter((post) => getMonth(post.data.pubDate) === monthNum).length;
+    return {
+      month: monthNum,
+      name: monthName,
+      shortName: monthName.slice(0, 3),
+      count: postsInMonth,
+      percentage: posts.length > 0 ? Math.round((postsInMonth / posts.length) * 100) : 0,
+    };
+  });
+}
+
+/**
+ * Calculate writing streaks and dry spells
+ */
+export function calculateStreakMetrics(posts: CollectionEntry<'blog'>[]): StreakMetrics {
+  const sortedPosts = [...posts].sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+  
+  if (sortedPosts.length < 2) {
+    return {
+      currentStreak: sortedPosts.length,
+      longestStreak: sortedPosts.length,
+      streaks: [],
+      drySpells: [],
+    };
+  }
+
+  const streaks: WritingStreak[] = [];
+  const drySpells: DrySpell[] = [];
+  let currentStreakLength = 1;
+  let streakStart = sortedPosts[0].data.pubDate;
+  let longestStreak = 1;
+
+  for (let i = 0; i < sortedPosts.length - 1; i++) {
+    const currentDate = sortedPosts[i].data.pubDate;
+    const nextDate = sortedPosts[i + 1].data.pubDate;
+    const daysDiff = Math.floor((currentDate.getTime() - nextDate.getTime()) / (1000 * 60 * 60 * 24));
+
+    if (daysDiff <= 7) {
+      // Within streak
+      currentStreakLength++;
+      longestStreak = Math.max(longestStreak, currentStreakLength);
+    } else {
+      // Streak ended
+      if (currentStreakLength > 1) {
+        streaks.push({
+          length: currentStreakLength,
+          days: Math.floor((streakStart.getTime() - currentDate.getTime()) / (1000 * 60 * 60 * 24)),
+          startDate: streakStart,
+          endDate: currentDate,
+        });
+      }
+
+      // Dry spell
+      if (daysDiff > 7) {
+        drySpells.push({
+          days: daysDiff,
+          startDate: nextDate,
+          endDate: currentDate,
+        });
+      }
+
+      currentStreakLength = 1;
+      streakStart = nextDate;
+    }
+  }
+
+  // Handle final streak
+  if (currentStreakLength > 1) {
+    streaks.push({
+      length: currentStreakLength,
+      days: Math.floor(
+        (streakStart.getTime() - sortedPosts[sortedPosts.length - 1].data.pubDate.getTime()) /
+          (1000 * 60 * 60 * 24),
+      ),
+      startDate: streakStart,
+      endDate: sortedPosts[sortedPosts.length - 1].data.pubDate,
+    });
+  }
+
+  return {
+    currentStreak: currentStreakLength,
+    longestStreak,
+    streaks: streaks.sort((a, b) => b.length - a.length),
+    drySpells: drySpells.sort((a, b) => b.days - a.days),
+  };
+}
+
+/**
+ * Calculate current month posts
+ */
+export function calculateCurrentMonthPosts(posts: CollectionEntry<'blog'>[]): number {
+  const now = new Date();
+  return posts.filter((post) => {
+    const postDate = post.data.pubDate;
+    return postDate.getMonth() === now.getMonth() && postDate.getFullYear() === now.getFullYear();
+  }).length;
+}
+
+/**
+ * Calculate growth posts (posts focused on personal growth)
+ */
+export function calculateGrowthPosts(posts: CollectionEntry<'blog'>[]): number {
+  const growthTags = [
+    'personal-growth',
+    'transformation',
+    'healing',
+    'self-improvement',
+    'learning',
+    'consciousness',
+  ];
+  const growthKeywords = [
+    'growth',
+    'change',
+    'transform',
+    'learn',
+    'evolve',
+    'improve',
+    'heal',
+    'discover',
+  ];
+
+  return posts.filter((post) => {
+    const tags = post.data.tags || [];
+    const title = post.data.title.toLowerCase();
+    const content = (post.body || '').toLowerCase();
+
+    const hasGrowthTags = growthTags.some((tag) => tags.includes(tag));
+    const hasGrowthKeywords = growthKeywords.some(
+      (keyword) => title.includes(keyword) || content.includes(keyword),
+    );
+
+    return hasGrowthTags || hasGrowthKeywords;
+  }).length;
+}
+
+/**
+ * Calculate emotional posts (posts with high emotional intensity)
+ */
+export function calculateEmotionalPosts(posts: CollectionEntry<'blog'>[], threshold: number = 5): number {
+  const emotionalWords = [
+    'love',
+    'hate',
+    'fear',
+    'joy',
+    'sadness',
+    'anger',
+    'peace',
+    'anxiety',
+    'hope',
+    'despair',
+    'gratitude',
+    'frustration',
+  ];
+
+  return posts.filter((post) => {
+    const content = post.body || '';
+    const exclamationCount = (content.match(/!/g) || []).length;
+    const emotionalWordCount = emotionalWords.reduce((count, word) => {
+      const regex = new RegExp(`\\b${word}\\b`, 'gi');
+      return count + (content.match(regex) || []).length;
+    }, 0);
+
+    return exclamationCount + emotionalWordCount > threshold;
+  }).length;
+}
+

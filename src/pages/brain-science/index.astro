@@ -1,193 +1,41 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import Container from '../../components/Container.astro';
-import Breadcrumbs from '../../components/Breadcrumbs.astro';
-import { getCollection } from 'astro:content';
-import { categories } from '../../data/categories';
-import { getTagWeight, MASLOW_CATEGORIES } from '../../data/tags';
+import BrainScienceLayout from '../../components/brain-science/BrainScienceLayout.astro';
+import MetricCard from '../../components/brain-science/MetricCard.astro';
 import {
-  formatDistanceToNow,
-  format,
-  startOfMonth,
-  endOfMonth,
-  eachMonthOfInterval,
-  parseISO,
-} from 'date-fns';
+  getBrainSciencePosts,
+  calculateBaseMetrics,
+  calculateTagFrequency,
+  calculateMaslowAnalysis,
+  calculateCurrentMonthPosts,
+  calculateStreakMetrics,
+  calculateGrowthPosts,
+  calculateEmotionalPosts,
+} from '../../utils/brainScience/data';
 import {
   calculateObjectiveMetrics,
   scoreToLetterGrade,
   letterGradeToColor,
 } from '../../utils/insightGenerator';
+import { BRAIN_SCIENCE_PAGES } from '../../data/brainScience';
 
 // Get all published posts
-const posts = await getCollection('blog', ({ data }) => {
-  return import.meta.env.PROD ? !data.draft && data.published : true;
-});
+const posts = await getBrainSciencePosts();
 
-// Sort posts by date
-const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+// Calculate base metrics using shared utilities
+const baseMetrics = calculateBaseMetrics(posts);
+const topTags = calculateTagFrequency(posts, 10);
+const maslowAnalysis = calculateMaslowAnalysis(posts);
+const thisMonthPosts = calculateCurrentMonthPosts(posts);
+const streakMetrics = calculateStreakMetrics(posts);
+const growthPosts = calculateGrowthPosts(posts);
+const emotionalPosts = calculateEmotionalPosts(posts);
 
-// Calculate key metrics
-const totalPosts = posts.length;
-const totalWords = posts.reduce((sum, post) => {
-  const content = post.body;
-  return sum + (content ? content.split(/\s+/).length : 0);
-}, 0);
-const averageWordsPerPost = Math.round(totalWords / totalPosts);
-
-// Date range analysis
-const firstPostDate = sortedPosts[sortedPosts.length - 1]?.data.pubDate;
-const lastPostDate = sortedPosts[0]?.data.pubDate;
-const daysSinceFirstPost = firstPostDate
-  ? Math.floor((Date.now() - firstPostDate.getTime()) / (1000 * 60 * 60 * 24))
-  : 0;
-const postsPerDay = daysSinceFirstPost > 0 ? (totalPosts / daysSinceFirstPost).toFixed(2) : 0;
-
-// Monthly posting frequency
-const monthlyPosts = eachMonthOfInterval({
-  start: firstPostDate || new Date(),
-  end: lastPostDate || new Date(),
-}).map((month) => {
-  const monthStart = startOfMonth(month);
-  const monthEnd = endOfMonth(month);
-  const postsInMonth = posts.filter(
-    (post) => post.data.pubDate >= monthStart && post.data.pubDate <= monthEnd,
-  ).length;
-  return {
-    month: format(month, 'yyyy-MM'),
-    label: format(month, 'MMM yyyy'),
-    count: postsInMonth,
-  };
-});
-
-// Tag analysis
-const tagFrequency = posts.reduce(
-  (acc, post) => {
-    post.data.tags?.forEach((tag) => {
-      acc[tag] = (acc[tag] || 0) + 1;
-    });
-    return acc;
-  },
-  {} as Record<string, number>,
-);
-
-const topTags = Object.entries(tagFrequency)
-  .sort(([, a], [, b]) => b - a)
-  .slice(0, 10)
-  .map(([tag, count]) => ({ tag, count, weight: getTagWeight(tag) }));
-
-// Category analysis
-const categoryFrequency = posts.reduce(
-  (acc, post) => {
-    post.data.category?.forEach((cat) => {
-      acc[cat] = (acc[cat] || 0) + 1;
-    });
-    return acc;
-  },
-  {} as Record<string, number>,
-);
-
-// Maslow hierarchy analysis
-const maslowAnalysis = MASLOW_CATEGORIES.map((category) => {
-  const categoryPosts = posts.filter((post) =>
-    post.data.tags?.some((tag) => category.tags.includes(tag)),
-  ).length;
-  return {
-    ...category,
-    postCount: categoryPosts,
-    percentage: Math.round((categoryPosts / totalPosts) * 100),
-  };
-}).filter((cat) => cat.postCount > 0);
-
-// Current month posts
-const thisMonthPosts = posts.filter((post) => {
-  const now = new Date();
-  const postDate = post.data.pubDate;
-  return postDate.getMonth() === now.getMonth() && postDate.getFullYear() === now.getFullYear();
-}).length;
-
-// Writing streaks
-let currentStreak = 0;
-let longestStreak = 0;
-let tempStreak = 0;
-
-for (let i = 0; i < sortedPosts.length - 1; i++) {
-  const currentDate = sortedPosts[i].data.pubDate;
-  const nextDate = sortedPosts[i + 1].data.pubDate;
-  const daysDiff = Math.floor((currentDate.getTime() - nextDate.getTime()) / (1000 * 60 * 60 * 24));
-
-  if (daysDiff <= 7) {
-    // Consider posts within a week as a streak
-    tempStreak++;
-    longestStreak = Math.max(longestStreak, tempStreak);
-  } else {
-    tempStreak = 0;
-  }
-}
-
-currentStreak = tempStreak;
-
-// Personal growth indicators
-const growthPosts = posts.filter((post) => {
-  const tags = post.data.tags || [];
-  const title = post.data.title.toLowerCase();
-  const content = post.body || '';
-
-  const growthTags = [
-    'personal-growth',
-    'transformation',
-    'healing',
-    'self-improvement',
-    'learning',
-    'consciousness',
-  ];
-  const growthKeywords = [
-    'growth',
-    'change',
-    'transform',
-    'learn',
-    'evolve',
-    'improve',
-    'heal',
-    'discover',
-  ];
-
-  const hasGrowthTags = growthTags.some((tag) => tags.includes(tag));
-  const hasGrowthKeywords = growthKeywords.some(
-    (keyword) => title.includes(keyword) || content.toLowerCase().includes(keyword),
-  );
-
-  return hasGrowthTags || hasGrowthKeywords;
-}).length;
-
-// Emotional processing indicators
-const emotionalPosts = posts.filter((post) => {
-  const content = post.body || '';
-  const exclamationCount = (content.match(/!/g) || []).length;
-  const emotionalWords = [
-    'love',
-    'hate',
-    'fear',
-    'joy',
-    'sadness',
-    'anger',
-    'peace',
-    'anxiety',
-    'hope',
-    'despair',
-    'gratitude',
-    'frustration',
-  ];
-  const emotionalWordCount = emotionalWords.reduce((count, word) => {
-    const regex = new RegExp(`\\b${word}\\b`, 'gi');
-    return count + (content.match(regex) || []).length;
-  }, 0);
-
-  return exclamationCount + emotionalWordCount > 5; // Threshold for emotional intensity
-}).length;
-
-// Calculate objective metrics for balanced analysis
+// Calculate objective metrics
 const objectiveMetrics = calculateObjectiveMetrics(posts);
+
+// Get page info
+const pageInfo = BRAIN_SCIENCE_PAGES.find((p) => p.id === 'index');
 ---
 
 <BaseLayout
@@ -196,792 +44,349 @@ const objectiveMetrics = calculateObjectiveMetrics(posts);
   path="/brain-science"
   structuredDataType="website"
 >
-  <Container>
-    <Container maxWidth="container" padding="none">
-      {/* Breadcrumbs */}
-      <div class="mb-4 hidden md:mb-6 md:block">
-        <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Brain Science' }]} />
+  <BrainScienceLayout
+    currentPage="/brain-science"
+    title={pageInfo?.title || 'Writing Analytics & Self-Discovery'}
+    description="Objective analysis of writing patterns through balanced metrics and quantitative content analysis. This section provides unbiased assessment of cognitive patterns, emotional processing, and intellectual evolution using data-driven methodologies that include positive, neutral, and negative signal analysis."
+  >
+    {/* Measurable Metrics Grid */}
+    <div
+      class="mb-8 grid grid-cols-2 gap-4 md:mb-10 md:grid-cols-2 md:gap-6 lg:mb-12 lg:grid-cols-4"
+    >
+      <MetricCard
+        value={baseMetrics.totalPosts}
+        label="Thoughts Captured"
+        subtitle="Mental Snapshots"
+        emoji="💭"
+        color="text-blue-500"
+        title="Total number of published writings (excluding drafts in production)"
+      />
+      <MetricCard
+        value={baseMetrics.totalWords}
+        label="Words Written"
+        subtitle="Creative Output"
+        emoji="📝"
+        color="text-green-500"
+        title="Sum of all words across all published posts (calculated by splitting content on whitespace)"
+      />
+      <MetricCard
+        value={growthPosts}
+        label="Growth Writings"
+        subtitle="Personal Evolution"
+        emoji="🌱"
+        color="text-purple-500"
+        title="Posts focused on personal growth, transformation, or self-improvement"
+      />
+      <MetricCard
+        value={emotionalPosts}
+        label="Emotional Writings"
+        subtitle="Heart Processing"
+        emoji="💜"
+        color="text-pink-500"
+        title="Posts with high emotional intensity (exclamation marks and emotional keywords)"
+      />
+    </div>
+
+    {/* Publishing Activity Metrics */}
+    <div class="mb-8 grid grid-cols-1 gap-4 md:mb-10 md:grid-cols-3 md:gap-6 lg:mb-12">
+      <MetricCard
+        value={thisMonthPosts}
+        label="This Month's Insights"
+        title="Number of writings published in the current month"
+        class="text-center"
+      />
+      <MetricCard
+        value={streakMetrics.currentStreak}
+        label="Current Publishing Streak"
+        title="Current writing streak (consecutive writings within 7 days of each other)"
+        class="text-center"
+      />
+      <MetricCard
+        value={streakMetrics.longestStreak}
+        label="Longest Publishing Period"
+        title="Longest writing streak achieved (consecutive writings within 7 days of each other)"
+        class="text-center"
+      />
+    </div>
+
+    {/* Objective Analysis Section */}
+    <div class="mb-12 md:mb-16">
+      <h2
+        class="mb-4 flex items-center gap-2 text-lg font-semibold text-[rgb(var(--color-text))] md:mb-6 md:text-xl"
+      >
+        <span class="text-gray-600 dark:text-gray-400">⚖️</span>
+        Objective Analysis
+      </h2>
+      <p class="mb-6 max-w-3xl text-sm text-[rgb(var(--color-text-muted))] md:mb-8">
+        Balanced assessment showing strengths, challenges, and neutral metrics without bias toward
+        positive outcomes.
+      </p>
+
+      {/* Sentiment Analysis */}
+      <div class="mb-6 md:mb-8">
+        <h3 class="mb-3 text-base font-medium text-[rgb(var(--color-text))] md:mb-4 md:text-lg">
+          Sentiment Distribution
+        </h3>
+        <div class="grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-6">
+          <div
+            class="rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg-secondary))] p-3 text-center md:p-4"
+          >
+            <div class="mb-1 text-xl font-bold text-green-600 dark:text-green-400 md:text-2xl">
+              {objectiveMetrics.sentimentAnalysis.positive}
+            </div>
+            <div class="text-xs text-green-600 dark:text-green-400 md:text-sm">Positive</div>
+          </div>
+          <div
+            class="rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg-secondary))] p-3 text-center md:p-4"
+          >
+            <div class="mb-1 text-xl font-bold text-red-600 dark:text-red-400 md:text-2xl">
+              {objectiveMetrics.sentimentAnalysis.negative}
+            </div>
+            <div class="text-xs text-red-600 dark:text-red-400 md:text-sm">Negative</div>
+          </div>
+          <div
+            class="rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg-secondary))] p-3 text-center md:p-4"
+          >
+            <div class="mb-1 text-xl font-bold text-blue-600 dark:text-blue-400 md:text-2xl">
+              {objectiveMetrics.sentimentAnalysis.neutral}
+            </div>
+            <div class="text-xs text-blue-600 dark:text-blue-400 md:text-sm">Neutral</div>
+          </div>
+          <div
+            class="rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg-secondary))] p-3 text-center md:p-4"
+          >
+            <div class="mb-1 text-xl font-bold text-gray-600 dark:text-gray-400 md:text-2xl">
+              {objectiveMetrics.sentimentAnalysis.mixed}
+            </div>
+            <div class="text-xs text-gray-600 dark:text-gray-400 md:text-sm">Mixed</div>
+          </div>
+        </div>
       </div>
 
-      <div class="py-4 md:py-6 lg:py-8">
-        {/* Header */}
-        <div class="mb-6 md:mb-8 lg:mb-10">
-          <h1
-            class="text-display mb-3 text-[rgb(var(--color-text))] md:mb-4 lg:mb-5"
-            transition:name="page-title"
-          >
-            🧠 <span class="highlight-primary">Writing Analytics & Self-Discovery</span>
-          </h1>
-          <p
-            class="text-body-large max-w-4xl leading-relaxed text-[rgb(var(--color-text-muted))]"
-            transition:name="page-description"
-          >
-            Objective analysis of writing patterns through balanced metrics and quantitative content
-            analysis. This section provides unbiased assessment of cognitive patterns, emotional
-            processing, and intellectual evolution using data-driven methodologies that include
-            positive, neutral, and negative signal analysis.
-          </p>
-        </div>
-
-        {/* Measurable Metrics Grid */}
-        <div
-          class="mb-8 grid grid-cols-2 gap-4 md:mb-10 md:grid-cols-2 md:gap-6 lg:mb-12 lg:grid-cols-4"
-        >
+      {/* Consistency Metrics */}
+      <div class="mb-6 md:mb-8">
+        <h3 class="mb-3 text-base font-medium text-[rgb(var(--color-text))] md:mb-4 md:text-lg">
+          Consistency Metrics
+        </h3>
+        <div class="grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-6">
           <div
             class="rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg-secondary))] p-4 md:p-6"
           >
+            <div class="mb-1 text-xs text-[rgb(var(--color-text-muted))] md:text-sm">
+              Posting Regularity
+            </div>
+            <div class="mb-1 text-xl font-bold text-[rgb(var(--color-text))] md:text-2xl">
+              {objectiveMetrics.consistencyMetrics.postingRegularity}/100
+            </div>
             <div
-              class="mb-1 text-xl font-bold text-[rgb(var(--color-text))] md:mb-2 md:text-2xl"
-              title="Total number of published writings (excluding drafts in production)"
+              class={`text-xs md:text-sm font-semibold ${letterGradeToColor(scoreToLetterGrade(objectiveMetrics.consistencyMetrics.postingRegularity))}`}
             >
-              {totalPosts}
+              Grade: {scoreToLetterGrade(objectiveMetrics.consistencyMetrics.postingRegularity)}
             </div>
-            <div class="text-xs text-[rgb(var(--color-text-muted))] md:text-sm">
-              Thoughts Captured
-            </div>
-            <div class="mt-1 text-xs text-blue-500">💭 Mental Snapshots</div>
           </div>
           <div
             class="rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg-secondary))] p-4 md:p-6"
           >
-            <div
-              class="mb-1 text-xl font-bold text-[rgb(var(--color-text))] md:mb-2 md:text-2xl"
-              title="Sum of all words across all published posts (calculated by splitting content on whitespace)"
-            >
-              {totalWords.toLocaleString()}
+            <div class="mb-1 text-xs text-[rgb(var(--color-text-muted))] md:text-sm">
+              Topic Consistency
             </div>
-            <div class="text-xs text-[rgb(var(--color-text-muted))] md:text-sm">Words Written</div>
-            <div class="mt-1 text-xs text-green-500">📝 Creative Output</div>
+            <div class="mb-1 text-xl font-bold text-[rgb(var(--color-text))] md:text-2xl">
+              {objectiveMetrics.consistencyMetrics.topicConsistency}/100
+            </div>
+            <div
+              class={`text-xs md:text-sm font-semibold ${letterGradeToColor(scoreToLetterGrade(objectiveMetrics.consistencyMetrics.topicConsistency))}`}
+            >
+              Grade: {scoreToLetterGrade(objectiveMetrics.consistencyMetrics.topicConsistency)}
+            </div>
           </div>
           <div
             class="rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg-secondary))] p-4 md:p-6"
           >
+            <div class="mb-1 text-xs text-[rgb(var(--color-text-muted))] md:text-sm">
+              Quality Variance
+            </div>
+            <div class="mb-1 text-xl font-bold text-[rgb(var(--color-text))] md:text-2xl">
+              {objectiveMetrics.consistencyMetrics.qualityVariance}/100
+            </div>
             <div
-              class="mb-1 text-xl font-bold text-[rgb(var(--color-text))] md:mb-2 md:text-2xl"
-              title="Posts focused on personal growth, transformation, or self-improvement"
+              class={`text-xs md:text-sm font-semibold ${letterGradeToColor(scoreToLetterGrade(100 - objectiveMetrics.consistencyMetrics.qualityVariance))}`}
             >
-              {growthPosts}
-            </div>
-            <div class="text-xs text-[rgb(var(--color-text-muted))] md:text-sm">
-              Growth Writings
-            </div>
-            <div class="mt-1 text-xs text-purple-500">🌱 Personal Evolution</div>
-          </div>
-          <div
-            class="rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg-secondary))] p-4 md:p-6"
-          >
-            <div
-              class="mb-1 text-xl font-bold text-[rgb(var(--color-text))] md:mb-2 md:text-2xl"
-              title="Posts with high emotional intensity (exclamation marks and emotional keywords)"
-            >
-              {emotionalPosts}
-            </div>
-            <div class="text-xs text-[rgb(var(--color-text-muted))] md:text-sm">
-              Emotional Writings
-            </div>
-            <div class="mt-1 text-xs text-pink-500">💜 Heart Processing</div>
-          </div>
-        </div>
-
-        {/* Publishing Activity Metrics */}
-        <div class="mb-8 grid grid-cols-1 gap-4 md:mb-10 md:grid-cols-3 md:gap-6 lg:mb-12">
-          <div
-            class="rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg-secondary))] p-4 text-center md:p-6"
-          >
-            <div
-              class="mb-1 text-xl font-bold text-[rgb(var(--color-text))] md:mb-2 md:text-2xl"
-              title="Number of writings published in the current month"
-            >
-              {thisMonthPosts}
-            </div>
-            <div class="text-xs text-[rgb(var(--color-text-muted))] md:text-sm">
-              This Month's Insights
-            </div>
-          </div>
-          <div
-            class="rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg-secondary))] p-4 text-center md:p-6"
-          >
-            <div
-              class="mb-1 text-xl font-bold text-[rgb(var(--color-text))] md:mb-2 md:text-2xl"
-              title="Current writing streak (consecutive writings within 7 days of each other)"
-            >
-              {currentStreak}
-            </div>
-            <div class="text-xs text-[rgb(var(--color-text-muted))] md:text-sm">
-              Current Publishing Streak
-            </div>
-          </div>
-          <div
-            class="rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg-secondary))] p-4 text-center md:p-6"
-          >
-            <div
-              class="mb-1 text-xl font-bold text-[rgb(var(--color-text))] md:mb-2 md:text-2xl"
-              title="Longest writing streak achieved (consecutive writings within 7 days of each other)"
-            >
-              {longestStreak}
-            </div>
-            <div class="text-xs text-[rgb(var(--color-text-muted))] md:text-sm">
-              Longest Publishing Period
+              Grade: {scoreToLetterGrade(100 - objectiveMetrics.consistencyMetrics.qualityVariance)}
             </div>
           </div>
         </div>
+      </div>
 
-        {/* Objective Analysis Section */}
-        <div class="mb-12 md:mb-16">
-          <h2
-            class="mb-4 flex items-center gap-2 text-lg font-semibold text-[rgb(var(--color-text))] md:mb-6 md:text-xl"
-          >
-            <span class="text-gray-600 dark:text-gray-400">⚖️</span>
-            Objective Analysis
-          </h2>
-          <p class="mb-6 max-w-3xl text-sm text-[rgb(var(--color-text-muted))] md:mb-8">
-            Balanced assessment showing strengths, challenges, and neutral metrics without bias
-            toward positive outcomes.
-          </p>
-
-          {/* Sentiment Analysis */}
-          <div class="mb-6 md:mb-8">
-            <h3 class="mb-3 text-base font-medium text-[rgb(var(--color-text))] md:mb-4 md:text-lg">
-              Sentiment Distribution
-            </h3>
-            <div class="grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-6">
-              <div
-                class="rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg-secondary))] p-3 text-center md:p-4"
-              >
-                <div class="mb-1 text-xl font-bold text-green-600 dark:text-green-400 md:text-2xl">
-                  {objectiveMetrics.sentimentAnalysis.positive}
-                </div>
-                <div class="text-xs text-green-600 dark:text-green-400 md:text-sm">Positive</div>
-              </div>
-              <div
-                class="rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg-secondary))] p-3 text-center md:p-4"
-              >
-                <div class="mb-1 text-xl font-bold text-red-600 dark:text-red-400 md:text-2xl">
-                  {objectiveMetrics.sentimentAnalysis.negative}
-                </div>
-                <div class="text-xs text-red-600 dark:text-red-400 md:text-sm">Negative</div>
-              </div>
-              <div
-                class="rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg-secondary))] p-3 text-center md:p-4"
-              >
-                <div class="mb-1 text-xl font-bold text-blue-600 dark:text-blue-400 md:text-2xl">
-                  {objectiveMetrics.sentimentAnalysis.neutral}
-                </div>
-                <div class="text-xs text-blue-600 dark:text-blue-400 md:text-sm">Neutral</div>
-              </div>
-              <div
-                class="rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg-secondary))] p-3 text-center md:p-4"
-              >
-                <div class="mb-1 text-xl font-bold text-gray-600 dark:text-gray-400 md:text-2xl">
-                  {objectiveMetrics.sentimentAnalysis.mixed}
-                </div>
-                <div class="text-xs text-gray-600 dark:text-gray-400 md:text-sm">Mixed</div>
-              </div>
-            </div>
-          </div>
-
-          {/* Consistency Metrics */}
-          <div class="mb-6 md:mb-8">
-            <h3 class="mb-3 text-base font-medium text-[rgb(var(--color-text))] md:mb-4 md:text-lg">
-              Consistency Metrics
-            </h3>
-            <div class="grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-6">
-              <div
-                class="rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg-secondary))] p-4 md:p-6"
-              >
-                <div class="mb-1 text-xs text-[rgb(var(--color-text-muted))] md:text-sm">
-                  Posting Regularity
-                </div>
-                <div class="mb-1 text-xl font-bold text-[rgb(var(--color-text))] md:text-2xl">
-                  {objectiveMetrics.consistencyMetrics.postingRegularity}/100
-                </div>
-                <div
-                  class={`text-xs md:text-sm font-semibold ${letterGradeToColor(scoreToLetterGrade(objectiveMetrics.consistencyMetrics.postingRegularity))}`}
-                >
-                  Grade: {scoreToLetterGrade(objectiveMetrics.consistencyMetrics.postingRegularity)}
-                </div>
-              </div>
-              <div
-                class="rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg-secondary))] p-4 md:p-6"
-              >
-                <div class="mb-1 text-xs text-[rgb(var(--color-text-muted))] md:text-sm">
-                  Topic Consistency
-                </div>
-                <div class="mb-1 text-xl font-bold text-[rgb(var(--color-text))] md:text-2xl">
-                  {objectiveMetrics.consistencyMetrics.topicConsistency}/100
-                </div>
-                <div
-                  class={`text-xs md:text-sm font-semibold ${letterGradeToColor(scoreToLetterGrade(objectiveMetrics.consistencyMetrics.topicConsistency))}`}
-                >
-                  Grade: {scoreToLetterGrade(objectiveMetrics.consistencyMetrics.topicConsistency)}
-                </div>
-              </div>
-              <div
-                class="rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg-secondary))] p-4 md:p-6"
-              >
-                <div class="mb-1 text-xs text-[rgb(var(--color-text-muted))] md:text-sm">
-                  Quality Variance
-                </div>
-                <div class="mb-1 text-xl font-bold text-[rgb(var(--color-text))] md:text-2xl">
-                  {objectiveMetrics.consistencyMetrics.qualityVariance}/100
-                </div>
-                <div
-                  class={`text-xs md:text-sm font-semibold ${letterGradeToColor(scoreToLetterGrade(100 - objectiveMetrics.consistencyMetrics.qualityVariance))}`}
-                >
-                  Grade: {
-                    scoreToLetterGrade(100 - objectiveMetrics.consistencyMetrics.qualityVariance)
-                  }
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Challenge Areas */}
-          {
-            objectiveMetrics.challengeAreas.length > 0 && (
-              <div class="mb-6 md:mb-8">
-                <h3 class="mb-3 text-base font-medium text-[rgb(var(--color-text))] md:mb-4 md:text-lg">
-                  Challenge Areas
-                </h3>
-                <div class="space-y-2 overflow-hidden rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg-secondary))] md:space-y-3">
-                  {objectiveMetrics.challengeAreas.map((challenge) => (
-                    <div class="flex items-center justify-between border-b border-[rgb(var(--color-border))] px-4 py-3 last:border-b-0 md:px-6 md:py-4">
-                      <div>
-                        <span class="text-sm font-medium text-[rgb(var(--color-text))] md:text-base">
-                          {challenge.area}
-                        </span>
-                        <div class="text-xs text-[rgb(var(--color-text-muted))] md:text-sm">
-                          Frequency: {challenge.frequency}%
-                        </div>
-                      </div>
-                      <span
-                        class={`rounded-full px-2 py-1 text-xs md:px-3 md:text-sm ${
-                          challenge.severity === 'high'
-                            ? 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300'
-                            : challenge.severity === 'medium'
-                              ? 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-300'
-                              : 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300'
-                        }`}
-                      >
-                        {challenge.severity}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )
-          }
-
-          {/* Improvement Areas */}
-          {
-            objectiveMetrics.improvementAreas.length > 0 && (
-              <div class="mb-6 md:mb-8">
-                <h3 class="mb-3 text-base font-medium text-[rgb(var(--color-text))] md:mb-4 md:text-lg">
-                  Improvement Opportunities
-                </h3>
-                <div class="space-y-3 rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg-secondary))] p-4 md:space-y-4 md:p-6">
-                  {objectiveMetrics.improvementAreas.map((improvement) => (
-                    <div>
-                      <div class="mb-2 flex items-center justify-between">
-                        <span class="text-sm font-medium text-[rgb(var(--color-text))] md:text-base">
-                          {improvement.area}
-                        </span>
-                        <span class="text-xs text-[rgb(var(--color-text-muted))] md:text-sm">
-                          {improvement.current} / {improvement.target}
-                        </span>
-                      </div>
-                      <div class="mb-1 h-2 w-full rounded-full bg-gray-200 dark:bg-gray-700">
-                        <div
-                          class="h-2 rounded-full bg-blue-500 transition-all duration-300"
-                          style={`width: ${Math.min(100, (improvement.current / improvement.target) * 100)}%`}
-                        />
-                      </div>
-                      <div class="text-xs text-[rgb(var(--color-text-muted))] md:text-sm">
-                        Gap: {improvement.gap.toFixed(1)}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )
-          }
-        </div>
-
-        {/* Analytics Navigation Cards */}
-        <div class="mb-12 md:mb-16">
-          <h2
-            class="mb-6 flex items-center gap-2 text-lg font-semibold text-[rgb(var(--color-text))] md:mb-8 md:text-xl"
-          >
-            <span class="text-[rgb(var(--color-accent))]">🔬</span>
-            Analytics & Insights
-          </h2>
-          <div class="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 lg:grid-cols-3 lg:gap-8">
-            <a href="/brain-science/insights" class="group block">
-              <div
-                class="h-full cursor-pointer rounded-lg border border-[rgb(var(--color-border))] p-4 transition-all duration-200 hover:border-[rgb(var(--color-accent))] hover:bg-[rgb(var(--color-accent))]/5 md:p-6"
-              >
-                <div class="mb-2 text-xl md:mb-3 md:text-2xl">💡</div>
-                <h3
-                  class="mb-2 text-base font-semibold text-[rgb(var(--color-text))] transition-colors group-hover:text-[rgb(var(--color-accent))] md:text-lg"
-                >
-                  Personal Insights
-                </h3>
-                <p
-                  class="text-xs text-[rgb(var(--color-text-muted))] transition-colors group-hover:text-[rgb(var(--color-text))] md:text-sm"
-                >
-                  Discover patterns in your emotional processing and creative energy
-                </p>
-              </div>
-            </a>
-
-            <a href="/brain-science/evolution" class="group block">
-              <div
-                class="h-full cursor-pointer rounded-lg border border-[rgb(var(--color-border))] p-4 transition-all duration-200 hover:border-[rgb(var(--color-accent))] hover:bg-[rgb(var(--color-accent))]/5 md:p-6"
-              >
-                <div class="mb-2 text-xl md:mb-3 md:text-2xl">📈</div>
-                <h3
-                  class="mb-2 text-base font-semibold text-[rgb(var(--color-text))] transition-colors group-hover:text-[rgb(var(--color-accent))] md:text-lg"
-                >
-                  Intellectual Growth
-                </h3>
-                <p
-                  class="text-xs text-[rgb(var(--color-text-muted))] transition-colors group-hover:text-[rgb(var(--color-text))] md:text-sm"
-                >
-                  See how your thinking style and knowledge areas have evolved
-                </p>
-              </div>
-            </a>
-
-            <a href="/brain-science/topics" class="group block">
-              <div
-                class="h-full cursor-pointer rounded-lg border border-[rgb(var(--color-border))] p-4 transition-all duration-200 hover:border-[rgb(var(--color-accent))] hover:bg-[rgb(var(--color-accent))]/5 md:p-6"
-              >
-                <div class="mb-2 text-xl md:mb-3 md:text-2xl">🏷️</div>
-                <h3
-                  class="mb-2 text-base font-semibold text-[rgb(var(--color-text))] transition-colors group-hover:text-[rgb(var(--color-accent))] md:text-lg"
-                >
-                  Core Themes
-                </h3>
-                <p
-                  class="text-xs text-[rgb(var(--color-text-muted))] transition-colors group-hover:text-[rgb(var(--color-text))] md:text-sm"
-                >
-                  Understand what truly matters to you and how your interests connect
-                </p>
-              </div>
-            </a>
-
-            <a href="/brain-science/cadence" class="group block">
-              <div
-                class="h-full cursor-pointer rounded-lg border border-[rgb(var(--color-border))] p-4 transition-all duration-200 hover:border-[rgb(var(--color-accent))] hover:bg-[rgb(var(--color-accent))]/5 md:p-6"
-              >
-                <div class="mb-2 text-xl md:mb-3 md:text-2xl">📅</div>
-                <h3
-                  class="mb-2 text-base font-semibold text-[rgb(var(--color-text))] transition-colors group-hover:text-[rgb(var(--color-accent))] md:text-lg"
-                >
-                  Creative Rhythms
-                </h3>
-                <p
-                  class="text-xs text-[rgb(var(--color-text-muted))] transition-colors group-hover:text-[rgb(var(--color-text))] md:text-sm"
-                >
-                  Discover your natural creative cycles and productive patterns
-                </p>
-              </div>
-            </a>
-
-            <a href="/brain-science/patterns" class="group block">
-              <div
-                class="h-full cursor-pointer rounded-lg border border-[rgb(var(--color-border))] p-4 transition-all duration-200 hover:border-[rgb(var(--color-accent))] hover:bg-[rgb(var(--color-accent))]/5 md:p-6"
-              >
-                <div class="mb-2 text-xl md:mb-3 md:text-2xl">🌀</div>
-                <h3
-                  class="mb-2 text-base font-semibold text-[rgb(var(--color-text))] transition-colors group-hover:text-[rgb(var(--color-accent))] md:text-lg"
-                >
-                  Hidden Patterns
-                </h3>
-                <p
-                  class="text-xs text-[rgb(var(--color-text-muted))] transition-colors group-hover:text-[rgb(var(--color-text))] md:text-sm"
-                >
-                  Uncover subconscious patterns and creative correlations
-                </p>
-              </div>
-            </a>
-
-            <a href="/brain-science/meta" class="group block">
-              <div
-                class="h-full cursor-pointer rounded-lg border border-[rgb(var(--color-border))] p-4 transition-all duration-200 hover:border-[rgb(var(--color-accent))] hover:bg-[rgb(var(--color-accent))]/5 md:p-6"
-              >
-                <div class="mb-2 text-xl md:mb-3 md:text-2xl">🔍</div>
-                <h3
-                  class="mb-2 text-base font-semibold text-[rgb(var(--color-text))] transition-colors group-hover:text-[rgb(var(--color-accent))] md:text-lg"
-                >
-                  Self-Reflection
-                </h3>
-                <p
-                  class="text-xs text-[rgb(var(--color-text-muted))] transition-colors group-hover:text-[rgb(var(--color-text))] md:text-sm"
-                >
-                  Explore how you think about thinking and your relationship with writing
-                </p>
-              </div>
-            </a>
-          </div>
-        </div>
-
-        {/* Data Insights */}
-        <div class="mb-12 grid grid-cols-1 gap-6 md:mb-16 md:gap-8 lg:grid-cols-2">
-          {/* Core Themes */}
-          <div
-            class="rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg-secondary))] p-4 md:p-6"
-          >
-            <h3
-              class="mb-3 text-base font-semibold text-[rgb(var(--color-text))] md:mb-4 md:text-lg"
-            >
-              What Matters Most to You
-            </h3>
-            <div class="space-y-2 md:space-y-3">
-              {
-                topTags.map(({ tag, count, weight }) => (
-                  <div class="flex items-center justify-between">
-                    <span class="text-xs font-medium text-[rgb(var(--color-text))] md:text-sm">
-                      {tag}
-                    </span>
-                    <div class="flex items-center gap-2">
-                      <div class="h-2 w-12 rounded-full bg-[rgb(var(--color-border))] md:w-16">
-                        <div
-                          class="h-2 rounded-full bg-[rgb(var(--color-accent))]"
-                          style={`width: ${(count / topTags[0].count) * 100}%`}
-                        />
-                      </div>
-                      <span
-                        class="w-6 text-right text-xs text-[rgb(var(--color-text-muted))] md:w-8"
-                        title={`${count} posts tagged with "${tag}"`}
-                      >
-                        {count}
-                      </span>
-                    </div>
-                  </div>
-                ))
-              }
-            </div>
-          </div>
-
-          {/* Life Areas Focus */}
-          <div
-            class="rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg-secondary))] p-4 md:p-6"
-          >
-            <h3
-              class="mb-3 text-base font-semibold text-[rgb(var(--color-text))] md:mb-4 md:text-lg"
-            >
-              Your Life Areas Focus
-            </h3>
-            <div class="space-y-2 md:space-y-3">
-              {
-                maslowAnalysis.map((category) => (
-                  <div class="flex items-center justify-between">
-                    <div class="flex items-center gap-2">
-                      <span class="text-base md:text-lg">{category.icon}</span>
-                      <span class="text-xs font-medium text-[rgb(var(--color-text))] md:text-sm">
-                        {category.title}
-                      </span>
-                    </div>
-                    <div class="flex items-center gap-2">
-                      <div class="h-2 w-12 rounded-full bg-[rgb(var(--color-border))] md:w-16">
-                        <div
-                          class="h-2 rounded-full"
-                          style={`width: ${category.percentage}%; background-color: rgb(var(--color-accent))`}
-                        />
-                      </div>
-                      <span
-                        class="w-6 text-right text-xs text-[rgb(var(--color-text-muted))] md:w-8"
-                        title={`${category.postCount} posts (${category.percentage}% of total) in ${category.title} category`}
-                      >
-                        {category.percentage}%
-                      </span>
-                    </div>
-                  </div>
-                ))
-              }
-            </div>
-          </div>
-        </div>
-
-        {/* Formulas & Metrics Glossary */}
-        <div class="mb-8 md:mb-12">
-          <h3
-            class="mb-6 flex items-center gap-2 text-lg font-semibold text-[rgb(var(--color-text))] md:mb-8 md:gap-3 md:text-xl"
-          >
-            <span class="text-xl text-[rgb(var(--color-accent))] md:text-2xl">📊</span>
-            Formulas & Metrics Glossary
+      {/* Challenge Areas */}
+      {objectiveMetrics.challengeAreas.length > 0 && (
+        <div class="mb-6 md:mb-8">
+          <h3 class="mb-3 text-base font-medium text-[rgb(var(--color-text))] md:mb-4 md:text-lg">
+            Challenge Areas
           </h3>
-
-          <div class="space-y-8 md:space-y-12">
-            {/* Sentiment Analysis */}
-            <div
-              class="rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg-secondary))] p-4 md:p-6"
-            >
-              <h4
-                class="mb-3 flex items-center gap-2 text-base font-semibold text-[rgb(var(--color-text))] md:mb-4 md:text-lg"
-              >
-                <span class="text-blue-500">📈</span>
-                Sentiment Analysis
-              </h4>
-              <div class="space-y-2 text-[rgb(var(--color-text-muted))] md:space-y-3">
-                <p class="text-xs md:text-sm">
-                  <strong class="text-[rgb(var(--color-text))]">Formula:</strong> Word frequency analysis
-                  using predefined emotional lexicons
-                </p>
-                <p class="text-xs md:text-sm">
-                  <strong class="text-[rgb(var(--color-text))]">Classification:</strong> Post is classified
-                  based on highest word frequency category
-                </p>
-                <div class="mt-3 grid grid-cols-1 gap-4 md:mt-4 md:grid-cols-3 md:gap-6">
-                  <div>
-                    <p
-                      class="mb-1 text-xs font-medium text-[rgb(var(--color-text))] md:mb-2 md:text-sm"
-                    >
-                      Positive Words
-                    </p>
-                    <p class="text-xs">
-                      love, joy, excited, happy, grateful, inspired, confident, proud, accomplished,
-                      fulfilled, peaceful, content, optimistic, hopeful, energized, motivated,
-                      successful, achieved, breakthrough, transformation, growth, improvement,
-                      better, stronger, wiser
-                    </p>
-                  </div>
-                  <div>
-                    <p
-                      class="mb-1 text-xs font-medium text-[rgb(var(--color-text))] md:mb-2 md:text-sm"
-                    >
-                      Negative Words
-                    </p>
-                    <p class="text-xs">
-                      hate, fear, sadness, anger, anxiety, despair, frustration, worried, confused,
-                      overwhelmed, restless, pain, hurt, broken, struggle, difficult, challenge,
-                      failure, disappointed, defeated, hopeless, lost, stuck, trapped, suffering
-                    </p>
-                  </div>
-                  <div>
-                    <p
-                      class="mb-1 text-xs font-medium text-[rgb(var(--color-text))] md:mb-2 md:text-sm"
-                    >
-                      Neutral Words
-                    </p>
-                    <p class="text-xs">
-                      think, believe, understand, realize, observe, notice, consider, reflect,
-                      analyze, examine, study, learn, discover, explore, investigate, research,
-                      find, determine, conclude, decide
-                    </p>
+          <div class="space-y-2 overflow-hidden rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg-secondary))] md:space-y-3">
+            {objectiveMetrics.challengeAreas.map((challenge) => (
+              <div class="flex items-center justify-between border-b border-[rgb(var(--color-border))] px-4 py-3 last:border-b-0 md:px-6 md:py-4">
+                <div>
+                  <span class="text-sm font-medium text-[rgb(var(--color-text))] md:text-base">
+                    {challenge.area}
+                  </span>
+                  <div class="text-xs text-[rgb(var(--color-text-muted))] md:text-sm">
+                    Frequency: {challenge.frequency}%
                   </div>
                 </div>
+                <span
+                  class={`rounded-full px-2 py-1 text-xs md:px-3 md:text-sm ${
+                    challenge.severity === 'high'
+                      ? 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300'
+                      : challenge.severity === 'medium'
+                        ? 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-300'
+                        : 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300'
+                  }`}
+                >
+                  {challenge.severity}
+                </span>
               </div>
-            </div>
-
-            {/* Posting Regularity */}
-            <div
-              class="rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg-secondary))] p-4 md:p-6"
-            >
-              <h4
-                class="mb-3 flex items-center gap-2 text-base font-semibold text-[rgb(var(--color-text))] md:mb-4 md:text-lg"
-              >
-                <span class="text-green-500">📅</span>
-                Posting Regularity
-              </h4>
-              <div class="space-y-2 text-[rgb(var(--color-text-muted))] md:space-y-3">
-                <p class="text-xs md:text-sm">
-                  <strong class="text-[rgb(var(--color-text))]">Formula:</strong>
-                  <code class="font-mono text-xs md:text-sm"
-                    >Consistency = 100 - (Variance / 10)</code>
-                </p>
-                <p class="text-xs md:text-sm">
-                  <strong class="text-[rgb(var(--color-text))]">Calculation:</strong> Analyze intervals
-                  between consecutive posts, calculate variance from mean interval
-                </p>
-                <p class="text-xs md:text-sm">
-                  <strong class="text-[rgb(var(--color-text))]">Score Range:</strong>
-                  <code class="font-mono text-xs md:text-sm">0-100</code> (higher = more consistent)
-                </p>
-                <p class="text-xs md:text-sm">
-                  <strong class="text-[rgb(var(--color-text))]">Interpretation:</strong> Lower variance
-                  in posting intervals indicates more regular writing habits
-                </p>
-              </div>
-            </div>
-
-            {/* Topic Consistency */}
-            <div
-              class="rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg-secondary))] p-4 md:p-6"
-            >
-              <h4
-                class="mb-3 flex items-center gap-2 text-base font-semibold text-[rgb(var(--color-text))] md:mb-4 md:text-lg"
-              >
-                <span class="text-purple-500">🏷️</span>
-                Topic Consistency
-              </h4>
-              <div class="space-y-2 text-[rgb(var(--color-text-muted))] md:space-y-3">
-                <p class="text-xs md:text-sm">
-                  <strong class="text-[rgb(var(--color-text))]">Formula:</strong>
-                  <code class="font-mono text-xs md:text-sm"
-                    >(Most Frequent Tag Count / Total Posts) × 100</code>
-                </p>
-                <p class="text-xs md:text-sm">
-                  <strong class="text-[rgb(var(--color-text))]">Calculation:</strong> Count posts per
-                  tag, find highest frequency, divide by total posts
-                </p>
-                <p class="text-xs md:text-sm">
-                  <strong class="text-[rgb(var(--color-text))]">Score Range:</strong>
-                  <code class="font-mono text-xs md:text-sm">0-100</code> (higher = more focused on single
-                  topic)
-                </p>
-                <p class="text-xs md:text-sm">
-                  <strong class="text-[rgb(var(--color-text))]">Interpretation:</strong> Higher scores
-                  indicate concentrated focus, lower scores show topic diversity
-                </p>
-              </div>
-            </div>
-
-            {/* Quality Variance */}
-            <div
-              class="rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg-secondary))] p-4 md:p-6"
-            >
-              <h4
-                class="mb-3 flex items-center gap-2 text-base font-semibold text-[rgb(var(--color-text))] md:mb-4 md:text-lg"
-              >
-                <span class="text-orange-500">📊</span>
-                Quality Variance
-              </h4>
-              <div class="space-y-2 text-[rgb(var(--color-text-muted))] md:space-y-3">
-                <p class="text-xs md:text-sm">
-                  <strong class="text-[rgb(var(--color-text))]">Formula:</strong>
-                  <code class="font-mono text-xs md:text-sm"
-                    >Variance = Σ(word_count - avg_word_count)² / n</code>
-                </p>
-                <p class="text-xs md:text-sm">
-                  <strong class="text-[rgb(var(--color-text))]">Calculation:</strong> Calculate variance
-                  in word count across all posts
-                </p>
-                <p class="text-xs md:text-sm">
-                  <strong class="text-[rgb(var(--color-text))]">Score Range:</strong>
-                  <code class="font-mono text-xs md:text-sm">0-100</code> (lower = more consistent quality)
-                </p>
-                <p class="text-xs md:text-sm">
-                  <strong class="text-[rgb(var(--color-text))]">Normalization:</strong>
-                  <code class="font-mono text-xs md:text-sm">Variance / 10</code>, capped at 100
-                </p>
-                <p class="text-xs md:text-sm">
-                  <strong class="text-[rgb(var(--color-text))]">Interpretation:</strong> Lower scores
-                  indicate consistent post lengths, higher scores show irregular content depth
-                </p>
-              </div>
-            </div>
-
-            {/* Writing Streaks */}
-            <div
-              class="rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg-secondary))] p-4 md:p-6"
-            >
-              <h4
-                class="mb-3 flex items-center gap-2 text-base font-semibold text-[rgb(var(--color-text))] md:mb-4 md:text-lg"
-              >
-                <span class="text-pink-500">📈</span>
-                Writing Streaks
-              </h4>
-              <div class="space-y-2 text-[rgb(var(--color-text-muted))] md:space-y-3">
-                <p class="text-xs md:text-sm">
-                  <strong class="text-[rgb(var(--color-text))]">Definition:</strong> Consecutive posts
-                  within 7 days of each other
-                </p>
-                <p class="text-xs md:text-sm">
-                  <strong class="text-[rgb(var(--color-text))]">Average Streak:</strong>
-                  <code class="font-mono text-xs md:text-sm"
-                    >Σ(streak_lengths) / number_of_streaks</code>
-                </p>
-                <p class="text-xs md:text-sm">
-                  <strong class="text-[rgb(var(--color-text))]">Consistency Ratio:</strong>
-                  <code class="font-mono text-xs md:text-sm">Streaks / (Streaks + Dry Spells)</code>
-                </p>
-                <p class="text-xs md:text-sm">
-                  <strong class="text-[rgb(var(--color-text))]">Interpretation:</strong> Higher ratios
-                  indicate more predictable creative cycles
-                </p>
-              </div>
-            </div>
-
-            {/* Grade Scoring */}
-            <div
-              class="rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg-secondary))] p-4 md:p-6"
-            >
-              <h4
-                class="mb-3 flex items-center gap-2 text-base font-semibold text-[rgb(var(--color-text))] md:mb-4 md:text-lg"
-              >
-                <span class="text-indigo-500">🎯</span>
-                Grade Scoring
-              </h4>
-              <div
-                class="grid grid-cols-2 gap-3 text-[rgb(var(--color-text-muted))] md:grid-cols-3 md:gap-4"
-              >
-                <div class="text-xs md:text-sm">
-                  <strong class="text-green-600">A+ (97-100):</strong> Exceptional
-                </div>
-                <div class="text-xs md:text-sm">
-                  <strong class="text-green-600">A (93-96):</strong> Excellent
-                </div>
-                <div class="text-xs md:text-sm">
-                  <strong class="text-blue-600">B (83-92):</strong> Good
-                </div>
-                <div class="text-xs md:text-sm">
-                  <strong class="text-yellow-600">C (70-82):</strong> Average
-                </div>
-                <div class="text-xs md:text-sm">
-                  <strong class="text-orange-600">D (60-69):</strong> Below average
-                </div>
-                <div class="text-xs md:text-sm">
-                  <strong class="text-red-600">F (0-59):</strong> Needs improvement
-                </div>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
-      </div>
+      )}
 
-      {/* Navigation Links */}
-      <div class="mt-8 border-t border-[rgb(var(--color-border))] pt-6 md:mt-12 md:pt-8">
-        <div class="flex flex-wrap justify-center gap-4 md:gap-6">
-          <a
-            href="/brain-science/insights"
-            class="text-sm text-[rgb(var(--color-accent))] transition-colors hover:text-[rgb(var(--color-accent-hover))]"
-          >
-            📊 Emotional Processing Analytics
+      {/* Improvement Areas */}
+      {objectiveMetrics.improvementAreas.length > 0 && (
+        <div class="mb-6 md:mb-8">
+          <h3 class="mb-3 text-base font-medium text-[rgb(var(--color-text))] md:mb-4 md:text-lg">
+            Improvement Opportunities
+          </h3>
+          <div class="space-y-3 rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg-secondary))] p-4 md:space-y-4 md:p-6">
+            {objectiveMetrics.improvementAreas.map((improvement) => (
+              <div>
+                <div class="mb-2 flex items-center justify-between">
+                  <span class="text-sm font-medium text-[rgb(var(--color-text))] md:text-base">
+                    {improvement.area}
+                  </span>
+                  <span class="text-xs text-[rgb(var(--color-text-muted))] md:text-sm">
+                    {improvement.current} / {improvement.target}
+                  </span>
+                </div>
+                <div class="mb-1 h-2 w-full rounded-full bg-gray-200 dark:bg-gray-700">
+                  <div
+                    class="h-2 rounded-full bg-blue-500 transition-all duration-300"
+                    style={`width: ${Math.min(100, (improvement.current / improvement.target) * 100)}%`}
+                  />
+                </div>
+                <div class="text-xs text-[rgb(var(--color-text-muted))] md:text-sm">
+                  Gap: {improvement.gap.toFixed(1)}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+
+    {/* Analytics Navigation Cards */}
+    <div class="mb-12 md:mb-16">
+      <h2
+        class="mb-6 flex items-center gap-2 text-lg font-semibold text-[rgb(var(--color-text))] md:mb-8 md:text-xl"
+      >
+        <span class="text-[rgb(var(--color-accent))]">🔬</span>
+        Analytics & Insights
+      </h2>
+      <div class="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 lg:grid-cols-3 lg:gap-8">
+        {BRAIN_SCIENCE_PAGES.filter((page) => page.id !== 'index').map((page) => (
+          <a href={page.path} class="group block">
+            <div
+              class="h-full cursor-pointer rounded-lg border border-[rgb(var(--color-border))] p-4 transition-all duration-200 hover:border-[rgb(var(--color-accent))] hover:bg-[rgb(var(--color-accent))]/5 md:p-6"
+            >
+              <div class="mb-2 text-xl md:mb-3 md:text-2xl">{page.emoji}</div>
+              <h3
+                class="mb-2 text-base font-semibold text-[rgb(var(--color-text))] transition-colors group-hover:text-[rgb(var(--color-accent))] md:text-lg"
+              >
+                {page.title.replace(' - Brain Science', '').replace('Analytics', '').trim()}
+              </h3>
+              <p
+                class="text-xs text-[rgb(var(--color-text-muted))] transition-colors group-hover:text-[rgb(var(--color-text))] md:text-sm"
+              >
+                {page.description}
+              </p>
+            </div>
           </a>
-          <a
-            href="/brain-science/evolution"
-            class="text-sm text-[rgb(var(--color-accent))] transition-colors hover:text-[rgb(var(--color-accent-hover))]"
-          >
-            📈 Intellectual Growth Analytics
-          </a>
-          <a
-            href="/brain-science/topics"
-            class="text-sm text-[rgb(var(--color-accent))] transition-colors hover:text-[rgb(var(--color-accent-hover))]"
-          >
-            🏷️ Core Themes Analysis
-          </a>
-          <a
-            href="/brain-science/cadence"
-            class="text-sm text-[rgb(var(--color-accent))] transition-colors hover:text-[rgb(var(--color-accent-hover))]"
-          >
-            📅 Writing Cadence Patterns
-          </a>
-          <a
-            href="/brain-science/patterns"
-            class="text-sm text-[rgb(var(--color-accent))] transition-colors hover:text-[rgb(var(--color-accent-hover))]"
-          >
-            🌀 Pattern Recognition
-          </a>
-          <a
-            href="/brain-science/meta"
-            class="text-sm text-[rgb(var(--color-accent))] transition-colors hover:text-[rgb(var(--color-accent-hover))]"
-          >
-            🔍 Meta Analysis
-          </a>
+        ))}
+      </div>
+    </div>
+
+    {/* Data Insights */}
+    <div class="mb-12 grid grid-cols-1 gap-6 md:mb-16 md:gap-8 lg:grid-cols-2">
+      {/* Core Themes */}
+      <div
+        class="rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg-secondary))] p-4 md:p-6"
+      >
+        <h3
+          class="mb-3 text-base font-semibold text-[rgb(var(--color-text))] md:mb-4 md:text-lg"
+        >
+          What Matters Most to You
+        </h3>
+        <div class="space-y-2 md:space-y-3">
+          {topTags.map(({ tag, count }) => (
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-medium text-[rgb(var(--color-text))] md:text-sm">
+                {tag}
+              </span>
+              <div class="flex items-center gap-2">
+                <div class="h-2 w-12 rounded-full bg-[rgb(var(--color-border))] md:w-16">
+                  <div
+                    class="h-2 rounded-full bg-[rgb(var(--color-accent))]"
+                    style={`width: ${topTags[0] ? (count / topTags[0].count) * 100 : 0}%`}
+                  />
+                </div>
+                <span
+                  class="w-6 text-right text-xs text-[rgb(var(--color-text-muted))] md:w-8"
+                  title={`${count} posts tagged with "${tag}"`}
+                >
+                  {count}
+                </span>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
-    </Container>
-  </Container>
+
+      {/* Life Areas Focus */}
+      <div
+        class="rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg-secondary))] p-4 md:p-6"
+      >
+        <h3
+          class="mb-3 text-base font-semibold text-[rgb(var(--color-text))] md:mb-4 md:text-lg"
+        >
+          Your Life Areas Focus
+        </h3>
+        <div class="space-y-2 md:space-y-3">
+          {maslowAnalysis.map((category) => (
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="text-base md:text-lg">{category.icon}</span>
+                <span class="text-xs font-medium text-[rgb(var(--color-text))] md:text-sm">
+                  {category.title}
+                </span>
+              </div>
+              <div class="flex items-center gap-2">
+                <div class="h-2 w-12 rounded-full bg-[rgb(var(--color-border))] md:w-16">
+                  <div
+                    class="h-2 rounded-full"
+                    style={`width: ${category.percentage}%; background-color: rgb(var(--color-accent))`}
+                  />
+                </div>
+                <span
+                  class="w-6 text-right text-xs text-[rgb(var(--color-text-muted))] md:w-8"
+                  title={`${category.postCount} posts (${category.percentage}% of total) in ${category.title} category`}
+                >
+                  {category.percentage}%
+                </span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </BrainScienceLayout>
 </BaseLayout>
