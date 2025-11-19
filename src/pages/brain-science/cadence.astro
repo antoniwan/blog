@@ -149,7 +149,7 @@ const pageInfo = BRAIN_SCIENCE_PAGES.find((p) => p.id === 'cadence');
           <MetricCard
             value={recentPosts.length}
             label="Writings (30 days)"
-            subtitle={recentPosts.length > avgPostsPerMonth ? 'Above Average' : recentPosts.length < avgPostsPerMonth * 0.5 ? 'Below Average' : 'Average'}
+            subtitle={recentPosts.length > avgPostsPerMonth ? 'Above Average' : recentPosts.length < avgPostsPerMonth * 0.5 ? 'Below Average' : 'On Track'}
             emoji={recentPosts.length > avgPostsPerMonth ? '📈' : recentPosts.length < avgPostsPerMonth * 0.5 ? '📉' : '➡️'}
             color={recentPosts.length > avgPostsPerMonth ? 'text-green-500' : recentPosts.length < avgPostsPerMonth * 0.5 ? 'text-red-500' : 'text-yellow-500'}
             title="Number of writings published in the last 30 days"
@@ -404,7 +404,7 @@ const pageInfo = BRAIN_SCIENCE_PAGES.find((p) => p.id === 'cadence');
                         {streak.length} posts in {streak.days} days
                       </div>
                       <div class="text-xs text-[rgb(var(--color-text-muted))]">
-                        {format(streak.start, 'MMM d, yyyy')} - {format(streak.end, 'MMM d, yyyy')}
+                        {format(streak.startDate, 'MMM d, yyyy')} - {format(streak.endDate, 'MMM d, yyyy')}
                       </div>
                     </div>
                   </div>
@@ -445,7 +445,7 @@ const pageInfo = BRAIN_SCIENCE_PAGES.find((p) => p.id === 'cadence');
                         {spell.days} days without posting
                       </div>
                       <div class="text-xs text-[rgb(var(--color-text-muted))]">
-                        {format(spell.start, 'MMM d, yyyy')} - {format(spell.end, 'MMM d, yyyy')}
+                        {format(spell.startDate, 'MMM d, yyyy')} - {format(spell.endDate, 'MMM d, yyyy')}
                       </div>
                     </div>
                   </div>

@@ -336,9 +336,26 @@ export function calculateStreakMetrics(posts: CollectionEntry<'blog'>[]): Streak
     };
   }
 
+  // Calculate current streak: count consecutive posts from the most recent one
+  // that are within 7 days of each other
+  let currentStreak = 1;
+  for (let i = 0; i < sortedPosts.length - 1; i++) {
+    const currentDate = sortedPosts[i].data.pubDate;
+    const nextDate = sortedPosts[i + 1].data.pubDate;
+    const daysDiff = Math.floor((currentDate.getTime() - nextDate.getTime()) / (1000 * 60 * 60 * 24));
+    
+    if (daysDiff <= 7) {
+      currentStreak++;
+    } else {
+      // Gap > 7 days, current streak ends here
+      break;
+    }
+  }
+
+  // Calculate all streaks and dry spells
   const streaks: WritingStreak[] = [];
   const drySpells: DrySpell[] = [];
-  let currentStreakLength = 1;
+  let streakLength = 1;
   let streakStart = sortedPosts[0].data.pubDate;
   let longestStreak = 1;
 
@@ -349,13 +366,13 @@ export function calculateStreakMetrics(posts: CollectionEntry<'blog'>[]): Streak
 
     if (daysDiff <= 7) {
       // Within streak
-      currentStreakLength++;
-      longestStreak = Math.max(longestStreak, currentStreakLength);
+      streakLength++;
+      longestStreak = Math.max(longestStreak, streakLength);
     } else {
       // Streak ended
-      if (currentStreakLength > 1) {
+      if (streakLength > 1) {
         streaks.push({
-          length: currentStreakLength,
+          length: streakLength,
           days: Math.floor((streakStart.getTime() - currentDate.getTime()) / (1000 * 60 * 60 * 24)),
           startDate: streakStart,
           endDate: currentDate,
@@ -371,15 +388,15 @@ export function calculateStreakMetrics(posts: CollectionEntry<'blog'>[]): Streak
         });
       }
 
-      currentStreakLength = 1;
+      streakLength = 1;
       streakStart = nextDate;
     }
   }
 
   // Handle final streak
-  if (currentStreakLength > 1) {
+  if (streakLength > 1) {
     streaks.push({
-      length: currentStreakLength,
+      length: streakLength,
       days: Math.floor(
         (streakStart.getTime() - sortedPosts[sortedPosts.length - 1].data.pubDate.getTime()) /
           (1000 * 60 * 60 * 24),
@@ -390,7 +407,7 @@ export function calculateStreakMetrics(posts: CollectionEntry<'blog'>[]): Streak
   }
 
   return {
-    currentStreak: currentStreakLength,
+    currentStreak,
     longestStreak,
     streaks: streaks.sort((a, b) => b.length - a.length),
     drySpells: drySpells.sort((a, b) => b.days - a.days),
