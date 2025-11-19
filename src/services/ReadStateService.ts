@@ -207,7 +207,11 @@ class ReadStateService {
   private handleDataUpdated(event: CustomEvent | Event): void {
     const customEvent = event as CustomEvent;
     
-    if (customEvent.detail?.type === 'post-read' && customEvent.detail?.postSlug) {
+    // Handle 'post-read' events: check event type OR detail type, and ensure postSlug exists
+    if (
+      (customEvent.type === STORAGE_EVENTS.POST_READ || customEvent.detail?.type === 'post-read') &&
+      customEvent.detail?.postSlug
+    ) {
       setTimeout(() => {
         this.invalidateCache();
         this.notifySubscribers(customEvent.detail.postSlug);
