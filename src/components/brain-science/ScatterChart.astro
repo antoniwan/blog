@@ -71,9 +71,22 @@ const chartData = {
       // Additional small delay to ensure canvas is rendered
       await new Promise((resolve) => setTimeout(resolve, 100));
 
-      // Dynamically import Chart.js
-      const { Chart, registerables } = await import('chart.js');
-      Chart.register(...registerables);
+      // Load Chart.js from CDN
+      if (typeof window.Chart === 'undefined') {
+        await new Promise((resolve, reject) => {
+          const script = document.createElement('script');
+          script.src = 'https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js';
+          script.onload = resolve;
+          script.onerror = reject;
+          document.head.appendChild(script);
+        });
+      }
+      
+      const Chart = window.Chart;
+      // Register components if registerables exists, otherwise Chart.js from CDN already has everything registered
+      if (Chart.registerables && Array.isArray(Chart.registerables)) {
+        Chart.register(...Chart.registerables);
+      }
 
       const container = document.getElementById(`chart-container-${id}`);
       const canvas = document.getElementById(id);

@@ -24,26 +24,23 @@ const chartData = {
 ---
 
 <div class="mb-6">
-  {title && (
-    <h3 class="mb-4 text-base font-semibold text-[rgb(var(--color-text))] md:text-lg">
-      {title}
-    </h3>
-  )}
-  <div
-    class="relative h-64 w-full md:h-80"
-    id={`chart-container-${id}`}
-    style="min-height: 256px;"
-  >
+  {
+    title && (
+      <h3 class="mb-4 text-base font-semibold text-[rgb(var(--color-text))] md:text-lg">{title}</h3>
+    )
+  }
+  <div class="relative h-64 w-full md:h-80" id={`chart-container-${id}`} style="min-height: 256px;">
     <!-- Loading State -->
     <div
       id={`chart-loading-${id}`}
-      class="absolute inset-0 flex flex-col items-center justify-center bg-[rgb(var(--color-bg-secondary))] rounded-lg border border-[rgb(var(--color-border))]"
+      class="absolute inset-0 flex flex-col items-center justify-center rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg-secondary))]"
     >
       <div class="flex flex-col items-center space-y-3">
         <div class="relative">
           <div
             class="h-8 w-8 animate-spin rounded-full border-4 border-[rgb(var(--color-border))] border-t-[rgb(var(--color-accent))]"
-          ></div>
+          >
+          </div>
         </div>
         <p class="text-sm text-[rgb(var(--color-text-muted))]">Calculating data...</p>
       </div>
@@ -69,13 +66,26 @@ const chartData = {
       // Additional small delay to ensure canvas is rendered
       await new Promise((resolve) => setTimeout(resolve, 100));
 
-      // Dynamically import Chart.js
-      const { Chart, registerables } = await import('chart.js');
-      Chart.register(...registerables);
+      // Load Chart.js from CDN
+      if (typeof window.Chart === 'undefined') {
+        await new Promise((resolve, reject) => {
+          const script = document.createElement('script');
+          script.src = 'https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js';
+          script.onload = resolve;
+          script.onerror = reject;
+          document.head.appendChild(script);
+        });
+      }
+
+      const Chart = window.Chart;
+      // Register components if registerables exists, otherwise Chart.js from CDN already has everything registered
+      if (Chart.registerables && Array.isArray(Chart.registerables)) {
+        Chart.register(...Chart.registerables);
+      }
 
       const container = document.getElementById(`chart-container-${id}`);
       const canvas = document.getElementById(id);
-      
+
       if (!canvas || !container) {
         console.error(`Chart elements not found for id "${id}"`);
         if (container) {
@@ -106,9 +116,9 @@ const chartData = {
 
       // Check if datasets have valid data
       const hasValidData = datasets.some(
-        (ds) => Array.isArray(ds.data) && ds.data.length > 0 && ds.data.some((val) => val != null)
+        (ds) => Array.isArray(ds.data) && ds.data.length > 0 && ds.data.some((val) => val != null),
       );
-      
+
       if (!hasValidData) {
         console.warn('Chart datasets contain no valid data');
         container.style.display = 'none';
@@ -204,7 +214,7 @@ const chartData = {
       console.error('Failed to initialize chart:', err);
       const container = document.getElementById(`chart-container-${id}`);
       const loadingEl = document.getElementById(`chart-loading-${id}`);
-      
+
       if (loadingEl) {
         loadingEl.innerHTML = `
           <div class="flex flex-col items-center space-y-2 text-center p-4">
@@ -213,7 +223,7 @@ const chartData = {
           </div>
         `;
       }
-      
+
       if (container) {
         container.style.display = 'none';
       }
@@ -225,4 +235,3 @@ const chartData = {
     }
   })();
 </script>
-
