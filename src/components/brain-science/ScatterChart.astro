@@ -1,25 +1,27 @@
 ---
 interface Props {
   id: string;
-  labels: string[];
   datasets: Array<{
     label: string;
-    data: number[];
-    borderColor?: string;
+    data: Array<{ x: number; y: number }>;
     backgroundColor?: string;
-    tension?: number;
+    borderColor?: string;
+    pointRadius?: number;
   }>;
   title?: string;
+  xAxisLabel?: string;
   yAxisLabel?: string;
+  showRegressionLine?: boolean;
 }
 
-const { id, labels, datasets, title, yAxisLabel } = Astro.props;
+const { id, datasets, title, xAxisLabel, yAxisLabel, showRegressionLine = false } = Astro.props;
 
 // Serialize data for script
 const chartData = {
-  labels,
   datasets,
+  xAxisLabel: xAxisLabel || '',
   yAxisLabel: yAxisLabel || '',
+  showRegressionLine,
 };
 ---
 
@@ -84,19 +86,13 @@ const chartData = {
         return;
       }
 
-      if (!chartData || !chartData.labels || !chartData.datasets) {
+      if (!chartData || !chartData.datasets) {
         console.error('Chart data not found or invalid:', chartData);
         container.style.display = 'none';
         return;
       }
 
-      const { labels, datasets, yAxisLabel } = chartData;
-
-      if (!labels || !Array.isArray(labels) || labels.length === 0) {
-        console.warn('Chart labels are empty or invalid');
-        container.style.display = 'none';
-        return;
-      }
+      const { datasets, xAxisLabel, yAxisLabel, showRegressionLine } = chartData;
 
       if (!datasets || !Array.isArray(datasets) || datasets.length === 0) {
         console.warn('Chart datasets are empty or invalid');
@@ -106,7 +102,7 @@ const chartData = {
 
       // Check if datasets have valid data
       const hasValidData = datasets.some(
-        (ds) => Array.isArray(ds.data) && ds.data.length > 0 && ds.data.some((val) => val != null)
+        (ds) => Array.isArray(ds.data) && ds.data.length > 0
       );
       
       if (!hasValidData) {
@@ -127,18 +123,52 @@ const chartData = {
         canvas.chart.destroy();
       }
 
-      const processedDatasets = datasets.map((ds) => ({
+      // Calculate regression line if requested
+      let regressionDatasets = [...datasets];
+      if (showRegressionLine && datasets.length > 0 && datasets[0].data.length > 0) {
+        const points = datasets[0].data;
+        const xValues = points.map(p => p.x);
+        const yValues = points.map(p => p.y);
+        
+        // Simple linear regression
+        const n = points.length;
+        const sumX = xValues.reduce((a, b) => a + b, 0);
+        const sumY = yValues.reduce((a, b) => a + b, 0);
+        const sumXY = points.reduce((sum, p) => sum + p.x * p.y, 0);
+        const sumXX = xValues.reduce((sum, x) => sum + x * x, 0);
+        
+        const slope = (n * sumXY - sumX * sumY) / (n * sumXX - sumX * sumX);
+        const intercept = (sumY - slope * sumX) / n;
+        
+        const minX = Math.min(...xValues);
+        const maxX = Math.max(...xValues);
+        const regressionLine = [
+          { x: minX, y: slope * minX + intercept },
+          { x: maxX, y: slope * maxX + intercept }
+        ];
+        
+        regressionDatasets.push({
+          label: 'Regression Line',
+          data: regressionLine,
+          borderColor: 'rgb(255, 99, 132)',
+          backgroundColor: 'transparent',
+          pointRadius: 0,
+          borderWidth: 2,
+          borderDash: [5, 5],
+        });
+      }
+
+      const processedDatasets = regressionDatasets.map((ds, index) => ({
         ...ds,
+        backgroundColor: ds.backgroundColor || `rgba(var(--color-accent), ${0.6 - index * 0.1})`,
         borderColor: ds.borderColor || 'rgb(var(--color-accent))',
-        backgroundColor: ds.backgroundColor || 'rgba(var(--color-accent), 0.1)',
-        tension: ds.tension ?? 0.4,
-        fill: true,
+        pointRadius: ds.pointRadius ?? (index === 0 ? 4 : 0),
+        borderWidth: ds.borderWidth ?? 1,
       }));
 
       const chart = new Chart(ctx, {
-        type: 'line',
+        type: 'scatter',
         data: {
-          labels: labels,
           datasets: processedDatasets,
         },
         options: {
@@ -146,7 +176,7 @@ const chartData = {
           maintainAspectRatio: false,
           plugins: {
             legend: {
-              display: true,
+              display: datasets.length > 1 || showRegressionLine,
               position: 'top',
               labels: {
                 color: 'rgb(var(--color-text))',
@@ -161,21 +191,28 @@ const chartData = {
               borderColor: 'rgb(var(--color-border))',
               borderWidth: 1,
               padding: 12,
+              callbacks: {
+                label: function(context) {
+                  return `${context.dataset.label}: (${context.parsed.x.toFixed(2)}, ${context.parsed.y.toFixed(2)})`;
+                }
+              }
             },
           },
           scales: {
             x: {
               ticks: {
                 color: 'rgb(var(--color-text-muted))',
-                maxRotation: 45,
-                minRotation: 45,
               },
               grid: {
                 color: 'rgb(var(--color-border))',
               },
+              title: {
+                display: !!xAxisLabel,
+                text: xAxisLabel,
+                color: 'rgb(var(--color-text-muted))',
+              },
             },
             y: {
-              beginAtZero: true,
               ticks: {
                 color: 'rgb(var(--color-text-muted))',
               },

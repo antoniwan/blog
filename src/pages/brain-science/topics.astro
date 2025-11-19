@@ -1,10 +1,12 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import BrainScienceLayout from '../../components/brain-science/BrainScienceLayout.astro';
+import TimeSeriesChart from '../../components/brain-science/TimeSeriesChart.astro';
+import BarChart from '../../components/brain-science/BarChart.astro';
 import { getBrainSciencePosts } from '../../utils/brainScience/data';
 import { categories } from '../../data/categories';
 import { getTagWeight, MASLOW_CATEGORIES, getTagCategory, getTagMetadata } from '../../data/tags';
-import { format } from 'date-fns';
+import { format, eachQuarterOfInterval, startOfQuarter, endOfQuarter } from 'date-fns';
 import {
   generateDynamicInsights,
   calculateObjectiveMetrics,
@@ -12,6 +14,7 @@ import {
   letterGradeToColor,
 } from '../../utils/insightGenerator';
 import { BRAIN_SCIENCE_PAGES } from '../../data/brainScience';
+import nlp from 'compromise';
 
 // Get all published posts
 const posts = await getBrainSciencePosts();
@@ -251,6 +254,69 @@ const insightData = {
 
 const { insights, summary, balancedAnalysis } = generateDynamicInsights(insightData, 'topics');
 
+// Prepare time series for top 5 topics over quarters
+const top5Tags = topTags.slice(0, 5);
+const topicTimeSeriesData = quarters.map(quarter => {
+  const quarterLabel = quarter.label;
+  const data: Record<string, number> = {};
+  
+  top5Tags.forEach(tag => {
+    const tagInQuarter = quarter.topTags.find(t => t.tag === tag.tag);
+    data[tag.tag] = tagInQuarter?.count || 0;
+  });
+  
+  return {
+    label: quarterLabel,
+    ...data,
+  };
+});
+
+// Calculate topic growth rates (comparing early vs recent periods)
+const earlyQuarters = quarters.slice(0, Math.floor(quarters.length / 3));
+const recentQuarters = quarters.slice(-Math.floor(quarters.length / 3));
+
+const earlyTagCounts: Record<string, number> = {};
+earlyQuarters.forEach(quarter => {
+  quarter.topTags.forEach(({ tag, count }) => {
+    earlyTagCounts[tag] = (earlyTagCounts[tag] || 0) + count;
+  });
+});
+
+const recentTagCounts: Record<string, number> = {};
+recentQuarters.forEach(quarter => {
+  quarter.topTags.forEach(({ tag, count }) => {
+    recentTagCounts[tag] = (recentTagCounts[tag] || 0) + count;
+  });
+});
+
+const growingTopics = Object.keys({ ...earlyTagCounts, ...recentTagCounts })
+  .map(tag => {
+    const earlyCount = earlyTagCounts[tag] || 0;
+    const recentCount = recentTagCounts[tag] || 0;
+    const growthRate = earlyCount > 0 
+      ? ((recentCount - earlyCount) / earlyCount) * 100 
+      : recentCount > 0 ? 100 : 0;
+    return {
+      tag,
+      earlyCount,
+      recentCount,
+      growthRate,
+    };
+  })
+  .filter(t => t.growthRate > 0)
+  .sort((a, b) => b.growthRate - a.growthRate);
+
+// Prepare bar chart for topic growth rates
+const topicGrowthChart = {
+  labels: growingTopics.slice(0, 10).map(t => t.tag),
+  datasets: [{
+    label: 'Growth Rate (%)',
+    data: growingTopics.slice(0, 10).map(t => Math.round(t.growthRate)),
+    backgroundColor: 'rgba(34, 197, 94, 0.6)',
+    borderColor: 'rgb(34, 197, 94)',
+  }],
+};
+
 // Get page info
 const pageInfo = BRAIN_SCIENCE_PAGES.find((p) => p.id === 'topics');
 ---
@@ -328,10 +394,53 @@ const pageInfo = BRAIN_SCIENCE_PAGES.find((p) => p.id === 'topics');
           </div>
         </div>
 
-        {/* Personal Insights About Your Topics */}
+        {/* Topic Frequency Over Time */}
+        {topicTimeSeriesData.length > 0 && top5Tags.length > 0 && (
+          <div class="mb-8 md:mb-10 lg:mb-12">
+            <h2 class="mb-4 text-lg font-semibold text-[rgb(var(--color-text))] md:mb-6 md:text-xl">
+              📈 Top Topics Frequency Over Time
+            </h2>
+            <p class="mb-6 max-w-3xl text-sm text-[rgb(var(--color-text-muted))]">
+              Quarterly frequency of top 5 topics. Formula: frequency(tag, quarter) = count(posts in quarter where tag ∈ post.tags)
+            </p>
+            <TimeSeriesChart
+              id="topic-frequency-timeline"
+              labels={topicTimeSeriesData.map(q => q.label)}
+              datasets={top5Tags.map((tag, index) => ({
+                label: tag.tag,
+                data: topicTimeSeriesData.map(q => (q as any)[tag.tag] || 0),
+                borderColor: `hsl(${index * 60}, 70%, 50%)`,
+                backgroundColor: `hsla(${index * 60}, 70%, 50%, 0.1)`,
+              }))}
+              title="Top 5 Topics Frequency Per Quarter"
+              yAxisLabel="Post Count"
+            />
+          </div>
+        )}
+
+        {/* Topic Growth Rates */}
+        {topicGrowthChart.labels.length > 0 && (
+          <div class="mb-8 md:mb-10 lg:mb-12">
+            <h2 class="mb-4 text-lg font-semibold text-[rgb(var(--color-text))] md:mb-6 md:text-xl">
+              📊 Topic Growth Rates
+            </h2>
+            <p class="mb-6 max-w-3xl text-sm text-[rgb(var(--color-text-muted))]">
+              Topics with highest growth rates. Formula: growth_rate = ((recent_count - early_count) / early_count) × 100
+            </p>
+            <BarChart
+              id="topic-growth-chart"
+              labels={topicGrowthChart.labels}
+              datasets={topicGrowthChart.datasets}
+              title="Top 10 Growing Topics"
+              yAxisLabel="Growth Rate (%)"
+            />
+          </div>
+        )}
+
+        {/* Statistical Analysis */}
         <div class="mb-6 md:mb-8">
           <h3 class="mb-4 text-base font-semibold text-[rgb(var(--color-text))] md:mb-6 md:text-lg">
-            🔍 Insights About What Matters to You
+            📊 Topic Distribution Analysis
           </h3>
           <div class="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6">
             {
@@ -350,7 +459,7 @@ const pageInfo = BRAIN_SCIENCE_PAGES.find((p) => p.id === 'topics');
                             : 'bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400'
                       }`}
                     >
-                      {insight.impact} Impact
+                      {insight.impact} Significance
                     </span>
                   </div>
                   <div class="mb-2 text-sm font-medium text-[rgb(var(--color-text))]">
@@ -359,8 +468,8 @@ const pageInfo = BRAIN_SCIENCE_PAGES.find((p) => p.id === 'topics');
                   <div class="mb-3 text-xs text-[rgb(var(--color-text-muted))]">
                     {insight.evidence}
                   </div>
-                  <div class="text-xs font-medium text-[rgb(var(--color-accent))]">
-                    💭 {insight.reflection}
+                  <div class="text-xs text-[rgb(var(--color-text-muted))]">
+                    Statistical observation: {insight.evidence}
                   </div>
                 </div>
               ))
@@ -368,11 +477,14 @@ const pageInfo = BRAIN_SCIENCE_PAGES.find((p) => p.id === 'topics');
           </div>
         </div>
 
-        {/* Your Core Topics */}
+        {/* Core Topics */}
         <div class="mb-6 md:mb-8 lg:mb-10">
           <h3 class="mb-4 text-base font-semibold text-[rgb(var(--color-text))] md:mb-6 md:text-lg">
-            ⭐ Your Most Important Topics
+            📊 Most Frequent Topics
           </h3>
+          <p class="mb-4 text-xs text-[rgb(var(--color-text-muted))]">
+            Topics ranked by frequency. Formula: frequency(tag) = count(posts where tag ∈ post.tags) / total_posts
+          </p>
           <div class="space-y-4">
             {
               topTags.slice(0, 10).map((tag, index) => (
@@ -424,8 +536,11 @@ const pageInfo = BRAIN_SCIENCE_PAGES.find((p) => p.id === 'topics');
         {/* Topic Clusters */}
         <div class="mb-6 md:mb-8 lg:mb-10">
           <h3 class="mb-4 text-base font-semibold text-[rgb(var(--color-text))] md:mb-6 md:text-lg">
-            🎯 Your Interest Clusters
+            📊 Topic Clusters
           </h3>
+          <p class="mb-4 text-xs text-[rgb(var(--color-text-muted))]">
+            Grouped topics by semantic similarity. Clusters determined by tag co-occurrence patterns.
+          </p>
           <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
             {
               topicClusters.map((cluster) => (
@@ -469,8 +584,11 @@ const pageInfo = BRAIN_SCIENCE_PAGES.find((p) => p.id === 'topics');
         {/* Life Areas Focus */}
         <div class="mb-6 md:mb-8 lg:mb-10">
           <h3 class="mb-4 text-base font-semibold text-[rgb(var(--color-text))] md:mb-6 md:text-lg">
-            🌍 Your Life Areas Focus
+            📊 Maslow Hierarchy Distribution
           </h3>
+          <p class="mb-4 text-xs text-[rgb(var(--color-text-muted))]">
+            Content distribution across Maslow's hierarchy categories. Formula: category_percentage = (posts_in_category / total_posts) × 100
+          </p>
           <div class="space-y-4">
             {
               maslowAnalysis.map((category) => (
@@ -506,8 +624,11 @@ const pageInfo = BRAIN_SCIENCE_PAGES.find((p) => p.id === 'topics');
         {/* Strongest Topic Relationships */}
         <div class="mb-6 md:mb-8 lg:mb-10">
           <h3 class="mb-4 text-base font-semibold text-[rgb(var(--color-text))] md:mb-6 md:text-lg">
-            🔗 How Your Interests Connect
+            🔗 Topic Co-occurrence Analysis
           </h3>
+          <p class="mb-4 text-xs text-[rgb(var(--color-text-muted))]">
+            Tag pairs that frequently appear together. Strength formula: strength = co_occurrence_count / min(frequency(tag1), frequency(tag2))
+          </p>
           <div class="space-y-4">
             {
               tagRelationships.slice(0, 10).map((relationship, index) => (

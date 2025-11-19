@@ -5,21 +5,25 @@ interface Props {
   datasets: Array<{
     label: string;
     data: number[];
-    borderColor?: string;
-    backgroundColor?: string;
-    tension?: number;
+    backgroundColor?: string | string[];
+    borderColor?: string | string[];
+    borderWidth?: number;
   }>;
   title?: string;
   yAxisLabel?: string;
+  xAxisLabel?: string;
+  stacked?: boolean;
 }
 
-const { id, labels, datasets, title, yAxisLabel } = Astro.props;
+const { id, labels, datasets, title, yAxisLabel, xAxisLabel, stacked = false } = Astro.props;
 
 // Serialize data for script
 const chartData = {
   labels,
   datasets,
   yAxisLabel: yAxisLabel || '',
+  xAxisLabel: xAxisLabel || '',
+  stacked,
 };
 ---
 
@@ -90,7 +94,7 @@ const chartData = {
         return;
       }
 
-      const { labels, datasets, yAxisLabel } = chartData;
+      const { labels, datasets, yAxisLabel, xAxisLabel, stacked } = chartData;
 
       if (!labels || !Array.isArray(labels) || labels.length === 0) {
         console.warn('Chart labels are empty or invalid');
@@ -127,16 +131,15 @@ const chartData = {
         canvas.chart.destroy();
       }
 
-      const processedDatasets = datasets.map((ds) => ({
+      const processedDatasets = datasets.map((ds, index) => ({
         ...ds,
+        backgroundColor: ds.backgroundColor || `rgba(var(--color-accent), ${0.6 - index * 0.1})`,
         borderColor: ds.borderColor || 'rgb(var(--color-accent))',
-        backgroundColor: ds.backgroundColor || 'rgba(var(--color-accent), 0.1)',
-        tension: ds.tension ?? 0.4,
-        fill: true,
+        borderWidth: ds.borderWidth ?? 1,
       }));
 
       const chart = new Chart(ctx, {
-        type: 'line',
+        type: 'bar',
         data: {
           labels: labels,
           datasets: processedDatasets,
@@ -146,7 +149,7 @@ const chartData = {
           maintainAspectRatio: false,
           plugins: {
             legend: {
-              display: true,
+              display: datasets.length > 1,
               position: 'top',
               labels: {
                 color: 'rgb(var(--color-text))',
@@ -165,17 +168,24 @@ const chartData = {
           },
           scales: {
             x: {
+              stacked: stacked,
               ticks: {
                 color: 'rgb(var(--color-text-muted))',
                 maxRotation: 45,
-                minRotation: 45,
+                minRotation: 0,
               },
               grid: {
                 color: 'rgb(var(--color-border))',
               },
+              title: {
+                display: !!xAxisLabel,
+                text: xAxisLabel,
+                color: 'rgb(var(--color-text-muted))',
+              },
             },
             y: {
               beginAtZero: true,
+              stacked: stacked,
               ticks: {
                 color: 'rgb(var(--color-text-muted))',
               },

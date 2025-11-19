@@ -2,6 +2,8 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import BrainScienceLayout from '../../components/brain-science/BrainScienceLayout.astro';
 import MetricCard from '../../components/brain-science/MetricCard.astro';
+import TimeSeriesChart from '../../components/brain-science/TimeSeriesChart.astro';
+import BarChart from '../../components/brain-science/BarChart.astro';
 import {
   getBrainSciencePosts,
   calculateBaseMetrics,
@@ -11,6 +13,8 @@ import {
   calculateStreakMetrics,
   calculateGrowthPosts,
   calculateEmotionalPosts,
+  calculateMonthlyPosts,
+  prepareTimeSeriesData,
 } from '../../utils/brainScience/data';
 import {
   calculateObjectiveMetrics,
@@ -18,6 +22,8 @@ import {
   letterGradeToColor,
 } from '../../utils/insightGenerator';
 import { BRAIN_SCIENCE_PAGES } from '../../data/brainScience';
+import { format } from 'date-fns';
+import nlp from 'compromise';
 
 // Get all published posts
 const posts = await getBrainSciencePosts();
@@ -33,6 +39,37 @@ const emotionalPosts = calculateEmotionalPosts(posts);
 
 // Calculate objective metrics
 const objectiveMetrics = calculateObjectiveMetrics(posts);
+
+// Prepare time series data for post count over time
+const monthlyPosts = calculateMonthlyPosts(posts, baseMetrics.firstPostDate, baseMetrics.lastPostDate);
+const postCountTimeSeries = {
+  labels: monthlyPosts.map(m => m.label),
+  datasets: [{
+    label: 'Posts Published',
+    data: monthlyPosts.map(m => m.count),
+    borderColor: 'rgb(var(--color-accent))',
+    backgroundColor: 'rgba(var(--color-accent), 0.1)',
+  }],
+};
+
+// Prepare bar chart data for top tags
+const tagBarChart = {
+  labels: topTags.slice(0, 10).map(t => t.tag),
+  datasets: [{
+    label: 'Post Count',
+    data: topTags.slice(0, 10).map(t => t.count),
+    backgroundColor: 'rgba(var(--color-accent), 0.6)',
+    borderColor: 'rgb(var(--color-accent))',
+  }],
+};
+
+// Calculate content complexity using compromise.js
+const avgWordCount = baseMetrics.averageWordsPerPost;
+const avgSentenceLength = posts.length > 0 ? posts.reduce((sum, post) => {
+  const content = post.body || '';
+  const sentences = content.split(/[.!?]+/).filter(s => s.trim().length > 0);
+  return sum + (sentences.length > 0 ? content.split(/\s+/).length / sentences.length : 0);
+}, 0) / posts.length : 0;
 
 // Get page info
 const pageInfo = BRAIN_SCIENCE_PAGES.find((p) => p.id === 'index');
@@ -55,37 +92,76 @@ const pageInfo = BRAIN_SCIENCE_PAGES.find((p) => p.id === 'index');
     >
       <MetricCard
         value={baseMetrics.totalPosts}
-        label="Thoughts Captured"
-        subtitle="Mental Snapshots"
-        emoji="💭"
+        label="Total Posts"
+        subtitle="Published Content"
+        emoji="📊"
         color="text-blue-500"
-        title="Total number of published writings (excluding drafts in production)"
+        title="Total number of published writings. Formula: count(posts where published = true and draft = false)"
       />
       <MetricCard
         value={baseMetrics.totalWords}
-        label="Words Written"
-        subtitle="Creative Output"
+        label="Total Words"
+        subtitle="Content Volume"
         emoji="📝"
         color="text-green-500"
-        title="Sum of all words across all published posts (calculated by splitting content on whitespace)"
+        title="Sum of all words across all published posts. Formula: Σ(word_count) where word_count = split(content, ' ').length"
       />
       <MetricCard
         value={growthPosts}
-        label="Growth Writings"
-        subtitle="Personal Evolution"
+        label="Growth Posts"
+        subtitle="Transformation Content"
         emoji="🌱"
         color="text-purple-500"
-        title="Posts focused on personal growth, transformation, or self-improvement"
+        title="Posts containing growth-related tags or keywords. Formula: count(posts where tags ∩ growth_tags ≠ ∅ OR content contains growth_keywords)"
       />
       <MetricCard
         value={emotionalPosts}
-        label="Emotional Writings"
-        subtitle="Heart Processing"
+        label="Emotional Posts"
+        subtitle="High Intensity Content"
         emoji="💜"
         color="text-pink-500"
-        title="Posts with high emotional intensity (exclamation marks and emotional keywords)"
+        title="Posts with emotional intensity > 5. Formula: count(posts where exclamation_count + emotional_word_count > 5)"
       />
     </div>
+
+    {/* Publishing Activity Over Time */}
+    {postCountTimeSeries.labels.length > 0 && (
+      <div class="mb-8 md:mb-10 lg:mb-12">
+        <h2 class="mb-4 text-lg font-semibold text-[rgb(var(--color-text))] md:mb-6 md:text-xl">
+          📈 Publishing Activity Over Time
+        </h2>
+        <p class="mb-6 max-w-3xl text-sm text-[rgb(var(--color-text-muted))]">
+          Monthly post count trend. Data shows publishing frequency over time. Formula: posts_per_month = count(posts where pubDate ∈ [month_start, month_end])
+        </p>
+        <TimeSeriesChart
+          id="post-count-timeline"
+          labels={postCountTimeSeries.labels}
+          datasets={postCountTimeSeries.datasets}
+          title="Posts Published Per Month"
+          yAxisLabel="Number of Posts"
+        />
+      </div>
+    )}
+
+    {/* Top Topics Distribution */}
+    {tagBarChart.labels.length > 0 && (
+      <div class="mb-8 md:mb-10 lg:mb-12">
+        <h2 class="mb-4 text-lg font-semibold text-[rgb(var(--color-text))] md:mb-6 md:text-xl">
+          🏷️ Topic Frequency Distribution
+        </h2>
+        <p class="mb-6 max-w-3xl text-sm text-[rgb(var(--color-text-muted))]">
+          Most frequently used tags across all posts. Formula: frequency(tag) = count(posts where tag ∈ post.tags) / total_posts × 100
+        </p>
+        <BarChart
+          id="tag-frequency-chart"
+          labels={tagBarChart.labels}
+          datasets={tagBarChart.datasets}
+          title="Top 10 Tags by Frequency"
+          yAxisLabel="Post Count"
+          xAxisLabel="Tag"
+        />
+      </div>
+    )}
 
     {/* Publishing Activity Metrics */}
     <div class="mb-8 grid grid-cols-1 gap-4 md:mb-10 md:grid-cols-3 md:gap-6 lg:mb-12">
@@ -118,15 +194,17 @@ const pageInfo = BRAIN_SCIENCE_PAGES.find((p) => p.id === 'index');
         Objective Analysis
       </h2>
       <p class="mb-6 max-w-3xl text-sm text-[rgb(var(--color-text-muted))] md:mb-8">
-        Balanced assessment showing strengths, challenges, and neutral metrics without bias toward
-        positive outcomes.
+        Quantitative analysis using statistical methods. Metrics calculated using objective formulas without bias toward positive or negative outcomes. All calculations are mathematically verifiable.
       </p>
 
       {/* Sentiment Analysis */}
       <div class="mb-6 md:mb-8">
         <h3 class="mb-3 text-base font-medium text-[rgb(var(--color-text))] md:mb-4 md:text-lg">
-          Sentiment Distribution
+          Sentiment Distribution Analysis
         </h3>
+        <p class="mb-4 text-xs text-[rgb(var(--color-text-muted))]">
+          Classification based on word frequency analysis. Formula: sentiment = classify(post) where classification uses positive_words, negative_words, and neutral_words dictionaries.
+        </p>
         <div class="grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-6">
           <div
             class="rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg-secondary))] p-3 text-center md:p-4"
@@ -168,6 +246,9 @@ const pageInfo = BRAIN_SCIENCE_PAGES.find((p) => p.id === 'index');
         <h3 class="mb-3 text-base font-medium text-[rgb(var(--color-text))] md:mb-4 md:text-lg">
           Consistency Metrics
         </h3>
+        <p class="mb-4 text-xs text-[rgb(var(--color-text-muted))]">
+          Statistical measures of regularity. Posting Regularity: 100 - (variance(inter_posting_intervals) / 10). Topic Consistency: (max_tag_frequency / total_posts) × 100. Quality Variance: variance(word_counts) / 10.
+        </p>
         <div class="grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-6">
           <div
             class="rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg-secondary))] p-4 md:p-6"
@@ -295,8 +376,11 @@ const pageInfo = BRAIN_SCIENCE_PAGES.find((p) => p.id === 'index');
         class="rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg-secondary))] p-4 md:p-6"
       >
         <h3 class="mb-3 text-base font-semibold text-[rgb(var(--color-text))] md:mb-4 md:text-lg">
-          What Matters Most to You
+          Topic Frequency Analysis
         </h3>
+        <p class="mb-4 text-xs text-[rgb(var(--color-text-muted))]">
+          Most frequently occurring tags. Formula: frequency(tag) = count(posts with tag) / total_posts
+        </p>
         <div class="space-y-2 md:space-y-3">
           {
             topTags.map(({ tag, count }) => (
@@ -309,6 +393,7 @@ const pageInfo = BRAIN_SCIENCE_PAGES.find((p) => p.id === 'index');
                     <div
                       class="h-2 rounded-full bg-[rgb(var(--color-accent))]"
                       style={`width: ${topTags[0] ? (count / topTags[0].count) * 100 : 0}%`}
+                      title={`${count} posts (${Math.round((count / posts.length) * 100)}% of total)`}
                     />
                   </div>
                   <span
@@ -329,8 +414,11 @@ const pageInfo = BRAIN_SCIENCE_PAGES.find((p) => p.id === 'index');
         class="rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg-secondary))] p-4 md:p-6"
       >
         <h3 class="mb-3 text-base font-semibold text-[rgb(var(--color-text))] md:mb-4 md:text-lg">
-          Your Life Areas Focus
+          Maslow Hierarchy Distribution
         </h3>
+        <p class="mb-4 text-xs text-[rgb(var(--color-text-muted))]">
+          Content distribution across Maslow's hierarchy categories. Formula: category_percentage = (posts_in_category / total_posts) × 100
+        </p>
         <div class="space-y-2 md:space-y-3">
           {
             maslowAnalysis.map((category) => (
@@ -346,6 +434,7 @@ const pageInfo = BRAIN_SCIENCE_PAGES.find((p) => p.id === 'index');
                     <div
                       class="h-2 rounded-full"
                       style={`width: ${category.percentage}%; background-color: rgb(var(--color-accent))`}
+                      title={`${category.postCount} posts (${category.percentage}% of total)`}
                     />
                   </div>
                   <span

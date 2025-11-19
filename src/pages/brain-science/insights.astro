@@ -1,10 +1,13 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import BrainScienceLayout from '../../components/brain-science/BrainScienceLayout.astro';
-import { getBrainSciencePosts } from '../../utils/brainScience/data';
+import TimeSeriesChart from '../../components/brain-science/TimeSeriesChart.astro';
+import BarChart from '../../components/brain-science/BarChart.astro';
+import ScatterChart from '../../components/brain-science/ScatterChart.astro';
+import { getBrainSciencePosts, calculateMonthlyPosts, calculateBaseMetrics } from '../../utils/brainScience/data';
 import { categories } from '../../data/categories';
 import { getTagWeight, MASLOW_CATEGORIES } from '../../data/tags';
-import { format } from 'date-fns';
+import { format, eachQuarterOfInterval, startOfQuarter, endOfQuarter } from 'date-fns';
 import {
   generateDynamicInsights,
   calculateObjectiveMetrics,
@@ -12,6 +15,10 @@ import {
   letterGradeToColor,
 } from '../../utils/insightGenerator';
 import { BRAIN_SCIENCE_PAGES } from '../../data/brainScience';
+import Sentiment from 'sentiment';
+import { correlation } from '../../utils/brainScience/statistics';
+
+const sentiment = new Sentiment();
 
 // Get all published posts
 const posts = await getBrainSciencePosts();
@@ -327,6 +334,66 @@ const emotionalPatterns = {
   ),
 };
 
+// Prepare time series data for emotional intensity over time
+const baseMetrics = calculateBaseMetrics(posts);
+const monthlyPosts = calculateMonthlyPosts(posts, baseMetrics.firstPostDate, baseMetrics.lastPostDate);
+const sortedContentAnalysis = contentAnalysis.sort((a, b) => a.date.valueOf() - b.date.valueOf());
+
+// Group by quarter for emotional intensity trend
+const firstDate = sortedContentAnalysis[0]?.date || new Date();
+const lastDate = sortedContentAnalysis[sortedContentAnalysis.length - 1]?.date || new Date();
+const quarters = eachQuarterOfInterval({ start: firstDate, end: lastDate });
+
+const emotionalIntensityTimeSeries = quarters.map((quarterStart) => {
+  const quarterEnd = endOfQuarter(quarterStart);
+  const quarterLabel = `Q${Math.floor(quarterStart.getMonth() / 3) + 1} ${quarterStart.getFullYear()}`;
+  
+  const quarterPosts = sortedContentAnalysis.filter(
+    (post) => post.date >= quarterStart && post.date <= quarterEnd,
+  );
+  
+  const avgIntensity = quarterPosts.length > 0
+    ? quarterPosts.reduce((sum, post) => sum + post.emotionalIntensity, 0) / quarterPosts.length
+    : 0;
+  
+  return {
+    label: quarterLabel,
+    value: Math.round(avgIntensity * 100) / 100,
+  };
+}).filter(q => q.value > 0);
+
+// Prepare vulnerability vs confidence bar chart
+const vulnerabilityConfidenceChart = {
+  labels: ['Vulnerability', 'Confidence'],
+  datasets: [{
+    label: 'Average Score',
+    data: [
+      emotionalPatterns.avgVulnerabilityScore,
+      emotionalPatterns.avgConfidenceScore,
+    ],
+    backgroundColor: ['rgba(236, 72, 153, 0.6)', 'rgba(34, 197, 94, 0.6)'],
+    borderColor: ['rgb(236, 72, 153)', 'rgb(34, 197, 94)'],
+  }],
+};
+
+// Prepare scatter plot for word count vs emotional intensity
+const wordCountEmotionalScatter = {
+  datasets: [{
+    label: 'Word Count vs Emotional Intensity',
+    data: contentAnalysis.map(post => ({
+      x: post.wordCount,
+      y: post.emotionalIntensity,
+    })),
+    backgroundColor: 'rgba(var(--color-accent), 0.6)',
+    borderColor: 'rgb(var(--color-accent))',
+  }],
+};
+
+// Calculate correlation
+const wordCounts = contentAnalysis.map(p => p.wordCount);
+const emotionalIntensities = contentAnalysis.map(p => p.emotionalIntensity);
+const wordEmotionalCorrelation = correlation(wordCounts, emotionalIntensities);
+
 // Calculate objective metrics
 const objectiveMetrics = calculateObjectiveMetrics(posts);
 
@@ -388,6 +455,67 @@ const pageInfo = BRAIN_SCIENCE_PAGES.find((p) => p.id === 'insights');
     title={pageInfo?.title || 'Emotional Processing Analytics'}
     description="Objective analysis of emotional patterns, vulnerability indicators, and confidence metrics in writing. Balanced data-driven insights into emotional processing and psychological patterns without bias toward positive outcomes."
   >
+
+        {/* Emotional Intensity Over Time */}
+        {emotionalIntensityTimeSeries.length > 0 && (
+          <div class="mb-8 md:mb-10 lg:mb-12">
+            <h2 class="mb-4 text-lg font-semibold text-[rgb(var(--color-text))] md:mb-6 md:text-xl">
+              📈 Emotional Intensity Trend
+            </h2>
+            <p class="mb-6 max-w-3xl text-sm text-[rgb(var(--color-text-muted))]">
+              Average emotional intensity per quarter. Formula: emotional_intensity = exclamation_count + Σ(emotional_word_count) where emotional_words ∈ emotional_dictionary
+            </p>
+            <TimeSeriesChart
+              id="emotional-intensity-timeline"
+              labels={emotionalIntensityTimeSeries.map(q => q.label)}
+              datasets={[{
+                label: 'Emotional Intensity',
+                data: emotionalIntensityTimeSeries.map(q => q.value),
+                borderColor: 'rgb(236, 72, 153)',
+                backgroundColor: 'rgba(236, 72, 153, 0.1)',
+              }]}
+              title="Average Emotional Intensity Per Quarter"
+              yAxisLabel="Intensity Score"
+            />
+          </div>
+        )}
+
+        {/* Vulnerability vs Confidence Comparison */}
+        <div class="mb-8 md:mb-10 lg:mb-12">
+          <h2 class="mb-4 text-lg font-semibold text-[rgb(var(--color-text))] md:mb-6 md:text-xl">
+            📊 Vulnerability vs Confidence Scores
+          </h2>
+          <p class="mb-6 max-w-3xl text-sm text-[rgb(var(--color-text-muted))]">
+            Average vulnerability and confidence scores across all posts. Vulnerability: Σ(vulnerability_words) per post. Confidence: Σ(confidence_words) per post.
+          </p>
+          <BarChart
+            id="vulnerability-confidence-chart"
+            labels={vulnerabilityConfidenceChart.labels}
+            datasets={vulnerabilityConfidenceChart.datasets}
+            title="Average Vulnerability vs Confidence Scores"
+            yAxisLabel="Score"
+          />
+        </div>
+
+        {/* Word Count vs Emotional Intensity Correlation */}
+        {wordCountEmotionalScatter.datasets[0].data.length > 0 && (
+          <div class="mb-8 md:mb-10 lg:mb-12">
+            <h2 class="mb-4 text-lg font-semibold text-[rgb(var(--color-text))] md:mb-6 md:text-xl">
+              🔗 Word Count vs Emotional Intensity Correlation
+            </h2>
+            <p class="mb-6 max-w-3xl text-sm text-[rgb(var(--color-text-muted))]">
+              Correlation analysis between post length and emotional intensity. Correlation coefficient: {Math.round(wordEmotionalCorrelation * 100) / 100}. Formula: r = Σ((x - x̄)(y - ȳ)) / √(Σ(x - x̄)² × Σ(y - ȳ)²)
+            </p>
+            <ScatterChart
+              id="word-emotional-scatter"
+              datasets={wordCountEmotionalScatter.datasets}
+              title="Word Count vs Emotional Intensity"
+              xAxisLabel="Word Count"
+              yAxisLabel="Emotional Intensity"
+              showRegressionLine={true}
+            />
+          </div>
+        )}
 
         {/* Emotional Processing Overview */}
         <div
@@ -451,10 +579,10 @@ const pageInfo = BRAIN_SCIENCE_PAGES.find((p) => p.id === 'insights');
           </div>
         </div>
 
-        {/* Personal Discoveries with Reflection Prompts */}
+        {/* Statistical Patterns */}
         <div class="mb-6 md:mb-8">
           <h3 class="mb-4 text-base font-semibold text-[rgb(var(--color-text))] md:mb-6 md:text-lg">
-            🔍 Key Discoveries About Yourself
+            📊 Statistical Pattern Analysis
           </h3>
           <div class="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6">
             {
@@ -473,7 +601,7 @@ const pageInfo = BRAIN_SCIENCE_PAGES.find((p) => p.id === 'insights');
                             : 'bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400'
                       }`}
                     >
-                      {discovery.impact} Impact
+                      {discovery.impact} Significance
                     </span>
                   </div>
                   <div class="mb-2 text-sm font-medium text-[rgb(var(--color-text))]">
@@ -482,8 +610,8 @@ const pageInfo = BRAIN_SCIENCE_PAGES.find((p) => p.id === 'insights');
                   <div class="mb-3 text-xs text-[rgb(var(--color-text-muted))]">
                     {discovery.evidence}
                   </div>
-                  <div class="text-xs font-medium text-[rgb(var(--color-accent))]">
-                    💭 {discovery.reflection}
+                  <div class="text-xs text-[rgb(var(--color-text-muted))]">
+                    Statistical observation: {discovery.evidence}
                   </div>
                 </div>
               ))
@@ -491,10 +619,10 @@ const pageInfo = BRAIN_SCIENCE_PAGES.find((p) => p.id === 'insights');
           </div>
         </div>
 
-        {/* Emotional Processing Deep Dive */}
+        {/* Emotional Processing Analysis */}
         <div class="mb-6 md:mb-8">
           <h3 class="mb-4 text-base font-semibold text-[rgb(var(--color-text))] md:mb-6 md:text-lg">
-            💜 Your Emotional Processing Patterns
+            📊 Emotional Processing Metrics
           </h3>
           <div class="mb-6 grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-6">
             <div
@@ -507,7 +635,7 @@ const pageInfo = BRAIN_SCIENCE_PAGES.find((p) => p.id === 'insights');
                 Avg Emotional Intensity
               </div>
               <div class="mt-1 text-xs text-purple-600 dark:text-purple-400">
-                How deeply you feel
+                Mean emotional intensity score
               </div>
             </div>
             <div
@@ -519,7 +647,7 @@ const pageInfo = BRAIN_SCIENCE_PAGES.find((p) => p.id === 'insights');
               <div class="text-xs text-[rgb(var(--color-text-muted))] md:text-sm">
                 Avg Vulnerability Score
               </div>
-              <div class="mt-1 text-xs text-pink-600 dark:text-pink-400">How open you are</div>
+              <div class="mt-1 text-xs text-pink-600 dark:text-pink-400">Mean vulnerability word count</div>
             </div>
             <div
               class="rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg-secondary))] p-4 text-center"
@@ -530,7 +658,7 @@ const pageInfo = BRAIN_SCIENCE_PAGES.find((p) => p.id === 'insights');
               <div class="text-xs text-[rgb(var(--color-text-muted))] md:text-sm">
                 Avg Confidence Score
               </div>
-              <div class="mt-1 text-xs text-green-600 dark:text-green-400">How sure you feel</div>
+              <div class="mt-1 text-xs text-green-600 dark:text-green-400">Mean confidence word count</div>
             </div>
           </div>
 
@@ -653,7 +781,7 @@ const pageInfo = BRAIN_SCIENCE_PAGES.find((p) => p.id === 'insights');
         {/* Most Emotionally Intense Posts */}
         <div class="mb-6 md:mb-8">
           <h3 class="mb-4 text-base font-semibold text-[rgb(var(--color-text))] md:mb-6 md:text-lg">
-            💜 Your Most Emotional Writings
+            📊 Posts with Highest Emotional Intensity
           </h3>
           <div class="space-y-3 md:space-y-4">
             {
@@ -708,7 +836,7 @@ const pageInfo = BRAIN_SCIENCE_PAGES.find((p) => p.id === 'insights');
         {/* Most Vulnerable Posts */}
         <div class="mb-6 md:mb-8">
           <h3 class="mb-4 text-base font-semibold text-[rgb(var(--color-text))] md:mb-6 md:text-lg">
-            🫂 Your Most Vulnerable Writings
+            📊 Posts with Highest Vulnerability Scores
           </h3>
           <div class="space-y-3 md:space-y-4">
             {
@@ -763,7 +891,7 @@ const pageInfo = BRAIN_SCIENCE_PAGES.find((p) => p.id === 'insights');
         {/* Writing Voice Evolution */}
         <div class="mb-8">
           <h3 class="mb-6 text-lg font-semibold text-[rgb(var(--color-text))]">
-            🎭 How Your Voice Has Evolved
+            📈 Voice Metrics by Period
           </h3>
           <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
             {
@@ -823,7 +951,7 @@ const pageInfo = BRAIN_SCIENCE_PAGES.find((p) => p.id === 'insights');
         {/* Knowledge Area Evolution */}
         <div class="mb-8">
           <h3 class="mb-6 text-lg font-semibold text-[rgb(var(--color-text))]">
-            📚 How Your Interests Have Grown
+            📊 Knowledge Area Expansion Analysis
           </h3>
           <div class="space-y-4">
             {

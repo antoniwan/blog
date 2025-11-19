@@ -1,10 +1,12 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import BrainScienceLayout from '../../components/brain-science/BrainScienceLayout.astro';
+import TimeSeriesChart from '../../components/brain-science/TimeSeriesChart.astro';
+import BarChart from '../../components/brain-science/BarChart.astro';
 import { getBrainSciencePosts } from '../../utils/brainScience/data';
 import { categories } from '../../data/categories';
 import { getTagWeight, MASLOW_CATEGORIES } from '../../data/tags';
-import { format, startOfMonth, endOfMonth, eachMonthOfInterval } from 'date-fns';
+import { format, startOfMonth, endOfMonth, eachMonthOfInterval, eachQuarterOfInterval, startOfQuarter, endOfQuarter } from 'date-fns';
 import {
   generateDynamicInsights,
   calculateObjectiveMetrics,
@@ -12,6 +14,7 @@ import {
   letterGradeToColor,
 } from '../../utils/insightGenerator';
 import { BRAIN_SCIENCE_PAGES } from '../../data/brainScience';
+import nlp from 'compromise';
 
 // Get all published posts
 const posts = await getBrainSciencePosts();
@@ -441,6 +444,60 @@ const insightData = {
 
 const { insights, summary, balancedAnalysis } = generateDynamicInsights(insightData, 'evolution');
 
+// Prepare time series data for complexity evolution
+const sortedContentEvolution = contentEvolution.sort((a, b) => a.date.valueOf() - b.date.valueOf());
+const firstDate = sortedContentEvolution[0]?.date || new Date();
+const lastDate = sortedContentEvolution[sortedContentEvolution.length - 1]?.date || new Date();
+const complexityQuarters = eachQuarterOfInterval({ start: firstDate, end: lastDate });
+
+const complexityTimeSeries = complexityQuarters.map((quarterStart) => {
+  const quarterEnd = endOfQuarter(quarterStart);
+  const quarterLabel = `Q${Math.floor(quarterStart.getMonth() / 3) + 1} ${quarterStart.getFullYear()}`;
+  
+  const quarterPosts = sortedContentEvolution.filter(
+    (post) => post.date >= quarterStart && post.date <= quarterEnd,
+  );
+  
+  const avgComplexity = quarterPosts.length > 0
+    ? quarterPosts.reduce((sum, post) => sum + post.fleschScore, 0) / quarterPosts.length
+    : 0;
+  
+  const avgIntellectualDepth = quarterPosts.length > 0
+    ? quarterPosts.reduce((sum, post) => sum + post.intellectualDepth, 0) / quarterPosts.length
+    : 0;
+  
+  return {
+    label: quarterLabel,
+    complexity: Math.round(avgComplexity * 100) / 100,
+    intellectualDepth: Math.round(avgIntellectualDepth * 100) / 100,
+  };
+}).filter(q => q.complexity > 0 || q.intellectualDepth > 0);
+
+// Prepare bar chart for period comparison
+const periodComparisonChart = {
+  labels: periodStats.map(p => p.period),
+  datasets: [
+    {
+      label: 'Avg Word Count',
+      data: periodStats.map(p => p.avgWordCount),
+      backgroundColor: 'rgba(59, 130, 246, 0.6)',
+      borderColor: 'rgb(59, 130, 246)',
+    },
+    {
+      label: 'Avg Complexity',
+      data: periodStats.map(p => p.avgComplexity),
+      backgroundColor: 'rgba(147, 51, 234, 0.6)',
+      borderColor: 'rgb(147, 51, 234)',
+    },
+    {
+      label: 'Avg Intellectual Depth',
+      data: periodStats.map(p => p.avgIntellectualDepth),
+      backgroundColor: 'rgba(34, 197, 94, 0.6)',
+      borderColor: 'rgb(34, 197, 94)',
+    },
+  ],
+};
+
 // Get page info
 const pageInfo = BRAIN_SCIENCE_PAGES.find((p) => p.id === 'evolution');
 ---
@@ -517,10 +574,61 @@ const pageInfo = BRAIN_SCIENCE_PAGES.find((p) => p.id === 'evolution');
           </div>
         </div>
 
-        {/* Intellectual Growth Insights */}
+        {/* Complexity and Intellectual Depth Evolution */}
+        {complexityTimeSeries.length > 0 && (
+          <div class="mb-8 md:mb-10 lg:mb-12">
+            <h2 class="mb-4 text-lg font-semibold text-[rgb(var(--color-text))] md:mb-6 md:text-xl">
+              📈 Complexity and Intellectual Depth Evolution
+            </h2>
+            <p class="mb-6 max-w-3xl text-sm text-[rgb(var(--color-text-muted))]">
+              Flesch reading ease score and intellectual depth metrics over time. Complexity formula: 206.835 - 1.015 × (words/sentences) - 84.6 × (syllables/words). Intellectual depth: Σ(intellectual_words + curiosity_words + wisdom_words) + word_count/50
+            </p>
+            <TimeSeriesChart
+              id="complexity-evolution"
+              labels={complexityTimeSeries.map(q => q.label)}
+              datasets={[
+                {
+                  label: 'Complexity Score',
+                  data: complexityTimeSeries.map(q => q.complexity),
+                  borderColor: 'rgb(147, 51, 234)',
+                  backgroundColor: 'rgba(147, 51, 234, 0.1)',
+                },
+                {
+                  label: 'Intellectual Depth',
+                  data: complexityTimeSeries.map(q => q.intellectualDepth),
+                  borderColor: 'rgb(34, 197, 94)',
+                  backgroundColor: 'rgba(34, 197, 94, 0.1)',
+                },
+              ]}
+              title="Complexity and Intellectual Depth Over Time"
+              yAxisLabel="Score"
+            />
+          </div>
+        )}
+
+        {/* Period Comparison */}
+        {periodComparisonChart.labels.length > 0 && (
+          <div class="mb-8 md:mb-10 lg:mb-12">
+            <h2 class="mb-4 text-lg font-semibold text-[rgb(var(--color-text))] md:mb-6 md:text-xl">
+              📊 Metrics Comparison by Period
+            </h2>
+            <p class="mb-6 max-w-3xl text-sm text-[rgb(var(--color-text-muted))]">
+              Comparative analysis of writing metrics across Early, Middle, and Recent periods. Data shows mean values for word count, complexity, and intellectual depth.
+            </p>
+            <BarChart
+              id="period-comparison-chart"
+              labels={periodComparisonChart.labels}
+              datasets={periodComparisonChart.datasets}
+              title="Writing Metrics by Period"
+              yAxisLabel="Score / Count"
+            />
+          </div>
+        )}
+
+        {/* Intellectual Growth Analysis */}
         <div class="mb-6 md:mb-8 lg:mb-10">
           <h3 class="mb-4 text-base font-semibold text-[rgb(var(--color-text))] md:mb-6 md:text-lg">
-            🔍 Key Insights About Your Intellectual Growth
+            📊 Statistical Analysis of Intellectual Growth
           </h3>
           <div class="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6">
             {
@@ -539,7 +647,7 @@ const pageInfo = BRAIN_SCIENCE_PAGES.find((p) => p.id === 'evolution');
                             : 'bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400'
                       }`}
                     >
-                      {insight.impact} Impact
+                      {insight.impact} Significance
                     </span>
                   </div>
                   <div class="mb-2 text-sm font-medium text-[rgb(var(--color-text))]">
@@ -548,8 +656,8 @@ const pageInfo = BRAIN_SCIENCE_PAGES.find((p) => p.id === 'evolution');
                   <div class="mb-3 text-xs text-[rgb(var(--color-text-muted))]">
                     {insight.evidence}
                   </div>
-                  <div class="text-xs font-medium text-[rgb(var(--color-accent))]">
-                    💭 {insight.reflection}
+                  <div class="text-xs text-[rgb(var(--color-text-muted))]">
+                    Statistical observation: {insight.evidence}
                   </div>
                 </div>
               ))
@@ -557,13 +665,16 @@ const pageInfo = BRAIN_SCIENCE_PAGES.find((p) => p.id === 'evolution');
           </div>
         </div>
 
-        {/* Thinking Style Evolution */}
+        {/* Thinking Style Metrics by Period */}
         <div
           class="mb-6 rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg-secondary))] p-4 md:mb-8 md:p-6 lg:mb-10"
         >
           <h3 class="mb-4 text-base font-semibold text-[rgb(var(--color-text))] md:mb-6 md:text-lg">
-            🧠 How Your Thinking Style Has Evolved
+            📊 Writing Metrics by Period
           </h3>
+          <p class="mb-4 text-xs text-[rgb(var(--color-text-muted))]">
+            Quantitative comparison of writing characteristics across time periods. Metrics calculated using mean values for each period.
+          </p>
           <div class="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 lg:grid-cols-3">
             {
               periodStats.map((period) => (
@@ -662,8 +773,11 @@ const pageInfo = BRAIN_SCIENCE_PAGES.find((p) => p.id === 'evolution');
             <h3
               class="mb-4 text-base font-semibold text-[rgb(var(--color-text))] md:mb-6 md:text-lg"
             >
-              📈 Topics You're Exploring More
+              📈 Topics with Increasing Frequency
             </h3>
+            <p class="mb-4 text-xs text-[rgb(var(--color-text-muted))]">
+              Topics showing positive growth rate. Formula: growth_rate = ((recent_count - early_count) / early_count) × 100
+            </p>
             <div class="space-y-4">
               {
                 growingTopics.map((topic, index) => (
@@ -713,8 +827,11 @@ const pageInfo = BRAIN_SCIENCE_PAGES.find((p) => p.id === 'evolution');
             <h3
               class="mb-4 text-base font-semibold text-[rgb(var(--color-text))] md:mb-6 md:text-lg"
             >
-              📉 Topics You're Focusing Less On
+              📉 Topics with Decreasing Frequency
             </h3>
+            <p class="mb-4 text-xs text-[rgb(var(--color-text-muted))]">
+              Topics showing negative growth rate. Formula: growth_rate = ((recent_count - early_count) / early_count) × 100
+            </p>
             <div class="space-y-4">
               {
                 decliningTopics.map((topic, index) => (
@@ -746,8 +863,11 @@ const pageInfo = BRAIN_SCIENCE_PAGES.find((p) => p.id === 'evolution');
         {/* Topic Evolution Timeline */}
         <div class="mb-6 md:mb-8 lg:mb-10">
           <h3 class="mb-4 text-base font-semibold text-[rgb(var(--color-text))] md:mb-6 md:text-lg">
-            📅 Your Intellectual Journey Timeline
+            📅 Topic Frequency Timeline by Quarter
           </h3>
+          <p class="mb-4 text-xs text-[rgb(var(--color-text-muted))]">
+            Quarterly analysis of topic distribution and content metrics. Data shows post count, average word count, and complexity score per quarter.
+          </p>
           <div class="space-y-6">
             {
               quarters.slice(-8).map((quarter) => (
@@ -799,8 +919,11 @@ const pageInfo = BRAIN_SCIENCE_PAGES.find((p) => p.id === 'evolution');
         {/* Writing Maturity */}
         <div class="mb-6 md:mb-8 lg:mb-10">
           <h3 class="mb-4 text-base font-semibold text-[rgb(var(--color-text))] md:mb-6 md:text-lg">
-            🎓 Your Writing Maturity Indicators
+            📊 Writing Maturity Metrics
           </h3>
+          <p class="mb-4 text-xs text-[rgb(var(--color-text-muted))]">
+            Quantitative indicators of content maturity. Maturity score calculated as: (has_code × 2) + has_links + has_images + has_quotes + has_questions + has_examples + (word_count > 1000 ? 2 : 0) + (intellectual_depth > 10 ? 2 : 0)
+          </p>
           <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
             <div class="rounded-lg bg-[rgb(var(--color-bg))] p-4 text-center">
               <div

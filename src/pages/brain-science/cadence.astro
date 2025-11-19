@@ -2,6 +2,8 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import BrainScienceLayout from '../../components/brain-science/BrainScienceLayout.astro';
 import MetricCard from '../../components/brain-science/MetricCard.astro';
+import TimeSeriesChart from '../../components/brain-science/TimeSeriesChart.astro';
+import BarChart from '../../components/brain-science/BarChart.astro';
 import {
   getBrainSciencePosts,
   calculateBaseMetrics,
@@ -102,6 +104,39 @@ const insightData = {
 
 const { insights, summary, balancedAnalysis } = generateDynamicInsights(insightData, 'cadence');
 
+// Prepare time series for posting frequency
+const postingFrequencyTimeSeries = {
+  labels: monthlyPosts.map(m => m.label),
+  datasets: [{
+    label: 'Posts Per Month',
+    data: monthlyPosts.map(m => m.count),
+    borderColor: 'rgb(var(--color-accent))',
+    backgroundColor: 'rgba(var(--color-accent), 0.1)',
+  }],
+};
+
+// Prepare bar chart for day of week
+const dayOfWeekChart = {
+  labels: dayOfWeekStats.map(d => d.shortName),
+  datasets: [{
+    label: 'Posts',
+    data: dayOfWeekStats.map(d => d.count),
+    backgroundColor: 'rgba(var(--color-accent), 0.6)',
+    borderColor: 'rgb(var(--color-accent))',
+  }],
+};
+
+// Prepare bar chart for month of year
+const monthOfYearChart = {
+  labels: monthOfYearStats.map(m => m.shortName),
+  datasets: [{
+    label: 'Posts',
+    data: monthOfYearStats.map(m => m.count),
+    backgroundColor: 'rgba(var(--color-accent), 0.6)',
+    borderColor: 'rgb(var(--color-accent))',
+  }],
+};
+
 // Get page info
 const pageInfo = BRAIN_SCIENCE_PAGES.find((p) => p.id === 'cadence');
 ---
@@ -115,7 +150,7 @@ const pageInfo = BRAIN_SCIENCE_PAGES.find((p) => p.id === 'cadence');
   <BrainScienceLayout
     currentPage="/brain-science/cadence"
     title={pageInfo?.title || 'Writing Cadence'}
-    description="Understanding my publishing patterns, creative streaks, and the rhythms of my writing life."
+    description="Quantitative analysis of publishing patterns, posting frequency, and temporal distribution. Statistical analysis of writing cadence using objective metrics."
   >
 
         {/* Key Metrics with Balanced Indicators */}
@@ -225,63 +260,23 @@ const pageInfo = BRAIN_SCIENCE_PAGES.find((p) => p.id === 'cadence');
         </div>
 
         {/* Monthly Activity Chart */}
-        <div
-          class="mb-6 rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-bg-secondary))] p-4 md:mb-8 md:p-6"
-        >
-          <h3 class="mb-4 text-base font-semibold text-[rgb(var(--color-text))] md:mb-6 md:text-lg">
-            Monthly Publishing Activity
-          </h3>
-          <div class="overflow-x-auto">
-            <div class="flex min-h-[150px] items-end gap-1 md:min-h-[200px]">
-              {
-                monthlyPosts.map((month) => (
-                  <div class="flex min-w-0 flex-1 flex-col items-center">
-                    <div
-                      class={`w-full rounded-t transition-all hover:opacity-80 ${
-                        month.count === 0
-                          ? 'bg-gray-300 dark:bg-gray-600'
-                          : month.count >= Math.max(...monthlyPosts.map((m) => m.count)) * 0.8
-                            ? 'bg-green-500'
-                            : month.count >= Math.max(...monthlyPosts.map((m) => m.count)) * 0.5
-                              ? 'bg-blue-500'
-                              : month.count >= Math.max(...monthlyPosts.map((m) => m.count)) * 0.2
-                                ? 'bg-yellow-500'
-                                : 'bg-red-500'
-                      }`}
-                      style={`height: ${Math.max(20, (month.count / Math.max(...monthlyPosts.map((m) => m.count))) * 150)}px`}
-                      title={`${month.label}: ${month.count} posts`}
-                    />
-                    <div class="mt-2 origin-left -rotate-45 transform text-center text-xs text-[rgb(var(--color-text-muted))]">
-                      {month.label}
-                    </div>
-                  </div>
-                ))
-              }
-            </div>
+        {postingFrequencyTimeSeries.labels.length > 0 && (
+          <div class="mb-8 md:mb-10 lg:mb-12">
+            <h2 class="mb-4 text-lg font-semibold text-[rgb(var(--color-text))] md:mb-6 md:text-xl">
+              📈 Monthly Publishing Frequency
+            </h2>
+            <p class="mb-6 max-w-3xl text-sm text-[rgb(var(--color-text-muted))]">
+              Post count per month over time. Formula: posts_per_month = count(posts where pubDate ∈ [month_start, month_end])
+            </p>
+            <TimeSeriesChart
+              id="monthly-posting-frequency"
+              labels={postingFrequencyTimeSeries.labels}
+              datasets={postingFrequencyTimeSeries.datasets}
+              title="Posts Published Per Month"
+              yAxisLabel="Number of Posts"
+            />
           </div>
-          <div class="mt-4 flex justify-center gap-4 text-xs text-[rgb(var(--color-text-muted))]">
-            <div class="flex items-center gap-1">
-              <div class="h-3 w-3 rounded bg-green-500"></div>
-              <span>High Activity</span>
-            </div>
-            <div class="flex items-center gap-1">
-              <div class="h-3 w-3 rounded bg-blue-500"></div>
-              <span>Moderate</span>
-            </div>
-            <div class="flex items-center gap-1">
-              <div class="h-3 w-3 rounded bg-yellow-500"></div>
-              <span>Low</span>
-            </div>
-            <div class="flex items-center gap-1">
-              <div class="h-3 w-3 rounded bg-red-500"></div>
-              <span>Very Low</span>
-            </div>
-            <div class="flex items-center gap-1">
-              <div class="h-3 w-3 rounded bg-gray-300 dark:bg-gray-600"></div>
-              <span>No Posts</span>
-            </div>
-          </div>
-        </div>
+        )}
 
         {/* Day of Week Analysis */}
         <div class="mb-6 grid grid-cols-1 gap-6 md:mb-8 md:gap-8 lg:mb-10 lg:grid-cols-2">
@@ -289,92 +284,51 @@ const pageInfo = BRAIN_SCIENCE_PAGES.find((p) => p.id === 'cadence');
             <h3
               class="mb-4 text-base font-semibold text-[rgb(var(--color-text))] md:mb-6 md:text-lg"
             >
-              Day of Week Preferences
+              Day of Week Distribution
             </h3>
-            <div class="space-y-4">
-              {
-                dayOfWeekStats.map((day) => (
-                  <div class="flex items-center justify-between">
-                    <span class="w-20 text-sm font-medium text-[rgb(var(--color-text))]">
-                      {day.shortName}
-                    </span>
-                    <div class="flex flex-1 items-center gap-3">
-                      <div class="h-3 flex-1 rounded-full bg-[rgb(var(--color-border))]">
-                        <div
-                          class={`h-3 rounded-full transition-all ${
-                            day.count >= Math.max(...dayOfWeekStats.map((d) => d.count)) * 0.8
-                              ? 'bg-green-500'
-                              : day.count >= Math.max(...dayOfWeekStats.map((d) => d.count)) * 0.5
-                                ? 'bg-blue-500'
-                                : day.count >= Math.max(...dayOfWeekStats.map((d) => d.count)) * 0.2
-                                  ? 'bg-yellow-500'
-                                  : 'bg-red-500'
-                          }`}
-                          style={`width: ${(day.count / Math.max(...dayOfWeekStats.map((d) => d.count))) * 100}%`}
-                        />
-                      </div>
-                      <span
-                        class="w-8 text-right text-xs text-[rgb(var(--color-text-muted))]"
-                        title={`${day.count} posts (${day.percentage}% of total) published on ${day.name}`}
-                      >
-                        {day.count}
-                      </span>
-                    </div>
-                  </div>
-                ))
-              }
-            </div>
+            <p class="mb-4 text-xs text-[rgb(var(--color-text-muted))]">
+              Post frequency by day of week. Formula: frequency(day) = count(posts where day_of_week(pubDate) = day) / total_posts × 100
+            </p>
+            {dayOfWeekChart.labels.length > 0 && (
+              <BarChart
+                id="day-of-week-chart"
+                labels={dayOfWeekChart.labels}
+                datasets={dayOfWeekChart.datasets}
+                title="Posts by Day of Week"
+                yAxisLabel="Post Count"
+              />
+            )}
           </div>
 
           <div>
             <h3
               class="mb-4 text-base font-semibold text-[rgb(var(--color-text))] md:mb-6 md:text-lg"
             >
-              Seasonal Patterns
+              Seasonal Distribution
             </h3>
-            <div class="space-y-4">
-              {
-                monthOfYearStats.map((month) => (
-                  <div class="flex items-center justify-between">
-                    <span class="w-20 text-sm font-medium text-[rgb(var(--color-text))]">
-                      {month.shortName}
-                    </span>
-                    <div class="flex flex-1 items-center gap-3">
-                      <div class="h-3 flex-1 rounded-full bg-[rgb(var(--color-border))]">
-                        <div
-                          class={`h-3 rounded-full transition-all ${
-                            month.count >= Math.max(...monthOfYearStats.map((m) => m.count)) * 0.8
-                              ? 'bg-green-500'
-                              : month.count >=
-                                  Math.max(...monthOfYearStats.map((m) => m.count)) * 0.5
-                                ? 'bg-blue-500'
-                                : month.count >=
-                                    Math.max(...monthOfYearStats.map((m) => m.count)) * 0.2
-                                  ? 'bg-yellow-500'
-                                  : 'bg-red-500'
-                          }`}
-                          style={`width: ${(month.count / Math.max(...monthOfYearStats.map((m) => m.count))) * 100}%`}
-                        />
-                      </div>
-                      <span
-                        class="w-8 text-right text-xs text-[rgb(var(--color-text-muted))]"
-                        title={`${month.count} posts (${month.percentage}% of total) published in ${month.name}`}
-                      >
-                        {month.count}
-                      </span>
-                    </div>
-                  </div>
-                ))
-              }
-            </div>
+            <p class="mb-4 text-xs text-[rgb(var(--color-text-muted))]">
+              Post frequency by month of year. Formula: frequency(month) = count(posts where month(pubDate) = month) / total_posts × 100
+            </p>
+            {monthOfYearChart.labels.length > 0 && (
+              <BarChart
+                id="month-of-year-chart"
+                labels={monthOfYearChart.labels}
+                datasets={monthOfYearChart.datasets}
+                title="Posts by Month of Year"
+                yAxisLabel="Post Count"
+              />
+            )}
           </div>
         </div>
 
         {/* Writing Streaks */}
         <div class="mb-6 md:mb-8 lg:mb-10">
           <h3 class="mb-4 text-base font-semibold text-[rgb(var(--color-text))] md:mb-6 md:text-lg">
-            🏃‍♂️ Writing Streaks (Creative Bursts)
+            📊 Writing Streaks Analysis
           </h3>
+          <p class="mb-4 text-xs text-[rgb(var(--color-text-muted))]">
+            Consecutive posts published within 7 days of each other. Streak length = count(consecutive posts where days_between ≤ 7)
+          </p>
           <div class="space-y-4">
             {
               sortedStreaks.slice(0, 10).map((streak, index) => (
@@ -432,8 +386,11 @@ const pageInfo = BRAIN_SCIENCE_PAGES.find((p) => p.id === 'cadence');
         {/* Dry Spells */}
         <div class="mb-6 md:mb-8 lg:mb-10">
           <h3 class="mb-4 text-base font-semibold text-[rgb(var(--color-text))] md:mb-6 md:text-lg">
-            🌵 Longest Dry Spells (Challenges)
+            📊 Publishing Gaps Analysis
           </h3>
+          <p class="mb-4 text-xs text-[rgb(var(--color-text-muted))]">
+            Periods with no posts published. Gap duration = days_between(posts) where days_between > 7
+          </p>
           <div class="space-y-4">
             {
               sortedDrySpells.slice(0, 5).map((spell, index) => (
@@ -473,8 +430,11 @@ const pageInfo = BRAIN_SCIENCE_PAGES.find((p) => p.id === 'cadence');
         {/* Most Productive Months */}
         <div class="mb-8">
           <h3 class="mb-6 text-lg font-semibold text-[rgb(var(--color-text))]">
-            📈 Most Productive Months
+            📊 Months with Highest Post Count
           </h3>
+          <p class="mb-4 text-xs text-[rgb(var(--color-text-muted))]">
+            Months ranked by post count. Formula: productivity(month) = count(posts where pubDate ∈ month)
+          </p>
           <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
             {
               productiveMonths.map((month, index) => (
@@ -542,6 +502,9 @@ const pageInfo = BRAIN_SCIENCE_PAGES.find((p) => p.id === 'cadence');
                 <div class="mb-1 text-2xl font-bold text-[rgb(var(--color-text))]">
                   {objectiveMetrics.consistencyMetrics.postingRegularity}/100
                 </div>
+                <div class="mb-1 text-xs text-[rgb(var(--color-text-muted))]">
+                  Formula: 100 - (variance(inter_posting_intervals) / 10)
+                </div>
                 <div
                   class={`text-sm font-semibold ${letterGradeToColor(scoreToLetterGrade(objectiveMetrics.consistencyMetrics.postingRegularity))}`}
                 >
@@ -555,6 +518,9 @@ const pageInfo = BRAIN_SCIENCE_PAGES.find((p) => p.id === 'cadence');
                 <div class="mb-1 text-2xl font-bold text-[rgb(var(--color-text))]">
                   {objectiveMetrics.consistencyMetrics.topicConsistency}/100
                 </div>
+                <div class="mb-1 text-xs text-[rgb(var(--color-text-muted))]">
+                  Formula: (max_tag_frequency / total_posts) × 100
+                </div>
                 <div
                   class={`text-sm font-semibold ${letterGradeToColor(scoreToLetterGrade(objectiveMetrics.consistencyMetrics.topicConsistency))}`}
                 >
@@ -567,6 +533,9 @@ const pageInfo = BRAIN_SCIENCE_PAGES.find((p) => p.id === 'cadence');
                 </div>
                 <div class="mb-1 text-2xl font-bold text-[rgb(var(--color-text))]">
                   {100 - objectiveMetrics.consistencyMetrics.qualityVariance}/100
+                </div>
+                <div class="mb-1 text-xs text-[rgb(var(--color-text-muted))]">
+                  Formula: 100 - (variance(word_counts) / 10)
                 </div>
                 <div
                   class={`text-sm font-semibold ${letterGradeToColor(scoreToLetterGrade(100 - objectiveMetrics.consistencyMetrics.qualityVariance))}`}
