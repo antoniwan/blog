@@ -141,25 +141,16 @@ const chartData = {
         canvas.chart.destroy();
       }
 
-      // Hardcoded chart color palette (independent of site theme)
-      // Using actual RGB/RGBA values that Chart.js can use directly
+      // Get theme based on light/dark mode
+      const isDark = document.documentElement.classList.contains('dark');
       const chartTheme = {
-        // Text colors (adapt to light/dark mode)
-        text: document.documentElement.classList.contains('dark')
-          ? 'rgb(255, 255, 255)'
-          : 'rgb(17, 24, 39)',
-        textMuted: document.documentElement.classList.contains('dark')
-          ? 'rgb(200, 210, 220)'
-          : 'rgb(107, 114, 128)',
-        border: document.documentElement.classList.contains('dark')
-          ? 'rgb(71, 85, 105)'
-          : 'rgb(209, 213, 219)',
-        bgAlt: document.documentElement.classList.contains('dark')
-          ? 'rgb(20, 30, 50)'
-          : 'rgb(249, 250, 251)',
+        text: isDark ? 'rgb(255, 255, 255)' : 'rgb(17, 24, 39)',
+        textMuted: isDark ? 'rgb(200, 210, 220)' : 'rgb(107, 114, 128)',
+        border: isDark ? 'rgb(71, 85, 105)' : 'rgb(209, 213, 219)',
+        bgAlt: isDark ? 'rgb(20, 30, 50)' : 'rgb(249, 250, 251)',
       };
 
-      // Chart dataset color palette - hardcoded RGBA values with transparency
+      // Consistent dataset color palette
       const datasetColors = [
         { border: 'rgba(59, 130, 246, 0.8)', background: 'rgba(59, 130, 246, 0.5)' }, // Blue
         { border: 'rgba(220, 38, 38, 0.8)', background: 'rgba(220, 38, 38, 0.5)' }, // Red
@@ -169,63 +160,10 @@ const chartData = {
         { border: 'rgba(236, 72, 153, 0.8)', background: 'rgba(236, 72, 153, 0.5)' }, // Pink
       ];
 
-      // Helper to convert any color input to a valid chart color
-      // Always returns a valid rgba() string, never black
-      const normalizeChartColor = (color, defaultColor, alpha = 0.8) => {
-        // If no color provided, use default
-        if (!color || typeof color !== 'string') {
-          return defaultColor;
-        }
-
-        // If it's already a valid rgba, check if it's black and replace
-        if (color.startsWith('rgba(')) {
-          if (color.includes('rgba(0, 0, 0') || color.includes('rgba(0,0,0')) {
-            return defaultColor;
-          }
-          return color;
-        }
-
-        // If it's rgb, convert to rgba and check for black
-        if (color.startsWith('rgb(')) {
-          if (color.includes('rgb(0, 0, 0') || color.includes('rgb(0,0,0')) {
-            return defaultColor;
-          }
-          return color.replace('rgb(', 'rgba(').replace(')', `, ${alpha})`);
-        }
-
-        // Handle CSS variable strings - replace with default
-        if (color.includes('var(--')) {
-          return defaultColor;
-        }
-
-        // Handle named colors
-        if (color === 'black' || color === '#000000' || color === '#000') {
-          return defaultColor;
-        }
-
-        // Handle hex colors (basic conversion)
-        if (color.startsWith('#')) {
-          const hex = color.replace('#', '');
-          if (hex === '000' || hex === '000000') {
-            return defaultColor;
-          }
-          // Simple hex to rgba conversion
-          const r = parseInt(hex.substring(0, 2), 16) || 59;
-          const g = parseInt(hex.substring(2, 4), 16) || 130;
-          const b = parseInt(hex.substring(4, 6), 16) || 246;
-          return `rgba(${r}, ${g}, ${b}, ${alpha})`;
-        }
-
-        // For any other format, use default
-        return defaultColor;
-      };
-
+      // Apply consistent colors to datasets
       const processedDatasets = datasets.map((ds, index) => {
         const colorIndex = index % datasetColors.length;
         const themeColor = datasetColors[colorIndex];
-
-        // ALWAYS use hardcoded palette colors - ignore any custom colors to prevent black
-        // This ensures Chart.js always gets valid RGBA colors it can use directly
         return {
           ...ds,
           borderColor: themeColor.border,

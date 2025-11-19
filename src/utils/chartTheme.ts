@@ -1,65 +1,32 @@
 /**
  * Shared Chart.js theme configuration
- * Ensures all charts use consistent theming aligned with the site's design system
+ * Provides consistent theming for all charts
  */
+
+// Consistent color palette for all chart types
+const DATASET_COLORS = [
+  { border: 'rgba(59, 130, 246, 0.8)', background: 'rgba(59, 130, 246, 0.5)' }, // Blue
+  { border: 'rgba(220, 38, 38, 0.8)', background: 'rgba(220, 38, 38, 0.5)' }, // Red
+  { border: 'rgba(34, 197, 94, 0.8)', background: 'rgba(34, 197, 94, 0.5)' }, // Green
+  { border: 'rgba(245, 158, 11, 0.8)', background: 'rgba(245, 158, 11, 0.5)' }, // Amber
+  { border: 'rgba(147, 51, 234, 0.8)', background: 'rgba(147, 51, 234, 0.5)' }, // Purple
+  { border: 'rgba(236, 72, 153, 0.8)', background: 'rgba(236, 72, 153, 0.5)' }, // Pink
+];
 
 /**
- * Get Chart.js theme configuration based on current theme
+ * Get Chart.js theme configuration based on current theme (light/dark mode)
+ * This function is designed to be called from client-side scripts
  */
 export function getChartTheme() {
-  // Get computed styles to access CSS variables
-  const root = document.documentElement;
-  const computedStyle = getComputedStyle(root);
-  
-  // Helper to get RGB value from CSS variable
-  const getRGB = (varName: string): string => {
-    const value = computedStyle.getPropertyValue(varName).trim();
-    return `rgb(${value})`;
-  };
-  
-  // Helper to get RGBA value from CSS variable
-  const getRGBA = (varName: string, alpha: number): string => {
-    const value = computedStyle.getPropertyValue(varName).trim();
-    return `rgba(${value}, ${alpha})`;
-  };
+  const isDark = typeof document !== 'undefined' && 
+    document.documentElement.classList.contains('dark');
 
   return {
-    // Colors
-    text: getRGB('--color-text'),
-    textMuted: getRGB('--color-text-muted'),
-    border: getRGB('--color-border'),
-    bg: getRGB('--color-bg'),
-    bgAlt: getRGB('--color-bg-alt'),
-    accent: getRGB('--color-accent'),
-    primary: getRGB('--color-primary'),
-    success: getRGB('--color-success'),
-    warning: getRGB('--color-warning'),
-    error: getRGB('--color-error'),
-    highlight: getRGB('--color-highlight'),
-    
-    // Dataset color palette (using theme colors with varying opacity)
-    datasetColors: [
-      { 
-        border: getRGB('--color-accent'), 
-        background: getRGBA('--color-accent', 0.6) 
-      },
-      { 
-        border: getRGB('--color-primary'), 
-        background: getRGBA('--color-primary', 0.6) 
-      },
-      { 
-        border: getRGB('--color-success'), 
-        background: getRGBA('--color-success', 0.6) 
-      },
-      { 
-        border: getRGB('--color-warning'), 
-        background: getRGBA('--color-warning', 0.6) 
-      },
-      { 
-        border: getRGB('--color-highlight'), 
-        background: getRGBA('--color-highlight', 0.6) 
-      },
-    ],
+    text: isDark ? 'rgb(255, 255, 255)' : 'rgb(17, 24, 39)',
+    textMuted: isDark ? 'rgb(200, 210, 220)' : 'rgb(107, 114, 128)',
+    border: isDark ? 'rgb(71, 85, 105)' : 'rgb(209, 213, 219)',
+    bgAlt: isDark ? 'rgb(20, 30, 50)' : 'rgb(249, 250, 251)',
+    datasetColors: DATASET_COLORS,
   };
 }
 
