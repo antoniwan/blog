@@ -153,16 +153,43 @@ const chartData = {
         bgAlt: getRGB('--color-bg-alt'),
         accent: getRGB('--color-accent'),
       };
+      // Helper to resolve CSS variable strings to actual RGB values
+      const resolveCSSVariable = (color) => {
+        if (!color) return null;
+        // If it contains CSS variable syntax like rgb(var(--color-accent))
+        if (color.includes('var(--')) {
+          // Extract the variable name - handle both rgb(var(--var)) and rgba(var(--var), alpha)
+          const rgbMatch = color.match(/rgb\(var\((--[^)]+)\)\)/);
+          const rgbaMatch = color.match(/rgba\(var\((--[^)]+)\)\s*,\s*([\d.]+)\)/);
+          if (rgbaMatch) {
+            const varName = rgbaMatch[1];
+            const alpha = rgbaMatch[2];
+            return getRGBA(varName, parseFloat(alpha));
+          } else if (rgbMatch) {
+            const varName = rgbMatch[1];
+            return getRGB(varName);
+          }
+        }
+        return color;
+      };
+
       // Helper to ensure colors have transparency (never solid/opaque)
       const ensureTransparent = (color, defaultAlpha = 0.7) => {
         if (!color) return null;
+        // First resolve CSS variables if present
+        color = resolveCSSVariable(color);
+        if (!color) return null;
         // If it's already rgba with alpha, return as is
         if (color.includes('rgba') || color.includes('transparent')) return color;
-        // If it's rgb or hex, convert to rgba with transparency
+        // If it's rgb, convert to rgba with transparency
         if (color.startsWith('rgb(')) {
           return color.replace('rgb(', 'rgba(').replace(')', `, ${defaultAlpha})`);
         }
         // For hex colors, we'd need more complex parsing, but for now ensure rgba
+        // If it's a solid color string like "black", try to convert
+        if (color === 'black' || color === '#000000' || color === 'rgb(0, 0, 0)') {
+          return `rgba(0, 0, 0, ${defaultAlpha})`;
+        }
         return color;
       };
 
