@@ -18,9 +18,9 @@ A personal notes site exploring fatherhood, masculinity, culture, and modern col
 
 ## Tech Stack
 
-- **Astro 5.11.0** - Static site generator
+- **Astro 5.15.3** - Static site generator
 - **TypeScript 5.8.3** - Type-safe development
-- **Tailwind CSS 3.4.17** - Utility-first CSS
+- **Tailwind CSS 3.4.0** - Utility-first CSS
 - **MDX** - Markdown with JSX support
 - **Sharp 0.33.5** - Image optimization
 - **Reading Time Plugin** - Automatic reading time calculation using remark plugin
@@ -31,12 +31,12 @@ A personal notes site exploring fatherhood, masculinity, culture, and modern col
 
 ```bash
 git clone https://github.com/antoniwan/notes.git
-cd blog
+cd notes
 npm install
 npm run dev
 ```
 
-Visit `http://localhost:4323` to view the site.
+Visit `http://localhost:4321` to view the site.
 
 ## Available Scripts
 
@@ -57,20 +57,24 @@ Visit `http://localhost:4323` to view the site.
 ## Project Structure
 
 ```text
-blog/
+notes/
 ├── public/                 # Static assets
 ├── src/
-│   ├── components/        # UI components
-│   ├── content/p/         # Blog posts
-│   ├── data/             # Categories, navigation, and quotes
-│   ├── layouts/          # Page layouts
-│   ├── pages/            # Route components
-│   │   └── api/          # API endpoints
-│   ├── styles/           # Global styles
-│   └── utils/            # Utility functions
-├── scripts/              # Automation tools
-├── docs/                 # Documentation
-└── astro.config.mjs      # Astro configuration
+│   ├── components/        # UI components (34 Astro components)
+│   ├── config/            # Configuration files (storage, giscus, assets)
+│   ├── content/p/         # Blog posts (63 markdown files)
+│   ├── data/              # Categories, navigation, tags, and quotes
+│   ├── layouts/           # Page layouts (BaseLayout, BlogLayout, etc.)
+│   ├── pages/             # Route components
+│   │   ├── api/           # API endpoints (quotes)
+│   │   ├── brain-science/ # Analytics pages
+│   │   └── p/             # Post pages
+│   ├── styles/            # Global styles (fonts, typography, global CSS)
+│   ├── types/             # TypeScript type definitions
+│   └── utils/             # Utility functions (15 TypeScript modules)
+├── scripts/               # Automation tools
+├── docs/                  # Documentation
+└── astro.config.mjs       # Astro configuration
 ```
 
 ## Content Management
@@ -124,6 +128,14 @@ Advanced reading progress tracking with intelligent completion detection:
 - Schema versioning for future-proof data migration
 - Automatic data pruning keeps 50 most recent posts when over quota
 - No server tracking or analytics - completely private
+
+**Architecture:**
+
+- Singleton service pattern via `ReadStateServiceInit` component
+- Centralized event system using `reading-data-updated` events
+- Cross-tab synchronization via localStorage events
+- Subscriber pattern for reactive UI updates
+- Configuration centralized in `src/config/storage.ts`
 
 **Cross-Component Reactivity:**
 
@@ -235,9 +247,15 @@ The site includes an internal API for accessing Stoic philosophy quotes:
 - **Purpose**: Returns random Stoic philosophy quotes with metadata
 - **Documentation**: [API Documentation](docs/quotes-api.md)
 
-## Recent Updates (v3.2.0)
+## Recent Updates
 
-### 🚀 **Major SEO Enhancements**
+### v4.9.4 - Code Cleanup and Architecture Improvements
+
+- **Removed duplicate code** - Eliminated unused TypeScript service file, consolidated to single source of truth
+- **Event system optimization** - Simplified event handling to prevent duplicate processing
+- **Architecture cleanup** - Removed empty services directory, streamlined project structure
+
+### v3.2.0 - Major SEO Enhancements
 
 - **Enterprise-Grade Structured Data** - Comprehensive implementation with 8+ schema types
 - **Automatic Schema Generation** - All structured data automatically generated from content
@@ -268,7 +286,7 @@ The site includes an internal API for accessing Stoic philosophy quotes:
 - **Enhanced mobile search** experience
 - **Improved crawling** and indexing efficiency
 
-### 🎯 **Previous Major Updates (v2.22.0)**
+### v2.22.0 - Previous Major Updates
 
 - **Image Rotators** - New interactive image rotation system for enhanced visual content
 - **Automatic Reading Time** - Implemented Astro remark plugin for automatic reading time calculation
