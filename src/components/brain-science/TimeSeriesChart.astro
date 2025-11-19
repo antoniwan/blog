@@ -154,43 +154,102 @@ const chartData = {
         accent: getRGB('--color-accent'),
       };
       // Helper to resolve CSS variable strings to actual RGB values
-      const resolveCSSVariable = (color) => {
-        if (!color) return null;
+      // Always returns a valid color string, never null
+      const resolveCSSVariable = (color, fallbackColor) => {
+        if (!color || typeof color !== 'string') {
+          return fallbackColor || theme.accent;
+        }
+
         // If it contains CSS variable syntax like rgb(var(--color-accent))
         if (color.includes('var(--')) {
-          // Extract the variable name - handle both rgb(var(--var)) and rgba(var(--var), alpha)
-          const rgbMatch = color.match(/rgb\(var\((--[^)]+)\)\)/);
-          const rgbaMatch = color.match(/rgba\(var\((--[^)]+)\)\s*,\s*([\d.]+)\)/);
-          if (rgbaMatch) {
-            const varName = rgbaMatch[1];
-            const alpha = rgbaMatch[2];
-            return getRGBA(varName, parseFloat(alpha));
-          } else if (rgbMatch) {
-            const varName = rgbMatch[1];
-            return getRGB(varName);
+          try {
+            // Handle rgba(var(--color), alpha) format
+            const rgbaMatch = color.match(/rgba\(var\((--[^)]+)\)\s*,\s*([\d.]+)\)/);
+            if (rgbaMatch) {
+              const varName = rgbaMatch[1];
+              const alpha = parseFloat(rgbaMatch[2]);
+              const resolved = getRGBA(varName, alpha);
+              // Validate the resolved color
+              if (resolved && resolved.startsWith('rgba(')) {
+                return resolved;
+              }
+            }
+
+            // Handle rgb(var(--color)) format
+            const rgbMatch = color.match(/rgb\(var\((--[^)]+)\)\)/);
+            if (rgbMatch) {
+              const varName = rgbMatch[1];
+              const resolved = getRGB(varName);
+              // Validate the resolved color
+              if (resolved && resolved.startsWith('rgb(')) {
+                return resolved;
+              }
+            }
+          } catch (error) {
+            console.warn('Failed to resolve CSS variable:', color, error);
           }
+
+          // If resolution failed, return fallback
+          return fallbackColor || theme.accent;
         }
+
         return color;
       };
 
       // Helper to ensure colors have transparency (never solid/opaque)
-      const ensureTransparent = (color, defaultAlpha = 0.7) => {
-        if (!color) return null;
+      // Always returns a valid rgba() color string, never null
+      const ensureTransparent = (color, defaultAlpha = 0.7, fallbackColor) => {
+        // If no color provided, use fallback
+        if (!color || typeof color !== 'string') {
+          const fallback = fallbackColor || theme.accent;
+          // Ensure fallback is also transparent
+          if (fallback.startsWith('rgb(')) {
+            return fallback.replace('rgb(', 'rgba(').replace(')', `, ${defaultAlpha})`);
+          }
+          return fallback;
+        }
+
         // First resolve CSS variables if present
-        color = resolveCSSVariable(color);
-        if (!color) return null;
-        // If it's already rgba with alpha, return as is
-        if (color.includes('rgba') || color.includes('transparent')) return color;
+        const resolvedColor = resolveCSSVariable(color, fallbackColor);
+
+        // If it's already rgba with alpha, return as is (but validate it's not black)
+        if (resolvedColor.includes('rgba')) {
+          // Check if it's black and replace with theme color
+          if (resolvedColor.includes('rgba(0, 0, 0') || resolvedColor.includes('rgba(0,0,0')) {
+            const fallback = fallbackColor || theme.accent;
+            return fallback.startsWith('rgba(')
+              ? fallback
+              : getRGBA('--color-accent', defaultAlpha);
+          }
+          return resolvedColor;
+        }
+
+        // If it's transparent, return as is
+        if (resolvedColor === 'transparent') {
+          return resolvedColor;
+        }
+
         // If it's rgb, convert to rgba with transparency
-        if (color.startsWith('rgb(')) {
-          return color.replace('rgb(', 'rgba(').replace(')', `, ${defaultAlpha})`);
+        if (resolvedColor.startsWith('rgb(')) {
+          // Check if it's black and replace with theme color
+          if (resolvedColor.includes('rgb(0, 0, 0') || resolvedColor.includes('rgb(0,0,0')) {
+            const fallback = fallbackColor || theme.accent;
+            return fallback.startsWith('rgba(')
+              ? fallback
+              : getRGBA('--color-accent', defaultAlpha);
+          }
+          return resolvedColor.replace('rgb(', 'rgba(').replace(')', `, ${defaultAlpha})`);
         }
-        // For hex colors, we'd need more complex parsing, but for now ensure rgba
-        // If it's a solid color string like "black", try to convert
-        if (color === 'black' || color === '#000000' || color === 'rgb(0, 0, 0)') {
-          return `rgba(0, 0, 0, ${defaultAlpha})`;
+
+        // Handle named colors and hex
+        if (resolvedColor === 'black' || resolvedColor === '#000000' || resolvedColor === '#000') {
+          const fallback = fallbackColor || theme.accent;
+          return fallback.startsWith('rgba(') ? fallback : getRGBA('--color-accent', defaultAlpha);
         }
-        return color;
+
+        // For any other invalid color, use fallback
+        const fallback = fallbackColor || theme.accent;
+        return fallback.startsWith('rgba(') ? fallback : getRGBA('--color-accent', defaultAlpha);
       };
 
       const datasetColors = [
@@ -207,17 +266,30 @@ const chartData = {
       const processedDatasets = datasets.map((ds, index) => {
         const colorIndex = index % datasetColors.length;
         const themeColor = datasetColors[colorIndex];
-        // Ensure custom colors also have transparency to prevent blocking overlapping lines
+
+        // Always ensure we have valid colors with transparency
+        // Use theme color as fallback if custom color fails
         const borderColor = ds.borderColor
-          ? ensureTransparent(ds.borderColor, 0.8)
+          ? ensureTransparent(ds.borderColor, 0.8, themeColor.border)
           : themeColor.border;
         const backgroundColor = ds.backgroundColor
-          ? ensureTransparent(ds.backgroundColor, 0.15)
+          ? ensureTransparent(ds.backgroundColor, 0.15, themeColor.background)
           : themeColor.background;
+
+        // Final validation - ensure we never pass null or invalid colors
+        const finalBorderColor =
+          borderColor && typeof borderColor === 'string' && borderColor.length > 0
+            ? borderColor
+            : themeColor.border;
+        const finalBackgroundColor =
+          backgroundColor && typeof backgroundColor === 'string' && backgroundColor.length > 0
+            ? backgroundColor
+            : themeColor.background;
+
         return {
           ...ds,
-          borderColor: borderColor,
-          backgroundColor: backgroundColor,
+          borderColor: finalBorderColor,
+          backgroundColor: finalBackgroundColor,
           borderWidth: ds.borderWidth ?? 2,
           tension: ds.tension ?? 0.4,
           fill: true,
