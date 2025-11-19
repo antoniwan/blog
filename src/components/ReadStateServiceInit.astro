@@ -57,7 +57,6 @@
         if (typeof window === 'undefined') return;
         window.addEventListener('storage', this.boundStorageHandler);
         window.addEventListener(STORAGE_EVENTS.READING_DATA_UPDATED, this.boundDataUpdatedHandler);
-        window.addEventListener(STORAGE_EVENTS.POST_READ, this.boundDataUpdatedHandler);
         window.addEventListener(STORAGE_EVENTS.READ_POSTS_CLEARED, this.boundDataUpdatedHandler);
       }
 
@@ -68,7 +67,6 @@
           STORAGE_EVENTS.READING_DATA_UPDATED,
           this.boundDataUpdatedHandler,
         );
-        window.removeEventListener(STORAGE_EVENTS.POST_READ, this.boundDataUpdatedHandler);
         window.removeEventListener(STORAGE_EVENTS.READ_POSTS_CLEARED, this.boundDataUpdatedHandler);
       }
 
@@ -162,15 +160,12 @@
 
       handleDataUpdated(event) {
         const customEvent = event;
-        // Handle 'post-read' events: check event type OR detail type, and ensure postSlug exists
-        if (
-          (customEvent.type === STORAGE_EVENTS.POST_READ ||
-            customEvent.detail?.type === 'post-read') &&
-          customEvent.detail?.postSlug
-        ) {
+        // Handle 'post-read' events via reading-data-updated event (detail.type)
+        if (customEvent.detail?.type === 'post-read' && customEvent.detail?.postSlug) {
+          const postSlug = customEvent.detail.postSlug;
           setTimeout(() => {
             this.invalidateCache();
-            this.notifySubscribers(customEvent.detail.postSlug);
+            this.notifySubscribers(postSlug);
           }, TIMING.SAME_TAB_UPDATE_DELAY);
         } else if (
           customEvent.type === STORAGE_EVENTS.READ_POSTS_CLEARED ||
