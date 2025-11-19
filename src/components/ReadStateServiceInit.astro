@@ -1,10 +1,10 @@
 ---
 /**
  * Shared ReadStateService initialization component
- * 
+ *
  * This component initializes the ReadStateService singleton once
  * and makes it available to all components via window.ReadStateService
- * 
+ *
  * Include this component in your base layout to ensure the service
  * is available before any components try to use it.
  */
@@ -13,10 +13,10 @@
 <script is:inline>
   // Initialize ReadStateService singleton - shared across all components
   // This ensures the service is only initialized once, even if multiple components load
-  (function() {
+  (function () {
     // Return early if already initialized (prevents duplicate initialization)
     if (window.ReadStateService) return;
-    
+
     // Constants - match src/config/storage.ts
     const STORAGE_KEYS = {
       READ_POSTS: 'blog-read-posts-v1.0',
@@ -64,7 +64,10 @@
       cleanup() {
         if (typeof window === 'undefined') return;
         window.removeEventListener('storage', this.boundStorageHandler);
-        window.removeEventListener(STORAGE_EVENTS.READING_DATA_UPDATED, this.boundDataUpdatedHandler);
+        window.removeEventListener(
+          STORAGE_EVENTS.READING_DATA_UPDATED,
+          this.boundDataUpdatedHandler,
+        );
         window.removeEventListener(STORAGE_EVENTS.POST_READ, this.boundDataUpdatedHandler);
         window.removeEventListener(STORAGE_EVENTS.READ_POSTS_CLEARED, this.boundDataUpdatedHandler);
       }
@@ -72,7 +75,9 @@
       loadReadPosts() {
         if (this.readDataCache !== null) return this.readDataCache;
         try {
-          const stored = localStorage.getItem(STORAGE_KEYS.READ_POSTS) || localStorage.getItem(STORAGE_KEYS.READ_POSTS_LEGACY);
+          const stored =
+            localStorage.getItem(STORAGE_KEYS.READ_POSTS) ||
+            localStorage.getItem(STORAGE_KEYS.READ_POSTS_LEGACY);
           if (!stored) {
             this.readDataCache = [];
             return this.readDataCache;
@@ -84,7 +89,8 @@
           }
           const validData = parsed.filter((item) => {
             if (!item || typeof item !== 'object') return false;
-            const hasValidSlug = typeof item.postSlug === 'string' && item.postSlug.trim().length > 0;
+            const hasValidSlug =
+              typeof item.postSlug === 'string' && item.postSlug.trim().length > 0;
             const hasValidDate = typeof item.readAt === 'string' && !isNaN(Date.parse(item.readAt));
             return hasValidSlug && hasValidDate;
           });
@@ -156,7 +162,12 @@
 
       handleDataUpdated(event) {
         const customEvent = event;
-        if (customEvent.detail?.type === 'post-read' && customEvent.detail?.postSlug) {
+        // Handle 'post-read' events: check event type OR detail type, and ensure postSlug exists
+        if (
+          (customEvent.type === STORAGE_EVENTS.POST_READ ||
+            customEvent.detail?.type === 'post-read') &&
+          customEvent.detail?.postSlug
+        ) {
           setTimeout(() => {
             this.invalidateCache();
             this.notifySubscribers(customEvent.detail.postSlug);
@@ -178,4 +189,3 @@
     window.ReadStateService = ReadStateService;
   })();
 </script>
-
