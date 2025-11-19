@@ -54,7 +54,7 @@ const chartData = {
 </div>
 
 <script define:vars={{ id, chartData }}>
-  (async function initChart() {
+  async function initChart() {
     try {
       // Wait for DOM to be ready
       if (document.readyState === 'loading') {
@@ -89,6 +89,12 @@ const chartData = {
 
       const container = document.getElementById(`chart-container-${id}`);
       const canvas = document.getElementById(id);
+
+      // Destroy existing chart before re-initializing
+      if (canvas?.chart) {
+        canvas.chart.destroy();
+        canvas.chart = null;
+      }
 
       if (!canvas || !container) {
         console.error(`Chart elements not found for id "${id}"`);
@@ -134,11 +140,6 @@ const chartData = {
         console.error('Could not get 2d context from canvas');
         container.style.display = 'none';
         return;
-      }
-
-      // Destroy existing chart if it exists
-      if (canvas.chart) {
-        canvas.chart.destroy();
       }
 
       // Get theme based on light/dark mode
@@ -290,5 +291,13 @@ const chartData = {
         wrapper.style.display = 'none';
       }
     }
-  })();
+  }
+
+  // Initialize chart on load
+  initChart().catch(console.error);
+
+  // Re-initialize chart when theme changes
+  window.addEventListener('themechange', () => {
+    initChart().catch(console.error);
+  });
 </script>
